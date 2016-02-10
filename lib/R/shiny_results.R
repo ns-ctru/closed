@@ -1,7 +1,7 @@
 #' Runs Shiny web-server for display the results
 #'
 #' @export
-nmisc_example <- function() {
+shiny_results<- function() {
     # locate all the shiny app examples that exist
   appDir <- system.file("shiny", "closed", package = "closed")
   if (appDir == "") {
