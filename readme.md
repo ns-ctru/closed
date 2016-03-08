@@ -6,4 +6,7 @@ This repository contains code used in a study investigating the impact of closin
 
 Data comes from several sources.
 
-* 
+* Hospital Episode Statistics (HES) are provided by [Health and Social Care Information Centre (HSCIC)](https://www.hscic.gov.uk).
+* Mortality data is provided by [The Office for National Statistics](https://www.ons.gov.uk/ons/index.html).
+* Ambulance data is provided by relevant Ambulance Services.
+* The [Department of Transport](https://www.gov.uk/government/organisations/department-for-transport/) provide information on travel times to hospital EDs.
