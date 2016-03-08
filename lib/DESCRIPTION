@@ -1,0 +1,28 @@
+Package: closed
+Title: R functions for analysing the ClosED study
+Version: 0.0.0.9000
+Authors@R: person("Neil", "Shephard", email = "n.shephard@sheffield.ac.uk", role = c("aut", "cre"))
+Description: Summarises and analyses in tabular and graphical format the ClosED study which looks
+	     at the effect of closing Emergency Departments on survival, emergency department
+	     attendance, emergency admissions, conditions severity and ambulance service performance.
+Depends: R (>= 3.2.3),
+	 dplyr(>= 0.4.1),
+	 ggplot2 (>= 1.0.1),
+	 haven (>= 0.2.0),
+	 Hmisc (>= 3.17-1),
+	 knitr (>= 1.11),
+	 lubridate (>= 1.5.0),
+	 magrittr (>= 1.5),
+	 panelAR(0.1),
+	 prais(0.1.1),
+         reshape2 (>= 1.4.1),
+	 rms (>= 4.4-1),
+	 shiny(>= 0.13.0),
+         stargazer(>= 5.1),
+	 stringr (>= 1.0-1),
+	 survival (>= 2.38-3),
+         texreg (>= 1.35),
+         tidyr (>= 0.3.1),
+         xtable (>= 1.7-4)
+License: GPL-2
+LazyData: true
