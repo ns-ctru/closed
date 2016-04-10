@@ -1,6 +1,7 @@
 ## Site Summary
 
 ```{r summary, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
+load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure.Rda')
 time.to.ed <- closed_summary(df          = unnecessary_ed_attendances_measure,
                              df.steps    = sites,
                              vars        = value,
