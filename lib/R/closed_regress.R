@@ -36,11 +36,11 @@
 #' @references
 #'
 #' @export
-closed_regress<- function(df          = test,
-                          group       = c('Bishop Auckland General Hospital'),
-                          controls    = 'matched',
-                          measure     = 'ed attendance',
-                          sub.measure = 'all',
+closed_regress<- function(df          = ed_attendances_by_mode_measure,
+                          site        = 'Bishop Auckland General Hospital',
+                          controls    = 'matched control',
+                          indicator     = 'ed attendances',
+                          sub.indicator = 'any',
                           steps       = c('closure'),
                           fit.with    = 'both',
                           plot        = TRUE,
@@ -62,48 +62,64 @@ closed_regress<- function(df          = test,
     ## tedious to type)
     names(df) <- names(df) %>%
                  gsub("_", ".", x = .)
-    ## Filter the data
-    ## ToDo - Modify to reflect the options should exclude all sub-measures
-    if(!is.na(measure) & !is.na(sub.measure)){
-        df <- dplyr::filter(df, measure == indicator & sub_measure)
-    }
-    else{
-        stop('You must specify an indicator and the sub measure you wish to analyse.\n\n')
-    }
+    print("The data frame passed to this function has...")
+    names(df) %>% print()
+    dim(df) %>% print()
     ## Filter based on sites to include
-    if(!is.na(group)){
-        df <- dplyr::filter(df, group == group)
+    if(!is.na(site) & site != 'All'){
+        print("Filtering site...")
+        print(site)
+        df <- dplyr::filter(df, group == site)
+        dim(df) %>% print()
+    }
+    else if(site == 'All'){
+        df <- df
     }
     else{
-        stop('You must specify the group you wish to analyse.\n\n')
+        stop('You must specify the site you wish to analyse.  See ?closed_regress for valid options\n\n')
+    }
+    ## ToDo - Modify to reflect the options should exclude all sub-measures
+    if(!is.na(indicator) & !is.na(sub.indicator)){
+        print("Filtering measures...")
+        df <- dplyr::filter(df, measure == indicator & sub.measure == sub.indicator)
+        dim(df) %>% print()
+    }
+    else{
+        stop('You must specify an indicator and the sub measure you wish to analyse.  See ?closed_regress for valid options.\n\n')
     }
     ## Select intervention site and the desired controls
-    if(controls != 'matched control' | controls != 'pooled control'){
-        stop('You must specify the controls you wish to analyse.\n\n')
+    if(controls == 'matched control' | controls == 'pooled control'){
+        print("Filtering controls...")
+        t <- c('intervention', controls)
+        df <- dplyr::filter(df, site.type %in% t)
+        rm(t)
+        dim(df) %>% print()
     }
     else{
-        t <- c('intervention', controls)
+        stop('You must specify the controls you wish to analyse.  See ?closed_regress for valid options.\n\n')
     }
-    df <- dplyr::filter(df, site_type %in% t)
-    rm(t)
     results$df <- df
     ## Plot the data
     if(plot == TRUE){
         ## Conditionally set the graph title
-        ## ToDo - Complete
-        if(indicator      == 'ed attendance')  indicator.title <- 'Mode of ED Attendance'
-        else if(indicator == 'mortality')      indicator.title <- 'Mortality'
-        else if(indicator == 'other')          indicator.title <- 'Other'
-        if(controls == 'matched control')      control.title   <- 'Matched Control'
-        else if(controls == 'pooled control')  control.title   <- 'Pooled Control'
+        ## ToDo - Complete with all parameters
+        if(indicator      == 'ed attendances')  indicator.title   <- 'Mode of ED Attendance'
+        else if(indicator == 'mortality')       indicator.title   <- 'Mortality'
+        else if(indicator == 'other')           indicator.title   <- 'Other'
+        if(controls == 'matched control')       control.title <- 'Matched Control'
+        else if(controls == 'pooled control')   control.title <- 'Pooled Control'
+        ## Summarise counts by ED department (town)
+        results$by.town <- group_by(df, town, yearmonth) %>%
+                           summarise(n = sum(value))
         ## Generate graph
-        results$ts.plot.events <- ggplot(data    = df,
-                                         mapping = aes(yearmonth,
-                                                       value)) +
+        results$ts.plot.events <- ggplot(data    = results$by.town,
+                                         mapping = aes(x = yearmonth,
+                                                       y = n,
+                                                       color = town)) +
                                   geom_line() +
-                                  stat_seas(start = c(2000, 1), frequency = 2) +
+                                  ## stat_seas(start = c(2000, 1), frequency = 2) +
                                   ggtitle(paste0(indicator.title, " at ",
-                                                 group, " (",
+                                                 site, " (",
                                                  control.title, ")"))
         ## Apply the user-specified theme
         if(!is.null(theme)){
@@ -112,8 +128,8 @@ closed_regress<- function(df          = test,
     }
     ## Perform regression using panelAR
     if(fit.with == 'panelAR' | fit.with == 'both'){
-        results$panelar <- panelAR(formula = .formula,
-                                   data    = df)
+        ## results$panelar <- panelAR(formula = .formula,
+        ##                            data    = df)
     }
     ## Perform regression using prais
     if(fit.with == 'prais' | fit.with == 'both'){
