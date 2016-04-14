@@ -37,6 +37,7 @@
 #'
 #' @export
 closed_regress<- function(df          = ed_attendances_by_mode_measure,
+                          df.steps    = steps,
                           site        = 'Bishop Auckland General Hospital',
                           controls    = 'matched control',
                           indicator     = 'ed attendances',
@@ -62,15 +63,9 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     ## tedious to type)
     names(df) <- names(df) %>%
                  gsub("_", ".", x = .)
-    print("The data frame passed to this function has...")
-    names(df) %>% print()
-    dim(df) %>% print()
     ## Filter based on sites to include
     if(!is.na(site) & site != 'All'){
-        print("Filtering site...")
-        print(site)
         df <- dplyr::filter(df, group == site)
-        dim(df) %>% print()
     }
     else if(site == 'All'){
         df <- df
@@ -80,20 +75,16 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     }
     ## ToDo - Modify to reflect the options should exclude all sub-measures
     if(!is.na(indicator) & !is.na(sub.indicator)){
-        print("Filtering measures...")
         df <- dplyr::filter(df, measure == indicator & sub.measure == sub.indicator)
-        dim(df) %>% print()
     }
     else{
         stop('You must specify an indicator and the sub measure you wish to analyse.  See ?closed_regress for valid options.\n\n')
     }
     ## Select intervention site and the desired controls
     if(controls == 'matched control' | controls == 'pooled control'){
-        print("Filtering controls...")
         t <- c('intervention', controls)
         df <- dplyr::filter(df, site.type %in% t)
         rm(t)
-        dim(df) %>% print()
     }
     else{
         stop('You must specify the controls you wish to analyse.  See ?closed_regress for valid options.\n\n')
@@ -103,11 +94,33 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     if(plot == TRUE){
         ## Conditionally set the graph title
         ## ToDo - Complete with all parameters
-        if(indicator      == 'ed attendances')  indicator.title   <- 'Mode of ED Attendance'
-        else if(indicator == 'mortality')       indicator.title   <- 'Mortality'
-        else if(indicator == 'other')           indicator.title   <- 'Other'
-        if(controls == 'matched control')       control.title <- 'Matched Control'
-        else if(controls == 'pooled control')   control.title <- 'Pooled Control'
+        ## Title
+        if(indicator      == 'ed attendances')  indicator.title     <- 'ED Attendance'
+        else if(indicator == 'mortality')       indicator.title     <- 'Mortality'
+        else if(indicator == 'other')           indicator.title     <- 'Other'
+        if(sub.indicator == 'any')              sub.indicator.title <- 'Any'
+        else if(sub.indicator == 'ambulance')   sub.indicator.title <- 'Ambulance'
+        else if(sub.indicator == 'other')       sub.indicator.title <- 'Other'
+        if(controls       == 'matched control') control.title       <- 'Matched Control'
+        else if(controls  == 'pooled control')  control.title       <- 'Pooled Control'
+        ## Legends
+        if(indicator      == 'ed attendances')  y.title <- 'ED Attendances'
+        ## Vertical lines for steps
+        if(site == 'Bishop Auckland General Hospital'){
+
+        }
+        else if(site == 'Hemel Hemstead Hospital'){
+
+        }
+        else if(site == 'Newark Hospital'){
+
+        }
+        else if(site == 'Rochdale Infirmary'){
+
+        }
+        else if(site == 'University Hospital of Hartlepool'){
+
+        }
         ## Summarise counts by ED department (town)
         results$by.town <- group_by(df, town, yearmonth) %>%
                            summarise(n = sum(value))
@@ -117,10 +130,18 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
                                                        y = n,
                                                        color = town)) +
                                   geom_line() +
-                                  ## stat_seas(start = c(2000, 1), frequency = 2) +
-                                  ggtitle(paste0(indicator.title, " at ",
-                                                 site, " (",
-                                                 control.title, ")"))
+                                  ggtitle(paste0(indicator.title, " (",
+                                                 sub.indicator.title, ")")) +
+                                  ylab(paste0("Number of ",
+                                              y.title)) +
+                                  labs(color = 'Hospital') +
+                                  scale_x_date(name              = "Date",
+                                               date_breaks       = '3 month',
+                                               date_labels       = '%Y-%m',
+                                               date_minor_breaks = '1 month') +
+                                  theme(axis.text.x = element_text(angle = 45,
+                                                                   hjust = 1))
+
         ## Apply the user-specified theme
         if(!is.null(theme)){
 
