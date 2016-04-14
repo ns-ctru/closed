@@ -37,7 +37,8 @@
 #'
 #' @export
 closed_regress<- function(df          = ed_attendances_by_mode_measure,
-                          df.steps    = steps,
+                          ## ToDo - Switch sites to steps when all steps are available
+                          df.steps    = sites,
                           site        = 'Bishop Auckland General Hospital',
                           controls    = 'matched control',
                           indicator     = 'ed attendances',
@@ -106,6 +107,12 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
         ## Legends
         if(indicator      == 'ed attendances')  y.title <- 'ED Attendances'
         ## Vertical lines for steps
+        step.closure <- dplyr::filter(df.steps, group == site) %>%
+                        dplyr::select(intervention.date) %>%
+                        summarise(date = mean(intervention.date))
+        typeof(step.closure) %>% print()
+        step.closure <- step.closure[1,1] %>% as.numeric()
+        typeof(step.closure) %>% print()
         if(site == 'Bishop Auckland General Hospital'){
 
         }
@@ -130,6 +137,7 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
                                                        y = n,
                                                        color = town)) +
                                   geom_line() +
+                                  geom_vline(xintercept = c(step.closure), linetype = 4) +
                                   ggtitle(paste0(indicator.title, " (",
                                                  sub.indicator.title, ")")) +
                                   ylab(paste0("Number of ",
@@ -149,6 +157,8 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     }
     ## Perform regression using panelAR
     if(fit.with == 'panelAR' | fit.with == 'both'){
+        ## Define time as an integer
+        df$time <- as.numeric(df$yearmonth)
         ## results$panelar <- panelAR(formula = .formula,
         ##                            data    = df)
     }
