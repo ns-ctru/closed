@@ -1,0 +1,18 @@
+---
+title: ClosED
+output:
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+##opts_chunk$set(dev = 'pdf')
+```
+
+```{r child = 'sections/methods.Rmd', eval = TRUE}
+```
+
+
+```{r child = 'sections/results.Rmd', eval = TRUE}
+```
