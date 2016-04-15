@@ -1,0 +1,44 @@
+## Mortality
+
+```{r echo = FALSE, cache = FALSE, eval = FALSE}
+load('d:/Rpackages/rclosed/data/ed attendances by mode measure.Rda')
+```
+
+### Bishop Auckland General Hospital
+
+```{r echo = FALSE, cache = FALSE, results = 'asis', eval = FALSE}
+bishop.attendance.arrival.any <- closed_regress(df            = ed_attendances_by_mode_measure,
+                                                df.steps      = sites,
+		                                site          = 'Bishop Auckland General Hospital',
+                                                controls      = 'matched control',
+                                                indicator     = 'ed attendances',
+                                                sub.indicator = 'any',
+                                                fit.with      = 'both',
+                                                plot          = TRUE,
+                                                theme         = theme_bw(),
+                                                latex         = FALSE,
+                                                html          = FALSE)
+bishop.attendance.arrival.any$ts.plot.events
+bishop.attendance.arrival.any$panelar %>% summary()
+
+```
+
+
+### Hemel Hempstead Hospital
+
+
+### Newark Hospital
+
+
+### Rochdale Infirmary
+
+
+### University Hospital of Hartlepool
+
+
+
+
+```{r echo = FALSE, cache = FALSE, eval = FALSE}
+rm(ed_attendances_by_mode_measure)
+
+```
