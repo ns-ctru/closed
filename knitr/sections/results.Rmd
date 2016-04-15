@@ -1,0 +1,12 @@
+# Results
+
+**TODO** - There are a number of instances where some of the data looks incomplete, how to handle these (e.g. convert to missing)?
+
+```{r child = 'subsections/mode_of_arrival.Rmd'}
+```
+
+```{r child = 'subsections/mortality.Rmd'}
+```
+
+```{r child = 'subsections/unnecessary_ed_admissions.Rmd'}
+```
