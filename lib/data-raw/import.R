@@ -13,10 +13,10 @@ library(lubridate)
 ##################################################################################
 sites <- read.csv('sites.csv')
 names(sites) <- gsub("_", ".", names(sites)) %>%
-                gsub("intervention\\.date", "closure", .)
+                gsub("intervention\\.date", "closure.date", .)
 ## Convert dates
 sites <- within(sites, {
-                closure <- dmy(closure)
+                closure.date <- dmy(closure.date)
                 start.date.inc <- dmy(start.date.inc)
                 end.date.exc <- dmy(end.date.exc)
                 })
