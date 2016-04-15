@@ -1,0 +1,9 @@
+# Methods
+
+Methods are described in detail in the Statistical Analysis Plan which can be viewed [online](https://www.overleaf.com/read/ffzknqdcjkpw).  Once the page has loaded click on PDF at the top of the page to download a PDF copy.
+
+## Model specification
+
+There are two packages for [R](https://www.r-projects.org/) that implement the Prais-Winsten method of adjusting for auto-correlation in time-series analyses, [panelAR](https://cran.r-project.org/web/packages/panelAR/index.html) or [prais](https://cran.r-project.org/web/packages/prais/index.html).  The intention is to use both to cross-validate the results against each other, however at present time has only permitted one (panelAR) to be implemented.
+
+Currently panel-corrected standard errors are used which are robust to heteroskedaasticity and contemporaneous correlation across panels, but other options are available, such as a Huber-White style sandwich estimateor for panel heteroskedasticity, panel weighted least squares procedure for heteroskedasticity or Parks-Kmenta FGLS to estimate both heteroskedasticity and correlation.  For full details
