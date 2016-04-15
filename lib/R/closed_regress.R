@@ -46,7 +46,7 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
                           steps       = c('closure'),
                           fit.with    = 'both',
                           plot        = TRUE,
-                          theme       = theme_linedraw(),
+                          theme       = theme_bw(),
                           latex       = FALSE,
                           html        = FALSE,
                           ...){
@@ -59,14 +59,20 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     ## ToDo - Create formula from specified steps
     .formula <- reformulate(response   = 'value',
                             termlabels = c('town', 'time.to.ed', steps))
-    print(.formula)
     ## Convert to data frame
     df <- as.data.frame(df)
     ## Convert variable names for ease of typing within this function
     ## (ESS artefact, hitting underscore inserts '<-' so lots of underscores are
     ## tedious to type)
     names(df) <- names(df) %>%
-                 gsub("_", ".", x = .)
+        gsub("_", ".", x = .)
+    ## Need to translate the supplied 'site' (which is compared against 'group')
+    ## to the corresponding town so that
+    if(site == 'Bishop Auckland General Hospital') site.town       <- 'Bishop Auckland'
+    else if(site == 'Hemel Hempstead Hospital') site.town          <- 'Hemel Hempstead'
+    else if(site == 'Newark Hospital') site.town                   <- 'Newark'
+    else if(site == 'Rochdale Infirmary') site.town                <- 'Rochdale'
+    else if(site == 'University Hospital of Hartlepool') site.town <- 'Hartlepool'
     #######################################################################
     ## Filter data                                                       ##
     #######################################################################
@@ -100,12 +106,18 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     ## merge using all.x)
     ## ToDo - Will need modifying when other steps are available
     df.steps <- dplyr::filter(df.steps, group == site) %>%
-                dplyr::select(group, town, closure, ambulance.service)
+                dplyr::select(group, town, closure.date, ambulance.service)
     ## Combine steps with data frame
     df <- merge(df,
                 df.steps,
                 by     = c("group", "town"),
                 all.x  = TRUE)
+    ## Derive binary indicator for each step
+    ## ToDo - Make this flexible for all steps
+    df$closure <- 0
+    df <- within(df, {
+            closure[town == site.town & yearmonth >= closure.date] <- 1
+    })
     ## Combine data with steps
     results$df <- df
     #######################################################################
@@ -126,10 +138,10 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
         ## Legends
         if(indicator          == 'ed attendances')  y.title <- 'ED Attendances'
         ## Vertical lines for steps
-        step.closure <- dplyr::filter(df.steps, group == site) %>%
-                        dplyr::select(closure) %>%
-                        summarise(closure = mean(closure))
-        step.closure <- step.closure[1,1] %>% as.numeric()
+        closure.date <- dplyr::filter(df.steps, group == site) %>%
+                        dplyr::select(closure.date) %>%
+                        summarise(closure = mean(closure.date))
+        closure.date <- closure.date[1,1] %>% as.numeric()
         ## ToDo Steps for other sites
         if(site == 'Bishop Auckland General Hospital'){
 
@@ -155,7 +167,7 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
                                                        y = n,
                                                        color = town)) +
                                   geom_line() +
-                                  geom_vline(xintercept = c(step.closure), linetype = 4) +
+                                  geom_vline(xintercept = c(closure.date), linetype = 4) +
                                   ggtitle(paste0(indicator.title, " (",
                                                  sub.indicator.title, ")")) +
                                   ylab(paste0("Number of ",
@@ -170,7 +182,10 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
 
         ## Apply the user-specified theme
         if(!is.null(theme)){
-            results$ts.plot.events <- results$ts.plot.events + theme
+            results$ts.plot.events <- results$ts.plot.events + theme +
+                                      theme(axis.text.x = element_text(angle = 45,
+                                                                       hjust = 1))
+
         }
     }
     #######################################################################
@@ -182,26 +197,29 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
         ## Run regression, saving all results for returning
         results$panelar <- panelAR(formula         = .formula,
                                    data            = df,
-                                   timeVar         = time,
+                                   timeVar         = 'time',
                                    panelVar        = 'lsoa',
                                    autoCorr        = 'ar1',
                                    ## ToDo - Make this a flexible option?
                                    panelCorrMethod = 'pcse')
         ## Extract the coefficients, tidy and add indicator
-        coefficients      <- summary(results$panelar) %>%
+        results$coefficients      <- summary(results$panelar) %>%
                              coef()
-        coefficients$term <- rownames(coefficients)
-        coefficients$site <- site
+        results$coefficients$term <- rownames(results$coefficients)
+        results$coefficients$site <- site
     }
-    #######################################################################
-    ## Perform regression using prais                                    ##
-    #######################################################################
-    if(fit.with == 'prais' | fit.with == 'both'){
+    ## #######################################################################
+    ## ## Perform regression using prais                                    ##
+    ## #######################################################################
+    ## if(fit.with == 'prais' | fit.with == 'both'){
 
-    }
+    ## }
     #######################################################################
     ## Formatted results                                                 ##
     #######################################################################
-    ## Return the results
+    ## ToDo
+    #######################################################################
+    ## Return the results                                                ##
+    #######################################################################
     return(results)
 }
