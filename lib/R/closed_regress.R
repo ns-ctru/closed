@@ -182,9 +182,10 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
         ## Run regression, saving all results for returning
         results$panelar <- panelAR(formula         = .formula,
                                    data            = df,
-                                   timevar         = time,
-                                   panelvar        = 'lsoa',
+                                   timeVar         = time,
+                                   panelVar        = 'lsoa',
                                    autoCorr        = 'ar1',
+                                   ## ToDo - Make this a flexible option?
                                    panelCorrMethod = 'pcse')
         ## Extract the coefficients, tidy and add indicator
         coefficients      <- summary(results$panelar) %>%
