@@ -12,6 +12,14 @@ library(lubridate)
 ## Sites (includes closure steps)                                               ##
 ##################################################################################
 sites <- read.csv('sites.csv')
+names(sites) <- gsub("_", ".", names(sites)) %>%
+                gsub("intervention\\.date", "closure", .)
+## Convert dates
+sites <- within(sites, {
+                closure <- dmy(closure)
+                start.date.inc <- dmy(start.date.inc)
+                end.date.exc <- dmy(end.date.exc)
+                })
 
 ##################################################################################
 ## Other steps                                                                  ##
@@ -23,4 +31,5 @@ sites <- read.csv('sites.csv')
 
 ## Save the data
 save(sites,
+     ## steps,
      file = '../data/master.RData')
