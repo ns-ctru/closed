@@ -10,15 +10,15 @@
 #' the EDs functioning
 #'
 #' @param df Data frame to analyse.
-#' @param group The case site you wish to analyse, choose from \code{Bishop Auckland General Hospital} (default) | \code{Hemel Hempstead Hospital} | \code{Newark Hospital} | \code{Rochdale Infirmary} | \code{University Hospital of Hartlepool} | \code{All}.
+#' @param df.steps Data frame containing steps for all sites.
+#' @param site The case site you wish to analyse, choose from \code{Bishop Auckland General Hospital} (default) | \code{Hemel Hempstead Hospital} | \code{Newark Hospital} | \code{Rochdale Infirmary} | \code{University Hospital of Hartlepool} | \code{All}.
 #' @param controls The controls which should be included and analysed, choose from \code{matched} (default and only option if \code{group = 'All'}) | \code{pooled}.
-#' @param measure The performance indicator to assess.
-#' @param sub.measure The sub-measure performance indicator to assess.
+#' @param indicator The performance indicator to assess.
+#' @param sub.indicator The sub-measure performance indicator to assess.
 #' @param steps List of steps (dummy variables) to include in time-series analysis.
 #' @param fit.with Which package to fit Prais-Winsten regression with, options are  \code{both} (default) | \code{panelAR} | \code{prais}
 #' @param plot Generate time-series plot
 #' @param theme GGplot2 theme to use (only relevant if \code{plot = TRUE})
-#' @param dose Perform dose response model based on median travel time to ED for LSOA.
 #' @param latex Produce results table in LaTeX format using Stargazer.
 #' @param html Produce results table in HTML format using Stargazer.
 #'
@@ -46,17 +46,20 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
                           steps       = c('closure'),
                           fit.with    = 'both',
                           plot        = TRUE,
-                          theme       = NULL,
-                          dose        = FALSE,
+                          theme       = theme_linedraw(),
                           latex       = FALSE,
                           html        = FALSE,
                           ...){
+    #######################################################################
+    ## Set up (results, formula, renaming variables)                     ##
+    #######################################################################
     ## Initialise results list for returning everything
     results <- list()
     ## Build the regerssion model
     ## ToDo - Create formula from specified steps
-    ## .formula <- reformulate(repsonse   = 'value',
-    ##                         termalbels = c('town', 'time.to.ed', steps))
+    .formula <- reformulate(response   = 'value',
+                            termlabels = c('town', 'time.to.ed', steps))
+    print(.formula)
     ## Convert to data frame
     df <- as.data.frame(df)
     ## Convert variable names for ease of typing within this function
@@ -64,6 +67,9 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     ## tedious to type)
     names(df) <- names(df) %>%
                  gsub("_", ".", x = .)
+    #######################################################################
+    ## Filter data                                                       ##
+    #######################################################################
     ## Filter based on sites to include
     if(!is.na(site) & site != 'All'){
         df <- dplyr::filter(df, group == site)
@@ -90,29 +96,41 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     else{
         stop('You must specify the controls you wish to analyse.  See ?closed_regress for valid options.\n\n')
     }
+    ## Extract step information for specified group (not strictly necessary due to subsequent
+    ## merge using all.x)
+    ## ToDo - Will need modifying when other steps are available
+    df.steps <- dplyr::filter(df.steps, group == site) %>%
+                dplyr::select(group, town, closure, ambulance.service)
+    ## Combine steps with data frame
+    df <- merge(df,
+                df.steps,
+                by     = c("group", "town"),
+                all.x  = TRUE)
+    ## Combine data with steps
     results$df <- df
-    ## Plot the data
+    #######################################################################
+    ## Plot the data                                                     ##
+    #######################################################################
     if(plot == TRUE){
         ## Conditionally set the graph title
         ## ToDo - Complete with all parameters
         ## Title
-        if(indicator      == 'ed attendances')  indicator.title     <- 'ED Attendance'
-        else if(indicator == 'mortality')       indicator.title     <- 'Mortality'
-        else if(indicator == 'other')           indicator.title     <- 'Other'
-        if(sub.indicator == 'any')              sub.indicator.title <- 'Any'
-        else if(sub.indicator == 'ambulance')   sub.indicator.title <- 'Ambulance'
-        else if(sub.indicator == 'other')       sub.indicator.title <- 'Other'
-        if(controls       == 'matched control') control.title       <- 'Matched Control'
-        else if(controls  == 'pooled control')  control.title       <- 'Pooled Control'
+        if(indicator          == 'ed attendances')  indicator.title     <- 'ED Attendance'
+        else if(indicator     == 'mortality')       indicator.title     <- 'Mortality'
+        else if(indicator     == 'other')           indicator.title     <- 'Other'
+        if(sub.indicator      == 'any')             sub.indicator.title <- 'Any'
+        else if(sub.indicator == 'ambulance')       sub.indicator.title <- 'Ambulance'
+        else if(sub.indicator == 'other')           sub.indicator.title <- 'Other'
+        if(controls           == 'matched control') control.title       <- 'Matched Control'
+        else if(controls      == 'pooled control')  control.title       <- 'Pooled Control'
         ## Legends
-        if(indicator      == 'ed attendances')  y.title <- 'ED Attendances'
+        if(indicator          == 'ed attendances')  y.title <- 'ED Attendances'
         ## Vertical lines for steps
         step.closure <- dplyr::filter(df.steps, group == site) %>%
-                        dplyr::select(intervention.date) %>%
-                        summarise(date = mean(intervention.date))
-        typeof(step.closure) %>% print()
+                        dplyr::select(closure) %>%
+                        summarise(closure = mean(closure))
         step.closure <- step.closure[1,1] %>% as.numeric()
-        typeof(step.closure) %>% print()
+        ## ToDo Steps for other sites
         if(site == 'Bishop Auckland General Hospital'){
 
         }
@@ -152,20 +170,37 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
 
         ## Apply the user-specified theme
         if(!is.null(theme)){
-
+            results$ts.plot.events <- results$ts.plot.events + theme
         }
     }
+    #######################################################################
     ## Perform regression using panelAR
+    #######################################################################
     if(fit.with == 'panelAR' | fit.with == 'both'){
         ## Define time as an integer
         df$time <- as.numeric(df$yearmonth)
-        ## results$panelar <- panelAR(formula = .formula,
-        ##                            data    = df)
+        ## Run regression, saving all results for returning
+        results$panelar <- panelAR(formula         = .formula,
+                                   data            = df,
+                                   timevar         = time,
+                                   panelvar        = 'lsoa',
+                                   autoCorr        = 'ar1',
+                                   panelCorrMethod = 'pcse')
+        ## Extract the coefficients, tidy and add indicator
+        coefficients      <- summary(results$panelar) %>%
+                             coef()
+        coefficients$term <- rownames(coefficients)
+        coefficients$site <- site
     }
-    ## Perform regression using prais
+    #######################################################################
+    ## Perform regression using prais                                    ##
+    #######################################################################
     if(fit.with == 'prais' | fit.with == 'both'){
 
     }
+    #######################################################################
+    ## Formatted results                                                 ##
+    #######################################################################
     ## Return the results
     return(results)
 }
