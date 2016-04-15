@@ -1,0 +1,51 @@
+## Unnecessary ED Admissions
+
+```{r echo = FALSE, cache = FALSE, eval = TRUE}
+load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure.Rda')
+unnecessary_ed_attendances_measure$sub_measure <- unnecessary_ed_attendances_measure$measure
+
+```
+
+### Bishop Auckland General Hospital
+
+```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+bishop.unnecessary.arrival.any <- closed_regress(df            = unnecessary_ed_attendances_measure,
+                                                df.steps      = sites,
+		                                site          = 'Bishop Auckland General Hospital',
+                                                controls      = 'matched control',
+                                                indicator     = 'unnecessary ed attendances',
+                                                sub.indicator = 'unnecessary ed attendances',
+                                                fit.with      = 'both',
+                                                plot          = TRUE,
+                                                theme         = theme_bw(),
+                                                latex         = FALSE,
+                                                html          = FALSE)
+```
+
+```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
+bishop.unnecessary.arrival.any$ts.plot.events
+```
+***
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+bishop.unnecessary.arrival.any$panelar %>% summary()
+```
+
+
+### Hemel Hempstead Hospital
+
+
+### Newark Hospital
+
+
+### Rochdale Infirmary
+
+
+### University Hospital of Hartlepool
+
+
+
+
+```{r echo = FALSE, cache = FALSE, eval = FALSE}
+rm(unnecessary_ed_attendances_measure)
+
+```
