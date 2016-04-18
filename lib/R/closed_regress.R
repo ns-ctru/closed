@@ -4,10 +4,8 @@
 #'
 #' @details The ClosED study uses time-series with dummy indicators to
 #' test for the impact of closing Emergency Departments on indicators of
-#' performance.  This short function tidies the data (ensures case of strings
-#' is consistent, date/time and factor variables are correctly formatted) and
-#' combines them with the dummy indicators that denote 'steps' (changes) in
-#' the EDs functioning
+#' performance.  This function generates time-series plots and performs
+#' Prais-Winsten time-series regression analysis to account for atuo-correlation.
 #'
 #' @param df Data frame to analyse.
 #' @param df.steps Data frame containing steps for all sites.
