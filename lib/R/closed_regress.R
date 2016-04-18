@@ -1,6 +1,6 @@
-#' Tidy ClosED data
+#' Plot and Perform Regression on ClosED data
 #'
-#' @description Tidy up Closed data and combine with 'step' co-variates
+#' @description Plot time-series and Perform Prais-Winsten Regression on ClosED data
 #'
 #' @details The ClosED study uses time-series with dummy indicators to
 #' test for the impact of closing Emergency Departments on indicators of
