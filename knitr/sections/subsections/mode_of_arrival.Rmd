@@ -1,15 +1,8 @@
-## ED Attendance by Mode of Arrival
-
 ```{r echo = FALSE, cache = FALSE, eval = TRUE}
 load('d:/Rpackages/rclosed/data/ed attendances by mode measure.Rda')
-```
 
-### Bishop Auckland General Hospital
-
-#### Any
-
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-bishop.attendance.arrival.any <- closed_regress(df            = ed_attendances_by_mode_measure,
+```{r bishop_attendance_any_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+bishop.attendance.any.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                                 df.steps      = sites,
 		                                site          = 'Bishop Auckland General Hospital',
                                                 controls      = 'matched control',
@@ -21,17 +14,8 @@ bishop.attendance.arrival.any <- closed_regress(df            = ed_attendances_b
                                                 latex         = FALSE,
                                                 html          = FALSE)
 ```
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-bishop.attendance.arrival.any$ts.plot.events
-```
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-bishop.attendance.arrival.any$panelar %>% summary()
-```
-
-#### Ambulance
-
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-bishop.attendance.arrival.ambulance <- closed_regress(df            = ed_attendances_by_mode_measure,
+```{r bishop_attendance_ambulance_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+bishop.attendance.ambulance.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                                       df.steps      = sites,
       		                                      site          = 'Bishop Auckland General Hospital',
                                                       controls      = 'matched control',
@@ -43,17 +27,8 @@ bishop.attendance.arrival.ambulance <- closed_regress(df            = ed_attenda
                                                       latex         = FALSE,
                                                       html          = FALSE)
 ```
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-bishop.attendance.arrival.ambulance$ts.plot.events
-```
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-bishop.attendance.arrival.ambulance$panelar %>% summary()
-```
-
-#### Other
-
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-bishop.attendance.arrival.other <- closed_regress(df            = ed_attendances_by_mode_measure,
+```{r bishop_attendance_other_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+bishop.attendance.other.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                                   df.steps      = sites,
 		                                  site          = 'Bishop Auckland General Hospital',
                                                   controls      = 'matched control',
@@ -65,19 +40,10 @@ bishop.attendance.arrival.other <- closed_regress(df            = ed_attendances
                                                   latex         = FALSE,
                                                   html          = FALSE)
 ```
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-bishop.attendance.arrival.other$ts.plot.events
-```
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-bishop.attendance.arrival.other$panelar %>% summary()
-```
 
-### Hemel Hempstead Hospital
 
-#### Any
-
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-hemel.attendance.arrival.any <- closed_regress(df            = ed_attendances_by_mode_measure,
+```{r hemel_attendance_any_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+hemel.attendance.any.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                                df.steps      = sites,
                                                site          = 'Hemel Hempstead Hospital',
                                                controls      = 'matched control',
@@ -89,17 +55,8 @@ hemel.attendance.arrival.any <- closed_regress(df            = ed_attendances_by
                                                latex         = FALSE,
                                                html          = FALSE)
 ```
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-hemel.attendance.arrival.any$ts.plot.events
-```
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-hemel.attendance.arrival.any$panelar %>% summary()
-```
-
-#### Ambulance
-
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-hemel.attendance.arrival.ambulance <- closed_regress(df            = ed_attendances_by_mode_measure,
+```{r hemel_attendance_ambulance_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+hemel.attendance.ambulance.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                                df.steps      = sites,
                                                site          = 'Hemel Hempstead Hospital',
                                                controls      = 'matched control',
@@ -111,17 +68,8 @@ hemel.attendance.arrival.ambulance <- closed_regress(df            = ed_attendan
                                                latex         = FALSE,
                                                html          = FALSE)
 ```
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-hemel.attendance.arrival.ambulance$ts.plot.events
-```
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-hemel.attendance.arrival.ambulance$panelar %>% summary()
-```
-
-#### Other
-
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-hemel.attendance.arrival.other <- closed_regress(df            = ed_attendances_by_mode_measure,
+```{r hemel_attendance_other_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+hemel.attendance.other.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                                df.steps      = sites,
                                                site          = 'Hemel Hempstead Hospital',
                                                controls      = 'matched control',
@@ -133,19 +81,10 @@ hemel.attendance.arrival.other <- closed_regress(df            = ed_attendances_
                                                latex         = FALSE,
                                                html          = FALSE)
 ```
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-hemel.attendance.arrival.other$ts.plot.events
-```
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-hemel.attendance.arrival.other$panelar %>% summary()
-```
 
-### Newark Hospital
 
-#### Any
-
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-newark.attendance.arrival.any <- closed_regress(df            = ed_attendances_by_mode_measure,
+```{r newark_attendance_any_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+newark.attendance.any.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                                 df.steps      = sites,
                                                 site          = 'Newark Hospital',
                                                 controls      = 'matched control',
@@ -157,17 +96,8 @@ newark.attendance.arrival.any <- closed_regress(df            = ed_attendances_b
                                                 latex         = FALSE,
                                                 html          = FALSE)
 ```
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-newark.attendance.arrival.any$ts.plot.events
-```
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-newark.attendance.arrival.any$panelar %>% summary()
-```
-
-#### Ambulance
-
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-newark.attendance.arrival.ambulance <- closed_regress(df            = ed_attendances_by_mode_measure,
+```{r newark_attendance_ambulance_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+newark.attendance.ambulance.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                                 df.steps      = sites,
                                                 site          = 'Newark Hospital',
                                                 controls      = 'matched control',
@@ -179,16 +109,8 @@ newark.attendance.arrival.ambulance <- closed_regress(df            = ed_attenda
                                                 latex         = FALSE,
                                                 html          = FALSE)
 ```
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-newark.attendance.arrival.ambulance$ts.plot.events
-```
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-newark.attendance.arrival.ambulance$panelar %>% summary()
-```
-#### Other
-
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-newark.attendance.arrival.other <- closed_regress(df            = ed_attendances_by_mode_measure,
+```{r newark_attendance_other_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+newark.attendance.other.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                                   df.steps      = sites,
                                                   site          = 'Newark Hospital',
                                                   controls      = 'matched control',
@@ -200,18 +122,10 @@ newark.attendance.arrival.other <- closed_regress(df            = ed_attendances
                                                   latex         = FALSE,
                                                   html          = FALSE)
 ```
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-newark.attendance.arrival.other$ts.plot.events
-```
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-newark.attendance.arrival.other$panelar %>% summary()
-```
 
-### Rochdale Infirmary
 
-#### Any
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-rochdale.attendance.arrival.any <- closed_regress(df            = ed_attendances_by_mode_measure,
+```{r rochdale_attendance_any_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+rochdale.attendance.any.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                                     df.steps      = sites,
                                                     site          = 'Rochdale Infirmary',
                                                     controls      = 'matched control',
@@ -223,15 +137,8 @@ rochdale.attendance.arrival.any <- closed_regress(df            = ed_attendances
                                                     latex         = FALSE,
                                                     html          = FALSE)
 ```
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-rochdale.attendance.arrival.any$ts.plot.events
-```
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-rochdale.attendance.arrival.any$panelar %>% summary()
-
-#### Ambulance
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-rochdale.attendance.arrival.ambulance <- closed_regress(df            = ed_attendances_by_mode_measure,
+```{r rochdale_attendance_ambulance_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+rochdale.attendance.ambulance.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                                     df.steps      = sites,
                                                     site          = 'Rochdale Infirmary',
                                                     controls      = 'matched control',
@@ -243,15 +150,8 @@ rochdale.attendance.arrival.ambulance <- closed_regress(df            = ed_atten
                                                     latex         = FALSE,
                                                     html          = FALSE)
 ```
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-rochdale.attendance.arrival.ambulance$ts.plot.events
-```
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-rochdale.attendance.arrival.ambulance$panelar %>% summary()
-
-#### Other
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-rochdale.attendance.arrival.other <- closed_regress(df            = ed_attendances_by_mode_measure,
+```{r rochdale_attendance_other_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+rochdale.attendance.other.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                                     df.steps      = sites,
                                                     site          = 'Rochdale Infirmary',
                                                     controls      = 'matched control',
@@ -263,18 +163,10 @@ rochdale.attendance.arrival.other <- closed_regress(df            = ed_attendanc
                                                     latex         = FALSE,
                                                     html          = FALSE)
 ```
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-rochdale.attendance.arrival.other$ts.plot.events
-```
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-rochdale.attendance.arrival.other$panelar %>% summary()
-```
 
-### University Hospital of Hartlepool
 
-#### Any
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-hartlepool.attendance.arrival.any <- closed_regress(df            = ed_attendances_by_mode_measure,
+```{r hartlepool_attendance_any_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+hartlepool.attendance.any.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                                     df.steps      = sites,
                                                     site          = 'University Hospital of Hartlepool',
                                                     controls      = 'matched control',
@@ -286,15 +178,8 @@ hartlepool.attendance.arrival.any <- closed_regress(df            = ed_attendanc
                                                     latex         = FALSE,
                                                     html          = FALSE)
 ```
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-hartlepool.attendance.arrival.any$ts.plot.events
-```
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-hartlepool.attendance.arrival.any$panelar %>% summary()
-```
-#### Ambulance
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-hartlepool.attendance.arrival.ambulance <- closed_regress(df            = ed_attendances_by_mode_measure,
+```{r hartlepool_attendance_ambulance_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+hartlepool.attendance.ambulance.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                                     df.steps      = sites,
                                                     site          = 'University Hospital of Hartlepool',
                                                     controls      = 'matched control',
@@ -306,15 +191,8 @@ hartlepool.attendance.arrival.ambulance <- closed_regress(df            = ed_att
                                                     latex         = FALSE,
                                                     html          = FALSE)
 ```
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-hartlepool.attendance.arrival.ambulance$ts.plot.events
-```
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-hartlepool.attendance.arrival.ambulance$panelar %>% summary()
-```
-#### Other
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-hartlepool.attendance.arrival.other <- closed_regress(df            = ed_attendances_by_mode_measure,
+```{r hartlepool_attendance_other_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+hartlepool.attendance.other.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                                     df.steps      = sites,
                                                     site          = 'University Hospital of Hartlepool',
                                                     controls      = 'matched control',
@@ -326,35 +204,3 @@ hartlepool.attendance.arrival.other <- closed_regress(df            = ed_attenda
                                                     latex         = FALSE,
                                                     html          = FALSE)
 ```
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-hartlepool.attendance.arrival.other$ts.plot.events
-```
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-hartlepool.attendance.arrival.other$panelar %>% summary()
-```
-
-
-```{r echo = FALSE, cache = FALSE, eval = TRUE}
-rm(ed_attendances_by_mode_measure,
-   bishop.unnecessary.arrival.any,
-   bishop.unnecessary.arrival.ambulance,
-   bishop.unnecessary.arrival.other,
-   hemel.unnecessary.arrival.any,
-   hemel.unnecessary.arrival.ambulance,
-   hemel.unnecessary.arrival.other,
-   newark.unnecessary.arrival.any,
-   newark.unnecessary.arrival.ambulance,
-   newark.unnecessary.arrival.other,
-   rochdale.unnecessary.arrival.any,
-   rochdale.unnecessary.arrival.ambulance,
-   rochdale.unnecessary.arrival.other,
-   hartlepool.unnecessary.arrival.any,
-   hartlepool.unnecessary.arrival.ambulance,
-   hartlepool.unnecessary.arrival.other)
-```
-
-**TODO** Unmatched control sites.
-
-**TODO** Pooled Sites
-
-**TODO** Summary tables, but what is desirable, by site comparing the matched cases to pooled controls, a table with everything in (problematic due to size)
