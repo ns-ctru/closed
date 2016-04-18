@@ -1,3 +1,14 @@
 ## Site Summary
 
-**TODO** Summary of each site for the various different measures (e.g. number of LSOAs, mean(sd)/median(iqr) travel times, catchment populations)
+```{r summary, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
+time.to.ed <- closed_summary(df          = unnecessary_ed_attendances_measure,
+                             df.steps    = sites,
+                             vars        = value,
+                             digits      = 3,
+                             latex       = FALSE,
+                             html        = FALSE)
+kable(time.to.ed$formatted)
+
+```
+
+**TODO** What else should be summarised?  I didn't think summaries of events by LSOA was useful nor appropriate as this is time series.  Could tabulate whats in the figures but that again seems somewhat redundant.  Similarly I could have produced summaries of the population sized, but these are counted on a monthly basis so it would be quite a large table, most of which would be of little to no interest, and it could be presented more clearly in a figure if required.  The variation in population size will eventually be taken account of when standardising rates.
