@@ -92,10 +92,13 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
         stop('You must specify an indicator and the sub measure you wish to analyse.  See ?closed_regress for valid options.\n\n')
     }
     ## Select intervention site and the desired controls
-    if(controls == 'matched control' | controls == 'pooled control'){
+    if(controls == 'matched control'){
         t <- c('intervention', controls)
         df <- dplyr::filter(df, site.type %in% t)
         rm(t)
+    }
+    else if(controls == 'pooled control'){
+        df <- df
     }
     else{
         stop('You must specify the controls you wish to analyse.  See ?closed_regress for valid options.\n\n')
