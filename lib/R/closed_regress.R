@@ -75,10 +75,15 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     ## Filter data                                                       ##
     #######################################################################
     ## Filter based on sites to include
-    if(!is.na(site) & site != 'All'){
+    if(site != 'All'){
+        if(is.na(site)){
+            stop('You must specify the site you wish to analyse.  See ?closed_regress for valid options\n\n')
+        }
+        ## print('Site?')
         df <- dplyr::filter(df, group == site)
     }
     else if(site == 'All'){
+        ## print('All?')
         df <- df
     }
     else{
@@ -86,6 +91,7 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     }
     ## ToDo - Modify to reflect the options should exclude all sub-measures
     if(!is.na(indicator) & !is.na(sub.indicator)){
+        ## print('Indicator?')
         df <- dplyr::filter(df, measure == indicator & sub.measure == sub.indicator)
     }
     else{
@@ -93,21 +99,18 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     }
     ## Select intervention site and the desired controls
     if(controls == 'matched control'){
+        ## print('Mathed Controls?')
         t <- c('intervention', controls)
         df <- dplyr::filter(df, site.type %in% t)
         rm(t)
     }
     else if(controls == 'pooled control'){
+        ## print('Pooled controls?')
         df <- df
     }
     else{
         stop('You must specify the controls you wish to analyse.  See ?closed_regress for valid options.\n\n')
     }
-    ## Extract step information for specified group (not strictly necessary due to subsequent
-    ## merge using all.x)
-    ## ToDo - Will need modifying when other steps are available
-    df.steps <- dplyr::filter(df.steps, group == site) %>%
-                dplyr::select(group, town, closure.date, ambulance.service)
     ## Combine steps with data frame
     df <- merge(df,
                 df.steps,
@@ -115,12 +118,19 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
                 all.x  = TRUE)
     ## Derive binary indicator for each step
     ## ToDo - Make this flexible for all steps
-    df$closure <- 0
-    df <- within(df, {
+    ## ToDo - Probably don't need the if() else if()
+    if(site != 'All'){
+        df$closure <- 0
+        df <- within(df, {
             closure[town == site.town & yearmonth >= closure.date] <- 1
-    })
+        })
+    }
+    else if(site == 'All'){
+        df <- group_by(df, town) %>%
+              mutate(closure = ifelse(yearmonth >= closure.date, 1, 0))
+    }
     ## Combine data with steps
-    results$df <- df
+    ## results$df <- df
     #######################################################################
     ## Plot the data                                                     ##
     #######################################################################
@@ -173,7 +183,8 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
                                   geom_vline(xintercept = c(closure.date), linetype = 4) +
                                   ggtitle(paste0(indicator.title, " (",
                                                  sub.indicator.title, ")")) +
-                                  ylab(paste0("Number of ",
+                                  ylab(paste0(site,
+                                              " : Number of ",
                                               y.title)) +
                                   labs(color = 'Hospital') +
                                   scale_x_date(name              = "Date",
@@ -191,12 +202,14 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
 
         }
     }
-    #######################################################################
-    ## Perform regression using panelAR
-    #######################################################################
+    ##########################################################################
+    ## Perform regression using panelAR                                     ##
+    ##########################################################################
     if(fit.with == 'panelAR' | fit.with == 'both'){
         ## Define time as an integer
-        df$time <- as.numeric(df$yearmonth)
+        df$time <- as.integer(df$yearmonth)
+        ## typeof(df$time) %>% print()
+        ## table(df$time, useNA = "ifany") %>% print()
         ## Run regression, saving all results for returning
         results$panelar <- panelAR(formula         = .formula,
                                    data            = df,
