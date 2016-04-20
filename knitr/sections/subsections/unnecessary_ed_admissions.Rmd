@@ -1,13 +1,10 @@
-## Unnecessary ED Admissions
-
 ```{r echo = FALSE, cache = FALSE, eval = TRUE}
 load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure.Rda')
 unnecessary_ed_attendances_measure$sub_measure <- unnecessary_ed_attendances_measure$measure
 
 ```
 
-### Bishop Auckland General Hospital
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r bishop_unnecessary_admissions_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 bishop.unnecessary.admissions <- closed_regress(df            = unnecessary_ed_attendances_measure,
                                                 df.steps      = sites,
 		                                site          = 'Bishop Auckland General Hospital',
@@ -21,17 +18,9 @@ bishop.unnecessary.admissions <- closed_regress(df            = unnecessary_ed_a
                                                 html          = FALSE)
 ```
 
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-bishop.unnecessary.admissions$ts.plot.events
-```
-
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-bishop.unnecessary.admissions$panelar %>% summary()
-```
 
 
-### Hemel Hempstead Hospital
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r hemel_unnecessary_admissions_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 hemel.unnecessary.admissions <- closed_regress(df            = unnecessary_ed_attendances_measure,
                                                 df.steps      = sites,
                                                 site          = 'Hemel Hempstead Hospital',
@@ -45,17 +34,9 @@ hemel.unnecessary.admissions <- closed_regress(df            = unnecessary_ed_at
                                                 html          = FALSE)
 ```
 
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-hemel.unnecessary.admissions$ts.plot.events
-```
-
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-hemel.unnecessary.admissions$panelar %>% summary()
-```
 
 
-### Newark Hospital
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r newark_unnecessary_admissions_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 newark.unnecessary.admissions <- closed_regress(df            = unnecessary_ed_attendances_measure,
                                                  df.steps      = sites,
                                                  site          = 'Newark Hospital',
@@ -69,16 +50,8 @@ newark.unnecessary.admissions <- closed_regress(df            = unnecessary_ed_a
                                                  html          = FALSE)
 ```
 
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-newark.unnecessary.admissions$ts.plot.events
-```
 
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-newark.unnecessary.admissions$panelar %>% summary()
-```
-
-### Rochdale Infirmary
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r rochdale_unnecessary_admissions_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 rochdale.unnecessary.admissions <- closed_regress(df            = unnecessary_ed_attendances_measure,
                                                 df.steps      = sites,
 		                                site          = 'Rochdale Infirmary',
@@ -92,17 +65,9 @@ rochdale.unnecessary.admissions <- closed_regress(df            = unnecessary_ed
                                                 html          = FALSE)
 ```
 
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-rochdale.unnecessary.admissions$ts.plot.events
-```
-
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-rochdale.unnecessary.admissions$panelar %>% summary()
-```
 
 
-### University Hospital of Hartlepool
-```{r echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r hartlepool_unnecessary_admissions_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 hartlepool.unnecessary.admissions <- closed_regress(df            = unnecessary_ed_attendances_measure,
                                                      df.steps      = sites,
 		                                     site          = 'University Hospital of Hartlepool',
@@ -114,24 +79,4 @@ hartlepool.unnecessary.admissions <- closed_regress(df            = unnecessary_
                                                      theme         = theme_bw(),
                                                      latex         = FALSE,
                                                      html          = FALSE)
-```
-
-```{r echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-hartlepool.unnecessary.admissions$ts.plot.events
-```
-```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-hartlepool.unnecessary.admissions$panelar %>% summary()
-```
-
-
-
-
-```{r echo = FALSE, cache = FALSE, eval = FALSE}
-rm(unnecessary_ed_attendances_measure,
-   bishop.unnecessary.admissions,
-   hemel.unnecessary.admissions,
-   newark.unnecessary.admissions,
-   rochdale.unnecessary.admissions,
-   hartlepool.unnecessary.admissions)
-
 ```
