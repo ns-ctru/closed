@@ -181,10 +181,10 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
                                                        color = town)) +
                                   geom_line() +
                                   geom_vline(xintercept = c(closure.date), linetype = 4) +
-                                  ggtitle(paste0(indicator.title, " (",
+                                  ggtitle(paste0(site, " : ",
+                                                 indicator.title, " (",
                                                  sub.indicator.title, ")")) +
-                                  ylab(paste0(site,
-                                              " : Number of ",
+                                  ylab(paste0("Number of ",
                                               y.title)) +
                                   labs(color = 'Hospital') +
                                   scale_x_date(name              = "Date",
