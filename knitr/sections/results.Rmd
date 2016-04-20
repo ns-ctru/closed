@@ -2,11 +2,36 @@
 
 **TODO** - There are a number of instances where some of the data looks incomplete, how to handle these (e.g. convert to missing)?
 
-```{r child = 'subsections/mode_of_arrival.Rmd'}
+
+```{r child = 'subsections/summary.Rmd', eval = TRUE}
 ```
 
-```{r child = 'subsections/mortality.Rmd'}
+
+```{r child = 'subsections/mode_of_arrival.Rmd', eval = TRUE}
+```
+```{r child = 'subsections/mode_of_arrival_matched.Rmd', eval = TRUE}
+```
+```{r child = 'subsections/mode_of_arrival_pooled.Rmd', eval = FALSE}
 ```
 
-```{r child = 'subsections/unnecessary_ed_admissions.Rmd'}
+```{r child = 'subsections/emergency_admissions.Rmd', eval = TRUE}
+```
+```{r child = 'subsections/emergency_admissions_matched.Rmd', eval = TRUE}
+```
+```{r child = 'subsections/emergency_admissions_pooled.Rmd', eval = FALSE}
+```
+
+
+```{r child = 'subsections/unnecessary_ed_admissions.Rmd', eval = FALSE}
+```
+```{r child = 'subsections/unnecessary_ed_admissions_matched.Rmd', eval = FALSE}
+```
+```{r child = 'subsections/unnecessary_ed_admissions_pooled.Rmd', eval = FALSE}
+```
+
+```{r child = 'subsections/mortality.Rmd', eval = FALSE}
+```
+```{r child = 'subsections/mortality_matched.Rmd', eval = FALSE}
+```
+```{r child = 'subsections/mortality_unmatched.Rmd', eval = FALSE}
 ```
