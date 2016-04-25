@@ -1,82 +1,76 @@
 ```{r echo = FALSE, cache = FALSE, eval = TRUE}
-load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure.Rda')
-unnecessary_ed_attendances_measure$sub_measure <- unnecessary_ed_attendances_measure$measure
-
+load('d:/Rpackages/rclosed/data/avoidable emergency admissions measure.Rda')
 ```
-
 ```{r bishop_unnecessary_admissions_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-bishop.unnecessary.admissions <- closed_regress(df            = unnecessary_ed_attendances_measure,
-                                                df.steps      = sites,
-		                                site          = 'Bishop Auckland General Hospital',
-                                                controls      = 'matched control',
-                                                indicator     = 'unnecessary ed attendances',
-                                                sub.indicator = 'unnecessary ed attendances',
-                                                fit.with      = 'both',
-                                                plot          = TRUE,
-                                                theme         = theme_bw(),
-                                                latex         = FALSE,
-                                                html          = FALSE)
+bishop.unnecessary.admissions.matched <- closed_regress(df            = avoidable_emergency_admissions_measure,
+                                                        df.steps      = sites,
+	                                                site          = 'Bishop Auckland General Hospital',
+                                                        controls      = 'matched control',
+                                                        indicator     = 'avoidable emergency admissions',
+                                                        sub.indicator = 'any',
+                                                        fit.with      = 'both',
+                                                        plot          = TRUE,
+                                                        common.y      = TRUE,
+                                                        theme         = theme_bw(),
+                                                        latex         = FALSE,
+                                                        html          = FALSE)
 ```
-
-
-
 ```{r hemel_unnecessary_admissions_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-hemel.unnecessary.admissions <- closed_regress(df            = unnecessary_ed_attendances_measure,
-                                                df.steps      = sites,
-                                                site          = 'Hemel Hempstead Hospital',
-                                                controls      = 'matched control',
-                                                indicator     = 'unnecessary ed attendances',
-                                                sub.indicator = 'unnecessary ed attendances',
-                                                fit.with      = 'both',
-                                                plot          = TRUE,
-                                                theme         = theme_bw(),
-                                                latex         = FALSE,
-                                                html          = FALSE)
+hemel.unnecessary.admissions.matched <- closed_regress(df            = avoidable_emergency_admissions_measure,
+                                                       df.steps      = sites,
+                                                       site          = 'Hemel Hempstead Hospital',
+                                                       controls      = 'matched control',
+                                                       indicator     = 'avoidable emergency admissions',
+                                                       sub.indicator = 'any',
+                                                       fit.with      = 'both',
+                                                       plot          = TRUE,
+                                                       common.y      = TRUE,
+                                                       theme         = theme_bw(),
+                                                       latex         = FALSE,
+                                                       html          = FALSE)
 ```
-
-
-
 ```{r newark_unnecessary_admissions_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-newark.unnecessary.admissions <- closed_regress(df            = unnecessary_ed_attendances_measure,
-                                                 df.steps      = sites,
-                                                 site          = 'Newark Hospital',
-                                                 controls      = 'matched control',
-                                                 indicator     = 'unnecessary ed attendances',
-                                                 sub.indicator = 'unnecessary ed attendances',
-                                                 fit.with      = 'both',
-                                                 plot          = TRUE,
-                                                 theme         = theme_bw(),
-                                                 latex         = FALSE,
-                                                 html          = FALSE)
+newark.unnecessary.admissions.matched <- closed_regress(df            = avoidable_emergency_admissions_measure,
+                                                        df.steps      = sites,
+                                                        site          = 'Newark Hospital',
+                                                        controls      = 'matched control',
+                                                        indicator     = 'avoidable emergency admissions',
+                                                        sub.indicator = 'any',
+                                                        fit.with      = 'both',
+                                                        plot          = TRUE,
+                                                        common.y      = TRUE,
+                                                        theme         = theme_bw(),
+                                                        latex         = FALSE,
+                                                        html          = FALSE)
 ```
-
-
 ```{r rochdale_unnecessary_admissions_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-rochdale.unnecessary.admissions <- closed_regress(df            = unnecessary_ed_attendances_measure,
-                                                df.steps      = sites,
-		                                site          = 'Rochdale Infirmary',
-                                                controls      = 'matched control',
-                                                indicator     = 'unnecessary ed attendances',
-                                                sub.indicator = 'unnecessary ed attendances',
-                                                fit.with      = 'both',
-                                                plot          = TRUE,
-                                                theme         = theme_bw(),
-                                                latex         = FALSE,
-                                                html          = FALSE)
+rochdale.unnecessary.admissions.matched <- closed_regress(df            = avoidable_emergency_admissions_measure,
+                                                          df.steps      = sites,
+		                                          site          = 'Rochdale Infirmary',
+                                                          controls      = 'matched control',
+                                                          indicator     = 'avoidable emergency admissions',
+                                                          sub.indicator = 'any',
+                                                          fit.with      = 'both',
+                                                          plot          = TRUE,
+                                                          common.y      = TRUE,
+                                                          theme         = theme_bw(),
+                                                          latex         = FALSE,
+                                                          html          = FALSE)
 ```
-
-
-
 ```{r hartlepool_unnecessary_admissions_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-hartlepool.unnecessary.admissions <- closed_regress(df            = unnecessary_ed_attendances_measure,
-                                                     df.steps      = sites,
-		                                     site          = 'University Hospital of Hartlepool',
-                                                     controls      = 'matched control',
-                                                     indicator     = 'unnecessary ed attendances',
-                                                     sub.indicator = 'unnecessary ed attendances',
-                                                     fit.with      = 'both',
-                                                     plot          = TRUE,
-                                                     theme         = theme_bw(),
-                                                     latex         = FALSE,
-                                                     html          = FALSE)
+hartlepool.unnecessary.admissions.matched <- closed_regress(df            = avoidable_emergency_admissions_measure,
+					                    df.steps      = sites,
+		                                            site          = 'University Hospital of Hartlepool',
+                                                            controls      = 'matched control',
+                                                            indicator     = 'avoidable emergency admissions',
+                                                            sub.indicator = 'any',
+                                                            fit.with      = 'both',
+                                                            plot          = TRUE,
+                                                            common.y      = TRUE,
+                                                            theme         = theme_bw(),
+                                                            latex         = FALSE,
+                                                            html          = FALSE)
+```
+```{r echo = FALSE, cache = FALSE, eval = TRUE}
+rm(avoidable_emergency_admissions_measure)
 ```
