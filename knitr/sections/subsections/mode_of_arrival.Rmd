@@ -1,6 +1,6 @@
 ```{r echo = FALSE, cache = FALSE, eval = TRUE}
 load('d:/Rpackages/rclosed/data/ed attendances by mode measure.Rda')
-
+```
 ```{r bishop_attendance_any_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 bishop.attendance.any.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                                 df.steps      = sites,
@@ -10,6 +10,7 @@ bishop.attendance.any.matched <- closed_regress(df            = ed_attendances_b
                                                 sub.indicator = 'any',
                                                 fit.with      = 'both',
                                                 plot          = TRUE,
+                                                common.y      = TRUE,
                                                 theme         = theme_bw(),
                                                 latex         = FALSE,
                                                 html          = FALSE)
@@ -23,6 +24,7 @@ bishop.attendance.ambulance.matched <- closed_regress(df            = ed_attenda
                                                       sub.indicator = 'ambulance',
                                                       fit.with      = 'both',
                                                       plot          = TRUE,
+                                                      common.y      = TRUE,
                                                       theme         = theme_bw(),
                                                       latex         = FALSE,
                                                       html          = FALSE)
@@ -36,6 +38,7 @@ bishop.attendance.other.matched <- closed_regress(df            = ed_attendances
                                                   sub.indicator = 'other',
                                                   fit.with      = 'both',
                                                   plot          = TRUE,
+                                                  common.y      = TRUE,
                                                   theme         = theme_bw(),
                                                   latex         = FALSE,
                                                   html          = FALSE)
@@ -51,6 +54,7 @@ hemel.attendance.any.matched <- closed_regress(df            = ed_attendances_by
                                                sub.indicator = 'any',
                                                fit.with      = 'both',
                                                plot          = TRUE,
+                                               common.y      = TRUE,
                                                theme         = theme_bw(),
                                                latex         = FALSE,
                                                html          = FALSE)
@@ -64,6 +68,7 @@ hemel.attendance.ambulance.matched <- closed_regress(df            = ed_attendan
                                                sub.indicator = 'ambulance',
                                                fit.with      = 'both',
                                                plot          = TRUE,
+                                               common.y      = TRUE,
                                                theme         = theme_bw(),
                                                latex         = FALSE,
                                                html          = FALSE)
@@ -77,6 +82,7 @@ hemel.attendance.other.matched <- closed_regress(df            = ed_attendances_
                                                sub.indicator = 'other',
                                                fit.with      = 'both',
                                                plot          = TRUE,
+                                               common.y      = TRUE,
                                                theme         = theme_bw(),
                                                latex         = FALSE,
                                                html          = FALSE)
@@ -92,6 +98,7 @@ newark.attendance.any.matched <- closed_regress(df            = ed_attendances_b
                                                 sub.indicator = 'any',
                                                 fit.with      = 'both',
                                                 plot          = TRUE,
+                                                common.y      = TRUE,
                                                 theme         = theme_bw(),
                                                 latex         = FALSE,
                                                 html          = FALSE)
@@ -105,6 +112,7 @@ newark.attendance.ambulance.matched <- closed_regress(df            = ed_attenda
                                                 sub.indicator = 'ambulance',
                                                 fit.with      = 'both',
                                                 plot          = TRUE,
+                                                common.y      = TRUE,
                                                 theme         = theme_bw(),
                                                 latex         = FALSE,
                                                 html          = FALSE)
@@ -118,6 +126,7 @@ newark.attendance.other.matched <- closed_regress(df            = ed_attendances
                                                   sub.indicator = 'other',
                                                   fit.with      = 'both',
                                                   plot          = TRUE,
+                                                  common.y      = TRUE,
                                                   theme         = theme_bw(),
                                                   latex         = FALSE,
                                                   html          = FALSE)
@@ -126,29 +135,31 @@ newark.attendance.other.matched <- closed_regress(df            = ed_attendances
 
 ```{r rochdale_attendance_any_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 rochdale.attendance.any.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
-                                                    df.steps      = sites,
-                                                    site          = 'Rochdale Infirmary',
-                                                    controls      = 'matched control',
-                                                    indicator     = 'ed attendances',
-                                                    sub.indicator = 'any',
-                                                    fit.with      = 'both',
-                                                    plot          = TRUE,
-                                                    theme         = theme_bw(),
-                                                    latex         = FALSE,
-                                                    html          = FALSE)
+                                                  df.steps      = sites,
+                                                  site          = 'Rochdale Infirmary',
+                                                  controls      = 'matched control',
+                                                  indicator     = 'ed attendances',
+                                                  sub.indicator = 'any',
+                                                  fit.with      = 'both',
+                                                  plot          = TRUE,
+                                                  common.y      = TRUE,
+                                                  theme         = theme_bw(),
+                                                  latex         = FALSE,
+                                                  html          = FALSE)
 ```
 ```{r rochdale_attendance_ambulance_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 rochdale.attendance.ambulance.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
-                                                    df.steps      = sites,
-                                                    site          = 'Rochdale Infirmary',
-                                                    controls      = 'matched control',
-                                                    indicator     = 'ed attendances',
-                                                    sub.indicator = 'ambulance',
-                                                    fit.with      = 'both',
-                                                    plot          = TRUE,
-                                                    theme         = theme_bw(),
-                                                    latex         = FALSE,
-                                                    html          = FALSE)
+                                                        df.steps      = sites,
+                                                        site          = 'Rochdale Infirmary',
+                                                        controls      = 'matched control',
+                                                        indicator     = 'ed attendances',
+                                                        sub.indicator = 'ambulance',
+                                                        fit.with      = 'both',
+                                                        plot          = TRUE,
+                                                        common.y      = TRUE,
+                                                        theme         = theme_bw(),
+                                                        latex         = FALSE,
+                                                        html          = FALSE)
 ```
 ```{r rochdale_attendance_other_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 rochdale.attendance.other.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
@@ -159,6 +170,7 @@ rochdale.attendance.other.matched <- closed_regress(df            = ed_attendanc
                                                     sub.indicator = 'other',
                                                     fit.with      = 'both',
                                                     plot          = TRUE,
+                                                    common.y      = TRUE,
                                                     theme         = theme_bw(),
                                                     latex         = FALSE,
                                                     html          = FALSE)
@@ -174,6 +186,7 @@ hartlepool.attendance.any.matched <- closed_regress(df            = ed_attendanc
                                                     sub.indicator = 'any',
                                                     fit.with      = 'both',
                                                     plot          = TRUE,
+                                                    common.y      = TRUE,
                                                     theme         = theme_bw(),
                                                     latex         = FALSE,
                                                     html          = FALSE)
@@ -187,6 +200,7 @@ hartlepool.attendance.ambulance.matched <- closed_regress(df            = ed_att
                                                     sub.indicator = 'ambulance',
                                                     fit.with      = 'both',
                                                     plot          = TRUE,
+                                                    common.y      = TRUE,
                                                     theme         = theme_bw(),
                                                     latex         = FALSE,
                                                     html          = FALSE)
@@ -200,7 +214,11 @@ hartlepool.attendance.other.matched <- closed_regress(df            = ed_attenda
                                                     sub.indicator = 'other',
                                                     fit.with      = 'both',
                                                     plot          = TRUE,
+                                                    common.y      = TRUE,
                                                     theme         = theme_bw(),
                                                     latex         = FALSE,
                                                     html          = FALSE)
+```
+```{r echo = FALSE, cache = FALSE, eval = TRUE}
+rm(ed_attendances_by_mode_measure)
 ```
