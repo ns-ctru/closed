@@ -138,18 +138,24 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
         ## Conditionally set the graph title
         ## ToDo - Complete with all parameters
         ## Title
-        if(indicator          == 'ed attendances')             indicator.title     <- 'ED Attendance'
-        else if(indicator     == 'mortality')                  indicator.title     <- 'Mortality'
-        else if(indicator     == 'unnecessary ed attendances') indicator.title     <- 'Unncessary ED Attendances'
-        if(sub.indicator      == 'any')                        sub.indicator.title <- 'Any'
-        else if(sub.indicator == 'ambulance')                  sub.indicator.title <- 'Ambulance'
-        else if(sub.indicator == 'other')                      sub.indicator.title <- 'Other'
-        else if(indicator     == 'unnecessary ed attendances') sub.indicator.title <- ''
-        if(controls           == 'matched control')            control.title       <- 'Matched Control'
-        else if(controls      == 'pooled control')             control.title       <- 'Pooled Control'
+        if(indicator          == 'ed attendances')                 indicator.title     <- 'ED Attendance'
+        else if(indicator     == 'mortality')                      indicator.title     <- 'Mortality'
+        else if(indicator     == 'unnecessary ed attendances')     indicator.title     <- 'Unncessary ED Attendances'
+        else if(indicator     == 'all emergency admissions')       indicator.title     <- 'Emergency Admissions'
+        else if(indicator     == 'avoidable emergency admissions') indicator.title     <- 'Potentially Avoidable Emergency Admissions'
+        if(sub.indicator      == 'any')                            sub.indicator.title <- ' - Any'
+        else if(sub.indicator == 'ambulance')                      sub.indicator.title <- ' - Ambulance'
+        else if(sub.indicator == 'other')                          sub.indicator.title <- ' - Other'
+        else if(sub.indicator == 'unnecessary ed attendances')     sub.indicator.title <- ''
+        else if(sub.indicator == 'all emergency admissions')       sub.indicator.title <- ''
+        if(controls           == 'matched control')                control.title       <- 'Matched Control'
+        else if(controls      == 'pooled control')                 control.title       <- 'Pooled Control'
+        else if(controls      == 'all control')                    control.title       <- 'All Controls'
         ## Legends
-        if(indicator          == 'ed attendances')             y.title <- 'ED Attendances'
-        else if(indicator     == 'unnecessary ed attendances') y.title <- 'Unnecessary ED Attendances'
+        if(indicator          == 'ed attendances')                 y.title             <- 'ED Attendances'
+        else if(indicator     == 'unnecessary ed attendances')     y.title             <- 'Unnecessary ED Attendances'
+        else if(indicator     == 'all emergency admissions')       y.title             <- 'Emergency Admissions'
+        else if(indicator     == 'avoidable emergency admissions') y.title             <- 'Potentially Avoidable Emergency Admissions'
         ## Vertical lines for steps
         closure.date <- dplyr::filter(df.steps, group == site) %>%
                         dplyr::select(closure.date) %>%
@@ -181,9 +187,10 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
                                                        color = town)) +
                                   geom_line() +
                                   geom_vline(xintercept = c(closure.date), linetype = 4) +
-                                  ggtitle(paste0(site, " : ",
-                                                 indicator.title, " (",
-                                                 sub.indicator.title, ")")) +
+                                  ggtitle(paste0(site, " (",
+                                                 control.title, ")\n",
+                                                 indicator.title,
+                                                 sub.indicator.title)) +
                                   ylab(paste0("Number of ",
                                               y.title)) +
                                   labs(color = 'Hospital') +
