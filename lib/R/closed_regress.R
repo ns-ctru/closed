@@ -10,12 +10,13 @@
 #' @param df Data frame to analyse.
 #' @param df.steps Data frame containing steps for all sites.
 #' @param site The case site you wish to analyse, choose from \code{Bishop Auckland General Hospital} (default) | \code{Hemel Hempstead Hospital} | \code{Newark Hospital} | \code{Rochdale Infirmary} | \code{University Hospital of Hartlepool} | \code{All}.
-#' @param controls The controls which should be included and analysed, choose from \code{matched} (default and only option if \code{group = 'All'}) | \code{pooled}.
+#' @param controls The controls which should be included and analysed, choose from \code{matched} (default and only option if \code{group = 'All'}) | \code{pooled} | \code{none}.
 #' @param indicator The performance indicator to assess.
 #' @param sub.indicator The sub-measure performance indicator to assess.
 #' @param steps List of steps (dummy variables) to include in time-series analysis.
 #' @param fit.with Which package to fit Prais-Winsten regression with, options are  \code{both} (default) | \code{panelAR} | \code{prais}
-#' @param plot Generate time-series plot
+#' @param plot Generate time-series plot.
+#' @param common.y Generate all plots with a common y-axis range.
 #' @param theme GGplot2 theme to use (only relevant if \code{plot = TRUE})
 #' @param latex Produce results table in LaTeX format using Stargazer.
 #' @param html Produce results table in HTML format using Stargazer.
@@ -44,6 +45,7 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
                           steps       = c('closure'),
                           fit.with    = 'both',
                           plot        = TRUE,
+                          common.y    = TRUE,
                           theme       = theme_bw(),
                           latex       = FALSE,
                           html        = FALSE,
@@ -107,6 +109,10 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     else if(controls == 'pooled control'){
         ## print('Pooled controls?')
         df <- df
+    }
+    else if(controls == 'none'){
+        case.only <- c('Bishop Auckland', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Hartlepool')
+        df <- dplyr::filter(df, town %in% case.only)
     }
     else{
         stop('You must specify the controls you wish to analyse.  See ?closed_regress for valid options.\n\n')
