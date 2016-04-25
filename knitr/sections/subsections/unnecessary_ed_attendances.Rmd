@@ -1,0 +1,77 @@
+```{r echo = FALSE, cache = FALSE, eval = TRUE}
+load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure.Rda')
+unnecessary_ed_attendances_measure$sub_measure <- unnecessary_ed_attendances_measure$measure
+```
+```{r bishop_unnecessary_attendance_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+bishop.unnecessary.attendance.matched <- closed_regress(df            = unnecessary_ed_attendances_measure,
+                                                        df.steps      = sites,
+	                                                site          = 'Bishop Auckland General Hospital',
+                                                        controls      = 'matched control',
+                                                        indicator     = 'unnecessary ed attendances',
+                                                        sub.indicator = 'unnecessary ed attendances',
+                                                        fit.with      = 'both',
+                                                        plot          = TRUE,
+                                                        common.y      = TRUE,
+                                                        theme         = theme_bw(),
+                                                        latex         = FALSE,
+                                                        html          = FALSE)
+```
+```{r hemel_unnecessary_attendance_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+hemel.unnecessary.attendance.matched <- closed_regress(df            = unnecessary_ed_attendances_measure,
+                                                       df.steps      = sites,
+                                                       site          = 'Hemel Hempstead Hospital',
+                                                       controls      = 'matched control',
+                                                       indicator     = 'unnecessary ed attendances',
+                                                       sub.indicator = 'unnecessary ed attendances',
+                                                       fit.with      = 'both',
+                                                       plot          = TRUE,
+                                                       common.y      = TRUE,
+                                                       theme         = theme_bw(),
+                                                       latex         = FALSE,
+                                                       html          = FALSE)
+```
+```{r newark_unnecessary_attendance_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+newark.unnecessary.attendance.matched <- closed_regress(df            = unnecessary_ed_attendances_measure,
+                                                        df.steps      = sites,
+                                                        site          = 'Newark Hospital',
+                                                        controls      = 'matched control',
+                                                        indicator     = 'unnecessary ed attendances',
+                                                        sub.indicator = 'unnecessary ed attendances',
+                                                        fit.with      = 'both',
+                                                        plot          = TRUE,
+                                                        common.y      = TRUE,
+                                                        theme         = theme_bw(),
+                                                        latex         = FALSE,
+                                                        html          = FALSE)
+```
+```{r rochdale_unnecessary_attendance_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+rochdale.unnecessary.attendance.matched <- closed_regress(df            = unnecessary_ed_attendances_measure,
+                                                          df.steps      = sites,
+	                                                  site          = 'Rochdale Infirmary',
+                                                          controls      = 'matched control',
+                                                          indicator     = 'unnecessary ed attendances',
+                                                          sub.indicator = 'unnecessary ed attendances',
+                                                          fit.with      = 'both',
+                                                          plot          = TRUE,
+                                                          common.y      = TRUE,
+                                                          theme         = theme_bw(),
+                                                          latex         = FALSE,
+                                                          html          = FALSE)
+```
+```{r hartlepool_unnecessary_attendance_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+hartlepool.unnecessary.attendance.matched <- closed_regress(df            = unnecessary_ed_attendances_measure,
+					                    df.steps      = sites,
+                                                            site          = 'University Hospital of Hartlepool',
+                                                            controls      = 'matched control',
+                                                            indicator     = 'unnecessary ed attendances',
+                                                            sub.indicator = 'unnecessary ed attendances',
+                                                            fit.with      = 'both',
+                                                            plot          = TRUE,
+                                                            common.y      = TRUE,
+                                                            theme         = theme_bw(),
+                                                            latex         = FALSE,
+                                                            html          = FALSE)
+```
+```{r echo = FALSE, cache = FALSE, eval = TRUE}
+rm(unnecessary_ed_attendances_measure)
+```
