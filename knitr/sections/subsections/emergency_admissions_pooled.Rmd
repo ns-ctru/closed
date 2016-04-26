@@ -1,0 +1,33 @@
+### Emergency Admissions (All Matched Controls)
+
+
+```{r all_admissions_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
+all.admissions.matched$ts.plot.events
+```
+
+```{r all_admissions_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+all.admissions.matched$panelar %>% summary()
+```
+
+### Emergency Admissions (All Pooled Controls)
+
+
+```{r all_admissions_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = FALSE}
+all.admissions.pooled$ts.plot.events
+```
+
+```{r all_admissions_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
+all.admissions.pooled$panelar %>% summary()
+```
+
+
+
+
+
+```{r echo = FALSE, cache = FALSE, eval = FALSE}
+rm(bishop.admissions.pooled,
+   hemel.admissions.pooled,
+   newark.admissions.pooled,
+   rochdale.admissions.pooled,
+   hartlepool.admissions.pooled)
+```
