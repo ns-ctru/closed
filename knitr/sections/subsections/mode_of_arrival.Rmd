@@ -159,7 +159,7 @@ rochdale.attendance.any.matched <- closed_regress(df            = ed_attendances
                                                   indicator     = 'ed attendances',
                                                   sub.indicator = 'any',
                                                   covariates    = c('time.to.ed', 'town'),
-						  steps         = c('closure')
+						  steps         = c('closure'),
                                                   fit.with      = 'both',
                                                   plot          = TRUE,
                                                   common.y      = TRUE,
@@ -249,20 +249,101 @@ hartlepool.attendance.other.matched <- closed_regress(df            = ed_attenda
                                                     latex         = FALSE,
                                                     html          = FALSE)
 ```
-```{r all_attendance_any_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+```{r all_attendance_any_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 all.attendance.any.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
                                              df.steps      = sites,
                                              site          = 'All',
                                              controls      = 'matched control',
                                              indicator     = 'ed attendances',
                                              sub.indicator = 'any',
-covariates = c('time.to.ed', 'town'),
+                                             covariates    = c('time.to.ed'),
+					     steps         = c('closure'),
                                              fit.with      = 'both',
                                              plot          = TRUE,
                                              common.y      = TRUE,
                                              theme         = theme_bw(),
                                              latex         = FALSE,
                                              html          = FALSE)
+```
+```{r all_attendance_ambulance_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+all.attendance.ambulance.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
+                                                   df.steps      = sites,
+                                                   site          = 'All',
+                                                   controls      = 'matched control',
+                                                   indicator     = 'ed attendances',
+                                                   sub.indicator = 'ambulance',
+                                                   covariates    = c('time.to.ed'),
+			      		     steps         = c('closure'),
+                                                   fit.with      = 'both',
+                                                   plot          = TRUE,
+                                                   common.y      = TRUE,
+                                                   theme         = theme_bw(),
+                                                   latex         = FALSE,
+                                                   html          = FALSE)
+```
+```{r all_attendance_other_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+all.attendance.other.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
+                                               df.steps      = sites,
+                                               site          = 'All',
+                                               controls      = 'matched control',
+                                               indicator     = 'ed attendances',
+                                               sub.indicator = 'other',
+                                               covariates    = c('time.to.ed'),
+                                               steps         = c('closure'),
+                                               fit.with      = 'both',
+                                               plot          = TRUE,
+                                               common.y      = TRUE,
+                                               theme         = theme_bw(),
+                                               latex         = FALSE,
+                                               html          = FALSE)
+```
+```{r all_attendance_any_pooled, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+all.attendance.any.pooled <- closed_regress(df            = ed_attendances_by_mode_measure,
+                                             df.steps      = sites,
+                                             site          = 'All',
+                                             controls      = 'pooled control',
+                                             indicator     = 'ed attendances',
+                                             sub.indicator = 'any',
+                                             covariates    = c('time.to.ed'),
+					     steps         = c('closure'),
+                                             fit.with      = 'both',
+                                             plot          = TRUE,
+                                             common.y      = TRUE,
+                                             theme         = theme_bw(),
+                                             latex         = FALSE,
+                                             html          = FALSE)
+```
+```{r all_attendance_ambulance_pooled, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+all.attendance.ambulance.pooled <- closed_regress(df            = ed_attendances_by_mode_measure,
+                                                   df.steps      = sites,
+                                                   site          = 'All',
+                                                   controls      = 'pooled control',
+                                                   indicator     = 'ed attendances',
+                                                   sub.indicator = 'ambulance',
+                                                   covariates    = c('time.to.ed'),
+			      		     steps         = c('closure'),
+                                                   fit.with      = 'both',
+                                                   plot          = TRUE,
+                                                   common.y      = TRUE,
+                                                   theme         = theme_bw(),
+                                                   latex         = FALSE,
+                                                   html          = FALSE)
+```
+```{r all_attendance_other_pooled, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+all.attendance.other.pooled <- closed_regress(df            = ed_attendances_by_mode_measure,
+                                               df.steps      = sites,
+                                               site          = 'All',
+                                               controls      = 'pooled control',
+                                               indicator     = 'ed attendances',
+                                               sub.indicator = 'other',
+                                               covariates    = c('time.to.ed'),
+                                               steps         = c('closure'),
+                                               fit.with      = 'both',
+                                               plot          = TRUE,
+                                               common.y      = TRUE,
+                                               theme         = theme_bw(),
+                                               latex         = FALSE,
+                                               html          = FALSE)
 ```
 ```{r echo = FALSE, cache = FALSE, eval = FALSE}
 rm(ed_attendances_by_mode_measure)
