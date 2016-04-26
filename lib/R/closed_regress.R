@@ -133,7 +133,9 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
         panel <- 'town'
         ## MUST collapse down the data to site because there are too many LSOAs for
         ## the Virtual Machine to handle (requires 80GB RAM, only have 16GB)
-        df <- group_by(df, town)
+        df <- group_by(df, town, yearmonth) %>%
+              summarise(time.to.ed     = mean(time.to.ed),
+                        value          = sum(value))
     }
     else{
         stop('You must specify the site you wish to analyse.  See ?closed_regress for valid options\n\n')
