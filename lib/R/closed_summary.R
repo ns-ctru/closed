@@ -13,6 +13,7 @@
 #' @param df.steps Data frame containing steps for all sites.
 #' @param vars The variable to summarise (default is \code{value} and shouldn't need changing).
 #' @param digits Number of digits to include in formatted output.
+#' @param theme GGplot2 theme to use.
 #' @param latex Produce results table in LaTeX format using Stargazer.
 #' @param html Produce results table in HTML format using Stargazer.
 #'
@@ -35,6 +36,7 @@ closed_summary <- function(df          = unnecessary_ed_attendances_measure,
                            df.steps    = sites,
                            vars        = value,
                            digits      = 3,
+                           theme       = theme_bw(),
                            latex       = FALSE,
                            html        = FALSE,
                            ...){
@@ -63,6 +65,18 @@ closed_summary <- function(df          = unnecessary_ed_attendances_measure,
     df <- within(df, {
             closure[yearmonth >= closure.date] <- 1
     })
+    #######################################################################
+    ## Plot the distribution of Time to ED by site pre/post closure      ##
+    #######################################################################
+    df$closure.label <- "Open"
+    df$closure.label[df$closure == 1] <- "Closed"
+    results$df <- df
+    results$plot.time.to.ed <- ggplot(df, aes(time.to.ed)) + geom_histogram() +
+                               facet_grid(town ~ closure.label)
+    ## Apply the user-specified theme
+    if(!is.null(theme)){
+        results$plot.time.to.ed <- results$plot.time.to.ed + theme
+    }
     #######################################################################
     ## Summarise                                                         ##
     #######################################################################
