@@ -219,6 +219,20 @@ hartlepool.attendance.other.matched <- closed_regress(df            = ed_attenda
                                                     latex         = FALSE,
                                                     html          = FALSE)
 ```
+```{r all_attendance_any_matched, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+all.attendance.any.matched <- closed_regress(df            = ed_attendances_by_mode_measure,
+                                             df.steps      = sites,
+                                             site          = 'All',
+                                             controls      = 'matched control',
+                                             indicator     = 'ed attendances',
+                                             sub.indicator = 'any',
+                                             fit.with      = 'both',
+                                             plot          = TRUE,
+                                             common.y      = TRUE,
+                                             theme         = theme_bw(),
+                                             latex         = FALSE,
+                                             html          = FALSE)
+```
 ```{r echo = FALSE, cache = FALSE, eval = TRUE}
 rm(ed_attendances_by_mode_measure)
 ```
