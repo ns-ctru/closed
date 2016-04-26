@@ -55,10 +55,6 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     #######################################################################
     ## Initialise results list for returning everything
     results <- list()
-    ## Build the regerssion model
-    ## ToDo - Create formula from specified steps
-    .formula <- reformulate(response   = 'value',
-                            termlabels = c('town', 'time.to.ed', steps))
     ## Convert to data frame
     df <- as.data.frame(df)
     ## Convert variable names for ease of typing within this function
@@ -119,10 +115,25 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
         }
         ## print('Site?')
         df <- dplyr::filter(df, group == site)
+        ## Build the regerssion model, because this is site specific the panels are LSOAs
+        ## and a dummy term for the EDs being compared can be included
+        ## ToDo - Create formula from specified steps
+        .formula <- reformulate(response   = 'value',
+                                termlabels = c('town', 'time.to.ed', steps))
+        panel <- 'lsoa'
     }
     else if(site == 'All'){
         ## print('All?')
         df <- df
+        ## Build the regerssion model, because this is site specific the panels are LSOAs
+        ## and a dummy term for the EDs being compared can be included
+        ## ToDo - Create formula from specified steps
+        .formula <- reformulate(response   = 'value',
+                                termlabels = c('time.to.ed', steps))
+        panel <- 'town'
+        ## MUST collapse down the data to site because there are too many LSOAs for
+        ## the Virtual Machine to handle (requires 80GB RAM, only have 16GB)
+        df <- group_by(df, town)
     }
     else{
         stop('You must specify the site you wish to analyse.  See ?closed_regress for valid options\n\n')
@@ -223,6 +234,11 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
         results$by.town <- group_by(df, town, yearmonth) %>%
                            summarise(n = sum(value))
         ## Generate graph
+        ## ToDo - Winsorise the data and break plotting when there are gaps
+        ##        See https://stackoverflow.com/questions/14821064/line-break-when-no-data-in-ggplot2
+        ##        for how to break lines when plotting (derive new variable for groups) once the data
+        ##        has been winsorised (method currently pending, but possibly convert values <10% and
+        ##        > 90% for pre-step/post-step within sites)
         results$ts.plot.events <- ggplot(data    = results$by.town,
                                          mapping = aes(x = yearmonth,
                                                        y = n,
@@ -261,13 +277,14 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     if(fit.with == 'panelAR' | fit.with == 'both'){
         ## Define time as an integer
         df$time <- as.integer(df$yearmonth)
-        typeof(df$time) %>% print()
-        table(df$time, useNA = "ifany") %>% print()
+        ## typeof(df$time) %>% print()
+        ## table(df$time, useNA = "ifany") %>% print()
+        results$df <- df
         ## Run regression, saving all results for returning
         results$panelar <- panelAR(formula         = .formula,
                                    data            = df,
                                    timeVar         = 'time',
-                                   panelVar        = 'lsoa',
+                                   panelVar        = panel,
                                    autoCorr        = 'ar1',
                                    ## ToDo - Make this a flexible option?
                                    panelCorrMethod = 'pcse')
