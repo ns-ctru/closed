@@ -66,6 +66,41 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     ## tedious to type)
     names(df) <- names(df) %>%
         gsub("_", ".", x = .)
+    ## Conditionally select range for y-axis, MUST do this BEFORE subsetting
+    ## data so that it is common across all outcomes for the given indicator
+    if(common.y == TRUE){
+        ## Set the sites to include
+        if(site != 'All' & controls != 'none'){
+            site.town <- c('Bishop Auckland', 'Whitehaven',
+                           'Hemel Hempstead', 'Warwick',
+                           'Newark',          'Southport',
+                           'Rochdale',        'Rotherham',
+                           'Hartlepool',      'Grimsby')
+            y.max <- dplyr::filter(df, measure == indicator & sub.measure == sub.indicator & town %in% site.town) %>%
+                     group_by(town, yearmonth) %>%
+                     summarise(n = sum(value))
+        }
+        else if(site == 'All' & controls == 'none'){
+            site.town <- c('Bishop Auckland',
+                           'Hemel Hempstead',
+                           'Newark',
+                           'Rochdale',
+                           'Hartlepool')
+            y.max <- dplyr::filter(df, measure == indicator & sub.measure == sub.indicator & town %in% site.town) %>%
+                     group_by(town, yearmonth) %>%
+                     summarise(n = sum(value))
+        }
+        else if(site == 'All' & controls != 'none'){
+            y.max <- dplyr::filter(df, measure == indicator & sub.measure == sub.indicator) %>%
+                     group_by(town, yearmonth) %>%
+                     summarise(n = sum(value))
+        }
+        ## y.max <- dplyr::filter(df, measure == indicator & sub.measure == sub.indicator) %>%
+        ##          group_by(town, yearmonth) %>%
+        ##          summarise(n = sum(value))
+        y.max <- max(y.max$n) %>%
+                 round(-2)
+    }
     ## Need to translate the supplied 'site' (which is compared against 'group')
     ## to the corresponding town so that
     if(site == 'Bishop Auckland General Hospital') site.town       <- 'Bishop Auckland'
@@ -206,7 +241,11 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
                                                date_minor_breaks = '1 month') +
                                   theme(axis.text.x = element_text(angle = 45,
                                                                    hjust = 1))
-
+        ## Conditionally make y-axis common
+        if(common.y == TRUE){
+            results$ts.plot.events <- results$ts.plot.events +
+                                      expand_limits(y = c(0, y.max))
+        }
         ## Apply the user-specified theme
         if(!is.null(theme)){
             results$ts.plot.events <- results$ts.plot.events + theme +
