@@ -13,6 +13,7 @@
 #' @param controls The controls which should be included and analysed, choose from \code{matched} (default and only option if \code{group = 'All'}) | \code{pooled} | \code{none}.
 #' @param indicator The performance indicator to assess.
 #' @param sub.indicator The sub-measure performance indicator to assess.
+#' @param covariates The covariates to include in the model.
 #' @param steps List of steps (dummy variables) to include in time-series analysis.
 #' @param fit.with Which package to fit Prais-Winsten regression with, options are  \code{both} (default) | \code{panelAR} | \code{prais}
 #' @param plot Generate time-series plot.
@@ -35,20 +36,21 @@
 #' @references
 #'
 #' @export
-closed_regress<- function(df          = ed_attendances_by_mode_measure,
+closed_regress<- function(df            = ed_attendances_by_mode_measure,
                           ## ToDo - Switch sites to steps when all steps are available
-                          df.steps    = sites,
-                          site        = 'Bishop Auckland General Hospital',
-                          controls    = 'matched control',
+                          df.steps      = sites,
+                          site          = 'Bishop Auckland General Hospital',
+                          controls      = 'matched control',
                           indicator     = 'ed attendances',
                           sub.indicator = 'any',
-                          steps       = c('closure'),
-                          fit.with    = 'both',
-                          plot        = TRUE,
-                          common.y    = TRUE,
-                          theme       = theme_bw(),
-                          latex       = FALSE,
-                          html        = FALSE,
+                          covariates    = c('time.to.ed')
+                          steps         = c('closure'),
+                          fit.with      = 'both',
+                          plot          = TRUE,
+                          common.y      = TRUE,
+                          theme         = theme_bw(),
+                          latex         = FALSE,
+                          html          = FALSE,
                           ...){
     #######################################################################
     ## Set up (results, formula, renaming variables)                     ##
@@ -94,9 +96,8 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
         ## y.max <- dplyr::filter(df, measure == indicator & sub.measure == sub.indicator) %>%
         ##          group_by(town, yearmonth) %>%
         ##          summarise(n = sum(value))
-        data.frame(y.max) %>% print()
         y.max <- max(y.max$n) %>%
-            round(-2)
+                 round(-2)
     }
     ## Need to translate the supplied 'site' (which is compared against 'group')
     ## to the corresponding town so that
@@ -105,6 +106,11 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     else if(site == 'Newark Hospital') site.town                   <- 'Newark'
     else if(site == 'Rochdale Infirmary') site.town                <- 'Rochdale'
     else if(site == 'University Hospital of Hartlepool') site.town <- 'Hartlepool'
+    ## Build the regerssion model, because this is site specific the panels are LSOAs
+    ## and a dummy term for the EDs being compared can be included
+    ## ToDo - Create formula from specified steps
+    .formula <- reformulate(response   = 'value',
+                            termlabels = c(covariates, steps))
     #######################################################################
     ## Filter data                                                       ##
     #######################################################################
@@ -115,27 +121,18 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
         }
         ## print('Site?')
         df <- dplyr::filter(df, group == site)
-        ## Build the regerssion model, because this is site specific the panels are LSOAs
-        ## and a dummy term for the EDs being compared can be included
-        ## ToDo - Create formula from specified steps
-        .formula <- reformulate(response   = 'value',
-                                termlabels = c('town', 'time.to.ed', steps))
+        ## Set the panel
         panel <- 'lsoa'
     }
     else if(site == 'All'){
         ## print('All?')
-        df <- df
-        ## Build the regerssion model, because this is site specific the panels are LSOAs
-        ## and a dummy term for the EDs being compared can be included
-        ## ToDo - Create formula from specified steps
-        .formula <- reformulate(response   = 'value',
-                                termlabels = c('time.to.ed', steps))
-        panel <- 'town'
         ## MUST collapse down the data to site because there are too many LSOAs for
         ## the Virtual Machine to handle (requires 80GB RAM, only have 16GB)
-        df <- group_by(df, town, yearmonth) %>%
+        df <- group_by(df, town, yearmonth, measure, sub.measure, site.type, group) %>%
               summarise(time.to.ed     = mean(time.to.ed),
                         value          = sum(value))
+        ## Set the panel
+        panel <- 'town'
     }
     else{
         stop('You must specify the site you wish to analyse.  See ?closed_regress for valid options\n\n')
@@ -281,7 +278,11 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
         df$time <- as.integer(df$yearmonth)
         ## typeof(df$time) %>% print()
         ## table(df$time, useNA = "ifany") %>% print()
-        results$df <- df
+        ## results$.formula <- .formula
+        ## results$panel <- panel
+        ## results$df <- df
+        ## Need to un-dplyr the data frame
+        df <- as.data.frame(df)
         ## Run regression, saving all results for returning
         results$panelar <- panelAR(formula         = .formula,
                                    data            = df,
