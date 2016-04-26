@@ -63,16 +63,30 @@ closed_summary <- function(df          = unnecessary_ed_attendances_measure,
     ## ToDo - Make this flexible for all steps
     df$closure <- 0
     df <- within(df, {
-            closure[yearmonth >= closure.date] <- 1
+                  closure[yearmonth >= closure.date] <- 1
     })
     #######################################################################
     ## Plot the distribution of Time to ED by site pre/post closure      ##
     #######################################################################
-    df$closure.label <- "Open"
-    df$closure.label[df$closure == 1] <- "Closed"
-    results$df <- df
-    results$plot.time.to.ed <- ggplot(df, aes(time.to.ed)) + geom_histogram() +
-                               facet_grid(town ~ closure.label)
+    ## Function to calculate mode
+    mode <- function(x){
+        ux <- unique(x)
+        ux[which.max(tabulate(match(x, ux)))]
+    }
+    ## Collapse data, don't need repeated observations over time
+    to.plot <- group_by(df, town, lsoa, closure) %>%
+               summarise(time.to.ed = mode(time.to.ed))
+    open   <- dplyr::filter(to.plot, closure == 0)
+    closed <- dplyr::filter(to.plot, closure == 1) %>%
+              dplyr::filter(town %in% c('Bishop Auckland', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Hartlepool'))
+    to.plot <- rbind(open, closed)
+    rm(open, closed)
+    to.plot$closure.label <- "Open"
+    to.plot$closure.label[to.plot$closure == 1] <- "Closed"
+    results$plot.time.to.ed <- ggplot(to.plot, aes(time.to.ed)) + geom_histogram() +
+                               facet_grid(town ~ closure.label) +
+                               xlab('Time to ED (minutes)') + ylab('N') +
+                               ggtitle('Time to ED from LSOAs')
     ## Apply the user-specified theme
     if(!is.null(theme)){
         results$plot.time.to.ed <- results$plot.time.to.ed + theme
