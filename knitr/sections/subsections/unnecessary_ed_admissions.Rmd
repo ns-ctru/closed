@@ -97,6 +97,22 @@ all.unnecessary.admissions.matched <- closed_regress(df            = avoidable_e
                                                      latex         = FALSE,
                                                      html          = FALSE)
 ```
+```{r all_unnecessary_admissions_pooled, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+all.unnecessary.admissions.pooled <- closed_regress(df            = avoidable_emergency_admissions_measure,
+					            df.steps      = sites,
+		                                    site          = 'All',
+                                                    controls      = 'pooled control',
+                                                    indicator     = 'avoidable emergency admissions',
+                                                    covariates    = c('time.to.ed'),
+                                                    steps         = c('closure'),
+                                                    sub.indicator = 'any',
+                                                    fit.with      = 'both',
+                                                    plot          = TRUE,
+                                                    common.y      = TRUE,
+                                                    theme         = theme_bw(),
+                                                    latex         = FALSE,
+                                                    html          = FALSE)
+```
 ```{r echo = FALSE, cache = FALSE, eval = TRUE}
 rm(avoidable_emergency_admissions_measure)
 ```
