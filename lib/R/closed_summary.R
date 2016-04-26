@@ -109,7 +109,7 @@ closed_summary <- function(df          = unnecessary_ed_attendances_measure,
                                                   formatC(time.to.ed.q75, digits = 1, format = 'f'),
                                                   ')')
                                 }) %>%
-                         dplyr::select(group, town, closure, ed.status, mean.sd, range, median.iqr, n)
+                         dplyr::select(group, town, closure, ed.status, mean.sd, range, median.iqr)
     ## Derive groups and order variables
     results$formatted$order1 <- 1
     results$formatted$order2 <- 1
@@ -133,7 +133,7 @@ closed_summary <- function(df          = unnecessary_ed_attendances_measure,
                                 order2[town  == 'Salisbury']       <- 3
                                 order2[town  == 'Southport']       <- 4
                                 order2[town  == 'Rochdale']        <- 1
-                                order2[town  == 'Rotheram']        <- 2
+                                order2[town  == 'Rotherham']       <- 2
                                 order2[town  == 'Scunthorpe']      <- 3
                                 order2[town  == 'Wansbeck']        <- 4
                                 order2[town  == 'Hartlepool']      <- 1
@@ -144,7 +144,7 @@ closed_summary <- function(df          = unnecessary_ed_attendances_measure,
                                 order3[closure == 'Closed'] <- 2
                                 }) %>%
                          arrange(order1, order2) %>%
-                         dplyr::select(town, ed.status, mean.sd, range, median.iqr, n)
+                         dplyr::select(town, ed.status, mean.sd, range, median.iqr)
     names(results$formatted) <- c('Town', 'ED Status', 'Mean (SD)', 'Range', 'Median (IQR)')
     ## Return results
     return(results)
