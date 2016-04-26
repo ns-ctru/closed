@@ -100,6 +100,22 @@ all.admissions.matched <- closed_regress(df            = emergency_admissions_me
                                          latex         = FALSE,
                                          html          = FALSE)
 ```
+```{r all_admissions_pooled, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+all.admissions.pooled <- closed_regress(df            = emergency_admissions_measure,
+                                         df.steps      = sites,
+                                         site          = 'All',
+                                         controls      = 'pooled control',
+                                         indicator     = 'all emergency admissions',
+                                         sub.indicator = 'all emergency admissions',
+                                         covariates    = c('time.to.ed'),
+                                         steps         = c('closure'),
+                                         fit.with      = 'both',
+                                         plot          = TRUE,
+					 common.y      = TRUE,
+                                         theme         = theme_bw(),
+                                         latex         = FALSE,
+                                         html          = FALSE)
+```
 ```{r echo = FALSE, cache = FALSE, eval = TRUE}
 rm(emergency_admissions_measure)
 ```
