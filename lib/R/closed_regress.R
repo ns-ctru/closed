@@ -98,8 +98,9 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
         ## y.max <- dplyr::filter(df, measure == indicator & sub.measure == sub.indicator) %>%
         ##          group_by(town, yearmonth) %>%
         ##          summarise(n = sum(value))
+        data.frame(y.max) %>% print()
         y.max <- max(y.max$n) %>%
-                 round(-2)
+            round(-2)
     }
     ## Need to translate the supplied 'site' (which is compared against 'group')
     ## to the corresponding town so that
@@ -260,8 +261,8 @@ closed_regress<- function(df          = ed_attendances_by_mode_measure,
     if(fit.with == 'panelAR' | fit.with == 'both'){
         ## Define time as an integer
         df$time <- as.integer(df$yearmonth)
-        ## typeof(df$time) %>% print()
-        ## table(df$time, useNA = "ifany") %>% print()
+        typeof(df$time) %>% print()
+        table(df$time, useNA = "ifany") %>% print()
         ## Run regression, saving all results for returning
         results$panelar <- panelAR(formula         = .formula,
                                    data            = df,
