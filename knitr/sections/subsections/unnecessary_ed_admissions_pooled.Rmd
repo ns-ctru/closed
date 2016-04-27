@@ -1,53 +1,24 @@
-## Potential Avoidable Emergency Admissions (Pooled & Matched Controls)
+### Potential Avoidable Emergency Admissions (All Matched Controls)
 
 
-### Bishop Auckland General Hospital
-```{r bishop_unnecessary_admissions_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-bishop.unnecessary.admissions.pooled$ts.plot.events
+```{r all_unnecessary_admissions_matched_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
+all.unnecessary.admissions.matched$ts.plot.events
 ```
 
-```{r bishop_unnecessary_admissions_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-bishop.unnecessary.admissions.pooled$panelar %>% summary()
+```{r all_unnecessary_admissions_matched_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+all.unnecessary.admissions.matched$panelar %>% summary()
 ```
 
+### Potential Avoidable Emergency Admissions (All Pooled Controls)
 
-### Hemel Hempstead Hospital
-```{r hemel_unnecessary_admissions_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-hemel.unnecessary.admissions.pooled$ts.plot.events
+
+```{r all_unnecessary_admissions_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = FALSE}
+all.unnecessary.admissions.pooled$ts.plot.events
 ```
 
-```{r hemel_unnecessary_admissions_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-hemel.unnecessary.admissions.pooled$panelar %>% summary()
+```{r all_unnecessary_admissions_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
+all.unnecessary.admissions.pooled$panelar %>% summary()
 ```
-
-
-### Newark Hospital
-```{r newark_unnecessary_admissions_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-newark.unnecessary.admissions.pooled$ts.plot.events
-```
-
-```{r newark_unnecessary_admissions_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-newark.unnecessary.admissions.pooled$panelar %>% summary()
-```
-
-### Rochdale Infirmary
-```{r rochdale_unnecessary_admissions_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-rochdale.unnecessary.admissions.pooled$ts.plot.events
-```
-
-```{r rochdale_unnecessary_admissions_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-rochdale.unnecessary.admissions.pooled$panelar %>% summary()
-```
-
-
-### University Hospital of Hartlepool
-```{r hartlepool_unnecessary_admissions_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-hartlepool.unnecessary.admissions.pooled$ts.plot.events
-```
-```{r hartlepool_unnecessary_admissions_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-hartlepool.unnecessary.admissions.pooled$panelar %>% summary()
-```
-
 
 
 
