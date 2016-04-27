@@ -1,10 +1,7 @@
-### Mortality
-
 ```{r echo = FALSE, cache = FALSE, eval = FALSE}
 load('d:/Rpackages/rclosed/data/ed attendances by mode measure.Rda')
 ```
 
-#### Bishop Auckland General Hospital
 
 ```{r echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
 bishop.attendance.arrival.any <- closed_regress(df            = ed_attendances_by_mode_measure,
@@ -21,16 +18,6 @@ bishop.attendance.arrival.any <- closed_regress(df            = ed_attendances_b
 ```
 
 
-#### Hemel Hempstead Hospital
-
-
-#### Newark Hospital
-
-
-#### Rochdale Infirmary
-
-
-#### University Hospital of Hartlepool
 
 
 
