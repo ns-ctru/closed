@@ -1,5 +1,3 @@
-## Summary
-
 ### Time to Emergency Department
 
 The time to emergency department from the centroid of Lower Super Output Areas (LSOA) is summarised for each site in the table below.  For sites where an Emergency Department (ED) closed there are two summaries, one when the ED was open and another summarising travel times after they had closed.
