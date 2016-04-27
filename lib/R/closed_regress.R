@@ -43,7 +43,7 @@ closed_regress<- function(df            = ed_attendances_by_mode_measure,
                           controls      = 'matched control',
                           indicator     = 'ed attendances',
                           sub.indicator = 'any',
-                          covariates    = c('time.to.ed')
+                          covariates    = c('time.to.ed'),
                           steps         = c('closure'),
                           fit.with      = 'both',
                           plot          = TRUE,
@@ -174,12 +174,23 @@ closed_regress<- function(df            = ed_attendances_by_mode_measure,
     if(site != 'All'){
         df$closure <- 0
         df <- within(df, {
-            closure[town == site.town & yearmonth >= closure.date] <- 1
+                     closure[town == site.town & yearmonth >= closure.date] <- 1
         })
+        ## Select out data points that are -/+ 2 years either side of the closure date
+        ## results$df <- df
+        ## return(results)
+        df <- mutate(df,
+                     diff = as.numeric(closure.date) - as.numeric(yearmonth)) %>%
+              dplyr::filter(diff < -730 | diff > 730)
     }
     else if(site == 'All'){
-        df <- group_by(df, town) %>%
-              mutate(closure = ifelse(yearmonth >= closure.date, 1, 0))
+        df <- mutate(df,
+                     first.closure = min(closure.date),
+                     last.closure  = max(closure.date)) %>%
+            dplyr::filter(as.numeric(first.closure) - as.numeric(yearmonth) < -730 |
+                          as.numeric(last.closure)  - as.numeric(yearmonth) >  730)
+        ## Select out data points that are -/+ 2 years from the lowest and highest
+        ## closure dates
     }
     ## Combine data with steps
     ## results$df <- df
