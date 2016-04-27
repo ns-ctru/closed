@@ -320,8 +320,8 @@ all.attendance.ambulance.pooled <- closed_regress(df            = ed_attendances
                                                    controls      = 'pooled control',
                                                    indicator     = 'ed attendances',
                                                    sub.indicator = 'ambulance',
-                                                   covariates    = c('time.to.ed'),
-			      		     steps         = c('closure'),
+                                                   covariates    = c(''),
+                                                   steps         = c('closure'),
                                                    fit.with      = 'both',
                                                    plot          = TRUE,
                                                    common.y      = TRUE,
@@ -336,7 +336,7 @@ all.attendance.other.pooled <- closed_regress(df            = ed_attendances_by_
                                                controls      = 'pooled control',
                                                indicator     = 'ed attendances',
                                                sub.indicator = 'other',
-                                               covariates    = c('time.to.ed'),
+                                               covariates    = c(''),
                                                steps         = c('closure'),
                                                fit.with      = 'both',
                                                plot          = TRUE,
@@ -346,5 +346,28 @@ all.attendance.other.pooled <- closed_regress(df            = ed_attendances_by_
                                                html          = FALSE)
 ```
 ```{r echo = FALSE, cache = FALSE, eval = FALSE}
+## Save results for subsequent loading
+save(bishop.attendance.any.matched,
+     bishop.attendance.ambulance.matched,
+     bishop.attendance.other.matched,
+     hemmel.attendance.any.matched,
+     hemmel.attendance.ambulance.matched,
+     hemmel.attendance.other.matched,
+     newark.attendance.any.matched,
+     newark.attendance.ambulance.matched,
+     newark.attendance.other.matched,
+     rochdale.attendance.any.matched,
+     rochdale.attendance.ambulance.matched,
+     rochdale.attendance.other.matched,
+     hartlepool.attendance.any.matched,
+     hartlepool.attendance.ambulance.matched,
+     hartlepool.attendance.other.matched,
+     all.attendance.any.matched,
+     all.attendance.ambulance.matched,
+     all.attendance.other.matched,
+     all.attendance.any.pooled,
+     all.attendance.ambulance.pooled,
+     all.attendance.other.pooled,
+     file = 'data/mode_of_arrival.RData')
 rm(ed_attendances_by_mode_measure)
 ```
