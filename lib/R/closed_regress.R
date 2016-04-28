@@ -15,10 +15,11 @@
 #' @param sub.indicator The sub-measure performance indicator to assess.
 #' @param covariates The covariates to include in the model.
 #' @param steps List of steps (dummy variables) to include in time-series analysis.
-#' @param fit.with Which package to fit Prais-Winsten regression with, options are  \code{both} (default) | \code{panelAR} | \code{prais}
+#' @param fit.with Which package to fit Prais-Winsten regression with, options are  \code{both} (default) | \code{panelAR} | \code{prais}.
 #' @param plot Generate time-series plot.
 #' @param common.y Generate all plots with a common y-axis range.
-#' @param theme GGplot2 theme to use (only relevant if \code{plot = TRUE})
+#' @param theme GGplot2 theme to use (only relevant if \code{plot = TRUE}).
+#' @param return.df Logical operator of whether to return the subsetted/summarised data frame (useful for subsequent development).
 #' @param latex Produce results table in LaTeX format using Stargazer.
 #' @param html Produce results table in HTML format using Stargazer.
 #'
@@ -49,6 +50,7 @@ closed_regress<- function(df            = ed_attendances_by_mode_measure,
                           plot          = TRUE,
                           common.y      = TRUE,
                           theme         = theme_bw(),
+                          return.df     = FALSE,
                           latex         = FALSE,
                           html          = FALSE,
                           ...){
@@ -172,6 +174,7 @@ closed_regress<- function(df            = ed_attendances_by_mode_measure,
     ## ToDo - Make this flexible for all steps
     ## ToDo - Probably don't need the if() else if()
     if(site != 'All'){
+        ## Add dummy for closure
         df$closure <- 0
         df <- within(df, {
                      closure[town == site.town & yearmonth >= closure.date] <- 1
@@ -184,16 +187,19 @@ closed_regress<- function(df            = ed_attendances_by_mode_measure,
               dplyr::filter(diff < -730 | diff > 730)
     }
     else if(site == 'All'){
+        ## ToDo - Dummy for sites with closures
+        ## Select out data points that are -/+ 2 years from the lowest and highest
+        ## closure dates
         df <- mutate(df,
                      first.closure = min(closure.date),
                      last.closure  = max(closure.date)) %>%
             dplyr::filter(as.numeric(first.closure) - as.numeric(yearmonth) < -730 |
                           as.numeric(last.closure)  - as.numeric(yearmonth) >  730)
-        ## Select out data points that are -/+ 2 years from the lowest and highest
-        ## closure dates
     }
-    ## Combine data with steps
-    ## results$df <- df
+    ## Optionally return results
+    if(return.df == TRUE){
+        results$df <- df
+    }
     #######################################################################
     ## Plot the data                                                     ##
     #######################################################################
