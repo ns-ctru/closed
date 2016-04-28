@@ -122,6 +122,6 @@ save(bishop.unnecessary.admissions.matched,
      hartlepool.unnecessary.admissions.matched,
      all.unnecessary.admissions.matched,
 #     all.unnecessary.admissions.pooled,
-     file = '../lib/data/unnecessary_ed_admissions.RData')
+     file = '\\\\tsclient/hamilton/lib/data/unnecessary_ed_admissions.RData')
 rm(avoidable_emergency_admissions_measure)
 ```
