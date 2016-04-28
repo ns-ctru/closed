@@ -12,6 +12,8 @@ time.to.ed <- closed_summary(df          = unnecessary_ed_attendances_measure,
                              html        = FALSE)
 kable(time.to.ed$formatted)
 time.to.ed$plot.time.to.ed
+save(time.to.ed,
+     file = 'data/summary.RData')
 ```
 
 
