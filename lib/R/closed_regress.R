@@ -188,6 +188,11 @@ closed_regress<- function(df            = ed_attendances_by_mode_measure,
     }
     else if(site == 'All'){
         ## ToDo - Dummy for sites with closures
+        case.only <- c('Bishop Auckland', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Hartlepool')
+        df$closure <- 0
+        df <- within(df, {
+                     closure[town %in% case.only & yearmonth >= closure.date] <- 1
+        })
         ## Select out data points that are -/+ 2 years from the lowest and highest
         ## closure dates
         df <- mutate(df,
@@ -312,6 +317,14 @@ closed_regress<- function(df            = ed_attendances_by_mode_measure,
         results$coefficients      <- summary(results$panelar) %>%
                                      coef() %>%
                                      as.data.frame()
+        rownames(results$coefficients) <- gsub('town', '', rownames(results$coefficients))
+        if(site == 'All'){
+            site <- paste0(site,
+                           ' (',
+                           controls,
+                           ')')
+        }
+        results$coefficients$town <- site
         ## results$coefficients$term <- rownames(results$coefficients)
         ## results$coefficients$site <- site
         results$r2 <- results$panelar$r2
