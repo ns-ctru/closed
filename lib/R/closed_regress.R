@@ -317,17 +317,21 @@ closed_regress<- function(df            = ed_attendances_by_mode_measure,
         results$coefficients      <- summary(results$panelar) %>%
                                      coef() %>%
                                      as.data.frame()
-        rownames(results$coefficients) <- gsub('town', '', rownames(results$coefficients))
+        ## Add coefficient names as column to df
+        results$coefficients$term <- rownames(results$coefficients)
+        ## results$coefficients$term <- gsub('town', '', results$coefficients$term)
+        ## results$coefficients$term <- gsub('time.to.ed', 'Time to ED', results$coefficients$term)
+        ## results$coefficients$term <- gsub('\\(Intercept\\)', 'Intercept', results$coefficients$term)
+        ## results$coefficients$term <- gsub('closure', 'Closure', results$coefficients$term)
+        ## ToDo - Add in other steps when available
+        rownames(results$coefficients) <- NULL
+        ## Add site, indicator and sub-indicator
         if(site == 'All'){
             site <- paste0(site,
                            ' (',
                            controls,
                            ')')
         }
-        ## Add coefficient names as column to df
-        results$coefficients$term <- rownames(results$coefficients)
-        rownames(results$coefficients) <- NULL
-        ## Add site, indicator and sub-indicator
         results$coefficients$town          <- site
         results$coefficients$indicator     <- indicator
         results$coefficients$sub.indicator <- sub.indicator
