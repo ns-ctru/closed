@@ -30,14 +30,14 @@
 #' @references
 #'
 #' @export
-closed_forest <- function(df.list     = c(bishop.attendance.any.matched$coefficients,
-                                          hartlepool.attendance.any.matched$coefficients,
-                                          hemel.attendance.any.matched$coefficients,
-                                          newark.attendance.any.matched$coefficients,
-                                          rochdale.attendance.any.matched$coefficients,
-                                          all.attendance.any.matched$coefficients), ## ToDo - Add all pooled and case only
-                          term        = 'closure',
-                          title       = 'ED Attendance (Any)',
+closed_forest <- function(df.list     = list(bishop.attendance.any.matched$coefficients,
+                                             hartlepool.attendance.any.matched$coefficients,
+                                             hemel.attendance.any.matched$coefficients,
+                                             newark.attendance.any.matched$coefficients,
+                                             rochdale.attendance.any.matched$coefficients),
+##                                             all.attendance.any.matched$coefficients), ## ToDo - Add all pooled and case only
+                          plot.term   = c('closure', 'time.to.ed'),
+                          title       = c('ED Attendance (Any)', 'Site v Matched Control'),
                           digits      = 3,
                           theme       = theme_bw(),
                           latex       = FALSE,
@@ -47,10 +47,10 @@ closed_forest <- function(df.list     = c(bishop.attendance.any.matched$coeffici
     results <- list()
     ## Set label for x-axis based on term
     ## ToDo
-    if(length(term) == 1){
-        if(term == 'closure')         xaxis.label <- 'Closure'
-        else if(term == 'time.to.ed') xaxis.label <- 'Time to ED'
-        else if(term == 'intercept')  xaxis.label <- 'Intercept'
+    if(length(plot.term) == 1){
+        if(plot.term == 'closure')         xaxis.label <- 'Closure'
+        else if(plot.term == 'time.to.ed') xaxis.label <- 'Time to ED'
+        else if(plot.term == 'intercept')  xaxis.label <- 'Intercept'
         xaxis.label <- paste0('Coefficient Estimate for ', xaxis.label)
     }
     else{
@@ -66,61 +66,41 @@ closed_forest <- function(df.list     = c(bishop.attendance.any.matched$coeffici
     #########################################################################
     ## Make data frame of coefficients                                     ##
     #########################################################################
-    ## Bind everything together
-    ## ToDo - Modify when All pooled and Case only are specified.
-    ## ToDo - Ultimately make this flexible so that arbitrary numbers of outcomes can be grouped and plotted.
-    if(length(df.list) < 6){
-        stop('There should be six objects to be summarised, one for each site and one for the All v Matched Controls')
-    }
-    else{
-        typeof(df.list) %>% print()
-        typeof(df.list[[1]]) %>% print()
-        df.list[[1]] %>% print()
-        typeof(df.list[1]) %>% print()
-        df.list[1] %>% print()
-        df <- cbind(df.list[[1]],
-                    df.list[[2]],
-                    df.list[[3]],
-                    df.list[[4]],
-                    df.list[[5]],
-                    df.list[[6]])
-    }
-    df %>% print()
+    ## Bind everything together (works for arbitrary number of supplied data frames)
+    ## ToDo - Might be more efficient/faster to use rbind_list() from dplyr
+    df <- do.call(rbind, df.list)
+    ## Tidy row and column names
+    row.names(df) <- NULL
+    names(df) <- c('est', 'se', 't', 'p', 'site', 'term', 'indicator', 'sub.indicator')
     ## Return data frame for printing as kable
     results$summary <- df
-    ## Return everything
-    return(results)
     #########################################################################
     ## Use data frame to produce forest plot                               ##
-    #########################################################################
-    results$forest <- dplyr::filter(df, term %in% term) +
-                      results$forest +
-                      ggplot(aes(x = est,
-                                 y = site,
-                                 color = term)) +
-                      geom_point() +
-                      geom_errorbarh(aes(xmin = est - se,xmax = est + se),height = 0.25) +
+#########################################################################
+    ## Set the distance for positioning when using multiple terms
+    pd <- position_dodge(width = 0.4)
+    ##    results$forest <- dplyr::filter(df, term %in% plot.term) +
+    df <- dplyr::filter(df, term %in% plot.term)
+    results$forest <- ggplot(df, aes(x = est,
+                                     y = site,
+                                     color = term)) +
+                      geom_point(position = pd) +
+                      geom_errorbarh(aes(xmin = est - se,
+                                         xmax = est + se),
+                                     height = 0.25,
+                                     position = pd) +
                       geom_vline(xintercept = 0,linetype = "dashed") +
-                      ylab("Closed ED") + xlab(paste0('Estimate for ', term)) +
-                      ggtitle(title)
-    ## if(length(term) == 1){
-    ##     results$forest <- results$forest +
-    ##                       ggplot(aes(x = est,
-    ##                                  y = site))
-    ## }
-    ## else{
-    ##     results$forest <- results$forest +
-    ##                       ggplot(aes(x = est,
-    ##                                  y = site,
-    ##                                  color = term))
-    ## }
-    ## results$forest <- results$forest + geom_point() +
-    ##                   geom_errorbarh(aes(xmin = est - se,xmax = est + se),height = 0.25) +
-    ##                   geom_vline(xintercept = 0,linetype = "dashed") +
-    ##                   ylab("Closed ED") + xlab(paste0('Estimate for ', term))
+                      ylab("Closed ED") + xlab('Prais-Winsten Time-series Estimate') +
+                      ggtitle(title) + scale_fill_discrete(name = 'Term')
+    ## If multiple coefficients are being plotted we now jitter them
+    if(length(plot.term) > 1){
+        results$forest <- results$forest + geom_jitter()
+    }
     ## Apply the user-specified theme
     if(!is.null(theme)){
         results$forest <- results$forest + theme
 
     }
+    ## Return everything
+    return(results)
 }
