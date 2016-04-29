@@ -9,7 +9,8 @@
 #' predictor variables.
 #'
 #' @param df.list A list of data frame objects to summarise.
-#' @param term The term(s) from the regression model that is to be summarised/plotted.
+#' @param plot.term The term(s) from the regression model that is to be summarised/plotted.
+#' @param facet.outcome Logical indicator of whether to facet plots by outcome for comparison.
 #' @param title Title for Forest plot.
 #' @param digits Number of digits to include in formatted output.
 #' @param theme GGplot2 theme to use.
@@ -37,6 +38,7 @@ closed_forest <- function(df.list     = list(bishop.attendance.any.matched$coeff
                                              rochdale.attendance.any.matched$coefficients),
 ##                                             all.attendance.any.matched$coefficients), ## ToDo - Add all pooled and case only
                           plot.term   = c('closure', 'time.to.ed'),
+                          facet.outcome = FALSE,
                           title       = c('ED Attendance (Any)', 'Site v Matched Control'),
                           digits      = 3,
                           theme       = theme_bw(),
@@ -84,7 +86,6 @@ closed_forest <- function(df.list     = list(bishop.attendance.any.matched$coeff
     #########################################################################
     ## Set the distance for positioning when using multiple terms
     pd <- position_dodge(width = 0.4)
-    ##    results$forest <- dplyr::filter(df, term %in% plot.term) +
     df <- dplyr::filter(df, Term %in% plot.term)
     results$forest <- ggplot(df, aes(x = est,
                                      y = site,
@@ -97,6 +98,10 @@ closed_forest <- function(df.list     = list(bishop.attendance.any.matched$coeff
                       geom_vline(xintercept = 0,linetype = "dashed") +
                       ylab("Closed ED") + xlab('Prais-Winsten Time-series Estimate') +
                       ggtitle(title)
+    if(facet.outcome == TRUE){
+        results$forest <- results$forest +
+                          facet_wrap(outcome)
+    }
     ## If multiple coefficients are being plotted we now jitter them
     if(length(plot.term) > 1){
         results$forest <- results$forest + geom_jitter()
