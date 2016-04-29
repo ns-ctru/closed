@@ -10,6 +10,7 @@
 #'
 #' @param df.list A list of data frame objects to summarise.
 #' @param term The term(s) from the regression model that is to be summarised/plotted.
+#' @param title Title for Forest plot.
 #' @param digits Number of digits to include in formatted output.
 #' @param theme GGplot2 theme to use.
 #' @param latex Produce results table in LaTeX format using Stargazer.
@@ -36,6 +37,7 @@ closed_forest <- function(df.list     = c(bishop.attendance.any.matched$coeffici
                                           rochdale.attendance.any.matched$coefficients,
                                           all.attendance.any.matched$coefficients), ## ToDo - Add all pooled and case only
                           term        = 'closure',
+                          title       = 'ED Attendance (Any)',
                           digits      = 3,
                           theme       = theme_bw(),
                           latex       = FALSE,
@@ -91,22 +93,31 @@ closed_forest <- function(df.list     = c(bishop.attendance.any.matched$coeffici
     #########################################################################
     ## Use data frame to produce forest plot                               ##
     #########################################################################
-    results$forest <- dplyr::filter(df, term %in% term)
-    if(length(term) == 1){
-        results$forest <- results$forest +
-                          ggplot(aes(x = est,
-                                     y = site))
-    }
-    else{
-        results$forest <- results$forest +
-                          ggplot(aes(x = est,
-                                     y = site,
-                                     color = term))
-    }
-    results$forest <- results$forest + geom_point() +
+    results$forest <- dplyr::filter(df, term %in% term) +
+                      results$forest +
+                      ggplot(aes(x = est,
+                                 y = site,
+                                 color = term)) +
+                      geom_point() +
                       geom_errorbarh(aes(xmin = est - se,xmax = est + se),height = 0.25) +
                       geom_vline(xintercept = 0,linetype = "dashed") +
-                      ylab("Closed ED") + xlab(paste0('Estimate for ', term))
+                      ylab("Closed ED") + xlab(paste0('Estimate for ', term)) +
+                      ggtitle(title)
+    ## if(length(term) == 1){
+    ##     results$forest <- results$forest +
+    ##                       ggplot(aes(x = est,
+    ##                                  y = site))
+    ## }
+    ## else{
+    ##     results$forest <- results$forest +
+    ##                       ggplot(aes(x = est,
+    ##                                  y = site,
+    ##                                  color = term))
+    ## }
+    ## results$forest <- results$forest + geom_point() +
+    ##                   geom_errorbarh(aes(xmin = est - se,xmax = est + se),height = 0.25) +
+    ##                   geom_vline(xintercept = 0,linetype = "dashed") +
+    ##                   ylab("Closed ED") + xlab(paste0('Estimate for ', term))
     ## Apply the user-specified theme
     if(!is.null(theme)){
         results$forest <- results$forest + theme
