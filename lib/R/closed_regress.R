@@ -324,7 +324,14 @@ closed_regress<- function(df            = ed_attendances_by_mode_measure,
                            controls,
                            ')')
         }
-        results$coefficients$town <- site
+        ## Add coefficient names as column to df
+        results$coefficients$term <- rownames(results$coefficients)
+        rownames(results$coefficients) <- NULL
+        ## Add site, indicator and sub-indicator
+        results$coefficients$town          <- site
+        results$coefficients$indicator     <- indicator
+        results$coefficients$sub.indicator <- sub.indicator
+        names(results$coefficients) <- c('est', 'se', 't', 'p', 'site', 'term', 'indicator', 'sub.indicator')
         ## results$coefficients$term <- rownames(results$coefficients)
         ## results$coefficients$site <- site
         results$r2 <- results$panelar$r2
