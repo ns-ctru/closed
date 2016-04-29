@@ -71,19 +71,24 @@ closed_forest <- function(df.list     = list(bishop.attendance.any.matched$coeff
     df <- do.call(rbind, df.list)
     ## Tidy row and column names
     row.names(df) <- NULL
-    names(df) <- c('est', 'se', 't', 'p', 'site', 'term', 'indicator', 'sub.indicator')
     ## Return data frame for printing as kable
-    results$summary <- df
+    names(df) %>% print()
+    names(df) <- gsub('Std\\. Error', 'SE', names(df))
+    names(df) <- c('Estimate', 'SE', 't value', 'P', 'site', 'term', 'indicator', 'sub.indicator')
+    names(df) %>% print()
+    results$summary <- dplyr::select(df, site, term, Estimate, SE, P) %>%
+                       arrange(site, term)
+    names(df) <- c('est', 'se', 't', 'pvalue', 'site', 'Term', 'indicator', 'sub.indicator')
     #########################################################################
     ## Use data frame to produce forest plot                               ##
-#########################################################################
+    #########################################################################
     ## Set the distance for positioning when using multiple terms
     pd <- position_dodge(width = 0.4)
     ##    results$forest <- dplyr::filter(df, term %in% plot.term) +
-    df <- dplyr::filter(df, term %in% plot.term)
+    df <- dplyr::filter(df, Term %in% plot.term)
     results$forest <- ggplot(df, aes(x = est,
                                      y = site,
-                                     color = term)) +
+                                     color = Term)) +
                       geom_point(position = pd) +
                       geom_errorbarh(aes(xmin = est - se,
                                          xmax = est + se),
@@ -91,7 +96,7 @@ closed_forest <- function(df.list     = list(bishop.attendance.any.matched$coeff
                                      position = pd) +
                       geom_vline(xintercept = 0,linetype = "dashed") +
                       ylab("Closed ED") + xlab('Prais-Winsten Time-series Estimate') +
-                      ggtitle(title) + scale_fill_discrete(name = 'Term')
+                      ggtitle(title)
     ## If multiple coefficients are being plotted we now jitter them
     if(length(plot.term) > 1){
         results$forest <- results$forest + geom_jitter()
