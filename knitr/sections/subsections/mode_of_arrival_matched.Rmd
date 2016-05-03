@@ -3,7 +3,6 @@
 #### Bishop Auckland General Hospital
 
 ##### Any
-
 ```{r bishop_attendance_any_matched_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
 bishop.attendance.any.matched$ts.plot.events
 ```
@@ -12,7 +11,6 @@ bishop.attendance.any.matched$panelar %>% summary()
 ```
 
 ##### Ambulance
-
 ```{r bishop_attendance_ambulance_matched_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
 bishop.attendance.ambulance.matched$ts.plot.events
 ```
@@ -21,7 +19,6 @@ bishop.attendance.ambulance.matched$panelar %>% summary()
 ```
 
 ##### Other
-
 ```{r bishop_attendance_other_matched_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
 bishop.attendance.other.matched$ts.plot.events
 ```
@@ -32,7 +29,6 @@ bishop.attendance.other.matched$panelar %>% summary()
 #### Hemel Hempstead Hospital
 
 ##### Any
-
 ```{r hemel_attendance_any_matched_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
 hemel.attendance.any.matched$ts.plot.events
 ```
@@ -41,7 +37,6 @@ hemel.attendance.any.matched$panelar %>% summary()
 ```
 
 ##### Ambulance
-
 ```{r hemel_attendance_ambulance_matched_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
 hemel.attendance.ambulance.matched$ts.plot.events
 ```
@@ -50,7 +45,6 @@ hemel.attendance.ambulance.matched$panelar %>% summary()
 ```
 
 ##### Other
-
 ```{r hemel_attendance_other_matched_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
 hemel.attendance.other.matched$ts.plot.events
 ```
@@ -61,7 +55,6 @@ hemel.attendance.other.matched$panelar %>% summary()
 #### Newark Hospital
 
 ##### Any
-
 ```{r newark_attendance_any_matched_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
 newark.attendance.any.matched$ts.plot.events
 ```
@@ -70,7 +63,6 @@ newark.attendance.any.matched$panelar %>% summary()
 ```
 
 ##### Ambulance
-
 ```{r newark_attendance_ambulance_matched_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
 newark.attendance.ambulance.matched$ts.plot.events
 ```
@@ -78,7 +70,6 @@ newark.attendance.ambulance.matched$ts.plot.events
 newark.attendance.ambulance.matched$panelar %>% summary()
 ```
 ##### Other
-
 ```{r newark_attendance_other_matched_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
 newark.attendance.other.matched$ts.plot.events
 ```
@@ -94,17 +85,17 @@ rochdale.attendance.any.matched$ts.plot.events
 ```
 ```{r rochdale_attendance_any_matched_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 rochdale.attendance.any.matched$panelar %>% summary()
+```
 
 ##### Ambulance
-
 ```{r rochdale_attendance_ambulance_matched_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
 rochdale.attendance.ambulance.matched$ts.plot.events
 ```
 ```{r rochdale_attendance_ambulance_matched_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 rochdale.attendance.ambulance.matched$panelar %>% summary()
+```
 
 ##### Other
-
 ```{r rochdale_attendance_other_matched_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
 rochdale.attendance.other.matched$ts.plot.events
 ```
@@ -140,7 +131,7 @@ hartlepool.attendance.other.matched$panelar %>% summary()
 
 #### Summary
 
-#### Any Attendance
+##### Any Attendance
 ```{r summary_attendance_any_matched, echo = FALSE, cache = FALSE, eval = TRUE}
 summary.attendance.any.matched <- closed_forest(df.list   = list(bishop.attendance.any.matched$coefficients,
                                                                  hartlepool.attendance.any.matched$coefficients,
@@ -149,10 +140,12 @@ summary.attendance.any.matched <- closed_forest(df.list   = list(bishop.attendan
                                                                  rochdale.attendance.any.matched$coefficients),
                                                 plot.term = c('time.to.ed', 'closure'),
                                                 title     = 'ED Attendance (Any) v Matched Control',
-                                                digits    = 3)
+                                               digits    = 3)
+kable(summary.attendance.any.matched$summary)
+summary.attendance.any.matched$forest```
 ```
 
-#### Ambulance Attendance
+##### Ambulance Attendance
 ```{r summary_attendance_ambulance_matched, echo = FALSE, cache = FALSE, eval = TRUE}
 summary.attendance.ambulance.matched <- closed_forest(df.list   = list(bishop.attendance.ambulance.matched$coefficients,
                                                                  hartlepool.attendance.ambulance.matched$coefficients,
@@ -162,9 +155,11 @@ summary.attendance.ambulance.matched <- closed_forest(df.list   = list(bishop.at
                                                 plot.term = c('time.to.ed', 'closure'),
                                                 title     = 'ED Attendance (Ambulance) v Matched Control',
                                                 digits    = 3)
+kable(summary.attendance.ambulance.matched$summary)
+summary.attendance.ambulance.matched$forest
 ```
 
-#### Other Attendance
+##### Other Attendance
 ```{r summary_attendance_other_matched, echo = FALSE, cache = FALSE, eval = TRUE}
 summary.attendance.other.matched <- closed_forest(df.list   = list(bishop.attendance.other.matched$coefficients,
                                                                  hartlepool.attendance.other.matched$coefficients,
@@ -174,6 +169,8 @@ summary.attendance.other.matched <- closed_forest(df.list   = list(bishop.attend
                                                 plot.term = c('time.to.ed', 'closure'),
                                                 title     = 'ED Attendance (Other) v Matched Control',
                                                 digits    = 3)
+kable(summary.attendance.other.matched$summary)
+summary.attendance.other.matched$forest
 ```
 
 ```{r echo = FALSE, cache = FALSE, eval = TRUE}
