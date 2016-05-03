@@ -1,0 +1,39 @@
+## Methods
+
+* Ideally get markdown/R syntax highlighting working in Emacs, this will ease the working environment as code will be simpler to read and layout.
+
+### Heteroskedasticity
+
+* Currently the SAP which lifts text from previous NHS 111 study states that heteroskedasticity will be dealt with by re-analysing indicators with significant outcomes using the square-root of the observed values.  This may be valid but the analysis routines provide different options for explicitly dealing with such heteroskedasticity internally when performing the analysis, including using a Huber-White style sandwich estimator, panel-corrected standard errors that are robust to heterosedasticity and contemperaneous correlation across panels, panel weighted least squares to deal with panel heteroskedasticity and Parks-Kmenta FGLS to estimate both panel heteroskedasticity and correlation (see the [panelCorrMethod option at the bottom of pg5](https://cran.r-project.org/web/packages/panelAR/panelAR.pdf)).  This may well negate the need to replicate analyses using the square root of the measures.
+
+
+### Data
+
+* Not quite captured correct range for pooled analyses, need to correct.
+* Proposed method of 'winsorising' the data as described in [Spiegelhalter paper](http://www.medicine.cf.ac.uk/media/filer_public/2010/10/11/journal_club_-_spiegelhalter_stats_in_med_funnel_plots.pdf) pertain to the calculation of confidence intervals for funnel plots and I'm not sure they are directly applicable to time-series data.  The main problem is that because of the big changes in the number of observed events simply taking the mean -/+ two standard deviations could be problematic.  There may be other instances where. Ideally would like to do this algorithmically for two reasons, firstly there are a lot of outcomes, but secondly I am attempting to structure my work in such a manner that I produce a set of functions which can then be used in any future work where the same questions or data structure are being used, thus avoiding the reinvention of the wheel in the future. One thought was to compare a given data point to its two flanking points and if the absolute difference is greater than a chosen amount call that point spurious.  This would work in some cases but not all, since there are some instances where there are periods.
+* Filter data -/+ 2 years of the minimum and maximum closure step (the same when restricted to one site), might already have this working but need to check returned data frame (all.attendance.any.matched).
+* Need all steps from Emma, have shared Google Sheet which has a useful format for recording these, awaiting completion.
+* Use [tsoutliers](https://cran.r-project.org/web/packages/tsoutliers/) R package which implements [Chen and Liu (1993)](https://www.jstor.org/stable/2290724?seq=1#page_scan_tab_contents)
+
+### Analyses
+
+* Cross-checke results from panelAR function against those of the prais function.
+* Check Cases v's all Controls (Unmatched) filtering is correct.
+
+
+## Presentation
+
+### Figures
+
+* Rotate text on Time to ED histograms.
+* How to lay out time-series plots for the pooled analyses, certainly for the unmatched panel these by the group around the closed ED.
+* Once spurious data points resolved need to work out how to plot discontinuous lines (will involve adding a group variable to each cluster, so remember to derive that when excluding data points).
+
+
+### Tables
+
+* What else should be summarised?  I didn't think summaries of events by LSOA was useful nor appropriate as this is time series.  Could tabulate whats in the figures but that again seems somewhat redundant.  Similarly I could have produced summaries of the population sizes, but these are counted on a monthly basis so it would be quite a large table, most of which would expect to be of little to no interest, and it could be presented more clearly in a figure if required.
+
+### Layout
+
+* Derive a sensible and clean tabulated layout for the results.
