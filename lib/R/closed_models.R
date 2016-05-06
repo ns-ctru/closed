@@ -63,7 +63,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           timevar         = 'relative.month',
                           outcome         = 'value',
                           model1          = c('closure', 'season'), ## ToDo - Add other steps when available
-                          model2          = c('closure', 'season', 'site', 'site * closure'),
+                          model2          = c('town * closure', 'season', 'relative.month'),
                           model3          = c('closure', 'season', 'site', 'site * closure'),
                           model4          = c(),
                           model5          = c(),
@@ -148,85 +148,56 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     #######################################################################
     ## Internal functions (to save typing)                               ##
     #######################################################################
-    ## closed_panelar <- function(.df       = .,
-    ##                            .site     = 'Bishop Auckland',
-    ##                            .formula  = formula.model1,
-    ##                            .timeVar  = timevar,
-    ##                            .panelVar = panel.lsoa,
-    ##                            .autoCorr = autocorr,
-    ##                            .panelCorrMethod = panelcorrmethod,
-    ##                            ...){
-    ##     ## List to return results
-    ##     results.panelar <- list()
-    ##     ## names(.df) %>% print()
-    ##     ## head(.df) %>% print()
-    ##     ## dim(.df) %>% print()
-    ##     ## paste0('Formula : ', .formula) %>% print()
-    ##     ## paste0('Time : ', .timeVar) %>% print()
-    ##     ## paste0('Panel : ', .panelVar) %>% print()
-    ##     ## paste0('Autocorrelation : ', .autoCorr) %>% print()
-    ##     ## paste0('Standard Error : ', .panelCorrMethod) %>% print()
-    ##     ## Run regression
-    ##     t <- panelAR(data     = .df,
-    ##                                      formula  = .formula,
-    ##                                      timeVar  = .timeVar,
-    ##                                      panelVar = .panelVar,
-    ##                                      autoCorr = .autoCorr,
-    ##                  panelCorrMethod = panelcorrmethod)
-    ##     print(t)
-    ##     summary(t) %>% print()
-    ##     results.panelar$panelar <- t
-    ##     ## ToDo - Can't access results.panelar$panelar directly gives error...
-    ##     ##
-    ##     ##        Error in switch(x$call$panelCorrMethod, none = "homoskedastic variance," :
-    ##     ##          EXPR must be a length 1 vector
-    ##     ##
-    ##     ##        ...would be nice to resolve this, for now though return the
-    ##     ##        individual components of interest
-    ##     typeof(results.panelar$panelar) %>% print()
-    ##     names(results.panelar$panelar) %>% print()
-    ##     results.panelar$panelar %>% print()  ## <- This produces the above error
-    ##     results.panelar$panelar %>% summary() ## <- As does this
-    ##     results.panelar$panelar$coefficients %>% print()
-    ##     results.panelar$panelar$residuals %>% print()
-    ##     results.panelar$panelar$fitted.values %>% head() %>% print()
-    ##     results.panelar$panelar$rank %>% print()
-    ##     results.panelar$panelar$df.residual %>% print()
-    ##     results.panelar$panelar$call %>% print()
-    ##     results.panelar$panelar$terms %>% print()
-    ##     results.panelar$panelar$panelar %>% print()
-    ##     results.panelar$panelar$aliased %>% print()
-    ##     results.panelar$panelar$na.action %>% print()
-    ##     results.panelar$panelar$vcov %>% print()
-    ##     results.panelar$panelar$r2 %>% print()
-    ##     results.panelar$panelar$panelStructure %>% print()
-    ##     ## Summary of model for printing along with R2 coefficient
-    ##     summary(results.panelar$panelar) %>% print()
-    ##     results.panelar$summary <- summary(t)
-    ##     results.panelar$r2      <- t$r2
-    ##     ## Extract coefficients to a data frame and add labels/terms
-    ##     results.panelar$coefficients <- summary(results.panelar$panelar) %>%
-    ##                                     coef() %>%
-    ##                                     as.data.frame()
-    ##     results.panelar$coefficients$term <- rownames(results.panelar$coefficients)
-    ##     rownames(results.panelar$coefficients) <- NULL
-    ##     results.panelar$coefficients$site <- .site
-    ##     return(results.panelar)
-    ## }
     extract_coefficients <- function(x,
                                      .site          = site,
                                      .indicator     = indicator,
                                      .sub.indicator = sub.indicator){
+        ## Extract coefficients from a given model
         coefficients <- summary(x) %>%
-                                        coef() %>%
-                                        as.data.frame()
-        coefficients$term <- rownames(x)
+                        coef() %>%
+                        as.data.frame()
+        coefficients$term <- rownames(coefficients)
         rownames(coefficients) <- NULL
         coefficients$site          <- .site
         coefficients$indicator     <- .indicator
         coefficients$sub.indicator <- .sub.indicator
+        coefficients$r2            <- x$r2
         return(coefficients)
-
+    }
+    combine_coefficients <- function(bishop.coef     = results$model1.panelar.bishop.coef,
+                                     hartlepool.coef = results$model1.panelar.hartlepool.coef,
+                                     hemel.coef      = results$model1.panelar.hemel.coef,
+                                     newark.coef     = results$model1.panelar.newark.coef,
+                                     rochdale.coef   = results$model1.panelar.rochdale.coef){
+        ## Combine coefficients, derive CIs and derive tidy df for output
+        coef <- rbind(bishop.coef,
+                      hartlepool.coef,
+                      hemel.coef,
+                      newark.coef,
+                      rochdale.coef)
+        ## Rename
+        names(coef) <- c('est', 'se', 't', 'p', 'term', 'site', 'indicator', 'sub.indicator', 'r2')
+        ## Extract and reshape the r2
+        r2 <- dplyr::select(coef, indicator, sub.indicator, site, r2) %>%
+              unique() %>%
+              melt(id = c('indicator', 'sub.indicator', 'site')) %>%
+            dcast(indicator + sub.indicator + variable ~ site)
+        ## Extract, format and reshape the estimates, se and p-values
+        coef$out <- paste0(formatC(coef$est, digits = 3, format = 'f'),
+                           " (",
+                           formatC(coef$se, digits = 3, format = 'f'),
+                           ") p = ",
+                           formatC(coef$p, digits = 4, format = 'e'))
+        coef <- dplyr::select(coef, indicator, sub.indicator, term, site, out) %>%
+                melt(id = c('indicator', 'sub.indicator', 'site', 'term')) %>%
+                dcast(indicator + sub.indicator + term ~ site + variable)
+        ## Combine with r2
+        names(coef) <- gsub("_out", "", names(coef))
+        names(r2) <- gsub("variable", "term", names(r2))
+        coef <- rbind(coef, r2)
+        rm(r2)
+        names(coef) <- c('Indicator', 'Subindicator', 'Term', 'Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
+        return(coef)
     }
     #######################################################################
     ## Model 1                                                           ##
@@ -242,7 +213,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       measure     == indicator,
                       sub.measure == sub.indicator)
         ## Generate time-series plot
-        results$model1.ts.plot <- ggplot(data = df1,
+        results$model1.ts.plot <- ggplot(data = df,
                                          mapping = aes(x     = relative.month,
                                                        y     = value,
                                                        color = town)) +
@@ -257,70 +228,244 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         if(!is.null(theme)){
             results$model1.ts.plot <- results$model1.ts.plot + theme
         }
-        ## Perform analysis with panelAR in each site
-        .df <- filter(df1,
-                      town        == 'Bishop Auckland' &
-                      measure     == indicator,
-                      sub.measure == sub.indicator)
-        results$model1.panelar.bishop <- panelAR(data     = .df,
-                                                 formula  = formula.model1,
+        ##################################################
+        ## Bishop Auckland                              ##
+        ##################################################
+        results$model1.panelar.bishop <- filter(df1,
+                                                town        == 'Bishop Auckland' &
+                                                measure     == indicator,
+                                                sub.measure == sub.indicator) %>%
+                                         panelAR(formula  = formula.model1,
                                                  timeVar  = timevar,
                                                  panelVar = panel.trust,
                                                  autoCorr = autocorr,
                                                  panelCorrMethod = panelcorrmethod)
-        ## results$model1.panelar.bishop %>% print()
         results$model1.panelar.bishop.coef <- extract_coefficients(x              = results$model1.panelar.bishop,
                                                                    .site          = 'Bishop Auckland',
                                                                    .indicator     = indicator,
                                                                    .sub.indicator = sub.indicator)
         results$model1.panelar.bishop.r2 <- results$model1.panelar.bishop$r2
+        ##################################################
+        ## Hartlepool                                   ##
+        ##################################################
+        results$model1.panelar.hartlepool <- filter(df1,
+                                                    town        == 'Hartlepool' &
+                                                    measure     == indicator,
+                                                    sub.measure == sub.indicator) %>%
+                                             panelAR(formula  = formula.model1,
+                                                     timeVar  = timevar,
+                                                     panelVar = panel.trust,
+                                                     autoCorr = autocorr,
+                                                     panelCorrMethod = panelcorrmethod)
+        results$model1.panelar.hartlepool.coef <- extract_coefficients(x              = results$model1.panelar.hartlepool,
+                                                                       .site          = 'Hartlepool',
+                                                                       .indicator     = indicator,
+                                                                       .sub.indicator = sub.indicator)
+        results$model1.panelar.hartlepool.r2 <- results$model1.panelar.hartlepool$r2
+        ##################################################
+        ## Hemel Hempstead                              ##
+        ##################################################
+        results$model1.panelar.hemel <- filter(df1,
+                                               town        == 'Hemel Hempstead' &
+                                               measure     == indicator,
+                                               sub.measure == sub.indicator) %>%
+                                        panelAR(formula  = formula.model1,
+                                                timeVar  = timevar,
+                                                panelVar = panel.trust,
+                                                autoCorr = autocorr,
+                                                panelCorrMethod = panelcorrmethod)
+        results$model1.panelar.hemel.coef <- extract_coefficients(x              = results$model1.panelar.hemel,
+                                                                  .site          = 'Hemel Hempstead',
+                                                                  .indicator     = indicator,
+                                                                  .sub.indicator = sub.indicator)
+        results$model1.panelar.hemel.r2 <- results$model1.panelar.hemel$r2
+        ##################################################
+        ## Newark                              ##
+        ##################################################
+        results$model1.panelar.newark <- filter(df1,
+                                                town        == 'Newark' &
+                                                measure     == indicator,
+                                                sub.measure == sub.indicator) %>%
+                                         panelAR(formula  = formula.model1,
+                                                 timeVar  = timevar,
+                                                 panelVar = panel.trust,
+                                                 autoCorr = autocorr,
+                                                 panelCorrMethod = panelcorrmethod)
+        results$model1.panelar.newark.coef <- extract_coefficients(x              = results$model1.panelar.newark,
+                                                                   .site          = 'Newark',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+        results$model1.panelar.newark.r2 <- results$model1.panelar.newark$r2
+        ##################################################
+        ## Rochdale                              ##
+        ##################################################
+        results$model1.panelar.rochdale <- filter(df1,
+                                                  town        == 'Rochdale' &
+                                                  measure     == indicator,
+                                                  sub.measure == sub.indicator) %>%
+                                           panelAR(formula  = formula.model1,
+                                                   timeVar  = timevar,
+                                                   panelVar = panel.trust,
+                                                   autoCorr = autocorr,
+                                                   panelCorrMethod = panelcorrmethod)
+        results$model1.panelar.rochdale.coef <- extract_coefficients(x            = results$model1.panelar.rochdale,
+                                                                     .site          = 'Rochdale',
+                                                                     .indicator     = indicator,
+                                                                     .sub.indicator = sub.indicator)
+        results$model1.panelar.rochdale.r2 <- results$model1.panelar.rochdale$r2
         ## Summary table
-
+        results$model1.panelar <- combine_coefficients(bishop.coef     = results$model1.panelar.bishop.coef,
+                                                       hartlepool.coef = results$model1.panelar.hartlepool.coef,
+                                                       hemel.coef      = results$model1.panelar.hemel.coef,
+                                                       newark.coef     = results$model1.panelar.newark.coef,
+                                                       rochdale.coef   = results$model1.panelar.rochdale.coef)
+        ## Forest plot?
+        results$model1.forest <- closed_forest(df.list       = list(results$model1.panelar.bishop.coef,
+                                                                    results$model1.panelar.hartlepool.coef,
+                                                                    results$model1.panelar.hemel.coef,
+                                                                    results$model1.panelar.newark.coef,
+                                                                    results$model1.panelar.rochdale.coef),
+                                               plot.term     = c('closure'),
+                                               facet.outcome = FALSE,
+                                               title         = paste0('Model 1 : ',
+                                                                      indicator,
+                                                                      ' (',
+                                                                      sub.indicator,
+                                                                      ')'),
+                                               theme         = theme_bw())
+        print(results$model1.forest)
+        ## Remove clutter
+        rm(df1)
     }
     #######################################################################
     ## Model 2                                                           ##
     #######################################################################
-    ## if(!is.null(model2)){
-    ##     ## Reformulate outcome and covariates
-    ##     formula.model2 <- reformulate(response = outcome,
-    ##                                   termlabels = model2)
-    ##     ## Subset data
-    ##     sites <- c('Bishop Auckland', 'Whitehaven',
-    ##                'Hartlepool', 'Grimsby',
-    ##                'Hemel Hempstead', 'Warwick',
-    ##                'Newark', 'Southport',
-    ##                'Rochdale', 'Rotherham')
-    ##     df2 <- filter(df.trust, town %in% sites)
-    ##     ## Generate time-series plot
-    ##     results$model2.ts.plot <- ggplot(data = df2,
-    ##                                      mapping = aes(x     = relative.month,
-    ##                                                    y     = value,
-    ##                                                    color = town)) +
-    ##         geom_line() +
-    ##         geom_vline(xintercept = 25, linetype = 4) +
-    ##         ## ToDo - Include other steps
-    ##         labs(list(title  = paste0(title1, title2),
-    ##                   x      = 'Month (Aligned)',
-    ##                   y      = 'N',
-    ##                   colour = 'Hospital'))
-    ##     ## Apply the user-specified theme
-    ##     if(!is.null(theme)){
-    ##         results$model2.ts.plot <- results$model2.ts.plot + theme
-    ##     }
-    ##     ## Perform analysis with panelAR in each
-    ##     results$model2.panelar.bishop <- filter(df2,
-    ##                                             town        == 'Bishop Auckland' &
-    ##                                             measure     == indicator,
-    ##                                             sub.measure == sub.indicator) %>%
-    ##                                      closed_panelar(.site = 'Bishop Auckland',
-    ##                                                     formula = formula.model2,
-    ##                                                     .timeVar = time,
-    ##                                                     .panelVar = panel.lsoa,
-    ##                                                     .autoCorr = autocorr,
-    ##                                                     .panelCorrMethod = panelcorrmethod)
-    ##     ## Summary table
-
-    ## }
+    if(!is.null(model2)){
+        ## Reformulate outcome and covariates
+        formula.model2 <- reformulate(response = outcome,
+                                      termlabels = model2)
+        ## Subset data
+        sites <- c('Bishop Auckland', 'Whitehaven',
+                   'Hartlepool', 'Grimsby',
+                   'Hemel Hempstead', 'Warwick',
+                   'Newark', 'Southport',
+                   'Rochdale', 'Rotherham')
+        df2 <- filter(df.trust, town %in% sites)
+        ## Generate time-series plot
+        results$model2.ts.plot <- ggplot(data = df2,
+                                         mapping = aes(x     = relative.month,
+                                                       y     = value,
+                                                       color = town)) +
+            geom_line() +
+            geom_vline(xintercept = 25, linetype = 4) +
+            ## ToDo - Include other steps
+            labs(list(title  = paste0(title1, title2),
+                      x      = 'Month (Aligned)',
+                      y      = 'N',
+                      colour = 'Hospital'))
+        ## Apply the user-specified theme
+        if(!is.null(theme)){
+            results$model2.ts.plot <- results$model2.ts.plot + theme
+        }
+        ## Perform analysis with panelAR in each
+        ##################################################
+        ## Bishop Auckland                              ##
+        ##################################################
+        ## ToDo - Add in the other steps when available to both the data and the formula
+        ## .formula.model2 <- reformulate(response = outcome,
+        ##                                termlabels = c(model2, ###))
+        results$model2.panelar.bishop <- filter(df2,
+                                                town == 'Bishop Auckland' |
+                                                town == 'Whitehaven') %>%
+                                         filter(measure     == indicator,
+                                                sub.measure == sub.indicator) %>%
+                                         panelAR(formula  = formula.model2,
+                                                 timeVar  = timevar,
+                                                 panelVar = panel.trust,
+                                                 autoCorr = autocorr,
+                                                 panelCorrMethod = panelcorrmethod)
+        results$model2.panelar.bishop.coef <- extract_coefficients(x              = results$model2.panelar.bishop,
+                                                                   .site          = 'Bishop Auckland',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+        results$model1.panelar.bishop.r2 <- results$model1.panelar.bishop$r2
+        ##################################################
+        ## Hartlepool                                   ##
+        ##################################################
+        results$model2.panelar.hartlepool <- filter(df2,
+                                                    town == 'Hartlepool' |
+                                                    town == 'Grimsby') %>%
+                                            filter(measure     == indicator,
+                                                   sub.measure == sub.indicator) %>%
+                                            panelAR(formula  = formula.model2,
+                                                    timeVar  = timevar,
+                                                    panelVar = panel.trust,
+                                                    autoCorr = autocorr,
+                                                    panelCorrMethod = panelcorrmethod)
+        results$model2.panelar.hartlepool.coef <- extract_coefficients(x              = results$model2.panelar.hartlepool,
+                                                                      .site          = 'Hartlepool',
+                                                                      .indicator     = indicator,
+                                                                      .sub.indicator = sub.indicator)
+        results$model1.panelar.hartlepool.r2 <- results$model1.panelar.hartlepool$r2
+        ##################################################
+        ## Hemel Hempstead                              ##
+        ##################################################
+        results$model2.panelar.hemel <- filter(df2,
+                                               town == 'Hemel Hempstead' |
+                                               town == 'Warwick') %>%
+                                        filter(measure     == indicator,
+                                               sub.measure == sub.indicator) %>%
+                                        panelAR(formula  = formula.model2,
+                                                timeVar  = timevar,
+                                                panelVar = panel.trust,
+                                                autoCorr = autocorr,
+                                                panelCorrMethod = panelcorrmethod)
+        results$model2.panelar.hemel.coef <- extract_coefficients(x              = results$model2.panelar.hemel,
+                                                                  .site          = 'Hemel Hempstead',
+                                                                  .indicator     = indicator,
+                                                                  .sub.indicator = sub.indicator)
+        results$model1.panelar.hemel.r2 <- results$model1.panelar.hemel$r2
+        ##################################################
+        ## Newark                                       ##
+        ##################################################
+        results$model2.panelar.newark <- filter(df2,
+                                                town == 'Newark' |
+                                                town == 'Southport') %>%
+                                         filter(measure     == indicator,
+                                                sub.measure == sub.indicator) %>%
+                                         panelAR(formula  = formula.model2,
+                                                 timeVar  = timevar,
+                                                 panelVar = panel.trust,
+                                                 autoCorr = autocorr,
+                                                 panelCorrMethod = panelcorrmethod)
+        results$model2.panelar.newark.coef <- extract_coefficients(x              = results$model2.panelar.newark,
+                                                                   .site          = 'Newark',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+        results$model1.panelar.newark.r2 <- results$model1.panelar.newark$r2
+        ##################################################
+        ## Rochdale                                       ##
+        ##################################################
+        results$model2.panelar.rochdale <- filter(df2,
+                                                town == 'Rochdale' |
+                                                town == 'Rotherham') %>%
+                                         filter(measure     == indicator,
+                                                sub.measure == sub.indicator) %>%
+                                         panelAR(formula  = formula.model2,
+                                                 timeVar  = timevar,
+                                                 panelVar = panel.trust,
+                                                 autoCorr = autocorr,
+                                                 panelCorrMethod = panelcorrmethod)
+        results$model2.panelar.rochdale.coef <- extract_coefficients(x              = results$model2.panelar.rochdale,
+                                                                   .site          = 'Rochdale',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+        results$model1.panelar.rochdale.r2 <- results$model1.panelar.rochdale$r2
+        ## Summary table
+        ## Forest plot?
+        ## Remove clutter
+        rm(df2)
+    }
     #######################################################################
     ## Return the results                                                ##
     #######################################################################
