@@ -74,18 +74,19 @@ closed_forest <- function(df.list     = list(bishop.attendance.any.matched$coeff
     ## Tidy row and column names
     row.names(df) <- NULL
     ## Return data frame for printing as kable
-    names(df) %>% print()
     names(df) <- gsub('Std\\. Error', 'SE', names(df))
-    names(df) <- c('Estimate', 'SE', 't value', 'P', 'site', 'term', 'indicator', 'sub.indicator')
-    names(df) %>% print()
+    names(df) <- c('Estimate', 'SE', 't value', 'P', 'term', 'site','indicator', 'sub.indicator')
     results$summary <- dplyr::select(df, site, term, Estimate, SE, P) %>%
                        arrange(site, term)
-    names(df) <- c('est', 'se', 't', 'pvalue', 'site', 'Term', 'indicator', 'sub.indicator')
+    names(df) <- c('est', 'se', 't', 'pvalue', 'Term', 'site', 'indicator', 'sub.indicator')
     #########################################################################
     ## Use data frame to produce forest plot                               ##
     #########################################################################
     ## Set the distance for positioning when using multiple terms
     pd <- position_dodge(width = 0.4)
+    if(ncol(df) == 9){
+        df <- df[1:8]
+    }
     df <- dplyr::filter(df, Term %in% plot.term)
     results$forest <- ggplot(df, aes(x = est,
                                      y = site,
