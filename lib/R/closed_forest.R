@@ -83,7 +83,7 @@ closed_forest <- function(df.list     = list(bishop.attendance.any.matched$coeff
     ## Use data frame to produce forest plot                               ##
     #########################################################################
     ## Set the distance for positioning when using multiple terms
-    pd <- position_dodge(width = 0.4)
+    ## pd <- position_dodge(width = 0.4)
     if(ncol(df) == 9){
         df <- df[1:8]
     }
@@ -91,11 +91,12 @@ closed_forest <- function(df.list     = list(bishop.attendance.any.matched$coeff
     results$forest <- ggplot(df, aes(x = est,
                                      y = site,
                                      color = Term)) +
-                      geom_point(position = pd) +
+                      ## geom_point(position = pd) +
+                      geom_point() +
                       geom_errorbarh(aes(xmin = est - se,
                                          xmax = est + se),
-                                     height = 0.25,
-                                     position = pd) +
+                                     height = 0.25
+                                     ## position = pd) +
                       geom_vline(xintercept = 0,linetype = "dashed") +
                       ylab("Closed ED") + xlab('Prais-Winsten Time-series Estimate') +
                       ggtitle(title)
