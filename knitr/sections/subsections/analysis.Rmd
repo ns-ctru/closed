@@ -1,0 +1,26 @@
+<!--- Runs all analyses, saving results as an R object for loading --->
+```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+mode.of.arrival.any <- closed_model(df.lsoa         = ed_attendances_by_mode_measure,
+                                    df.trust        = ed_attendances_by_mode_site_measure,
+                                    df.steps        = steps,
+                                    indicator       = 'ed attendances',
+                                    sub.indicator   = 'any',
+                                    steps           = c('closure'),
+                                    fit.with        = 'both',
+                                    panel.lsoa      = 'lsoa',
+                                    panel.trust     = 'town',
+                                    timevar         = 'relative.month',
+                                    outcome         = 'value',
+                                    model1          = c('closure', 'season', 'relative.month'), ## ToDo - Add other steps when available
+                                    model2          = c('town * closure', 'season', 'relative.month'),
+                                    model3          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
+                                    model4          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
+                                    model5          = c('town * closure', 'season', 'relative.month'),
+                                    model6          = c(),
+                                    autocorr        = 'ar1',
+                                    panelcorrmethod = 'pcse',
+                                    plot            = TRUE,
+                                    common.y        = TRUE,
+                                    theme           = theme_bw(),
+                                    return.model    = FALSE)
+```
