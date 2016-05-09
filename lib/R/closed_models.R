@@ -62,11 +62,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           panel.trust     = 'town',
                           timevar         = 'relative.month',
                           outcome         = 'value',
-                          model1          = c('closure', 'season'), ## ToDo - Add other steps when available
+                          model1          = c('closure', 'season', 'relative.month'), ## ToDo - Add other steps when available
                           model2          = c('town * closure', 'season', 'relative.month'),
-                          model3          = c('closure', 'season', 'site', 'site * closure'),
-                          model4          = c(),
-                          model5          = c(),
+                          model3          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
+                          model4          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
+                          model5          = c('town * closure', 'season', 'relative.month'),
                           model6          = c(),
                           autocorr        = 'ar1',
                           panelcorrmethod = 'pcse',
@@ -84,7 +84,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Convert to data frame
     df.lsoa  <- as.data.frame(df.lsoa)
     df.trust <- as.data.frame(df.trust)
-    df.steps <- as.data.frame(df.steps)
+    ## df.steps <- as.data.frame(df.steps)
     ## Convert variable names for ease of typing within this function
     ## (ESS artefact, hitting underscore inserts '<-' so lots of underscores are
     ## tedious to type)
@@ -92,8 +92,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                        gsub("_", ".", x = .)
     names(df.trust) <- names(df.trust) %>%
                        gsub("_", ".", x = .)
-    names(df.steps) <- names(df.steps) %>%
-                       gsub("_", ".", x = .)
+    ## names(df.steps) <- names(df.steps) %>%
+    ##                    gsub("_", ".", x = .)
     ## Conditionally select range for y-axis, MUST do this BEFORE subsetting
     ## data so that it is common across all outcomes for the given indicator
     if(common.y == TRUE){
@@ -213,7 +213,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       measure     == indicator,
                       sub.measure == sub.indicator)
         ## Generate time-series plot
-        results$model1.ts.plot <- ggplot(data = df,
+        results$model1.ts.plot <- ggplot(data = df1,
                                          mapping = aes(x     = relative.month,
                                                        y     = value,
                                                        color = town)) +
@@ -314,17 +314,17 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                      .sub.indicator = sub.indicator)
         results$model1.panelar.rochdale.r2 <- results$model1.panelar.rochdale$r2
         ## Summary table
-        results$model1.panelar <- combine_coefficients(bishop.coef     = model1.panelar.bishop.coef,
-                                                       hartlepool.coef = model1.panelar.hartlepool.coef,
-                                                       hemel.coef      = model1.panelar.hemel.coef,
-                                                       newark.coef     = model1.panelar.newark.coef,
-                                                       rochdale.coef   = model1.panelar.rochdale.coef)
+        results$model1.panelar <- combine_coefficients(bishop.coef     = results$model1.panelar.bishop.coef,
+                                                       hartlepool.coef = results$model1.panelar.hartlepool.coef,
+                                                       hemel.coef      = results$model1.panelar.hemel.coef,
+                                                       newark.coef     = results$model1.panelar.newark.coef,
+                                                       rochdale.coef   = results$model1.panelar.rochdale.coef)
         ## Forest plot
-        results$model1.forest <- closed_forest(df.list       = list(model1.panelar.bishop.coef,
-                                                                    model1.panelar.hartlepool.coef,
-                                                                    model1.panelar.hemel.coef,
-                                                                    model1.panelar.newark.coef,
-                                                                    model1.panelar.rochdale.coef),
+        results$model1.forest <- closed_forest(df.list       = list(results$model1.panelar.bishop.coef,
+                                                                    results$model1.panelar.hartlepool.coef,
+                                                                    results$model1.panelar.hemel.coef,
+                                                                    results$model1.panelar.newark.coef,
+                                                                    results$model1.panelar.rochdale.coef),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
                                                title         = paste0('Model 1 : ',
@@ -357,20 +357,22 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                    'Hemel Hempstead', 'Warwick',
                    'Newark', 'Southport',
                    'Rochdale', 'Rotherham')
-        df2 <- filter(df.trust, town %in% sites)
+        df2 <- filter(df.trust, town %in% sites &
+                      measure     == indicator,
+                      sub.measure == sub.indicator)
         ## Generate time-series plot
         results$model2.ts.plot <- ggplot(data = df2,
                                          mapping = aes(x     = relative.month,
                                                        y     = value,
                                                        color = town)) +
-            geom_line() +
-            geom_vline(xintercept = 25, linetype = 4) +
-            ## ToDo - Include other steps
-            labs(list(title  = paste0(title1, title2),
-                      x      = 'Month (Aligned)',
-                      y      = 'N',
-                      colour = 'Hospital')) +
-
+                                  geom_line() +
+                                  geom_vline(xintercept = 25, linetype = 4) +
+                                  ## ToDo - Include other steps
+                                  labs(list(title  = paste0(title1, title2),
+                                            x      = 'Month (Aligned)',
+                                            y      = 'N',
+                                            colour = 'Hospital')) +
+                                  facet_wrap(~ group, ncol = 1)
         ## Apply the user-specified theme
         if(!is.null(theme)){
             results$model2.ts.plot <- results$model2.ts.plot + theme
@@ -396,7 +398,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                    .site          = 'Bishop Auckland',
                                                                    .indicator     = indicator,
                                                                    .sub.indicator = sub.indicator)
-        results$model1.panelar.bishop.r2 <- model2.panelar.bishop$r2
+        results$model2.panelar.bishop.r2 <- model2.panelar.bishop$r2
         ##################################################
         ## Hartlepool                                   ##
         ##################################################
@@ -414,7 +416,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                       .site          = 'Hartlepool',
                                                                       .indicator     = indicator,
                                                                       .sub.indicator = sub.indicator)
-        results$model1.panelar.hartlepool.r2 <- model2.panelar.hartlepool$r2
+        results$model2.panelar.hartlepool.r2 <- model2.panelar.hartlepool$r2
         ##################################################
         ## Hemel Hempstead                              ##
         ##################################################
@@ -432,7 +434,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                   .site          = 'Hemel Hempstead',
                                                                   .indicator     = indicator,
                                                                   .sub.indicator = sub.indicator)
-        results$model1.panelar.hemel.r2 <- model2.panelar.hemel$r2
+        results$model2.panelar.hemel.r2 <- model2.panelar.hemel$r2
         ##################################################
         ## Newark                                       ##
         ##################################################
@@ -450,7 +452,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                    .site          = 'Newark',
                                                                    .indicator     = indicator,
                                                                    .sub.indicator = sub.indicator)
-        results$model1.panelar.newark.r2 <- model2.panelar.newark$r2
+        results$model2.panelar.newark.r2 <- model2.panelar.newark$r2
         ##################################################
         ## Rochdale                                       ##
         ##################################################
@@ -468,19 +470,19 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                    .site          = 'Rochdale',
                                                                    .indicator     = indicator,
                                                                    .sub.indicator = sub.indicator)
-        results$model1.panelar.rochdale.r2 <- model2.panelar.rochdale$r2
+        results$model2.panelar.rochdale.r2 <- model2.panelar.rochdale$r2
         ## Summary table
-        results$model2.panelar <- combine_coefficients(bishop.coef     = model2.panelar.bishop.coef,
-                                                       hartlepool.coef = model2.panelar.hartlepool.coef,
-                                                       hemel.coef      = model2.panelar.hemel.coef,
-                                                       newark.coef     = model2.panelar.newark.coef,
-                                                       rochdale.coef   = model2.panelar.rochdale.coef)
+        results$model2.panelar <- combine_coefficients(bishop.coef     = results$model2.panelar.bishop.coef,
+                                                       hartlepool.coef = results$model2.panelar.hartlepool.coef,
+                                                       hemel.coef      = results$model2.panelar.hemel.coef,
+                                                       newark.coef     = results$model2.panelar.newark.coef,
+                                                       rochdale.coef   = results$model2.panelar.rochdale.coef)
         ## Forest plot
-        results$model2.forest <- closed_forest(df.list       = list(model2.panelar.bishop.coef,
-                                                                    model2.panelar.hartlepool.coef,
-                                                                    model2.panelar.hemel.coef,
-                                                                    model2.panelar.newark.coef,
-                                                                    model2.panelar.rochdale.coef),
+        results$model2.forest <- closed_forest(df.list       = list(results$model2.panelar.bishop.coef,
+                                                                    results$model2.panelar.hartlepool.coef,
+                                                                    results$model2.panelar.hemel.coef,
+                                                                    results$model2.panelar.newark.coef,
+                                                                    results$model2.panelar.rochdale.coef),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
                                                title         = paste0('Model 2 : ',
@@ -491,14 +493,172 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                theme         = theme_bw())
         ## Return model objects if requested
         if(return.model == TRUE){
-            results$model1.panelar.bishop     <- model1.panelar.bishop
-            results$model1.panelar.hartlepool <- model1.panelar.hartlepool
-            results$model1.panelar.hemel      <- model1.panelar.hemel
-            results$model1.panelar.newark     <- model1.panelar.newark
-            results$model1.panelar.rochdale   <- model1.panelar.rochdale
+            results$model2.panelar.bishop     <- model2.panelar.bishop
+            results$model2.panelar.hartlepool <- model2.panelar.hartlepool
+            results$model2.panelar.hemel      <- model2.panelar.hemel
+            results$model2.panelar.newark     <- model2.panelar.newark
+            results$model2.panelar.rochdale   <- model2.panelar.rochdale
         }
         ## Remove clutter
         rm(df2)
+    }
+    #######################################################################
+    ## Model 3                                                           ##
+    #######################################################################
+    if(!is.null(model3)){
+        ## Reformulate outcome and covariates
+        formula.model3 <- reformulate(response = outcome,
+                                      termlabels = model3)
+        ## Subset data
+        sites <- c('Bishop Auckland', 'Whitehaven',
+                   'Hartlepool', 'Grimsby',
+                   'Hemel Hempstead', 'Warwick',
+                   'Newark', 'Southport',
+                   'Rochdale', 'Rotherham')
+        df3 <- filter(df.lsoa, town %in% sites &
+                      measure     == indicator,
+                      sub.measure == sub.indicator)
+        ## Generate time-series plot
+        results$model3.ts.plot <- ggplot(data = df3,
+                                         mapping = aes(x     = relative.month,
+                                                       y     = value,
+                                                       color = lsoa)) +
+                                  geom_line() +
+                                  geom_vline(xintercept = 25, linetype = 4) +
+                                  ## ToDo - Include other steps
+                                  labs(list(title  = paste0(title1, title2),
+                                            x      = 'Month (Aligned)',
+                                            y      = 'N',
+                                            colour = 'Hospital')) +
+                                  facet_wrap(~ group, ncol = 1)
+        ## Apply the user-specified theme
+        if(!is.null(theme)){
+            results$model3.ts.plot <- results$model3.ts.plot + theme
+        }
+        ## Perform analysis with panelAR in each
+        ##################################################
+        ## Bishop Auckland                              ##
+        ##################################################
+        ## ToDo - Add in the other steps when available to both the data and the formula
+        ## .formula.model3 <- reformulate(response = outcome,
+        ##                                termlabels = c(model3, ###))
+        model3.panelar.bishop <- filter(df3,
+                                        town == 'Bishop Auckland' |
+                                        town == 'Whitehaven') %>%
+                                 filter(measure     == indicator,
+                                        sub.measure == sub.indicator) %>%
+                                 panelAR(formula  = formula.model3,
+                                         timeVar  = timevar,
+                                         panelVar = panel.lsoa,
+                                         autoCorr = autocorr,
+                                         panelCorrMethod = panelcorrmethod)
+        results$model3.panelar.bishop.coef <- extract_coefficients(x              = model3.panelar.bishop,
+                                                                   .site          = 'Bishop Auckland',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+        results$model3.panelar.bishop.r2 <- model3.panelar.bishop$r2
+        ##################################################
+        ## Hartlepool                                   ##
+        ##################################################
+        model3.panelar.hartlepool <- filter(df3,
+                                            town == 'Hartlepool' |
+                                            town == 'Grimsby') %>%
+                                     filter(measure     == indicator,
+                                            sub.measure == sub.indicator) %>%
+                                     panelAR(formula  = formula.model3,
+                                             timeVar  = timevar,
+                                             panelVar = panel.lsoa,
+                                             autoCorr = autocorr,
+                                             panelCorrMethod = panelcorrmethod)
+        results$model3.panelar.hartlepool.coef <- extract_coefficients(x             = model3.panelar.hartlepool,
+                                                                      .site          = 'Hartlepool',
+                                                                      .indicator     = indicator,
+                                                                      .sub.indicator = sub.indicator)
+        results$model3.panelar.hartlepool.r2 <- model3.panelar.hartlepool$r2
+        ##################################################
+        ## Hemel Hempstead                              ##
+        ##################################################
+        model3.panelar.hemel <- filter(df3,
+                                       town == 'Hemel Hempstead' |
+                                       town == 'Warwick') %>%
+                                filter(measure     == indicator,
+                                       sub.measure == sub.indicator) %>%
+                                panelAR(formula  = formula.model3,
+                                        timeVar  = timevar,
+                                        panelVar = panel.lsoa,
+                                        autoCorr = autocorr,
+                                        panelCorrMethod = panelcorrmethod)
+        results$model3.panelar.hemel.coef <- extract_coefficients(x              = model3.panelar.hemel,
+                                                                  .site          = 'Hemel Hempstead',
+                                                                  .indicator     = indicator,
+                                                                  .sub.indicator = sub.indicator)
+        results$model3.panelar.hemel.r2 <- model3.panelar.hemel$r2
+        ##################################################
+        ## Newark                                       ##
+        ##################################################
+        model3.panelar.newark <- filter(df3,
+                                        town == 'Newark' |
+                                        town == 'Southport') %>%
+                                 filter(measure     == indicator,
+                                        sub.measure == sub.indicator) %>%
+                                 panelAR(formula  = formula.model3,
+                                         timeVar  = timevar,
+                                         panelVar = panel.lsoa,
+                                         autoCorr = autocorr,
+                                         panelCorrMethod = panelcorrmethod)
+        results$model3.panelar.newark.coef <- extract_coefficients(x              = model3.panelar.newark,
+                                                                   .site          = 'Newark',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+        results$model3.panelar.newark.r2 <- model3.panelar.newark$r2
+        ##################################################
+        ## Rochdale                                       ##
+        ##################################################
+        model3.panelar.rochdale <- filter(df3,
+                                          town == 'Rochdale' |
+                                          town == 'Rotherham') %>%
+                                   filter(measure     == indicator,
+                                          sub.measure == sub.indicator) %>%
+                                   panelAR(formula  = formula.model3,
+                                           timeVar  = timevar,
+                                           panelVar = panel.lsoa,
+                                           autoCorr = autocorr,
+                                           panelCorrMethod = panelcorrmethod)
+        results$model3.panelar.rochdale.coef <- extract_coefficients(x            = model3.panelar.rochdale,
+                                                                   .site          = 'Rochdale',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+        results$model3.panelar.rochdale.r2 <- model3.panelar.rochdale$r2
+        ## Summary table
+        results$model3.panelar <- combine_coefficients(bishop.coef     = results$model3.panelar.bishop.coef,
+                                                       hartlepool.coef = results$model3.panelar.hartlepool.coef,
+                                                       hemel.coef      = results$model3.panelar.hemel.coef,
+                                                       newark.coef     = results$model3.panelar.newark.coef,
+                                                       rochdale.coef   = results$model3.panelar.rochdale.coef)
+        ## Forest plot
+        results$model3.forest <- closed_forest(df.list       = list(results$model3.panelar.bishop.coef,
+                                                                    results$model3.panelar.hartlepool.coef,
+                                                                    results$model3.panelar.hemel.coef,
+                                                                    results$model3.panelar.newark.coef,
+                                                                    results$model3.panelar.rochdale.coef),
+                                               plot.term     = c('closure'),
+                                               facet.outcome = FALSE,
+                                               title         = paste0('Model 3 : ',
+                                                                      indicator,
+                                                                      ' (',
+                                                                      sub.indicator,
+                                                                      ')'),
+                                               theme         = theme_bw())
+        ## Return model objects if requested
+        if(return.model == TRUE){
+            results$model3.panelar.bishop     <- model3.panelar.bishop
+            results$model3.panelar.hartlepool <- model3.panelar.hartlepool
+            results$model3.panelar.hemel      <- model3.panelar.hemel
+            results$model3.panelar.newark     <- model3.panelar.newark
+            results$model3.panelar.rochdale   <- model3.panelar.rochdale
+        }
+        ## Remove clutter
+        rm(df3)
     }
     #######################################################################
     ## Return the results                                                ##
