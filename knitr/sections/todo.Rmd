@@ -26,8 +26,8 @@
 #### Figures
 
 * For LSOA outputs layout with case in left column, control on right.  Somehow have feint lines so that where they overlap the density is higher.
-* Tweak lines on matched graphs to distinguish cases from control sites.
-* Once spurious data points resolved need to work out how to plot discontinuous lines non-trivial, since most plotting procedures you define x and y and the connect them, whats being suggested here is not to do so, but might be possible (possibly by adding a group variable to each cluster, so remember to derive that when excluding data points)
+* Tweak lines on matched graphs to distinguish cases from control sites (line pattern).
+* Make figures taller.
 
 
 #### Tables
