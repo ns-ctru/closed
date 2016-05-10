@@ -1,49 +1,11 @@
-**TODO** - There are a number of instances where some of the data looks incomplete, how to handle these (e.g. convert to missing)?
-
+## Summary
 
 ```{r child = 'subsections/summary.Rmd', eval = TRUE}
 ```
-## Panels
-
-The panels that are being considered change depending on the type of anayses that are being performed.  If the summary data across a catchment area is being analysed under the 'step' models then the panels are the hospital/Emergency Departments themselves and no term for differences between the sites can be derived since you can not include a term in the regression equation which is equivalent to the panels themselves.  However, if the data is being considered at the Lower Super Output Area (LSOA) as it is under the 'dose' models then the panels are the LSOAs themselves, since these are the units on which repeated measures over time are available and are being analysed.  This permits the inclusion of a dummy variable for the Emergency Departments
-
-## Dose Models
-
-```{r child = 'subsections/mode_of_arrival.Rmd', eval = TRUE}
-```
-```{r child = 'subsections/mode_of_arrival_matched.Rmd', eval = TRUE}
+### ED Attendance - Any
+```{r child = 'subsections/mode_of_arrival_any.Rmd', eval = TRUE}
 ```
 
-```{r child = 'subsections/unnecessary_ed_attendances.Rmd', eval = TRUE}
-```
-```{r child = 'subsections/unnecessary_ed_attendances_matched.Rmd', eval = TRUE}
-```
+### ED Attendance - Ambulance
 
-```{r child = 'subsections/emergency_admissions.Rmd', eval = TRUE}
-```
-```{r child = 'subsections/emergency_admissions_matched.Rmd', eval = TRUE}
-```
-
-```{r child = 'subsections/unnecessary_ed_admissions.Rmd', eval = TRUE}
-```
-```{r child = 'subsections/unnecessary_ed_admissions_matched.Rmd', eval = TRUE}
-```
-
-
-
-```{r child = 'subsections/mortality.Rmd', eval = FALSE}
-```
-```{r child = 'subsections/mortality_matched.Rmd', eval = FALSE}
-```
-
-## Step Models
-```{r child = 'subsections/mode_of_arrival_pooled.Rmd', eval = TRUE}
-```
-```{r child = 'subsections/unnecessary_ed_attendances_pooled.Rmd', eval = TRUE}
-```
-```{r child = 'subsections/emergency_admissions_pooled.Rmd', eval = TRUE}
-```
-```{r child = 'subsections/unnecessary_ed_admissions_pooled.Rmd', eval = TRUE}
-```
-```{r child = 'subsections/mortality_pooled.Rmd', eval = FALSE}
-```
+### ED Attendance - Other
