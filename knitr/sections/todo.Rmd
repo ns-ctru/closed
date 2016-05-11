@@ -17,6 +17,7 @@
 
 #### Analyses
 
+* Explicitly define the reference groups for sites so that coefficients (including those for interaction terms) reflect the change at the intervention site (currently done alphabetically).
 * Cross-checke results from panelAR function against those from Stata (** Awaiting Stata Technical Support **)
 * Check Cases v's all Controls (Unmatched) filtering is correct.
 
