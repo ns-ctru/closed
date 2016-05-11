@@ -691,7 +691,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##               sub.measure == sub.indicator)
         ## Remove duplicates (based on lsoa and relative.time)
         df4 <- df.lsoa
-        check <- dplyr::select()
+        check <- dplyr::select(df4, lsoa, relative.month)
+        df4 <- df4[!duplicated(check)]
         df4.trust <- filter(df.trust, town %in% sites &
                             measure     == indicator,
                             sub.measure == sub.indicator)
