@@ -31,6 +31,8 @@
 #' @param model4 Covariates to include in model 4.
 #' @param model5 Covariates to include in model 5.
 #' @param model6 Covariates to include in model 6.
+#' @param autocorr panelAR() option for handling auto-correlation, default is \code{ar1}.
+#' @param panelcorrmethod panelAR() option for panel correction, default is \code{pcse}.
 #' @param plot Generate time-series plot.
 #' @param common.y Generate all plots with a common y-axis range.
 #' @param theme GGplot2 theme to use (only relevant if \code{plot = TRUE}).
@@ -81,10 +83,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     #######################################################################
     ## Initialise results list for returning everything
     results <- list()
-    ## Convert to data frame
-    df.lsoa  <- as.data.frame(df.lsoa)
-    df.trust <- as.data.frame(df.trust)
-    ## df.steps <- as.data.frame(df.steps)
     ## Convert variable names for ease of typing within this function
     ## (ESS artefact, hitting underscore inserts '<-' so lots of underscores are
     ## tedious to type)
@@ -92,6 +90,14 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                        gsub("_", ".", x = .)
     names(df.trust) <- names(df.trust) %>%
                        gsub("_", ".", x = .)
+    ## Convert to data frame, selecting only the specified outcome
+    df.lsoa  <- as.data.frame(df.lsoa) %>%
+                dplyr::filter(measure == indicator,
+                              sub.measure == sub.indicator)
+    df.trust <- as.data.frame(df.trust) %>%
+                dplyr::filter(measure == indicator,
+                              sub.measure == sub.indicator)
+    ## df.steps <- as.data.frame(df.steps)
     ## names(df.steps) <- names(df.steps) %>%
     ##                    gsub("_", ".", x = .)
     ## Conditionally select range for y-axis, MUST do this BEFORE subsetting
@@ -128,8 +134,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Add a 'step' indicator for closure                                ##
     #######################################################################
     sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
-    df.lsoa$closure  <- ifelse(df.lsoa$relative.month  >= 25, 1, 0)
-    df.trust$closure <- ifelse(df.trust$relative.month >= 25, 1, 0)
+    df.lsoa$closure  <- ifelse(df.lsoa$relative.month  >= 24, 1, 0)
+    df.trust$closure <- ifelse(df.trust$relative.month >= 24, 1, 0)
     #######################################################################
     ## Labels and captions conditional on outcome                        ##
     #######################################################################
@@ -190,7 +196,20 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                            formatC(coef$p, digits = 4, format = 'e'))
         coef <- dplyr::select(coef, indicator, sub.indicator, term, site, out) %>%
                 melt(id = c('indicator', 'sub.indicator', 'site', 'term')) %>%
-                dcast(indicator + sub.indicator + term ~ site + variable)
+            dcast(indicator + sub.indicator + term ~ site + variable)
+        ## Format the term label for interactions between site and town
+        coef <- within(coef, {
+                       term[term == 'townBishop Auckland'] <- 'Bishop Auckland'
+                       term[term == 'townBishop Auckland:closure'] <- 'Bishop Auckland x Closure'
+                       term[term == 'townHartlepool'] <- 'Hartlepool'
+                       term[term == 'townHartlepool:closure'] <- 'Hartlepool x Closure'
+                       term[term == 'townHemel Hempstead'] <- 'Hemel Hempstead'
+                       term[term == 'townHemel Hempstead:closure'] <- 'Hemel Hempstead x Closure'
+                       term[term == 'townNewark']  <- 'Newark'
+                       term[term == 'townNewark:closure']  <- 'Newark x Closure'
+                       term[term == 'townRochdale']  <- 'Rochdale'
+                       term[term == 'townRochdale:closure']  <- 'Rochdale x Closure'
+                       })
         ## Combine with r2
         names(coef) <- gsub("_out", "", names(coef))
         names(r2) <- gsub("variable", "term", names(r2))
@@ -218,7 +237,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                        y     = value,
                                                        color = town)) +
             geom_line() +
-            geom_vline(xintercept = 25, linetype = 4) +
+            geom_vline(xintercept = 24, linetype = 4) +
             ## ToDo - Include other steps
             labs(list(title  = paste0(title1, title2),
                       x      = 'Month (Aligned)',
@@ -232,9 +251,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Bishop Auckland                              ##
         ##################################################
         model1.panelar.bishop <- filter(df1,
-                                        town        == 'Bishop Auckland' &
-                                        measure     == indicator,
-                                        sub.measure == sub.indicator) %>%
+                                        town        == 'Bishop Auckland') %>%
                                  panelAR(formula  = formula.model1,
                                          timeVar  = timevar,
                                          panelVar = panel.trust,
@@ -249,9 +266,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Hartlepool                                   ##
         ##################################################
         model1.panelar.hartlepool <- filter(df1,
-                                            town        == 'Hartlepool' &
-                                            measure     == indicator,
-                                            sub.measure == sub.indicator) %>%
+                                            town        == 'Hartlepool') %>%
                                      panelAR(formula  = formula.model1,
                                              timeVar  = timevar,
                                              panelVar = panel.trust,
@@ -266,9 +281,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Hemel Hempstead                              ##
         ##################################################
         model1.panelar.hemel <- filter(df1,
-                                       town        == 'Hemel Hempstead' &
-                                       measure     == indicator,
-                                       sub.measure == sub.indicator) %>%
+                                       town        == 'Hemel Hempstead') %>%
                                 panelAR(formula  = formula.model1,
                                         timeVar  = timevar,
                                         panelVar = panel.trust,
@@ -283,9 +296,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Newark                              ##
         ##################################################
         model1.panelar.newark <- filter(df1,
-                                        town        == 'Newark' &
-                                        measure     == indicator,
-                                        sub.measure == sub.indicator) %>%
+                                        town        == 'Newark') %>%
                                   panelAR(formula  = formula.model1,
                                           timeVar  = timevar,
                                           panelVar = panel.trust,
@@ -300,9 +311,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Rochdale                              ##
         ##################################################
         results$model1.panelar.rochdale <- filter(df1,
-                                                  town        == 'Rochdale' &
-                                                  measure     == indicator,
-                                                  sub.measure == sub.indicator) %>%
+                                                  town        == 'Rochdale') %>%
                                            panelAR(formula  = formula.model1,
                                                    timeVar  = timevar,
                                                    panelVar = panel.trust,
@@ -366,7 +375,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                        y     = value,
                                                        color = town)) +
                                   geom_line() +
-                                  geom_vline(xintercept = 25, linetype = 4) +
+                                  geom_vline(xintercept = 24, linetype = 4) +
                                   ## ToDo - Include other steps
                                   labs(list(title  = paste0(title1, title2),
                                             x      = 'Month (Aligned)',
@@ -387,8 +396,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model2.panelar.bishop <- filter(df2,
                                         town == 'Bishop Auckland' |
                                         town == 'Whitehaven') %>%
-                                 filter(measure     == indicator,
-                                        sub.measure == sub.indicator) %>%
                                  panelAR(formula  = formula.model2,
                                          timeVar  = timevar,
                                          panelVar = panel.trust,
@@ -405,8 +412,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model2.panelar.hartlepool <- filter(df2,
                                             town == 'Hartlepool' |
                                             town == 'Grimsby') %>%
-                                     filter(measure     == indicator,
-                                            sub.measure == sub.indicator) %>%
                                      panelAR(formula  = formula.model2,
                                              timeVar  = timevar,
                                              panelVar = panel.trust,
@@ -423,8 +428,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model2.panelar.hemel <- filter(df2,
                                        town == 'Hemel Hempstead' |
                                        town == 'Warwick') %>%
-                                filter(measure     == indicator,
-                                       sub.measure == sub.indicator) %>%
                                 panelAR(formula  = formula.model2,
                                         timeVar  = timevar,
                                         panelVar = panel.trust,
@@ -441,8 +444,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model2.panelar.newark <- filter(df2,
                                         town == 'Newark' |
                                         town == 'Southport') %>%
-                                 filter(measure     == indicator,
-                                        sub.measure == sub.indicator) %>%
                                  panelAR(formula  = formula.model2,
                                          timeVar  = timevar,
                                          panelVar = panel.trust,
@@ -459,8 +460,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model2.panelar.rochdale <- filter(df2,
                                           town == 'Rochdale' |
                                           town == 'Rotherham') %>%
-                                   filter(measure     == indicator,
-                                          sub.measure == sub.indicator) %>%
                                    panelAR(formula  = formula.model2,
                                            timeVar  = timevar,
                                            panelVar = panel.trust,
@@ -518,22 +517,46 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         df3 <- filter(df.lsoa, town %in% sites &
                       measure     == indicator,
                       sub.measure == sub.indicator)
-        ## Generate time-series plot
-        results$model3.ts.plot <- ggplot(data = df3,
-                                         mapping = aes(x     = relative.month,
-                                                       y     = value,
-                                                       color = lsoa)) +
-                                  geom_line() +
-                                  geom_vline(xintercept = 25, linetype = 4) +
-                                  ## ToDo - Include other steps
-                                  labs(list(title  = paste0(title1, title2),
-                                            x      = 'Month (Aligned)',
-                                            y      = 'N',
-                                            colour = 'Hospital')) +
-                                  facet_wrap(~ group, ncol = 1)
+        df3.trust <- filter(df.trust, town %in% sites &
+                            measure     == indicator,
+                            sub.measure == sub.indicator)
+        ## Add in indicator of case/control status for plotting
+        case <- c('Bishop Auckland',
+                  'Hartlepool',
+                  'Hemel Hempstead',
+                  'Newark',
+                  'Rochdale')
+        df3$status <- ifelse(df3$town %in% case, 'Case', 'Control')
+        ## Generate time-series plot (at site/town level)
+        results$model3.ts.plot.trust <- ggplot(data = df3.trust,
+                                               mapping = aes(x     = relative.month,
+                                                             y     = value,
+                                                             color = town)) +
+                                        geom_line() +
+                                        geom_vline(xintercept = 24, linetype = 4) +
+                                        ## ToDo - Include other steps
+                                        labs(list(title  = paste0(title1, title2),
+                                                  x      = 'Month (Aligned)',
+                                                  y      = 'N',
+                                                  colour = 'Hospital')) +
+                                        facet_wrap(~ group, ncol = 1)
+        ## Generate time-series plot (at site/town level)
+        results$model3.ts.plot.lsoa <-  ggplot(data = df3,
+                                               mapping = aes(x     = relative.month,
+                                                             y     = value,
+                                                             color = lsoa)) +
+                                        geom_line() +
+                                        geom_vline(xintercept = 24, linetype = 4) +
+                                        ## ToDo - Include other steps
+                                        labs(list(title  = paste0(title1, title2),
+                                                  x      = 'Month (Aligned)',
+                                                  y      = 'N')) +
+                                        theme(legend.position = 'none') +
+                                        facet_wrap( ~ town + status, ncol = 2)
         ## Apply the user-specified theme
         if(!is.null(theme)){
-            results$model3.ts.plot <- results$model3.ts.plot + theme
+            results$model3.ts.plot.trust <- results$model3.ts.plot.trust + theme
+            results$model3.ts.plot.lsoa  <- results$model3.ts.plot.lsoa + theme + theme(legend.position = 'none')
         }
         ## Perform analysis with panelAR in each
         ##################################################
@@ -545,8 +568,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model3.panelar.bishop <- filter(df3,
                                         town == 'Bishop Auckland' |
                                         town == 'Whitehaven') %>%
-                                 filter(measure     == indicator,
-                                        sub.measure == sub.indicator) %>%
                                  panelAR(formula  = formula.model3,
                                          timeVar  = timevar,
                                          panelVar = panel.lsoa,
@@ -563,8 +584,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model3.panelar.hartlepool <- filter(df3,
                                             town == 'Hartlepool' |
                                             town == 'Grimsby') %>%
-                                     filter(measure     == indicator,
-                                            sub.measure == sub.indicator) %>%
                                      panelAR(formula  = formula.model3,
                                              timeVar  = timevar,
                                              panelVar = panel.lsoa,
@@ -581,8 +600,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model3.panelar.hemel <- filter(df3,
                                        town == 'Hemel Hempstead' |
                                        town == 'Warwick') %>%
-                                filter(measure     == indicator,
-                                       sub.measure == sub.indicator) %>%
                                 panelAR(formula  = formula.model3,
                                         timeVar  = timevar,
                                         panelVar = panel.lsoa,
@@ -599,8 +616,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model3.panelar.newark <- filter(df3,
                                         town == 'Newark' |
                                         town == 'Southport') %>%
-                                 filter(measure     == indicator,
-                                        sub.measure == sub.indicator) %>%
                                  panelAR(formula  = formula.model3,
                                          timeVar  = timevar,
                                          panelVar = panel.lsoa,
@@ -617,8 +632,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model3.panelar.rochdale <- filter(df3,
                                           town == 'Rochdale' |
                                           town == 'Rotherham') %>%
-                                   filter(measure     == indicator,
-                                          sub.measure == sub.indicator) %>%
                                    panelAR(formula  = formula.model3,
                                            timeVar  = timevar,
                                            panelVar = panel.lsoa,
@@ -659,6 +672,116 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         }
         ## Remove clutter
         rm(df3)
+    }
+    #######################################################################
+    ## Model 4                                                           ##
+    #######################################################################
+    if(!is.null(model4)){
+        ## Reformulate outcome and covariates
+        formula.model4 <- reformulate(response = outcome,
+                                      termlabels = model4)
+        ## Subset data
+        ## sites <- c('Bishop Auckland', 'Whitehaven',
+        ##            'Hartlepool', 'Grimsby',
+        ##            'Hemel Hempstead', 'Warwick',
+        ##            'Newark', 'Southport',
+        ##            'Rochdale', 'Rotherham')
+        ## df4 <- filter(df.lsoa, town %in% sites &
+        ##               measure     == indicator,
+        ##               sub.measure == sub.indicator)
+        ## Remove duplicates (based on lsoa and relative.time)
+        df4 <- df.lsoa
+        check <- dplyr::select()
+        df4.trust <- filter(df.trust, town %in% sites &
+                            measure     == indicator,
+                            sub.measure == sub.indicator)
+        ## Add in indicator of case/control status for plotting
+        case <- c('Bishop Auckland',
+                  'Hartlepool',
+                  'Hemel Hempstead',
+                  'Newark',
+                  'Rochdale')
+        df4$status <- ifelse(df4$town %in% case, 'Case', 'Control')
+        ## Generate time-series plot (at site/town level)
+        results$model4.ts.plot.trust <- ggplot(data = df4.trust,
+                                               mapping = aes(x     = relative.month,
+                                                             y     = value,
+                                                             color = town)) +
+                                        geom_line() +
+                                        geom_vline(xintercept = 24, linetype = 4) +
+                                        ## ToDo - Include other steps
+                                        labs(list(title  = paste0(title1, title2),
+                                                  x      = 'Month (Aligned)',
+                                                  y      = 'N',
+                                                  colour = 'Hospital')) +
+                                        facet_wrap(~ group, ncol = 1)
+        ## Generate time-series plot (at site/town level)
+        results$model4.ts.plot.lsoa <-  ggplot(data = df4,
+                                               mapping = aes(x     = relative.month,
+                                                             y     = value,
+                                                             color = lsoa)) +
+                                        geom_line() +
+                                        geom_vline(xintercept = 24, linetype = 4) +
+                                        ## ToDo - Include other steps
+                                        labs(list(title  = paste0(title1, title2),
+                                                  x      = 'Month (Aligned)',
+                                                  y      = 'N')) +
+                                        theme(legend.position = 'none') +
+                                        facet_wrap( ~ town + status, ncol = 2)
+        ## Apply the user-specified theme
+        if(!is.null(theme)){
+            results$model4.ts.plot.trust <- results$model4.ts.plot.trust + theme
+            results$model4.ts.plot.lsoa  <- results$model4.ts.plot.lsoa + theme + theme(legend.position = 'none')
+        }
+        ## Perform analysis with panelAR in each
+        ##################################################
+        ## All sites                                    ##
+        ##################################################
+        ## ToDo - Add in the other steps when available to both the data and the formula
+        ## .formula.model4 <- reformulate(response = outcome,
+        ##                                termlabels = c(model4, ###))
+        results$df4 <- filter(df4,
+                              measure     == indicator,
+                              sub.measure == sub.indicator)
+        ## model4.panelar.all <- filter(df4,
+        ##                              measure     == indicator,
+        ##                              sub.measure == sub.indicator) %>%
+        ##                       panelAR(formula  = formula.model4,
+        ##                               timeVar  = timevar,
+        ##                               panelVar = panel.lsoa,
+        ##                               autoCorr = autocorr,
+        ##                               panelCorrMethod = panelcorrmethod)
+        ## results$model4.panelar.coef <- extract_coefficients(x              = model4.panelar.all,
+        ##                                                     .site          = 'All',
+        ##                                                     .indicator     = indicator,
+        ##                                                     .sub.indicator = sub.indicator)
+        ## results$model4.panelar.r2 <- model4.panelar.all
+        ## Summary table
+        ## results$model4.panelar <- combine_coefficients(bishop.coef     = results$model4.panelar.bishop.coef,
+        ##                                                hartlepool.coef = results$model4.panelar.hartlepool.coef,
+        ##                                                hemel.coef      = results$model4.panelar.hemel.coef,
+        ##                                                newark.coef     = results$model4.panelar.newark.coef,
+        ##                                                rochdale.coef   = results$model4.panelar.rochdale.coef)
+        ## ## Forest plot
+        ## results$model4.forest <- closed_forest(df.list       = list(results$model4.panelar.bishop.coef,
+        ##                                                             results$model4.panelar.hartlepool.coef,
+        ##                                                             results$model4.panelar.hemel.coef,
+        ##                                                             results$model4.panelar.newark.coef,
+        ##                                                             results$model4.panelar.rochdale.coef),
+        ##                                        plot.term     = c('closure'),
+        ##                                        facet.outcome = FALSE,
+        ##                                        title         = paste0('Model 4 : ',
+        ##                                                               indicator,
+        ##                                                               ' (',
+        ##                                                               sub.indicator,
+        ##                                                               ')'),
+        ##                                        theme         = theme_bw())
+        ## Return model objects if requested
+        if(return.model == TRUE){
+            results$model4.panelar.all     <- model4.panelar.all
+        }
+        ## Remove clutter
+        rm(df4)
     }
     #######################################################################
     ## Return the results                                                ##
