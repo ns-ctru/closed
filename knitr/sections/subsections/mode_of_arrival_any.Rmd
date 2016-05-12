@@ -4,13 +4,7 @@
 `Panel        : ED`
 `Model        : observations ~ season + time + closure + steps`
 
-```{r mode_of_arrival_any_model1,
-    echo	= FALSE,
-    cache	= FALSE,
-    results	= 'markup',
-    fig.height	= 8,
-    fig.width	= 8,
-    eval	= TRUE}
+```{r mode_of_arrival_any_model1, echo = FALSE, cache = FALSE, results = 'markup', fig.height = 8, fig.width = 8, eval	= TRUE}
 mode.of.arrival.any$model1.ts.plot
 mode.of.arrival.any$model1.forest$forest
 mode.of.arrival.any$model1.panelar[3:8] %>% kable()
@@ -23,13 +17,7 @@ mode.of.arrival.any$model1.panelar[3:8] %>% kable()
 `Panel        : ED`
 `Model        : observations ~ season + time + closure * site + steps`
 
-```{r mode_of_arrival_any_model2,
-    echo	= FALSE,
-    cache	= FALSE,
-    results	= 'markup',
-    fig.height	= 8,
-    fig.width	= 8,
-    eval	= TRUE}
+```{r mode_of_arrival_any_model2, echo = FALSE, cache = FALSE, results = 'markup', fig.height = 8, fig.width = 8, eval = TRUE}
 mode.of.arrival.any$model2.ts.plot
 mode.of.arrival.any$model2.forest$forest
 mode.of.arrival.any$model2.panelar[3:8] %>% kable()
@@ -42,13 +30,7 @@ mode.of.arrival.any$model2.panelar[3:8] %>% kable()
 `Panel        : LSOA`
 `Model        : observations ~ season + time + closure * site + steps + change in ED time`
 
-```{r mode_of_arrival_any_model3,
-    echo	= FALSE,
-    cache	= FALSE,
-    results	= 'markup',
-    fig.height	= 8,
-    fig.width	= 8,
-    eval	= TRUE}
+```{r mode_of_arrival_any_model3, echo = FALSE, cache = FALSE, results = 'markup', fig.height = 8, fig.width = 8, eval = TRUE}
 mode.of.arrival.any$model3.ts.plot.trust
 mode.of.arrival.any$model3.forest$forest
 mode.of.arrival.any$model3.panelar[3:8] %>% kable()
@@ -64,13 +46,7 @@ mode.of.arrival.any$model3.panelar[3:8] %>% kable()
 
 Model 4 seeks to analyse at the LSOA level across all sites (cases and all controls) the effects of the various steps, and other co-variates.  However, there are 2648 LSOAs (i.e panels) and the amount of RAM required by the software is 120Gb which currently exceeds the 16Gb available on the Virtual Machine.
 
-```{r mode_or_arrival_model4,
-    echo	= FALSE,
-    cache	= FALSE,
-    results	= 'markup',
-    fig.height	= 8,
-    fig.width	= 8,
-    eval	= TRUE}
+```{r mode_or_arrival_any_model4, echo = FALSE, cache = FALSE, results = 'markup', fig.height = 8, fig.width = 8, eval = TRUE}
 mode.of.arrival.any$model4.ts.plot.trust
 ## mode.of.arrival.any$model4.forest$forest
 ## mode.of.arrival.any$model4.panelar[3:8]
@@ -83,13 +59,7 @@ mode.of.arrival.any$model4.ts.plot.trust
 `Panel        : LSOA`
 `Model        : observations ~ season + time + closure * site + steps`
 
-```{r mode_or_arrival_model5,
-    echo	= FALSE,
-    cache	= FALSE,
-    results	= 'markup',
-    fig.height	= 8,
-    fig.width	= 8,
-    eval	= TRUE}
+```{r mode_or_arrival_any_model5, echo = FALSE, cache = FALSE, results = 'markup', fig.height = 8, fig.width = 8, eval = TRUE}
 mode.of.arrival.any$model4.ts.plot.trust
 ## mode.of.arrival.any$model4.forest$forest
 ## mode.of.arrival.any$model5.panelar[3:8]
