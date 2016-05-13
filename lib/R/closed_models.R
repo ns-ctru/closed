@@ -27,6 +27,7 @@
 #' @param outcome Outcome variable containing the counts (default is \code{value} and shouldn't need changing).
 #' @param model1 Covariates to include in model 1.
 #' @param model2 Covariates to include in model 2.
+#' @param model2.5 Covariates to include in model 2.5.
 #' @param model3 Covariates to include in model 3.
 #' @param model4 Covariates to include in model 4.
 #' @param model5 Covariates to include in model 5.
@@ -66,6 +67,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           outcome         = 'value',
                           model1          = c('closure', 'season', 'relative.month'), ## ToDo - Add other steps when available
                           model2          = c('town * closure', 'season', 'relative.month'),
+                          model2.5        = c('town * closure', 'season', 'relative.month'),
                           model3          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
                           model4          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
                           model5          = c('town * closure', 'season', 'relative.month'),
@@ -537,14 +539,17 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         formula.model2.5 <- reformulate(response = outcome,
                                       termlabels = model2.5)
         ## Subset data
-        sites <- c('Bishop Auckland', 'Whitehaven',
-                   'Hartlepool', 'Grimsby',
-                   'Hemel Hempstead', 'Warwick',
-                   'Newark', 'Southport',
-                   'Rochdale', 'Rotherham')
-        df2.5 <- filter(df.trust, town %in% sites &
-                      measure     == indicator,
-                      sub.measure == sub.indicator)
+        ## sites <- c('Bishop Auckland', 'Whitehaven',
+        ##            'Hartlepool', 'Grimsby',
+        ##            'Hemel Hempstead', 'Warwick',
+        ##            'Newark', 'Southport',
+        ##            'Rochdale', 'Rotherham')
+        ## df2.5 <- filter(df.trust, town %in% sites &
+        ##               measure     == indicator,
+        ##               sub.measure == sub.indicator)
+        df2.5 <- filter(df.trust,
+                        measure     == indicator,
+                        sub.measure == sub.indicator)
         ## Generate time-series plot
         df2.5$group <- paste0('Cohort : ', df2.5$group)
         results$model2.5.ts.plot <- ggplot(data = df2.5,
@@ -573,6 +578,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model2.5.ts.plot <- results$model2.5.ts.plot + theme +
                                       theme(legend.position = 'none')
         }
+        results$df2.5 <- df2.5
         ## Perform analysis with panelAR in each
         ##################################################
         ## Bishop Auckland                              ##
@@ -581,8 +587,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## .formula.model2.5 <- reformulate(response = outcome,
         ##                                termlabels = c(model2.5, ###))
         model2.5.panelar.bishop <- filter(df2.5,
-                                        town == 'Bishop Auckland' |
-                                        town == 'Whitehaven') %>%
+                                          group == 'Cohort : Bishop Auckland General Hospital') %>%
                                  panelAR(formula  = formula.model2.5,
                                          timeVar  = timevar,
                                          panelVar = panel.trust,
@@ -597,8 +602,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Hartlepool                                   ##
         ##################################################
         model2.5.panelar.hartlepool <- filter(df2.5,
-                                            town == 'Hartlepool' |
-                                            town == 'Grimsby') %>%
+                                              group == 'Cohort : University Hospital of Hartlepool') %>%
                                      panelAR(formula  = formula.model2.5,
                                              timeVar  = timevar,
                                              panelVar = panel.trust,
@@ -613,8 +617,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Hemel Hempstead                              ##
         ##################################################
         model2.5.panelar.hemel <- filter(df2.5,
-                                       town == 'Hemel Hempstead' |
-                                       town == 'Warwick') %>%
+                                         group == 'Cohort : Hemel Hempstead Hospital') %>%
                                 panelAR(formula  = formula.model2.5,
                                         timeVar  = timevar,
                                         panelVar = panel.trust,
@@ -629,8 +632,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Newark                                       ##
         ##################################################
         model2.5.panelar.newark <- filter(df2.5,
-                                        town == 'Newark' |
-                                        town == 'Southport') %>%
+                                          group == 'Cohort : Newark Hospital') %>%
                                  panelAR(formula  = formula.model2.5,
                                          timeVar  = timevar,
                                          panelVar = panel.trust,
@@ -645,8 +647,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Rochdale                                       ##
         ##################################################
         model2.5.panelar.rochdale <- filter(df2.5,
-                                          town == 'Rochdale' |
-                                          town == 'Rotherham') %>%
+                                            group == 'Cohort : Rochdale Infirmary') %>%
                                    panelAR(formula  = formula.model2.5,
                                            timeVar  = timevar,
                                            panelVar = panel.trust,
@@ -685,7 +686,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model2.5.panelar.newark     <- model2.5.panelar.newark
             results$model2.5.panelar.rochdale   <- model2.5.panelar.rochdale
         }
-        ## Remove clutter
+        Remove clutter
         rm(df2.5)
     }
     #######################################################################
