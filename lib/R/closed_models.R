@@ -660,16 +660,16 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         results$model2.5.panelar.rochdale.r2 <- model2.5.panelar.rochdale$r2
         ## Summary table
         results$model2.5.panelar <- combine_coefficients(bishop.coef     = results$model2.5.panelar.bishop.coef,
-                                                       hartlepool.coef = results$model2.5.panelar.hartlepool.coef,
-                                                       hemel.coef      = results$model2.5.panelar.hemel.coef,
-                                                       newark.coef     = results$model2.5.panelar.newark.coef,
-                                                       rochdale.coef   = results$model2.5.panelar.rochdale.coef)
+                                                         hartlepool.coef = results$model2.5.panelar.hartlepool.coef,
+                                                         hemel.coef      = results$model2.5.panelar.hemel.coef,
+                                                         newark.coef     = results$model2.5.panelar.newark.coef,
+                                                         rochdale.coef   = results$model2.5.panelar.rochdale.coef)
         ## Forest plot
         results$model2.5.forest <- closed_forest(df.list       = list(results$model2.5.panelar.bishop.coef,
-                                                                    results$model2.5.panelar.hartlepool.coef,
-                                                                    results$model2.5.panelar.hemel.coef,
-                                                                    results$model2.5.panelar.newark.coef,
-                                                                    results$model2.5.panelar.rochdale.coef),
+                                                                      results$model2.5.panelar.hartlepool.coef,
+                                                                      results$model2.5.panelar.hemel.coef,
+                                                                      results$model2.5.panelar.newark.coef,
+                                                                      results$model2.5.panelar.rochdale.coef),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
                                                title         = paste0('Model 2.5 : ',
@@ -686,7 +686,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model2.5.panelar.newark     <- model2.5.panelar.newark
             results$model2.5.panelar.rochdale   <- model2.5.panelar.rochdale
         }
-        Remove clutter
+        ## Remove clutter
         rm(df2.5)
     }
     #######################################################################
@@ -1059,7 +1059,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                        rochdale.coef   = results$model2.panelar.rochdale.coef,
                                                        all.coef        = results$model5.panelar.all.coef)
         ## ## Forest plot
-        results$model5.forest <- closed_forest(df.list       = list(results$model2.panelar.bishop.coef,
+        results$model5.forest.model2 <- closed_forest(df.list       = list(results$model2.panelar.bishop.coef,
                                                                     results$model2.panelar.hartlepool.coef,
                                                                     results$model2.panelar.hemel.coef,
                                                                     results$model2.panelar.newark.coef,
@@ -1067,7 +1067,21 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                     results$model5.panelar.all.coef),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
-                                               title         = paste0('Model 5 : ',
+                                               title         = paste0('Model 2 & Model 5 : ',
+                                                                      indicator,
+                                                                      ' (',
+                                                                      sub.indicator,
+                                                                      ')'),
+                                               theme         = theme_bw())
+        results$model5.forest.model2.5 <- closed_forest(df.list       = list(results$model2.5.panelar.bishop.coef,
+                                                                    results$model2.5.panelar.hartlepool.coef,
+                                                                    results$model2.5.panelar.hemel.coef,
+                                                                    results$model2.5.panelar.newark.coef,
+                                                                    results$model2.5.panelar.rochdale.coef,
+                                                                    results$model5.panelar.all.coef),
+                                               plot.term     = c('closure'),
+                                               facet.outcome = FALSE,
+                                               title         = paste0('Model 2.5 & Model 5 : ',
                                                                       indicator,
                                                                       ' (',
                                                                       sub.indicator,
