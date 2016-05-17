@@ -1,26 +1,96 @@
 <!--- Runs all analyses, saving results as an R object for loading --->
+<!--- Summary --->
+```{r load_data, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
+load('d:/Rpackages/rclosed/data/ed attendances by mode measure - lsoa - 2016-05-03 19.17.Rda')
+load('d:/Rpackages/rclosed/data/ed attendances by mode measure - site - 2016-05-03 20.38.Rda')
+```
+```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'asis', eval = FALSE}
+time.to.ed <- closed_summary(df          = ed_attendances_by_mode_measure,
+                             df.steps    = sites,
+                             vars        = value,
+                             digits      = 3,
+                             latex       = FALSE,
+                             html        = FALSE)
+```
+<!--- Mode of Arrival - Any --->
 ```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-mode.of.arrival.any <- closed_model(df.lsoa         = ed_attendances_by_mode_measure,
-                                    df.trust        = ed_attendances_by_mode_site_measure,
-                                    df.steps        = steps,
-                                    indicator       = 'ed attendances',
-                                    sub.indicator   = 'any',
-                                    steps           = c('closure'),
-                                    fit.with        = 'both',
-                                    panel.lsoa      = 'lsoa',
-                                    panel.trust     = 'town',
-                                    timevar         = 'relative.month',
-                                    outcome         = 'value',
-                                    model1          = c('closure', 'season', 'relative.month'), ## ToDo - Add other steps when available
-                                    model2          = c('town * closure', 'season', 'relative.month'),
-                                    model3          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
-                                    model4          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
-                                    model5          = c('town * closure', 'season', 'relative.month'),
-                                    model6          = c(),
-                                    autocorr        = 'ar1',
-                                    panelcorrmethod = 'pcse',
-                                    plot            = TRUE,
-                                    common.y        = TRUE,
-                                    theme           = theme_bw(),
-                                    return.model    = FALSE)
+mode.of.arrival.any <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
+                                     df.trust        = ed_attendances_by_mode_site_measure,
+                                     df.steps        = steps,
+                                     indicator       = 'ed attendances',
+                                     sub.indicator   = 'any',
+                                     steps           = c('closure'),
+                                     fit.with        = 'both',
+                                     panel.lsoa      = 'lsoa',
+                                     panel.trust     = 'town',
+                                     timevar         = 'relative.month',
+                                     outcome         = 'value',
+                                     model1          = c('closure', 'season', 'relative.month'),
+                                     model2          = c('town * closure', 'season', 'relative.month'),
+                                     model3          = c('town * closure', 'season', 'relative.month'),
+                                     model4          = c('town * closure', 'season', 'relative.month'),
+                                     model5          = c('town * closure', 'season', 'relative.month'),
+                                     model6          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
+                                     ## model7          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
+				     model7          = NULL,
+                                     autocorr        = 'ar1',
+                                     panelcorrmethod = 'pcse',
+                                     plot            = TRUE,
+                                     common.y        = TRUE,
+                                     theme           = theme_bw(),
+                                     return.model    = FALSE)
+```
+
+<!--- Mode of Arrival - Other --->
+```{r mode_of_arrival_other, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+mode.of.arrival.other <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
+                                     df.trust        = ed_attendances_by_mode_site_measure,
+                                     df.steps        = steps,
+                                     indicator       = 'ed attendances',
+                                     sub.indicator   = 'other',
+                                     steps           = c('closure'),
+                                     fit.with        = 'both',
+                                     panel.lsoa      = 'lsoa',
+                                     panel.trust     = 'town',
+                                     timevar         = 'relative.month',
+                                     outcome         = 'value',
+                                     model1          = c('closure', 'season', 'relative.month'), ## ToDo - Add other steps when available
+                                     model2          = c('town * closure', 'season', 'relative.month'),
+                                     model3          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
+                                     # model4          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
+                                     # model5          = c('town * closure', 'season', 'relative.month'),
+                                     # model6          = c(),
+                                     autocorr        = 'ar1',
+                                     panelcorrmethod = 'pcse',
+                                     plot            = TRUE,
+                                     common.y        = TRUE,
+                                     theme           = theme_bw(),
+                                     return.model    = FALSE)
+```
+
+<!--- Mode of Arrival - Ambulance --->
+```{r mode_of_arrival_ambulance, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
+                                     df.trust        = ed_attendances_by_mode_site_measure,
+                                     df.steps        = steps,
+                                     indicator       = 'ed attendances',
+                                     sub.indicator   = 'ambulance',
+                                     steps           = c('closure'),
+                                     fit.with        = 'both',
+                                     panel.lsoa      = 'lsoa',
+                                     panel.trust     = 'town',
+                                     timevar         = 'relative.month',
+                                     outcome         = 'value',
+                                     model1          = c('closure', 'season', 'relative.month'), ## ToDo - Add other steps when available
+                                     model2          = c('town * closure', 'season', 'relative.month'),
+                                     model3          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
+                                     # model4          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
+                                     # model5          = c('town * closure', 'season', 'relative.month'),
+                                     # model6          = c(),
+                                     autocorr        = 'ar1',
+                                     panelcorrmethod = 'pcse',
+                                     plot            = TRUE,
+                                     common.y        = TRUE,
+                                     theme           = theme_bw(),
+                                     return.model    = FALSE)
 ```
