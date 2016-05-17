@@ -225,7 +225,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         names(.r2) <- gsub("variable", "term", names(.r2))
         coef$coef <- rbind(.coef, .r2)
         rm(.r2)
-        names(coef$coef) <- c('Indicator', 'Subindicator', 'Term', 'Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
+        if(is.null(all.coef)){
+            names(coef$coef) <- c('Indicator', 'Subindicator', 'Term', 'Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
+        }
+        else{
+            names(coef$coef) <- c('Indicator', 'Subindicator', 'Term', 'Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'All')
+        }
         ## Derive a caption for the table
         coef$caption <- paste0('Comparison of coefficients across sites.  Each cell contains a point estimates followed by the standard error (in brackets) and the associated p-value.')
         return(coef)
@@ -1054,7 +1059,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                    'Hemel Hempstead', 'Warwick',
                    'Newark', 'Southport',
                    'Rochdale', 'Rotherham')
-        df7 <- filter(df.trust, town %in% sites &
+        df7 <- filter(df.lsoa, town %in% sites &
                       measure     == indicator &
                       sub.measure == sub.indicator)
         ## Two LSOAs overlap two EDs so derive a new unique indicator
