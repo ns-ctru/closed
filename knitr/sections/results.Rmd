@@ -1,11 +1,15 @@
-## Summary
+### Summary {.tabset .tabset-fade .tabset-pills}
 
 ```{r child = 'subsections/summary.Rmd', eval = TRUE}
 ```
-### ED Attendance - Any
+### Attendance - Any {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/mode_of_arrival_any.Rmd', eval = TRUE}
 ```
 
-### ED Attendance - Ambulance
+### Attendance - Ambulance {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/mode_of_arrival_ambulance.Rmd', eval = FALSE}
+```
 
-### ED Attendance - Other
+### Attendance - Other {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/mode_of_arrival_other.Rmd', eval = FALSE}
+```
