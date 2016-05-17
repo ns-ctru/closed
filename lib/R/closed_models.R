@@ -27,11 +27,11 @@
 #' @param outcome Outcome variable containing the counts (default is \code{value} and shouldn't need changing).
 #' @param model1 Covariates to include in model 1.
 #' @param model2 Covariates to include in model 2.
-#' @param model2.5 Covariates to include in model 2.5.
 #' @param model3 Covariates to include in model 3.
 #' @param model4 Covariates to include in model 4.
 #' @param model5 Covariates to include in model 5.
 #' @param model6 Covariates to include in model 6.
+#' @param model7 Covariates to include in model 7.
 #' @param autocorr panelAR() option for handling auto-correlation, default is \code{ar1}.
 #' @param panelcorrmethod panelAR() option for panel correction, default is \code{pcse}.
 #' @param plot Generate time-series plot.
@@ -67,11 +67,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           outcome         = 'value',
                           model1          = c('closure', 'season', 'relative.month'), ## ToDo - Add other steps when available
                           model2          = c('town * closure', 'season', 'relative.month'),
-                          model2.5        = c('town * closure', 'season', 'relative.month'),
-                          model3          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
-                          model4          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
+                          model3          = c('town * closure', 'season', 'relative.month'),
+                          model4          = c('town * closure', 'season', 'relative.month'),
                           model5          = c('town * closure', 'season', 'relative.month'),
-                          model6          = c('town * closure', 'season', 'relative.month'),
+                          model6          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
+                          model7          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
                           autocorr        = 'ar1',
                           panelcorrmethod = 'pcse',
                           plot            = TRUE,
@@ -92,13 +92,16 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                        gsub("_", ".", x = .)
     names(df.trust) <- names(df.trust) %>%
                        gsub("_", ".", x = .)
-    ## Convert to data frame, selecting only the specified outcome
+    ## Convert to data frame, selecting only the specified outcome and convert
+    ## town to factor so that it can be releveled as required
     df.lsoa  <- as.data.frame(df.lsoa) %>%
                 dplyr::filter(measure == indicator,
                               sub.measure == sub.indicator)
+    df.lsoa$town <- factor(df.lsoa$town)
     df.trust <- as.data.frame(df.trust) %>%
                 dplyr::filter(measure == indicator,
                               sub.measure == sub.indicator)
+    df.trust$town <- factor(df.trust$town)
     ## df.steps <- as.data.frame(df.steps)
     ## names(df.steps) <- names(df.steps) %>%
     ##                    gsub("_", ".", x = .)
@@ -420,9 +423,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 2 - Bishop Auckland                    ##
         ##################################################
-        ## ToDo - Add in the other steps when available to both the data and the formula
-        ## .formula.model2 <- reformulate(response = outcome,
-        ##                                termlabels = c(model2, ###))
         df2$town <- relevel(df2$town, ref = 'Whitehaven')
         model2.panelar.bishop <- filter(df2,
                                         town == 'Bishop Auckland' |
@@ -725,7 +725,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                   y      = 'N',
                                                   colour = 'Hospital')) +
                                         facet_wrap(~ group, ncol = 1) +
-                                  geom_text_repel(data = filter(df4.trust, relative.month == 4),
+                                  geom_text_repel(data = filter(df4, relative.month == 4),
                                                   aes(relative.month,
                                                       value,
                                                       colour = town,
@@ -792,7 +792,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         formula.model5 <- reformulate(response = outcome,
                                       termlabels = model5)
         ## Subset data
-        df5 <- filter(df.lsoa,
+        df5 <- filter(df.trust,
                       measure     == indicator &
                       sub.measure == sub.indicator)
         ## Add in indicator of case/control status for plotting
@@ -803,7 +803,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                   'Rochdale')
         df5$status <- ifelse(df5$town %in% case, 'Case', 'Control')
         ## Generate time-series plot (at site/town level)
-        df5.trust$group <- paste0('Cohort : ', df5.trust$group)
+        df5$group <- paste0('Cohort : ', df5$group)
         results$model5.ts.plot.trust <- ggplot(data = df5,
                                                mapping = aes(x     = relative.month,
                                                              y     = value,
@@ -816,7 +816,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                   y      = 'N',
                                                   colour = 'Hospital')) +
                                         facet_wrap(~ group, ncol = 1) +
-                                        geom_text_repel(data = filter(df5.trust, relative.month == 3),
+                                        geom_text_repel(data = filter(df5, relative.month == 3),
                                                   aes(relative.month,
                                                       value,
                                                       colour = town,
@@ -834,13 +834,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## All sites                                    ##
         ##################################################
-        ## ToDo - Add in the other steps when available to both the data and the formula
-        ## .formula.model5 <- reformulate(response = outcome,
-        ##                                termlabels = c(model5, ###))
         df5$town <- relevel(df5$town, ref = 'Whitehaven')
-        model5.panelar.all <- filter(df5,
-                                     measure     == indicator &
-                                     sub.measure == sub.indicator) %>%
+        model5.panelar.all <- df5 %>%
                               panelAR(formula  = formula.model5,
                                       timeVar  = timevar,
                                       panelVar = panel.trust,
@@ -1062,7 +1057,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         df7 <- filter(df.trust, town %in% sites &
                       measure     == indicator &
                       sub.measure == sub.indicator)
-        df7 <- df.trust
+        ## Two LSOAs overlap two EDs so derive a new unique indicator
+        ## and use that for the panels
+        df7$town.lsoa <- paste0(df7$town, df7$lsoa)
         ## Add in indicator of case/control status for plotting
         case <- c('Bishop Auckland',
                   'Hartlepool',
@@ -1104,14 +1101,15 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## All sites                                    ##
         ##################################################
         ## ToDo - Add in the other steps when available to both the data and the formula
-        .formula.model7 <- reformulate(response = outcome,
+        formula.model7 <- reformulate(response = outcome,
                                        termlabels = c(model7))
+        df7$town <- relevel(df7$town, ref = 'Whitehaven')
         model7.panelar.all <- filter(df7,
                                      measure     == indicator &
                                      sub.measure == sub.indicator) %>%
                               panelAR(formula  = formula.model7,
                                       timeVar  = timevar,
-                                      panelVar = panel.lsoa,
+                                      panelVar = 'town.lsoa',
                                       autoCorr = autocorr,
                                       panelCorrMethod = panelcorrmethod)
         results$model7.panelar.all.coef <- extract_coefficients(x              = model7.panelar.all,
