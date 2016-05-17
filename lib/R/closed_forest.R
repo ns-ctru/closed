@@ -95,11 +95,12 @@ closed_forest <- function(df.list     = list(bishop.attendance.any.matched$coeff
                       geom_point() +
                       geom_errorbarh(aes(xmin = est - se,
                                          xmax = est + se),
-                                     height = 0.25
+                                     height = 0.25) +
                                      ## position = pd) +
                       geom_vline(xintercept = 0,linetype = "dashed") +
                       ylab("Closed ED") + xlab('Prais-Winsten Time-series Estimate') +
-                      ggtitle(title)
+                      ggtitle(title) +
+                      scale_y_reverse()
     if(facet.outcome == TRUE){
         results$forest <- results$forest +
                           facet_wrap(outcome)
