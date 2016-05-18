@@ -262,7 +262,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             names(coef$coef) <- c('Indicator', 'Subindicator', 'Term', 'All', 'Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
         }
         ## Derive a caption for the table
-        coef$caption <- paste0('Comparison of coefficients across sites.  Each cell contains a point estimates followed by the standard error (in brackets) and the associated p-value.')
+        coef$caption <- paste0('Comparison of coefficients across sites.  Each cell contains a point estimates followed by the standard error (in brackets) and the associated p-value (in scientific format due to some values being very small).')
         return(coef)
     }
     #######################################################################
@@ -927,6 +927,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         df6 <- filter(df.lsoa, town %in% sites &
                             measure     == indicator &
                             sub.measure == sub.indicator)
+        df6$group <- paste0('Cohort : ', df6$group)
         ## Add in indicator of case/control status for plotting
         case <- c('Bishop Auckland',
                   'Hartlepool',
@@ -935,8 +936,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                   'Rochdale')
         df6$status <- ifelse(df6$town %in% case, 'Case', 'Control')
         ## Generate time-series plot (at site/town level)
-        df6$group <- paste0('Cohort : ', df6$group)
-        results$model6.ts.plot.trust <- ggplot(data = df6,
+        df6.trust <- filter(df.trust, town %in% sites &
+                            measure     == indicator &
+                            sub.measure == sub.indicator)
+        df6.trust$group <- paste0('Cohort : ', df6.trust$group)
+        results$model6.ts.plot.trust <- ggplot(data = df6.trust,
                                                mapping = aes(x     = relative.month,
                                                              y     = value,
                                                              color = town)) +
@@ -948,7 +952,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                   y      = 'N',
                                                   colour = 'Hospital')) +
                                         facet_wrap(~ group, ncol = 1) +
-                                        geom_text_repel(data = filter(df6, relative.month == 3),
+                                        geom_text_repel(data = filter(df6.trust, relative.month == 3),
                                                   aes(relative.month,
                                                       value,
                                                       colour = town,
