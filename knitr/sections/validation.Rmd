@@ -1,0 +1,52 @@
+In order to check the work being performed the derivation of dummy indicators and subsequent Prais-Winsten time-series analyses were repeated in [Stata v14.1](https://www.stata.com/) to validate the results derived from the [R](https://www.r-project.org/) package [panelAR](https://cran.r-project.org/web/packages/panelAR/index.html).  Because of possible licensing issues installing Stata on the Virtual Machine the summary data at Emergency Department level, which does not contain any counts < 5 for a given area which would be considered potentially identifiable information , as is the case with LSOA level data, was exported and analysed on the statisticians local server.  This means that not all models can be tested (i.e. on Trust level models not those at LSOA level) and because of the large number of indicators that are being tested it would be impractical to validate them all, rather a couple of the indicators have been selected for validation ("Mode of Arrival (Any)" and "").  The results of the two analyses (R and Stata) for the models are shown in the sections below.
+
+```{r validate_read, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+stata <- read.csv('../../stata/data/stata/results.csv', header = TRUE)
+stata$out <- paste0(formatC(stata$estimate, digits = 3, format = 'f'),
+                    " (",
+                    formatC(stata$stderr, digits = 3, format = 'f'),
+                    ")",
+                    " p = ",
+                    formatC(stata$p, digits = 3, format = 'f'))
+## Split the models
+stata <- dplyr::select(stata, model, town, term, out)
+stata.model1 <- filter(stata, model == 1) %>%
+                dplyr::select(town, term, out) %>%
+                dcast(term ~ town)
+names(stata.model1) <- c('Term', 'Bishop Auckland (Stata)', 'Hartlepool (Stata)', 'Hemel Hempstead (Stata)', 'Newark (Stata)', 'Rochdale (Stata)')
+stata.model2 <- filter(stata, model == 2) %>%
+                dplyr::select(town, term, out) %>%
+                dcast(term ~ town)
+names(stata.model2) <- c('Term', 'Bishop Auckland (Stata)', 'Hartlepool (Stata)', 'Hemel Hempstead (Stata)', 'Newark (Stata)', 'Rochdale (Stata)')
+stata.model3 <- filter(stata, model == 3) %>%
+                dplyr::select(town, term, out) %>%
+                dcast(term ~ town)
+names(stata.model3) <- c('Term', 'Bishop Auckland (Stata)', 'Hartlepool (Stata)', 'Hemel Hempstead (Stata)', 'Newark (Stata)', 'Rochdale (Stata)')
+stata.model4 <- filter(stata, model == 4) %>%
+                dplyr::select(town, term, out) %>%
+                dcast(term ~ town)
+stata.model5 <- filter(stata, model == 5) %>%
+                dplyr::select(town, term, out) %>%
+                dcast(term ~ town)
+
+```
+
+### Model 1 {.tabset .tabset-fade .tabset-pills}
+```{r validate_model1, child = 'subsections/validate_model1.Rmd', eval = TRUE}
+```
+
+### Model 2 {.tabset .tabset-fade .tabset-pills}
+```{r validate_model1, child = 'subsections/validate_model3.Rmd', eval = TRUE}
+```
+
+### Model 3 {.tabset .tabset-fade .tabset-pills}
+```{r validate_model1, child = 'subsections/validate_model4.Rmd', eval = TRUE}
+```
+
+### Model 4 {.tabset .tabset-fade .tabset-pills}
+```{r validate_model1, child = 'subsections/validate_model4.Rmd', eval = TRUE}
+```
+
+### Model 5 {.tabset .tabset-fade .tabset-pills}
+```{r validate_model1, child = 'subsections/validate_model5.Rmd', eval = TRUE}
+```
