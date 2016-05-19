@@ -11,8 +11,9 @@ output:
 
 ```{r setup, include=FALSE}
 ##opts_chunk$set(dev = 'pdf')
-opts_chunk$set(fig.path = 'figures/')
 opts_chunk$set(width    = 160)
+opts_chunk$set(fig.height = 8)
+opts_chunk$set(fig.width  = 8)
 ```
 # {.tabset}
 
@@ -25,6 +26,11 @@ opts_chunk$set(width    = 160)
 
 ```{r child = 'sections/results.Rmd', eval = TRUE}
 ```
+
+## Validation {.tabset .tabset-fade .tabset-pills}
+```{r child = 'sections/validation.Rmd', eval = TRUE}
+```
+
 
 ## ToDo {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'sections/todo.Rmd', eval = TRUE}
