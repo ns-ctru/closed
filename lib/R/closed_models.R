@@ -16,7 +16,6 @@
 #'
 #' @param df.lsoa Data frame at the LSOA level to analyse.
 #' @param df.trust Data frame at the Trust level to analyse.
-#' @param df.steps Data frame containing steps for all sites.
 #' @param indicator The performance indicator to assess.
 #' @param sub.indicator The sub-measure performance indicator to assess.
 #' @param steps List of steps (dummy variables) to include in time-series analysis.
@@ -56,7 +55,6 @@
 #' @export
 closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           df.trust        = ed_attendances_by_mode_site_measure,
-                          df.steps        = steps,
                           indicator       = 'ed attendances',
                           sub.indicator   = 'any',
                           steps           = c('closure'),
