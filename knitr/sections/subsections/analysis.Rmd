@@ -16,12 +16,12 @@ load('d:/Rpackages/rclosed/data/length of stay measure - site - 2016-05-18 16.08
 ```
 ```{r define_models, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 mod1 <- c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
-mod2 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-mod3 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-mod4 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-mod5 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-mod6 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
-mod7 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+mod2 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+mod3 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+mod4 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+mod5 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+mod6 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
+mod7 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
 ```
 ```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'asis', eval = FALSE}
 time.to.ed <- closed_summary(df          = ed_attendances_by_mode_measure,
