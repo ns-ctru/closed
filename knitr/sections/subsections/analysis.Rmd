@@ -1,8 +1,18 @@
 <!--- Runs all analyses, saving results as an R object for loading --->
 <!--- Summary --->
 ```{r load_data, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-load('d:/Rpackages/rclosed/data/ed attendances by mode measure - lsoa - 2016-05-03 19.17.Rda')
-load('d:/Rpackages/rclosed/data/ed attendances by mode measure - site - 2016-05-03 20.38.Rda')
+load('d:/Rpackages/rclosed/data/ed attendances by mode measure - lsoa - 2016-05-18 15.15.Rda')
+load('d:/Rpackages/rclosed/data/ed attendances by mode measure - site - 2016-05-18 15.15.Rda')
+load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure - lsoa - 2016-05-18 15.11.Rda')
+load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure - site - 2016-05-18 15.11.Rda')
+load('d:/Rpackages/rclosed/data/ed attendances admitted measure - lsoa - 2016-05-18 15.01.Rda')
+load('d:/Rpackages/rclosed/data/ed attendances admitted measure - site - 2016-05-18 15.01.Rda')
+load('d:/Rpackages/rclosed/data/emergency admissions measure - lsoa - 2016-05-18 16.05.Rda')
+load('d:/Rpackages/rclosed/data/emergency admissions measure - site - 2016-05-18 16.05.Rda')
+load('d:/Rpackages/rclosed/data/critical care stays measure - lsoa - 2016-05-18 16.06.Rda')
+load('d:/Rpackages/rclosed/data/critical care stays measure - site - 2016-05-18 16.06.Rda')
+load('d:/Rpackages/rclosed/data/length of stay measure - lsoa - 2016-05-18 16.08.Rda')
+load('d:/Rpackages/rclosed/data/length of stay measure - site - 2016-05-18 16.08.Rda')
 ```
 ```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'asis', eval = FALSE}
 time.to.ed <- closed_summary(df          = ed_attendances_by_mode_measure,
@@ -25,13 +35,13 @@ mode.of.arrival.any <- closed_models(df.lsoa         = ed_attendances_by_mode_me
                                      panel.trust     = 'town',
                                      timevar         = 'relative.month',
                                      outcome         = 'value',
-                                     model1          = c('closure', 'season', 'relative.month'),
-                                     model2          = c('town * closure', 'season', 'relative.month'),
-                                     model3          = c('town * closure', 'season', 'relative.month'),
-                                     model4          = c('town * closure', 'season', 'relative.month'),
-                                     model5          = c('town * closure', 'season', 'relative.month'),
-                                     model6          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
-                                     ## model7          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
+                                     model1          = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model2          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model3          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model4          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model5          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model6          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                                     ## model7          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
 				     model7          = NULL,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
@@ -42,7 +52,7 @@ mode.of.arrival.any <- closed_models(df.lsoa         = ed_attendances_by_mode_me
 ```
 
 <!--- Mode of Arrival - Other --->
-```{r mode_of_arrival_other, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+```{r mode_of_arrival_other, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 mode.of.arrival.other <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
                                      df.trust        = ed_attendances_by_mode_site_measure,
                                      df.steps        = steps,
@@ -54,12 +64,14 @@ mode.of.arrival.other <- closed_models(df.lsoa         = ed_attendances_by_mode_
                                      panel.trust     = 'town',
                                      timevar         = 'relative.month',
                                      outcome         = 'value',
-                                     model1          = c('closure', 'season', 'relative.month'), ## ToDo - Add other steps when available
-                                     model2          = c('town * closure', 'season', 'relative.month'),
-                                     model3          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
-                                     # model4          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
-                                     # model5          = c('town * closure', 'season', 'relative.month'),
-                                     # model6          = c(),
+                                     model1          = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model2          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model3          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model4          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model5          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model6          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                                     ## model7          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+				     model7          = NULL,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
                                      plot            = TRUE,
@@ -69,7 +81,7 @@ mode.of.arrival.other <- closed_models(df.lsoa         = ed_attendances_by_mode_
 ```
 
 <!--- Mode of Arrival - Ambulance --->
-```{r mode_of_arrival_ambulance, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+```{r mode_of_arrival_ambulance, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
                                      df.trust        = ed_attendances_by_mode_site_measure,
                                      df.steps        = steps,
@@ -81,12 +93,13 @@ mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_m
                                      panel.trust     = 'town',
                                      timevar         = 'relative.month',
                                      outcome         = 'value',
-                                     model1          = c('closure', 'season', 'relative.month'), ## ToDo - Add other steps when available
-                                     model2          = c('town * closure', 'season', 'relative.month'),
-                                     model3          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
-                                     # model4          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
-                                     # model5          = c('town * closure', 'season', 'relative.month'),
-                                     # model6          = c(),
+                                     model1          = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model2          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model3          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model4          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model5          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model6          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                                     ## model7          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
                                      plot            = TRUE,
