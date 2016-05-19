@@ -1,16 +1,16 @@
 <!--- Runs all analyses, saving results as an R object for loading --->
 <!--- Summary --->
 ```{r load_data, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-load('d:/Rpackages/rclosed/data/ed attendances by mode measure - lsoa - 2016-05-18 15.15.Rda')
-load('d:/Rpackages/rclosed/data/ed attendances by mode measure - site - 2016-05-18 15.15.Rda')
+load('d:/Rpackages/rclosed/data/ed attendances by mode measure - lsoa - 2016-05-18 15.05.Rda')
+load('d:/Rpackages/rclosed/data/ed attendances by mode measure - site - 2016-05-18 15.06.Rda')
 load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure - lsoa - 2016-05-18 15.11.Rda')
 load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure - site - 2016-05-18 15.11.Rda')
 load('d:/Rpackages/rclosed/data/ed attendances admitted measure - lsoa - 2016-05-18 15.01.Rda')
 load('d:/Rpackages/rclosed/data/ed attendances admitted measure - site - 2016-05-18 15.01.Rda')
 load('d:/Rpackages/rclosed/data/emergency admissions measure - lsoa - 2016-05-18 16.05.Rda')
-load('d:/Rpackages/rclosed/data/emergency admissions measure - site - 2016-05-18 16.05.Rda')
+load('d:/Rpackages/rclosed/data/emergency admissions measure - site - 2016-05-18 16.06.Rda')
 load('d:/Rpackages/rclosed/data/critical care stays measure - lsoa - 2016-05-18 16.06.Rda')
-load('d:/Rpackages/rclosed/data/critical care stays measure - site - 2016-05-18 16.06.Rda')
+load('d:/Rpackages/rclosed/data/critical care stays measure - site - 2016-05-18 16.07.Rda')
 load('d:/Rpackages/rclosed/data/length of stay measure - lsoa - 2016-05-18 16.08.Rda')
 load('d:/Rpackages/rclosed/data/length of stay measure - site - 2016-05-18 16.08.Rda')
 ```
