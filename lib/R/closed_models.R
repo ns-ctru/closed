@@ -290,6 +290,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                         term[term == 'townWigan:closure'] <- 'Wigan x Closure'
                         term[term == 'townYeovil'] <- 'Yeovil'
                         term[term == 'townYeovil:closure'] <- 'Yeovil x Closure'
+                        term[term == 'nhs.111'] <- 'NHS 111'
+                        term[term == 'ambulance.divert'] <- 'Ambulances Diverted'
+                        term[term == 'other.centre'] <- 'Other Medical Centre'
                        })
         ## Combine with r2
         names(.coef) <- gsub("_out", "", names(.coef))
