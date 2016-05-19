@@ -2,6 +2,10 @@
 
 ```{r child = 'subsections/summary.Rmd', eval = TRUE}
 ```
+
+```{r dummy, eval = FALSE}
+```
+
 ### Attendance - Any {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/mode_of_arrival_any.Rmd', eval = TRUE}
 ```
@@ -11,5 +15,5 @@
 ```
 
 ### Attendance - Other {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/mode_of_arrival_other.Rmd', eval = FALSE}
+```{r child = 'subsections/mode_of_arrival_other.Rmd', eval = TRUE}
 ```
