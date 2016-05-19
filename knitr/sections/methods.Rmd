@@ -5,6 +5,7 @@ Methods are described in detail in the Statistical Analysis Plan which can be vi
 Five models are tested sequentially with growing complexity and are detailed below.
 
 Table: Models tested in ClosED
+
 Model | Case Site  | Control Site     | Panel | Covariates
 ------|------------|------------------|-------|----------------------------------------
 1     | Individual | None             | ED    | season + time + closure + steps
@@ -22,20 +23,17 @@ Model | Case Site  | Control Site     | Panel | Covariates
 The closure of ED departments is modelled using a dummy variable (coded 0 for closed and 1 for open) to indicate whether the ED department is open/closed for any given month in a given hospital.  However, other factors might influence attendance and documentary analysis was undertaken at the case sites (where EDs closed) and one matched control for each case site to identify additional events that might impact on the indicators being considered.  These are detailed in full in [this spreadhsheet](https://goo.gl/TlhfCF) and  of the different steps identified they have been categorised into the introduction of the NHS111 Helpline (`nhs111`), other medical care centres opening (`other.centre`) and the diversion of ambulances (`ambulance.divert`) and are summarised in the table below for the ten hospitals.
 
 Table: Steps used in the model. Dates indicate the month of event (relative month is shown in brackets).
+
 Hospital         | ED closure      | NHS 111         | Other Centre    | Ambulance Diversion
 -----------------|-----------------|-----------------|-----------------|---------------------
 Bishop Auckland  | 2009-10-01 (25) | 2010-08-01 (35) |                 |
 Whitehaven       |                 |                 |                 |
------------------|-----------------|-----------------|-----------------|---------------------
 Hartlepool       | 2011-08-01 (25) | 2013-04-01 (45) | 2011-05-01 (22) |
 Grimsby          |                 | 2010-11-01 (16) |                 |
------------------|-----------------|-----------------|-----------------|---------------------
 Hemel Hempstead  | 2009-03-01 (25) |                 | 2008-10-01 (20) |
 Warwick          |                 |                 |                 |
------------------|-----------------|-----------------|-----------------|---------------------
 Newark           | 2011-04-01 (25) |                 |                 |
 Southport        |                 | 2013-03-01 (48) | 2009-06-01 (03) |
------------------|-----------------|-----------------|-----------------|---------------------
 Rochdale         | 2011-04-01 (25) | 2013-03-01 (48) |                 | 2010-08-01 (17)
 Rotherham        |                 | 2013-03-01 (48) | 2009-06-01 (11) |
 
