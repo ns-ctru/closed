@@ -1,7 +1,5 @@
 #### Mode of Arrival (Any)
 
-Comparison of Model 1 for Mode of Arrival (Any) from [panelAR](https://cran.r-project.org/web/packages/panelAR/index.html) in [R](https://www.r-project.org/) and [Stata v14.1](https://www.stata.com/).
-
 ```{r validate_model1_mode_any, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 kable(validate.model1, caption = 'Comparison of Prais-Winsten Regression models from R and Stata.')
 ```
