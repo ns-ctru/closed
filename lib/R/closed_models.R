@@ -65,17 +65,18 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           panel.trust     = 'town',
                           timevar         = 'relative.month',
                           outcome         = 'value',
-                          model1          = c('closure', 'season', 'relative.month'), ## ToDo - Add other steps when available
-                          model2          = c('town * closure', 'season', 'relative.month'),
-                          model3          = c('town * closure', 'season', 'relative.month'),
-                          model4          = c('town * closure', 'season', 'relative.month'),
-                          model5          = c('town * closure', 'season', 'relative.month'),
-                          model6          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
-                          model7          = c('town * closure', 'season', 'relative.month', 'diff.time.to.ed'),
+                          model1          = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'), ## ToDo - Add other steps when available
+                          model2          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                          model3          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                          model4          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                          model5          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                          model6          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                          model7          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
                           autocorr        = 'ar1',
                           panelcorrmethod = 'pcse',
                           plot            = TRUE,
                           common.y        = TRUE,
+                          return.df       = FALSE,
                           theme           = theme_bw(),
                           return.model    = FALSE,
                           html            = FALSE,
@@ -136,11 +137,51 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
     })
     #######################################################################
-    ## Add a 'step' indicator for closure                                ##
+    ## Add a dummy 'step' for closure                                    ##
     #######################################################################
     sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
-    df.lsoa$closure  <- ifelse(df.lsoa$relative.month  >= 24, 1, 0)
-    df.trust$closure <- ifelse(df.trust$relative.month >= 24, 1, 0)
+    df.lsoa$closure  <- ifelse(df.lsoa$relative.month  > 24 & df.lsoa$town %in% sites, 1, 0)
+    df.trust$closure <- ifelse(df.trust$relative.month > 24 & df.trust$town %in% sites, 1, 0)
+    #######################################################################
+    ## Add dummy for other 'steps'                                       ##
+    ##                                                                   ##
+    ## See list from e.l.knowles@sheffield.ac.uk at...                   ##
+    ##                                                                   ##
+    ## https://goo.gl/TlhfCF                                             ##
+    ##                                                                   ##
+    #######################################################################
+    df.lsoa <- mutate(df.lsoa,
+                      nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
+                                      (town == 'Southport' & relative.month >= 48) |
+                                      ## ToDo - Uncomment once confirmed and revised dates available
+                                      (town == 'Rochdale' & relative.month >= 48) |
+                                      (town == 'Rotherham' & relative.month >= 48) |
+                                      (town == 'Hartlepool' & relative.month >= 45) |
+                                      (town == 'Grimsby' & relative.month >= 16),
+                                      1, 0),
+                      ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
+                      other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
+                                            (town == 'Newark' & relative.month >= 3) |
+                                            (town == 'Rochdale' & relative.month >= 11) |
+                                            (town == 'Hartlepool' & relative.month >= 22),
+                                            1, 0)
+                      )
+    df.trust <- mutate(df.trust,
+                       nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
+                                       (town == 'Southport' & relative.month >= 48) |
+                                       ## ToDo - Uncomment once confirmed and revised dates available
+                                       (town == 'Rochdale' & relative.month >= 48) |
+                                       (town == 'Rotherham' & relative.month >= 48) |
+                                       (town == 'Hartlepool' & relative.month >= 45) |
+                                       (town == 'Grimsby' & relative.month >= 16),
+                                       1, 0),
+                       ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
+                       other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
+                                             (town == 'Newark' & relative.month >= 3) |
+                                             (town == 'Rochdale' & relative.month >= 11) |
+                                             (town == 'Hartlepool' & relative.month >= 22),
+                                             1, 0)
+                      )
     #######################################################################
     ## Labels and captions conditional on outcome                        ##
     #######################################################################
@@ -407,6 +448,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model1.panelar.newark     <- model1.panelar.newark
             results$model1.panelar.rochdale   <- model1.panelar.rochdale
         }
+        if(return.df == TRUE){
+            results$model1.df <- df1
+        }
         ## Remove clutter
         rm(df1)
     }
@@ -568,6 +612,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model2.panelar.newark     <- model2.panelar.newark
             results$model2.panelar.rochdale   <- model2.panelar.rochdale
         }
+        if(return.df == TRUE){
+            results$model2.df <- df2
+        }
         ## Remove clutter
         rm(df2)
     }
@@ -610,7 +657,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model3.ts.plot <- results$model3.ts.plot + theme +
                                       theme(legend.position = 'none')
         }
-        results$df3 <- df3
         ## Perform analysis with panelAR in each
         ##################################################
         ## Bishop Auckland                              ##
@@ -720,6 +766,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model3.panelar.newark     <- model3.panelar.newark
             results$model3.panelar.rochdale   <- model3.panelar.rochdale
         }
+        if(return.df == TRUE){
+            results$model3.df <- df3
+        }
         ## Remove clutter
         rm(df3)
     }
@@ -816,6 +865,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         if(return.model == TRUE){
             results$model4.panelar     <- model4.panelar
         }
+        if(return.df == TRUE){
+            results$model4.df <- df4
+        }
         ## Remove clutter
         rm(df4)
     }
@@ -907,6 +959,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Return model objects if requested
         if(return.model == TRUE){
             results$model5.panelar.all     <- model5.panelar.all
+        }
+        if(return.df == TRUE){
+            results$model5.df <- df5
         }
         ## Remove clutter
         rm(df5)
@@ -1077,6 +1132,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         if(return.model == TRUE){
             results$model6.panelar.bishop     <- model6.panelar.bishop
         }
+        if(return.df == TRUE){
+            results$model6.df <- df6
+        }
         ## Remove clutter
         rm(df6)
     }
@@ -1182,6 +1240,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Return model objects if requested
         if(return.model == TRUE){
             results$model7.panelar.all     <- model7.panelar.all
+        }
+        if(return.df == TRUE){
+            results$model7.df <- df7
         }
         ## Remove clutter
         rm(df7)
