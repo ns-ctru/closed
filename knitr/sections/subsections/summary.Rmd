@@ -1,20 +1,9 @@
-### Time to Emergency Department
+#### Time to Emergency Department
 
 The time to emergency department from the centroid of Lower Super Output Areas (LSOA) is summarised for each site in the table below.  For sites where an Emergency Department (ED) closed there are two summaries, one when the ED was open and another summarising travel times after they had closed.
 
-```{r summary, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure.Rda')
-time.to.ed <- closed_summary(df          = unnecessary_ed_attendances_measure,
-                             df.steps    = sites,
-                             vars        = value,
-                             digits      = 3,
-                             latex       = FALSE,
-                             html        = FALSE)
-kable(time.to.ed$formatted)
-time.to.ed$plot.time.to.ed
-save(time.to.ed,
-     file = 'data/summary.RData')
+```{r summary_time_to_ed, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
+kable(diff.time.to.ed$formatted)
+diff.time.to.ed$plot.time.to.ed
+
 ```
-
-
-**TODO** What else should be summarised?  I didn't think summaries of events by LSOA was useful nor appropriate as this is time series.  Could tabulate whats in the figures but that again seems somewhat redundant.  Similarly I could have produced summaries of the population sizes, but these are counted on a monthly basis so it would be quite a large table, most of which would expect to be of little to no interest, and it could be presented more clearly in a figure if required.
