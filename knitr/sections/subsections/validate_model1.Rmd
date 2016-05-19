@@ -1,0 +1,8 @@
+#### Mode of Arrival (Any)
+
+Comparison of Model 1 for Mode of Arrival (Any) from [panelAR](https://cran.r-project.org/web/packages/panelAR/index.html) in [R](https://www.r-project.org/) and [Stata v14.1].
+
+
+#### Another Indicator
+
+Comparison of Model 1 for Another Indicator from [panelAR](https://cran.r-project.org/web/packages/panelAR/index.html) in [R](https://www.r-project.org/) and [Stata v14.1].
