@@ -11,9 +11,42 @@
 ```
 
 ### Attendance - Ambulance {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/mode_of_arrival_ambulance.Rmd', eval = FALSE}
+```{r child = 'subsections/mode_of_arrival_ambulance.Rmd', eval = TRUE}
 ```
 
 ### Attendance - Other {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/mode_of_arrival_other.Rmd', eval = TRUE}
+```
+
+### Attendance - Unnecessary  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/unnecessary_admissions.Rmd', eval = FALSE}
+```
+
+### Admissions - All  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ed_attendances_admitted_all.Rmd', eval = TRUE}
+```
+
+### Admissions - Admitted  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ed_attendances_admitted_admitted.Rmd', eval = TRUE}
+```
+
+### Admissions - Fraction Admitted  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ed_attendances_admitted_fraction_admitted.Rmd', eval = TRUE}
+```
+
+
+### Length of Stay - Any  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/length_of_stay_any.Rmd', eval = FALSE}
+```
+
+### Critical Care - All  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/critical_care_all.Rmd', eval = FALSE}
+```
+
+### Critical Care - Critical Care  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/critical_care_critical_care.Rmd', eval = FALSE}
+```
+
+### Critical Care - Fraction Critical Care  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/critical_care_fraction_critical_care.Rmd', eval = FALSE}
 ```
