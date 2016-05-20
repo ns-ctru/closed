@@ -24,7 +24,7 @@ mod6 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre'
 mod7 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
 ```
 ```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'asis', eval = FALSE}
-time.to.ed <- closed_summary(df          = ed_attendances_by_mode_measure,
+diff.time.to.ed <- closed_summary(df          = ed_attendances_by_mode_measure,
                              df.steps    = sites,
                              vars        = value,
                              digits      = 3,
@@ -112,4 +112,122 @@ mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_m
                                      common.y        = TRUE,
                                      theme           = theme_bw(),
                                      return.model    = FALSE)
+```
+
+<!--- Unnecessary Attendance - NA --->
+```{r admissions_all, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+unnecessary_attendance <- closed_models(df.lsoa         = unnecessary_ed_attendances_measure,
+                                     df.trust        = unnecessary_ed_attendances_site_measure,
+                                     indicator       = 'unnecessary ed attendances',
+                                     sub.indicator   = NA,
+                                     steps           = c('closure'),
+                                     fit.with        = 'both',
+                                     panel.lsoa      = 'lsoa',
+                                     panel.trust     = 'town',
+                                     timevar         = 'relative.month',
+                                     outcome         = 'value',
+                                     model1          = mod1,
+                                     model2          = mod2,
+                                     model3          = mod3,
+                                     model4          = mod4,
+                                     model5          = mod5,
+                                     model6          = mod6,
+                                     ## model7          = mod7,
+                                     autocorr        = 'ar1',
+                                     panelcorrmethod = 'pcse',
+                                     plot            = TRUE,
+                                     common.y        = TRUE,
+                                     theme           = theme_bw(),
+                                     return.model    = FALSE)
+```
+
+<!--- ED Attendances Admitted - All --->
+```{r admissions_all, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
+                                     df.trust        = ed_attendances_admitted_site_measure,
+                                     indicator       = 'ed attendances admitted',
+                                     sub.indicator   = 'all',
+                                     steps           = c('closure'),
+                                     fit.with        = 'both',
+                                     panel.lsoa      = 'lsoa',
+                                     panel.trust     = 'town',
+                                     timevar         = 'relative.month',
+                                     outcome         = 'value',
+                                     model1          = mod1,
+                                     model2          = mod2,
+                                     model3          = mod3,
+                                     model4          = mod4,
+                                     model5          = mod5,
+                                     model6          = mod6,
+                                     ## model7          = mod7,
+                                     autocorr        = 'ar1',
+                                     panelcorrmethod = 'pcse',
+                                     plot            = TRUE,
+                                     common.y        = TRUE,
+                                     theme           = theme_bw(),
+                                     return.model    = FALSE)
+```
+
+<!--- ED Attendances Admitted - Fraction Admitted --->
+```{r admissions_all, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
+                                     df.trust        = ed_attendances_admitted_site_measure,
+                                     indicator       = 'ed attendances admitted',
+                                     sub.indicator   = 'fraction admitted',
+                                     steps           = c('closure'),
+                                     fit.with        = 'both',
+                                     panel.lsoa      = 'lsoa',
+                                     panel.trust     = 'town',
+                                     timevar         = 'relative.month',
+                                     outcome         = 'value',
+                                     model1          = mod1,
+                                     model2          = mod2,
+                                     model3          = mod3,
+                                     model4          = mod4,
+                                     model5          = mod5,
+                                     model6          = mod6,
+                                     ## model7          = mod7,
+                                     autocorr        = 'ar1',
+                                     panelcorrmethod = 'pcse',
+                                     plot            = TRUE,
+                                     common.y        = TRUE,
+                                     theme           = theme_bw(),
+                                     return.model    = FALSE)
+```
+
+<!--- ED Attendances Admitted - Admitted --->
+```{r admissions_all, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+ed.attendances.admitted.admitted <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
+                                     df.trust        = ed_attendances_admitted_site_measure,
+                                     indicator       = 'ed attendances admitted',
+                                     sub.indicator   = 'admitted',
+                                     steps           = c('closure'),
+                                     fit.with        = 'both',
+                                     panel.lsoa      = 'lsoa',
+                                     panel.trust     = 'town',
+                                     timevar         = 'relative.month',
+                                     outcome         = 'value',
+                                     model1          = mod1,
+                                     model2          = mod2,
+                                     model3          = mod3,
+                                     model4          = mod4,
+                                     model5          = mod5,
+                                     model6          = mod6,
+                                     ## model7          = mod7,
+                                     autocorr        = 'ar1',
+                                     panelcorrmethod = 'pcse',
+                                     plot            = TRUE,
+                                     common.y        = TRUE,
+                                     theme           = theme_bw(),
+                                     return.model    = FALSE)
+```
+
+<!--- Save all objects --->
+```{r save_results, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+## save(diff.time.to.ed,
+##      file = '../lib/data/summary.RData')
+## save(mode.of.arrival.any,
+##      mode.of.arrival.ambulance,
+##      mode.of.arrival.other,
+##      file # '../lib/data/results.mode.of.arrival.RData')
 ```
