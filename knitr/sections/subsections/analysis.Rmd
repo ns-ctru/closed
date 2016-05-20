@@ -49,8 +49,8 @@ mode.of.arrival.any <- closed_models(df.lsoa         = ed_attendances_by_mode_me
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
-                                     ## model7          = mod7,
 				     model7          = NULL,
+                                     ## model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
                                      plot            = TRUE,
@@ -77,8 +77,8 @@ mode.of.arrival.other <- closed_models(df.lsoa         = ed_attendances_by_mode_
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
-                                     ## model7          = mod7,
 				     model7          = NULL,
+                                     ## model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
                                      plot            = TRUE,
@@ -88,7 +88,7 @@ mode.of.arrival.other <- closed_models(df.lsoa         = ed_attendances_by_mode_
 ```
 
 <!--- Mode of Arrival - Ambulance --->
-```{r mode_of_arrival_ambulance, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+```{r mode_of_arrival_ambulance, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
                                      df.trust        = ed_attendances_by_mode_site_measure,
                                      indicator       = 'ed attendances',
@@ -105,6 +105,7 @@ mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_m
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
+				     model7          = NULL,
                                      ## model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
@@ -115,7 +116,7 @@ mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_m
 ```
 
 <!--- Unnecessary Attendance - NA --->
-```{r admissions_all, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+```{r unnecessary_ed_attendances, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
 unnecessary_attendance <- closed_models(df.lsoa         = unnecessary_ed_attendances_measure,
                                      df.trust        = unnecessary_ed_attendances_site_measure,
                                      indicator       = 'unnecessary ed attendances',
@@ -142,7 +143,7 @@ unnecessary_attendance <- closed_models(df.lsoa         = unnecessary_ed_attenda
 ```
 
 <!--- ED Attendances Admitted - All --->
-```{r admissions_all, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+```{r ed_attendances_admitted_all, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
                                      df.trust        = ed_attendances_admitted_site_measure,
                                      indicator       = 'ed attendances admitted',
@@ -159,6 +160,7 @@ ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_ad
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
+				     model7          = NULL,
                                      ## model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
@@ -169,7 +171,7 @@ ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_ad
 ```
 
 <!--- ED Attendances Admitted - Fraction Admitted --->
-```{r admissions_all, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+```{r ed_attendances_admitted_fraction_admitted, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
                                      df.trust        = ed_attendances_admitted_site_measure,
                                      indicator       = 'ed attendances admitted',
@@ -186,6 +188,7 @@ ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
+				     model7          = NULL,
                                      ## model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
@@ -196,7 +199,7 @@ ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_
 ```
 
 <!--- ED Attendances Admitted - Admitted --->
-```{r admissions_all, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+```{r ed_attendances_admitted_admitted, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 ed.attendances.admitted.admitted <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
                                      df.trust        = ed_attendances_admitted_site_measure,
                                      indicator       = 'ed attendances admitted',
@@ -213,6 +216,7 @@ ed.attendances.admitted.admitted <- closed_models(df.lsoa         = ed_attendanc
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
+				     model7          = NULL,
                                      ## model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
