@@ -186,15 +186,54 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## ToDo - Switch to parsing the data frames name, slightly easier/greater
     ##        internal consistency
     ## indicator <- substitute(df.lsoa) %>% evaulate()
-    if(indicator == 'ed attendances')                      title1 <- 'ED Attendance'
-    else if(indicator == 'unnecessary ed attendances')     title1 <- 'Unnecessary ED Attendances'
-    else if(indicator == 'all emergency admissions')       title1 <- 'Emergency Admissions'
-    else if(indicator == 'avoidable emergency admissions') title1 <- 'Unnecessary Emergency Attendances'
-    if(sub.indicator == 'any')                             title2 <- ' (Any)'
-    else if(sub.indicator == 'other')                      title2 <- ' (Other)'
-    else if(sub.indicator == 'ambulance')                  title2 <- ' (Other)'
-    else if(sub.indicator == 'unnecessary ed attendances') title2 <- ''
-    else if(sub.indicator == 'all emergency admissions')   title2 <- ''
+    if(indicator == 'ed attendances'){
+        title1 <- 'ED Attendance'
+        if(sub.indicator == 'any')            title2 <- ' (Any)'
+        else if(sub.indicator == 'other')     title2 <- ' (Other)'
+        else if(sub.indicator == 'ambulance') title2 <- ' (Other)'
+    }
+    else if(indicator == 'unnecessary ed attendances'){
+        title1 <- 'Unnecessary ED Attendances'
+        if(is.na(sub.indicator)) title2 <- ''
+    }
+    else if(indicator == 'ed attendances admitted'){
+        title1 <- 'ED Attendances Admitted'
+        if(sub.indicator == 'all')      title2 <- ' (All)'
+        else if(sub.indicator == 'all') title2 <- ' (Fraction Admitted)'
+        else if(sub.indicator == 'all') title2 <- ' (Admitted)'
+    }
+    else if(indicator == 'all emergency admissions'){
+        title1 <- 'Emergency Admissions'
+        if(is.na(sub.indicator)) title2 <- ''
+    }
+    else if(indicator == 'avoidable emergency admissions'){
+        title1 <- 'Avoidable Emergency Attendances'
+        if(sub.indcator == 'any')                             title2 <- ' (Any)'
+        else if(sub.indcator == 'acute mental health crisis') title2 <- ' (Acute Mental Health Crisis)'
+        else if(sub.indcator == 'angina')                     title2 <- ' (Angina)'
+        else if(sub.indcator == 'blocked catheter')           title2 <- ' (Blocked Catheter)'
+        else if(sub.indcator == 'cellulitis')                 title2 <- ' (Cellulitis)'
+        else if(sub.indcator == 'copd')                       title2 <- ' (COPD)'
+        else if(sub.indcator == 'dvt')                        title2 <- ' (DVT)'
+        else if(sub.indcator == 'epileptic fit')              title2 <- ' (Epileptic Fit)'
+        else if(sub.indcator == 'falls (76+ years)')          title2 <- ' (Falls >76yrs)'
+        else if(sub.indcator == 'hypoglycaemia')              title2 <- ' (Hypoglycaemia)'
+        else if(sub.indcator == 'minor head injuries')        title2 <- ' (Minor Head Injuries)'
+        else if(sub.indcator == 'non-specific chest pain')    title2 <- ' (Non-Specific Chest Pain)'
+        else if(sub.indcator == 'pyrexial child (<6 years)')  title2 <- ' (Pyrexial Child <6yrs)'
+        else if(sub.indcator == 'urinary tract infection')    title2 <- ' (Urinary Tract Infection)'
+    }
+    else if(indicator == 'length of stay'){
+        title1 <- 'Length of Stay'
+        if(sub.indcator == 'mean')        title2 <- ' (Mean)'
+        else if(sub.indcator == 'median') title2 <- ' (Median)'
+    }
+    else if(indicator == 'critical care stays'){
+        title1 <- 'Critical Care Stays'
+        if(sub.indcator == 'all')                           title2 <- ' (All)'
+        else if(sub.indcator == 'critical care')            title2 <- ' (Critical Care)'
+        else if(sub.indcator == 'fractional critical care') title2 <- ' (Fractional Critical Care)'
+    }
     #######################################################################
     ## Internal functions (to save typing)                               ##
     #######################################################################
@@ -294,6 +333,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                         term[term == 'closure'] <- 'ED Closure'
                         term[term == 'relative.month'] <- 'Time (Month)'
                         term[term == 'season'] <- 'Season'
+                        term[term == 'diff.time.to.ed'] <- 'Change in Time to ED'
                        })
         ## Combine with r2
         names(.coef) <- gsub("_out", "", names(.coef))
