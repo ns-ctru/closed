@@ -30,7 +30,7 @@ mode.of.arrival.any$model2.panelar$coef[3:8] %>% kable(caption = mode.of.arrival
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + steps`\
 
-```{r mode_of_arrival_any_model2_5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+```{r mode_of_arrival_any_model3, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 mode.of.arrival.any$model3.ts.plot
 mode.of.arrival.any$model3.forest$forest
 mode.of.arrival.any$model3.panelar$coef[3:8] %>% kable(caption = mode.of.arrival.any$model3.panelar$caption)
@@ -58,7 +58,7 @@ mode.of.arrival.any$model4.panelar$coef[3:9] %>% kable(caption = mode.of.arrival
 `Model        : observations ~ season + time + closure * site + steps`\
 
 
-```{r mode_or_arrival_any_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+```{r mode_of_arrival_any_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 mode.of.arrival.any$model5.ts.plot.trust
 mode.of.arrival.any$model5.forest$forest
 mode.of.arrival.any$model5.panelar$coef[3:9] %>% kable(caption = mode.of.arrival.any$model5.panelar$caption)
@@ -71,7 +71,7 @@ mode.of.arrival.any$model5.panelar$coef[3:9] %>% kable(caption = mode.of.arrival
 `Panel        : LSOA`\
 `Model        : observations ~ season + time + closure * site + steps + change in ED time`\
 
-```{r mode_or_arrival_any_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+```{r mode_of_arrival_any_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 mode.of.arrival.any$model6.ts.plot.trust
 mode.of.arrival.any$model6.forest.model$forest
 mode.of.arrival.any$model6.panelar$coef[3:8] %>% kable(caption = mode.of.arrival.any$model6.panelar$caption)
@@ -86,7 +86,7 @@ Model 7 seeks to analyse at the LSOA level across all case sites and their one m
 `Panel        : LSOA`\
 `Model        : observations ~ season + time + closure * site + steps + change in ED time`\
 
-```{r mode_or_arrival_any_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
+```{r mode_of_arrival_any_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
 mode.of.arrival.any$model7.ts.plot.trust
 mode.of.arrival.any$model7.forest.model$forest
 mode.of.arrival.any$model7.panelar$coef[3:8] %>% kable(caption = mode.of.arrival.any$model7.panelar$caption)
