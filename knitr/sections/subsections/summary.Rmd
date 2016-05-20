@@ -1,6 +1,40 @@
-#### Time to Emergency Department
+#### Data Description
 
-The time to emergency department from the centroid of Lower Super Output Areas (LSOA) is summarised for each site in the table below.  For sites where an Emergency Department (ED) closed there are two summaries, one when the ED was open and another summarising travel times after they had closed.
+A short summary of the variables that are used within the dataset, as much for the statisticians reference than anyones use.  Each data file comes in two formats, one at the LSOA level and one at the ED level and the filenames follow a consistent nomenclature which consists of `[DESCRIPTION] - [lsoa|site] - YYYY-MM-DD hh.mm.Rda` where `DESCRIPTION` varies between files, `[lsoa|site]` indicates the level of the data and `YYYY-MM-DD hh.mm` is a date/time stamp in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601).
+
+Data        | `DESCRIPTION`                    | Measure          | Sub-Measure
+------------|----------------------------------|------------------|---------------
+Attendance  | `ed_attendances by mode measure` | `ed attendances` | `any`
+            |                                  | `ed attendances` | `ambulance`
+            |                                  | `ed attendances` | `other`
+Unnecesssary Attendance  | `unnecessary_ed_attendances_measure` | `unnecessary ed attendances` | `NA`
+Admissions  | `ed_attendances_admitted_measure` | `ed attendances admitted` | `all`
+            |                                   |                           | `fraction admitted`
+            |                                   |                           | `admitted`
+Emergency Admissions | `emergency admissions measure` | `all emergency admissions` | `NA`
+                     |                                | `avoidable emergency admissions` | `acute mental health crisis`
+                     |                                |                                  | `angina`
+                     |                                |                                  | `any`
+                     |                                |                                  | `blocked catheter`
+                     |                                |                                  | `cellulitis`
+                     |                                |                                  | `copd`
+                     |                                |                                  | `dvt`
+                     |                                |                                  | `epileptic fit`
+                     |                                |                                  | `falls (76+ years)`
+                     |                                |                                  | `hypoglycaemia`
+                     |                                |                                  | `minor head injuries`
+                     |                                |                                  | `non-specific chest pain`
+                     |                                |                                  | `pyrexial child (<6 years)`
+                     |                                |                                  | `urinary tract infection`
+Length of Stay | `length of stay measure` | `length of stay` | `mean`
+               |                          |                  | `median`
+Critical Care  | `critical care stays measure` | `criticla care stays` | `all`
+               |                               |                       | `critical care`
+               |                               |                       | `fraction critical care`
+
+#### Difference in Time to Emergency Department
+
+The difference in time to emergency department from the centroid of Lower Super Output Areas (LSOA) is summarised for each site in the table below.  For sites where an Emergency Department (ED) closed there are two summaries, one when the ED was open and another summarising travel times after they had closed.
 
 ```{r summary_time_to_ed, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
 kable(diff.time.to.ed$formatted)
