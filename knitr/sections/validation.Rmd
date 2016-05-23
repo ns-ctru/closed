@@ -93,5 +93,5 @@ validate.model5 <- merge(dplyr::select(mode.of.arrival.any$model5.panelar$coef, 
 ```
 
 ### Interaction Terms
-```{r validate_model_interaction, child = 'subsection/validate_model_interaction', eval = TRUE}
+```{r validate_model_interaction, child = 'subsections/validate_model_interaction', eval = TRUE}
 ```
