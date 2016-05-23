@@ -51,19 +51,21 @@ stata.model4 <- filter(stata, model == 4) %>%
                 dplyr::select(town, term, out) %>%
                 dcast(term ~ town)
 names(stata.model4) <- c('Term', 'Stata')
-validate.model4 <- merge(dplyr::select(mode.of.arival.any$model4.panelar$coef, Term, All),
+validate.model4 <- merge(dplyr::select(mode.of.arrival.any$model4.panelar$coef, Term, All),
                          stata.model4,
 			 by    = 'Term',
-			 all   = TRUE)
+			 all   = TRUE) %>%
+	           filter(Term != 'r2')
 ## Model 5
 stata.model5 <- filter(stata, model == 5) %>%
                 dplyr::select(town, term, out) %>%
                 dcast(term ~ town)
 names(stata.model5) <- c('Term', 'Stata')
-validate.model5 <- merge(dplyr::select(mode.of.arival.any$model5.panelar$coef, Term, All),
+validate.model5 <- merge(dplyr::select(mode.of.arrival.any$model5.panelar$coef, Term, All),
                          stata.model5,
 			 by    = 'Term',
-			 all   = TRUE)
+			 all   = TRUE) %>%
+	           filter(Term != 'r2')
 
 ## Remove junk
 ##rm(stata, stata.model1, stata.model2, stata.model3, stata.model4, stata.model5)
@@ -88,4 +90,8 @@ validate.model5 <- merge(dplyr::select(mode.of.arival.any$model5.panelar$coef, T
 
 ### Model 5 {.tabset .tabset-fade .tabset-pills}
 ```{r validate_model5, child = 'subsections/validate_model5.Rmd', eval = TRUE}
+```
+
+### Interaction Terms
+```{r validate_model_interaction, child = 'subsection/validate_model_interaction', eval = TRUE}
 ```
