@@ -180,7 +180,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                              (town == 'Rochdale' & relative.month >= 11) |
                                              (town == 'Hartlepool' & relative.month >= 22),
                                              1, 0)
-                      )
+                       )
     #######################################################################
     ## Labels and captions conditional on outcome                        ##
     #######################################################################
