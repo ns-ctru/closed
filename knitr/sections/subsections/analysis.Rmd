@@ -57,7 +57,7 @@ mode.of.arrival.any <- closed_models(df.lsoa         = ed_attendances_by_mode_me
                                      plot            = TRUE,
                                      common.y        = TRUE,
                                      theme           = theme_bw(),
-                                     return.df       = FALSE)
+                                     return.df       = TRUE)
 ```
 
 <!--- Mode of Arrival - Other --->
@@ -119,11 +119,11 @@ mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_m
 ```
 
 <!--- Unnecessary Attendance - NA --->
-```{r unnecessary_ed_attendances, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+```{r unnecessary_ed_attendances, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 unnecessary_attendance <- closed_models(df.lsoa         = unnecessary_ed_attendances_measure,
                                      df.trust        = unnecessary_ed_attendances_site_measure,
                                      indicator       = 'unnecessary ed attendances',
-                                     sub.indicator   = NA,
+                                     sub.indicator   = 'unnecessary ed attendances',
                                      steps           = c('closure'),
                                      fit.with        = 'both',
                                      panel.lsoa      = 'lsoa',
@@ -136,6 +136,7 @@ unnecessary_attendance <- closed_models(df.lsoa         = unnecessary_ed_attenda
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
+				     model7          = NULL,
                                      ## model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
@@ -233,6 +234,151 @@ ed.attendances.admitted.admitted <- closed_models(df.lsoa         = ed_attendanc
                                      return.df       = FALSE)
 ```
 
+<!--- Critical Care - All --->
+```{r critical_care_cips_all, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+critical.care.cips.all <- closed_models(df.lsoa         = critical_care_cips_measure,
+                                     df.trust        = critical_care_cips_site_measure,
+                                     indicator       = 'critical care stays',
+                                     sub.indicator   = 'all',
+                                     steps           = c('closure'),
+                                     fit.with        = 'both',
+                                     panel.lsoa      = 'lsoa',
+                                     panel.trust     = 'town',
+                                     timevar         = 'relative.month',
+                                     outcome         = 'value',
+                                     model1          = mod1,
+                                     model2          = mod2,
+                                     model3          = mod3,
+                                     model4          = mod4,
+                                     model5          = mod5,
+                                     model6          = mod6,
+				     model7          = NULL,
+                                     ## model7          = mod7,
+                                     autocorr        = 'ar1',
+                                     panelcorrmethod = 'pcse',
+                                     coefficients    = 'closure.town',
+                                     plot            = TRUE,
+                                     common.y        = TRUE,
+                                     theme           = theme_bw(),
+                                     return.df       = FALSE)
+```
+
+<!--- Critical Care - Critical --->
+```{r critical_care_cips_critical, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+critical.care.cips.critical <- closed_models(df.lsoa         = critical_care_cips_measure,
+                                     df.trust        = critical_care_cips_site_measure,
+                                     indicator       = 'critical care stays',
+                                     sub.indicator   = 'critical care',
+                                     steps           = c('closure'),
+                                     fit.with        = 'both',
+                                     panel.lsoa      = 'lsoa',
+                                     panel.trust     = 'town',
+                                     timevar         = 'relative.month',
+                                     outcome         = 'value',
+                                     model1          = mod1,
+                                     model2          = mod2,
+                                     model3          = mod3,
+                                     model4          = mod4,
+                                     model5          = mod5,
+                                     model6          = mod6,
+				     model7          = NULL,
+                                     ## model7          = mod7,
+                                     autocorr        = 'ar1',
+                                     panelcorrmethod = 'pcse',
+                                     coefficients    = 'closure.town',
+                                     plot            = TRUE,
+                                     common.y        = TRUE,
+                                     theme           = theme_bw(),
+                                     return.df       = FALSE)
+```
+
+<!--- Critical Care - Fraction --->
+```{r critical_care_cips_critical, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+critical.care.cips.fraction <- closed_models(df.lsoa         = critical_care_cips_measure,
+                                     df.trust        = critical_care_cips_site_measure,
+                                     indicator       = 'critical care stays',
+                                     sub.indicator   = 'fraction critical care',
+                                     steps           = c('closure'),
+                                     fit.with        = 'both',
+                                     panel.lsoa      = 'lsoa',
+                                     panel.trust     = 'town',
+                                     timevar         = 'relative.month',
+                                     outcome         = 'value',
+                                     model1          = mod1,
+                                     model2          = mod2,
+                                     model3          = mod3,
+                                     model4          = mod4,
+                                     model5          = mod5,
+                                     model6          = mod6,
+				     model7          = NULL,
+                                     ## model7          = mod7,
+                                     autocorr        = 'ar1',
+                                     panelcorrmethod = 'pcse',
+                                     coefficients    = 'closure.town',
+                                     plot            = TRUE,
+                                     common.y        = TRUE,
+                                     theme           = theme_bw(),
+                                     return.df       = FALSE)
+```
+
+<!--- Length of Stay - Mean --->
+```{r length_of_stay_mean, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+length.of.stay.mean <- closed_models(df.lsoa         = length_of_stay_measure,
+                                     df.trust        = length_of_stay_site_measure,
+                                     indicator       = 'length of stay',
+                                     sub.indicator   = 'mean',
+                                     steps           = c('closure'),
+                                     fit.with        = 'both',
+                                     panel.lsoa      = 'lsoa',
+                                     panel.trust     = 'town',
+                                     timevar         = 'relative.month',
+                                     outcome         = 'value',
+                                     model1          = mod1,
+                                     model2          = mod2,
+                                     model3          = mod3,
+                                     model4          = mod4,
+                                     model5          = mod5,
+                                     model6          = mod6,
+				     model7          = NULL,
+                                     ## model7          = mod7,
+                                     autocorr        = 'ar1',
+                                     panelcorrmethod = 'pcse',
+                                     coefficients    = 'closure.town',
+                                     plot            = TRUE,
+                                     common.y        = TRUE,
+                                     theme           = theme_bw(),
+                                     return.df       = FALSE)
+```
+
+<!--- Length of Stay - Median --->
+```{r length_of_stay_median, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure,
+                                     df.trust        = length_of_stay_site_measure,
+                                     indicator       = 'length of stay',
+                                     sub.indicator   = 'median',
+                                     steps           = c('closure'),
+                                     fit.with        = 'both',
+                                     panel.lsoa      = 'lsoa',
+                                     panel.trust     = 'town',
+                                     timevar         = 'relative.month',
+                                     outcome         = 'value',
+                                     model1          = mod1,
+                                     model2          = mod2,
+                                     model3          = mod3,
+                                     model4          = mod4,
+                                     model5          = mod5,
+                                     model6          = mod6,
+				     model7          = NULL,
+                                     ## model7          = mod7,
+                                     autocorr        = 'ar1',
+                                     panelcorrmethod = 'pcse',
+                                     coefficients    = 'closure.town',
+                                     plot            = TRUE,
+                                     common.y        = TRUE,
+                                     theme           = theme_bw(),
+                                     return.df       = FALSE)
+```
+
 <!--- Save all objects --->
 ```{r save_results, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
 ## save(diff.time.to.ed,
@@ -240,5 +386,14 @@ ed.attendances.admitted.admitted <- closed_models(df.lsoa         = ed_attendanc
 ## save(mode.of.arrival.any,
 ##      mode.of.arrival.ambulance,
 ##      mode.of.arrival.other,
+##      unnecessary.attendance,
+##      ed.attendances.admitted.admitted,
+##      ed.attendances.admitted.all,
+##      ed.attendances.admitted.fraction.admitted,
+##      critical.care.cips.all,
+##      critical.care.cips.critical,
+##      critical.care.cips.fraction,
+##      length.of.stay.mean,
+##      length.of.stay.median,
 ##      file # '../lib/data/results.mode.of.arrival.RData')
 ```
