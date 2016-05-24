@@ -19,7 +19,7 @@
 ```
 
 ### Attendance - Unnecessary  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/unnecessary_admissions.Rmd', eval = TRUE}
+```{r child = 'subsections/unnecessary_attendance.Rmd', eval = TRUE}
 ```
 
 ### Admissions - All  {.tabset .tabset-fade .tabset-pills}
