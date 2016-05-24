@@ -120,7 +120,7 @@ mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_m
 
 <!--- Unnecessary Attendance - NA --->
 ```{r unnecessary_ed_attendances, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-unnecessary_attendance <- closed_models(df.lsoa         = unnecessary_ed_attendances_measure,
+unnecessary.attendance <- closed_models(df.lsoa         = unnecessary_ed_attendances_measure,
                                      df.trust        = unnecessary_ed_attendances_site_measure,
                                      indicator       = 'unnecessary ed attendances',
                                      sub.indicator   = 'unnecessary ed attendances',
