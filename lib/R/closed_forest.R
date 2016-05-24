@@ -13,6 +13,7 @@
 #' @param facet.outcome Logical indicator of whether to facet plots by outcome for comparison.
 #' @param title Title for Forest plot.
 #' @param digits Number of digits to include in formatted output.
+#' @param plot.ci If \code{TRUE} 95% Confidence Intervals are plotted rather than Standard Error bars.
 #' @param theme GGplot2 theme to use.
 #' @param latex Produce results table in LaTeX format using Stargazer.
 #' @param html Produce results table in HTML format using Stargazer.
@@ -31,19 +32,20 @@
 #' @references
 #'
 #' @export
-closed_forest <- function(df.list     = list(bishop.attendance.any.matched$coefficients,
-                                             hartlepool.attendance.any.matched$coefficients,
-                                             hemel.attendance.any.matched$coefficients,
-                                             newark.attendance.any.matched$coefficients,
-                                             rochdale.attendance.any.matched$coefficients),
+closed_forest <- function(df.list       = list(bishop.attendance.any.matched$coefficients,
+                                               hartlepool.attendance.any.matched$coefficients,
+                                               hemel.attendance.any.matched$coefficients,
+                                               newark.attendance.any.matched$coefficients,
+                                               rochdale.attendance.any.matched$coefficients),
 ##                                             all.attendance.any.matched$coefficients), ## ToDo - Add all pooled and case only
-                          plot.term   = c('closure', 'time.to.ed'),
+                          plot.term     = c('closure', 'time.to.ed'),
                           facet.outcome = FALSE,
-                          title       = c('ED Attendance (Any)', 'Site v Matched Control'),
-                          digits      = 3,
-                          theme       = theme_bw(),
-                          latex       = FALSE,
-                          html        = FALSE,
+                          title         = c('ED Attendance (Any)', 'Site v Matched Control'),
+                          digits        = 3,
+                          plot.ci       = TRUE
+                          theme         = theme_bw(),
+                          latex         = FALSE,
+                          html          = FALSE,
                           ...){
     ## Inititiate list for returning results
     results <- list()
@@ -93,14 +95,24 @@ closed_forest <- function(df.list     = list(bishop.attendance.any.matched$coeff
                                      color = Term)) +
                       ## geom_point(position = pd) +
                       geom_point() +
-                      geom_errorbarh(aes(xmin = est - se,
-                                         xmax = est + se),
-                                     height = 0.25) +
-                                     ## position = pd) +
                       geom_vline(xintercept = 0,linetype = "dashed") +
                       ylab("Closed ED") + xlab('Prais-Winsten Time-series Estimate') +
-                      ggtitle(title) +
-                      scale_y_reverse()
+                      ggtitle(title)
+    if(plot.ci == FALSE){
+        results$forest <- results$forest +
+                          geom_errorbarh(aes(xmin = est - se,
+                                             xmax = est + se),
+                                         height = 0.25)
+                                     ## position = pd) +
+    }
+    else{
+        results$forest <- results$forest +
+                          geom_errorbarh(aes(xmin = est - (1.96 * se),
+                                             xmax = est + (1.96 * se)),
+                                         height = 0.25) +
+                                     ## position = pd) +
+
+    }
     if(facet.outcome == TRUE){
         results$forest <- results$forest +
                           facet_wrap(outcome)
