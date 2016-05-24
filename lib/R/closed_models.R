@@ -137,9 +137,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     #######################################################################
     ## Add a dummy 'step' for closure                                    ##
     #######################################################################
-    sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
-    df.lsoa$closure  <- ifelse(df.lsoa$relative.month  > 24 & df.lsoa$town %in% sites, 1, 0)
-    df.trust$closure <- ifelse(df.trust$relative.month > 24 & df.trust$town %in% sites, 1, 0)
+    ## 2016-05-24 - Post meeting with Jon, this should be 0/1 for _all_ sites not
+    ##              just intervention ones
+    df.lsoa$closure  <- ifelse(df.lsoa$relative.month  > 24, 1, 0)
+    df.trust$closure <- ifelse(df.trust$relative.month > 24, 1, 0)
     #######################################################################
     ## Add dummy for other 'steps'                                       ##
     ##                                                                   ##
@@ -198,9 +199,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     }
     else if(indicator == 'ed attendances admitted'){
         title1 <- 'ED Attendances Admitted'
-        if(sub.indicator == 'all')      title2 <- ' (All)'
-        else if(sub.indicator == 'all') title2 <- ' (Fraction Admitted)'
-        else if(sub.indicator == 'all') title2 <- ' (Admitted)'
+        if(sub.indicator == 'all')                    title2 <- ' (All)'
+        else if(sub.indicator == 'fraction admitted') title2 <- ' (Fraction Admitted)'
+        else if(sub.indicator == 'admitted')          title2 <- ' (Admitted)'
     }
     else if(indicator == 'all emergency admissions'){
         title1 <- 'Emergency Admissions'
