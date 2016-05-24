@@ -4,7 +4,7 @@
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure + nhs111 + ambulance.divert + other.centre `\
 
-```{r mode_of_arrival_any_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+```{r critical_care_cips_all_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 critical.care.cips.all$model1.ts.plot
 critical.care.cips.all$model1.forest$forest
 critical.care.cips.all$model1.panelar$coef[3:8] %>% kable(caption = critical.care.cips.all$model1.panelar$caption)
@@ -17,7 +17,7 @@ critical.care.cips.all$model1.panelar$coef[3:8] %>% kable(caption = critical.car
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
-```{r mode_of_arrival_any_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+```{r critical_care_cips_all_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 critical.care.cips.all$model2.ts.plot
 critical.care.cips.all$model2.forest$forest
 critical.care.cips.all$model2.panelar$coef[3:8] %>% kable(caption = critical.care.cips.all$model2.panelar$caption)
@@ -30,7 +30,7 @@ critical.care.cips.all$model2.panelar$coef[3:8] %>% kable(caption = critical.car
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
-```{r mode_of_arrival_any_model3, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+```{r critical_care_cips_all_model3, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 critical.care.cips.all$model3.ts.plot
 critical.care.cips.all$model3.forest$forest
 critical.care.cips.all$model3.panelar$coef[3:8] %>% kable(caption = critical.care.cips.all$model3.panelar$caption)
@@ -43,7 +43,7 @@ critical.care.cips.all$model3.panelar$coef[3:8] %>% kable(caption = critical.car
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
-```{r mode_of_arrival_any_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+```{r critical_care_cips_all_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 critical.care.cips.all$model4.ts.plot.trust
 critical.care.cips.all$model4.forest$forest
 critical.care.cips.all$model4.panelar$coef[3:9] %>% kable(caption = critical.care.cips.all$model4.panelar$caption)
@@ -58,7 +58,7 @@ critical.care.cips.all$model4.panelar$coef[3:9] %>% kable(caption = critical.car
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
 
-```{r mode_of_arrival_any_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+```{r critical_care_cips_all_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 critical.care.cips.all$model5.ts.plot.trust
 critical.care.cips.all$model5.forest$forest
 critical.care.cips.all$model5.panelar$coef[3:9] %>% kable(caption = critical.care.cips.all$model5.panelar$caption)
@@ -71,7 +71,7 @@ critical.care.cips.all$model5.panelar$coef[3:9] %>% kable(caption = critical.car
 `Panel        : LSOA`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
 
-```{r mode_of_arrival_any_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+```{r critical_care_cips_all_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 critical.care.cips.all$model6.ts.plot.trust
 critical.care.cips.all$model6.forest.model$forest
 critical.care.cips.all$model6.panelar$coef[3:8] %>% kable(caption = critical.care.cips.all$model6.panelar$caption)
@@ -86,7 +86,7 @@ Model 7 seeks to analyse at the LSOA level across all case sites and their one m
 `Panel        : LSOA`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
 
-```{r mode_of_arrival_any_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
+```{r critical_care_cips_all_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
 critical.care.cips.all$model7.ts.plot.trust
 critical.care.cips.all$model7.forest.model$forest
 critical.care.cips.all$model7.panelar$coef[3:8] %>% kable(caption = critical.care.cips.all$model7.panelar$caption)
