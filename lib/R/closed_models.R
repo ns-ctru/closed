@@ -86,13 +86,23 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     #######################################################################
     ## Initialise results list for returning everything
     results <- list()
+    ## 2016-05-24 - For a small number of outcomes there is no sub-indicator
+    ##              and it is therefore missing.  In order to work with this
+    ##              function such missing values are therefore replaced with
+    ##              the main indicator which is supplied as the sub.indicator
+    ##              argument
+    which.df <- substitute(df.lsoa) %>% deparse()
+    if(which.df == 'unnecessary_ed_attendances_measure'){
+        df.lsoa$sub_measure  <- 'unnecessary ed attendances'
+        df.trust$sub_measure <- 'unnecessary ed attendances'
+    }
     ## Convert variable names for ease of typing within this function
     ## (ESS artefact, hitting underscore inserts '<-' so lots of underscores are
     ## tedious to type)
     names(df.lsoa)  <- names(df.lsoa) %>%
                        gsub("_", ".", x = .)
     names(df.trust) <- names(df.trust) %>%
-                       gsub("_", ".", x = .)
+        gsub("_", ".", x = .)
     ## Convert to data frame, selecting only the specified outcome and convert
     ## town to factor so that it can be releveled as required
     df.lsoa  <- as.data.frame(df.lsoa) %>%
@@ -109,8 +119,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Conditionally select range for y-axis, MUST do this BEFORE subsetting
     ## data so that it is common across all outcomes for the given indicator
     if(common.y == TRUE){
-        df.lsoa.max  <-  max(df.lsoa$value)
-        df.trust.max <-  max(df.trust$value)
+        df.lsoa.max  <-  max(df.lsoa$value, na.rm = TRUE)
+        df.trust.max <-  max(df.trust$value, na.rm = TRUE)
         y.max <- max(df.lsoa.max, df.trust.max) %>%
                  round(-2)
     }
@@ -197,7 +207,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     }
     else if(indicator == 'unnecessary ed attendances'){
         title1 <- 'Unnecessary ED Attendances'
-        if(is.na(sub.indicator)) title2 <- ''
+        title2 <- ''
     }
     else if(indicator == 'ed attendances admitted'){
         title1 <- 'ED Attendances Admitted'
@@ -211,31 +221,31 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     }
     else if(indicator == 'avoidable emergency admissions'){
         title1 <- 'Avoidable Emergency Attendances'
-        if(sub.indcator == 'any')                             title2 <- ' (Any)'
-        else if(sub.indcator == 'acute mental health crisis') title2 <- ' (Acute Mental Health Crisis)'
-        else if(sub.indcator == 'angina')                     title2 <- ' (Angina)'
-        else if(sub.indcator == 'blocked catheter')           title2 <- ' (Blocked Catheter)'
-        else if(sub.indcator == 'cellulitis')                 title2 <- ' (Cellulitis)'
-        else if(sub.indcator == 'copd')                       title2 <- ' (COPD)'
-        else if(sub.indcator == 'dvt')                        title2 <- ' (DVT)'
-        else if(sub.indcator == 'epileptic fit')              title2 <- ' (Epileptic Fit)'
-        else if(sub.indcator == 'falls (76+ years)')          title2 <- ' (Falls >76yrs)'
-        else if(sub.indcator == 'hypoglycaemia')              title2 <- ' (Hypoglycaemia)'
-        else if(sub.indcator == 'minor head injuries')        title2 <- ' (Minor Head Injuries)'
-        else if(sub.indcator == 'non-specific chest pain')    title2 <- ' (Non-Specific Chest Pain)'
-        else if(sub.indcator == 'pyrexial child (<6 years)')  title2 <- ' (Pyrexial Child <6yrs)'
-        else if(sub.indcator == 'urinary tract infection')    title2 <- ' (Urinary Tract Infection)'
+        if(sub.indicator == 'any')                             title2 <- ' (Any)'
+        else if(sub.indicator == 'acute mental health crisis') title2 <- ' (Acute Mental Health Crisis)'
+        else if(sub.indicator == 'angina')                     title2 <- ' (Angina)'
+        else if(sub.indicator == 'blocked catheter')           title2 <- ' (Blocked Catheter)'
+        else if(sub.indicator == 'cellulitis')                 title2 <- ' (Cellulitis)'
+        else if(sub.indicator == 'copd')                       title2 <- ' (COPD)'
+        else if(sub.indicator == 'dvt')                        title2 <- ' (DVT)'
+        else if(sub.indicator == 'epileptic fit')              title2 <- ' (Epileptic Fit)'
+        else if(sub.indicator == 'falls (76+ years)')          title2 <- ' (Falls >76yrs)'
+        else if(sub.indicator == 'hypoglycaemia')              title2 <- ' (Hypoglycaemia)'
+        else if(sub.indicator == 'minor head injuries')        title2 <- ' (Minor Head Injuries)'
+        else if(sub.indicator == 'non-specific chest pain')    title2 <- ' (Non-Specific Chest Pain)'
+        else if(sub.indicator == 'pyrexial child (<6 years)')  title2 <- ' (Pyrexial Child <6yrs)'
+        else if(sub.indicator == 'urinary tract infection')    title2 <- ' (Urinary Tract Infection)'
     }
     else if(indicator == 'length of stay'){
         title1 <- 'Length of Stay'
-        if(sub.indcator == 'mean')        title2 <- ' (Mean)'
-        else if(sub.indcator == 'median') title2 <- ' (Median)'
+        if(sub.indicator == 'mean')        title2 <- ' (Mean)'
+        else if(sub.indicator == 'median') title2 <- ' (Median)'
     }
     else if(indicator == 'critical care stays'){
         title1 <- 'Critical Care Stays'
-        if(sub.indcator == 'all')                           title2 <- ' (All)'
-        else if(sub.indcator == 'critical care')            title2 <- ' (Critical Care)'
-        else if(sub.indcator == 'fractional critical care') title2 <- ' (Fractional Critical Care)'
+        if(sub.indicator == 'all')                           title2 <- ' (All)'
+        else if(sub.indicator == 'critical care')            title2 <- ' (Critical Care)'
+        else if(sub.indicator == 'fraction critical care') title2 <- ' (Fractional Critical Care)'
     }
     #######################################################################
     ## Internal functions (to save typing)                               ##
@@ -297,11 +307,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             .coef <- dplyr::filter(.coef, grepl('town', term))
         }
         else if(return.coef == 'closure.town'){
-            .coef <- dplyr::filter(.coef, grepl('closure', term) | grepl('town', term) | grepl('nhs111', term) | grepl('ambulance.divert', term) | grepl('other.closure', term))
+            .coef <- dplyr::filter(.coef, grepl('closure', term) | grepl('town', term))
         }
         ## Not really necessary, but it makes the code clear
         else if(return.coef == 'all.steps'){
-            .coef <- dplyr::filter(.coef, grepl('closure', term) | grepl('town', term))
+            .coef <- dplyr::filter(.coef, grepl('closure', term) | grepl('town', term) | grepl('nhs111', term) | grepl('ambulance.divert', term) | grepl('other.closure', term))
         }
         ## Not really necessary, but it makes the code clear
         else if(return.coef == 'all'){
