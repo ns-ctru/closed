@@ -1,0 +1,46 @@
+#### Interaction Terms
+
+[R]{https://www.r-project.org/} and [Stata]{https://www.stata.com/} handle interaction terms slightly differently.  The details can be found on the respective help pages ([R interactions]() and [Stata fvvarlist](http://www.stata.com/help.cgi?fvvarlist)).  The following output shows first the results from interacting the two variables `town` and `closure` for Bishop Auckland (where ED closed) v's Whitehaven, and you will see the coefficient for the interaction is `NA` (which is R's internal representation of missing values).
+
+```{r interaction_r1, , echo = TRUE, cache = FALSE, results = 'asis', eval = TRUE}
+## Model as called with interaction term between town and closure
+mod2 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+formula.model2 <- reformulate(response   = 'value',
+                              termlabels = mod2)
+filter(mode.of.arrival.any$model2.df,
+       town == 'Bishop Auckland' |
+       town == 'Whitehaven') %>%
+panelAR(#data            = to.analyse,
+        formula         = formula.model2,
+        timeVar         = 'relative.month',
+        panelVar        = 'town',
+        autoCorr        = 'ar1',
+        panelCorrMethod = 'pcse')
+```
+
+Explicitly deriving a dummy variable which is the product of multiplying the two factor variables (as their numerical representation) gives *exactly* the same results...
+
+```{r interaction_r2, , echo = TRUE, cache = FALSE, results = 'asis', eval = TRUE}
+## Derive an independent dummy variable representing the interaction
+to.analyse <- filter(mode.of.arrival.any$model2.df,
+                     town == 'Bishop Auckland' |
+                     town == 'Whitehaven')
+to.analyse$town.closure <- as.numeric(to.analyse$town) * as.numeric(to.analyse$closure)
+## Redefine the model and run this
+formula.model2 <- reformulate(response = 'value',
+                              termlabels = c('town', 'closure', 'town.closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'))
+panelAR(data            = to.analyse,
+        formula         = formula.model2,
+        timeVar         = 'relative.month',
+        panelVar        = 'town'	      ,
+        autoCorr        = 'ar1',
+        panelCorrMethod = 'pcse')
+## Checking the derived variable its clear that the interaction term is colinear
+## Cross-tabulate the closure and town.closure to show they are co-linear
+table(to.analyse$closure, to.analyse$town.closure)
+## List the data to show that they are co-linear
+dplyr::select(to.analyse, relative.month, closure, town.closure)
+
+```
+
+Stata is doing very similar in that its deriving a dummy variable for the interaction, setting the reference/baseline group to be that which is the product of the reference/baseline group in the individual components, and then testing for differences between other observed levels, the difference is it doesn't appear to be automatically dropping the term due to colinearity.
