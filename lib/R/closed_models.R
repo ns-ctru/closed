@@ -33,7 +33,7 @@
 #' @param model7 Covariates to include in model 7.
 #' @param autocorr panelAR() option for handling auto-correlation, default is \code{ar1}.
 #' @param panelcorrmethod panelAR() option for panel correction, default is \code{pcse}.
-#' @param coefficients Determine which coefficients from the model are included in summary tables.  Setting to \code{closure} will return only terms that involve only the closure indicator (i.e. \code{closure} itself).  Other options include \code{town} for site specific terms (no interactions) and \code{closure.town} whichi includes all closure and town terms, both individually and from interactions.
+#' @param coefficients Determine which coefficients from the model are included in summary tables.  Setting to \code{closure} will return only terms that involve only the closure indicator (i.e. \code{closure} itself).  Other options include \code{town} for site specific terms (no interactions) and \code{closure.town} (the default) which includes all closure and town terms, both individually and from interactions.  Use \code{all} to get all terms returned.
 #' @param plot Generate time-series plot.
 #' @param common.y Generate all plots with a common y-axis range.
 #' @param theme GGplot2 theme to use (only relevant if \code{plot = TRUE}).
@@ -73,7 +73,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           model7          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
                           autocorr        = 'ar1',
                           panelcorrmethod = 'pcse',
-                          coefficients    = 'All',
+                          coefficients    = 'closure.town',
                           plot            = TRUE,
                           common.y        = TRUE,
                           return.df       = FALSE,
