@@ -23,7 +23,7 @@ mod5 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre'
 mod6 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
 mod7 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
 ```
-```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'asis', eval = FALSE}
+```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
 diff.time.to.ed <- closed_summary(df          = ed_attendances_by_mode_measure,
                              df.steps    = sites,
                              vars        = value,
@@ -53,10 +53,11 @@ mode.of.arrival.any <- closed_models(df.lsoa         = ed_attendances_by_mode_me
                                      ## model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
+                                     coefficients    = 'closure.town',
                                      plot            = TRUE,
                                      common.y        = TRUE,
                                      theme           = theme_bw(),
-                                     return.model    = FALSE)
+                                     return.df       = FALSE)
 ```
 
 <!--- Mode of Arrival - Other --->
@@ -81,10 +82,11 @@ mode.of.arrival.other <- closed_models(df.lsoa         = ed_attendances_by_mode_
                                      ## model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
+                                     coefficients    = 'closure.town',
                                      plot            = TRUE,
                                      common.y        = TRUE,
                                      theme           = theme_bw(),
-                                     return.model    = FALSE)
+                                     return.df       = FALSE)
 ```
 
 <!--- Mode of Arrival - Ambulance --->
@@ -109,10 +111,11 @@ mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_m
                                      ## model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
+                                     coefficients    = 'closure.town',
                                      plot            = TRUE,
                                      common.y        = TRUE,
                                      theme           = theme_bw(),
-                                     return.model    = FALSE)
+                                     return.df       = FALSE)
 ```
 
 <!--- Unnecessary Attendance - NA --->
@@ -136,10 +139,11 @@ unnecessary_attendance <- closed_models(df.lsoa         = unnecessary_ed_attenda
                                      ## model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
+                                     coefficients    = 'closure.town',
                                      plot            = TRUE,
                                      common.y        = TRUE,
                                      theme           = theme_bw(),
-                                     return.model    = FALSE)
+                                     return.df       = FALSE)
 ```
 
 <!--- ED Attendances Admitted - All --->
@@ -164,10 +168,11 @@ ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_ad
                                      ## model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
+                                     coefficients    = 'closure.town',
                                      plot            = TRUE,
                                      common.y        = TRUE,
                                      theme           = theme_bw(),
-                                     return.model    = FALSE)
+                                     return.df       = FALSE)
 ```
 
 <!--- ED Attendances Admitted - Fraction Admitted --->
@@ -192,10 +197,11 @@ ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_
                                      ## model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
+                                     coefficients    = 'closure.town',
                                      plot            = TRUE,
                                      common.y        = TRUE,
                                      theme           = theme_bw(),
-                                     return.model    = FALSE)
+                                     return.df       = FALSE)
 ```
 
 <!--- ED Attendances Admitted - Admitted --->
@@ -220,10 +226,11 @@ ed.attendances.admitted.admitted <- closed_models(df.lsoa         = ed_attendanc
                                      ## model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
+                                     coefficients    = 'closure.town',
                                      plot            = TRUE,
                                      common.y        = TRUE,
                                      theme           = theme_bw(),
-                                     return.model    = FALSE)
+                                     return.df       = FALSE)
 ```
 
 <!--- Save all objects --->
