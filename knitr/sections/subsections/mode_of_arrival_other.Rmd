@@ -30,7 +30,7 @@ mode.of.arrival.other$model2.panelar$coef[3:8] %>% kable(caption = mode.of.arriv
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + steps`\
 
-```{r mode_of_arrival_other_model2_5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+```{r mode_of_arrival_other_model3, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 mode.of.arrival.other$model3.ts.plot
 mode.of.arrival.other$model3.forest$forest
 mode.of.arrival.other$model3.panelar$coef[3:8] %>% kable(caption = mode.of.arrival.other$model3.panelar$caption)
