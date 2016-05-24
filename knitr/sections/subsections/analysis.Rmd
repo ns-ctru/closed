@@ -293,7 +293,7 @@ critical.care.cips.critical <- closed_models(df.lsoa         = critical_care_cip
 ```
 
 <!--- Critical Care - Fraction --->
-```{r critical_care_cips_critical, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r critical_care_cips_fraction, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 critical.care.cips.fraction <- closed_models(df.lsoa         = critical_care_cips_measure,
                                      df.trust        = critical_care_cips_site_measure,
                                      indicator       = 'critical care stays',
