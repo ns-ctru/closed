@@ -33,7 +33,7 @@
 #' @param model7 Covariates to include in model 7.
 #' @param autocorr panelAR() option for handling auto-correlation, default is \code{ar1}.
 #' @param panelcorrmethod panelAR() option for panel correction, default is \code{pcse}.
-#' @param coefficients Determine which coefficients from the model are included in summary tables.  Setting to \code{closure} will return only terms that involve only the closure indicator (i.e. \code{closure} itself).  Other options include \code{town} for site specific terms (no interactions) and \code{closure.town} (the default) which includes all closure and town terms, both individually and from interactions.  Use \code{all} to get all terms returned.
+#' @param coefficients Determine which coefficients from the model are included in summary tables.  Setting to \code{closure} will return only terms that involve only the closure indicator (i.e. \code{closure} itself).  Other options include \code{town} for site specific terms (no interactions) and \code{closure.town} (the default) which includes all closure and town terms, both individually and from interactions.  Use \code{all} to get all terms returned or for closure, town and other steps use \code{all.steps}
 #' @param plot Generate time-series plot.
 #' @param common.y Generate all plots with a common y-axis range.
 #' @param theme GGplot2 theme to use (only relevant if \code{plot = TRUE}).
@@ -297,6 +297,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             .coef <- dplyr::filter(.coef, grepl('town', term))
         }
         else if(return.coef == 'closure.town'){
+            .coef <- dplyr::filter(.coef, grepl('closure', term) | grepl('town', term) | grepl('nhs111', term) | grepl('ambulance.divert', term) | grepl('other.closure', term))
+        }
+        ## Not really necessary, but it makes the code clear
+        else if(return.coef == 'all.steps'){
             .coef <- dplyr::filter(.coef, grepl('closure', term) | grepl('town', term))
         }
         ## Not really necessary, but it makes the code clear
