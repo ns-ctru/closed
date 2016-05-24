@@ -33,6 +33,7 @@
 #' @param model7 Covariates to include in model 7.
 #' @param autocorr panelAR() option for handling auto-correlation, default is \code{ar1}.
 #' @param panelcorrmethod panelAR() option for panel correction, default is \code{pcse}.
+#' @param coefficients Determine which coefficients from the model are included in summary tables.  Setting to \code{closure} will return only terms that involve only the closure indicator (i.e. \code{closure} itself).  Other options include \code{town} for site specific terms (no interactions) and \code{closure.town} whichi includes all closure and town terms, both individually and from interactions.
 #' @param plot Generate time-series plot.
 #' @param common.y Generate all plots with a common y-axis range.
 #' @param theme GGplot2 theme to use (only relevant if \code{plot = TRUE}).
@@ -72,6 +73,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           model7          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
                           autocorr        = 'ar1',
                           panelcorrmethod = 'pcse',
+                          coefficients    = 'All',
                           plot            = TRUE,
                           common.y        = TRUE,
                           return.df       = FALSE,
@@ -259,7 +261,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                      hemel.coef      = results$model1.panelar.hemel.coef,
                                      newark.coef     = results$model1.panelar.newark.coef,
                                      rochdale.coef   = results$model1.panelar.rochdale.coef,
-                                     all.coef        = NULL){
+                                     all.coef        = NULL,
+                                     return.coef     = coefficients){
         ## List of results
         coef <- list()
         ## Combine coefficients, derive CIs and derive tidy df for output
@@ -286,6 +289,20 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         .coef <- dplyr::select(.coef, indicator, sub.indicator, term, site, out) %>%
                  melt(id = c('indicator', 'sub.indicator', 'site', 'term')) %>%
                  dcast(indicator + sub.indicator + term ~ site + variable)
+        ## Conditionally remove the coefficients that are not of interest
+        if(return.coef == 'closure'){
+            .coef <- dplyr::filter(.coef, grepl('closure', term))
+        }
+        else if(return.coef == 'town'){
+            .coef <- dplyr::filter(.coef, grepl('town', term))
+        }
+        else if(return.coef == 'closure.town'){
+            .coef <- dplyr::filter(.coef, grepl('closure', term) | grepl('town', term))
+        }
+        ## Not really necessary, but it makes the code clear
+        else if(return.coef == 'all'){
+            .coef <- .coef
+        }
         ## Format the term label for interactions between site and town
         .coef <- within(.coef, {
                         term[term == 'townBasingstoke'] <- 'Basingstoke'
@@ -335,7 +352,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                         term[term == 'relative.month'] <- 'Time (Month)'
                         term[term == 'season'] <- 'Season'
                         term[term == 'diff.time.to.ed'] <- 'Change in Time to ED'
-                       })
+        })
         ## Combine with r2
         names(.coef) <- gsub("_out", "", names(.coef))
         names(.r2) <- gsub("variable", "term", names(.r2))
@@ -348,7 +365,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             names(coef$coef) <- c('Indicator', 'Subindicator', 'Term', 'All', 'Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
         }
         ## Derive a caption for the table
-        coef$caption <- paste0('Comparison of coefficients across sites.  Each cell contains a point estimates followed by the standard error (in brackets) and the associated p-value (in scientific format due to some values being very small).')
+        coef$caption <- paste0('Comparison of coefficients across sites.  Each cell contains a point estimate followed by the standard error (in brackets) and the associated p-value (in scientific format due to some values being very small).')
         return(coef)
     }
     #######################################################################
