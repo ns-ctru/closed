@@ -2,7 +2,7 @@
 `Case Site    : Individual`\
 `Control Site : None`\
 `Panel        : ED`\
-`Model        : observations ~ season + time + closure + steps`\
+`Model        : observations ~ season + time + closure + nhs111 + ambulance.divert + other.centre `\
 
 ```{r mode_of_arrival_other_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 mode.of.arrival.other$model1.ts.plot
