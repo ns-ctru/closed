@@ -1111,7 +1111,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                       autoCorr = autocorr,
                                       panelCorrMethod = panelcorrmethod)
         results$model6.panelar.bishop.coef <- extract_coefficients(x              = model6.panelar.bishop,
-                                                                .site          = 'All',
+                                                                .site          = 'Bishop Auckland',
                                                                 .indicator     = indicator,
                                                                 .sub.indicator = sub.indicator)
         results$model6.panelar.bishop.r2 <- model6.panelar.bishop
