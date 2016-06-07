@@ -1,6 +1,6 @@
 #### Data Description
 
-A short summary of the variables that are used within the dataset, as much for the statisticians reference than anyones use.  Each data file comes in two formats, one at the LSOA level and one at the ED level and the filenames follow a consistent nomenclature which consists of `[DESCRIPTION] - [lsoa|site] - YYYY-MM-DD hh.mm.Rda` where `DESCRIPTION` varies between files, `[lsoa|site]` indicates the level of the data and `YYYY-MM-DD hh.mm` is a date/time stamp in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601).
+A short summary of the variables that are used within the dataset, as much for the statisticians reference than anyones use.  Each data file comes in two formats, one at the LSOA level and one at the ED level and the filenames follow a consistent nomenclature which consists of `[DESCRIPTION] - [lsoa|site] - YYYY-MM-DD hh.mm.Rda` where `DESCRIPTION` varies between files, `[lsoa|site]` indicates the level of the data and `YYYY-MM-DD hh.mm` is a date/time stamp in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601).  The `measure` and `sub-measure` variables are used to identify the subset of data within a given file that is to be analysed since there are multiple outcomes in almost all files.  The actual number (or rate, mean or median) of events that are to be analysed is always stored in the variable names `value`.
 
 Table: Description of data and variables in the CLOSED study.
 
@@ -11,9 +11,9 @@ Attendance               | `ed_attendances by mode measure`     | `ed attendance
 Attendance               | `ed_attendances by mode measure`     | `ed attendances`                 | `ambulance`
 Attendance               | `ed_attendances by mode measure`     | `ed attendances`                 | `other`
 Unnecesssary Attendance  | `unnecessary_ed_attendances_measure` | `unnecessary ed attendances`     | `NA`
-Admissions               | `ed_attendances_admitted_measure`    | `ed attendances admitted`        | `all`
-Admissions               | `ed_attendances_admitted_measure`    | `ed attendances admitted`        | `fraction admitted`
-Admissions               | `ed_attendances_admitted_measure`    | `ed attendances admitted`        | `admitted`
+Attendances Admitted     | `ed_attendances_admitted_measure`    | `ed attendances admitted`        | `all`
+Attendances Admitted     | `ed_attendances_admitted_measure`    | `ed attendances admitted`        | `fraction admitted`
+Attendances Admitted     | `ed_attendances_admitted_measure`    | `ed attendances admitted`        | `admitted`
 Emergency Admissions     | `emergency admissions measure`       | `all emergency admissions`       | `NA`
 Emergency Admissions     | `emergency admissions measure`       | `avoidable emergency admissions` | `acute mental health crisis`
 Emergency Admissions     | `emergency admissions measure`       | `avoidable emergency admissions` | `angina`
@@ -37,7 +37,7 @@ Critical Care            | `critical care stays measure`        | `critical care
 
 #### Difference in Time to Emergency Department
 
-The difference in time to emergency department from the centroid of Lower Super Output Areas (LSOA) is summarised for each site in the table below.  For sites where an Emergency Department (ED) closed there are two summaries, one when the ED was open and another summarising travel times after they had closed.
+The difference in time to emergency department from the centroid of Lower Super Output Areas (LSOA) is summarised for each site in the table below.  For sites where an Emergency Department (ED) closed there are two summaries, one when the ED was open and another summarising travel times after they had closed, although its worth bearing in mind that these will not all be to the same ED after closure.
 
 ```{r summary_time_to_ed, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
 kable(diff.time.to.ed$formatted)
