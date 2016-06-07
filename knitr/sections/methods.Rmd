@@ -1,4 +1,4 @@
-Methods are described in detail in the Statistical Analysis Plan which can be viewed [online](https://www.overleaf.com/read/ffzknqdcjkpw).  Once the page has loaded click on PDF at the top of the page to download a PDF copy.
+Methods are described in detail in the Statistical Analysis Plan which can be viewed [online](https://www.overleaf.com/read/ffzknqdcjkpw).  Once the page has loaded click on PDF at the top of the page to download a PDF copy.  Briefly though the study seeks to investigate via interuptted time-series analysis whether closing Accident and Emergency departments impacts on any of a host of pre-selected indicators of the quality of health care provision[@knotopantelis2015;@penfold2013].  [Prais-Winsten regression](https://en.wikipedia.org/wiki/Prais%E2%80%93Winsten_estimation)[@prais1954] is utilised to account for auto-correlation between sequential measurements over time.  Broadly the approach taken is that of @turner2013.
 
 ### Models
 
@@ -50,6 +50,7 @@ Currently panel-corrected standard errors are used which are robust to heteroske
 ### Software
 
 There are two packages for [R](https://www.r-projects.org/) that implement the Prais-Winsten method of adjusting for auto-correlation in time-series analyses, [panelAR](https://cran.r-project.org/web/packages/panelAR/index.html) or [prais](https://cran.r-project.org/web/packages/prais/index.html).  The panelAR package is being used for this work but it is intended to cross-validate these against the routines provided in [Stata (v14.1)](https://www.stata.com/) however the constarint of having to work with the data stored on a Virtual Machine (VM) this will only be possible for models which use ED panels as the observed counts of events at LSOA level mean the data would have potentially identifiable data which should remain on the VM.
+
 
 <!--- Run all analyses --->
 ```{r child = 'subsections/analysis.Rmd', eval = TRUE}
