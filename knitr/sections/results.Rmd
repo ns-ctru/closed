@@ -22,15 +22,15 @@
 ```{r child = 'subsections/unnecessary_attendance.Rmd', eval = TRUE}
 ```
 
-### Admissions - All  {.tabset .tabset-fade .tabset-pills}
+### Attendances Admitted - All  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/ed_attendances_admitted_all.Rmd', eval = TRUE}
 ```
 
-### Admissions - Admitted  {.tabset .tabset-fade .tabset-pills}
+### Attendances Admitted - Admitted  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/ed_attendances_admitted_admitted.Rmd', eval = TRUE}
 ```
 
-### Admissions - Fraction Admitted  {.tabset .tabset-fade .tabset-pills}
+### Attendances Admitted - Fraction Admitted  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/ed_attendances_admitted_fraction_admitted.Rmd', eval = TRUE}
 ```
 
