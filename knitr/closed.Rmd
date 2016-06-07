@@ -6,14 +6,15 @@ output:
     toc: false
     toc_float: false
     toc_depth: 5
-
+bibliography: bibliography.bib
 ---
 
 ```{r setup, include=FALSE}
 ##opts_chunk$set(dev = 'pdf')
-opts_chunk$set(width    = 200)
-opts_chunk$set(fig.height = 8)
-opts_chunk$set(fig.width  = 8)
+opts_chunk$set(cache.path = 'cache/',
+               width    = 200,
+               fig.height = 8,
+               fig.width  = 8)
 ## Set a seed
 set.seed(69027181)
 ```
