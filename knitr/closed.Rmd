@@ -36,3 +36,5 @@ set.seed(69027181)
 ## ToDo {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'sections/todo.Rmd', eval = TRUE}
 ```
+
+## References
