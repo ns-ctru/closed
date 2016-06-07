@@ -1,20 +1,20 @@
 <!--- Runs all analyses, saving results as an R object for loading --->
 <!--- Summary --->
-```{r load_data, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-load('d:/Rpackages/rclosed/data/ed attendances by mode measure - lsoa - 2016-05-18 15.05.Rda')
-load('d:/Rpackages/rclosed/data/ed attendances by mode measure - site - 2016-05-18 15.06.Rda')
-load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure - lsoa - 2016-05-18 15.11.Rda')
-load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure - site - 2016-05-18 15.11.Rda')
-load('d:/Rpackages/rclosed/data/ed attendances admitted measure - lsoa - 2016-05-18 15.01.Rda')
-load('d:/Rpackages/rclosed/data/ed attendances admitted measure - site - 2016-05-18 15.01.Rda')
-load('d:/Rpackages/rclosed/data/emergency admissions measure - lsoa - 2016-05-18 16.05.Rda')
-load('d:/Rpackages/rclosed/data/emergency admissions measure - site - 2016-05-18 16.06.Rda')
-load('d:/Rpackages/rclosed/data/critical care stays measure - lsoa - 2016-05-18 16.06.Rda')
-load('d:/Rpackages/rclosed/data/critical care stays measure - site - 2016-05-18 16.07.Rda')
-load('d:/Rpackages/rclosed/data/length of stay measure - lsoa - 2016-05-18 16.08.Rda')
-load('d:/Rpackages/rclosed/data/length of stay measure - site - 2016-05-18 16.08.Rda')
+```{r load_data, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+load('d:/Rpackages/rclosed/data/ed attendances by mode measure - lsoa - 2016-05-24 14.25.Rda')
+load('d:/Rpackages/rclosed/data/ed attendances by mode measure - site - 2016-05-24 14.26.Rda')
+load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure - lsoa - 2016-05-24 14.26.Rda')
+load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure - site - 2016-05-24 14.26.Rda')
+load('d:/Rpackages/rclosed/data/ed attendances admitted measure - lsoa - 2016-05-24 14.28.Rda')
+load('d:/Rpackages/rclosed/data/ed attendances admitted measure - site - 2016-05-24 14.28.Rda')
+load('d:/Rpackages/rclosed/data/emergency admissions measure - lsoa - 2016-05-24 14.30.Rda')
+load('d:/Rpackages/rclosed/data/emergency admissions measure - site - 2016-05-24 14.31.Rda')
+load('d:/Rpackages/rclosed/data/critical care stays measure - lsoa - 2016-05-24 14.32.Rda')
+load('d:/Rpackages/rclosed/data/critical care stays measure - site - 2016-05-24 14.32.Rda')
+load('d:/Rpackages/rclosed/data/length of stay measure - lsoa - 2016-05-24 14.34.Rda')
+load('d:/Rpackages/rclosed/data/length of stay measure - site - 2016-05-24 14.35.Rda')
 ```
-```{r define_models, echo = FALSE, cache = TRUE, results = 'hide', eval = TRUE}
+```{r define_models, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 mod1 <- c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 mod2 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 mod3 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
@@ -23,7 +23,7 @@ mod5 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre'
 mod6 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
 mod7 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
 ```
-```{r summary_analysis, echo = FALSE, cache = TRUE, results = 'asis', eval = TRUE}
+```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 diff.time.to.ed <- closed_summary(df          = ed_attendances_by_mode_measure,
                              df.steps    = sites,
                              vars        = value,
@@ -32,7 +32,7 @@ diff.time.to.ed <- closed_summary(df          = ed_attendances_by_mode_measure,
                              html        = FALSE)
 ```
 <!--- Mode of Arrival - Any --->
-```{r mode_of_arrival_any, echo = FALSE, cache = TRUE, results = 'hide', eval = TRUE}
+```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 mode.of.arrival.any <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
                                      df.trust        = ed_attendances_by_mode_site_measure,
                                      indicator       = 'ed attendances',
@@ -61,7 +61,7 @@ mode.of.arrival.any <- closed_models(df.lsoa         = ed_attendances_by_mode_me
 ```
 
 <!--- Mode of Arrival - Other --->
-```{r mode_of_arrival_other, echo = FALSE, cache = TRUE, results = 'hide', eval = TRUE}
+```{r mode_of_arrival_other, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 mode.of.arrival.other <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
                                      df.trust        = ed_attendances_by_mode_site_measure,
                                      indicator       = 'ed attendances',
@@ -90,7 +90,7 @@ mode.of.arrival.other <- closed_models(df.lsoa         = ed_attendances_by_mode_
 ```
 
 <!--- Mode of Arrival - Ambulance --->
-```{r mode_of_arrival_ambulance, echo = FALSE, cache = TRUE, results = 'hide', eval = TRUE}
+```{r mode_of_arrival_ambulance, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
                                      df.trust        = ed_attendances_by_mode_site_measure,
                                      indicator       = 'ed attendances',
@@ -119,7 +119,7 @@ mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_m
 ```
 
 <!--- Unnecessary Attendance - NA --->
-```{r unnecessary_ed_attendances, echo = FALSE, cache = TRUE, results = 'hide', eval = TRUE}
+```{r unnecessary_ed_attendances, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 unnecessary.attendance <- closed_models(df.lsoa         = unnecessary_ed_attendances_measure,
                                      df.trust        = unnecessary_ed_attendances_site_measure,
                                      indicator       = 'unnecessary ed attendances',
@@ -148,7 +148,7 @@ unnecessary.attendance <- closed_models(df.lsoa         = unnecessary_ed_attenda
 ```
 
 <!--- ED Attendances Admitted - All --->
-```{r ed_attendances_admitted_all, echo = FALSE, cache = TRUE, results = 'hide', eval = TRUE}
+```{r ed_attendances_admitted_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
                                      df.trust        = ed_attendances_admitted_site_measure,
                                      indicator       = 'ed attendances admitted',
@@ -177,7 +177,7 @@ ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_ad
 ```
 
 <!--- ED Attendances Admitted - Fraction Admitted --->
-```{r ed_attendances_admitted_fraction_admitted, echo = FALSE, cache = TRUE, results = 'hide', eval = TRUE}
+```{r ed_attendances_admitted_fraction_admitted, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
                                      df.trust        = ed_attendances_admitted_site_measure,
                                      indicator       = 'ed attendances admitted',
@@ -206,7 +206,7 @@ ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_
 ```
 
 <!--- ED Attendances Admitted - Admitted --->
-```{r ed_attendances_admitted_admitted, echo = FALSE, cache = TRUE, results = 'hide', eval = TRUE}
+```{r ed_attendances_admitted_admitted, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ed.attendances.admitted.admitted <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
                                      df.trust        = ed_attendances_admitted_site_measure,
                                      indicator       = 'ed attendances admitted',
@@ -235,7 +235,7 @@ ed.attendances.admitted.admitted <- closed_models(df.lsoa         = ed_attendanc
 ```
 
 <!--- Critical Care - All --->
-```{r critical_care_cips_all, echo = FALSE, cache = TRUE, results = 'hide', eval = TRUE}
+```{r critical_care_cips_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 critical.care.cips.all <- closed_models(df.lsoa         = critical_care_cips_measure,
                                      df.trust        = critical_care_cips_site_measure,
                                      indicator       = 'critical care stays',
@@ -264,7 +264,7 @@ critical.care.cips.all <- closed_models(df.lsoa         = critical_care_cips_mea
 ```
 
 <!--- Critical Care - Critical --->
-```{r critical_care_cips_critical, echo = FALSE, cache = TRUE, results = 'hide', eval = TRUE}
+```{r critical_care_cips_critical, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 critical.care.cips.critical <- closed_models(df.lsoa         = critical_care_cips_measure,
                                      df.trust        = critical_care_cips_site_measure,
                                      indicator       = 'critical care stays',
@@ -293,7 +293,7 @@ critical.care.cips.critical <- closed_models(df.lsoa         = critical_care_cip
 ```
 
 <!--- Critical Care - Fraction --->
-```{r critical_care_cips_fraction, echo = FALSE, cache = TRUE, results = 'hide', eval = TRUE}
+```{r critical_care_cips_fraction, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 critical.care.cips.fraction <- closed_models(df.lsoa         = critical_care_cips_measure,
                                      df.trust        = critical_care_cips_site_measure,
                                      indicator       = 'critical care stays',
@@ -322,7 +322,7 @@ critical.care.cips.fraction <- closed_models(df.lsoa         = critical_care_cip
 ```
 
 <!--- Length of Stay - Mean --->
-```{r length_of_stay_mean, echo = FALSE, cache = TRUE, results = 'hide', eval = TRUE}
+```{r length_of_stay_mean, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 length.of.stay.mean <- closed_models(df.lsoa         = length_of_stay_measure,
                                      df.trust        = length_of_stay_site_measure,
                                      indicator       = 'length of stay',
@@ -351,7 +351,7 @@ length.of.stay.mean <- closed_models(df.lsoa         = length_of_stay_measure,
 ```
 
 <!--- Length of Stay - Median --->
-```{r length_of_stay_median, echo = FALSE, cache = TRUE, results = 'hide', eval = TRUE}
+```{r length_of_stay_median, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure,
                                      df.trust        = length_of_stay_site_measure,
                                      indicator       = 'length of stay',
@@ -380,7 +380,7 @@ length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure,
 ```
 
 <!--- Save all objects --->
-```{r save_results, echo = FALSE, cache = FALSE, results = 'hide', eval = FALSE}
+```{r save_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ## save(diff.time.to.ed,
 ##      file = '../lib/data/summary.RData')
 ## save(mode.of.arrival.any,
