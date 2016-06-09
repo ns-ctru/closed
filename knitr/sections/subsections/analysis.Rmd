@@ -24,12 +24,45 @@ mod6 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre'
 mod7 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
 ```
 ```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+## Summarise differences in time to ED
 diff.time.to.ed <- closed_summary(df          = ed_attendances_by_mode_measure,
                              df.steps    = sites,
                              vars        = value,
                              digits      = 3,
                              latex       = FALSE,
                              html        = FALSE)
+## Simple summary of the missing data across datasets
+check.ed.attendances <- closed_missing_summary(df.lsoa = ed_attendances_by_mode_measure,
+                                               df.site = ed_attendances_by_mode_site_measure)
+check.ed.unnecessary <- closed_missing_summary(df.lsoa = unnecessary_ed_attendances_measure,
+                                               df.site = unnecessary_ed_attendances_site_measure)
+check.ed.admitted    <- closed_missing_summary(df.lsoa = ed_attendances_admitted_measure,
+                                               df.site = ed_attendances_admitted_site_measure)
+check.critical.care  <- closed_missing_summary(df.lsoa = critical_care_cips_measure,
+                                               df.site = critical_care_cips_site_measure)
+check.length.stay    <- closed_missing_summary(df.lsoa = length_of_stay_measure,
+                                               df.site = length_of_stay_site_measure)
+## Bind into two data frames for tabulating
+check.length.stay$check.lsoa$sub_measure[is.na(check.length.stay$check.lsoa$sub_measure)] <- "N/A"
+check.lsoa <- rbind(check.ed.attendances$check.lsoa,
+                    check.ed.unnecessary$.lsoa,
+                    check.ed.admitted$check.lsoa,
+                    check.critical.care$check.lsoa,
+                    check.length.stay$check.lsoa) %>%
+              ungroup() %>%
+              arrange(measure, sub_measure, relative_month, group, town) %>%
+	      dplyr::select(measure, sub_measure, town, relative_month, n)
+names(check.lsoa) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month', 'LSOAs')
+
+check.length.stay$check.site$sub_measure[is.na(check.length.stay$check.site$sub_measure)] <- "N/A"
+check.site <- rbind(check.ed.attendances$check.site,
+                    check.ed.unnecessary$.site,
+                    check.ed.admitted$check.site,
+                    check.critical.care$check.site,
+                    check.length.stay$check.site) %>%
+              arrange(measure, sub_measure, relative_month, group, town) %>%
+	      dplyr::select(measure, sub_measure, town, relative_month)
+names(check.site) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month')
 ```
 <!--- Mode of Arrival - Any --->
 ```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
