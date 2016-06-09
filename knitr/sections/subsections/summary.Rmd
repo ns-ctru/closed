@@ -35,6 +35,7 @@ Critical Care            | `critical care stays measure`        | `critical care
 Critical Care            | `critical care stays measure`        | `critical care stays`            | `critical care`
 Critical Care            | `critical care stays measure`        | `critical care stays`            | `fraction critical care`
 
+
 #### Difference in Time to Emergency Department
 
 The difference in time to emergency department from the centroid of Lower Super Output Areas (LSOA) is summarised for each site in the table below.  For sites where an Emergency Department (ED) closed there are two summaries, one when the ED was open and another summarising travel times after they had closed, although its worth bearing in mind that these will not all be to the same ED after closure.
@@ -42,5 +43,21 @@ The difference in time to emergency department from the centroid of Lower Super 
 ```{r summary_time_to_ed, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
 kable(diff.time.to.ed$formatted)
 diff.time.to.ed$plot.time.to.ed
+
+```
+
+#### Missing Data   {.tabset .tabset-fade .tabset-pills}
+
+A summary of the pattern of missing data for each of the outcomes is provided at both the Site (ED) level and at the LSOA level (within each site).
+
+```{r missing_site, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
+kable(check.site,
+      caption = 'EDs with missing data for all outcomes.')
+
+```
+
+```{r missing_lsoa, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
+kable(check.lsoa,
+      caption = 'EDs with missing data for all outcomes.')
 
 ```
