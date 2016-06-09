@@ -4,8 +4,8 @@
 #'
 #' @details Summarise missing data at the LSOA and Site level
 #'
-#' @param df.lsoa List of LSOA level data frames to summarise
-#' @param df.site List of Site level data frames to summarise
+#' @param df.lsoa LSOA level data frame to summarise
+#' @param df.site Site level data frame to summarise
 #'
 #' @return A data frame.
 #'
@@ -30,12 +30,14 @@ closed_missing_summary<- function(df.lsoa  = ed_attendances_by_mode_measure,
                           dplyr::select_('group', 'town', 'lsoa', 'relative_month', 'measure', 'sub_measure') %>%
                           unique() %>%
                           group_by_('group', 'town', 'relative_month', 'measure', 'sub_measure') %>%
-                          summarise(n = n())
+                          summarise(n = n()) %>%
+                          ungroup()
     results$check.site <- df.site %>%
                           data.frame() %>%
                           filter(is.na(value)) %>%
                           dplyr::select_('group', 'town', 'relative_month', 'measure', 'sub_measure') %>%
-                          unique()
+                          unique() %>%
+                          ungroup()
     ## Return results
     return(results)
 }
