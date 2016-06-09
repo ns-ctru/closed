@@ -12,6 +12,7 @@
 #' @param df Data frame to analyse.
 #' @param df.steps Data frame containing steps for all sites.
 #' @param vars The variable to summarise (default is \code{value} and shouldn't need changing).
+#' @param plot.avg Whether to plot the \code{mean} (default) )or \code{median} of the difference in time to ED.
 #' @param digits Number of digits to include in formatted output.
 #' @param theme GGplot2 theme to use.
 #' @param latex Produce results table in LaTeX format using Stargazer.
@@ -31,10 +32,11 @@
 #' @references
 #'
 #' @export
-closed_summary <- function(df          = unnecessary_ed_attendances_measure,
+closed_summary <- function(df          = ed_attendances_by_mode_measure,
                            ## ToDo - Switch sites to steps when all steps are available
                            df.steps    = sites,
                            vars        = value,
+                           plot.avg    = 'mean',
                            digits      = 3,
                            theme       = theme_bw(),
                            latex       = FALSE,
@@ -55,16 +57,13 @@ closed_summary <- function(df          = unnecessary_ed_attendances_measure,
     #######################################################################
     ## Combine steps with data frame                                     ##
     #######################################################################
-    df <- merge(df,
-                dplyr::select(df.steps, group, town, closure.date),
-                by     = c('group', 'town'),
-                all.x  = TRUE)
+    ## df <- merge(df,
+    ##             dplyr::select(df.steps, group, town),
+    ##             by     = c('group', 'town'),
+    ##             all.x  = TRUE)
     ## Derive indicators for steps
     ## ToDo - Make this flexible for all steps
-    df$closure <- 0
-    df <- within(df, {
-                  closure[yearmonth >= closure.date] <- 1
-    })
+    df$closure <- ifelse(df$relative.month >= 24, 1, 0)
     #######################################################################
     ## Plot the distribution of Time to ED by site pre/post closure      ##
     #######################################################################
@@ -74,19 +73,27 @@ closed_summary <- function(df          = unnecessary_ed_attendances_measure,
         ux[which.max(tabulate(match(x, ux)))]
     }
     ## Collapse data, don't need repeated observations over time
-    to.plot <- group_by(df, town, lsoa, closure) %>%
-               summarise(time.to.ed = mode(time.to.ed))
-    open   <- dplyr::filter(to.plot, closure == 0)
-    closed <- dplyr::filter(to.plot, closure == 1) %>%
-              dplyr::filter(town %in% c('Bishop Auckland', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Hartlepool'))
-    to.plot <- rbind(open, closed)
-    rm(open, closed)
-    to.plot$closure.label <- "Open"
-    to.plot$closure.label[to.plot$closure == 1] <- "Closed"
-    results$plot.time.to.ed <- ggplot(to.plot, aes(time.to.ed)) + geom_histogram() +
-                               facet_grid(town ~ closure.label) +
-                               xlab('Time to ED (minutes)') + ylab('N') +
-                               ggtitle('Time to ED from LSOAs')
+    ## to.plot <- group_by(df, town, lsoa, closure) %>%
+    to.plot <- group_by(df, town, lsoa) %>%
+               summarise(time.to.ed.mode = mode(diff.time.to.ed),
+                         time.to.ed.mean = mean(diff.time.to.ed, na.rm = TRUE),
+                         time.to.ed.min  = min(diff.time.to.ed,  na.rm = TRUE),
+                         time.to.ed.max  = max(diff.time.to.ed,  na.rm = TRUE),
+                         time.to.ed.q25  = quantile(diff.time.to.ed, probs = (0.25), na.rm = TRUE),
+                         time.to.ed.q50  = quantile(diff.time.to.ed, probs = (0.5),  na.rm = TRUE),
+                         time.to.ed.q75  = quantile(diff.time.to.ed, probs = (0.75), na.rm = TRUE))
+    to.plot <- dplyr::filter(to.plot, town %in% c('Bishop Auckland', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Hartlepool')) %>%
+        ungroup()
+    if(plot.avg == 'mean'){
+        results$plot.time.to.ed <- ggplot(to.plot, aes(time.to.ed.mean))
+    }
+    else if(plot.avg == 'median'){
+        results$plot.time.to.ed <- ggplot(to.plot, aes(time.to.ed.median))
+    }
+    results$plot.time.to.ed <- results$plot.time.to.ed + geom_histogram() +
+                               facet_grid(town ~ .) +
+                               xlab('Difference in Time to ED (minutes)') + ylab('N') +
+                               ggtitle('Difference in Time to ED from LSOAs')
     ## Apply the user-specified theme
     if(!is.null(theme)){
         results$plot.time.to.ed <- results$plot.time.to.ed + theme
@@ -94,16 +101,18 @@ closed_summary <- function(df          = unnecessary_ed_attendances_measure,
     #######################################################################
     ## Summarise                                                         ##
     #######################################################################
-    results$n.lsoa  <- group_by(df, group, town) %>%
+    results$n.lsoa  <- dplyr::select(df, group, town, lsoa) %>%
+                       unique() %>%
+                       group_by(group, town) %>%
                        summarise(n.lsoa          = n())
     results$summary <- group_by(df, group, town, closure) %>%
-                       summarise(time.to.ed.mean = mean(time.to.ed, na.rm = TRUE),
-                                 time.to.ed.sd   = sd(time.to.ed,   na.rm = TRUE),
-                                 time.to.ed.min  = min(time.to.ed,  na.rm = TRUE),
-                                 time.to.ed.max  = max(time.to.ed,  na.rm = TRUE),
-                                 time.to.ed.q25  = quantile(time.to.ed, probs = (0.25), na.rm = TRUE),
-                                 time.to.ed.q50  = quantile(time.to.ed, probs = (0.5),  na.rm = TRUE),
-                                 time.to.ed.q75  = quantile(time.to.ed, probs = (0.75), na.rm = TRUE))
+                       summarise(time.to.ed.mean = mean(diff.time.to.ed, na.rm = TRUE),
+                                 time.to.ed.sd   = sd(diff.time.to.ed,   na.rm = TRUE),
+                                 time.to.ed.min  = min(diff.time.to.ed,  na.rm = TRUE),
+                                 time.to.ed.max  = max(diff.time.to.ed,  na.rm = TRUE),
+                                 time.to.ed.q25  = quantile(diff.time.to.ed, probs = (0.25), na.rm = TRUE),
+                                 time.to.ed.q50  = quantile(diff.time.to.ed, probs = (0.5),  na.rm = TRUE),
+                                 time.to.ed.q75  = quantile(diff.time.to.ed, probs = (0.75), na.rm = TRUE))
     results$summary <- merge(results$n.lsoa,
                              results$summary,
                              by  = c('group', 'town'))
@@ -115,7 +124,7 @@ closed_summary <- function(df          = unnecessary_ed_attendances_measure,
     results$summary <- rbind(open, closed)
     rm(open, closed)
     ## results$summary <- dplyr::filter(results$summary, ed.status == 1 & !town %in% !c('Bishop Auckland', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Hartlepool'))
-    results$n.lsoa <- NULL
+    ## results$n.lsoa <- NULL
     #######################################################################
     ## Formatted Output                                                  ##
     #######################################################################
@@ -174,6 +183,7 @@ closed_summary <- function(df          = unnecessary_ed_attendances_measure,
                          arrange(order1, order2) %>%
                          dplyr::select(town, ed.status, n.lsoa, mean.sd, range, median.iqr)
     names(results$formatted) <- c('Town', 'ED Status', 'LSOAs', 'Mean (SD)', 'Range', 'Median (IQR)')
+    results$caption <- 'Distribution of Differences in the time to Emergency Departments for LSOAs in the catchment areas of affected Hospitals.'
     ## Return results
     return(results)
 }
