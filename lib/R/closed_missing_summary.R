@@ -34,7 +34,7 @@ closed_missing_summary<- function(df.lsoa  = ed_attendances_by_mode_measure,
     results$check.site <- df.site %>%
                           data.frame() %>%
                           filter(is.na(value)) %>%
-                          dplyr::select_('town', 'relative_month', 'measure', 'sub_measure') %>%
+                          dplyr::select_('group', 'town', 'relative_month', 'measure', 'sub_measure') %>%
                           unique()
     ## Return results
     return(results)
