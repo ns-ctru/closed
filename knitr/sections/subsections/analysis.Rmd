@@ -1,18 +1,36 @@
 <!--- Runs all analyses, saving results as an R object for loading --->
 <!--- Summary --->
 ```{r load_data, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-load('d:/Rpackages/rclosed/data/ed attendances by mode measure - lsoa - 2016-05-24 14.25.Rda')
-load('d:/Rpackages/rclosed/data/ed attendances by mode measure - site - 2016-05-24 14.26.Rda')
-load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure - lsoa - 2016-05-24 14.26.Rda')
-load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure - site - 2016-05-24 14.26.Rda')
-load('d:/Rpackages/rclosed/data/ed attendances admitted measure - lsoa - 2016-05-24 14.28.Rda')
-load('d:/Rpackages/rclosed/data/ed attendances admitted measure - site - 2016-05-24 14.28.Rda')
-load('d:/Rpackages/rclosed/data/emergency admissions measure - lsoa - 2016-05-24 14.30.Rda')
-load('d:/Rpackages/rclosed/data/emergency admissions measure - site - 2016-05-24 14.31.Rda')
-load('d:/Rpackages/rclosed/data/critical care stays measure - lsoa - 2016-05-24 14.32.Rda')
-load('d:/Rpackages/rclosed/data/critical care stays measure - site - 2016-05-24 14.32.Rda')
-load('d:/Rpackages/rclosed/data/length of stay measure - lsoa - 2016-05-24 14.34.Rda')
-load('d:/Rpackages/rclosed/data/length of stay measure - site - 2016-05-24 14.35.Rda')
+## Obtain the OS and node such that the data can be conditionally loaded
+os <- .Platform$OS.type
+node <- Sys.info()[['nodename']]
+if(os != 'unix' | node != 'mcru-closed-hp.shef.ac.uk'){
+    load('d:/Rpackages/rclosed/data/ed attendances by mode measure - lsoa - 2016-05-24 14.25.Rda')
+    load('d:/Rpackages/rclosed/data/ed attendances by mode measure - site - 2016-05-24 14.26.Rda')
+    load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure - lsoa - 2016-05-24 14.26.Rda')
+    load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure - site - 2016-05-24 14.26.Rda')
+    load('d:/Rpackages/rclosed/data/ed attendances admitted measure - lsoa - 2016-05-24 14.28.Rda')
+    load('d:/Rpackages/rclosed/data/ed attendances admitted measure - site - 2016-05-24 14.28.Rda')
+    load('d:/Rpackages/rclosed/data/emergency admissions measure - lsoa - 2016-05-24 14.30.Rda')
+    load('d:/Rpackages/rclosed/data/emergency admissions measure - site - 2016-05-24 14.31.Rda')
+    load('d:/Rpackages/rclosed/data/critical care stays measure - lsoa - 2016-05-24 14.32.Rda')
+    load('d:/Rpackages/rclosed/data/critical care stays measure - site - 2016-05-24 14.32.Rda')
+    load('d:/Rpackages/rclosed/data/length of stay measure - lsoa - 2016-05-24 14.34.Rda')
+    load('d:/Rpackages/rclosed/data/length of stay measure - site - 2016-05-24 14.35.Rda')
+} else{
+    load('~/work/closed/lib/data/ed attendances by mode measure - lsoa - 2016-05-24 14.25.Rda')
+    load('~/work/closed/lib/data/ed attendances by mode measure - site - 2016-05-24 14.26.Rda')
+    load('~/work/closed/lib/data/unnecessary ed attendances measure - lsoa - 2016-05-24 14.26.Rda')
+    load('~/work/closed/lib/data/unnecessary ed attendances measure - site - 2016-05-24 14.26.Rda')
+    load('~/work/closed/lib/data/ed attendances admitted measure - lsoa - 2016-05-24 14.28.Rda')
+    load('~/work/closed/lib/data/ed attendances admitted measure - site - 2016-05-24 14.28.Rda')
+    load('~/work/closed/lib/data/emergency admissions measure - lsoa - 2016-05-24 14.30.Rda')
+    load('~/work/closed/lib/data/emergency admissions measure - site - 2016-05-24 14.31.Rda')
+    load('~/work/closed/lib/data/critical care stays measure - lsoa - 2016-05-24 14.32.Rda')
+    load('~/work/closed/lib/data/critical care stays measure - site - 2016-05-24 14.32.Rda')
+    load('~/work/closed/lib/data/length of stay measure - lsoa - 2016-05-24 14.34.Rda')
+    load('~/work/closed/lib/data/length of stay measure - site - 2016-05-24 14.35.Rda')
+}
 ```
 ```{r define_models, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 mod1 <- c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
@@ -21,7 +39,11 @@ mod3 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre'
 mod4 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 mod5 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 mod6 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
-mod7 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
+if(os != 'unix' | node != 'mcru-closed-hp.shef.ac.uk'){
+    mod7 = NULL
+} else{
+    mod7 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
+}
 ```
 ```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ## Summarise differences in time to ED
@@ -111,8 +133,8 @@ mode.of.arrival.other <- closed_models(df.lsoa         = ed_attendances_by_mode_
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
-				     model7          = NULL,
-                                     ## model7          = mod7,
+				     ## model7          = NULL,
+                                     model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
                                      coefficients    = 'closure.town',
@@ -140,8 +162,8 @@ mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_m
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
-				     model7          = NULL,
-                                     ## model7          = mod7,
+				     ## model7          = NULL,
+                                     model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
                                      coefficients    = 'closure.town',
@@ -169,8 +191,8 @@ unnecessary.attendance <- closed_models(df.lsoa         = unnecessary_ed_attenda
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
-				     model7          = NULL,
-                                     ## model7          = mod7,
+				     ## model7          = NULL,
+                                     model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
                                      coefficients    = 'closure.town',
@@ -198,8 +220,8 @@ ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_ad
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
-				     model7          = NULL,
-                                     ## model7          = mod7,
+				     ## model7          = NULL,
+                                     model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
                                      coefficients    = 'closure.town',
@@ -227,8 +249,8 @@ ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
-				     model7          = NULL,
-                                     ## model7          = mod7,
+				     ## model7          = NULL,
+                                     model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
                                      coefficients    = 'closure.town',
@@ -256,8 +278,8 @@ ed.attendances.admitted.admitted <- closed_models(df.lsoa         = ed_attendanc
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
-				     model7          = NULL,
-                                     ## model7          = mod7,
+				     ## model7          = NULL,
+                                     model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
                                      coefficients    = 'closure.town',
@@ -285,8 +307,8 @@ critical.care.cips.all <- closed_models(df.lsoa         = critical_care_cips_mea
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
-				     model7          = NULL,
-                                     ## model7          = mod7,
+				     ## model7          = NULL,
+                                     model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
                                      coefficients    = 'closure.town',
@@ -314,8 +336,8 @@ critical.care.cips.critical <- closed_models(df.lsoa         = critical_care_cip
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
-				     model7          = NULL,
-                                     ## model7          = mod7,
+				     ## model7          = NULL,
+                                     model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
                                      coefficients    = 'closure.town',
@@ -343,8 +365,8 @@ critical.care.cips.fraction <- closed_models(df.lsoa         = critical_care_cip
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
-				     model7          = NULL,
-                                     ## model7          = mod7,
+				     ## model7          = NULL,
+                                     model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
                                      coefficients    = 'closure.town',
@@ -372,8 +394,8 @@ length.of.stay.mean <- closed_models(df.lsoa         = length_of_stay_measure,
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
-				     model7          = NULL,
-                                     ## model7          = mod7,
+				     ## model7          = NULL,
+                                     model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
                                      coefficients    = 'closure.town',
@@ -401,8 +423,8 @@ length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure,
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
-				     model7          = NULL,
-                                     ## model7          = mod7,
+				     ## model7          = NULL,
+                                     model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
                                      coefficients    = 'closure.town',
