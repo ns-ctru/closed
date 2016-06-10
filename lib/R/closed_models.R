@@ -582,6 +582,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model2.panelar.bishop <- filter(df2,
                                         town == 'Bishop Auckland' |
                                         town == 'Whitehaven') %>%
+                                 closed_missing(area = 'ed') %>%
                                  panelAR(formula  = formula.model2,
                                          timeVar  = timevar,
                                          panelVar = panel.trust,
@@ -593,12 +594,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                    .sub.indicator = sub.indicator)
         results$model2.panelar.bishop.r2 <- model2.panelar.bishop$r2
         ##################################################
-        ## Model - Hartlepool                           ##
+        ## Model 2 - Hartlepool                         ##
         ##################################################
         df2$town <- relevel(df2$town, ref = 'Grimsby')
         model2.panelar.hartlepool <- filter(df2,
                                             town == 'Hartlepool' |
                                             town == 'Grimsby') %>%
+                                     closed_missing(area = 'ed') %>%
                                      panelAR(formula  = formula.model2,
                                              timeVar  = timevar,
                                              panelVar = panel.trust,
@@ -616,6 +618,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model2.panelar.hemel <- filter(df2,
                                        town == 'Hemel Hempstead' |
                                        town == 'Warwick') %>%
+                                closed_missing(area = 'ed') %>%
                                 panelAR(formula  = formula.model2,
                                         timeVar  = timevar,
                                         panelVar = panel.trust,
@@ -633,6 +636,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model2.panelar.newark <- filter(df2,
                                         town == 'Newark' |
                                         town == 'Southport') %>%
+                                 closed_missing(area = 'ed') %>%
                                  panelAR(formula  = formula.model2,
                                          timeVar  = timevar,
                                          panelVar = panel.trust,
@@ -650,6 +654,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model2.panelar.rochdale <- filter(df2,
                                           town == 'Rochdale' |
                                           town == 'Rotherham') %>%
+                                   closed_missing(area = 'ed') %>%
                                    panelAR(formula  = formula.model2,
                                            timeVar  = timevar,
                                            panelVar = panel.trust,
@@ -735,11 +740,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         }
         ## Perform analysis with panelAR in each
         ##################################################
-        ## Bishop Auckland                              ##
+        ## Model 3 - Bishop Auckland                    ##
         ##################################################
         df3$town <- relevel(df3$town, ref = 'Whitehaven')
         model3.panelar.bishop <- filter(df3,
                                         group == 'Cohort : Bishop Auckland General Hospital') %>%
+                                 closed_missing(area = 'ed') %>%
                                  panelAR(formula  = formula.model3,
                                          timeVar  = timevar,
                                          panelVar = panel.trust,
@@ -751,11 +757,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                    .sub.indicator = sub.indicator)
         results$model3.panelar.bishop.r2 <- model3.panelar.bishop$r2
         ##################################################
-        ## Hartlepool                                   ##
+        ## Model 3 - Hartlepool                         ##
         ##################################################
         df3$town <- relevel(df3$town, ref = 'Grimsby')
         model3.panelar.hartlepool <- filter(df3,
                                               group == 'Cohort : University Hospital of Hartlepool') %>%
+                                     closed_missing(area = 'ed') %>%
                                      panelAR(formula  = formula.model3,
                                              timeVar  = timevar,
                                              panelVar = panel.trust,
@@ -767,11 +774,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                       .sub.indicator = sub.indicator)
         results$model3.panelar.hartlepool.r2 <- model3.panelar.hartlepool$r2
         ##################################################
-        ## Hemel Hempstead                              ##
+        ## Model 3 - Hemel Hempstead                    ##
         ##################################################
         df3$town <- relevel(df3$town, ref = 'Warwick')
         model3.panelar.hemel <- filter(df3,
                                          group == 'Cohort : Hemel Hempstead Hospital') %>%
+                                closed_missing(area = 'ed') %>%
                                 panelAR(formula  = formula.model3,
                                         timeVar  = timevar,
                                         panelVar = panel.trust,
@@ -783,11 +791,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                   .sub.indicator = sub.indicator)
         results$model3.panelar.hemel.r2 <- model3.panelar.hemel$r2
         ##################################################
-        ## Newark                                       ##
+        ## Model 3 - Newark                             ##
         ##################################################
         df3$town <- relevel(df3$town, ref = 'Southport')
         model3.panelar.newark <- filter(df3,
                                           group == 'Cohort : Newark Hospital') %>%
+                                 closed_missing(area = 'ed') %>%
                                  panelAR(formula  = formula.model3,
                                          timeVar  = timevar,
                                          panelVar = panel.trust,
@@ -799,11 +808,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                    .sub.indicator = sub.indicator)
         results$model3.panelar.newark.r2 <- model3.panelar.newark$r2
         ##################################################
-        ## Rochdale                                     ##
+        ## Model 3 - Rochdale                           ##
         ##################################################
         df3$town <- relevel(df3$town, ref = 'Rotherham')
         model3.panelar.rochdale <- filter(df3,
-                                            group == 'Cohort : Rochdale Infirmary') %>%
+                                          group == 'Cohort : Rochdale Infirmary') %>%
+                                   closed_missing(area = 'ed') %>%
                                    panelAR(formula  = formula.model3,
                                            timeVar  = timevar,
                                            panelVar = panel.trust,
@@ -905,6 +915,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         df4$town <- relevel(df4$town, ref = 'Whitehaven')
         model4.panelar <- df4 %>%
+                          closed_missing(area = 'ed') %>%
                           panelAR(formula  = formula.model4,
                                   timeVar  = timevar,
                                   panelVar = panel.trust,
@@ -999,6 +1010,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         df5$town <- relevel(df5$town, ref = 'Whitehaven')
         model5.panelar.all <- df5 %>%
+                              closed_missing(area = 'ed') %>%
                               panelAR(formula  = formula.model5,
                                       timeVar  = timevar,
                                       panelVar = panel.trust,
@@ -1105,11 +1117,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model6.panelar.bishop <- filter(df6,
                                         town == 'Bishop Auckland' |
                                         town == 'Whitehaven') %>%
-                              panelAR(formula  = formula.model6,
-                                      timeVar  = timevar,
-                                      panelVar = panel.lsoa,
-                                      autoCorr = autocorr,
-                                      panelCorrMethod = panelcorrmethod)
+                                 ## closed_missing(area = 'ed') %>%
+                                 panelAR(formula  = formula.model6,
+                                         timeVar  = timevar,
+                                         panelVar = panel.lsoa,
+                                         autoCorr = autocorr,
+                                         panelCorrMethod = panelcorrmethod)
         results$model6.panelar.bishop.coef <- extract_coefficients(x              = model6.panelar.bishop,
                                                                 .site          = 'Bishop Auckland',
                                                                 .indicator     = indicator,
@@ -1122,6 +1135,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model6.panelar.hartlepool <- filter(df6,
                                             town == 'Hartlepool' |
                                             town == 'Grimsby') %>%
+                                     ## closed_missing(area = 'ed') %>%
                                      panelAR(formula  = formula.model6,
                                              timeVar  = timevar,
                                              panelVar = panel.lsoa,
@@ -1139,6 +1153,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model6.panelar.hemel <- filter(df6,
                                        town == 'Hemel Hempstead' |
                                        town == 'Warwick') %>%
+                                ## closed_missing(area = 'ed') %>%
                                 panelAR(formula  = formula.model6,
                                         timeVar  = timevar,
                                         panelVar = panel.lsoa,
@@ -1156,6 +1171,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model6.panelar.newark <- filter(df6,
                                         town == 'Newark' |
                                         town == 'Southport') %>%
+                                 ## closed_missing(area = 'ed') %>%
                                  panelAR(formula  = formula.model6,
                                          timeVar  = timevar,
                                          panelVar = panel.lsoa,
@@ -1173,6 +1189,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model6.panelar.rochdale <- filter(df6,
                                           town == 'Rochdale' |
                                           town == 'Rotherham') %>%
+                                   ## closed_missing(area = 'ed') %>%
                                    panelAR(formula  = formula.model6,
                                            timeVar  = timevar,
                                            panelVar = panel.lsoa,
@@ -1284,6 +1301,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model7.panelar.all <- filter(df7,
                                      measure     == indicator &
                                      sub.measure == sub.indicator) %>%
+                              ## closed_missing(area = 'ed') %>%
                               panelAR(formula  = formula.model7,
                                       timeVar  = timevar,
                                       panelVar = 'town.lsoa',
