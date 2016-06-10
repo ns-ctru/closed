@@ -86,7 +86,7 @@ Model 7 seeks to analyse at the LSOA level across all case sites and their one m
 `Panel        : LSOA`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
 
-```{r critical_care_cips_critical_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
+```{r critical_care_cips_critical_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 critical.care.cips.critical$model7.ts.plot.trust
 critical.care.cips.critical$model7.forest.model$forest
 critical.care.cips.critical$model7.panelar$coef[3:8] %>% kable(caption = critical.care.cips.critical$model7.panelar$caption)
