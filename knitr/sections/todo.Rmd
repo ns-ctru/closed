@@ -9,26 +9,26 @@
 
 #### Data
 
-* Not quite captured correct range for pooled analyses, need to correct.
-* Proposed method of 'winsorising' the data as described in [Spiegelhalter paper](http://www.medicine.cf.ac.uk/media/filer_public/2010/10/11/journal_club_-_spiegelhalter_stats_in_med_funnel_plots.pdf) pertain to the calculation of confidence intervals for funnel plots and I'm not sure they are directly applicable to time-series data.  The main problem is that because of the big changes in the number of observed events simply taking the mean -/+ two standard deviations could be problematic.  There may be other instances where. Ideally would like to do this algorithmically for two reasons, firstly there are a lot of outcomes, but secondly I am attempting to structure my work in such a manner that I produce a set of functions which can then be used in any future work where the same questions or data structure are being used, thus avoiding the reinvention of the wheel in the future. One thought was to compare a given data point to its two flanking points and if the absolute difference is greater than a chosen amount call that point spurious.  This would work in some cases but not all, since there are some instances where there are periods.
-* Filter data -/+ 2 years of the minimum and maximum closure step (the same when restricted to one site), might already have this working but need to check returned data frame (all.attendance.any.matched). **Checked** - not quite right yet, similarly I don't think the binary indicator is correctly derived.
-* Need all steps from Emma, have shared Google Sheet which has a useful format for recording these, awaiting completion.
-* Use [tsoutliers](https://cran.r-project.org/web/packages/tsoutliers/) R package which implements [Chen and Liu (1993)](https://www.jstor.org/stable/2290724?seq=1#page_scan_tab_contents)
+* Analyse all the other indicators.  More outcomes now complete thanks to data provision from Tony a few more still to go.
+* ~~Not quite captured correct range for pooled analyses, need to correct.~~ Tony now aligns centers in data preparation.
+* ~~Incorporate all additional steps.  Have most but not all, awaiting remainder from Emma.~~ Emma provided steps and these are now incorporated into analyses.
 
 #### Analyses
 
-* Explicitly define the reference groups for sites so that coefficients (including those for interaction terms) reflect the change at the intervention site (currently done alphabetically).
-* Cross-checke results from panelAR function against those from Stata (** Awaiting Stata Technical Support **)
-* Check Cases v's all Controls (Unmatched) filtering is correct.
+* ~~Ensure panels are balanced.~~
+* Revisit cross-valildation and investigate why there is disparity between Stata and R (e.g. Model 3 - Hemel Hempstead and Closure interactions, the signs flip).  Suggested it might be down to missing data/coding, but this has been checked and they are the same underlying data being analysed in both models.  Stata consistently has smaller Standard Errors too, likely down to choice of method for dealing with heteroskedasticity and correlation.
+* ~~Explicitly define the reference groups for sites so that coefficients (including those for interaction terms) reflect the change at the intervention site (currently done alphabetically).~~
+* ~~Cross-validation results from panelAR function against those from Stata (** Awaiting Stata Technical Support **)~~ Cross-validation complete, but there are a small number of models where some of the coefficients don't match (see above).
+* ~~Check Cases v's all Controls (Unmatched) filtering is correct.~~
 
 
 ### Presentation
 
 #### Figures
 
-* For LSOA outputs layout with case in left column, control on right.  Somehow have feint lines so that where they overlap the density is higher.
-* Tweak lines on matched graphs to distinguish cases from control sites (line pattern).
-* Make figures taller.
+* From Jon via Tony - Plot controls, need clarification.
+* Tweak lines on matched graphs to distinguish cases from control sites (line pattern?).
+* Add vertical lines for additional steps (possibly tricky given facetting being used, could make graphs look messy).
 
 
 #### Tables
@@ -37,4 +37,4 @@
 
 #### Layout
 
-* Derive a sensible and clean tabulated layout for the results, not sure this current layout is sufficiently intuitive.
+* ~~Derive a sensible and clean tabulated layout for the results, not sure this current layout is sufficiently intuitive.~~ Tabbed layout facilitates viewing a large number of outcomes in a consistent manner.  Forest plots and tables of only coefficients of interest simplifies this too.
