@@ -414,7 +414,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                       label  = town),
                                                   force   = 1,
                                                   nudge_x = 0,
-                                                  nudge_y = 600) +
+                                                  nudge_y = 0) +
                                   theme(legend.position = 'none')
         ## Apply the user-specified theme
         if(!is.null(theme)){
@@ -1111,7 +1111,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                       autoCorr = autocorr,
                                       panelCorrMethod = panelcorrmethod)
         results$model6.panelar.bishop.coef <- extract_coefficients(x              = model6.panelar.bishop,
-                                                                .site          = 'All',
+                                                                .site          = 'Bishop Auckland',
                                                                 .indicator     = indicator,
                                                                 .sub.indicator = sub.indicator)
         results$model6.panelar.bishop.r2 <- model6.panelar.bishop
@@ -1207,6 +1207,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Return model objects if requested
         if(return.model == TRUE){
             results$model6.panelar.bishop     <- model6.panelar.bishop
+            results$model6.panelar.hartlepool <- model6.panelar.hartlepool
+            results$model6.panelar.hemel      <- model6.panelar.hemel
+            results$model6.panelar.newark     <- model6.panelar.newark
+            results$model6.panelar.rochdale   <- model6.panelar.rochdale
         }
         if(return.df == TRUE){
             results$model6.df <- df6
