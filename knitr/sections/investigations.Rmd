@@ -1,0 +1,9 @@
+In order to obtain greater insight and understanding into the results some of the options for analysis were investigated.
+
+### Balanced Panels
+```{r balanced_panels, child = 'subsections/balanced_panels.Rmd', eval = TRUE}
+```
+
+### Correlation Methods
+```{r panel_corr_method, child = 'subsections/panel_corr_method.Rmd', eval = TRUE}
+```
