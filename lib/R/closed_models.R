@@ -905,7 +905,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         df4$town <- relevel(df4$town, ref = 'Whitehaven')
         model4.panelar <- df4 %>%
-                          closed_missing() %>%
+                          ## closed_missing() %>%
                           panelAR(formula  = formula.model4,
                                   timeVar  = timevar,
                                   panelVar = panel.trust,
@@ -1000,7 +1000,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         df5$town <- relevel(df5$town, ref = 'Whitehaven')
         model5.panelar.all <- df5 %>%
-                              closed_missing() %>%
+                              ## closed_missing() %>%
                               panelAR(formula  = formula.model5,
                                       timeVar  = timevar,
                                       panelVar = panel.trust,
