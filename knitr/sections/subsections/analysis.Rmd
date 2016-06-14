@@ -104,8 +104,8 @@ mode.of.arrival.any <- closed_models(df.lsoa         = ed_attendances_by_mode_me
                                      model4          = mod4,
                                      model5          = mod5,
                                      model6          = mod6,
-				     model7          = NULL,
-                                     ## model7          = mod7,
+				     ## model7          = NULL,
+                                     model7          = mod7,
                                      autocorr        = 'ar1',
                                      panelcorrmethod = 'pcse',
                                      coefficients    = 'closure.town',
@@ -436,19 +436,19 @@ length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure,
 
 <!--- Save all objects --->
 ```{r save_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-## save(diff.time.to.ed,
-##      file = '../lib/data/summary.RData')
-## save(mode.of.arrival.any,
-##      mode.of.arrival.ambulance,
-##      mode.of.arrival.other,
-##      unnecessary.attendance,
-##      ed.attendances.admitted.admitted,
-##      ed.attendances.admitted.all,
-##      ed.attendances.admitted.fraction.admitted,
-##      critical.care.cips.all,
-##      critical.care.cips.critical,
-##      critical.care.cips.fraction,
-##      length.of.stay.mean,
-##      length.of.stay.median,
-##      file # '../lib/data/results.mode.of.arrival.RData')
+save(diff.time.to.ed,
+     file = '../lib/data/summary.RData')
+save(mode.of.arrival.any,
+     mode.of.arrival.ambulance,
+     mode.of.arrival.other,
+     unnecessary.attendance,
+     ed.attendances.admitted.admitted,
+     ed.attendances.admitted.all,
+     ed.attendances.admitted.fraction.admitted,
+     critical.care.cips.all,
+     critical.care.cips.critical,
+     critical.care.cips.fraction,
+     length.of.stay.mean,
+     length.of.stay.median,
+     file # '../lib/data/results.regression.RData')
 ```
