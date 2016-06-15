@@ -1,3 +1,144 @@
+## 2016-06-15 - Checking whether the pooled analyses are actually balanced or not
+formula <- reformulate(response = 'value',
+                       termlabels = c('town * closure', 'season', 'relative_month', 'nhs111', 'other.centre', 'ambulance.divert'))
+df5 <- ed_attendances_by_mode_site_measure %>%
+       as.data.frame() %>%
+       filter(measure == 'ed attendances' &
+              sub_measure == 'any')
+## Add in covariates
+df5$season <- 1
+df5 <- within(df5,{
+    season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
+    season[month(yearmonth) == 3  | month(yearmonth) == 4]  <- 2
+    season[month(yearmonth) == 5  | month(yearmonth) == 6]  <- 3
+    season[month(yearmonth) == 7  | month(yearmonth) == 8]  <- 4
+    season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
+    season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
+})
+df5$closure  <- ifelse(df5$relative_month  > 24, 1, 0)
+df5 <- mutate(df5,
+              nhs111 = ifelse((town == 'Bishop Auckland' & relative_month >= 35) |
+                              (town == 'Southport' & relative_month >= 48) |
+                              ## ToDo - Uncomment once confirmed and revised dates available
+                              (town == 'Rochdale' & relative_month >= 48) |
+                              (town == 'Rotherham' & relative_month >= 48) |
+                              (town == 'Hartlepool' & relative_month >= 45) |
+                              (town == 'Grimsby' & relative_month >= 16),
+                              1, 0),
+              ambulance.divert = ifelse(town == 'Rochdale' & relative_month >= 17, 1, 0),
+              other.centre = ifelse((town == 'Hemel Hempstead' & relative_month >= 20) |
+                                    (town == 'Newark' & relative_month >= 3) |
+                                    (town == 'Rochdale' & relative_month >= 11) |
+                                    (town == 'Hartlepool' & relative_month >= 22),
+                                    1, 0)
+              )
+## Set base level
+df5$town <- relevel(df5$town, ref = 'Whitehaven')
+## Test the model
+check <- panelAR(data = df3,
+                 formula = formula,
+                 timeVar = 'relative_month',
+                 panelVar = 'town',
+                 autoCorr = 'ar1',
+                 panelCorrMethod = 'pcse')
+## Is it balanced?
+summary(check)$panelStructure$balanced
+
+
+## 2016-06-14 - Now get complaints about colinearity in Model 3 lets investigate
+formula <- reformulate(response = 'value',
+                       termlabels = c('town * closure', 'season', 'relative_month', 'nhs111', 'other.centre', 'ambulance.divert'))
+df3 <- ed_attendances_by_mode_site_measure %>%
+       as.data.frame() %>%
+       filter(measure == 'ed attendances' &
+              sub_measure == 'any' &
+              group == 'Bishop Auckland General Hospital')
+dim(df3)
+## Add in covariates
+df3$season <- 1
+df3 <- within(df3,{
+    season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
+    season[month(yearmonth) == 3  | month(yearmonth) == 4]  <- 2
+    season[month(yearmonth) == 5  | month(yearmonth) == 6]  <- 3
+    season[month(yearmonth) == 7  | month(yearmonth) == 8]  <- 4
+    season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
+    season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
+})
+df3$closure  <- ifelse(df3$relative_month  > 24, 1, 0)
+df3 <- mutate(df3,
+              nhs111 = ifelse((town == 'Bishop Auckland' & relative_month >= 35) |
+                              (town == 'Southport' & relative_month >= 48) |
+                              ## ToDo - Uncomment once confirmed and revised dates available
+                              (town == 'Rochdale' & relative_month >= 48) |
+                              (town == 'Rotherham' & relative_month >= 48) |
+                              (town == 'Hartlepool' & relative_month >= 45) |
+                              (town == 'Grimsby' & relative_month >= 16),
+                              1, 0),
+              ambulance.divert = ifelse(town == 'Rochdale' & relative_month >= 17, 1, 0),
+              other.centre = ifelse((town == 'Hemel Hempstead' & relative_month >= 20) |
+                                    (town == 'Newark' & relative_month >= 3) |
+                                    (town == 'Rochdale' & relative_month >= 11) |
+                                    (town == 'Hartlepool' & relative_month >= 22),
+                                    1, 0)
+              )
+
+panelAR(data = df3,
+        formula = formula,
+        timeVar = 'relative_month',
+        panelVar = 'town',
+        autoCorr = 'ar1',
+        panelCorrMethod = 'pcse')
+
+panelAR(data = test$df3,
+        formula = test$formula.model3,
+        timeVar = test$timevar,
+        panelVar = test$panelvar,
+        autoCorr = test$autocorr,
+        panelCorrMethod = test$panelcorrmethod)
+
+
+## 2016-06-13 - All seems fine but now I get an error with panelAR() complaining that the defined
+##              time variable (saved in timevar) isn't an integer, yet my investigations (insert
+##              following after line 581 in closed_models()) shows that it is...
+        ##        filter(df2,
+        ##        town == 'Bishop Auckland' |
+        ##        town == 'Whitehaven') %>%
+        ##        names() %>% print()
+        ## filter(df2,
+        ##        town == 'Bishop Auckland' |
+        ##        town == 'Whitehaven') %>%
+        ##        closed_missing() %>% names() %>% print()
+        ## filter(df2,
+        ##        town == 'Bishop Auckland' |
+        ##        town == 'Whitehaven') %>%
+        ##     closed_missing() %>% head() %>% print()
+        ## print(timevar)
+        ## typeof(df2$relative.month) %>% print()
+
+
+## 2016-06-13 - Converted closed_missing() to use dplyr/mutate which removes the need
+##              to reshape the data and massively simplifies the function.  This has
+##              thrown up an error whereby groups which have all NA return logical when
+##              the variable (value) should be numeric.  It was supposedly fixed in
+##              August 2015 (see https://github.com/hadley/dplyr/issues/958), but doesn't
+##              seem to work within the function.  Following is some code to play around
+##              with whilst ironing out code in closed_missing()
+test1 <- ed_attendances_by_mode_site_measure %>%
+         data.frame() %>%
+         filter(town == 'Hemel Hempstead' | town == 'Whitehaven') %>%
+         closed_missing()
+test2 <- ed_attendances_by_mode_site_measure %>%
+         data.frame() %>%
+         filter(town == 'Hemel Hempstead' | town == 'Whitehaven') %>%
+         group_by(relative_month) %>%
+         mutate(value = ifelse(anyNA(value), NA, value))
+test3 <- ed_attendances_by_mode_site_measure %>%
+         data.frame() %>%
+         ## filter(town == 'Hemel Hempstead' | town == 'Whitehaven') %>%
+         closed_missing()
+
+
+
 ## 2016-06-10 - Checking missing function for site level data
 ##              Don't think this is actually needed as there are four sites who
 ##              are missing data for one month, although on reflection this is
