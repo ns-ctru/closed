@@ -55,7 +55,3 @@ There are two packages for [R](https://www.r-projects.org/) that implement the P
 <!--- Run all analyses --->
 ```{r child = 'subsections/analysis.Rmd', eval = TRUE}
 ```
-<!--- Alternatively load results --->
-```{r load_results, echo = FALSE, eval = FALSE}
-## load()
-```
