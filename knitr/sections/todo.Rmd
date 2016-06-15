@@ -15,8 +15,8 @@
 
 #### Analyses
 
-* ~~Ensure panels are balanced.~~
 * Revisit cross-valildation and investigate why there is disparity between Stata and R (e.g. Model 3 - Hemel Hempstead and Closure interactions, the signs flip).  Suggested it might be down to missing data/coding, but this has been checked and they are the same underlying data being analysed in both models.  Stata consistently has smaller Standard Errors too, likely down to choice of method for dealing with heteroskedasticity and correlation.
+* ~~Ensure panels are balanced.~~ Done for models within a case sites group, getting covariance errors when attempting to balance in pooled analyses (models 4, 5 and 7), working on this.
 * ~~Explicitly define the reference groups for sites so that coefficients (including those for interaction terms) reflect the change at the intervention site (currently done alphabetically).~~
 * ~~Cross-validation results from panelAR function against those from Stata (** Awaiting Stata Technical Support **)~~ Cross-validation complete, but there are a small number of models where some of the coefficients don't match (see above).
 * ~~Check Cases v's all Controls (Unmatched) filtering is correct.~~
@@ -26,7 +26,7 @@
 
 #### Figures
 
-* From Jon via Tony - Plot controls, need clarification.
+* From Jon via Tony - ** I think it's on your to-do list: Can you plot the measures for the control sites separately but as per the plotting you've done for the intervention sites (this, I think, is for Jon to "eyeball" the underlying data to check there's nothing strange going on).** Need clarification as controls are already plotted.
 * Tweak lines on matched graphs to distinguish cases from control sites (line pattern?).
 * Add vertical lines for additional steps (possibly tricky given facetting being used, could make graphs look messy).
 
