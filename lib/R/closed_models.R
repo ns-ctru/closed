@@ -39,7 +39,7 @@
 #' @param common.y Generate all plots with a common y-axis range.
 #' @param theme GGplot2 theme to use (only relevant if \code{plot = TRUE}).
 #' @param return.df Logical operator of whether to return the subsetted/summarised data frame (useful for subsequent development).
-#' @param html Produce results table in HTML format using Stargazer.
+#' @param return.model Logical operator of whether to return the fitted models (useful for residual plots and checking model fits).
 #'
 #' @return A list of results depending on the options specified.
 #'
@@ -78,10 +78,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           seq.times       = TRUE,
                           plot            = TRUE,
                           common.y        = TRUE,
-                          return.df       = FALSE,
                           theme           = theme_bw(),
-                          return.model    = FALSE,
-                          html            = FALSE,
+                          return.df       = FALSE,
+                          return.model    = TRUE,
                           ...){
     #######################################################################
     ## Set up (results, formula, renaming variables)                     ##
@@ -490,7 +489,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 1 - Rochdale                           ##
         ##################################################
-        results$model1.panelar.rochdale <- filter(df1,
+        model1.panelar.rochdale <- filter(df1,
                                                   town        == 'Rochdale') %>%
                                            panelAR(formula  = formula.model1,
                                                    timeVar  = timevar,
@@ -498,11 +497,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                    autoCorr = autocorr,
                                                    panelCorrMethod = panelcorrmethod,
                                                    seq.times = seq.times)
-        results$model1.panelar.rochdale.coef <- extract_coefficients(x            = results$model1.panelar.rochdale,
+        results$model1.panelar.rochdale.coef <- extract_coefficients(x            = model1.panelar.rochdale,
                                                                      .site          = 'Rochdale',
                                                                      .indicator     = indicator,
                                                                      .sub.indicator = sub.indicator)
-        results$model1.panelar.rochdale.r2 <- results$model1.panelar.rochdale$r2
+        results$model1.panelar.rochdale.r2 <- model1.panelar.rochdale$r2
         ## Summary table
         results$model1.panelar <- combine_coefficients(bishop.coef     = results$model1.panelar.bishop.coef,
                                                        hartlepool.coef = results$model1.panelar.hartlepool.coef,
