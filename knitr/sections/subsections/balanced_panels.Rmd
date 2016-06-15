@@ -2,49 +2,10 @@
 
 There is one case site and its four associated contorl sites for which there is missing data (Hemel Hempstead (case), Basingtoke, Warwick, Yeovil) and this is the very first observation in the time series, meaning there are 47 consecutive observations across all outcomes at the site level.
 
-For analyses within site cohorts (i.e. models 1, 2, 3 and 6) this does not present any problem whatsoever, however for pooled analyses across sites this needs dealing with, primarily by ensuring that the panels are balanced.  This has been attempted but results in problems running the analyses due to covariance and is under investigation.  In the interim some of the other analysis options have been investigated as the [panelAR function](https://cran.r-project.org/web/packages/panelAR/panelAR.pdf) has the 'seq.times' option which...
+For analyses within site cohorts (i.e. models 1, 2, 3 and 6) this does not present any problem whatsoever, however for pooled analyses across sites this needs dealing with, primarily by ensuring that the panels are balanced.  This has been attempted but results in problems running the analyses due to covariance and is under investigation.  In the interim some of the other analysis options have been investigated as the [panelAR function](https://cran.r-project.org/web/packages/panelAR/panelAR.pdf) has the `seq.times` option which...
 
 > If TRUE, observations are temporally ordered by panel and assigned a sequential time variable that ignores any gaps in the runs
 
-This is in part what is required and in fact what has already been done, since the 'relative.month' derived by Tony ignores the actual month and aligns all time points and has been used as the time variable in the models.  However, I decided to have a look at this though to check out what, if any, difference it makes.  The first table below shows the results for models 3 (Individual Case and all four of its Matched Controls) and 5 (All Case sites and all Contorl Sites) when the option to align times is not used (i.e. 'seq.times = FALSE') and the raw 'relative.month' (1-48 in all but Hemel Hempstead sites where they are 1-47).
+This is what has already been done as part of the data preparation, since the `relative.month` variable derived by Tony Stone ignores the actual month and aligns all time points and has been used as the time variable in the models.  When returning the results `panelAR()` includes an indicator of whether panels are balanced and this has been used to check if the panels are balanced when there is more than one site included (i.e. models 2, 3, 4, 5, 6 and 7)
 
-```{r mode_of_arrival_any_noseqtime_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE }
-mode.of.arrival.any$model5.forest$forest
-mode.of.arrival.any$model5.panelar$coef[3:9] %>% kable(caption = mode.of.arrival.any$model5.panelar$caption)
-```
-
-In contrast when the functions internal alignment is turned on (i.e. 'seq.times = TRUE') the results differ.  It is important to remember (based on the above description from the panelAR) that the internal alignment is done *within* each panel.
-
-<!--- Mode of Arrival - Any (with sequential times)--->
-```{r mode_of_arrival_any_seqtimes, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-mode.of.arrival.any.seqtimes <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
-                                     df.trust        = ed_attendances_by_mode_site_measure,
-                                     indicator       = 'ed attendances',
-                                     sub.indicator   = 'any',
-                                     steps           = c('closure'),
-                                     fit.with        = 'both',
-                                     panel.lsoa      = 'lsoa',
-                                     panel.trust     = 'town',
-                                     timevar         = 'relative.month',
-                                     outcome         = 'value',
-                                     model1          = NULL,
-                                     model2          = NULL,
-                                     model3          = mod3,
-                                     model4          = NULL,
-                                     model5          = mod5,
-                                     model6          = NULL,
-				     model7          = NULL,
-                                     autocorr        = 'ar1',
-                                     panelcorrmethod = 'pcse',
-                                     coefficients    = 'closure.town',
-                                     seq.times       = TRUE,
-                                     plot            = TRUE,
-                                     common.y        = TRUE,
-                                     theme           = theme_bw(),
-                                     return.df       = TRUE)
-```
-
-```{r mode_of_arrival_any_seqtime_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE }
-mode.of.arrival.any.seqtimes$model5.forest$forest
-mode.of.arrival.any.seqtimes$model5.panelar$coef[3:9] %>% kable(caption = mode.of.arrival.any$model5.panelar$caption)
-```
+**TODO** - Include output from panelAR models showing panels are balanced.
