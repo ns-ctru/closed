@@ -207,20 +207,24 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         if(sub.indicator == 'any')            title2 <- ' (Any)'
         else if(sub.indicator == 'other')     title2 <- ' (Other)'
         else if(sub.indicator == 'ambulance') title2 <- ' (Ambulance)'
+        nudge <- 600
     }
     else if(indicator == 'unnecessary ed attendances'){
         title1 <- 'Unnecessary ED Attendances'
         title2 <- ''
+        nudge <- 600
     }
     else if(indicator == 'ed attendances admitted'){
         title1 <- 'ED Attendances Admitted'
         if(sub.indicator == 'all')                    title2 <- ' (All)'
         else if(sub.indicator == 'fraction admitted') title2 <- ' (Fraction Admitted)'
         else if(sub.indicator == 'admitted')          title2 <- ' (Admitted)'
+        nudge <- 600
     }
     else if(indicator == 'all emergency admissions'){
         title1 <- 'Emergency Admissions'
         if(is.na(sub.indicator)) title2 <- ''
+        nudge <- 600
     }
     else if(indicator == 'avoidable emergency admissions'){
         title1 <- 'Avoidable Emergency Attendances'
@@ -238,17 +242,20 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         else if(sub.indicator == 'non-specific chest pain')    title2 <- ' (Non-Specific Chest Pain)'
         else if(sub.indicator == 'pyrexial child (<6 years)')  title2 <- ' (Pyrexial Child <6yrs)'
         else if(sub.indicator == 'urinary tract infection')    title2 <- ' (Urinary Tract Infection)'
+        nudge <- 600
     }
     else if(indicator == 'length of stay'){
         title1 <- 'Length of Stay'
         if(sub.indicator == 'mean')        title2 <- ' (Mean)'
         else if(sub.indicator == 'median') title2 <- ' (Median)'
+        nudge <- 0.5
     }
     else if(indicator == 'critical care stays'){
         title1 <- 'Critical Care Stays'
         if(sub.indicator == 'all')                           title2 <- ' (All)'
         else if(sub.indicator == 'critical care')            title2 <- ' (Critical Care)'
         else if(sub.indicator == 'fraction critical care') title2 <- ' (Fractional Critical Care)'
+        nudge <- 600
     }
     #######################################################################
     ## Internal functions (to save typing)                               ##
@@ -582,7 +589,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                       label  = town),
                                                   force   = 1,
                                                   nudge_x = 0,
-                                                  nudge_y = 600) +
+                                                  nudge_y = nudge) +
                                   theme(legend.position = 'none')
         ## Apply the user-specified theme
         if(!is.null(theme)){
@@ -753,7 +760,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                       label  = town),
                                                   force   = 1,
                                                   nudge_x = 0,
-                                                  nudge_y = 600) +
+                                                  nudge_y = nudge) +
                                   theme(legend.position = 'none')
         ## Apply the user-specified theme
         if(!is.null(theme)){
@@ -931,7 +938,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                       label  = town),
                                                   force   = 1,
                                                   nudge_x = 0,
-                                                  nudge_y = 600) +
+                                                  nudge_y = nudge) +
                                   theme(legend.position = 'none')
         ## Apply the user-specified theme
         if(!is.null(theme)){
@@ -1030,7 +1037,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                       label  = town),
                                                   force   = 1,
                                                   nudge_x = 0,
-                                                  nudge_y = 600) +
+                                                  nudge_y = nudge) +
                                         theme(legend.position = 'none')
         ## Apply the user-specified theme
         if(!is.null(theme)){
@@ -1139,7 +1146,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                       label  = town),
                                                   force   = 1,
                                                   nudge_x = 0,
-                                                  nudge_y = 600) +
+                                                  nudge_y = nudge) +
                                         theme(legend.position = 'none')
         ## Apply the user-specified theme
         if(!is.null(theme)){
