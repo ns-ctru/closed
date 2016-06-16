@@ -406,31 +406,38 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       measure     == indicator &
                       sub.measure == sub.indicator)
         ## Generate time-series plot
-        results$model1.ts.plot <- ggplot(data = df1,
-                                         mapping = aes(x     = relative.month,
-                                                       y     = value,
-                                                       color = town)) +
-                                  geom_line() +
-                                  geom_vline(xintercept = 24, linetype = 4) +
-                                  ## ToDo - Include other steps
-                                  labs(list(title  = paste0(title1, title2),
-                                            x      = 'Month (Aligned)',
-                                            y      = 'N',
-                                            colour = 'Hospital')) +
-                                  geom_text_repel(data = filter(df1, relative.month == 3),
-                                                  aes(relative.month,
-                                                      value,
-                                                      colour = town,
-                                                      label  = town),
-                                                  force   = 1,
-                                                  nudge_x = 0,
-                                                  nudge_y = 0) +
-                                  theme(legend.position = 'none')
-        ## Apply the user-specified theme
-        if(!is.null(theme)){
-            results$model1.ts.plot <- results$model1.ts.plot + theme +
-                                      theme(legend.position = 'none')
-        }
+        results$model1.ts.plot <- closed_ts_plot(df = df1,
+                                                 sites = sites,
+                                                 indicator = indicator,
+                                                 sub.indicator = sub.indicator,
+                                                 steps = TRUE,
+                                                 facet = FALSE,
+                                                 tidy  = FALSE)
+        ## results$model1.ts.plot <- ggplot(data = df1,
+        ##                                  mapping = aes(x     = relative.month,
+        ##                                                y     = value,
+        ##                                                color = town)) +
+        ##                           geom_line() +
+        ##                           geom_vline(xintercept = 24, linetype = 4) +
+        ##                           ## ToDo - Include other steps
+        ##                           labs(list(title  = paste0(title1, title2),
+        ##                                     x      = 'Month (Aligned)',
+        ##                                     y      = 'N',
+        ##                                     colour = 'Hospital')) +
+        ##                           geom_text_repel(data = filter(df1, relative.month == 3),
+        ##                                           aes(relative.month,
+        ##                                               value,
+        ##                                               colour = town,
+        ##                                               label  = town),
+        ##                                           force   = 1,
+        ##                                           nudge_x = 0,
+        ##                                           nudge_y = 0) +
+        ##                           theme(legend.position = 'none')
+        ## ## Apply the user-specified theme
+        ## if(!is.null(theme)){
+        ##     results$model1.ts.plot <- results$model1.ts.plot + theme +
+        ##                               theme(legend.position = 'none')
+        ## }
         ##################################################
         ## Model 1 - Bishop Auckland                    ##
         ##################################################
@@ -570,32 +577,39 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       sub.measure == sub.indicator)
         ## Generate time-series plot
         df2$group <- paste0('Cohort : ', df2$group)
-        results$model2.ts.plot <- ggplot(data = df2,
-                                         mapping = aes(x     = relative.month,
-                                                       y     = value,
-                                                       color = town)) +
-                                  geom_line() +
-                                  geom_vline(xintercept = 24, linetype = 4) +
-                                  ## ToDo - Include other steps
-                                  labs(list(title  = paste0(title1, title2),
-                                            x      = 'Month (Aligned)',
-                                            y      = 'N',
-                                            colour = 'Hospital')) +
-                                  facet_wrap(~ group, ncol = 1) +
-                                  geom_text_repel(data = filter(df2, relative.month == 3),
-                                                  aes(relative.month,
-                                                      value,
-                                                      colour = town,
-                                                      label  = town),
-                                                  force   = 1,
-                                                  nudge_x = 0,
-                                                  nudge_y = nudge) +
-                                  theme(legend.position = 'none')
-        ## Apply the user-specified theme
-        if(!is.null(theme)){
-            results$model2.ts.plot <- results$model2.ts.plot + theme +
-                                      theme(legend.position = 'none')
-        }
+        results$model2.ts.plot <- closed_ts_plot(df = df2,
+                                                 sites = sites,
+                                                 indicator = indicator,
+                                                 sub.indicator = sub.indicator,
+                                                 steps = TRUE,
+                                                 facet = TRUE,
+                                                 tidy  = FALSE)
+        ## results$model2.ts.plot <- ggplot(data = df2,
+        ##                                  mapping = aes(x     = relative.month,
+        ##                                                y     = value,
+        ##                                                color = town)) +
+        ##                           geom_line() +
+        ##                           geom_vline(xintercept = 24, linetype = 4) +
+        ##                           ## ToDo - Include other steps
+        ##                           labs(list(title  = paste0(title1, title2),
+        ##                                     x      = 'Month (Aligned)',
+        ##                                     y      = 'N',
+        ##                                     colour = 'Hospital')) +
+        ##                           facet_wrap(~ group, ncol = 1) +
+        ##                           geom_text_repel(data = filter(df2, relative.month == 3),
+        ##                                           aes(relative.month,
+        ##                                               value,
+        ##                                               colour = town,
+        ##                                               label  = town),
+        ##                                           force   = 1,
+        ##                                           nudge_x = 0,
+        ##                                           nudge_y = nudge) +
+        ##                           theme(legend.position = 'none')
+        ## ## Apply the user-specified theme
+        ## if(!is.null(theme)){
+        ##     results$model2.ts.plot <- results$model2.ts.plot + theme +
+        ##                               theme(legend.position = 'none')
+        ## }
         ## Perform analysis with panelAR in each
         ##################################################
         ## Model 2 - Bishop Auckland                    ##
@@ -741,32 +755,40 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       sub.measure == sub.indicator)
         ## Generate time-series plot
         df3$group <- paste0('Cohort : ', df3$group)
-        results$model3.ts.plot <- ggplot(data = df3,
-                                         mapping = aes(x     = relative.month,
-                                                       y     = value,
-                                                       color = town)) +
-                                  geom_line() +
-                                  geom_vline(xintercept = 24, linetype = 4) +
-                                  ## ToDo - Include other steps
-                                  labs(list(title  = paste0(title1, title2),
-                                            x      = 'Month (Aligned)',
-                                            y      = 'N',
-                                            colour = 'Hospital')) +
-                                  facet_wrap(~ group, ncol = 1) +
-                                  geom_text_repel(data = filter(df3, relative.month == 3),
-                                                  aes(relative.month,
-                                                      value,
-                                                      colour = town,
-                                                      label  = town),
-                                                  force   = 1,
-                                                  nudge_x = 0,
-                                                  nudge_y = nudge) +
-                                  theme(legend.position = 'none')
-        ## Apply the user-specified theme
-        if(!is.null(theme)){
-            results$model3.ts.plot <- results$model3.ts.plot + theme +
-                                      theme(legend.position = 'none')
-        }
+        sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'WansbeckWarwick', 'Whitehaven', 'Wigan', 'Yeovil')
+        results$model3.ts.plot <- closed_ts_plot(df = df3,
+                                                 sites = sites,
+                                                 indicator = indicator,
+                                                 sub.indicator = sub.indicator,
+                                                 steps = TRUE,
+                                                 facet = TRUE,
+                                                 tidy  = FALSE)
+        ## results$model3.ts.plot <- ggplot(data = df3,
+        ##                                  mapping = aes(x     = relative.month,
+        ##                                                y     = value,
+        ##                                                color = town)) +
+        ##                           geom_line() +
+        ##                           geom_vline(xintercept = 24, linetype = 4) +
+        ##                           ## ToDo - Include other steps
+        ##                           labs(list(title  = paste0(title1, title2),
+        ##                                     x      = 'Month (Aligned)',
+        ##                                     y      = 'N',
+        ##                                     colour = 'Hospital')) +
+        ##                           facet_wrap(~ group, ncol = 1) +
+        ##                           geom_text_repel(data = filter(df3, relative.month == 3),
+        ##                                           aes(relative.month,
+        ##                                               value,
+        ##                                               colour = town,
+        ##                                               label  = town),
+        ##                                           force   = 1,
+        ##                                           nudge_x = 0,
+        ##                                           nudge_y = nudge) +
+        ##                           theme(legend.position = 'none')
+        ## ## Apply the user-specified theme
+        ## if(!is.null(theme)){
+        ##     results$model3.ts.plot <- results$model3.ts.plot + theme +
+        ##                               theme(legend.position = 'none')
+        ## }
         ## Perform analysis with panelAR in each
         ##################################################
         ## Bishop Auckland                              ##
@@ -919,32 +941,39 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         df4$status <- ifelse(df4$town %in% case, 'Case', 'Control')
         ## Generate time-series plot (at site/town level)
         df4$group <- paste0('Cohort : ', df4$group)
-        results$model4.ts.plot.trust <- ggplot(data = df4,
-                                               mapping = aes(x     = relative.month,
-                                                             y     = value,
-                                                             color = town)) +
-                                        geom_line() +
-                                        geom_vline(xintercept = 24, linetype = 4) +
-                                        ## ToDo - Include other steps
-                                        labs(list(title  = paste0(title1, title2),
-                                                  x      = 'Month (Aligned)',
-                                                  y      = 'N',
-                                                  colour = 'Hospital')) +
-                                        facet_wrap(~ group, ncol = 1) +
-                                  geom_text_repel(data = filter(df4, relative.month == 4),
-                                                  aes(relative.month,
-                                                      value,
-                                                      colour = town,
-                                                      label  = town),
-                                                  force   = 1,
-                                                  nudge_x = 0,
-                                                  nudge_y = nudge) +
-                                  theme(legend.position = 'none')
-        ## Apply the user-specified theme
-        if(!is.null(theme)){
-            results$model4.ts.plot.trust <- results$model4.ts.plot.trust + theme +
-                                            theme(legend.position = 'none')
-        }
+        results$model4.ts.plot <- closed_ts_plot(df = df4,
+                                                 sites = sites,
+                                                 indicator = indicator,
+                                                 sub.indicator = sub.indicator,
+                                                 steps = TRUE,
+                                                 facet = TRUE,
+                                                 tidy  = FALSE)
+        ## results$model4.ts.plot.trust <- ggplot(data = df4,
+        ##                                        mapping = aes(x     = relative.month,
+        ##                                                      y     = value,
+        ##                                                      color = town)) +
+        ##                                 geom_line() +
+        ##                                 geom_vline(xintercept = 24, linetype = 4) +
+        ##                                 ## ToDo - Include other steps
+        ##                                 labs(list(title  = paste0(title1, title2),
+        ##                                           x      = 'Month (Aligned)',
+        ##                                           y      = 'N',
+        ##                                           colour = 'Hospital')) +
+        ##                                 facet_wrap(~ group, ncol = 1) +
+        ##                           geom_text_repel(data = filter(df4, relative.month == 4),
+        ##                                           aes(relative.month,
+        ##                                               value,
+        ##                                               colour = town,
+        ##                                               label  = town),
+        ##                                           force   = 1,
+        ##                                           nudge_x = 0,
+        ##                                           nudge_y = nudge) +
+        ##                           theme(legend.position = 'none')
+        ## ## Apply the user-specified theme
+        ## if(!is.null(theme)){
+        ##     results$model4.ts.plot.trust <- results$model4.ts.plot.trust + theme +
+        ##                                     theme(legend.position = 'none')
+        ## }
         ## Perform analysis with panelAR in each
         ##################################################
         ## All                                          ##
@@ -1018,32 +1047,40 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         df5$status <- ifelse(df5$town %in% case, 'Case', 'Control')
         ## Generate time-series plot (at site/town level)
         df5$group <- paste0('Cohort : ', df5$group)
-        results$model5.ts.plot.trust <- ggplot(data = df5,
-                                               mapping = aes(x     = relative.month,
-                                                             y     = value,
-                                                             color = town)) +
-                                        geom_line() +
-                                        geom_vline(xintercept = 24, linetype = 4) +
-                                        ## ToDo - Include other steps
-                                        labs(list(title  = paste0(title1, title2),
-                                                  x      = 'Month (Aligned)',
-                                                  y      = 'N',
-                                                  colour = 'Hospital')) +
-                                        facet_wrap(~ group, ncol = 1) +
-                                        geom_text_repel(data = filter(df5, relative.month == 3),
-                                                  aes(relative.month,
-                                                      value,
-                                                      colour = town,
-                                                      label  = town),
-                                                  force   = 1,
-                                                  nudge_x = 0,
-                                                  nudge_y = nudge) +
-                                        theme(legend.position = 'none')
-        ## Apply the user-specified theme
-        if(!is.null(theme)){
-            results$model5.ts.plot.trust <- results$model5.ts.plot.trust + theme +
-                                            theme(legend.position = 'none')
-        }
+        sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'WansbeckWarwick', 'Whitehaven', 'Wigan', 'Yeovil')
+        results$model5.ts.plot <- closed_ts_plot(df = df5,
+                                                 sites = sites,
+                                                 indicator = indicator,
+                                                 sub.indicator = sub.indicator,
+                                                 steps = TRUE,
+                                                 facet = TRUE,
+                                                 tidy  = FALSE)
+        ## results$model5.ts.plot.trust <- ggplot(data = df5,
+        ##                                        mapping = aes(x     = relative.month,
+        ##                                                      y     = value,
+        ##                                                      color = town)) +
+        ##                                 geom_line() +
+        ##                                 geom_vline(xintercept = 24, linetype = 4) +
+        ##                                 ## ToDo - Include other steps
+        ##                                 labs(list(title  = paste0(title1, title2),
+        ##                                           x      = 'Month (Aligned)',
+        ##                                           y      = 'N',
+        ##                                           colour = 'Hospital')) +
+        ##                                 facet_wrap(~ group, ncol = 1) +
+        ##                                 geom_text_repel(data = filter(df5, relative.month == 3),
+        ##                                           aes(relative.month,
+        ##                                               value,
+        ##                                               colour = town,
+        ##                                               label  = town),
+        ##                                           force   = 1,
+        ##                                           nudge_x = 0,
+        ##                                           nudge_y = nudge) +
+        ##                                 theme(legend.position = 'none')
+        ## ## Apply the user-specified theme
+        ## if(!is.null(theme)){
+        ##     results$model5.ts.plot.trust <- results$model5.ts.plot.trust + theme +
+        ##                                     theme(legend.position = 'none')
+        ## }
         ## Perform analysis with panelAR in each
         ##################################################
         ## All sites                                    ##
