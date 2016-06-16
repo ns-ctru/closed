@@ -39,7 +39,8 @@
 #' @param common.y Generate all plots with a common y-axis range.
 #' @param theme GGplot2 theme to use (only relevant if \code{plot = TRUE}).
 #' @param return.df Logical operator of whether to return the subsetted/summarised data frame (useful for subsequent development).
-#' @param return.model Logical operator of whether to return the fitted models (useful for residual plots and checking model fits).
+#' @param return.model Logical operator of whether to return the fitted models (not currently working correctly).
+#' @param return.residuals Logical oeprator of whether to return the residuals of the fitted model.
 #'
 #' @return A list of results depending on the options specified.
 #'
@@ -81,6 +82,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           theme           = theme_bw(),
                           return.df       = FALSE,
                           return.model    = TRUE,
+                          return.residuals = FALSE,
                           ...){
     #######################################################################
     ## Set up (results, formula, renaming variables)                     ##
@@ -204,7 +206,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         title1 <- 'ED Attendance'
         if(sub.indicator == 'any')            title2 <- ' (Any)'
         else if(sub.indicator == 'other')     title2 <- ' (Other)'
-        else if(sub.indicator == 'ambulance') title2 <- ' (Other)'
+        else if(sub.indicator == 'ambulance') title2 <- ' (Ambulance)'
     }
     else if(indicator == 'unnecessary ed attendances'){
         title1 <- 'Unnecessary ED Attendances'
@@ -533,6 +535,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         if(return.df == TRUE){
             results$model1.df <- df1
         }
+        if(return.residuals == TRUE){
+            results$model1.panelar.residuals.bishop     <- summary(model1.panelar.bishop)$residuals
+            results$model1.panelar.residuals.hartlepool <- summary(model1.panelar.hartlepool)$residuals
+            results$model1.panelar.residuals.hemel      <- summary(model1.panelar.hemel)$residuals
+            results$model1.panelar.residuals.newark     <- summary(model1.panelar.newark)$residuals
+            results$model1.panelar.residuals.rochdale   <- summary(model1.panelar.rochdale)$residuals
+        }
         ## Remove clutter
         rm(df1)
     }
@@ -702,6 +711,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         if(return.df == TRUE){
             results$model2.df <- df2
         }
+        if(return.residuals == TRUE){
+            results$model2.panelar.residuals.bishop     <- summary(model2.panelar.bishop)$residuals
+            results$model2.panelar.residuals.hartlepool <- summary(model2.panelar.hartlepool)$residuals
+            results$model2.panelar.residuals.hemel      <- summary(model2.panelar.hemel)$residuals
+            results$model2.panelar.residuals.newark     <- summary(model2.panelar.newark)$residuals
+            results$model2.panelar.residuals.rochdale   <- summary(model2.panelar.rochdale)$residuals
+        }
         ## Remove clutter
         rm(df2)
     }
@@ -861,6 +877,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         if(return.df == TRUE){
             results$model3.df <- df3
         }
+        if(return.residuals == TRUE){
+            results$model3.panelar.residuals.bishop     <- summary(model3.panelar.bishop)$residuals
+            results$model3.panelar.residuals.hartlepool <- summary(model3.panelar.hartlepool)$residuals
+            results$model3.panelar.residuals.hemel      <- summary(model3.panelar.hemel)$residuals
+            results$model3.panelar.residuals.newark     <- summary(model3.panelar.newark)$residuals
+            results$model3.panelar.residuals.rochdale   <- summary(model3.panelar.rochdale)$residuals
+        }
         ## Remove clutter
         rm(df3)
     }
@@ -962,6 +985,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         if(return.df == TRUE){
             results$model4.df <- df4
         }
+        if(return.residuals == TRUE){
+            results$model4.panelar.residuals     <- summary(model4.panelar)$residuals
+        }
         ## Remove clutter
         rm(df4)
     }
@@ -1058,6 +1084,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         }
         if(return.df == TRUE){
             results$model5.df <- df5
+        }
+        if(return.residuals == TRUE){
+            results$model5.panelar.residuals.all     <- summary(model5.panelar.all)$residuals
         }
         ## Remove clutter
         rm(df5)
@@ -1240,6 +1269,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         if(return.df == TRUE){
             results$model6.df <- df6
         }
+        if(return.residuals == TRUE){
+            results$model6.panelar.residuals.bishop     <- summary(model6.panelar.bishop)$residuals
+            results$model6.panelar.residuals.hartlepool <- summary(model6.panelar.hartlepool)$residuals
+            results$model6.panelar.residuals.hemel      <- summary(model6.panelar.hemel)$residuals
+            results$model6.panelar.residuals.newark     <- summary(model6.panelar.newark)$residuals
+            results$model6.panelar.residuals.rochdale   <- summary(model6.panelar.rochdale)$residuals
+        }
         ## Remove clutter
         rm(df6)
     }
@@ -1349,6 +1385,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         }
         if(return.df == TRUE){
             results$model7.df <- df7
+        }
+        if(return.residuals == TRUE){
+            results$model5.panelar.residuals.all     <- summary(model5.panelar.all)$residuals
         }
         ## Remove clutter
         rm(df7)
