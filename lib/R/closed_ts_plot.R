@@ -13,8 +13,7 @@
 #' @param sites The sites that are to be plotted, default is for case sites.
 #' @param indicator The performance indicator to assess.
 #' @param sub.indicator The sub-measure performance indicator to assess.
-#' @param steps List of steps (dummy variables) to include in time-series analysis.
-#' @param outcome Outcome variable containing the counts (default is \code{value} and shouldn't need changing).
+#' @param steps Logical indicator of whether to plot vertical lines for each step.
 #' @param common.y Generate all plots with a common y-axis range.
 #' @param theme GGplot2 theme to use.
 #' @param tidy Logical indicator of whether to remove spurious data points when plotting
@@ -31,7 +30,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            sites           = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
                            indicator       = 'ed attendances',
                            sub.indicator   = 'any',
-                           steps           = c('closure'),
+                           steps           = TRUE,
                            common.y        = TRUE,
                            theme           = theme_bw(),
                            facet           = FALSE,
@@ -160,49 +159,49 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     variable     <- c(1)
     if('Bishop Auckland' %in% sites){
         steps <- c(steps, 35)
-        steps.labels <- c(steps.labels, 'NHS111 (Bishop Auckland)')
+        steps.labels <- c(steps.labels, 'NHS111')
         town <- c(town, 'Bishop Auckland')
         variable <- c(variable, 2)
     }
     if('Grimsby' %in% sites){
         steps <- c(steps, 16)
-        steps.labels <- c(steps.labels, 'NHS111 (Grimsby)')
+        steps.labels <- c(steps.labels, 'NHS111')
         town <- c(town, 'Grimsby')
         variable <- c(variable, 2)
     }
     if('Hartlepool' %in% sites){
         steps <- c(steps, 45, 22)
-        steps.labels <- c(steps.labels, 'NHS111 (Hartlepool)', 'Other Centre (Hartlepool)')
+        steps.labels <- c(steps.labels, 'NHS111', 'Other Centre')
         town <- c(town, 'Hartlepool', 'Hartlepool')
-        variable <- c(variable, 2, 4)
+        variable <- c(variable, 2, 3)
     }
     if('Hemel Hempstead' %in% sites){
         steps <- c(steps, 20)
-        steps.labels <- c(steps.labels, 'Other Centre (Hemel Hempstead)')
+        steps.labels <- c(steps.labels, 'Other Centre')
         town <- c(town, 'Hemel Hempstead')
-        variable <- c(variable, 4)
+        variable <- c(variable, 3)
     }
     if('Newark' %in% sites){
         steps <- c(steps, 3)
-        steps.labels <- c(steps.labels, 'Other Centre (Newark)')
+        steps.labels <- c(steps.labels, 'Other Centre')
         town <- c(town, 'Newark')
-        variable <- c(variable, 4)
+        variable <- c(variable, 3)
     }
     if('Rochdale' %in% sites){
         steps <- c(steps, 48, 11, 17)
-        steps.labels <- c(steps.labels, 'NHS111 (Rochdale)', 'Other Centre (Rochdale)', 'Ambulance Diversion (Rochdale)')
+        steps.labels <- c(steps.labels, 'NHS111', 'Other Centre', 'Ambulance Diversion')
         town <- c(town, 'Rochdale', 'Rochdale', 'Rochdale')
-        variable <- c(variable, 2, 4, 6)
+        variable <- c(variable, 2, 3, 4)
     }
     if('Rotherham' %in% sites){
         steps <- c(steps, 48)
-        steps.labels <- c(steps.labels, 'NHS111 (Rotherham)')
+        steps.labels <- c(steps.labels, 'NHS111')
         town <- c(town, 'Rotherham')
         variable <- c(variable, 2)
     }
     if('Southport' %in% sites){
         steps <- c(steps, 48)
-        steps.labels <- c(steps.labels, 'NHS111 (Southport)')
+        steps.labels <- c(steps.labels, 'NHS111')
         town <- c(town, 'Southport')
         variable <- c(variable, 2)
     }
@@ -222,10 +221,10 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     df.steps <- data.frame(steps, steps.labels, town, variable)
     ## df.steps <- filter(df.steps, steps.labels != 'ED Closure')
     df.steps$town <- factor(df.steps$town)
-    ## df.steps$variable <- ifelse(town != 'ED Closure', 4, 1)
-    ## df.steps$variable <- as.integer(df.steps$variable)
+    df.steps$steps.labels <- factor(df.steps$steps.labels)
+    df.steps$variable <- as.integer(df.steps$variable)
     df.steps$variable <- factor(df.steps$variable)
-    df.steps %>% print()
+    ## results$df.steps <- df.steps
     #######################################################################
     ## Identify and remove spurious data points                          ##
     #######################################################################
@@ -242,28 +241,32 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                   sub.measure == sub.indicator)
     ## Generate time-series plot
     results$plot <- ggplot(data = df,
-                           mapping = aes(x     = relative.month,
-                                         y     = value,
-                                         color = town)) +
-                    geom_line() +
-        ## geom_vline(xintercept = steps, linetype = 4) +
-                    geom_vline(data = df.steps,
-                               mapping = aes(xintercept = steps,
-                                             color      = town,
-                                             linetype   = variable)) +
-                    labs(list(title  = paste0(title1, title2),
-                              x      = 'Month (Aligned)',
-                              y      = 'N',
-                              colour = 'Hospital')) +
-                    geom_text_repel(data = filter(df, relative.month == 3),
-                                    aes(relative.month,
-                                        value,
-                                        colour = town,
-                                        label  = town),
-                                    force   = 1,
-                                    nudge_x = 0,
-                                    nudge_y = 0) +
-                     theme(legend.position = 'none')
+                    mapping = aes(x     = relative.month,
+                                  y     = value,
+                                  color = town)) +
+            ## Basic line plot
+            geom_line() +
+            ## Add vertical lines for all steps
+            geom_vline(data = df.steps,
+                       mapping = aes(xintercept = steps,
+                                     color      = town,
+                                     linetype   = variable)) +
+            ## Graph and axis labels
+            labs(list(title  = paste0(title1, title2),
+                      x      = 'Month (Aligned)',
+                      y      = 'N',
+                      colour = 'Hospital')) +
+            ## Label lines
+            geom_text_repel(data = filter(df, relative.month == 3),
+                            aes(relative.month,
+                                value,
+                                colour = town,
+                                label  = town),
+                            force   = 1,
+                            nudge_x = 0,
+                            nudge_y = 0) +
+            ## Remove legend
+            theme(legend.position = 'none')
     ## Facet
     if(facet == TRUE){
         results$plot <- results$plot + facet_wrap(~ group, ncol = 1)
@@ -271,7 +274,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Apply user specified theme to all graphs
     if(!is.null(theme)){
         results$plot <- results$plot + theme +
-                        theme(legend.position = 'none')
+                theme(legend.position = 'none')
     }
     ## Return results
     return(results)
