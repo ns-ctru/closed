@@ -1,0 +1,226 @@
+<!--- Runs all analyses, saving results as an R object for loading --->
+<!--- Summary --->
+```{r load_data, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+## Obtain the OS and node such that the data can be conditionally loaded
+os <- .Platform$OS.type
+node <- Sys.info()[['nodename']]
+if(os != 'unix'){
+    load('d:/Rpackages/rclosed/data/ed attendances by mode measure - lsoa - 2016-05-24 14.25.Rda')
+    load('d:/Rpackages/rclosed/data/ed attendances by mode measure - site - 2016-05-24 14.26.Rda')
+    load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure - lsoa - 2016-05-24 14.26.Rda')
+    load('d:/Rpackages/rclosed/data/unnecessary ed attendances measure - site - 2016-05-24 14.26.Rda')
+    load('d:/Rpackages/rclosed/data/ed attendances admitted measure - lsoa - 2016-05-24 14.28.Rda')
+    load('d:/Rpackages/rclosed/data/ed attendances admitted measure - site - 2016-05-24 14.28.Rda')
+    load('d:/Rpackages/rclosed/data/emergency admissions measure - lsoa - 2016-05-24 14.30.Rda')
+    load('d:/Rpackages/rclosed/data/emergency admissions measure - site - 2016-05-24 14.31.Rda')
+    load('d:/Rpackages/rclosed/data/critical care stays measure - lsoa - 2016-05-24 14.32.Rda')
+    load('d:/Rpackages/rclosed/data/critical care stays measure - site - 2016-05-24 14.32.Rda')
+    load('d:/Rpackages/rclosed/data/length of stay measure - lsoa - 2016-05-24 14.34.Rda')
+    load('d:/Rpackages/rclosed/data/length of stay measure - site - 2016-05-24 14.35.Rda')
+} else if(os == 'unix' & node == 'mcru-closed-hp.shef.ac.uk'){
+    load('~/work/closed/lib/data/ed attendances by mode measure - lsoa - 2016-05-24 14.25.Rda')
+    load('~/work/closed/lib/data/ed attendances by mode measure - site - 2016-05-24 14.26.Rda')
+    load('~/work/closed/lib/data/unnecessary ed attendances measure - lsoa - 2016-05-24 14.26.Rda')
+    load('~/work/closed/lib/data/unnecessary ed attendances measure - site - 2016-05-24 14.26.Rda')
+    load('~/work/closed/lib/data/ed attendances admitted measure - lsoa - 2016-05-24 14.28.Rda')
+    load('~/work/closed/lib/data/ed attendances admitted measure - site - 2016-05-24 14.28.Rda')
+    load('~/work/closed/lib/data/emergency admissions measure - lsoa - 2016-05-24 14.30.Rda')
+    load('~/work/closed/lib/data/emergency admissions measure - site - 2016-05-24 14.31.Rda')
+    load('~/work/closed/lib/data/critical care stays measure - lsoa - 2016-05-24 14.32.Rda')
+    load('~/work/closed/lib/data/critical care stays measure - site - 2016-05-24 14.32.Rda')
+    load('~/work/closed/lib/data/length of stay measure - lsoa - 2016-05-24 14.34.Rda')
+    load('~/work/closed/lib/data/length of stay measure - site - 2016-05-24 14.35.Rda')
+}
+```
+```{r define_models, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+## Set model options here (easier when tweaking en-mass)
+model.opts <- list()
+model.opts
+model.opts$mod1 <- c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+model.opts$mod2 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+model.opts$mod3 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+model.opts$mod4 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+model.opts$mod5 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+model.opts$mod6 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
+if(os != 'unix' | node != 'mcru-closed-hp.shef.ac.uk'){
+    model.opts$mod7 = NULL
+} else{
+    model.opts$mod7 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
+}
+model.opts$panel.lsoa		<- 'lsoa'
+model.opts$panel.trust		<- 'town'
+model.opts$timevar		<- 'relative.month'
+model.opts$outcome		<- 'value'
+model.opts$autocorr		<- 'ar1'
+model.opts$panelcorrmethod	<- 'pcse'
+model.opts$coefficients		<- 'closure.town'
+model.opts$seq.times		<- FALSE
+model.opts$plot			<- TRUE
+model.opts$common.y		<- TRUE
+model.opts$theme		<- theme_bw()
+model.opts$return.df		<- FALSE
+model.opts$return.model		<- FALSE
+model.opts$return.residuals	<- TRUE
+```
+```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+## Summarise differences in time to ED
+diff.time.to.ed <- closed_summary(df          = ed_attendances_by_mode_measure,
+                             df.steps    = sites,
+                             vars        = value,
+                             digits      = 3,
+                             latex       = FALSE,
+                             html        = FALSE)
+## Simple summary of the missing data across datasets
+check.ed.attendances <- closed_missing_summary(df.lsoa = ed_attendances_by_mode_measure,
+                                               df.site = ed_attendances_by_mode_site_measure)
+check.ed.unnecessary <- closed_missing_summary(df.lsoa = unnecessary_ed_attendances_measure,
+                                               df.site = unnecessary_ed_attendances_site_measure)
+check.ed.admitted    <- closed_missing_summary(df.lsoa = ed_attendances_admitted_measure,
+                                               df.site = ed_attendances_admitted_site_measure)
+check.critical.care  <- closed_missing_summary(df.lsoa = critical_care_cips_measure,
+                                               df.site = critical_care_cips_site_measure)
+check.length.stay    <- closed_missing_summary(df.lsoa = length_of_stay_measure,
+                                               df.site = length_of_stay_site_measure)
+## Bind into two data frames for tabulating
+check.length.stay$check.lsoa$sub_measure[is.na(check.length.stay$check.lsoa$sub_measure)] <- "N/A"
+check.lsoa <- rbind(check.ed.attendances$check.lsoa,
+                    check.ed.unnecessary$.lsoa,
+                    check.ed.admitted$check.lsoa,
+                    check.critical.care$check.lsoa,
+                    check.length.stay$check.lsoa) %>%
+              ungroup() %>%
+              arrange(measure, sub_measure, relative_month, group, town) %>%
+	      dplyr::select(measure, sub_measure, town, relative_month, n)
+names(check.lsoa) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month', 'LSOAs')
+
+check.length.stay$check.site$sub_measure[is.na(check.length.stay$check.site$sub_measure)] <- "N/A"
+check.site <- rbind(check.ed.attendances$check.site,
+                    check.ed.unnecessary$.site,
+                    check.ed.admitted$check.site,
+                    check.critical.care$check.site,
+                    check.length.stay$check.site) %>%
+              arrange(measure, sub_measure, relative_month, group, town) %>%
+	      dplyr::select(measure, sub_measure, town, relative_month)
+names(check.site) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month')
+```
+<!--- Mode of Arrival --->
+```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+mode.of.arrival.any <- closed_models(df.lsoa          = ed_attendances_by_mode_measure,
+                                     df.trust         = ed_attendances_by_mode_site_measure,
+                                     indicator        = 'ed attendances',
+                                     sub.indicator    = 'any',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3           = model.opts$mod3,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     ## return.df        = model.opts$return.df,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+				     return.residuals = model.opts$return.residuals)
+```
+<!--- ED Attendances Admitted - All --->
+```{r ed_attendances_admitted_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
+                                     df.trust         = ed_attendances_admitted_site_measure,
+                                     indicator        = 'ed attendances admitted',
+                                     sub.indicator    = 'all',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3           = model.opts$mod3,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+				     return.residuals = model.opts$return.residuals)
+```
+<!--- Case Fatality Ratio --->
+```{r case_fatality_ratio, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+case.fatality.ratio <- closed_models(df.lsoa         = ,
+                                     df.trust         = ,
+                                     indicator        = 'ed attendances admitted',
+                                     sub.indicator    = 'all',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3           = model.opts$mod3,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+				     return.residuals = model.opts$return.residuals)
+```
+<!--- Total Time to A&E --->
+```{r total_time_to_ae, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+total.time.to.ae <- closed_models(df.lsoa         = ,
+                                     df.trust         = ,
+                                     indicator        = 'ed attendances admitted',
+                                     sub.indicator    = 'all',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3           = model.opts$mod3,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+				     return.residuals = model.opts$return.residuals)
+```
