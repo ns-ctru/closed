@@ -241,34 +241,37 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                   measure     == indicator &
                   sub.measure == sub.indicator)
     ## Generate time-series plot
-    results$case.only <- ggplot(data = df,
-                                mapping = aes(x     = relative.month,
-                                              y     = value,
-                                              color = town)) +
-                         geom_line() +
+    results$plot <- ggplot(data = df,
+                           mapping = aes(x     = relative.month,
+                                         y     = value,
+                                         color = town)) +
+                    geom_line() +
         ## geom_vline(xintercept = steps, linetype = 4) +
-                         geom_vline(data = df.steps,
-                                    mapping = aes(xintercept = steps,
-                                                  color      = town,
-                                                  linetype   = variable)) +
-                         ## ToDo - Include other steps
-                         labs(list(title  = paste0(title1, title2),
-                                   x      = 'Month (Aligned)',
-                                   y      = 'N',
-                                   colour = 'Hospital')) +
-                         geom_text_repel(data = filter(df, relative.month == 3),
-                                         aes(relative.month,
-                                             value,
-                                             colour = town,
-                                             label  = town),
-                                         force   = 1,
-                                         nudge_x = 0,
-                                         nudge_y = 0) +
-                         theme(legend.position = 'none')
+                    geom_vline(data = df.steps,
+                               mapping = aes(xintercept = steps,
+                                             color      = town,
+                                             linetype   = variable)) +
+                    labs(list(title  = paste0(title1, title2),
+                              x      = 'Month (Aligned)',
+                              y      = 'N',
+                              colour = 'Hospital')) +
+                    geom_text_repel(data = filter(df, relative.month == 3),
+                                    aes(relative.month,
+                                        value,
+                                        colour = town,
+                                        label  = town),
+                                    force   = 1,
+                                    nudge_x = 0,
+                                    nudge_y = 0) +
+                     theme(legend.position = 'none')
+    ## Facet
+    if(facet == TRUE){
+        results$plot <- results$plot + facet_wrap(~ group, ncol = 1)
+    }
     ## Apply user specified theme to all graphs
     if(!is.null(theme)){
-        results$model1.ts.plot <- results$model1.ts.plot + theme +
-                                  theme(legend.position = 'none')
+        results$plot <- results$plot + theme +
+                        theme(legend.position = 'none')
     }
     ## Return results
     return(results)
