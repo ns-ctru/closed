@@ -1,0 +1,275 @@
+#' Time-Series plots for the ClosED data
+#'
+#' @description Time-Series plots for the ClosED data
+#'
+#' @details The ClosED study uses time-series with dummy indicators to
+#' test for the impact of closing Emergency Departments on indicators of
+#' performance.  This function generates time-series plots and performs
+#' Prais-Winsten time-series regression analysis to account for atuo-correlation.
+#'
+#' This function produces time-series plots in different formats.
+#'
+#' @param df Data frame to be plotted.
+#' @param sites The sites that are to be plotted, default is for case sites.
+#' @param indicator The performance indicator to assess.
+#' @param sub.indicator The sub-measure performance indicator to assess.
+#' @param steps List of steps (dummy variables) to include in time-series analysis.
+#' @param outcome Outcome variable containing the counts (default is \code{value} and shouldn't need changing).
+#' @param common.y Generate all plots with a common y-axis range.
+#' @param theme GGplot2 theme to use.
+#' @param tidy Logical indicator of whether to remove spurious data points when plotting
+#'
+#' @return A list of ggplot2 objects.
+#'
+#' @examples
+#'
+#'
+#' @references
+#'
+#' @export
+closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
+                           sites           = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+                           indicator       = 'ed attendances',
+                           sub.indicator   = 'any',
+                           steps           = c('closure'),
+                           common.y        = TRUE,
+                           theme           = theme_bw(),
+                           facet           = FALSE,
+                           tidy            = FALSE,
+                          ...){
+    ## Initialise results for returning
+    results <- list()
+    ## 2016-05-24 - For a small number of outcomes there is no sub-indicator
+    ##              and it is therefore missing.  In order to work with this
+    ##              function such missing values are therefore replaced with
+    ##              the main indicator which is supplied as the sub.indicator
+    ##              argument
+    which.df <- substitute(df) %>% deparse()
+    if(which.df == 'unnecessary_ed_attendances_site_measure'){
+        df$sub_measure <- 'unnecessary ed attendances'
+    }
+    ## Convert variable names for ease of typing within this function
+    ## (ESS artefact, hitting underscore inserts '<-' so lots of underscores are
+    ## tedious to type)
+    names(df) <- names(df) %>%
+        gsub("_", ".", x = .)
+    ## Convert to data frame,  and convert
+    ## town to factor so that it can be releveled as required
+    df <- as.data.frame(df)
+    df$town <- factor(df$town)
+    ## df.steps <- as.data.frame(df.steps)
+    ## names(df.steps) <- names(df.steps) %>%
+    ##                    gsub("_", ".", x = .)
+    ## Conditionally select range for y-axis, MUST do this BEFORE subsetting
+    ## data so that it is common across all outcomes for the given indicator
+    if(common.y == TRUE){
+        df.max <- max(df$value, na.rm = TRUE)
+        y.max  <- max(df.max, df.max) %>%
+                  round(-2)
+    }
+    #######################################################################
+    ## Add a dummy 'step' for closure                                    ##
+    #######################################################################
+    ## 2016-05-24 - Post meeting with Jon, this should be 0/1 for _all_ sites not
+    ##              just intervention ones
+    df$closure <- ifelse(df$relative.month > 24, 1, 0)
+    #######################################################################
+    ## Add dummy for other 'steps'                                       ##
+    ##                                                                   ##
+    ## See list from e.l.knowles@sheffield.ac.uk at...                   ##
+    ##                                                                   ##
+    ## https://goo.gl/TlhfCF                                             ##
+    ##                                                                   ##
+    #######################################################################
+    df <- mutate(df,
+                       nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
+                                       (town == 'Southport' & relative.month >= 48) |
+                                       ## ToDo - Uncomment once confirmed and revised dates available
+                                       (town == 'Rochdale' & relative.month >= 48) |
+                                       (town == 'Rotherham' & relative.month >= 48) |
+                                       (town == 'Hartlepool' & relative.month >= 45) |
+                                       (town == 'Grimsby' & relative.month >= 16),
+                                       1, 0),
+                       ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
+                       other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
+                                             (town == 'Newark' & relative.month >= 3) |
+                                             (town == 'Rochdale' & relative.month >= 11) |
+                                             (town == 'Hartlepool' & relative.month >= 22),
+                                             1, 0)
+                       )
+    #######################################################################
+    ## Labels and captions conditional on outcome                        ##
+    #######################################################################
+    ## ToDo - Switch to parsing the data frames name, slightly easier/greater
+    ##        internal consistency
+    ## indicator <- substitute(df) %>% evaulate()
+    if(indicator == 'ed attendances'){
+        title1 <- 'ED Attendance'
+        if(sub.indicator == 'any')            title2 <- ' (Any)'
+        else if(sub.indicator == 'other')     title2 <- ' (Other)'
+        else if(sub.indicator == 'ambulance') title2 <- ' (Ambulance)'
+    }
+    else if(indicator == 'unnecessary ed attendances'){
+        title1 <- 'Unnecessary ED Attendances'
+        title2 <- ''
+    }
+    else if(indicator == 'ed attendances admitted'){
+        title1 <- 'ED Attendances Admitted'
+        if(sub.indicator == 'all')                    title2 <- ' (All)'
+        else if(sub.indicator == 'fraction admitted') title2 <- ' (Fraction Admitted)'
+        else if(sub.indicator == 'admitted')          title2 <- ' (Admitted)'
+    }
+    else if(indicator == 'all emergency admissions'){
+        title1 <- 'Emergency Admissions'
+        if(is.na(sub.indicator)) title2 <- ''
+    }
+    else if(indicator == 'avoidable emergency admissions'){
+        title1 <- 'Avoidable Emergency Attendances'
+        if(sub.indicator == 'any')                             title2 <- ' (Any)'
+        else if(sub.indicator == 'acute mental health crisis') title2 <- ' (Acute Mental Health Crisis)'
+        else if(sub.indicator == 'angina')                     title2 <- ' (Angina)'
+        else if(sub.indicator == 'blocked catheter')           title2 <- ' (Blocked Catheter)'
+        else if(sub.indicator == 'cellulitis')                 title2 <- ' (Cellulitis)'
+        else if(sub.indicator == 'copd')                       title2 <- ' (COPD)'
+        else if(sub.indicator == 'dvt')                        title2 <- ' (DVT)'
+        else if(sub.indicator == 'epileptic fit')              title2 <- ' (Epileptic Fit)'
+        else if(sub.indicator == 'falls (76+ years)')          title2 <- ' (Falls >76yrs)'
+        else if(sub.indicator == 'hypoglycaemia')              title2 <- ' (Hypoglycaemia)'
+        else if(sub.indicator == 'minor head injuries')        title2 <- ' (Minor Head Injuries)'
+        else if(sub.indicator == 'non-specific chest pain')    title2 <- ' (Non-Specific Chest Pain)'
+        else if(sub.indicator == 'pyrexial child (<6 years)')  title2 <- ' (Pyrexial Child <6yrs)'
+        else if(sub.indicator == 'urinary tract infection')    title2 <- ' (Urinary Tract Infection)'
+    }
+    else if(indicator == 'length of stay'){
+        title1 <- 'Length of Stay'
+        if(sub.indicator == 'mean')        title2 <- ' (Mean)'
+        else if(sub.indicator == 'median') title2 <- ' (Median)'
+    }
+    else if(indicator == 'critical care stays'){
+        title1 <- 'Critical Care Stays'
+        if(sub.indicator == 'all')                           title2 <- ' (All)'
+        else if(sub.indicator == 'critical care')            title2 <- ' (Critical Care)'
+        else if(sub.indicator == 'fraction critical care') title2 <- ' (Fractional Critical Care)'
+    }
+    #######################################################################
+    ## Define vertical lines for steps                                   ##
+    #######################################################################
+    steps        <- c(25)
+    steps.labels <- c('ED Closure')
+    town         <- c('ED Closure')
+    variable     <- c(1)
+    if('Bishop Auckland' %in% sites){
+        steps <- c(steps, 35)
+        steps.labels <- c(steps.labels, 'NHS111 (Bishop Auckland)')
+        town <- c(town, 'Bishop Auckland')
+        variable <- c(variable, 2)
+    }
+    if('Grimsby' %in% sites){
+        steps <- c(steps, 16)
+        steps.labels <- c(steps.labels, 'NHS111 (Grimsby)')
+        town <- c(town, 'Grimsby')
+        variable <- c(variable, 2)
+    }
+    if('Hartlepool' %in% sites){
+        steps <- c(steps, 45, 22)
+        steps.labels <- c(steps.labels, 'NHS111 (Hartlepool)', 'Other Centre (Hartlepool)')
+        town <- c(town, 'Hartlepool', 'Hartlepool')
+        variable <- c(variable, 2, 4)
+    }
+    if('Hemel Hempstead' %in% sites){
+        steps <- c(steps, 20)
+        steps.labels <- c(steps.labels, 'Other Centre (Hemel Hempstead)')
+        town <- c(town, 'Hemel Hempstead')
+        variable <- c(variable, 4)
+    }
+    if('Newark' %in% sites){
+        steps <- c(steps, 3)
+        steps.labels <- c(steps.labels, 'Other Centre (Newark)')
+        town <- c(town, 'Newark')
+        variable <- c(variable, 4)
+    }
+    if('Rochdale' %in% sites){
+        steps <- c(steps, 48, 11, 17)
+        steps.labels <- c(steps.labels, 'NHS111 (Rochdale)', 'Other Centre (Rochdale)', 'Ambulance Diversion (Rochdale)')
+        town <- c(town, 'Rochdale', 'Rochdale', 'Rochdale')
+        variable <- c(variable, 2, 4, 6)
+    }
+    if('Rotherham' %in% sites){
+        steps <- c(steps, 48)
+        steps.labels <- c(steps.labels, 'NHS111 (Rotherham)')
+        town <- c(town, 'Rotherham')
+        variable <- c(variable, 2)
+    }
+    if('Southport' %in% sites){
+        steps <- c(steps, 48)
+        steps.labels <- c(steps.labels, 'NHS111 (Southport)')
+        town <- c(town, 'Southport')
+        variable <- c(variable, 2)
+    }
+    if('Warwick' %in% sites){
+        steps <- c(steps)
+        steps.labels <- c(steps.labels)
+        town <- c(town)
+        variable <- c(variable)
+    }
+    if('Whitehaven' %in% sites){
+        steps <- c(steps)
+        steps.labels <- c(steps.labels)
+        town <- c(town)
+        variable <- c(variable)
+    }
+    ## Bind into a dataframe
+    df.steps <- data.frame(steps, steps.labels, town, variable)
+    ## df.steps <- filter(df.steps, steps.labels != 'ED Closure')
+    df.steps$town <- factor(df.steps$town)
+    ## df.steps$variable <- ifelse(town != 'ED Closure', 4, 1)
+    ## df.steps$variable <- as.integer(df.steps$variable)
+    df.steps$variable <- factor(df.steps$variable)
+    df.steps %>% print()
+    #######################################################################
+    ## Identify and remove spurious data points                          ##
+    #######################################################################
+    if(tidy == TRUE){
+
+    }
+    #######################################################################
+    ## Plot!                                                             ##
+    #######################################################################
+    ## Subset data
+    df <- filter(df,
+                  town %in% sites &
+                  measure     == indicator &
+                  sub.measure == sub.indicator)
+    ## Generate time-series plot
+    results$case.only <- ggplot(data = df,
+                                mapping = aes(x     = relative.month,
+                                              y     = value,
+                                              color = town)) +
+                         geom_line() +
+        ## geom_vline(xintercept = steps, linetype = 4) +
+                         geom_vline(data = df.steps,
+                                    mapping = aes(xintercept = steps,
+                                                  color      = town,
+                                                  linetype   = variable)) +
+                         ## ToDo - Include other steps
+                         labs(list(title  = paste0(title1, title2),
+                                   x      = 'Month (Aligned)',
+                                   y      = 'N',
+                                   colour = 'Hospital')) +
+                         geom_text_repel(data = filter(df, relative.month == 3),
+                                         aes(relative.month,
+                                             value,
+                                             colour = town,
+                                             label  = town),
+                                         force   = 1,
+                                         nudge_x = 0,
+                                         nudge_y = 0) +
+                         theme(legend.position = 'none')
+    ## Apply user specified theme to all graphs
+    if(!is.null(theme)){
+        results$model1.ts.plot <- results$model1.ts.plot + theme +
+                                  theme(legend.position = 'none')
+    }
+    ## Return results
+    return(results)
+}
