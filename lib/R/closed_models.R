@@ -41,6 +41,7 @@
 #' @param return.df Logical operator of whether to return the subsetted/summarised data frame (useful for subsequent development).
 #' @param return.model Logical operator of whether to return the fitted models (not currently working correctly).
 #' @param return.residuals Logical oeprator of whether to return the residuals of the fitted model.
+#' @param join.line Logical operator of whether to join missing data points on plots.
 #'
 #' @return A list of results depending on the options specified.
 #'
@@ -83,6 +84,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           return.df       = FALSE,
                           return.model    = TRUE,
                           return.residuals = FALSE,
+                          join             = TRUE,
                           ...){
     #######################################################################
     ## Set up (results, formula, renaming variables)                     ##
@@ -412,7 +414,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  sub.indicator = sub.indicator,
                                                  steps = TRUE,
                                                  facet = FALSE,
-                                                 tidy  = FALSE)
+                                                 tidy  = TRUE,
+                                                 join  = join.line)
         ## results$model1.ts.plot <- ggplot(data = df1,
         ##                                  mapping = aes(x     = relative.month,
         ##                                                y     = value,
@@ -583,7 +586,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  sub.indicator = sub.indicator,
                                                  steps = TRUE,
                                                  facet = TRUE,
-                                                 tidy  = FALSE)
+                                                 tidy  = TRUE,
+                                                 join  = join.line)
         ## results$model2.ts.plot <- ggplot(data = df2,
         ##                                  mapping = aes(x     = relative.month,
         ##                                                y     = value,
@@ -630,7 +634,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                    .sub.indicator = sub.indicator)
         results$model2.panelar.bishop.r2 <- model2.panelar.bishop$r2
         ##################################################
-        ## Model - Hartlepool                           ##
+        ## Model 2 - Hartlepool                         ##
         ##################################################
         df2$town <- relevel(df2$town, ref = 'Grimsby')
         model2.panelar.hartlepool <- filter(df2,
@@ -762,7 +766,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  sub.indicator = sub.indicator,
                                                  steps = TRUE,
                                                  facet = TRUE,
-                                                 tidy  = FALSE)
+                                                 tidy  = TRUE,
+                                                 join  = join.line)
         ## results$model3.ts.plot <- ggplot(data = df3,
         ##                                  mapping = aes(x     = relative.month,
         ##                                                y     = value,
@@ -947,7 +952,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  sub.indicator = sub.indicator,
                                                  steps = TRUE,
                                                  facet = TRUE,
-                                                 tidy  = FALSE)
+                                                 tidy  = TRUE,
+                                                 join  = join.line)
         ## results$model4.ts.plot.trust <- ggplot(data = df4,
         ##                                        mapping = aes(x     = relative.month,
         ##                                                      y     = value,
@@ -1054,7 +1060,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  sub.indicator = sub.indicator,
                                                  steps = TRUE,
                                                  facet = TRUE,
-                                                 tidy  = FALSE)
+                                                 tidy  = TRUE,
+                                                 join  = join.line)
         ## results$model5.ts.plot.trust <- ggplot(data = df5,
         ##                                        mapping = aes(x     = relative.month,
         ##                                                      y     = value,
@@ -1164,32 +1171,40 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                             measure     == indicator &
                             sub.measure == sub.indicator)
         df6.trust$group <- paste0('Cohort : ', df6.trust$group)
-        results$model6.ts.plot.trust <- ggplot(data = df6.trust,
-                                               mapping = aes(x     = relative.month,
-                                                             y     = value,
-                                                             color = town)) +
-                                        geom_line() +
-                                        geom_vline(xintercept = 24, linetype = 4) +
-                                        ## ToDo - Include other steps
-                                        labs(list(title  = paste0(title1, title2),
-                                                  x      = 'Month (Aligned)',
-                                                  y      = 'N',
-                                                  colour = 'Hospital')) +
-                                        facet_wrap(~ group, ncol = 1) +
-                                        geom_text_repel(data = filter(df6.trust, relative.month == 3),
-                                                  aes(relative.month,
-                                                      value,
-                                                      colour = town,
-                                                      label  = town),
-                                                  force   = 1,
-                                                  nudge_x = 0,
-                                                  nudge_y = nudge) +
-                                        theme(legend.position = 'none')
-        ## Apply the user-specified theme
-        if(!is.null(theme)){
-            results$model6.ts.plot.trust <- results$model6.ts.plot.trust + theme +
-                                            theme(legend.position = 'none')
-        }
+        results$model6.ts.plot <- closed_ts_plot(df = df6,
+                                                 sites = sites,
+                                                 indicator = indicator,
+                                                 sub.indicator = sub.indicator,
+                                                 steps = TRUE,
+                                                 facet = TRUE,
+                                                 tidy  = TRUE,
+                                                 join  = join.line)
+        ## results$model6.ts.plot.trust <- ggplot(data = df6.trust,
+        ##                                        mapping = aes(x     = relative.month,
+        ##                                                      y     = value,
+        ##                                                      color = town)) +
+        ##                                 geom_line() +
+        ##                                 geom_vline(xintercept = 24, linetype = 4) +
+        ##                                 ## ToDo - Include other steps
+        ##                                 labs(list(title  = paste0(title1, title2),
+        ##                                           x      = 'Month (Aligned)',
+        ##                                           y      = 'N',
+        ##                                           colour = 'Hospital')) +
+        ##                                 facet_wrap(~ group, ncol = 1) +
+        ##                                 geom_text_repel(data = filter(df6.trust, relative.month == 3),
+        ##                                           aes(relative.month,
+        ##                                               value,
+        ##                                               colour = town,
+        ##                                               label  = town),
+        ##                                           force   = 1,
+        ##                                           nudge_x = 0,
+        ##                                           nudge_y = nudge) +
+        ##                                 theme(legend.position = 'none')
+        ## ## Apply the user-specified theme
+        ## if(!is.null(theme)){
+        ##     results$model6.ts.plot.trust <- results$model6.ts.plot.trust + theme +
+        ##                                     theme(legend.position = 'none')
+        ## }
         ## Perform analysis with panelAR in each
         ##################################################
         ## Model 6 - Bishop Auckland                    ##
@@ -1352,32 +1367,40 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         results$df7 <- df7
         ## Generate time-series plot (at site/town level)
         df7$group <- paste0('Cohort : ', df7$group)
-        results$model7.ts.plot.trust <- ggplot(data = df7,
-                                               mapping = aes(x     = relative.month,
-                                                             y     = value,
-                                                             color = town)) +
-                                        geom_line() +
-                                        geom_vline(xintercept = 24, linetype = 4) +
-                                        ## ToDo - Include other steps
-                                        labs(list(title  = paste0(title1, title2),
-                                                  x      = 'Month (Aligned)',
-                                                  y      = 'N',
-                                                  colour = 'Hospital')) +
-                                        facet_wrap(~ group, ncol = 1) +
-                                        geom_text_repel(data = filter(df7, relative.month == 3),
-                                                  aes(relative.month,
-                                                      value,
-                                                      colour = town,
-                                                      label  = town),
-                                                  force   = 1,
-                                                  nudge_x = 0,
-                                                  nudge_y = 700) +
-                                        theme(legend.position = 'none')
-        ## Apply the user-specified theme
-        if(!is.null(theme)){
-            results$model7.ts.plot.trust <- results$model7.ts.plot.trust + theme +
-                                            theme(legend.position = 'none')
-        }
+        results$model6.ts.plot <- closed_ts_plot(df = df6,
+                                                 sites = sites,
+                                                 indicator = indicator,
+                                                 sub.indicator = sub.indicator,
+                                                 steps = TRUE,
+                                                 facet = TRUE,
+                                                 tidy  = TRUE,
+                                                 join  = join.line)
+        ## results$model7.ts.plot.trust <- ggplot(data = df7,
+        ##                                        mapping = aes(x     = relative.month,
+        ##                                                      y     = value,
+        ##                                                      color = town)) +
+        ##                                 geom_line() +
+        ##                                 geom_vline(xintercept = 24, linetype = 4) +
+        ##                                 ## ToDo - Include other steps
+        ##                                 labs(list(title  = paste0(title1, title2),
+        ##                                           x      = 'Month (Aligned)',
+        ##                                           y      = 'N',
+        ##                                           colour = 'Hospital')) +
+        ##                                 facet_wrap(~ group, ncol = 1) +
+        ##                                 geom_text_repel(data = filter(df7, relative.month == 3),
+        ##                                           aes(relative.month,
+        ##                                               value,
+        ##                                               colour = town,
+        ##                                               label  = town),
+        ##                                           force   = 1,
+        ##                                           nudge_x = 0,
+        ##                                           nudge_y = 700) +
+        ##                                 theme(legend.position = 'none')
+        ## ## Apply the user-specified theme
+        ## if(!is.null(theme)){
+        ##     results$model7.ts.plot.trust <- results$model7.ts.plot.trust + theme +
+        ##                                     theme(legend.position = 'none')
+        ## }
         ## Perform analysis with panelAR in each
         ##################################################
         ## All sites                                    ##
