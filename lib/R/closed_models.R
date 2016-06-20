@@ -84,7 +84,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           return.df       = FALSE,
                           return.model    = TRUE,
                           return.residuals = FALSE,
-                          join             = TRUE,
+                          join.line        = TRUE,
                           ...){
     #######################################################################
     ## Set up (results, formula, renaming variables)                     ##
