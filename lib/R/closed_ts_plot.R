@@ -17,6 +17,7 @@
 #' @param common.y Generate all plots with a common y-axis range.
 #' @param theme GGplot2 theme to use.
 #' @param tidy Logical indicator of whether to remove spurious data points when plotting
+#' @param join Logical indicator of Whether to completely remove time points with spurious data so that lines are continuous
 #'
 #' @return A list of ggplot2 objects.
 #'
@@ -35,6 +36,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            theme           = theme_bw(),
                            facet           = FALSE,
                            tidy            = FALSE,
+                           join            = FALSE,
                           ...){
     ## Initialise results for returning
     results <- list()
@@ -229,7 +231,53 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Identify and remove spurious data points                          ##
     #######################################################################
     if(tidy == TRUE){
-
+        ## Condition on the indicator and sub indicator
+        if(indicator == 'ed attendances' & sub.indicator == 'any'){
+            if('Bishop Auckland' %in% sites){
+                df <- mutate(df,
+                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+            }
+        }
+        else if(indicator == 'ed attendances' & sub.indicator == 'ambulance'){
+            if('Bishop Auckland' %in% sites){
+                df <- mutate(df,
+                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+            }
+        }
+        else if(indicator == 'ed attendances' & sub.indicator == 'other'){
+            if('Bishop Auckland' %in% sites){
+                df <- mutate(df,
+                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+            }
+        }
+        else if(indicator == 'unnecessary ed attendances' & sub.indicator == 'unnecessary ed attendances'){
+            if('Bishop Auckland' %in% sites){
+                df <- mutate(df,
+                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+            }
+        }
+        else if(indicator == 'ed attendances admitted' & sub.indicator == 'all'){
+            if('Bishop Auckland' %in% sites){
+                df <- mutate(df,
+                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+            }
+        }
+        else if(indicator == 'ed attendances admitted' & sub.indicator == 'admitted'){
+            if('Bishop Auckland' %in% sites){
+                df <- mutate(df,
+                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+            }
+        }
+        else if(indicator == 'ed attendances admitted' & sub.indicator == 'fraction'){
+            if('Hemel Hempstead' %in% sites){
+                df <- mutate(df,
+                             value = ifelse(relative.month %in% c(1), yes = NA, no = value))
+            }
+        }
+        ## Remove data points that are now missing
+        if(join == TRUE){
+            df <- filter(df, !is.na(value))
+        }
     }
     #######################################################################
     ## Plot!                                                             ##
