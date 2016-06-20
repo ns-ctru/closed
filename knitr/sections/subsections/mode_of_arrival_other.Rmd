@@ -1,3 +1,95 @@
+#### Time-Series Plots
+
+These time-series plots show the trends over time *before* the removal of any potentially spurious data points and the balancing of the panels.  They are presented for that very purpose, identification of possibly spurious data points.
+
+##### Case Sites
+
+```{r mode_of_arrival_any_time_series_plot_case, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(indicator = 'ed attendances',
+               sub.indicator = 'any',
+               steps = TRUE,
+               theme = theme_bw(),
+               tidy  = FALSE,
+               facet = FALSE,
+               sites = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),)
+```
+
+##### Control Sites
+
+```{r mode_of_arrival_any_time_series_plot_control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(indicator = 'ed attendances',
+               sub.indicator = 'any',
+               steps = TRUE,
+               theme = theme_bw(),
+               tidy  = FALSE,
+               facet = FALSE,
+               sites = c('Salford', 'Scarborough', 'Whitehaven',
+                         'Blackburn', 'Grimsby', 'Wigan',
+                         'Basingstoke', 'Warwick', 'Yeovil',
+                         'Carlisle', 'Salisbury', 'Southport',
+                          'Rotherham', 'Scunthorpe', 'Wansbeck'))
+```
+
+##### Bishop Auckland
+
+```{r mode_of_arrival_any_time_series_plot_bishop, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(indicator = 'ed attendances',
+               sub.indicator = 'any',
+               steps = TRUE,
+               theme = theme_bw(),
+               tidy  = FALSE,
+               facet = FALSE,
+               sites = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'))
+```
+
+##### Hartlepool
+
+```{r mode_of_arrival_any_time_series_plot_hartlepool, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(indicator = 'ed attendances',
+               sub.indicator = 'any',
+               steps = TRUE,
+               theme = theme_bw(),
+               tidy  = FALSE,
+               facet = FALSE,
+               sites = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'))
+```
+
+##### Hemel Hempstead
+
+```{r mode_of_arrival_any_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(indicator = 'ed attendances',
+               sub.indicator = 'any',
+               steps = TRUE,
+               theme = theme_bw(),
+               tidy  = FALSE,
+               facet = FALSE,
+               sites = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'))
+```
+
+##### Newark
+
+```{r mode_of_arrival_any_time_series_plot_newark, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(indicator = 'ed attendances',
+               sub.indicator = 'any',
+               steps = TRUE,
+               theme = theme_bw(),
+               tidy  = FALSE,
+               facet = FALSE,
+               sites = c('Newark', 'Carlisle', 'Salisbury', 'Southport'))
+```
+
+##### Rochdale
+
+```{r mode_of_arrival_any_time_series_plot_rochdale, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(indicator = 'ed attendances',
+               sub.indicator = 'any',
+               steps = TRUE,
+               theme = theme_bw(),
+               tidy  = FALSE,
+               facet = FALSE,
+               sites = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'))
+```
+
 #### Model 1
 `Case Site    : Individual`\
 `Control Site : None`\
