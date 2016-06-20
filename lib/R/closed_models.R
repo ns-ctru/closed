@@ -1171,7 +1171,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                             measure     == indicator &
                             sub.measure == sub.indicator)
         df6.trust$group <- paste0('Cohort : ', df6.trust$group)
-        results$model6.ts.plot <- closed_ts_plot(df = df6,
+        results$model6.ts.plot <- closed_ts_plot(df = df6.trust,
                                                  sites = sites,
                                                  indicator = indicator,
                                                  sub.indicator = sub.indicator,
@@ -1367,7 +1367,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         results$df7 <- df7
         ## Generate time-series plot (at site/town level)
         df7$group <- paste0('Cohort : ', df7$group)
-        results$model6.ts.plot <- closed_ts_plot(df = df6,
+        results$model7.ts.plot <- closed_ts_plot(df = df7,
                                                  sites = sites,
                                                  indicator = indicator,
                                                  sub.indicator = sub.indicator,
