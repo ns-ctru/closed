@@ -1,4 +1,4 @@
-### Summary {.tabset .tabset-fade .tabset-pills}
+### Summary {.tabset .tabset-fade}
 
 ```{r child = 'subsections/summary.Rmd', eval = TRUE}
 ```
@@ -52,4 +52,12 @@
 
 ### Length of Stay - Median  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/length_of_stay_median.Rmd', eval = TRUE}
+```
+
+### Case Fatality Ratio - Any  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/case_fatality_ratio_any.Rmd', eval = TRUE}
+```
+
+### Case Fatality Ratio - Acute Heart Failure  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/case_fatality_ratio_acute_heart_failure.Rmd', eval = FALSE}
 ```
