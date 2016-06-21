@@ -563,6 +563,38 @@ case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = case_
                                      join.line        = model.opts$join.line)
 ```
 
+<!--- Ambulance Mean Times - Call to Destination --->
+```{r ambulance_mean_times_call_to_destination, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+ambulance.mean.times.call.to.destination <- closed_models(df.lsoa         = ambulance_mean_times_measure,
+                                     df.trust         = ambulance_mean_times_site_measure,
+                                     indicator        = 'ambulance mean times',
+                                     sub.indicator    = 'call_to_dest',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3           = model.opts$mod3,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
+```
+
 <!--- Save all objects --->
 ```{r save_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 save(diff.time.to.ed,
@@ -583,6 +615,7 @@ save(model.opts,
      length.of.stay.median,
      case.fatality.ratio.any,
      ## case.fatality.ratio.acute.heart.failure,
+     ambulance.mean.times.call.to.destination,
      file = '~/work/closed/lib/data/results.regression.RData')
 ```
 <!--- Load all saved objects --->
