@@ -152,6 +152,27 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'critical care')            title2 <- ' (Critical Care)'
         else if(sub.indicator == 'fraction critical care') title2 <- ' (Fractional Critical Care)'
     }
+    else if(indicator == 'case fatality ratio'){
+        title1 <- 'Case Fatality Ratio'
+        if(sub.indicator == 'acute heart failure')              title2 <- ' (Acute Heart Failure)'
+        else if(sub.indicator == 'anaphylaxis')                 title2 <- ' (Anaphylaxis)'
+        else if(sub.indicator == 'any')                         title2 <- ' (Any)'
+        else if(sub.indicator == 'asphyxiation')                title2 <- ' (Asphyxiation)'
+        else if(sub.indicator == 'asthma')                      title2 <- ' (Asthma)'
+        else if(sub.indicator == 'cardiac arrest')              title2 <- ' (Cardiac Arrest)'
+        else if(sub.indicator == 'falls')                       title2 <- ' (Falls)'
+        else if(sub.indicator == 'fractured neck of femur')     title2 <- ' (Fractured Neck of Femur)'
+        else if(sub.indicator == 'meningitis')                  title2 <- ' (Meningitis)'
+        else if(sub.indicator == 'myocardial infarction')       title2 <- ' (Myocardial Infarction)'
+        else if(sub.indicator == 'pregnancy and birth related') title2 <- ' (Pregnancy and Birth Related)'
+        else if(sub.indicator == 'road traffic accident')       title2 <- ' (Road Traffic Accident)'
+        else if(sub.indicator == 'ruptured aortic aneurysm')    title2 <- ' (Ruptured Aortic Aneurysm)'
+        else if(sub.indicator == 'self harm')                   title2 <- ' (Self Harm)'
+        else if(sub.indicator == 'septic shock')                title2 <- ' (Septic Shock)'
+        else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
+        else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
+        nudge <- 0.5
+    }
     #######################################################################
     ## Define vertical lines for steps                                   ##
     #######################################################################
@@ -274,6 +295,12 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                              value = ifelse(relative.month %in% c(1), yes = NA, no = value))
             }
         }
+        else if(indicator == 'critical care stays' & sub.indicator == 'all'){
+            if('Newark' %in% sites){
+                df <- mutate(df,
+                             value = ifelse(relative.month %in% c(47), yes = NA, no = value))
+            }
+        }
         ## Remove data points that are now missing
         if(join == TRUE){
             df <- filter(df, !is.na(value))
@@ -325,5 +352,5 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                 theme(legend.position = 'none')
     }
     ## Return results
-    return(results)
+    return(results$plot)
 }
