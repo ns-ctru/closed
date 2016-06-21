@@ -13,10 +13,16 @@ if(os != 'unix'){
     load('d:/Rpackages/rclosed/data/ed attendances admitted measure - site - 2016-05-24 14.28.Rda')
     load('d:/Rpackages/rclosed/data/emergency admissions measure - lsoa - 2016-05-24 14.30.Rda')
     load('d:/Rpackages/rclosed/data/emergency admissions measure - site - 2016-05-24 14.31.Rda')
-    load('d:/Rpackages/rclosed/data/critical care stays measure - lsoa - 2016-05-24 14.32.Rda')
-    load('d:/Rpackages/rclosed/data/critical care stays measure - site - 2016-05-24 14.32.Rda')
+##    load('d:/Rpackages/rclosed/data/critical care stays measure - lsoa - 2016-05-24 14.32.Rda')
+##    load('d:/Rpackages/rclosed/data/critical care stays measure - site - 2016-05-24 14.32.Rda')
+    load('d:/Rpackages/rclosed/data/critical care stays measure - lsoa - 2016-06-10 18.17.Rda')
+    load('d:/Rpackages/rclosed/data/critical care stays measure - site - 2016-06-10 18.18.Rda')
     load('d:/Rpackages/rclosed/data/length of stay measure - lsoa - 2016-05-24 14.34.Rda')
     load('d:/Rpackages/rclosed/data/length of stay measure - site - 2016-05-24 14.35.Rda')
+    load('d:/Rpackages/rclosed/data/ambulance mean times measure - lsoa - 2016-06-17 01.21.Rda')
+    load('d:/Rpackages/rclosed/data/ambulance mean times measure - site - 2016-06-17 01.23.Rda')
+    load('d:/Rpackages/rclosed/data/case fatality measure - lsoa - 2016-06-10 18.09.Rda')
+    load('d:/Rpackages/rclosed/data/case fatality measure - site - 2016-06-10 18.10.Rda')
 } else if(os == 'unix' & node == 'mcru-closed-hp.shef.ac.uk'){
     load('~/work/closed/lib/data/ed attendances by mode measure - lsoa - 2016-05-24 14.25.Rda')
     load('~/work/closed/lib/data/ed attendances by mode measure - site - 2016-05-24 14.26.Rda')
@@ -26,13 +32,19 @@ if(os != 'unix'){
     load('~/work/closed/lib/data/ed attendances admitted measure - site - 2016-05-24 14.28.Rda')
     load('~/work/closed/lib/data/emergency admissions measure - lsoa - 2016-05-24 14.30.Rda')
     load('~/work/closed/lib/data/emergency admissions measure - site - 2016-05-24 14.31.Rda')
-    load('~/work/closed/lib/data/critical care stays measure - lsoa - 2016-05-24 14.32.Rda')
-    load('~/work/closed/lib/data/critical care stays measure - site - 2016-05-24 14.32.Rda')
+    ## load('~/work/closed/lib/data/critical care stays measure - lsoa - 2016-05-24 14.32.Rda')
+    ## load('~/work/closed/lib/data/critical care stays measure - site - 2016-05-24 14.32.Rda')
+    load('~/work/closed/lib/data/critical care stays measure - lsoa - 2016-06-10 18.17.Rda')
+    load('~/work/closed/lib/data/critical care stays measure - site - 2016-06-10 18.18.Rda')
     load('~/work/closed/lib/data/length of stay measure - lsoa - 2016-05-24 14.34.Rda')
     load('~/work/closed/lib/data/length of stay measure - site - 2016-05-24 14.35.Rda')
+    load('~/work/closed/lib/data/ambulance mean times measure - lsoa - 2016-06-17 01.21.Rda')
+    load('~/work/closed/lib/data/ambulance mean times measure - site - 2016-06-17 01.23.Rda')
+    load('~/work/closed/lib/data/case fatality measure - lsoa - 2016-06-10 18.09.Rda')
+    load('~/work/closed/lib/data/case fatality measure - site - 2016-06-10 18.10.Rda')
 }
 ```
-```{r define_models, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r define_models, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ## Set model options here (easier when tweaking en-mass)
 model.opts <- list()
 model.opts
@@ -61,8 +73,10 @@ model.opts$theme		<- theme_bw()
 model.opts$return.df		<- FALSE
 model.opts$return.model		<- FALSE
 model.opts$return.residuals	<- TRUE
+model.opts$join.line            <- FALSE
 ```
-```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+
+```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ## Summarise differences in time to ED
 diff.time.to.ed <- closed_summary(df          = ed_attendances_by_mode_measure,
                              df.steps    = sites,
@@ -104,7 +118,7 @@ check.site <- rbind(check.ed.attendances$check.site,
 names(check.site) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month')
 ```
 <!--- Mode of Arrival - Any --->
-```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 mode.of.arrival.any <- closed_models(df.lsoa          = ed_attendances_by_mode_measure,
                                      df.trust         = ed_attendances_by_mode_site_measure,
                                      indicator        = 'ed attendances',
@@ -132,10 +146,11 @@ mode.of.arrival.any <- closed_models(df.lsoa          = ed_attendances_by_mode_m
                                      ## return.df        = model.opts$return.df,
                                      return.df        = TRUE,
                                      return.model     = model.opts$return.model,
-				     return.residuals = model.opts$return.residuals)
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
 ```
 <!--- Mode of Arrival - Other --->
-```{r mode_of_arrival_other, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r mode_of_arrival_other, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 mode.of.arrival.other <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
                                      df.trust         = ed_attendances_by_mode_site_measure,
                                      indicator        = 'ed attendances',
@@ -162,11 +177,12 @@ mode.of.arrival.other <- closed_models(df.lsoa         = ed_attendances_by_mode_
                                      theme            = model.opts$theme,
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
-				     return.residuals = model.opts$return.residuals)
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
 ```
 
 <!--- Mode of Arrival - Ambulance --->
-```{r mode_of_arrival_ambulance, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r mode_of_arrival_ambulance, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
                                      df.trust         = ed_attendances_by_mode_site_measure,
                                      indicator        = 'ed attendances',
@@ -193,11 +209,12 @@ mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_m
                                      theme            = model.opts$theme,
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
-				     return.residuals = model.opts$return.residuals)
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
 ```
 
 <!--- Unnecessary Attendance - NA --->
-```{r unnecessary_ed_attendances, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r unnecessary_ed_attendances, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 unnecessary.attendance <- closed_models(df.lsoa         = unnecessary_ed_attendances_measure,
                                      df.trust         = unnecessary_ed_attendances_site_measure,
                                      indicator        = 'unnecessary ed attendances',
@@ -224,11 +241,12 @@ unnecessary.attendance <- closed_models(df.lsoa         = unnecessary_ed_attenda
                                      theme            = model.opts$theme,
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
-				     return.residuals = model.opts$return.residuals)
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
 ```
 
 <!--- ED Attendances Admitted - All --->
-```{r ed_attendances_admitted_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r ed_attendances_admitted_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
                                      df.trust         = ed_attendances_admitted_site_measure,
                                      indicator        = 'ed attendances admitted',
@@ -255,11 +273,12 @@ ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_ad
                                      theme            = model.opts$theme,
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
-				     return.residuals = model.opts$return.residuals)
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
 ```
 
 <!--- ED Attendances Admitted - Fraction Admitted --->
-```{r ed_attendances_admitted_fraction_admitted, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r ed_attendances_admitted_fraction_admitted, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
                                      df.trust         = ed_attendances_admitted_site_measure,
                                      indicator        = 'ed attendances admitted',
@@ -286,11 +305,12 @@ ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_
                                      theme            = model.opts$theme,
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
-				     return.residuals = model.opts$return.residuals)
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
 ```
 
 <!--- ED Attendances Admitted - Admitted --->
-```{r ed_attendances_admitted_admitted, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r ed_attendances_admitted_admitted, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ed.attendances.admitted.admitted <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
                                      df.trust         = ed_attendances_admitted_site_measure,
                                      indicator        = 'ed attendances admitted',
@@ -317,11 +337,12 @@ ed.attendances.admitted.admitted <- closed_models(df.lsoa         = ed_attendanc
                                      theme            = model.opts$theme,
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
-				     return.residuals = model.opts$return.residuals)
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
 ```
 
 <!--- Critical Care - All --->
-```{r critical_care_cips_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r critical_care_cips_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 critical.care.cips.all <- closed_models(df.lsoa         = critical_care_cips_measure,
                                      df.trust         = critical_care_cips_site_measure,
                                      indicator        = 'critical care stays',
@@ -348,17 +369,18 @@ critical.care.cips.all <- closed_models(df.lsoa         = critical_care_cips_mea
                                      theme            = model.opts$theme,
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
-				     return.residuals = model.opts$return.residuals)
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
 ```
 
 <!--- Critical Care - Critical --->
-```{r critical_care_cips_critical, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r critical_care_cips_critical, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 critical.care.cips.critical <- closed_models(df.lsoa         = critical_care_cips_measure,
                                      df.trust         = critical_care_cips_site_measure,
                                      indicator        = 'critical care stays',
                                      sub.indicator    = 'critical care',
                                      steps            = c('closure'),
-                                     fit.with         =  model.opts$fit.with,
+                                     fit.with         = model.opts$fit.with,
                                      panel.lsoa       = model.opts$panel.lsoa,
                                      panel.trust      = model.opts$panel.trust,
                                      timevar          = model.opts$timevar,
@@ -379,11 +401,12 @@ critical.care.cips.critical <- closed_models(df.lsoa         = critical_care_cip
                                      theme            = model.opts$theme,
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
-				     return.residuals = model.opts$return.residuals)
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
 ```
 
 <!--- Critical Care - Fraction --->
-```{r critical_care_cips_fraction, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r critical_care_cips_fraction, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 critical.care.cips.fraction <- closed_models(df.lsoa         = critical_care_cips_measure,
                                      df.trust         = critical_care_cips_site_measure,
                                      indicator        = 'critical care stays',
@@ -395,7 +418,7 @@ critical.care.cips.fraction <- closed_models(df.lsoa         = critical_care_cip
                                      timevar          = model.opts$timevar,
                                      outcome          = model.opts$outcome,
                                      model1           = model.opts$mod1,
-                                     model2           =  model.opts$mod2,
+                                     model2           = model.opts$mod2,
                                      model3           = model.opts$mod3,
                                      model4           = model.opts$mod4,
                                      model5           = model.opts$mod5,
@@ -410,11 +433,12 @@ critical.care.cips.fraction <- closed_models(df.lsoa         = critical_care_cip
                                      theme            = model.opts$theme,
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
-				     return.residuals = model.opts$return.residuals)
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
 ```
 
 <!--- Length of Stay - Mean --->
-```{r length_of_stay_mean, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r length_of_stay_mean, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 length.of.stay.mean <- closed_models(df.lsoa         = length_of_stay_measure,
                                      df.trust         = length_of_stay_site_measure,
                                      indicator        = 'length of stay',
@@ -441,11 +465,12 @@ length.of.stay.mean <- closed_models(df.lsoa         = length_of_stay_measure,
                                      theme            = model.opts$theme,
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
-				     return.residuals = model.opts$return.residuals)
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
 ```
 
 <!--- Length of Stay - Median --->
-```{r length_of_stay_median, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r length_of_stay_median, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure,
                                      df.trust         = length_of_stay_site_measure,
                                      indicator        = 'length of stay',
@@ -472,13 +497,77 @@ length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure,
                                      theme            = model.opts$theme,
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
-				     return.residuals = model.opts$return.residuals)
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
+```
+<!--- Case Fatality Ratio - Any --->
+```{r case_fatality_ratio_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_ratio_measure,
+                                     df.trust         = case_fatality_ratio_site_measure,
+                                     indicator        = 'case fatality ratio',
+                                     sub.indicator    = 'any',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3           = model.opts$mod3,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
+```
+<!--- Case Fatality Ratio - Acute Heart Failure --->
+```{r case_fatality_ratio_acute_heart_failure, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = case_fatality_ratio_measure,
+                                     df.trust         = case_fatality_ratio_site_measure,
+                                     indicator        = 'case fatality ratio',
+                                     sub.indicator    = 'acute heart failure',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3           = model.opts$mod3,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
 ```
 
 <!--- Save all objects --->
-```{r save_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r save_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 save(diff.time.to.ed,
-     file = '../../../lib/data/summary.RData')
+     check.site,
+     file = '~/work/closed/lib/data/summary.RData')
 save(model.opts,
      mode.of.arrival.any,
      mode.of.arrival.ambulance,
@@ -492,10 +581,12 @@ save(model.opts,
      critical.care.cips.fraction,
      length.of.stay.mean,
      length.of.stay.median,
-     file = '../../../lib/data/results.regression.RData')
+     case.fatality.ratio.any,
+     ## case.fatality.ratio.acute.heart.failure,
+     file = '~/work/closed/lib/data/results.regression.RData')
 ```
 <!--- Load all saved objects --->
-```{r load_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-load(file = '../../../lib/data/summary.RData')
-load(file = '../../../lib/data/results.regression.RData')
+```{r load_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+load(file = '~/work/closed/lib/data/summary.RData')
+load(file = '~/work/closed/lib/data/results.regression.RData')
 ```
