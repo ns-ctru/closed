@@ -173,6 +173,15 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
         nudge <- 0.5
     }
+    else if(indicator == 'ambulance mean times'){
+        title1 <- 'Ambulance Mean Times'
+        if(sub.indicator == 'call_to_dest')                 title2 <- ' (Call to Destination)'
+        else if(sub.indicator == 'call_to_scene_any')       title2 <- ' (Call to Scene, Any)'
+        else if(sub.indicator == 'call_to_scene_conveying') title2 <- ' (Call to Scene, Conveying)'
+        else if(sub.indicator == 'dest_to_clear')           title2 <- ' (Destination to Clear)'
+        else if(sub.indicator == 'scene_to_dest')           title2 <- ' (Scene to Destination)'
+        nudge <- 10
+    }
     #######################################################################
     ## Define vertical lines for steps                                   ##
     #######################################################################
