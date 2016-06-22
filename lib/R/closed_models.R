@@ -500,6 +500,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       town %in% sites &
                       measure     == indicator &
                       sub.measure == sub.indicator)
+        dim(df1) %>% print()
         ## Generate time-series plot
         results$model1.ts.plot <- closed_ts_plot(df = df1,
                                                  sites = sites,
