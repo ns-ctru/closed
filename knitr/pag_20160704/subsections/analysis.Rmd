@@ -146,12 +146,12 @@ mode.of.arrival.any <- closed_models(df.lsoa          = ed_attendances_by_mode_m
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals)
 ```
-<!--- ED Attendances Admitted - All --->
-```{r ed_attendances_admitted_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
-                                     df.trust         = ed_attendances_admitted_site_measure,
-                                     indicator        = 'ed attendances admitted',
-                                     sub.indicator    = 'all',
+<!--- Emergency Admissions - Any --->
+```{r emergency_admissions_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+emergency.admissions.any <- closed_models(df.lsoa         = emergency_admissions_measure,
+                                     df.trust         = emergency_admissions_site_measure,
+                                     indicator        = 'emergency admissions',
+                                     sub.indicator    = 'any',
                                      steps            = c('closure'),
                                      fit.with         = model.opts$fit.with,
                                      panel.lsoa       = model.opts$panel.lsoa,
@@ -174,7 +174,8 @@ ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_ad
                                      theme            = model.opts$theme,
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
-				     return.residuals = model.opts$return.residuals)
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
 ```
 <!--- Case Fatality Ratio --->
 ```{r case_fatality_ratio, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
