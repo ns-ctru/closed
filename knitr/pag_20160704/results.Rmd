@@ -1,0 +1,16 @@
+### A & E Attendances {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsection/ae_attendances.Rmd', eval = TRUE}
+```
+
+### A & E Admissions {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsection/ae_admissions.Rmd', eval = TRUE}
+```
+
+### Case Fatality Ratio {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsection/case_fatality_ratio.Rmd', eval = TRUE}
+```
+
+
+### Ambulance Time to Hospital {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsection/ambulance_mean_times.Rmd', eval = TRUE}
+```
