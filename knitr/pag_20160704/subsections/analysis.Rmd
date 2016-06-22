@@ -71,7 +71,7 @@ model.opts$plot			<- TRUE
 model.opts$common.y		<- TRUE
 model.opts$theme		<- theme_bw()
 model.opts$return.df		<- FALSE
-model.opts$return.model		<- FALSE
+model.opts$return.model		<- TRUE
 model.opts$return.residuals	<- TRUE
 ```
 ```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
@@ -146,11 +146,11 @@ mode.of.arrival.any <- closed_models(df.lsoa          = ed_attendances_by_mode_m
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals)
 ```
-<!--- Emergency Admissions - Any --->
-```{r emergency_admissions_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-emergency.admissions.any <- closed_models(df.lsoa         = emergency_admissions_measure,
+<!--- Avoidable Emergency Admissions - Any --->
+```{r avoidable.emergency_admissions_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+avoidable.emergency.admissions.any <- closed_models(df.lsoa         = emergency_admissions_measure,
                                      df.trust         = emergency_admissions_site_measure,
-                                     indicator        = 'emergency admissions',
+                                     indicator        = 'avoidable emergency admissions',
                                      sub.indicator    = 'any',
                                      steps            = c('closure'),
                                      fit.with         = model.opts$fit.with,
