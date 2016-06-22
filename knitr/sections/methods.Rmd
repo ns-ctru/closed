@@ -2,7 +2,7 @@ Methods are described in detail in the Statistical Analysis Plan which can be vi
 
 ### Models
 
-Five models are tested sequentially with growing complexity and are detailed below.
+Seven models are tested sequentially with growing complexity and are detailed below.
 
 Table: Models tested in ClosED
 
@@ -12,7 +12,7 @@ Model | Case Site  | Control Site     | Panel | Covariates
 2     | Individual | One Matched      | ED    | season + time + closure * site + steps
 3     | Individual | All Matched      | ED    | season + time + closure * site + steps
 4     | All        | One Matched      | ED    | season + time + closure * site + steps
-5     | All        | All Matched      | ED    | season + time + closure * site + steps + change in ED time
+5     | All        | All Matched      | ED    | season + time + closure * site + steps
 6     | Individual | One Matched      | LSOA  | season + time + closure * site + steps + change in ED time
 7     | All        | All Matched      | LSOA  | season + time + closure * site + steps + change in ED time
 
