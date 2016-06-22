@@ -226,24 +226,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         else if(sub.indicator == 'admitted')          title2 <- ' (Admitted)'
         nudge <- 600
     }
-    else if(indicator == 'emergency admissions'){
+    else if(indicator == 'all emergency admissions'){
         title1 <- 'Emergency Admissions'
-        if(sub.indicator == 'any') title2 <- ' (Any)'
-        else if(sub.indicator == 'acute mental health crisis')	title2 <- ' (Acute Mental Health Crisis)'
-        else if(sub.indicator == 'angina')			title2 <- ' (Angina)'
-        else if(sub.indicator == 'any')				title2 <- ' (Any)'
-        else if(sub.indicator == 'blocked catheter')		title2 <- ' (Blocked Catheter)'
-        else if(sub.indicator == 'cellulitis')			title2 <- ' (Cellulitis)'
-        else if(sub.indicator == 'copd')			title2 <- ' (COPD)'
-        else if(sub.indicator == 'dvt')				title2 <- ' (DVT)'
-        else if(sub.indicator == 'epileptic fit')		title2 <- ' (Epileptic Fit)'
-        else if(sub.indicator == 'falls (75+ years)')		title2 <- ' (Falls >75 Years)'
-        else if(sub.indicator == 'hypoglycaemia')		title2 <- ' (Hypoglycaemia)'
-        else if(sub.indicator == 'minor head injuries')		title2 <- ' (Minor Head Injuries)'
-        else if(sub.indicator == 'non-specific abdominal pain') title2 <- ' (Non-Specific Abdominal Pain)'
-        else if(sub.indicator == 'non-specific chest pain')	title2 <- ' (Non-Specific Chest Pain)'
-        else if(sub.indicator == 'pyrexial child (<6 years)')	title2 <- ' (Pyrexial Child (<6 Years)'
-        else if(sub.indicator == 'urinary tract infection')	title2 <- ' (Urinary Tract Infection)'
+        if(is.na(sub.indicator)) title2 <- ''
         nudge <- 600
     }
     else if(indicator == 'avoidable emergency admissions'){
