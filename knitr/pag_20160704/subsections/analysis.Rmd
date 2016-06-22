@@ -209,6 +209,34 @@ case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_measure
 				     return.residuals = model.opts$return.residuals,
                                      join.line        = model.opts$join.line)
 ```
-<!--- Total Time to A&E --->
-```{r total_time_to_ae, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+<!--- Ambulance Mean Times - Call to Destination --->
+```{r ambulance_mean_times_call_to_destination, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+ambulance.mean.times.call.to.destination <- closed_models(df.lsoa         = amb_mean_times_measure,
+                                     df.trust         = amb_mean_times_site_measure,
+                                     indicator        = 'ambulance mean times',
+                                     sub.indicator    = 'call_to_dest',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3           = model.opts$mod3,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
 ```
