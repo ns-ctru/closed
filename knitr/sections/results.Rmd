@@ -1,4 +1,4 @@
-### Summary {.tabset .tabset-fade}
+### Summary {.tabset .tabset-fade .tabset-pills}
 
 ```{r child = 'subsections/summary.Rmd', eval = TRUE}
 ```
@@ -20,6 +20,10 @@
 
 ### Attendance - Unnecessary  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/unnecessary_attendance.Rmd', eval = TRUE}
+```
+
+### Avoidable Emergency Admissions - Any
+```{r child = 'subsections/emergency_admissions_any.Rmd', eval = TRUE}
 ```
 
 ### Attendances Admitted - All  {.tabset .tabset-fade .tabset-pills}
@@ -60,4 +64,23 @@
 
 ### Case Fatality Ratio - Acute Heart Failure  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/case_fatality_ratio_acute_heart_failure.Rmd', eval = FALSE}
+```
+### Ambulance Mean Times - Call to Destianation  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_mean_times_call_to_dest.Rmd', eval = TRUE}
+```
+
+### Ambulance Mean Times - Call to Scene (Any)  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_mean_times_call_to_scene_any.Rmd', eval = FALSE}
+```
+
+### Ambulance Mean Times - Call to Scene (Conveying)  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_mean_times_call_to_scene_conveying.Rmd', eval = FALSE}
+```
+
+### Ambulance Mean Times - Scene to Destination  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_mean_times_scene_to_destination.Rmd', eval = FALSE}
+```
+
+### Ambulance Mean Times - Destimation to Clear  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_mean_times_destination_to_clear.Rmd', eval = FALSE}
 ```
