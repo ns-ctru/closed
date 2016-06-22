@@ -2,7 +2,7 @@ Methods are described in detail in the Statistical Analysis Plan which can be vi
 
 ### Models
 
-Five models are tested sequentially with growing complexity and are detailed below.
+Seven models are tested sequentially with growing complexity and are detailed below.
 
 Table: Models tested in ClosED
 
@@ -12,9 +12,13 @@ Model | Case Site  | Control Site     | Panel | Covariates
 2     | Individual | One Matched      | ED    | season + time + closure * site + steps
 3     | Individual | All Matched      | ED    | season + time + closure * site + steps
 4     | All        | One Matched      | ED    | season + time + closure * site + steps
-5     | All        | All Matched      | ED    | season + time + closure * site + steps + change in ED time
+5     | All        | All Matched      | ED    | season + time + closure * site + steps
 6     | Individual | One Matched      | LSOA  | season + time + closure * site + steps + change in ED time
 7     | All        | All Matched      | LSOA  | season + time + closure * site + steps + change in ED time
+
+### Panels
+
+The panels that are being considered change depending on the type of analyses that are being performed (see above table).  If the summary data across a catchment area is being analysed under the 'step' models then the panels are the Trust/Hospital/Emergency Departments themselves.  If the data is being considered at the Lower Super Output Area (LSOA) as it is under the 'dose' models which include a 'change in ED time' term then the panels are the LSOAs themselves, since these are the units on which repeated measures over time are available and are being analysed.
 
 
 
@@ -37,10 +41,10 @@ Southport        |                 | 2013-03-01 (48) | 2009-06-01 (03) |
 Rochdale         | 2011-04-01 (25) | 2013-03-01 (48) |                 | 2010-08-01 (17)
 Rotherham        |                 | 2013-03-01 (48) | 2009-06-01 (11) |
 
-### Panels
 
-The panels that are being considered change depending on the type of anayses that are being performed (see above table).  If the summary data across a catchment area is being analysed under the 'step' models then the panels are the Trust/Hospital/Emergency Departments themselves.  If the data is being considered at the Lower Super Output Area (LSOA) as it is under the 'dose' models which include a 'change in ED time' term then the panels are the LSOAs themselves, since these are the units on which repeated measures over time are available and are being analysed.
+### Spurious Data Points
 
+Time-series plots of the raw data were first inspected to identify any potentially spurious data points.  Where such data points were considered to be erroneous they were removed from the panel in which they pertain to and in all subsequent analyses they were also removed from the corresponding sites that were included in the analyses so that the panels remained balanced.
 
 ### Heteroskedasticity and Correlation
 
