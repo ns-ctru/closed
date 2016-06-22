@@ -1,3 +1,166 @@
+##2016-06-21 - Checking Case Fatality analyses
+case_fatality_site_measure %>%
+    as.data.frame() %>%
+    filter(sub_measure == 'any')
+case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_measure,
+                                     df.trust         = case_fatality_site_measure,
+                                     indicator        = 'case fatality ratio',
+                                     sub.indicator    = 'any',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3           = model.opts$mod3,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     rho.na.rm        = TRUE,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
+save(case.fatality.ratio.any,
+     file = '~/work/closed/tmp/case_fatality_ratio_any.RData')
+
+
+## 2016-06-21 - For Jon to choose whether to have continuous or discontinuous lines
+png(file = '~/work/closed/tmp/ts-unfiltered.png', width = 1024, height = 768)
+closed_ts_plot(indicator = 'ed attendances',
+               sub.indicator = 'any',
+               steps = TRUE,
+               theme = theme_bw(),
+               tidy  = FALSE,
+               join  = FALSE,
+               facet = FALSE,
+               sites = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),)
+dev.off()
+png(file = '~/work/closed/tmp/ts-filtered-gap.png', width = 1024, height = 768)
+closed_ts_plot(indicator = 'ed attendances',
+               sub.indicator = 'any',
+               steps = TRUE,
+               theme = theme_bw(),
+               tidy  = TRUE,
+               join  = FALSE,
+               facet = FALSE,
+               sites = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),)
+dev.off()
+png(file = '~/work/closed/tmp/ts-filtered-no-gap.png', width = 1024, height = 768)
+closed_ts_plot(indicator = 'ed attendances',
+               sub.indicator = 'any',
+               steps = TRUE,
+               theme = theme_bw(),
+               tidy  = TRUE,
+               join  = TRUE,
+               facet = FALSE,
+               sites = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),)
+dev.off()
+
+
+## 2016-06-20 - Checking filtering of spurious data points carrys through when called from closed-models()
+load('~/work/closed/tmp/ed attendances by mode measure - site - 2016-05-24 14.26.Rda')
+check.join.true <- closed_models(df.lsoa          = ed_attendances_by_mode_measure,
+                                 df.trust         = ed_attendances_by_mode_site_measure,
+                                 indicator        = 'ed attendances',
+                                 sub.indicator    = 'any',
+                                 steps            = c('closure'),
+                                 fit.with         = model.opts$fit.with,
+                                 panel.lsoa       = model.opts$panel.lsoa,
+                                 panel.trust      = model.opts$panel.trust,
+                                 timevar          = model.opts$timevar,
+                                 outcome          = model.opts$outcome,
+                                 model1           = model.opts$mod1,
+                                 model2           = model.opts$mod2,
+                                 model3           = model.opts$mod3,
+                                 model4           = model.opts$mod4,
+                                 model5           = model.opts$mod5,
+                                 model6           = model.opts$mod6,
+                                 model7           = model.opts$mod7,
+                                 autocorr         = model.opts$autocorr,
+                                 panelcorrmethod  = model.opts$panelcorrmethod,
+                                 coefficients     = model.opts$coefficients,
+                                 seq.times        = model.opts$seq.times,
+                                 plot             = model.opts$plot,
+                                 common.y         = model.opts$common.y,
+                                 theme            = model.opts$theme,
+                                 ## return.df        = model.opts$return.df,
+                                 return.df        = TRUE,
+                                 return.model     = model.opts$return.model,
+                                 return.residuals = model.opts$return.residuals,
+                                 join.line = TRUE)
+check.join.false <- closed_models(df.lsoa          = ed_attendances_by_mode_measure,
+                                 df.trust         = ed_attendances_by_mode_site_measure,
+                                 indicator        = 'ed attendances',
+                                 sub.indicator    = 'any',
+                                 steps            = c('closure'),
+                                 fit.with         = model.opts$fit.with,
+                                 panel.lsoa       = model.opts$panel.lsoa,
+                                 panel.trust      = model.opts$panel.trust,
+                                 timevar          = model.opts$timevar,
+                                 outcome          = model.opts$outcome,
+                                 model1           = model.opts$mod1,
+                                 model2           = model.opts$mod2,
+                                 model3           = model.opts$mod3,
+                                 model4           = model.opts$mod4,
+                                 model5           = model.opts$mod5,
+                                 model6           = model.opts$mod6,
+                                 model7           = model.opts$mod7,
+                                 autocorr         = model.opts$autocorr,
+                                 panelcorrmethod  = model.opts$panelcorrmethod,
+                                 coefficients     = model.opts$coefficients,
+                                 seq.times        = model.opts$seq.times,
+                                 plot             = model.opts$plot,
+                                 common.y         = model.opts$common.y,
+                                 theme            = model.opts$theme,
+                                 ## return.df        = model.opts$return.df,
+                                 return.df        = TRUE,
+                                 return.model     = model.opts$return.model,
+                                 return.residuals = model.opts$return.residuals,
+                                 join.line = FALSE)
+save(check.join.true,
+     check.join.false,
+     file = '~/work/closed/tmp/check-20160620.RData')
+
+
+## 2016-06-20 - Checking filtering of spurious data points in closed_ts_plots()
+load('~/work/closed/tmp/ed attendances by mode measure - site - 2016-05-24 14.26.Rda')
+unfiltered <- closed_ts_plot(indicator = 'ed attendances',
+                             sub.indicator = 'any',
+                             steps = TRUE,
+                             theme = theme_bw(),
+                             tidy  = FALSE,
+                             join  = FALSE,
+                             facet = FALSE,
+                             sites = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'))
+filtered <- closed_ts_plot(indicator = 'ed attendances',
+                           sub.indicator = 'any',
+                           steps = TRUE,
+                           theme = theme_bw(),
+                           tidy  = TRUE,
+                           join  = FALSE,
+                           facet = FALSE,
+                           sites = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'))
+filtered.joined <- closed_ts_plot(indicator = 'ed attendances',
+                                  sub.indicator = 'any',
+                                  steps = TRUE,
+                                  theme = theme_bw(),
+                                  tidy  = TRUE,
+                                  join  = TRUE,
+                                  facet = FALSE,
+                                  sites = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'))
+
+
 ## 2016-06-15 - Checking whether the pooled analyses are actually balanced or not
 formula <- reformulate(response = 'value',
                        termlabels = c('town * closure', 'season', 'relative_month', 'nhs111', 'other.centre', 'ambulance.divert'))
@@ -33,9 +196,10 @@ df5 <- mutate(df5,
                                     1, 0)
               )
 ## Set base level
+df5$town <- factor(df5$town)
 df5$town <- relevel(df5$town, ref = 'Whitehaven')
 ## Test the model
-check <- panelAR(data = df3,
+check <- panelAR(data = df5,
                  formula = formula,
                  timeVar = 'relative_month',
                  panelVar = 'town',
