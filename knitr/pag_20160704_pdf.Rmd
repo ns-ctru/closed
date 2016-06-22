@@ -1,0 +1,44 @@
+---
+title: ClosED - Project Advisory Group Meeting 2016-07-04
+output:
+  pdf_document:
+    toc: true
+    fig_width: 7
+    fig_height: 6
+    fig_caption: true
+    citation_package: natbib
+bibliography: bibliography.bib
+---
+
+```{r setup, include=FALSE}
+##opts_chunk$set(dev = 'pdf')
+opts_chunk$set(cache.path = 'cache/',
+               width    = 200,
+               fig.height = 8,
+               fig.width  = 8)
+## Set a seed
+set.seed(69027181)
+```
+# {.tabset}
+
+## Methods
+
+```{r child = 'pag_20160704/methods.Rmd', eval = FALSE}
+```
+
+## Results {.tabset .tabset-fade}
+```{r child = 'pag_20160704/results.Rmd', eval = TRUE}
+```
+
+<!-- ## Validation {.tabset .tabset-fade .tabset-pills} -->
+```{r child = 'pag_20160704/validation.Rmd', eval = FALSE}
+```
+<!-- ## Investigations {.tabset .tabset-fade .tabset-pills} -->
+```{r child = 'pag_20160704/investigations.Rmd', eval = FALSE}
+```
+
+<!-- ## ToDo {.tabset .tabset-fade .tabset-pills} -->
+```{r child = 'pag_20160704/todo.Rmd', eval = FALSE}
+```
+
+# References

@@ -1,0 +1,29 @@
+### Mortality
+
+#### Bishop Auckland General Hospital
+```{r echo = FALSE, cache = FALSE, results = 'asis', eval = FALSE}
+bishop.attendance.arrival.any$ts.plot.events
+```
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
+bishop.attendance.arrival.any$panelar %>% summary()
+```
+
+
+#### Hemel Hempstead Hospital
+
+
+#### Newark Hospital
+
+
+#### Rochdale Infirmary
+
+
+#### University Hospital of Hartlepool
+
+
+
+
+```{r echo = FALSE, cache = FALSE, eval = FALSE}
+rm(ed_attendances_by_mode_measure)
+
+```

@@ -1,0 +1,192 @@
+#### Time-Series Plots
+
+These time-series plots show the trends over time *before* the removal of any potentially spurious data points and the balancing of the panels.  They are presented for that very purpose, identification of possibly spurious data points.
+
+##### Case Sites
+
+```{r case_fatality_ratio_any_time_series_plot_case, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = case_fatality_ratio_site_measure,
+               indicator     = 'case fatality ratio',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'))
+```
+
+##### Control Sites
+
+```{r case_fatality_ratio_any_time_series_plot_control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = case_fatality_ratio_site_measure,
+               indicator     = 'case fatality ratio',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Salford', 'Scarborough', 'Whitehaven',
+                                 'Blackburn', 'Grimsby', 'Wigan',
+                                 'Basingstoke', 'Warwick', 'Yeovil',
+                                 'Carlisle', 'Salisbury', 'Southport',
+                                 'Rotherham', 'Scunthorpe', 'Wansbeck'))
+```
+
+##### Bishop Auckland
+
+```{r case_fatality_ratio_any_time_series_plot_bishop, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = case_fatality_ratio_site_measure,
+               indicator     = 'case fatality ratio',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'))
+```
+
+##### Hartlepool
+
+```{r case_fatality_ratio_any_time_series_plot_hartlepool, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = case_fatality_ratio_site_measure,
+               indicator     = 'case fatality ratio',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'))
+```
+
+##### Hemel Hempstead
+
+```{r case_fatality_ratio_any_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = case_fatality_ratio_site_measure,
+               indicator     = 'case fatality ratio',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'))
+```
+
+##### Newark
+
+```{r case_fatality_ratio_any_time_series_plot_newark, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = case_fatality_ratio_site_measure,
+               indicator     = 'case fatality ratio',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'))
+```
+
+##### Rochdale
+
+```{r case_fatality_ratio_any_time_series_plot_rochdale, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = case_fatality_ratio_site_measure,
+               indicator     = 'case fatality ratio',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'))
+```
+
+
+#### Model 1
+`Case Site    : Individual`\
+`Control Site : None`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure + nhs111 + ambulance.divert + other.centre `\
+
+```{r case_fatality_ratio_any_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+case.fatality.ratio.any$model1.ts.plot
+case.fatality.ratio.any$model1.forest$forest
+case.fatality.ratio.any$model1.panelar$coef[3:8] %>% kable(caption = case.fatality.ratio.any$model1.panelar$caption)
+```
+
+#### Model 2
+
+`Case Site    : Individual`\
+`Control Site : One Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
+
+```{r case_fatality_ratio_any_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+case.fatality.ratio.any$model2.ts.plot
+case.fatality.ratio.any$model2.forest$forest
+case.fatality.ratio.any$model2.panelar$coef[3:8] %>% kable(caption = case.fatality.ratio.any$model2.panelar$caption)
+```
+
+#### Model 3
+
+`Case Site    : Individual`\
+`Control Site : All Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
+
+```{r case_fatality_ratio_any_model3, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+case.fatality.ratio.any$model3.ts.plot
+case.fatality.ratio.any$model3.forest$forest
+case.fatality.ratio.any$model3.panelar$coef[3:8] %>% kable(caption = case.fatality.ratio.any$model3.panelar$caption)
+```
+
+#### Model 4
+
+`Case Site    : All`\
+`Control Site : One Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
+
+```{r case_fatality_ratio_any_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+case.fatality.ratio.any$model4.ts.plot.trust
+case.fatality.ratio.any$model4.forest$forest
+case.fatality.ratio.any$model4.panelar$coef[3:9] %>% kable(caption = case.fatality.ratio.any$model4.panelar$caption)
+```
+
+#### Model 5
+
+`Case Site    : All`\
+`Control Site : All Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
+
+
+```{r case_fatality_ratio_any_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+case.fatality.ratio.any$model5.ts.plot.trust
+case.fatality.ratio.any$model5.forest$forest
+case.fatality.ratio.any$model5.panelar$coef[3:9] %>% kable(caption = case.fatality.ratio.any$model5.panelar$caption)
+```
+
+#### Model 6
+
+`Case Site    : Individual`\
+`Control Site : One Matched`\
+`Panel        : LSOA`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
+
+```{r case_fatality_ratio_any_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+case.fatality.ratio.any$model6.ts.plot.trust
+case.fatality.ratio.any$model6.forest.model$forest
+case.fatality.ratio.any$model6.panelar$coef[3:8] %>% kable(caption = case.fatality.ratio.any$model6.panelar$caption)
+```
+
+#### Model 7
+
+Model 7 seeks to analyse at the LSOA level across all case sites and their one matched contorl site the effects of the various steps, and other co-variates.  However, the amount of RAM required by the software is (~26Gb if only one matched control site, rising to 126Gb if all contorl sites are included as there are 2648 LSOAs) exceeds the 16Gb available on the Virtual Machine.
+
+`Case Site    : All`\
+`Control Site : One Matched`\
+`Panel        : LSOA`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
+
+```{r case_fatality_ratio_any_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+case.fatality.ratio.any$model7.ts.plot.trust
+case.fatality.ratio.any$model7.forest.model$forest
+case.fatality.ratio.any$model7.panelar$coef[3:8] %>% kable(caption = case.fatality.ratio.any$model7.panelar$caption)
+```

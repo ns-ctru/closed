@@ -1,0 +1,3 @@
+#### Time-Series Plots
+
+These time-series plots show the trends over time *before* the removal of any potentially spurious data points and the balancing of the panels.  They are presented for that very purpose, identification of possibly spurious data points.

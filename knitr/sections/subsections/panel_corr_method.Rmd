@@ -1,0 +1,49 @@
+Despite the study protocol stating the [heteroskedasticity](https://en.wikipedia.org/wiki/Heteroscedasticity)  (variable variance over time or across panels) are to be checked by taking the square root of observed values there are a number of options for handling this internally in the Prais-Winsten regression.  This is specified via the 'paneCorrMethod' to [panelAR](https://cran.r-project.org/web/packages/panelAR/panelAR.pdf) (see pg 5-9) and the default option used for the results presented has been 'pcse' which are robust to both heteroskedasticity and contemperaneous correlations across panels since the standard errors are calculated within panels.  The other options have been investigated and are presented below.
+
+#### Panel-Corrected Standard Errors
+`Heteroskedasticity    : Yes`\
+`Correlation across Panels : Yes`\
+
+```{r mode_of_arrival_any_model5_pcse, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+mode.of.arrival.any$model5.ts.plot.trust
+mode.of.arrival.any$model5.forest$forest
+mode.of.arrival.any$model5.panelar$coef[3:9] %>% kable(caption = mode.of.arrival.any$model5.panelar$caption)
+```
+
+#### Huber-White
+`Heteroskedasticity    : Yes`\
+`Correlation across Panels : No`\
+
+<!--- Mode of Arrival - Any (Huber White)--->
+```{r mode_of_arrival_any_huberwhite, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+mode.of.arrival.any.huberwhite <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
+                                     df.trust        = ed_attendances_by_mode_site_measure,
+                                     indicator       = 'ed attendances',
+                                     sub.indicator   = 'any',
+                                     steps           = c('closure'),
+                                     fit.with        = 'both',
+                                     panel.lsoa      = 'lsoa',
+                                     panel.trust     = 'town',
+                                     timevar         = 'relative.month',
+                                     outcome         = 'value',
+                                     model1          = NULL,
+                                     model2          = NULL,
+                                     model3          = mod3,
+                                     model4          = NULL,
+                                     model5          = mod5,
+                                     model6          = NULL,
+				     model7          = NULL,
+                                     autocorr        = 'ar1',
+                                     panelcorrmethod = 'phet',
+                                     coefficients    = 'closure.town',
+                                     seq.times       = TRUE,
+                                     plot            = TRUE,
+                                     common.y        = TRUE,
+                                     theme           = theme_bw(),
+                                     return.df       = TRUE)
+```
+```{r mode_of_arrival_any_model5_pcse, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+mode.of.arrival.any.huberwhite$model5.ts.plot.trust
+mode.of.arrival.any.huberwhite$model5.forest$forest
+mode.of.arrival.any.huberwhite$model5.panelar$coef[3:9] %>% kable(caption = mode.of.arrival.any$model5.panelar$caption)
+```
