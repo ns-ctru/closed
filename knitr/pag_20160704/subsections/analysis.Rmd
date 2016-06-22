@@ -165,7 +165,36 @@ ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_ad
 				     return.residuals = model.opts$return.residuals)
 ```
 <!--- Case Fatality Ratio --->
-```{r case_fatality_ratio, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r case_fatality_ratio, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_measure,
+                                     df.trust         = case_fatality_site_measure,
+                                     indicator        = 'case fatality ratio',
+                                     sub.indicator    = 'any',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3           = model.opts$mod3,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     rho.na.rm        = TRUE,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line)
 ```
 <!--- Total Time to A&E --->
 ```{r total_time_to_ae, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
