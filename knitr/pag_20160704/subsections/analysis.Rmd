@@ -210,7 +210,7 @@ case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_measure
                                      join.line        = model.opts$join.line)
 ```
 <!--- Ambulance Mean Times - Call to Destination --->
-```{r ambulance_mean_times_call_to_destination, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r ambulance_mean_times_call_to_destination, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ambulance.mean.times.call.to.destination <- closed_models(df.lsoa         = amb_mean_times_measure,
                                      df.trust         = amb_mean_times_site_measure,
                                      indicator        = 'ambulance mean times',
