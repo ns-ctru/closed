@@ -265,49 +265,49 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         if(indicator == 'ed attendances' & sub.indicator == 'any'){
             if('Bishop Auckland' %in% sites){
                 df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+                             value = ifelse(relative.month %in% c(1, 6) & town == 'Bishop Auckland', yes = NA, no = value))
             }
         }
         else if(indicator == 'ed attendances' & sub.indicator == 'ambulance'){
             if('Bishop Auckland' %in% sites){
                 df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+                             value = ifelse(relative.month %in% c(1, 6) & town == 'Bishop Auckland', yes = NA, no = value))
             }
         }
         else if(indicator == 'ed attendances' & sub.indicator == 'other'){
             if('Bishop Auckland' %in% sites){
                 df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+                             value = ifelse(relative.month %in% c(1, 6) & town == 'Bishop Auckland', yes = NA, no = value))
             }
         }
         else if(indicator == 'unnecessary ed attendances' & sub.indicator == 'unnecessary ed attendances'){
             if('Bishop Auckland' %in% sites){
                 df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+                             value = ifelse(relative.month %in% c(1, 6) & town == 'Bishop Auckland', yes = NA, no = value))
             }
         }
         else if(indicator == 'ed attendances admitted' & sub.indicator == 'all'){
             if('Bishop Auckland' %in% sites){
                 df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+                             value = ifelse(relative.month %in% c(1, 6) & town == 'Bishop Auckland', yes = NA, no = value))
             }
         }
         else if(indicator == 'ed attendances admitted' & sub.indicator == 'admitted'){
             if('Bishop Auckland' %in% sites){
                 df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+                             value = ifelse(relative.month %in% c(1, 6) & town == 'Bishop Auckland', yes = NA, no = value))
             }
         }
         else if(indicator == 'ed attendances admitted' & sub.indicator == 'fraction'){
             if('Hemel Hempstead' %in% sites){
                 df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1), yes = NA, no = value))
+                             value = ifelse(relative.month %in% c(1) & town == 'Hemel Hempstead', yes = NA, no = value))
             }
         }
         else if(indicator == 'critical care stays' & sub.indicator == 'all'){
             if('Newark' %in% sites){
                 df <- mutate(df,
-                             value = ifelse(relative.month %in% c(47), yes = NA, no = value))
+                             value = ifelse(relative.month %in% c(47) & town == 'Newark', yes = NA, no = value))
             }
         }
         ## Remove data points that are now missing
