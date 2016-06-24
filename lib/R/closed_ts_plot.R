@@ -257,7 +257,9 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     df.steps$town <- factor(df.steps$town)
     df.steps$steps.labels <- factor(df.steps$steps.labels)
     df.steps$variable <- as.integer(df.steps$variable)
-    df.steps$variable <- factor(df.steps$variable)
+    df.steps$variable <- factor(df.steps$variable,
+                                levels = c(1:4),
+                                labels = c('ED Closure', 'NHS 111', 'Other Centre', 'Ambulance Diversion'))
     ## results$df.steps <- df.steps
     #######################################################################
     ## Identify and remove spurious data points                          ##
