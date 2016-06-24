@@ -43,6 +43,7 @@
 #' @param return.model Logical operator of whether to return the fitted models (not currently working correctly).
 #' @param return.residuals Logical oeprator of whether to return the residuals of the fitted model.
 #' @param join.line Logical operator of whether to join missing data points on plots.
+#' @param legend Logical operator of whether to include legends passed to \code{closed_ts_plot()}.
 #' @param rho.na.rm Logical operator passed to panelAR() for excluding panel specific autocorrelation when it can not be calculated.
 #'
 #' @return A list of results depending on the options specified.
@@ -88,6 +89,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           return.model    = TRUE,
                           return.residuals = FALSE,
                           join.line        = TRUE,
+                          legend           = FALSE,
                           ...){
     #######################################################################
     ## Set up (results, formula, renaming variables)                     ##
@@ -296,62 +298,62 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Identify and remove spurious data points                          ##
     ## ToDo : Make this an internal function                             ##
     #######################################################################
-    balance <- function(x,
-                        sites = c('Bishop Auckland')){
-        ## Condition on the indicator and sub indicator
-        if(indicator == 'ed attendances' & sub.indicator == 'any'){
-            if('Bishop Auckland' %in% sites){
-                df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
-            }
-        }
-        else if(indicator == 'ed attendances' & sub.indicator == 'ambulance'){
-            if('Bishop Auckland' %in% sites){
-                df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
-            }
-        }
-        else if(indicator == 'ed attendances' & sub.indicator == 'other'){
-            if('Bishop Auckland' %in% sites){
-                df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
-            }
-        }
-        else if(indicator == 'unnecessary ed attendances' & sub.indicator == 'unnecessary ed attendances'){
-            if('Bishop Auckland' %in% sites){
-                df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
-            }
-        }
-        else if(indicator == 'ed attendances admitted' & sub.indicator == 'all'){
-            if('Bishop Auckland' %in% sites){
-                df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
-            }
-        }
-        else if(indicator == 'ed attendances admitted' & sub.indicator == 'admitted'){
-            if('Bishop Auckland' %in% sites){
-                df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
-            }
-        }
-        else if(indicator == 'ed attendances admitted' & sub.indicator == 'fraction'){
-            if('Hemel Hempstead' %in% sites){
-                df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1), yes = NA, no = value))
-            }
-        }
-        else if(indicator == 'critical care stays' & sub.indicator == 'all'){
-            if('Newark' %in% sites){
-                df <- mutate(df,
-                             value = ifelse(relative.month %in% c(47), yes = NA, no = value))
-            }
-        }
-        ## Remove data points that are now missing
-        if(join == TRUE){
-            df <- filter(df, !is.na(value))
-        }
-    }
+    ## balance <- function(x,
+    ##                     sites = c('Bishop Auckland')){
+    ##     ## Condition on the indicator and sub indicator
+    ##     if(indicator == 'ed attendances' & sub.indicator == 'any'){
+    ##         if('Bishop Auckland' %in% sites){
+    ##             df <- mutate(df,
+    ##                          value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+    ##         }
+    ##     }
+    ##     else if(indicator == 'ed attendances' & sub.indicator == 'ambulance'){
+    ##         if('Bishop Auckland' %in% sites){
+    ##             df <- mutate(df,
+    ##                          value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+    ##         }
+    ##     }
+    ##     else if(indicator == 'ed attendances' & sub.indicator == 'other'){
+    ##         if('Bishop Auckland' %in% sites){
+    ##             df <- mutate(df,
+    ##                          value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+    ##         }
+    ##     }
+    ##     else if(indicator == 'unnecessary ed attendances' & sub.indicator == 'unnecessary ed attendances'){
+    ##         if('Bishop Auckland' %in% sites){
+    ##             df <- mutate(df,
+    ##                          value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+    ##         }
+    ##     }
+    ##     else if(indicator == 'ed attendances admitted' & sub.indicator == 'all'){
+    ##         if('Bishop Auckland' %in% sites){
+    ##             df <- mutate(df,
+    ##                          value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+    ##         }
+    ##     }
+    ##     else if(indicator == 'ed attendances admitted' & sub.indicator == 'admitted'){
+    ##         if('Bishop Auckland' %in% sites){
+    ##             df <- mutate(df,
+    ##                          value = ifelse(relative.month %in% c(1, 6), yes = NA, no = value))
+    ##         }
+    ##     }
+    ##     else if(indicator == 'ed attendances admitted' & sub.indicator == 'fraction'){
+    ##         if('Hemel Hempstead' %in% sites){
+    ##             df <- mutate(df,
+    ##                          value = ifelse(relative.month %in% c(1), yes = NA, no = value))
+    ##         }
+    ##     }
+    ##     else if(indicator == 'critical care stays' & sub.indicator == 'all'){
+    ##         if('Newark' %in% sites){
+    ##             df <- mutate(df,
+    ##                          value = ifelse(relative.month %in% c(47), yes = NA, no = value))
+    ##         }
+    ##     }
+    ##     ## Remove data points that are now missing
+    ##     if(join == TRUE){
+    ##         df <- filter(df, !is.na(value))
+    ##     }
+    ## }
     #######################################################################
     ## Internal functions (to save typing)                               ##
     #######################################################################
@@ -500,7 +502,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       town %in% sites &
                       measure     == indicator &
                       sub.measure == sub.indicator)
-        dim(df1) %>% print()
+        ## dim(df1) %>% print()
         ## Generate time-series plot
         results$model1.ts.plot <- closed_ts_plot(df = df1,
                                                  sites = sites,
@@ -509,7 +511,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  steps = TRUE,
                                                  facet = FALSE,
                                                  tidy  = TRUE,
-                                                 join  = join.line)
+                                                 join  = join.line,
+                                                 legend = legend)
         ##################################################
         ## Model 1 - Bishop Auckland                    ##
         ##################################################
@@ -661,7 +664,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  steps = TRUE,
                                                  facet = TRUE,
                                                  tidy  = TRUE,
-                                                 join  = join.line)
+                                                 join  = join.line,
+                                                 legend = legend)
         ## Perform analysis with panelAR in each
         ##################################################
         ## Model 2 - Bishop Auckland                    ##
@@ -820,7 +824,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  steps = TRUE,
                                                  facet = TRUE,
                                                  tidy  = TRUE,
-                                                 join  = join.line)
+                                                 join  = join.line,
+                                                 legend = legend)
         ## Perform analysis with panelAR in each
         ##################################################
         ## Bishop Auckland                              ##
@@ -985,7 +990,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  steps = TRUE,
                                                  facet = TRUE,
                                                  tidy  = TRUE,
-                                                 join  = join.line)
+                                                 join  = join.line,
+                                                 legend = legend)
         ## Perform analysis with panelAR in each
         ##################################################
         ## All                                          ##
@@ -1068,7 +1074,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  steps = TRUE,
                                                  facet = TRUE,
                                                  tidy  = TRUE,
-                                                 join  = join.line)
+                                                 join  = join.line,
+                                                 legend = legend)
         ## Perform analysis with panelAR in each
         ##################################################
         ## All sites                                    ##
@@ -1160,7 +1167,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  steps = TRUE,
                                                  facet = TRUE,
                                                  tidy  = TRUE,
-                                                 join  = join.line)
+                                                 join  = join.line,
+                                                 legend = legend)
         ## Perform analysis with panelAR in each
         ##################################################
         ## Model 6 - Bishop Auckland                    ##
@@ -1335,7 +1343,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  steps = TRUE,
                                                  facet = TRUE,
                                                  tidy  = TRUE,
-                                                 join  = join.line)
+                                                 join  = join.line,
+                                                 legend = legend)
         ## Perform analysis with panelAR in each
         ##################################################
         ## All sites                                    ##
