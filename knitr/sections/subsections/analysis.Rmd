@@ -74,6 +74,7 @@ model.opts$return.df		<- FALSE
 model.opts$return.model		<- FALSE
 model.opts$return.residuals	<- TRUE
 model.opts$join.line            <- FALSE
+model.opts$legend               <- TRUE
 ```
 
 ```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
@@ -147,7 +148,8 @@ mode.of.arrival.any <- closed_models(df.lsoa          = ed_attendances_by_mode_m
                                      return.df        = TRUE,
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals,
-                                     join.line        = model.opts$join.line)
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
 ```
 <!--- Mode of Arrival - Other --->
 ```{r mode_of_arrival_other, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
@@ -178,7 +180,8 @@ mode.of.arrival.other <- closed_models(df.lsoa         = ed_attendances_by_mode_
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals,
-                                     join.line        = model.opts$join.line)
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
 ```
 
 <!--- Mode of Arrival - Ambulance --->
@@ -210,7 +213,8 @@ mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_m
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals,
-                                     join.line        = model.opts$join.line)
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
 ```
 
 <!--- Unnecessary Attendance - NA --->
@@ -242,7 +246,40 @@ unnecessary.attendance <- closed_models(df.lsoa         = unnecessary_ed_attenda
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals,
-                                     join.line        = model.opts$join.line)
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+```
+<!--- Emergency Admissions - Any --->
+```{r avoidable_emergency_admissions_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+avoidable.emergency.admissions.any <- closed_models(df.lsoa         = emergency_admissions_measure,
+                                     df.trust         = emergency_admissions_site_measure,
+                                     indicator        = 'avoidable emergency admissions',
+                                     sub.indicator    = 'any',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3           = model.opts$mod3,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
 ```
 
 <!--- ED Attendances Admitted - All --->
@@ -274,7 +311,8 @@ ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_ad
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals,
-                                     join.line        = model.opts$join.line)
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
 ```
 
 <!--- ED Attendances Admitted - Fraction Admitted --->
@@ -306,7 +344,8 @@ ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals,
-                                     join.line        = model.opts$join.line)
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
 ```
 
 <!--- ED Attendances Admitted - Admitted --->
@@ -338,7 +377,8 @@ ed.attendances.admitted.admitted <- closed_models(df.lsoa         = ed_attendanc
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals,
-                                     join.line        = model.opts$join.line)
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
 ```
 
 <!--- Critical Care - All --->
@@ -370,7 +410,8 @@ critical.care.cips.all <- closed_models(df.lsoa         = critical_care_cips_mea
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals,
-                                     join.line        = model.opts$join.line)
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
 ```
 
 <!--- Critical Care - Critical --->
@@ -402,7 +443,8 @@ critical.care.cips.critical <- closed_models(df.lsoa         = critical_care_cip
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals,
-                                     join.line        = model.opts$join.line)
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
 ```
 
 <!--- Critical Care - Fraction --->
@@ -434,7 +476,8 @@ critical.care.cips.fraction <- closed_models(df.lsoa         = critical_care_cip
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals,
-                                     join.line        = model.opts$join.line)
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
 ```
 
 <!--- Length of Stay - Mean --->
@@ -466,7 +509,8 @@ length.of.stay.mean <- closed_models(df.lsoa         = length_of_stay_measure,
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals,
-                                     join.line        = model.opts$join.line)
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
 ```
 
 <!--- Length of Stay - Median --->
@@ -498,12 +542,13 @@ length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure,
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals,
-                                     join.line        = model.opts$join.line)
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
 ```
 <!--- Case Fatality Ratio - Any --->
 ```{r case_fatality_ratio_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_ratio_measure,
-                                     df.trust         = case_fatality_ratio_site_measure,
+case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_measure,
+                                     df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
                                      sub.indicator    = 'any',
                                      steps            = c('closure'),
@@ -529,12 +574,13 @@ case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_ratio_m
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals,
-                                     join.line        = model.opts$join.line)
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
 ```
 <!--- Case Fatality Ratio - Acute Heart Failure --->
 ```{r case_fatality_ratio_acute_heart_failure, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = case_fatality_ratio_measure,
-                                     df.trust         = case_fatality_ratio_site_measure,
+case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = case_fatality_measure,
+                                     df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
                                      sub.indicator    = 'acute heart failure',
                                      steps            = c('closure'),
@@ -560,13 +606,14 @@ case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = case_
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals,
-                                     join.line        = model.opts$join.line)
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
 ```
 
 <!--- Ambulance Mean Times - Call to Destination --->
 ```{r ambulance_mean_times_call_to_destination, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-ambulance.mean.times.call.to.destination <- closed_models(df.lsoa         = ambulance_mean_times_measure,
-                                     df.trust         = ambulance_mean_times_site_measure,
+ambulance.mean.times.call.to.destination <- closed_models(df.lsoa         = amb_mean_times_measure,
+                                     df.trust         = amb_mean_times_site_measure,
                                      indicator        = 'ambulance mean times',
                                      sub.indicator    = 'call_to_dest',
                                      steps            = c('closure'),
@@ -592,7 +639,8 @@ ambulance.mean.times.call.to.destination <- closed_models(df.lsoa         = ambu
                                      return.df        = model.opts$return.df,
                                      return.model     = model.opts$return.model,
 				     return.residuals = model.opts$return.residuals,
-                                     join.line        = model.opts$join.line)
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
 ```
 
 <!--- Save all objects --->
@@ -605,6 +653,7 @@ save(model.opts,
      mode.of.arrival.ambulance,
      mode.of.arrival.other,
      unnecessary.attendance,
+     avoidable.emergency.admissions.any,
      ed.attendances.admitted.admitted,
      ed.attendances.admitted.all,
      ed.attendances.admitted.fraction.admitted,
