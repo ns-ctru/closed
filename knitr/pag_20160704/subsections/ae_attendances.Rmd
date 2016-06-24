@@ -11,7 +11,8 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'))
+               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+               legend = TRUE)
 ```
 
 ##### Bishop Auckland
@@ -24,7 +25,8 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'))
+               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
+               legend = TRUE)
 ```
 
 ##### Hartlepool
@@ -37,7 +39,8 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'))
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend = TRUE)
 ```
 
 ##### Hemel Hempstead
@@ -50,7 +53,8 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'))
+               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               legend = TRUE)
 ```
 
 ##### Newark
@@ -63,7 +67,8 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'))
+               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
+               legend = TRUE)
 ```
 
 ##### Rochdale
@@ -76,7 +81,8 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'))
+               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend = TRUE)
 ```
 
 #### Model 1
