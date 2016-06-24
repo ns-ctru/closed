@@ -17,7 +17,8 @@
 #' @param common.y Generate all plots with a common y-axis range.
 #' @param theme GGplot2 theme to use.
 #' @param tidy Logical indicator of whether to remove spurious data points when plotting
-#' @param join Logical indicator of Whether to completely remove time points with spurious data so that lines are continuous
+#' @param join Logical indicator of whether to completely remove time points with spurious data so that lines are continuous
+#' @param legend Logical indicator of whether to include a legend
 #'
 #' @return A list of ggplot2 objects.
 #'
@@ -37,6 +38,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            facet           = FALSE,
                            tidy            = FALSE,
                            join            = FALSE,
+                           legend          = FALSE,
                           ...){
     ## Initialise results for returning
     results <- list()
@@ -348,17 +350,18 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                                 label  = town),
                             force   = 1,
                             nudge_x = 0,
-                            nudge_y = 0) +
-            ## Remove legend
-            theme(legend.position = 'none')
+                            nudge_y = 0)
     ## Facet
     if(facet == TRUE){
         results$plot <- results$plot + facet_wrap(~ group, ncol = 1)
     }
     ## Apply user specified theme to all graphs
     if(!is.null(theme)){
-        results$plot <- results$plot + theme +
-                theme(legend.position = 'none')
+        results$plot <- results$plot + theme
+    }
+    if(legend == FALSE){
+        results$plot <- results$plot +
+                        theme(legend.position = 'none')
     }
     ## Return results
     return(results$plot)
