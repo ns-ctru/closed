@@ -612,7 +612,7 @@ case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = case_
 
 <!--- Ambulance Mean Times - Call to Destination --->
 ```{r ambulance_mean_times_call_to_destination, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-ambulance.mean.times.call.to.destination <- closed_models(df.lsoa         = amb_mean_times_measure,
+ambulance.mean.times.call.to.dest <- closed_models(df.lsoa         = amb_mean_times_measure,
                                      df.trust         = amb_mean_times_site_measure,
                                      indicator        = 'ambulance mean times',
                                      sub.indicator    = 'call_to_dest',
