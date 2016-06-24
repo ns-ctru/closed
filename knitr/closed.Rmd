@@ -25,12 +25,15 @@ set.seed(69027181)
 ```{r child = 'sections/methods.Rmd', eval = TRUE}
 ```
 
-## Results {.tabset .tabset-fade .tabset-pills}
+## Results {.tabset .tabset-fade}
 ```{r child = 'sections/results.Rmd', eval = TRUE}
 ```
 
 ## Validation {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'sections/validation.Rmd', eval = TRUE}
+```
+## Investigations {.tabset .tabset-fade .tabset-pills}
+```{r child = 'sections/investigations.Rmd', eval = TRUE}
 ```
 
 ## ToDo {.tabset .tabset-fade .tabset-pills}
@@ -38,3 +41,5 @@ set.seed(69027181)
 ```
 
 ## References
+
+# References
