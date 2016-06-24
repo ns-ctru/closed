@@ -12,25 +12,27 @@ closed_ts_plot(df            = emergency_admissions_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'))
+               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+               legend        = TRUE)
 ```
 
-##### Control Sites
+<!-- ##### Control Sites -->
 
-```{r avoidable_emergency_admissions_any_time_series_plot_control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-closed_ts_plot(df            = emergency_admissions_site_measure,
-               indicator     = 'avoidable emergency admissions',
-               sub.indicator = 'any',
-               steps         = TRUE,
-               theme         = theme_bw(),
-               tidy          = FALSE,
-               facet         = FALSE,
-               sites         = c('Salford', 'Scarborough', 'Whitehaven',
-                                 'Blackburn', 'Grimsby', 'Wigan',
-                                 'Basingstoke', 'Warwick', 'Yeovil',
-                                 'Carlisle', 'Salisbury', 'Southport',
-                                 'Rotherham', 'Scunthorpe', 'Wansbeck'))
-```
+<!-- ```{r avoidable_emergency_admissions_any_time_series_plot_control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE} -->
+<!-- closed_ts_plot(df            = emergency_admissions_site_measure, -->
+<!--                indicator     = 'avoidable emergency admissions', -->
+<!--                sub.indicator = 'any', -->
+<!--                steps         = TRUE, -->
+<!--                theme         = theme_bw(), -->
+<!--                tidy          = FALSE, -->
+<!--                facet         = FALSE, -->
+<!--                sites         = c('Salford', 'Scarborough', 'Whitehaven', -->
+<!--                                  'Blackburn', 'Grimsby', 'Wigan', -->
+<!--                                  'Basingstoke', 'Warwick', 'Yeovil', -->
+<!--                                  'Carlisle', 'Salisbury', 'Southport', -->
+<!--                                  'Rotherham', 'Scunthorpe', 'Wansbeck'), -->
+<!--                legend        = TRUE) -->
+<!-- ``` -->
 
 ##### Bishop Auckland
 
@@ -42,7 +44,8 @@ closed_ts_plot(df            = emergency_admissions_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'))
+               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
+               legend        = TRUE)
 ```
 
 ##### Hartlepool
@@ -55,7 +58,8 @@ closed_ts_plot(df            = emergency_admissions_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'))
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
 ```
 
 ##### Hemel Hempstead
@@ -68,7 +72,8 @@ closed_ts_plot(df            = emergency_admissions_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'))
+               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               legend        = TRUE)
 ```
 
 ##### Newark
@@ -81,7 +86,8 @@ closed_ts_plot(df            = emergency_admissions_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'))
+               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
+               legend        = TRUE)
 ```
 
 ##### Rochdale
@@ -94,7 +100,8 @@ closed_ts_plot(df            = emergency_admissions_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'))
+               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE)
 ```
 
 #### Model 1
@@ -109,45 +116,45 @@ avoidable.emergency.admissions.any$model1.forest$forest
 avoidable.emergency.admissions.any$model1.panelar$coef[3:8] %>% kable(caption = avoidable.emergency.admissions.any$model1.panelar$caption)
 ```
 
-#### Model 2
+<!-- #### Model 2 -->
 
-`Case Site    : Individual`\
-`Control Site : One Matched`\
-`Panel        : ED`\
-`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
+<!-- `Case Site    : Individual`\ -->
+<!-- `Control Site : One Matched`\ -->
+<!-- `Panel        : ED`\ -->
+<!-- `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\ -->
 
-```{r avoidable_emergency_admissions_any_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-avoidable.emergency.admissions.any$model2.ts.plot
-avoidable.emergency.admissions.any$model2.forest$forest
-avoidable.emergency.admissions.any$model2.panelar$coef[3:8] %>% kable(caption = avoidable.emergency.admissions.any$model2.panelar$caption)
-```
+<!-- ```{r avoidable_emergency_admissions_any_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE} -->
+<!-- avoidable.emergency.admissions.any$model2.ts.plot -->
+<!-- avoidable.emergency.admissions.any$model2.forest$forest -->
+<!-- avoidable.emergency.admissions.any$model2.panelar$coef[3:8] %>% kable(caption = avoidable.emergency.admissions.any$model2.panelar$caption) -->
+<!-- ``` -->
 
-#### Model 3
+<!-- #### Model 3 -->
 
-`Case Site    : Individual`\
-`Control Site : All Matched`\
-`Panel        : ED`\
-`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
+<!-- `Case Site    : Individual`\ -->
+<!-- `Control Site : All Matched`\ -->
+<!-- `Panel        : ED`\ -->
+<!-- `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\ -->
 
-```{r avoidable_emergency_admissions_any_model3, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-avoidable.emergency.admissions.any$model3.ts.plot
-avoidable.emergency.admissions.any$model3.forest$forest
-avoidable.emergency.admissions.any$model3.panelar$coef[3:8] %>% kable(caption = avoidable.emergency.admissions.any$model3.panelar$caption)
-```
+<!-- ```{r avoidable_emergency_admissions_any_model3, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE} -->
+<!-- avoidable.emergency.admissions.any$model3.ts.plot -->
+<!-- avoidable.emergency.admissions.any$model3.forest$forest -->
+<!-- avoidable.emergency.admissions.any$model3.panelar$coef[3:8] %>% kable(caption = avoidable.emergency.admissions.any$model3.panelar$caption) -->
+<!-- ``` -->
 
-#### Model 4
+<!-- #### Model 4 -->
 
-`Case Site    : All`\
-`Control Site : One Matched`\
-`Panel        : ED`\
-`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
+<!-- `Case Site    : All`\ -->
+<!-- `Control Site : One Matched`\ -->
+<!-- `Panel        : ED`\ -->
+<!-- `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\ -->
 
-```{r avoidable_emergency_admissions_any_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-avoidable.emergency.admissions.any$model4.ts.plot.trust
-avoidable.emergency.admissions.any$model4.forest$forest
-avoidable.emergency.admissions.any$model4.panelar$coef[3:9] %>% kable(caption = avoidable.emergency.admissions.any$model4.panelar$caption)
-## avoidable.emergency.admissions.any$model4.ts.plot.lsoa
-```
+<!-- ```{r avoidable_emergency_admissions_any_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE} -->
+<!-- avoidable.emergency.admissions.any$model4.ts.plot.trust -->
+<!-- avoidable.emergency.admissions.any$model4.forest$forest -->
+<!-- avoidable.emergency.admissions.any$model4.panelar$coef[3:9] %>% kable(caption = avoidable.emergency.admissions.any$model4.panelar$caption) -->
+<!-- ## avoidable.emergency.admissions.any$model4.ts.plot.lsoa -->
+<!-- ``` -->
 
 #### Model 5
 
@@ -163,30 +170,30 @@ avoidable.emergency.admissions.any$model5.forest$forest
 avoidable.emergency.admissions.any$model5.panelar$coef[3:9] %>% kable(caption = avoidable.emergency.admissions.any$model5.panelar$caption)
 ```
 
-#### Model 6
+<!-- #### Model 6 -->
 
-`Case Site    : Individual`\
-`Control Site : One Matched`\
-`Panel        : LSOA`\
-`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
+<!-- `Case Site    : Individual`\ -->
+<!-- `Control Site : One Matched`\ -->
+<!-- `Panel        : LSOA`\ -->
+<!-- `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\ -->
 
-```{r avoidable_emergency_admissions_any_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-avoidable.emergency.admissions.any$model6.ts.plot.trust
-avoidable.emergency.admissions.any$model6.forest.model$forest
-avoidable.emergency.admissions.any$model6.panelar$coef[3:8] %>% kable(caption = avoidable.emergency.admissions.any$model6.panelar$caption)
-```
+<!-- ```{r avoidable_emergency_admissions_any_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE} -->
+<!-- avoidable.emergency.admissions.any$model6.ts.plot.trust -->
+<!-- avoidable.emergency.admissions.any$model6.forest.model$forest -->
+<!-- avoidable.emergency.admissions.any$model6.panelar$coef[3:8] %>% kable(caption = avoidable.emergency.admissions.any$model6.panelar$caption) -->
+<!-- ``` -->
 
-#### Model 7
+<!-- #### Model 7 -->
 
-Model 7 seeks to analyse at the LSOA level across all case sites and their one matched contorl site the effects of the various steps, and other co-variates.  However, the amount of RAM required by the software is (~26Gb if only one matched control site, rising to 126Gb if all contorl sites are included as there are 2648 LSOAs) exceeds the 16Gb available on the Virtual Machine.
+<!-- Model 7 seeks to analyse at the LSOA level across all case sites and their one matched contorl site the effects of the various steps, and other co-variates.  However, the amount of RAM required by the software is (~26Gb if only one matched control site, rising to 126Gb if all contorl sites are included as there are 2648 LSOAs) exceeds the 16Gb available on the Virtual Machine. -->
 
-`Case Site    : All`\
-`Control Site : One Matched`\
-`Panel        : LSOA`\
-`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
+<!-- `Case Site    : All`\ -->
+<!-- `Control Site : One Matched`\ -->
+<!-- `Panel        : LSOA`\ -->
+<!-- `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\ -->
 
-```{r avoidable_emergency_admissions_any_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-avoidable.emergency.admissions.any$model7.ts.plot.trust
-avoidable.emergency.admissions.any$model7.forest.model$forest
-avoidable.emergency.admissions.any$model7.panelar$coef[3:8] %>% kable(caption = avoidable.emergency.admissions.any$model7.panelar$caption)
-```
+<!-- ```{r avoidable_emergency_admissions_any_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE} -->
+<!-- avoidable.emergency.admissions.any$model7.ts.plot.trust -->
+<!-- avoidable.emergency.admissions.any$model7.forest.model$forest -->
+<!-- avoidable.emergency.admissions.any$model7.panelar$coef[3:8] %>% kable(caption = avoidable.emergency.admissions.any$model7.panelar$caption) -->
+<!-- ``` -->
