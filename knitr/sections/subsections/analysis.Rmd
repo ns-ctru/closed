@@ -75,6 +75,7 @@ model.opts$return.model		<- FALSE
 model.opts$return.residuals	<- TRUE
 model.opts$join.line            <- FALSE
 model.opts$legend               <- TRUE
+model.opts$rho.na.rm            <- TRUE
 ```
 
 ```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
