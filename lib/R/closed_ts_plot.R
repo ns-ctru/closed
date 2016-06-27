@@ -121,13 +121,15 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         if(sub.indicator == 'all')                    title2 <- ' (All)'
         else if(sub.indicator == 'fraction admitted') title2 <- ' (Fraction Admitted)'
         else if(sub.indicator == 'admitted')          title2 <- ' (Admitted)'
+        ylable <- 'N'
     }
     else if(indicator == 'all emergency admissions'){
         title1 <- 'Emergency Admissions'
         if(is.na(sub.indicator)) title2 <- ''
+        ylabel <- 'N'
     }
     else if(indicator == 'avoidable emergency admissions'){
-        title1 <- 'Avoidable Emergency Attendances'
+        title1 <- 'Emergency Attendances'
         if(sub.indicator == 'any')                             title2 <- ' (Any)'
         else if(sub.indicator == 'acute mental health crisis') title2 <- ' (Acute Mental Health Crisis)'
         else if(sub.indicator == 'angina')                     title2 <- ' (Angina)'
@@ -142,17 +144,20 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'non-specific chest pain')    title2 <- ' (Non-Specific Chest Pain)'
         else if(sub.indicator == 'pyrexial child (<6 years)')  title2 <- ' (Pyrexial Child <6yrs)'
         else if(sub.indicator == 'urinary tract infection')    title2 <- ' (Urinary Tract Infection)'
+        ylabel <- 'Proportion of Deaths'
     }
     else if(indicator == 'length of stay'){
         title1 <- 'Length of Stay'
         if(sub.indicator == 'mean')        title2 <- ' (Mean)'
         else if(sub.indicator == 'median') title2 <- ' (Median)'
+        ylabel <- 'Length of Stay (Days)'
     }
     else if(indicator == 'critical care stays'){
         title1 <- 'Critical Care Stays'
         if(sub.indicator == 'all')                           title2 <- ' (All)'
         else if(sub.indicator == 'critical care')            title2 <- ' (Critical Care)'
         else if(sub.indicator == 'fraction critical care') title2 <- ' (Fractional Critical Care)'
+        ylabel <- 'N'
     }
     else if(indicator == 'case fatality ratio'){
         title1 <- 'Case Fatality Ratio'
@@ -174,6 +179,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
         else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
         nudge <- 0.5
+        ylabel <- 'Proportion of Deaths'
     }
     else if(indicator == 'ambulance mean times'){
         title1 <- 'Ambulance Mean Times'
@@ -183,6 +189,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'dest_to_clear')           title2 <- ' (Destination to Clear)'
         else if(sub.indicator == 'scene_to_dest')           title2 <- ' (Scene to Destination)'
         nudge <- 10
+        ylabel <- 'Mean Time'
     }
     #######################################################################
     ## Define vertical lines for steps                                   ##
@@ -342,7 +349,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
             ## Graph and axis labels
             labs(list(title  = paste0(title1, title2),
                       x      = 'Month (Aligned)',
-                      y      = 'N',
+                      y      = ylabel,
                       colour = 'Hospital')) +
             ## Label lines
             geom_text_repel(data = filter(df, relative.month == 3),
