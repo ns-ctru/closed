@@ -36,6 +36,8 @@ Critical Care            | `critical care stays measure`        | `critical care
 Critical Care            | `critical care stays measure`        | `critical care stays`            | `fraction critical care`
 
 
+
+
 #### Difference in Time to Emergency Department
 
 The difference in time to emergency department from the centroid of Lower Super Output Areas (LSOA) is summarised for each site in the table below.  For sites where an Emergency Department (ED) closed there are two summaries, one when the ED was open and another summarising travel times after they had closed, although its worth bearing in mind that these will not all be to the same ED after closure.
@@ -58,6 +60,39 @@ kable(check.site,
 
 ```{r missing_lsoa, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
 kable(check.lsoa,
-      caption = 'EDs with missing data for all outcomes.')
+      caption = 'EDs with missing data for all outcomes. The LSOAs column indicates the number of LSOAs within the denoted site with missing data for the stated relative month.')
 
 ```
+
+#### Spurious Data Points
+
+Visual inspection of time-series plots (see 'Time-Series Plots' tab under each indicator) identified a number of potentially spurious data points which were removed prior to balancing the panels (i.e. a spurious data point in one ED department resulted in the removal of that data point from all comparator sites for the given model).  Potentially spurious data points are detailed in the table below, those without '?' have *not* yet been removed.
+
+
+Indicator				| Sub-indicator | Site            | Relative Month
+------------------------|---------------|-----------------|--------------------------
+Attendance				| Any           | Bishop Auckalnd | 1, 6
+Attendance              | Any           | Basingstoke     | 1-9?
+Attendance              | Any           | Yeovil          | 25?
+Attendance				| Ambulance     | Bishop Auckalnd | 1, 6
+Attendance				| Ambulance     | Scunthorpe      | 1-16
+Attendance				| Other         | Bishop Auckalnd | 1, 6
+Unnecessary Attendance	| N/A           | Bishop Auckland | 1, 6
+Attendances Admitted	| All           | Bishop Auckland | 1, 6
+Attendances Admitted	| All           | Baisingstoke    | 1-9?
+Attendances Admitted	| All           | Southport       | 24?
+Attendances Admitted	| All           | Yeovil          | 25?
+Attendances Admitted	| Admitted      | Bishop Auckland | 1, 6
+Attendances Admitted	| Admitted      | Yeovil          | 25?
+Attendances Admitted	| Admitted      | Baisingstoke    | 1-9? 31-47?
+Attendances Admitted	| Fraction      | Hemel Hempstead | 1?
+Attendances Admitted	| Fraction      | Baisingstoke    | 1?
+Attendances Admitted	| Fraction      | Warwick         | 1?
+Attendances Admitted	| Fraction      | Yeovil          | 1?
+Critical Care			| All           | Newark          | 47?
+Critical Care           | Critical      | N/A             | N/A
+Critical Care           | Fraction      | N/A             | N/A
+Length of Stay          | Mean          | N/A             | N/A
+Length of Stay          | Median        | N/A             | N/A
+
+Some are straight-forward to remove (e.g. Bishop Auckland at months 1 and 6) whilst others are less straight-forward.  For example for Attendance by Any mode removing Basingstoke months 1-9 would mean that in Models 4 and 5 (which are pooled across sites) the time-series would start at week 10 rather than week 1.  For Attendance by Any mode removing Yeovil would be problematic as it is the date of the closure step and its probably undesirable to remove this for all centers.  Similarly for Attendance by Ambulance in Scunthorpe removing the first 16 months from it and other panels when balancing them would be undesirable.  Its quite possible there are meaningful steps for these two centres but documentary analysis has not been performed on these sites.
