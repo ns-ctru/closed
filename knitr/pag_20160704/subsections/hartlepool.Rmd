@@ -1,0 +1,142 @@
+#### Comparison
+```{r hartlepool_compare_ts_plot, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ed.attendances.ts.plot <- closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+                                         indicator     = 'ed attendances',
+                                         sub.indicator = 'any',
+                                         steps         = TRUE,
+                                         theme         = theme_bw(),
+                                         tidy          = FALSE,
+                                         facet         = FALSE,
+                                         sites         = c('Hartlepool'),
+                                         legend        = TRUE)
+emergency.admissions.ts.plot <- closed_ts_plot(df            = emergency_admissions_site_measure,
+                                               indicator     = 'avoidable emergency admissions',
+                                               sub.indicator = 'any',
+                                               steps         = TRUE,
+                                               theme         = theme_bw(),
+                                               tidy          = FALSE,
+                                               facet         = FALSE,
+                                               sites         = c('Hartlepool'),
+                                               legend        = TRUE)
+time.to.hospital.ts.plot  <- closed_ts_plot(df            = amb_mean_times_site_measure,
+                                            indicator     = 'ambulance mean times',
+                                            sub.indicator = 'scene_to_dest',
+                                            steps         = TRUE,
+                                            theme         = theme_bw(),
+                                            tidy          = FALSE,
+                                            facet         = FALSE,
+                                            sites         = c('Hartlepool'),
+                                            legend        = TRUE)
+case.fatality.ratio.ts.plot <- closed_ts_plot(df            = case_fatality_site_measure,
+                                              indicator     = 'case fatality ratio',
+                                              sub.indicator = 'any',
+                                              steps         = TRUE,
+                                              theme         = theme_bw(),
+                                              tidy          = FALSE,
+                                              facet         = FALSE,
+                                              sites         = c('Hartlepool'),
+                                              legend        = TRUE)
+save(ed.attendances.ts.plot,
+     emergency.admissions.ts.plot,
+     time.to.hospital.ts.plot,
+     case.fatality.ratio.ts.plot,
+     file = '~/work/closed/tmp/ts-plots.RData')
+
+```
+
+#### A & E Attendances  {.tabset .tabset-fade .tabset-pills}
+```{r hartlepool_mode_of_arrival_ts_plot, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
+```
+
+##### Model 1
+```{r hartlepool_mode_of_arrival_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+mode.of.arrival.any$model1.panelar.hartlepool %>% summary()
+
+```
+##### Model 2
+```{r hartlepool_mode_of_arrival_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+mode.of.arrival.any$model2.panelar.hartlepool %>% summary()
+
+```
+
+#### Avoidable Emergency Admissions -  Any  {.tabset .tabset-fade .tabset-pills}
+```{r hartlepool_avoidable_emergency_admissions_any_ts_plot, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'avoidable emergency admissions',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
+```
+
+##### Model 1
+```{r hartlepool_avoidable_emergency_admissions_any_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+avoidable.emergency.admissions.any$model1.panelar.hartlepool %>% summary()
+
+```
+##### Model 2
+```{r hartlepool_avoidable_emergency_admissions_any_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+avoidable.emergency.admissions.any$model2.panelar.hartlepool %>% summary()
+
+```
+
+#### Ambulance Time to Hospital {.tabset .tabset-fade .tabset-pills}
+```{r hartlepool_ambulance_mean_time_scene_to_dest_ts_plot, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'scene_to_dest',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
+```
+
+##### Model 1
+```{r hartlepool_ambulance_mean_time_call_to_dest_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+model1.panelar.hartlepool %>% summary()
+
+```
+##### Model 2
+```{r hartlepool_ambulance_mean_time_call_to_dest_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+model2.panelar.hartlepool %>% summary()
+
+```
+
+
+#### Case Fatality Ratio {.tabset .tabset-fade .tabset-pills}
+```{r hartlepool_case_fatality_ratio_ts_plot, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+closed_ts_plot(df            = case_fatality_site_measure,
+               indicator     = 'case fatality ratio',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
+```
+
+##### Model 1
+```{r hartlepool_case_fatality_ratio_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+case.fatality.ratio.any$model1.panelar.hartlepool %>% summary()
+
+```
+##### Model 2
+```{r hartlepool_case_fatality_ratio_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+case.fatality.ratio.any$model2.panelar.hartlepool %>% summary()
+
+```
