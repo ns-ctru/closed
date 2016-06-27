@@ -1,16 +1,31 @@
-### A & E Attendances {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/ae_attendances.Rmd', eval = TRUE}
+### Summary  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/diff_time_to_ed.Rmd', eval = TRUE}
+```
+```{r child = 'subsections/missing.Rmd', eval = FALSE}
+```
+```{r child = 'subsections/spurious.Rmd', eval = FALSE}
 ```
 
-### A & E Admissions {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/ae_admissions.Rmd', eval = TRUE}
+### A & E Attendances {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/mode_of_arrival_any.Rmd', eval = TRUE}
+```
+
+### Emergency Admissions -  Any {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/avoidable_emergency_admissions_any.Rmd', eval = TRUE}
+```
+
+### Ambulance Time to Hospital {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_mean_times_call_to_dest.Rmd', eval = TRUE}
 ```
 
 ### Case Fatality Ratio {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/case_fatality_ratio.Rmd', eval = TRUE}
+```{r child = 'subsections/case_fatality_ratio_any.Rmd', eval = TRUE}
 ```
 
+<!-- ### Newark {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/newark.Rmd', eval = TRUE} -->
+<!-- ``` -->
 
-### Ambulance Time to Hospital {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/ambulance_mean_times.Rmd', eval = TRUE}
+### Hartlepool {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/hartlepool.Rmd', eval = TRUE}
 ```
