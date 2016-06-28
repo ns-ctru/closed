@@ -101,7 +101,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ##              function such missing values are therefore replaced with
     ##              the main indicator which is supplied as the sub.indicator
     ##              argument
-    which.df <- substitute(df.lsoa) %>% deparse()
+    ## which.df <- substitute(df.lsoa) %>% deparse()
     if(indicator == 'unnecessary ed attendances'){
         df.lsoa$sub_measure  <- ifelse(is.na(df.lsoa$sub_measure), 'all', df.lsoa$sub_measure)
         df.trust$sub_measure <- ifelse(is.na(df.trust$sub_measure), 'all', df.trust$sub_measure)
@@ -142,7 +142,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Derive a seasonal indicator (really this should be on the data    ##
     ## preparation side but Tony is already doing tons)                  ##
     #######################################################################
+    print('1')
+    dim(df.lsoa) %>% print()
+    dim(df.trust) %>% print()
     df.lsoa$season <- 1
+    print('2')
+    dim(df.lsoa) %>% print()
+    dim(df.trust) %>% print()
     df.lsoa <- within(df.lsoa,{
                       season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
                       season[month(yearmonth) == 3  | month(yearmonth) == 4]  <- 2
@@ -151,7 +157,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
                       season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
     })
+    print('3')
+    dim(df.lsoa) %>% print()
+    dim(df.trust) %>% print()
     df.trust$season <- 1
+    print('4')
+    dim(df.lsoa) %>% print()
+    dim(df.trust) %>% print()
     df.trust <- within(df.trust,{
                       season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
                       season[month(yearmonth) == 3  | month(yearmonth) == 4]  <- 2
@@ -160,6 +172,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
                       season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
     })
+    print('5')
+    dim(df.lsoa) %>% print()
+    dim(df.trust) %>% print()
     #######################################################################
     ## Add a dummy 'step' for closure                                    ##
     #######################################################################
@@ -502,12 +517,14 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                       termlabels = model1)
         ## Subset data
         sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
+        print('Lets filter the data')
         df1 <- filter(df.trust,
                       town %in% sites &
                       measure     == indicator &
                       sub.measure == sub.indicator)
         ## dim(df1) %>% print()
         ## Generate time-series plot
+        print('Going to draw a graph now...')
         results$model1.ts.plot <- closed_ts_plot(df = df1,
                                                  sites = sites,
                                                  indicator = indicator,
@@ -517,6 +534,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  tidy  = TRUE,
                                                  join  = join.line,
                                                  legend = legend)
+        print('We drew a graph!')
         ##################################################
         ## Model 1 - Bishop Auckland                    ##
         ##################################################
