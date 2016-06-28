@@ -48,8 +48,11 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ##              the main indicator which is supplied as the sub.indicator
     ##              argument
     which.df <- substitute(df) %>% deparse()
-    if(which.df == 'unnecessary_ed_attendances_site_measure'){
-        df$sub_measure <- 'unnecessary ed attendances'
+    if(indicator == 'unnecessary_ed_attendances_site_measure'){
+        df$sub_measure <- ifelse(is.na(df$sub_measure), 'all', df$sub_measure)
+    }
+    if(indicator == 'all emergency admissions'){
+        df$sub_measure <- ifelse(is.na(df$sub_measure), 'all', df$sub_measure)
     }
     ## Convert variable names for ease of typing within this function
     ## (ESS artefact, hitting underscore inserts '<-' so lots of underscores are
@@ -114,7 +117,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     }
     else if(indicator == 'unnecessary ed attendances'){
         title1 <- 'Unnecessary ED Attendances'
-        title2 <- ''
+        title2 <- '(All)'
     }
     else if(indicator == 'ed attendances admitted'){
         title1 <- 'ED Attendances Admitted'
@@ -129,7 +132,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         ylabel <- 'N'
     }
     else if(indicator == 'avoidable emergency admissions'){
-        title1 <- 'Emergency Attendances'
+        title1 <- 'Avoidable Emergency Admissions'
         if(sub.indicator == 'any')                             title2 <- ' (Any)'
         else if(sub.indicator == 'acute mental health crisis') title2 <- ' (Acute Mental Health Crisis)'
         else if(sub.indicator == 'angina')                     title2 <- ' (Angina)'
@@ -144,7 +147,12 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'non-specific chest pain')    title2 <- ' (Non-Specific Chest Pain)'
         else if(sub.indicator == 'pyrexial child (<6 years)')  title2 <- ' (Pyrexial Child <6yrs)'
         else if(sub.indicator == 'urinary tract infection')    title2 <- ' (Urinary Tract Infection)'
-        ylabel <- 'Proportion of Deaths'
+        ylabel <- 'N'
+    }
+    else if(indicator == 'all emergency admissions'){
+        title1 <- 'All Emergency Admissions'
+        title2 <- ' (All)'
+        ylabel <- 'N'
     }
     else if(indicator == 'length of stay'){
         title1 <- 'Length of Stay'
