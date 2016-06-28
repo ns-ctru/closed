@@ -1,0 +1,200 @@
+#### Time-Series Plots
+
+These time-series plots show the trends over time *before* the removal of any potentially spurious data points and the balancing of the panels.  They are presented for that very purpose, identification of possibly spurious data points.
+
+##### Case Sites
+
+```{r all_emergency_admissions_all_time_series_plot_case, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+names(emergency_admissions_site_measure) <- gsub("_", ".", names(emergency_admissions_site_measure))
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'all emergency admissions',
+               sub.indicator = 'all',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+               legend        = TRUE)
+```
+
+<!-- ##### Control Sites -->
+
+<!-- ```{r all_emergency_admissions_all_time_series_plot_control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE} -->
+<!-- closed_ts_plot(df            = emergency_admissions_site_measure, -->
+<!--                indicator     = 'all emergency admissions', -->
+<!--                sub.indicator = 'all', -->
+<!--                steps         = TRUE, -->
+<!--                theme         = theme_bw(), -->
+<!--                tidy          = FALSE, -->
+<!--                facet         = FALSE, -->
+<!--                sites         = c('Salford', 'Scarborough', 'Whitehaven', -->
+<!--                                  'Blackburn', 'Grimsby', 'Wigan', -->
+<!--                                  'Basingstoke', 'Warwick', 'Yeovil', -->
+<!--                                  'Carlisle', 'Salisbury', 'Southport', -->
+<!--                                  'Rotherham', 'Scunthorpe', 'Wansbeck'), -->
+<!--                legend        = TRUE) -->
+<!-- ``` -->
+
+##### Bishop Auckland
+
+```{r all_emergency_admissions_all_time_series_plot_bishop, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'all emergency admissions',
+               sub.indicator = 'all',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
+               legend        = TRUE)
+```
+
+##### Hartlepool
+
+```{r all_emergency_admissions_all_time_series_plot_hartlepool, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'all emergency admissions',
+               sub.indicator = 'all',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
+```
+
+##### Hemel Hempstead
+
+```{r all_emergency_admissions_all_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'all emergency admissions',
+               sub.indicator = 'all',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               legend        = TRUE)
+```
+
+##### Newark
+
+```{r all_emergency_admissions_all_time_series_plot_newark, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'all emergency admissions',
+               sub.indicator = 'all',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
+               legend        = TRUE)
+```
+
+##### Rochdale
+
+```{r all_emergency_admissions_all_time_series_plot_rochdale, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'all emergency admissions',
+               sub.indicator = 'all',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE)
+```
+
+#### Model 1
+`Case Site    : Individual`\
+`Control Site : None`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure + nhs111 + ambulance.divert + other.centre `\
+
+```{r all_emergency_admissions_all_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+## all.emergency.admissions.all$model1.ts.plot
+all.emergency.admissions.all$model1.forest$forest
+all.emergency.admissions.all$model1.panelar$coef[3:8] %>% kable(caption = all.emergency.admissions.all$model1.panelar$caption)
+```
+
+<!-- #### Model 2 -->
+
+<!-- `Case Site    : Individual`\ -->
+<!-- `Control Site : One Matched`\ -->
+<!-- `Panel        : ED`\ -->
+<!-- `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\ -->
+
+<!-- ```{r all_emergency_admissions_all_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE} -->
+<!-- all.emergency.admissions.all$model2.ts.plot -->
+<!-- all.emergency.admissions.all$model2.forest$forest -->
+<!-- all.emergency.admissions.all$model2.panelar$coef[3:8] %>% kable(caption = all.emergency.admissions.all$model2.panelar$caption) -->
+<!-- ``` -->
+
+<!-- #### Model 3 -->
+
+<!-- `Case Site    : Individual`\ -->
+<!-- `Control Site : All Matched`\ -->
+<!-- `Panel        : ED`\ -->
+<!-- `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\ -->
+
+<!-- ```{r all_emergency_admissions_all_model3, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE} -->
+<!-- all.emergency.admissions.all$model3.ts.plot -->
+<!-- all.emergency.admissions.all$model3.forest$forest -->
+<!-- all.emergency.admissions.all$model3.panelar$coef[3:8] %>% kable(caption = all.emergency.admissions.all$model3.panelar$caption) -->
+<!-- ``` -->
+
+<!-- #### Model 4 -->
+
+<!-- `Case Site    : All`\ -->
+<!-- `Control Site : One Matched`\ -->
+<!-- `Panel        : ED`\ -->
+<!-- `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\ -->
+
+<!-- ```{r all_emergency_admissions_all_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE} -->
+<!-- all.emergency.admissions.all$model4.ts.plot.trust -->
+<!-- all.emergency.admissions.all$model4.forest$forest -->
+<!-- all.emergency.admissions.all$model4.panelar$coef[3:9] %>% kable(caption = all.emergency.admissions.all$model4.panelar$caption) -->
+<!-- ## all.emergency.admissions.all$model4.ts.plot.lsoa -->
+<!-- ``` -->
+
+#### Model 5
+
+`Case Site    : All`\
+`Control Site : All Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
+
+
+```{r all_emergency_admissions_all_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+## all.emergency.admissions.all$model5.ts.plot.trust
+all.emergency.admissions.all$model5.forest$forest
+all.emergency.admissions.all$model5.panelar$coef[3:9] %>% kable(caption = all.emergency.admissions.all$model5.panelar$caption)
+```
+
+<!-- #### Model 6 -->
+
+<!-- `Case Site    : Individual`\ -->
+<!-- `Control Site : One Matched`\ -->
+<!-- `Panel        : LSOA`\ -->
+<!-- `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\ -->
+
+<!-- ```{r all_emergency_admissions_all_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE} -->
+<!-- all.emergency.admissions.all$model6.ts.plot.trust -->
+<!-- all.emergency.admissions.all$model6.forest.model$forest -->
+<!-- all.emergency.admissions.all$model6.panelar$coef[3:8] %>% kable(caption = all.emergency.admissions.all$model6.panelar$caption) -->
+<!-- ``` -->
+
+<!-- #### Model 7 -->
+
+<!-- Model 7 seeks to analyse at the LSOA level across all case sites and their one matched contorl site the effects of the various steps, and other co-variates.  However, the amount of RAM required by the software is (~26Gb if only one matched control site, rising to 126Gb if all contorl sites are included as there are 2648 LSOAs) exceeds the 16Gb available on the Virtual Machine. -->
+
+<!-- `Case Site    : All`\ -->
+<!-- `Control Site : One Matched`\ -->
+<!-- `Panel        : LSOA`\ -->
+<!-- `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\ -->
+
+<!-- ```{r all_emergency_admissions_all_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE} -->
+<!-- all.emergency.admissions.all$model7.ts.plot.trust -->
+<!-- all.emergency.admissions.all$model7.forest.model$forest -->
+<!-- all.emergency.admissions.all$model7.panelar$coef[3:8] %>% kable(caption = all.emergency.admissions.all$model7.panelar$caption) -->
+<!-- ``` -->
