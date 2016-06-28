@@ -47,13 +47,15 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ##              function such missing values are therefore replaced with
     ##              the main indicator which is supplied as the sub.indicator
     ##              argument
-    which.df <- substitute(df) %>% deparse()
-    if(indicator == 'unnecessary_ed_attendances_site_measure'){
-        df$sub_measure <- ifelse(is.na(df$sub_measure), 'all', df$sub_measure)
-    }
-    if(indicator == 'all emergency admissions'){
-        df$sub_measure <- ifelse(is.na(df$sub_measure), 'all', df$sub_measure)
-    }
+    ## which.df <- substitute(df) %>% deparse()
+    ## if(indicator == 'unnecessary_ed_attendances_site_measure'){
+    ##     df$sub_measure <- ifelse(is.na(df$sub_measure), 'all', df$sub_measure)
+    ## }
+    ## if(indicator == 'all emergency admissions'){
+    ##     print("Are we here?")
+    ##     df$sub_measure <- ifelse(is.na(df$sub_measure), 'all', df$sub_measure)
+    ##     table(df$sub_measure, df$measure) %>% print()
+    ## }
     ## Convert variable names for ease of typing within this function
     ## (ESS artefact, hitting underscore inserts '<-' so lots of underscores are
     ## tedious to type)
@@ -114,21 +116,23 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         if(sub.indicator == 'any')            title2 <- ' (Any)'
         else if(sub.indicator == 'other')     title2 <- ' (Other)'
         else if(sub.indicator == 'ambulance') title2 <- ' (Ambulance)'
+        ylabel <- 'N'
     }
     else if(indicator == 'unnecessary ed attendances'){
         title1 <- 'Unnecessary ED Attendances'
         title2 <- '(All)'
+        ylabel <- 'N'
     }
     else if(indicator == 'ed attendances admitted'){
         title1 <- 'ED Attendances Admitted'
         if(sub.indicator == 'all')                    title2 <- ' (All)'
         else if(sub.indicator == 'fraction admitted') title2 <- ' (Fraction Admitted)'
         else if(sub.indicator == 'admitted')          title2 <- ' (Admitted)'
-        ylable <- 'N'
+        ylabel <- 'N'
     }
     else if(indicator == 'all emergency admissions'){
         title1 <- 'Emergency Admissions'
-        if(is.na(sub.indicator)) title2 <- ''
+        title2 <- ''
         ylabel <- 'N'
     }
     else if(indicator == 'avoidable emergency admissions'){
@@ -299,7 +303,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                              value = ifelse(relative.month %in% c(1, 6) & town == 'Bishop Auckland', yes = NA, no = value))
             }
         }
-        else if(indicator == 'unnecessary ed attendances' & sub.indicator == 'unnecessary ed attendances'){
+        else if(indicator == 'unnecessary ed attendances' & is.na(sub.indicator)){
             if('Bishop Auckland' %in% sites){
                 df <- mutate(df,
                              value = ifelse(relative.month %in% c(1, 6) & town == 'Bishop Auckland', yes = NA, no = value))
