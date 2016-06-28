@@ -48,14 +48,12 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ##              the main indicator which is supplied as the sub.indicator
     ##              argument
     ## which.df <- substitute(df) %>% deparse()
-    ## if(indicator == 'unnecessary_ed_attendances_site_measure'){
-    ##     df$sub_measure <- ifelse(is.na(df$sub_measure), 'all', df$sub_measure)
-    ## }
-    ## if(indicator == 'all emergency admissions'){
-    ##     print("Are we here?")
-    ##     df$sub_measure <- ifelse(is.na(df$sub_measure), 'all', df$sub_measure)
-    ##     table(df$sub_measure, df$measure) %>% print()
-    ## }
+    if(indicator == 'unnecessary_ed_attendances_site_measure'){
+        df$sub.measure <- ifelse(is.na(df$sub.measure), 'all', df$sub.measure)
+    }
+    if(indicator == 'all emergency admissions'){
+        df$sub.measure <- ifelse(is.na(df$sub.measure), 'all', df$sub.measure)
+    }
     ## Convert variable names for ease of typing within this function
     ## (ESS artefact, hitting underscore inserts '<-' so lots of underscores are
     ## tedious to type)
@@ -104,7 +102,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                                              (town == 'Rochdale' & relative.month >= 11) |
                                              (town == 'Hartlepool' & relative.month >= 22),
                                              1, 0)
-                       )
+                 )
     #######################################################################
     ## Labels and captions conditional on outcome                        ##
     #######################################################################
