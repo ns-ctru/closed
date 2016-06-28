@@ -102,9 +102,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ##              the main indicator which is supplied as the sub.indicator
     ##              argument
     which.df <- substitute(df.lsoa) %>% deparse()
-    if(which.df == 'unnecessary_ed_attendances_measure'){
-        df.lsoa$sub_measure  <- 'unnecessary ed attendances'
-        df.trust$sub_measure <- 'unnecessary ed attendances'
+    if(indicator == 'unnecessary ed attendances'){
+        df.lsoa$sub_measure  <- ifelse(is.na(df.lsoa$sub_measure), 'all', df.lsoa$sub_measure)
+        df.trust$sub_measure <- ifelse(is.na(df.trust$sub_measure), 'all', df.trust$sub_measure)
+    }
+    if(indicator == 'all emergency admissions'){
+        df.lsoa$sub_measure  <- ifelse(is.na(df.lsoa$sub_measure), 'all', df.lsoa$sub_measure)
+        df.trust$sub_measure <- ifelse(is.na(df.trust$sub_measure), 'all', df.trust$sub_measure)
     }
     ## Convert variable names for ease of typing within this function
     ## (ESS artefact, hitting underscore inserts '<-' so lots of underscores are
@@ -522,7 +526,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                          timeVar   = timevar,
                                          panelVar  = panel.trust,
                                          autoCorr  = autocorr,
-                                         panelCorrMethod = panelcorrmethod,
+                                         panelCorrMethod = 'pcse',
                                          seq.times = seq.times,
                                          rho.na.rm = rho.na.rm)
         results$model1.panelar.bishop.coef <- extract_coefficients(x              = model1.panelar.bishop,
@@ -539,7 +543,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                              timeVar  = timevar,
                                              panelVar = panel.trust,
                                              autoCorr = autocorr,
-                                             panelCorrMethod = panelcorrmethod,
+                                             panelCorrMethod = 'pcse',
                                              seq.times = seq.times,
                                              rho.na.rm = rho.na.rm)
         results$model1.panelar.hartlepool.coef <- extract_coefficients(x              = model1.panelar.hartlepool,
@@ -556,7 +560,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                         timeVar  = timevar,
                                         panelVar = panel.trust,
                                         autoCorr = autocorr,
-                                        panelCorrMethod = panelcorrmethod,
+                                        panelCorrMethod = 'pcse',
                                         seq.times = seq.times,
                                         rho.na.rm = rho.na.rm)
         results$model1.panelar.hemel.coef <- extract_coefficients(x              = model1.panelar.hemel,
@@ -573,7 +577,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                           timeVar  = timevar,
                                           panelVar = panel.trust,
                                           autoCorr = autocorr,
-                                          panelCorrMethod = panelcorrmethod,
+                                          panelCorrMethod = 'pcse',
                                           seq.times = seq.times,
                                           rho.na.rm = rho.na.rm)
         results$model1.panelar.newark.coef <- extract_coefficients(x              = model1.panelar.newark,
@@ -590,7 +594,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                    timeVar  = timevar,
                                                    panelVar = panel.trust,
                                                    autoCorr = autocorr,
-                                                   panelCorrMethod = panelcorrmethod,
+                                                   panelCorrMethod = 'pcse',
                                                    seq.times = seq.times,
                                                    rho.na.rm = rho.na.rm)
         results$model1.panelar.rochdale.coef <- extract_coefficients(x            = model1.panelar.rochdale,
@@ -678,7 +682,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                          timeVar  = timevar,
                                          panelVar = panel.trust,
                                          autoCorr = autocorr,
-                                         panelCorrMethod = panelcorrmethod,
+                                         panelCorrMethod = 'pcse',
                                          seq.times = seq.times,
                                          rho.na.rm = rho.na.rm)
         results$model2.panelar.bishop.coef <- extract_coefficients(x              = model2.panelar.bishop,
@@ -697,7 +701,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                              timeVar  = timevar,
                                              panelVar = panel.trust,
                                              autoCorr = autocorr,
-                                             panelCorrMethod = panelcorrmethod,
+                                             panelCorrMethod = 'pcse',
                                              seq.times = seq.times,
                                              rho.na.rm = rho.na.rm)
         results$model2.panelar.hartlepool.coef <- extract_coefficients(x             = model2.panelar.hartlepool,
@@ -716,7 +720,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                         timeVar  = timevar,
                                         panelVar = panel.trust,
                                         autoCorr = autocorr,
-                                        panelCorrMethod = panelcorrmethod,
+                                        panelCorrMethod = 'pcse',
                                         seq.times = seq.times,
                                         rho.na.rm = rho.na.rm)
         results$model2.panelar.hemel.coef <- extract_coefficients(x              = model2.panelar.hemel,
@@ -735,7 +739,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                          timeVar  = timevar,
                                          panelVar = panel.trust,
                                          autoCorr = autocorr,
-                                         panelCorrMethod = panelcorrmethod,
+                                         panelCorrMethod = 'pcse',
                                          seq.times = seq.times,
                                          rho.na.rm = rho.na.rm)
         results$model2.panelar.newark.coef <- extract_coefficients(x              = model2.panelar.newark,
@@ -754,7 +758,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                            timeVar  = timevar,
                                            panelVar = panel.trust,
                                            autoCorr = autocorr,
-                                           panelCorrMethod = panelcorrmethod,
+                                           panelCorrMethod = 'pcse',
                                            seq.times = seq.times,
                                            rho.na.rm = rho.na.rm)
         results$model2.panelar.rochdale.coef <- extract_coefficients(x            = model2.panelar.rochdale,
@@ -837,7 +841,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                          timeVar  = timevar,
                                          panelVar = panel.trust,
                                          autoCorr = autocorr,
-                                         panelCorrMethod = panelcorrmethod,
+                                         panelCorrMethod = 'pcse',
                                          seq.times = seq.times,
                                          rho.na.rm = rho.na.rm)
         results$model3.panelar.bishop.coef <- extract_coefficients(x              = model3.panelar.bishop,
@@ -855,7 +859,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                              timeVar  = timevar,
                                              panelVar = panel.trust,
                                              autoCorr = autocorr,
-                                             panelCorrMethod = panelcorrmethod,
+                                             panelCorrMethod = 'pcse',
                                              seq.times = seq.times,
                                              rho.na.rm = rho.na.rm)
         results$model3.panelar.hartlepool.coef <- extract_coefficients(x             = model3.panelar.hartlepool,
@@ -873,7 +877,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                         timeVar  = timevar,
                                         panelVar = panel.trust,
                                         autoCorr = autocorr,
-                                        panelCorrMethod = panelcorrmethod,
+                                        panelCorrMethod = 'pcse',
                                         seq.times = seq.times,
                                         rho.na.rm = rho.na.rm)
         results$model3.panelar.hemel.coef <- extract_coefficients(x              = model3.panelar.hemel,
@@ -891,7 +895,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                          timeVar  = timevar,
                                          panelVar = panel.trust,
                                          autoCorr = autocorr,
-                                         panelCorrMethod = panelcorrmethod,
+                                         panelCorrMethod = 'pcse',
                                          seq.times = seq.times,
                                          rho.na.rm = rho.na.rm)
         results$model3.panelar.newark.coef <- extract_coefficients(x              = model3.panelar.newark,
@@ -909,7 +913,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                            timeVar  = timevar,
                                            panelVar = panel.trust,
                                            autoCorr = autocorr,
-                                           panelCorrMethod = panelcorrmethod,
+                                           panelCorrMethod = 'pcse',
                                            seq.times = seq.times,
                                            rho.na.rm = rho.na.rm)
         results$model3.panelar.rochdale.coef <- extract_coefficients(x            = model3.panelar.rochdale,
@@ -1003,7 +1007,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                   timeVar  = timevar,
                                   panelVar = panel.trust,
                                   autoCorr = autocorr,
-                                  panelCorrMethod = panelcorrmethod,
+                                  panelCorrMethod = 'pcse',
                                   seq.times = seq.times,
                                   rho.na.rm = rho.na.rm)
         results$model4.panelar.coef <- extract_coefficients(x              = model4.panelar,
@@ -1035,7 +1039,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                theme         = theme_bw())
         ## Return model objects if requested
         if(return.model == TRUE){
-            results$model4.panelar     <- model4.panelar
+            results$model4.panelar.all     <- model4.panelar
         }
         if(return.df == TRUE){
             results$model4.df <- df4
@@ -1087,7 +1091,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                       timeVar  = timevar,
                                       panelVar = panel.trust,
                                       autoCorr = autocorr,
-                                      panelCorrMethod = panelcorrmethod,
+                                      panelCorrMethod = 'pcse',
                                       seq.times = seq.times,
                                       rho.na.rm = rho.na.rm)
         results$model5.panelar.coef <- extract_coefficients(x              = model5.panelar.all,
@@ -1181,7 +1185,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                       timeVar  = timevar,
                                       panelVar = panel.lsoa,
                                       autoCorr = autocorr,
-                                      panelCorrMethod = panelcorrmethod,
+                                      panelCorrMethod = 'pcse',
                                       seq.times = seq.times,
                                       rho.na.rm = rho.na.rm)
         results$model6.panelar.bishop.coef <- extract_coefficients(x              = model6.panelar.bishop,
@@ -1200,7 +1204,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                              timeVar  = timevar,
                                              panelVar = panel.lsoa,
                                              autoCorr = autocorr,
-                                             panelCorrMethod = panelcorrmethod,
+                                             panelCorrMethod = 'pcse',
                                              seq.times = seq.times,
                                              rho.na.rm = rho.na.rm)
         results$model6.panelar.hartlepool.coef <- extract_coefficients(x             = model6.panelar.hartlepool,
@@ -1219,7 +1223,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                         timeVar  = timevar,
                                         panelVar = panel.lsoa,
                                         autoCorr = autocorr,
-                                        panelCorrMethod = panelcorrmethod,
+                                        panelCorrMethod = 'pcse',
                                         seq.times = seq.times,
                                         rho.na.rm = rho.na.rm)
         results$model6.panelar.hemel.coef <- extract_coefficients(x              = model6.panelar.hemel,
@@ -1238,7 +1242,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                          timeVar  = timevar,
                                          panelVar = panel.lsoa,
                                          autoCorr = autocorr,
-                                         panelCorrMethod = panelcorrmethod,
+                                         panelCorrMethod = 'pcse',
                                          seq.times = seq.times,
                                          rho.na.rm = rho.na.rm)
         results$model6.panelar.newark.coef <- extract_coefficients(x              = model6.panelar.newark,
@@ -1257,7 +1261,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                            timeVar  = timevar,
                                            panelVar = panel.lsoa,
                                            autoCorr = autocorr,
-                                           panelCorrMethod = panelcorrmethod,
+                                           panelCorrMethod = 'pcse',
                                            seq.times = seq.times,
                                            rho.na.rm = rho.na.rm)
         results$model6.panelar.rochdale.coef <- extract_coefficients(x            = model6.panelar.rochdale,
@@ -1360,7 +1364,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                       timeVar  = timevar,
                                       panelVar = 'town.lsoa',
                                       autoCorr = autocorr,
-                                      panelCorrMethod = panelcorrmethod,
+                                      panelCorrMethod = 'pcse',
                                       seq.times = seq.times,
                                       rho.na.rm = rho.na.rm)
         results$model7.panelar.all.coef <- extract_coefficients(x              = model7.panelar.all,
