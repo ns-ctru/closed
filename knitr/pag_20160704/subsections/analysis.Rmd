@@ -75,6 +75,7 @@ model.opts$return.model		<- TRUE
 model.opts$return.residuals	<- TRUE
 model.opts$join.line            <- FALSE
 model.opts$legend               <- TRUE
+model.opts$rho.na.rm            <- TRUE
 ```
 ```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ## Summarise differences in time to ED
@@ -150,12 +151,12 @@ mode.of.arrival.any <- closed_models(df.lsoa          = ed_attendances_by_mode_m
                                      join.line        = model.opts$join.line,
                                      legend           = model.opts$legend)
 ```
-<!--- Avoidable Emergency Admissions - Any --->
-```{r avoidable.emergency_admissions_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-avoidable.emergency.admissions.any <- closed_models(df.lsoa         = emergency_admissions_measure,
+<!--- All Emergency Admissions - Any --->
+```{r all_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+all.emergency.admissions.all <- closed_models(df.lsoa         = emergency_admissions_measure,
                                      df.trust         = emergency_admissions_site_measure,
-                                     indicator        = 'avoidable emergency admissions',
-                                     sub.indicator    = 'any',
+                                     indicator        = 'all emergency admissions',
+                                     sub.indicator    = 'all',
                                      steps            = c('closure'),
                                      fit.with         = model.opts$fit.with,
                                      panel.lsoa       = model.opts$panel.lsoa,
@@ -215,35 +216,184 @@ case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_measure
                                      join.line        = model.opts$join.line,
                                      legend           = model.opts$legend)
 ```
+
 <!--- Ambulance Mean Times - Call to Destination --->
-```{r ambulance_mean_times_call_to_destination, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-ambulance.mean.times.call.to.destination <- closed_models(df.lsoa         = amb_mean_times_measure,
-                                     df.trust         = amb_mean_times_site_measure,
-                                     indicator        = 'ambulance mean times',
-                                     sub.indicator    = 'call_to_dest',
-                                     steps            = c('closure'),
-                                     fit.with         = model.opts$fit.with,
-                                     panel.lsoa       = model.opts$panel.lsoa,
-                                     panel.trust      = model.opts$panel.trust,
-                                     timevar          = model.opts$timevar,
-                                     outcome          = model.opts$outcome,
-                                     model1           = model.opts$mod1,
-                                     model2           = model.opts$mod2,
-                                     model3           = model.opts$mod3,
-                                     model4           = model.opts$mod4,
-                                     model5           = model.opts$mod5,
-                                     model6           = model.opts$mod6,
-                                     model7           = model.opts$mod7,
-                                     autocorr         = model.opts$autocorr,
-                                     panelcorrmethod  = model.opts$panelcorrmethod,
-                                     coefficients     = model.opts$coefficients,
-                                     seq.times        = model.opts$seq.times,
-                                     plot             = model.opts$plot,
-                                     common.y         = model.opts$common.y,
-                                     theme            = model.opts$theme,
-                                     return.df        = model.opts$return.df,
-                                     return.model     = model.opts$return.model,
-				     return.residuals = model.opts$return.residuals,
-                                     join.line        = model.opts$join.line,
-                                     legend           = model.opts$legend)
+```{r ambulance_mean_times_call_to_dest, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+## ambulance.mean.times.call.to.dest <- closed_models(df.lsoa         = amb_mean_times_measure,
+##                                      df.trust         = amb_mean_times_site_measure,
+##                                      indicator        = 'ambulance mean times',
+##                                      sub.indicator    = 'call_to_dest',
+##                                      steps            = c('closure'),
+##                                      fit.with         = model.opts$fit.with,
+##                                      panel.lsoa       = model.opts$panel.lsoa,
+##                                      panel.trust      = model.opts$panel.trust,
+##                                      timevar          = model.opts$timevar,
+##                                      outcome          = model.opts$outcome,
+##                                      model1           = model.opts$mod1,
+##                                      model2           = model.opts$mod2,
+##                                      model3           = model.opts$mod3,
+##                                      model4           = model.opts$mod4,
+##                                      model5           = model.opts$mod5,
+##                                      model6           = model.opts$mod6,
+##                                      model7           = model.opts$mod7,
+##                                      autocorr         = model.opts$autocorr,
+##                                      panelcorrmethod  = model.opts$panelcorrmethod,
+##                                      coefficients     = model.opts$coefficients,
+##                                      seq.times        = model.opts$seq.times,
+##                                      plot             = model.opts$plot,
+##                                      common.y         = model.opts$common.y,
+##                                      theme            = model.opts$theme,
+##                                      return.df        = model.opts$return.df,
+##                                      return.model     = model.opts$return.model,
+## 				     return.residuals = model.opts$return.residuals,
+##                                      join.line        = model.opts$join.line,
+##                                      legend           = model.opts$legend)
+## Alternatively run everything outside of the function since its not set up to deal with partial data sets.
+## Sort data out (conversion, steps etc.)
+## Names/data frame/filtering
+names(amb_mean_times_measure) <- gsub("_", ".", names(amb_mean_times_measure))
+amb_mean_times_measure <- as.data.frame(amb_mean_times_measure) %>%
+    dplyr::filter(measure == 'ambulance mean times' & sub.measure == 'call_to_dest')
+amb_mean_times_measure$town <- factor(amb_mean_times_measure$town)
+## Add Season
+amb_mean_times_measure$season <- 1
+amb_mean_times_measure <- within(amb_mean_times_measure, {
+                                 season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
+                                 season[month(yearmonth) == 3  | month(yearmonth) == 4]  <- 2
+                                 season[month(yearmonth) == 5  | month(yearmonth) == 6]  <- 3
+                                 season[month(yearmonth) == 7  | month(yearmonth) == 8]  <- 4
+                                 season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
+                                 season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
+})
+## Dummy steps
+amb_mean_times_measure$closure  <- ifelse(amb_mean_times_measure$relative.month  > 24, 1, 0)
+amb_mean_times_measure <- mutate(amb_mean_times_measure,
+                                 nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
+                                                 (town == 'Southport' & relative.month >= 48) |
+                                                 ## ToDo - Uncomment once confirmed and revised dates available
+                                                 (town == 'Rochdale' & relative.month >= 48) |
+                                                 (town == 'Rotherham' & relative.month >= 48) |
+                                                 (town == 'Hartlepool' & relative.month >= 45) |
+                                                 (town == 'Grimsby' & relative.month >= 16),
+                                                 1, 0),
+                                 ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
+                                 other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
+                                                       (town == 'Newark' & relative.month >= 3) |
+                                                       (town == 'Rochdale' & relative.month >= 11) |
+                                                       (town == 'Hartlepool' & relative.month >= 22),
+                                                       1, 0)
+                                 )
+## Repeat all for Site data frame
+names(amb_mean_times_site_measure) <- gsub("_", ".", names(amb_mean_times_site_measure))
+amb_mean_times_site_measure <- as.data.frame(amb_mean_times_site_measure) %>%
+    dplyr::filter(measure == 'ambulance mean times' & sub.measure == 'call_to_dest')
+amb_mean_times_site_measure$town <- factor(amb_mean_times_site_measure$town)
+amb_mean_times_site_measure$season <- 1
+amb_mean_times_site_measure <- within(amb_mean_times_site_measure, {
+                                 season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
+                                 season[month(yearmonth) == 3  | month(yearmonth) == 4]  <- 2
+                                 season[month(yearmonth) == 5  | month(yearmonth) == 6]  <- 3
+                                 season[month(yearmonth) == 7  | month(yearmonth) == 8]  <- 4
+                                 season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
+                                 season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
+})
+amb_mean_times_site_measure$closure  <- ifelse(amb_mean_times_site_measure$relative.month  > 24, 1, 0)
+amb_mean_times_site_measure <- mutate(amb_mean_times_site_measure,
+                                     nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
+                                                     (town == 'Southport' & relative.month >= 48) |
+                                                     ## ToDo - Uncomment once confirmed and revised dates available
+                                                     (town == 'Rochdale' & relative.month >= 48) |
+                                                     (town == 'Rotherham' & relative.month >= 48) |
+                                                     (town == 'Hartlepool' & relative.month >= 45) |
+                                                     (town == 'Grimsby' & relative.month >= 16),
+                                                     1, 0),
+                                     ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
+                                     other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
+                                                           (town == 'Newark' & relative.month >= 3) |
+                                                           (town == 'Rochdale' & relative.month >= 11) |
+                                                           (town == 'Hartlepool' & relative.month >= 22),
+                                                           1, 0)
+                                     )
+## Model 1
+formula.model1 <- reformulate(response = 'value',
+                              termlabels = model.opts$mod1)
+sites <-c('Hartlepool')
+model1.panelar.hartlepool <- filter(amb_mean_times_site_measure,
+                                    town == 'Hartlepool') %>%
+                             panelAR(formula         = formula.model1,
+                                     timeVar         = model.opts$timevar,
+                                     panelVar        = model.opts$panel.trust,
+                                     autoCorr        = model.opts$autocorr,
+                                     panelCorrMethod = 'pcse',
+                                     seq.times       = model.opts$seq.times,
+                                     rho.na.rm       = model.opts$rho.na.rm)
+## Model 2
+formula.model2 <- reformulate(response = 'value',
+                              termlabels = model.opts$mod2)
+amb_mean_times_site_measure$town <- relevel(amb_mean_times_site_measure$town, ref = 'Grimsby')
+model2.panelar.hartlepool <- filter(amb_mean_times_site_measure,
+                                    town == 'Hartlepool' | town == 'Grimsby') %>%
+                             panelAR(formula         = formula.model2,
+                                     timeVar         = model.opts$timevar,
+                                     panelVar        = model.opts$panel.trust,
+                                     autoCorr        = model.opts$autocorr,
+                                     panelCorrMethod = 'pcse',
+                                     seq.times       = model.opts$seq.times,
+                                     rho.na.rm       = model.opts$rho.na.rm)
+## Model 6
+## formula.model6 <- reformulate(response = 'value',
+##                               termlabels = model.opts$mod6)
+## amb_mean_times_measure$town <- relevel(amb_mean_times_measure$town, ref = 'Grimsby')
+## model6.panelar.hartlepool <- filter(amb_mean_times_measure,
+##                                     town == 'Hartlepool' | town == 'Grimsby') %>%
+##                              panelAR(formula         = formula.model6,
+##                                      timeVar         = model.opts$timevar,
+##                                      panelVar        = model.opts$panel.lsoa,
+##                                      autoCorr        = model.opts$autocorr,
+##                                      panelCorrMethod = 'pcse',
+##                                      seq.times       = model.opts$seq.times,
+##                                      rho.na.rm       = model.opts$rho.na.rm)
+## Extract and Combine coefficients
+extract_coefficients <- function(x,
+                                 .site          = 'Hartlepool',
+                                 .indicator     = 'ambulance mean times',
+                                 .sub.indicator = 'call_to_dest'){
+    ## Extract coefficients from a given model
+    coefficients <- summary(x) %>%
+        coef() %>%
+        as.data.frame()
+    coefficients$term <- rownames(coefficients)
+    rownames(coefficients) <- NULL
+    coefficients$site          <- .site
+    coefficients$indicator     <- .indicator
+    coefficients$sub.indicator <- .sub.indicator
+    coefficients$r2            <- x$r2
+    return(coefficients)
+}
+model1.panelar.hartlepool.coeff <- extract_coefficients(model1.panelar.hartlepool)
+model1.panelar.hartlepool.r2    <- model1.panelar.hartlepool$r2
+model2.panelar.hartlepool.coeff <- extract_coefficients(model2.panelar.hartlepool)
+model2.panelar.hartlepool.r2    <- model2.panelar.hartlepool$r2
+rm(extract_coefficients)
+```
+
+<!--- Save Results --->
+```{r save_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+save(model.opts,
+     diff.time.to.ed,
+     check.site,
+     mode.of.arrival.any,
+     avoidable.emergency.admissions.any,
+     case.fatality.ratio.any,
+     model1.panelar.hartlepool,
+     model1.panelar.hartlepool.coeff,
+     model1.panelar.hartlepool.r2,
+     model2.panelar.hartlepool,
+     model2.panelar.hartlepool.coeff,
+     model2.panelar.hartlepool.r2,
+     file = '~/work/closed/knitr/pag_20160704/results.RData')
+```
+<!--- Load Results --->
+```{r load_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+load(file = '~/work/closed/knitr/pag_20160704/results.RData')
 ```
