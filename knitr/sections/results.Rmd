@@ -21,9 +21,12 @@
 ### Attendance - Unnecessary  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/unnecessary_attendance.Rmd', eval = TRUE}
 ```
+### Emergency Admissions - All
+```{r child = 'subsections/emergency_admissions_any.Rmd', eval = TRUE}
+```
 
 ### Avoidable Emergency Admissions - Any
-```{r child = 'subsections/emergency_admissions_any.Rmd', eval = TRUE}
+```{r child = 'subsections/emergency_admissions_any.Rmd', eval = FALSE}
 ```
 
 ### Attendances Admitted - All  {.tabset .tabset-fade .tabset-pills}
