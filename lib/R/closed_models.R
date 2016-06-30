@@ -102,6 +102,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ##              the main indicator which is supplied as the sub.indicator
     ##              argument
     ## which.df <- substitute(df.lsoa) %>% deparse()
+    ## print("Debug 1")
     if(indicator == 'unnecessary ed attendances'){
         df.lsoa$sub_measure  <- ifelse(is.na(df.lsoa$sub_measure), 'all', df.lsoa$sub_measure)
         df.trust$sub_measure <- ifelse(is.na(df.trust$sub_measure), 'all', df.trust$sub_measure)
@@ -113,12 +114,14 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Convert variable names for ease of typing within this function
     ## (ESS artefact, hitting underscore inserts '<-' so lots of underscores are
     ## tedious to type)
+    ## print("Debug 2")
     names(df.lsoa)  <- names(df.lsoa) %>%
                        gsub("_", ".", x = .)
     names(df.trust) <- names(df.trust) %>%
         gsub("_", ".", x = .)
     ## Convert to data frame, selecting only the specified outcome and convert
     ## town to factor so that it can be releveled as required
+    ## print("Debug 3")
     df.lsoa  <- as.data.frame(df.lsoa) %>%
                 dplyr::filter(measure == indicator,
                               sub.measure == sub.indicator)
@@ -132,6 +135,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ##                    gsub("_", ".", x = .)
     ## Conditionally select range for y-axis, MUST do this BEFORE subsetting
     ## data so that it is common across all outcomes for the given indicator
+    ## print("Debug 4")
     if(common.y == TRUE){
         df.lsoa.max  <-  max(df.lsoa$value, na.rm = TRUE)
         df.trust.max <-  max(df.trust$value, na.rm = TRUE)
@@ -142,13 +146,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Derive a seasonal indicator (really this should be on the data    ##
     ## preparation side but Tony is already doing tons)                  ##
     #######################################################################
-    print('1')
-    dim(df.lsoa) %>% print()
-    dim(df.trust) %>% print()
+    ## print("Debug 5")
     df.lsoa$season <- 1
-    print('2')
-    dim(df.lsoa) %>% print()
-    dim(df.trust) %>% print()
     df.lsoa <- within(df.lsoa,{
                       season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
                       season[month(yearmonth) == 3  | month(yearmonth) == 4]  <- 2
@@ -157,13 +156,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
                       season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
     })
-    print('3')
-    dim(df.lsoa) %>% print()
-    dim(df.trust) %>% print()
     df.trust$season <- 1
-    print('4')
-    dim(df.lsoa) %>% print()
-    dim(df.trust) %>% print()
     df.trust <- within(df.trust,{
                       season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
                       season[month(yearmonth) == 3  | month(yearmonth) == 4]  <- 2
@@ -172,14 +165,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
                       season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
     })
-    print('5')
-    dim(df.lsoa) %>% print()
-    dim(df.trust) %>% print()
     #######################################################################
     ## Add a dummy 'step' for closure                                    ##
     #######################################################################
     ## 2016-05-24 - Post meeting with Jon, this should be 0/1 for _all_ sites not
     ##              just intervention ones
+    ## print("Debug 6")
     df.lsoa$closure  <- ifelse(df.lsoa$relative.month  > 24, 1, 0)
     df.trust$closure <- ifelse(df.trust$relative.month > 24, 1, 0)
     #######################################################################
@@ -190,6 +181,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## https://goo.gl/TlhfCF                                             ##
     ##                                                                   ##
     #######################################################################
+    ## print("Debug 7")
     df.lsoa <- mutate(df.lsoa,
                       nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
                                       (town == 'Southport' & relative.month >= 48) |
@@ -517,14 +509,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                       termlabels = model1)
         ## Subset data
         sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
-        print('Lets filter the data')
         df1 <- filter(df.trust,
                       town %in% sites &
                       measure     == indicator &
                       sub.measure == sub.indicator)
-        ## dim(df1) %>% print()
         ## Generate time-series plot
-        print('Going to draw a graph now...')
         results$model1.ts.plot <- closed_ts_plot(df = df1,
                                                  sites = sites,
                                                  indicator = indicator,
@@ -534,7 +523,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  tidy  = TRUE,
                                                  join  = join.line,
                                                  legend = legend)
-        print('We drew a graph!')
         ##################################################
         ## Model 1 - Bishop Auckland                    ##
         ##################################################
