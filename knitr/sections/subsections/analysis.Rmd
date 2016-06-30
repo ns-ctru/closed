@@ -42,7 +42,20 @@ if(os != 'unix'){
     load('~/work/closed/lib/data/ambulance mean times measure - site - 2016-06-17 01.23.Rda')
     load('~/work/closed/lib/data/case fatality measure - lsoa - 2016-06-10 18.09.Rda')
     load('~/work/closed/lib/data/case fatality measure - site - 2016-06-10 18.10.Rda')
-p}
+}
+## There are some instances where there is no sub_measure, correct those to 'all'
+unnecessary_ed_attendances_measure$sub_measure <- ifelse(is.na(unnecessary_ed_attendances_measure$sub_measure),
+                                                         'all',
+                                                         unnecessary_ed_attendances_measure$sub_measure)
+unnecessary_ed_attendances_site_measure$sub_measure <- ifelse(is.na(unnecessary_ed_attendances_site_measure$sub_measure),
+                                                         'all',
+                                                         unnecessary_ed_attendances_site_measure$sub_measure)
+emergency_admissions_measure$sub_measure <- ifelse(is.na(emergency_admissions_measure$sub_measure),
+                                                   'all',
+                                                   emergency_admissions_measure$sub_measure)
+emergency_admissions_site_measure$sub_measure <- ifelse(is.na(emergency_admissions_site_measure$sub_measure),
+                                                        'all',
+                                                        emergency_admissions_site_measure$sub_measure)
 ```
 ```{r define_models, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ## Set model options here (easier when tweaking en-mass)
@@ -71,7 +84,7 @@ model.opts$plot			<- TRUE
 model.opts$common.y		<- TRUE
 model.opts$theme		<- theme_bw()
 model.opts$return.df		<- FALSE
-model.opts$return.model		<- FALSE
+model.opts$return.model		<- TRUE
 model.opts$return.residuals	<- TRUE
 model.opts$join.line            <- FALSE
 model.opts$legend               <- TRUE
@@ -260,6 +273,39 @@ all.emergency.admissions.all <- closed_models(df.lsoa         = emergency_admiss
                                      df.trust         = emergency_admissions_site_measure,
                                      indicator        = 'all emergency admissions',
                                      sub.indicator    = 'all',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3           = model.opts$mod3,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+				     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+```
+<!--- Avoidable Emergency Admissions - Any --->
+```{r avoidable_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+avoidable.emergency.admissions.any <- closed_models(df.lsoa         = emergency_admissions_measure,
+                                     df.trust         = emergency_admissions_site_measure,
+                                     indicator        = 'avoidable emergency admissions',
+                                     sub.indicator    = 'any',
                                      steps            = c('closure'),
                                      fit.with         = model.opts$fit.with,
                                      panel.lsoa       = model.opts$panel.lsoa,
@@ -593,7 +639,7 @@ case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_measure
                                      legend           = model.opts$legend)
 ```
 <!--- Case Fatality Ratio - Acute Heart Failure --->
-```{r case_fatality_ratio_acute_heart_failure, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r case_fatality_ratio_acute_heart_failure, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
