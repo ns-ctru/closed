@@ -43,9 +43,27 @@ Indicators of Emergency Department closure adversely affecting local populations
 |                                   | Total call volumes.    | AS |
 |                                   |  Non-conveyance rates. | AS |
 
-##### Avoidable Emergency Admissions
+##### Avoidable Emergency Admissions and Avoidable Deaths
 
-##### Avoidable Deaths
+The following table details the specific conditions for which admissions or deaths are considered avoidable
+
+| Avoidable Deaths | Avoidable Admissions |
+| Acute Heart Failure * | Acute Mental Crisis|
+| Anaphalaxis | Angina|
+| Asphyxiation | Blocked Urinary Catheter |
+| Asthma | Cellulitis |
+| Cardiac Arrest | Childhood Pyrexial |
+| Falls in those <75 | Chronic Obstructive Pulmonary Disease |
+| Fractured Neck of Femur | Deep Vein Thrombosis |
+| Meningitis | Epileptic Seizure |
+| Myocardial Infarction | Falls in those >75 |
+| Non-superficial Head Injuries | Hypoglycaemia |
+| Pregnancy and Birth Related Conditions | Non-specific Abdominal Pains |
+| Road Traffic Accidents | Non-specific Chest Pains ^ |
+| Ruptured Aortic Aneurysm | Superficial Head Injuries |
+| Self-harm | Urinary Tract Infections |
+| Septic Shock | |
+| Stroke/CVA \* | |
 
 
 #### Steps
