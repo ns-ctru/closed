@@ -143,7 +143,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'copd')                       title2 <- ' (COPD)'
         else if(sub.indicator == 'dvt')                        title2 <- ' (DVT)'
         else if(sub.indicator == 'epileptic fit')              title2 <- ' (Epileptic Fit)'
-        else if(sub.indicator == 'falls (76+ years)')          title2 <- ' (Falls >76yrs)'
+        else if(sub.indicator == 'falls (75+ years)')          title2 <- ' (Falls >76yrs)'
         else if(sub.indicator == 'hypoglycaemia')              title2 <- ' (Hypoglycaemia)'
         else if(sub.indicator == 'minor head injuries')        title2 <- ' (Minor Head Injuries)'
         else if(sub.indicator == 'non-specific chest pain')    title2 <- ' (Non-Specific Chest Pain)'
@@ -189,7 +189,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
         else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
         nudge <- 0.5
-        ylabel <- 'Proportion of Deaths'
+        ylabel <- 'Case Fatality Ratio'
     }
     else if(indicator == 'ambulance mean times'){
         title1 <- 'Ambulance Mean Times'
@@ -199,7 +199,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'dest_to_clear')           title2 <- ' (Destination to Clear)'
         else if(sub.indicator == 'scene_to_dest')           title2 <- ' (Scene to Destination)'
         nudge <- 10
-        ylabel <- 'Mean Time'
+        ylabel <- 'Mean Time (minutes)'
     }
     #######################################################################
     ## Define vertical lines for steps                                   ##
