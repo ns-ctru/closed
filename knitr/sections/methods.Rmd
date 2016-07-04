@@ -8,13 +8,13 @@ Table: Models tested in ClosED
 
 Model | Case Site  | Control Site     | Panel | Covariates
 ------|------------|------------------|-------|----------------------------------------
-1     | Individual | None             | ED    | season + time + closure + steps
-2     | Individual | One Matched      | ED    | season + time + closure * site + steps
-3     | Individual | All Matched      | ED    | season + time + closure * site + steps
-4     | All        | One Matched      | ED    | season + time + closure * site + steps
-5     | All        | All Matched      | ED    | season + time + closure * site + steps
-6     | Individual | One Matched      | LSOA  | season + time + closure * site + steps + change in ED time
-7     | All        | All Matched      | LSOA  | season + time + closure * site + steps + change in ED time
+1     | Individual | None             | ED    | season + time + closure + nhs111 + other.centre + ambulance.diversion
+2     | Individual | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+3     | Individual | All Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+4     | All        | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+5     | All        | All Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+6     | Individual | One Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
+7     | All        | All Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
 
 
 #### Indicators
@@ -25,7 +25,7 @@ Indicators of Emergency Department closure adversely affecting local populations
 | Indicator  | Description | Data Source
 |------------|-------------|---------------
 | **Deaths** | Mortality rate for deaths occurring upto 3 days for 16 conditions (see table Avoidable Deaths | ONS / HES-ONS|
-| **Risk of Death** | Case fatality ratio ($\frac{n_{deaths}}{n_{cases}}$) for the 16 serious conditions (see table Avoidable Deaths). | ONS / HES-ONS|
+| **Risk of Death** | Case fatality ratio (deaths / cases) for the 16 serious conditions (see table Avoidable Deaths). | ONS / HES-ONS|
 | **Emergency Attendance** | Total Type 1 ED Attendances for residents in the catchment area with any condition. | HES-AE |
 |                          | Total Type 1 ED Attendances for residents in the catchment area arriving via Ambulance | HES-AE |
 |                          | Total Type 1 ED Attendances for residents in the catchment area arriving via 'walk-in' mode. | HES-AE |
@@ -42,6 +42,10 @@ Indicators of Emergency Department closure adversely affecting local populations
 |                                   | Mean time from ambulance arriving at hospital to 'clear' time. | AS |
 |                                   | Total call volumes.    | AS |
 |                                   |  Non-conveyance rates. | AS |
+
+##### Avoidable Emergency Admissions
+
+##### Avoidable Deaths
 
 
 #### Steps
