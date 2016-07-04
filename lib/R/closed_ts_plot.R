@@ -19,6 +19,8 @@
 #' @param tidy Logical indicator of whether to remove spurious data points when plotting
 #' @param join Logical indicator of whether to completely remove time points with spurious data so that lines are continuous
 #' @param legend Logical indicator of whether to include a legend
+#' @param lines Logical indicator of whether to include a vertical line for steps.
+#' @param xaxis.steps Logical indicator of whether to add x-axis labels for steps.
 #'
 #' @return A list of ggplot2 objects.
 #'
@@ -39,7 +41,9 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            tidy            = FALSE,
                            join            = FALSE,
                            legend          = FALSE,
-                          ...){
+                           lines           = TRUE,
+                           xaxis.steps    = FALSE,
+                           ...){
     ## Initialise results for returning
     results <- list()
     ## 2016-05-24 - For a small number of outcomes there is no sub-indicator
@@ -351,11 +355,6 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                                   color = town)) +
             ## Basic line plot
             geom_line() +
-            ## Add vertical lines for all steps
-            geom_vline(data = df.steps,
-                       mapping = aes(xintercept = steps,
-                                     color      = town,
-                                     linetype   = variable)) +
             ## Graph and axis labels
             labs(list(title  = paste0(title1, title2),
                       x      = 'Month (Aligned)',
@@ -370,6 +369,20 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                             force   = 1,
                             nudge_x = 0,
                             nudge_y = 0)
+    ## Add vertical lines for all steps
+    if(lines == TRUE){
+        results$plot <- results$plot + geom_vline(data = df.steps,
+                                                  mapping = aes(xintercept = steps,
+                                                                color      = town,
+                                                                linetype   = variable))
+    }
+    ## X-axis labels for events
+    if(xaxis.steps == TRUE){
+        results$plot <- results$plot + annotate(geom   = 'text',
+                                                x      = df.steps$steps,
+                                                y      = -1
+                                                labels = steps.labels)
+    }
     ## Facet
     if(facet == TRUE){
         results$plot <- results$plot + facet_wrap(~ group, ncol = 1)
