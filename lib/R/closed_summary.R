@@ -86,11 +86,13 @@ closed_summary <- function(df          = ed_attendances_by_mode_measure,
         ungroup()
     if(plot.avg == 'mean'){
         results$plot.time.to.ed <- ggplot(to.plot, aes(time.to.ed.mean))
+        max.diff <- max(to.plot$time.to.ed.mean) %>% round(digits = 0)
     }
     else if(plot.avg == 'median'){
         results$plot.time.to.ed <- ggplot(to.plot, aes(time.to.ed.median))
+        max.diff <- max(to.plot$time.to.ed.median) %>% round(digits = 0)
     }
-    results$plot.time.to.ed <- results$plot.time.to.ed + geom_histogram() +
+    results$plot.time.to.ed <- results$plot.time.to.ed + geom_histogram(bins = 20) +
                                facet_grid(town ~ .) +
                                xlab('Difference in Time to ED (minutes)') + ylab('N') +
                                ggtitle('Difference in Time to ED from LSOAs')
@@ -124,7 +126,7 @@ closed_summary <- function(df          = ed_attendances_by_mode_measure,
     results$summary <- rbind(open, closed)
     rm(open, closed)
     ## results$summary <- dplyr::filter(results$summary, ed.status == 1 & !town %in% !c('Bishop Auckland', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Hartlepool'))
-    ## results$n.lsoa <- NULL
+    results$n.lsoa <- NULL
     #######################################################################
     ## Formatted Output                                                  ##
     #######################################################################
