@@ -22,6 +22,7 @@ Model | Case Site  | Control Site     | Panel | Covariates
 A number of indicators have been pre-selected for investigation of the impact of closing Emergency Departments and are detailed below.
 
 Indicators of Emergency Department closure adversely affecting local populations. Data Sources are **ONS** : ONS Mortality Data; **HES-ONS** : HES-ONS linked mortality data; **HES-AE** : HES A\&E attendance; **HES-APC** : HES Admitted Patient Care; AS : Ambulance Service CAD data. **NB** Ambulance 'clear' time is when an ambulance is available for their next job.
+
 | Indicator  | Description | Data Source
 |------------|-------------|---------------
 | **Deaths** | Mortality rate for deaths occurring upto 3 days for 16 conditions (see table Avoidable Deaths | ONS / HES-ONS|
@@ -48,6 +49,7 @@ Indicators of Emergency Department closure adversely affecting local populations
 The following table details the specific conditions for which admissions or deaths are considered avoidable
 
 | Avoidable Deaths | Avoidable Admissions |
+|------------------|----------------------|
 | Acute Heart Failure * | Acute Mental Crisis|
 | Anaphalaxis | Angina|
 | Asphyxiation | Blocked Urinary Catheter |
@@ -63,7 +65,7 @@ The following table details the specific conditions for which admissions or deat
 | Ruptured Aortic Aneurysm | Superficial Head Injuries |
 | Self-harm | Urinary Tract Infections |
 | Septic Shock | |
-| Stroke/CVA \* | |
+| Stroke/CVA | |
 
 
 #### Steps
