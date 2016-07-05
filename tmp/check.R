@@ -1,3 +1,81 @@
+## 2016-07-05 Checking Model 8
+check.model8 <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
+                                     df.trust         = ed_attendances_by_mode_site_measure,
+                                     indicator        = 'ed attendances',
+                                     sub.indicator    = 'other',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = NULL,
+                                     model2           = NULL,
+                                     model3           = NULL,
+                                     model4           = NULL,
+                                     model5           = NULL,
+                                     model6           = NULL,
+                                     model7           = NULL,
+                                     model7           = c('pooled.control * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+
+## 2016-07-05 Checking tweaked closed_ts_plot() to see if case fatality ratio plots now
+##           have scale 0 to 1 by default...
+ts.plot.cfr <- closed_ts_plot(df            = case_fatality_site_measure,
+                          indicator     = 'case fatality ratio',
+                          sub.indicator = 'any',
+                          steps         = TRUE,
+                          theme         = theme_bw(),
+                          tidy          = FALSE,
+                          facet         = FALSE,
+                          sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+                          legend        = TRUE)
+## ...and to check new option of labelling x-axis with steps
+ts.plot.xaxis <- closed_ts_plot(df            = case_fatality_site_measure,
+                          indicator     = 'case fatality ratio',
+                          sub.indicator = 'any',
+                          steps         = TRUE,
+                          theme         = theme_bw(),
+                          tidy          = FALSE,
+                          facet         = FALSE,
+                          sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+                          legend        = TRUE,
+                          xaxis.steps   = TRUE)
+## Hmm above isn't working, perhaps because the offset for labels is -1 which will be
+## way off the page when the axis is 0 to 1, lets try another
+ts.plot.xaxis2 <- closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+                                 indicator     = 'ed attendances',
+                                 sub.indicator = 'any',
+                                 steps         = TRUE,
+                                 theme         = theme_bw(),
+                                 tidy          = FALSE,
+                                 facet         = FALSE,
+                                 sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+                                 legend        = TRUE)
+save(ts.plot.cfr,
+     ts.plot.xaxis,
+     ts.plot.xaxis2,
+     file = '~/work/closed/tmp/check.RData')
+
+
+## 2016-06-28 Troubleshooting closed_ts_model() function to correctly handle
+##            'all emergency admissions' (without any sub_measure)
+closed_ts_plot(df = emergency_admissions_site_measure,
+               indicator = 'all emergency admissions',
+               sub.indicator = NA)
+
 ##2016-06-21 - Checking Case Fatality analyses
 case_fatality_site_measure %>%
     as.data.frame() %>%
