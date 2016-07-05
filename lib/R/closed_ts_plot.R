@@ -376,6 +376,10 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                                                                 color      = town,
                                                                 linetype   = variable))
     }
+    ## Scale y-axis to have range 0-1 if this is case fatality ratio
+    if(indicator == 'case fatality ratio'){
+        results$plot <- results$plot + scale_y_continuous(limits = c(0, 1))
+    }
     ## X-axis labels for events
     if(xaxis.steps == TRUE){
         results$plot <- results$plot + annotate(geom   = 'text',
