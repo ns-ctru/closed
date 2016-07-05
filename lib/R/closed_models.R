@@ -31,9 +31,11 @@
 #' @param model5 Covariates to include in model 5.
 #' @param model6 Covariates to include in model 6.
 #' @param model7 Covariates to include in model 7.
+#' @param model8 Covariates to include in model 8.
 #' @param autocorr panelAR() option for handling auto-correlation, default is \code{ar1}.
 #' @param panelcorrmethod panelAR() option for panel correction, default is \code{pcse}.
 #' @param coefficients Determine which coefficients from the model are included in summary tables.  Setting to \code{closure} will return only terms that involve only the closure indicator (i.e. \code{closure} itself).  Other options include \code{town} for site specific terms (no interactions) and \code{closure.town} (the default) which includes all closure and town terms, both individually and from interactions.  Use \code{all} to get all terms returned or for closure, town and other steps use \code{all.steps}
+#' @param weights option for \code{panelAR} weights (see \code{?panelAR} for options).
 #' @param seq.times Logical whether to use \code{panelAR} \code{seq.times} option to ignore gaps.
 #' @param rho.na.rm Logical operator passed to panelAR() for excluding panel specific autocorrelation when it can not be calculated.
 #' @param plot Generate time-series plot.
@@ -70,16 +72,18 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           panel.trust     = 'town',
                           timevar         = 'relative.month',
                           outcome         = 'value',
-                          model1          = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'), ## ToDo - Add other steps when available
+                          model1          = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
                           model2          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
                           model3          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
                           model4          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
                           model5          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
                           model6          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
                           model7          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                          model8          = c('pooled.control * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
                           autocorr        = 'ar1',
                           panelcorrmethod = 'pcse',
                           coefficients    = 'closure.town',
+                          weights         = '',
                           seq.times       = TRUE,
                           rho.na.rm       = FALSE,
                           plot            = TRUE,
@@ -1208,7 +1212,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## All sites                                    ##
         ##################################################
-        ## ToDo - Add in the other steps when available to both the data and the formula
         formula.model7 <- reformulate(response = outcome,
                                        termlabels = c(model7))
         df7$town <- relevel(df7$town, ref = 'Whitehaven')
@@ -1244,7 +1247,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                     results$model7.panelar.all.coef),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
-                                               title         = paste0('Model 2 & Model 7 : ',
+                                               title         = paste0('Model 6 & Model 7 : ',
                                                                       indicator,
                                                                       ' (',
                                                                       sub.indicator,
@@ -1258,10 +1261,72 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model7.df <- df7
         }
         if(return.residuals == TRUE){
-            results$model5.panelar.residuals.all     <- summary(model5.panelar.all)$residuals
+            results$model7.panelar.residuals.all     <- summary(model7.panelar.all)$residuals
         }
         ## Remove clutter
         rm(df7)
+    }
+    #######################################################################
+    ## Model 7                                                           ##
+    #######################################################################
+    if(!is.null(model8)){
+        ## Reformulate outcome and covariates
+        formula.model8 <- reformulate(response = outcome,
+                                      termlabels = model8)
+        ## Define group pooling for controls
+        df <- mutate(df,
+                     pooled.control = ifelse(site.type %in% c('matched control', 'pooled control'), 'Control', town))
+        df$pooled.control <- factor(df$pooled.control)
+        ##################################################
+        ## All sites                                    ##
+        ##################################################
+        ## Set reference group for pooled controls
+        df8$pooled.control <- relevel(df8$pooled.control, ref = 'Control')
+        model8.panelar.all <- filter(df8,
+                                     measure     == indicator &
+                                     sub.measure == sub.indicator) %>%
+                              panelAR(formula  = formula.model8,
+                                      timeVar  = timevar,
+                                      panelVar = 'town.lsoa',
+                                      autoCorr = autocorr,
+                                      panelCorrMethod = 'pcse',
+                                      seq.times = seq.times,
+                                      rho.na.rm = rho.na.rm)
+        results$model8.panelar.all.coef <- extract_coefficients(x              = model8.panelar.all,
+                                                                .site          = 'All',
+                                                                .indicator     = indicator,
+                                                                .sub.indicator = sub.indicator)
+        results$model8.panelar.r2 <- model8.panelar.all
+        ## Summary table
+        results$model8.panelar <- results$model8.panelar.all.coef
+        ## results$model8.panelar <- combine_coefficients(all.coef        = results$model8.panelar.all.coef)
+        ## ## Forest plot
+        results$model8.forest <- closed_forest(df.list       = list(results$model3.panelar.bishop.coef,
+                                                                    results$model3.panelar.hartlepool.coef,
+                                                                    results$model3.panelar.hemel.coef,
+                                                                    results$model3.panelar.newark.coef,
+                                                                    results$model3.panelar.rochdale.coef,
+                                                                    results$model8.panelar.all.coef),
+                                               plot.term     = c('closure'),
+                                               facet.outcome = FALSE,
+                                               title         = paste0('Model 3 & Model 8 : ',
+                                                                      indicator,
+                                                                      ' (',
+                                                                      sub.indicator,
+                                                                      ')'),
+                                               theme         = theme_bw())
+        ## Return model objects if requested
+        if(return.model == TRUE){
+            results$model8.panelar.all     <- model8.panelar.all
+        }
+        if(return.df == TRUE){
+            results$model8.df <- df8
+        }
+        if(return.residuals == TRUE){
+            results$model8.panelar.residuals.all     <- summary(model8.panelar.all)$residuals
+        }
+        ## Remove clutter
+        rm(df8)
     }
     #######################################################################
     ## Return the results                                                ##
