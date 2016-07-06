@@ -1327,10 +1327,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       pooled.control = ifelse(pooled.control == 8, 'Newark', pooled.control),
                       pooled.control = ifelse(pooled.control == 9, 'Rochdale', pooled.control))
         df8$pooled.control <- factor(df8$pooled.control)
+        ## Set reference group for pooled controls
+        df8$pooled.control <- relevel(df8$pooled.control, ref = 'Control')
+        df8$group <- paste0('Cohort : ', df8$group)
         ##################################################
         ## Bishop Auckland                              ##
         ##################################################
-        df8$town <- relevel(df8$town, ref = 'Whitehaven')
         model8.panelar.bishop <- filter(df8,
                                         group == 'Cohort : Bishop Auckland General Hospital') %>%
                                  panelAR(formula  = formula.model8,
@@ -1348,7 +1350,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Hartlepool                                   ##
         ##################################################
-        df8$town <- relevel(df8$town, ref = 'Grimsby')
         model8.panelar.hartlepool <- filter(df8,
                                               group == 'Cohort : University Hospital of Hartlepool') %>%
                                      panelAR(formula  = formula.model8,
@@ -1366,7 +1367,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Hemel Hempstead                              ##
         ##################################################
-        df8$town <- relevel(df8$town, ref = 'Warwick')
         model8.panelar.hemel <- filter(df8,
                                          group == 'Cohort : Hemel Hempstead Hospital') %>%
                                 panelAR(formula  = formula.model8,
@@ -1384,7 +1384,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Newark                                       ##
         ##################################################
-        df8$town <- relevel(df8$town, ref = 'Southport')
         model8.panelar.newark <- filter(df8,
                                           group == 'Cohort : Newark Hospital') %>%
                                  panelAR(formula  = formula.model8,
@@ -1402,7 +1401,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Rochdale                                     ##
         ##################################################
-        df8$town <- relevel(df8$town, ref = 'Rotherham')
         model8.panelar.rochdale <- filter(df8,
                                             group == 'Cohort : Rochdale Infirmary') %>%
                                    panelAR(formula  = formula.model8,
@@ -1420,8 +1418,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## All sites                                    ##
         ##################################################
-        ## Set reference group for pooled controls
-        df8$pooled.control <- relevel(df8$pooled.control, ref = 'Control')
         model8.panelar.all <- filter(df8,
                                      measure     == indicator &
                                      sub.measure == sub.indicator) %>%
@@ -1438,12 +1434,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                 .sub.indicator = sub.indicator)
         results$model8.panelar.r2 <- model8.panelar.all
         ## Summary table
-        results$model8.panelar <- combine_coefficients(bishop.coef     = results$model6.panelar.bishop.coef,
-                                                       hartlepool.coef = results$model6.panelar.hartlepool.coef,
-                                                       hemel.coef      = results$model6.panelar.hemel.coef,
-                                                       newark.coef     = results$model6.panelar.newark.coef,
-                                                       rochdale.coef   = results$model6.panelar.rochdale.coef,
-                                                       all.coef        = results$model7.panelar.all.coef)
+        results$model8.panelar <- combine_coefficients(bishop.coef     = results$model8.panelar.bishop.coef,
+                                                       hartlepool.coef = results$model8.panelar.hartlepool.coef,
+                                                       hemel.coef      = results$model8.panelar.hemel.coef,
+                                                       newark.coef     = results$model8.panelar.newark.coef,
+                                                       rochdale.coef   = results$model8.panelar.rochdale.coef,
+                                                       all.coef        = results$model8.panelar.all.coef)
         ## ## Forest plot
         results$model8.forest <- closed_forest(df.list       = list(results$model8.panelar.bishop.coef,
                                                                     results$model8.panelar.hartlepool.coef,
