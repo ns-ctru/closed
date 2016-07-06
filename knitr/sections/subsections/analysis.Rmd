@@ -56,7 +56,12 @@ emergency_admissions_measure$sub_measure <- ifelse(is.na(emergency_admissions_me
 emergency_admissions_site_measure$sub_measure <- ifelse(is.na(emergency_admissions_site_measure$sub_measure),
                                                         'all',
                                                         emergency_admissions_site_measure$sub_measure)
+## Convert time from seconds to minutes
+amb_mean_times_measure$value <- amb_mean_times_measure$value / 60
+amb_mean_times_site_measure$value <- amb_mean_times_site_measure$value / 60
+
 ```
+
 ```{r define_models, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ## Set model options here (easier when tweaking en-mass)
 model.opts <- list()
@@ -72,6 +77,7 @@ if(os != 'unix' | node != 'mcru-closed-hp.shef.ac.uk'){
 } else{
     model.opts$mod7 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
 }
+model.opts$mod8 <- c('pooled.control * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 model.opts$panel.lsoa		<- 'lsoa'
 model.opts$panel.trust		<- 'town'
 model.opts$timevar		<- 'relative.month'
@@ -85,7 +91,7 @@ model.opts$common.y		<- TRUE
 model.opts$theme		<- theme_bw()
 model.opts$return.df		<- FALSE
 model.opts$return.model		<- TRUE
-model.opts$return.residuals	<- TRUE
+model.opts$return.residuals	<- FALSE
 model.opts$join.line            <- FALSE
 model.opts$legend               <- TRUE
 model.opts$rho.na.rm            <- TRUE
@@ -577,7 +583,7 @@ avoidable.emergency.admissions.epileptic.fit <- closed_models(df.lsoa         = 
 avoidable.emergency.admissions.falls <- closed_models(df.lsoa         = emergency_admissions_measure,
                                      df.trust         = emergency_admissions_site_measure,
                                      indicator        = 'avoidable emergency admissions',
-                                     sub.indicator    = 'falls (76+ years)',
+                                     sub.indicator    = 'falls (75+ years)',
                                      steps            = c('closure'),
                                      fit.with         = model.opts$fit.with,
                                      panel.lsoa       = model.opts$panel.lsoa,
@@ -1081,7 +1087,7 @@ case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_measure
                                      legend           = model.opts$legend)
 ```
 <!--- Case Fatality Ratio - Acute Heart Failure --->
-```{r case_fatality_ratio_acute_heart_failure, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r case_fatality_ratio_acute_heart_failure, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -1115,7 +1121,7 @@ case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = case_
 ```
 
 <!--- Case Fatality Ratio - Anaphylaxis --->
-```{r case_fatality_ratio_anaphylaxis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r case_fatality_ratio_anaphylaxis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.anaphylaxis <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -1149,7 +1155,7 @@ case.fatality.ratio.anaphylaxis <- closed_models(df.lsoa         = case_fatality
 ```
 
 <!--- Case Fatality Ratio - Asphyxiation --->
-```{r case_fatality_ratio_asphyxiation, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r case_fatality_ratio_asphyxiation, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.asphyxiation <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -1183,7 +1189,7 @@ case.fatality.ratio.asphyxiation <- closed_models(df.lsoa         = case_fatalit
 ```
 
 <!--- Case Fatality Ratio - Asthma --->
-```{r case_fatality_ratio_asthma, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r case_fatality_ratio_asthma, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.asthma <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -1217,7 +1223,7 @@ case.fatality.ratio.asthma <- closed_models(df.lsoa         = case_fatality_meas
 ```
 
 <!--- Case Fatality Ratio - Falls --->
-```{r case_fatality_ratio_falls, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r case_fatality_ratio_falls, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.falls <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -1251,7 +1257,7 @@ case.fatality.ratio.falls <- closed_models(df.lsoa         = case_fatality_measu
 ```
 
 <!--- Case Fatality Ratio - Fractured Neck Of Femur --->
-```{r case_fatality_ratio_fractured_neck_of_femur, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r case_fatality_ratio_fractured_neck_of_femur, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.fractured.neck.of.femur <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -1285,7 +1291,7 @@ case.fatality.ratio.fractured.neck.of.femur <- closed_models(df.lsoa         = c
 ```
 
 <!--- Case Fatality Ratio - Meningitis --->
-```{r case_fatality_ratio_meningitis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r case_fatality_ratio_meningitis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.meningitis <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -1319,7 +1325,7 @@ case.fatality.ratio.meningitis <- closed_models(df.lsoa         = case_fatality_
 ```
 
 <!--- Case Fatality Ratio - Myocardial Infarction --->
-```{r case_fatality_ratio_myocardial_infarction, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r case_fatality_ratio_myocardial_infarction, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.myocardial.infarction <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -1353,7 +1359,7 @@ case.fatality.ratio.myocardial.infarction <- closed_models(df.lsoa         = cas
 ```
 
 <!--- Case Fatality Ratio - Pregnancy And Birth Related --->
-```{r case_fatality_ratio_pregnancy_and_birth_related, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r case_fatality_ratio_pregnancy_and_birth_related, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.pregnancy.and.birth.related <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -1387,7 +1393,7 @@ case.fatality.ratio.pregnancy.and.birth.related <- closed_models(df.lsoa        
 ```
 
 <!--- Case Fatality Ratio - Road Traffic Accident --->
-```{r case_fatality_ratio_road_traffic_accident, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r case_fatality_ratio_road_traffic_accident, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.road.traffic.accident <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -1421,7 +1427,7 @@ case.fatality.ratio.road.traffic.accident <- closed_models(df.lsoa         = cas
 ```
 
 <!--- Case Fatality Ratio - Ruptured Aortic Aneurysm --->
-```{r case_fatality_ratio_ruptured_aortic_aneurysm, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r case_fatality_ratio_ruptured_aortic_aneurysm, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.ruptured.aortic.aneurysm <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -1455,7 +1461,7 @@ case.fatality.ratio.ruptured.aortic.aneurysm <- closed_models(df.lsoa         = 
 ```
 
 <!--- Case Fatality Ratio - Self Harm --->
-```{r case_fatality_ratio_self.harm, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r case_fatality_ratio_self.harm, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.self.harm <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -1489,7 +1495,7 @@ case.fatality.ratio.self.harm <- closed_models(df.lsoa         = case_fatality_m
 ```
 
 <!--- Case Fatality Ratio - Septic Shock --->
-```{r case_fatality_ratio_septic_shock, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r case_fatality_ratio_septic_shock, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.septic.shock <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -1523,7 +1529,7 @@ case.fatality.ratio.septic.shock <- closed_models(df.lsoa         = case_fatalit
 ```
 
 <!--- Case Fatality Ratio - Serious Head Injury --->
-```{r case_fatality_ratio_serious_head_injury, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r case_fatality_ratio_serious_head_injury, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.serious.head.injury <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -1557,7 +1563,7 @@ case.fatality.ratio.serious.head.injury <- closed_models(df.lsoa         = case_
 ```
 
 <!--- Case Fatality Ratio - Stroke Cva --->
-```{r case_fatality_ratio_stroke_cva, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r case_fatality_ratio_stroke_cva, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.stroke.cva <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
