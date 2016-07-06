@@ -1,6 +1,6 @@
 Package: closed
 Title: R functions for analysing the ClosED study
-Version: 0.0.0.9000
+Version: 0.0.1.0000
 Authors@R: person("Neil", "Shephard", email = "n.shephard@sheffield.ac.uk", role = c("aut", "cre"))
 Description: Summarises and analyses in tabular and graphical format the ClosED
     study which looks at the effect of closing Emergency Departments on survival,
@@ -10,6 +10,7 @@ Depends:
     R (>= 3.2.3),
     dplyr(>= 0.4.1),
     ggplot2 (>= 1.0.1),
+    ggrepel (>= 0.5),
     haven (>= 0.2.0),
     knitr (>= 1.11),
     lubridate (>= 1.5.0),
@@ -26,5 +27,5 @@ Depends:
     tidyr (>= 0.3.1),
     xtable (>= 1.7-4)
 License: GPL-2
-LazyData: true
+LazyData: false
 RoxygenNote: 5.0.1
