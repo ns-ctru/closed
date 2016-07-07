@@ -990,7 +990,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                             .sub.indicator = sub.indicator)
         results$model5.panelar.r2 <- model5.panelar.all
         ## Summary table
-        results$model5.panelar <- results$model5.panelar.coef
+        ## results$model5.panelar <- results$model5.panelar.coef
         results$model5.panelar <- combine_coefficients(bishop.coef     = results$model3.panelar.bishop.coef,
                                                        hartlepool.coef = results$model3.panelar.hartlepool.coef,
                                                        hemel.coef      = results$model3.panelar.hemel.coef,
@@ -1266,13 +1266,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                       panelCorrMethod = 'pcse',
                                       seq.times = seq.times,
                                       rho.na.rm = rho.na.rm)
-        results$model7.panelar.all.coef <- extract_coefficients(x              = model7.panelar.all,
+        results$model7.panelar.coef <- extract_coefficients(x              = model7.panelar.all,
                                                                 .site          = 'All',
                                                                 .indicator     = indicator,
                                                                 .sub.indicator = sub.indicator)
         results$model7.panelar.r2 <- model7.panelar.all
         ## Summary table
-        results$model7.panelar <- results$model7.panelar.all.coef
+        ## results$model7.panelar <- results$model7.panelar.coef
         results$model7.panelar <- combine_coefficients(bishop.coef     = results$model6.panelar.bishop.coef,
                                                        hartlepool.coef = results$model6.panelar.hartlepool.coef,
                                                        hemel.coef      = results$model6.panelar.hemel.coef,
