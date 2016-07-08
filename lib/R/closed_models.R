@@ -75,7 +75,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           outcome         = 'value',
                           model1          = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
                           model2          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-                          model3          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                          model3          = c('pooled.control * closure', 'town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
                           model4          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
                           model5          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
                           model6          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
@@ -698,6 +698,18 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         df3 <- filter(df.trust,
                       measure     == indicator &
                       sub.measure == sub.indicator)
+               ## Define group pooling for controls
+        df3 <- mutate(df3,
+                      pooled.control = ifelse(site.type %in% c('matched control', 'pooled control'), 'Control', town))
+        df3 <- mutate(df3,
+                      pooled.control = ifelse(pooled.control == 2, 'Bishop Auckland', pooled.control),
+                      pooled.control = ifelse(pooled.control == 6, 'Harltepool', pooled.control),
+                      pooled.control = ifelse(pooled.control == 7, 'Hemel Hempstead', pooled.control),
+                      pooled.control = ifelse(pooled.control == 8, 'Newark', pooled.control),
+                      pooled.control = ifelse(pooled.control == 9, 'Rochdale', pooled.control))
+        df3$pooled.control <- factor(df3$pooled.control)
+        ## Set reference group for pooled controls
+        df3$pooled.control <- relevel(df3$pooled.control, ref = 'Control')
         ## Generate time-series plot
         df3$group <- paste0('Cohort : ', df3$group)
         sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'WansbeckWarwick', 'Whitehaven', 'Wigan', 'Yeovil')
