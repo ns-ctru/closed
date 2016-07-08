@@ -13,6 +13,7 @@
 #' @param sites The sites that are to be plotted, default is for case sites.
 #' @param indicator The performance indicator to assess.
 #' @param sub.indicator The sub-measure performance indicator to assess.
+#' @param pool.control Logical indicator of whether to pool controls.
 #' @param steps Logical indicator of whether to plot vertical lines for each step.
 #' @param common.y Generate all plots with a common y-axis range.
 #' @param theme GGplot2 theme to use.
@@ -34,6 +35,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            sites           = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
                            indicator       = 'ed attendances',
                            sub.indicator   = 'any',
+                           pool.control    = TRUE,
                            steps           = TRUE,
                            common.y        = TRUE,
                            theme           = theme_bw(),
@@ -42,7 +44,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            join            = FALSE,
                            legend          = FALSE,
                            lines           = TRUE,
-                           xaxis.steps    = FALSE,
+                           xaxis.steps     = FALSE,
                            ...){
     ## Initialise results for returning
     results <- list()
@@ -119,6 +121,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'other')     title2 <- ' (Other)'
         else if(sub.indicator == 'ambulance') title2 <- ' (Ambulance)'
         ylabel <- 'N'
+        y.text <- -10
     }
     else if(indicator == 'unnecessary ed attendances'){
         title1 <- 'Unnecessary ED Attendances'
@@ -194,6 +197,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
         nudge <- 0.5
         ylabel <- 'Case Fatality Ratio'
+        y.text <- -0.05
     }
     else if(indicator == 'ambulance mean times'){
         title1 <- 'Ambulance Mean Times'
@@ -348,13 +352,34 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                   town %in% sites &
                   measure     == indicator &
                   sub.measure == sub.indicator)
+    #######################################################################
+    ## Pool Controls                                                     ##
+    #######################################################################
+    if(pool.control == TRUE){
+        ## Derive indicator
+        df <- mutate(df,
+                     pooled.control = ifelse(site.type %in% c('matched control', 'pooled control'), 'Control', town))
+        ## Sum value by pooled.control and month
+        df <- gourp_by(df,
+                       pooled.control, relative.month) %>%
+              summarise(value = sum(value))
+
+    }
     ## Generate time-series plot
-    results$plot <- ggplot(data = df,
-                    mapping = aes(x     = relative.month,
-                                  y     = value,
-                                  color = town)) +
+    if(pool.control == FALSE){
+        results$plot <- ggplot(data = df,
+                               mapping = aes(x     = relative.month,
+                                             y     = value,
+                                             color = town))
+    }
+    else if(pool.control == TRUE){
+        results$plot <- ggplot(data = df,
+                               mapping = aes(x     = relative.month,
+                                             y     = value,
+                                             color = pooled.control))
+    }
             ## Basic line plot
-            geom_line() +
+    results$plot <- results$plot + geom_line() +
             ## Graph and axis labels
             labs(list(title  = paste0(title1, title2),
                       x      = 'Month (Aligned)',
@@ -371,6 +396,11 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                             nudge_y = 0)
     ## Add vertical lines for all steps
     if(lines == TRUE){
+        ## If pooled then only include the steps for Case sites
+        if(pooled.control == TRUE){
+            df.steps <- filter(df.steps,
+                               town %in% c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'))
+        }
         results$plot <- results$plot + geom_vline(data = df.steps,
                                                   mapping = aes(xintercept = steps,
                                                                 color      = town,
@@ -384,8 +414,8 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     if(xaxis.steps == TRUE){
         results$plot <- results$plot + annotate(geom   = 'text',
                                                 x      = df.steps$steps,
-                                                y      = -1
-                                                labels = steps.labels)
+                                                y      = y.text,
+                                                label  = steps.labels)
     }
     ## Facet
     if(facet == TRUE){
