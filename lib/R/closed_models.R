@@ -374,9 +374,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         x$pooled.control <- factor(x$pooled.control)
         ## Set reference group for pooled controls
         x$pooled.control <- relevel(x$pooled.control, ref = 'Control')
-        table(x$town, x$nhs111)           %>% print()
-        table(x$town, x$other.centre)     %>% print()
-        table(x$town, x$ambulance.divert) %>% print()
         ## Optionally remove steps from controls since they are now pooled
         if(remove.control.steps == TRUE){
             control <- c('Basingstoke', 'Blackburn', 'Carlisle', 'Grimsby', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'WansbeckWarwick', 'Whitehaven', 'Wigan', 'Yeovil')
@@ -385,9 +382,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                         other.centre = ifelse(town %in% control, 0, other.centre),
                         ambulance.divert = ifelse(town %in% control, 0, ambulance.divert))
         }
-        table(x$town, x$nhs111)           %>% print()
-        table(x$town, x$other.centre)     %>% print()
-        table(x$town, x$ambulance.divert) %>% print()
         ## Return modified data frame
         return(x)
     }
@@ -1367,7 +1361,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  join          = join.line,
                                                  legend        = legend,
                                                  pool.control  = TRUE)
-
         ##################################################
         ## Bishop Auckland                              ##
         ##################################################
