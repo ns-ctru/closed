@@ -52,7 +52,10 @@ closed_clean <- function(df              = ed_attendances_by_mode_measure,
         df <- mutate(df,
                      value = ifelse(value > (mean - systematic * sd) |
                                     value < (mean - systematic * sd),
-                                    ))
+                                    yes = NA,
+                                    no  = value))
+        df <- dplyr::select(df, -c(mean, sd))
+        return(df)
     }
     ## Clean the data set conditional on the Indicator and in turn Sub-indicator
     if(indicator == 'ed attendances'){
@@ -98,7 +101,7 @@ closed_clean <- function(df              = ed_attendances_by_mode_measure,
                                             sub.measure == sub.indicator &
                                             relative.month %in% c(1:9, 31:47),
                                             yes = NA,
-                                            no = value)
+                                            no = value),
                              value = ifelse(town == 'Bishop Auckland' &
                                             sub.measure == sub.indicator &
                                             relative.month %in% c(1, 6),
