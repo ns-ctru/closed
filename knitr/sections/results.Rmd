@@ -207,6 +207,10 @@
 ```{r child = 'subsections/ambulance_mean_times_scene_to_dest.Rmd', eval = FALSE}
 ```
 
-#### Destimation to Clear  {.tabset .tabset-fade .tabset-pills}
+#### Destination to Clear  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/ambulance_mean_times_dest_to_clear.Rmd', eval = FALSE}
+```
+
+#### Regression Summary
+```{r child = 'subsections/regression_summary.Rmd', eval = TRUE}
 ```
