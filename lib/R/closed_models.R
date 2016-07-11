@@ -1354,7 +1354,20 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Define group pooling for controls
         df8 <- pool(x                    = df.trust,
                     remove.control.steps = TRUE)
+        ## Generate Time-Series Plots
         df8$group <- paste0('Cohort : ', df8$group)
+        sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'WansbeckWarwick', 'Whitehaven', 'Wigan', 'Yeovil')
+        results$model8.ts.plot <- closed_ts_plot(df            = df8,
+                                                 sites         = sites,
+                                                 indicator     = indicator,
+                                                 sub.indicator = sub.indicator,
+                                                 steps         = TRUE,
+                                                 facet         = TRUE,
+                                                 tidy          = TRUE,
+                                                 join          = join.line,
+                                                 legend        = legend,
+                                                 pool.control  = TRUE)
+
         ##################################################
         ## Bishop Auckland                              ##
         ##################################################
