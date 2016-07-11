@@ -1352,8 +1352,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         formula.model8 <- reformulate(response = outcome,
                                       termlabels = model8)
         ## Define group pooling for controls
-        df3 <- pool(x                    = df.trust,
-                    remove.control.steps = FALSE)
+        df8 <- pool(x                    = df.trust,
+                    remove.control.steps = TRUE)
         df8$group <- paste0('Cohort : ', df8$group)
         ##################################################
         ## Bishop Auckland                              ##
