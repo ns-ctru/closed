@@ -35,7 +35,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            sites           = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
                            indicator       = 'ed attendances',
                            sub.indicator   = 'any',
-                           pool.control    = TRUE,
+                           pool.control    = FALSE,
                            steps           = TRUE,
                            common.y        = TRUE,
                            theme           = theme_bw(),
@@ -360,7 +360,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         df <- mutate(df,
                      pooled.control = ifelse(site.type %in% c('matched control', 'pooled control'), 'Control', town))
         ## Sum value by pooled.control and month
-        df <- gourp_by(df,
+        df <- group_by(df,
                        pooled.control, relative.month) %>%
               summarise(value = sum(value))
 
@@ -397,7 +397,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Add vertical lines for all steps
     if(lines == TRUE){
         ## If pooled then only include the steps for Case sites
-        if(pooled.control == TRUE){
+        if(pool.control == TRUE){
             df.steps <- filter(df.steps,
                                town %in% c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'))
         }
