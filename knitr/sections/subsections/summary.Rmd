@@ -2,38 +2,61 @@
 
 A short summary of the variables that are used within the dataset, as much for the statisticians reference than anyones use.  Each data file comes in two formats, one at the LSOA level and one at the ED level and the filenames follow a consistent nomenclature which consists of `[DESCRIPTION] - [lsoa|site] - YYYY-MM-DD hh.mm.Rda` where `DESCRIPTION` varies between files, `[lsoa|site]` indicates the level of the data and `YYYY-MM-DD hh.mm` is a date/time stamp in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601).  The `measure` and `sub-measure` variables are used to identify the subset of data within a given file that is to be analysed since there are multiple outcomes in almost all files.  The actual number (or rate, mean or median) of events that are to be analysed is always stored in the variable names `value`.
 
-Table: Description of data and variables in the CLOSED study.
+Table: Description of data and variables in the CLOSED study. **NB** There are actually two data frames for each, one at the Trust level (which is the given filename) and one at the LSOA level which has the same filename but without `_site`.
 
-Data                     | `DESCRIPTION`                        | Measure                          | Sub-Measure
--------------------------|--------------------------------------|----------------------------------|-----------------------------
-Attendance               | `ed_attendances by mode measure`     | `ed attendances`                 | `any`
-Attendance               | `ed_attendances by mode measure`     | `ed attendances`                 | `ambulance`
-Attendance               | `ed_attendances by mode measure`     | `ed attendances`                 | `ambulance`
-Attendance               | `ed_attendances by mode measure`     | `ed attendances`                 | `other`
-Unnecesssary Attendance  | `unnecessary_ed_attendances_measure` | `unnecessary ed attendances`     | `NA`
-Attendances Admitted     | `ed_attendances_admitted_measure`    | `ed attendances admitted`        | `all`
-Attendances Admitted     | `ed_attendances_admitted_measure`    | `ed attendances admitted`        | `fraction admitted`
-Attendances Admitted     | `ed_attendances_admitted_measure`    | `ed attendances admitted`        | `admitted`
-Emergency Admissions     | `emergency admissions measure`       | `all emergency admissions`       | `NA`
-Emergency Admissions     | `emergency admissions measure`       | `avoidable emergency admissions` | `acute mental health crisis`
-Emergency Admissions     | `emergency admissions measure`       | `avoidable emergency admissions` | `angina`
-Emergency Admissions     | `emergency admissions measure`       | `avoidable emergency admissions` | `any`
-Emergency Admissions     | `emergency admissions measure`       | `avoidable emergency admissions` | `blocked catheter`
-Emergency Admissions     | `emergency admissions measure`       | `avoidable emergency admissions` | `cellulitis`
-Emergency Admissions     | `emergency admissions measure`       | `avoidable emergency admissions` | `copd`
-Emergency Admissions     | `emergency admissions measure`       | `avoidable emergency admissions` | `dvt`
-Emergency Admissions     | `emergency admissions measure`       | `avoidable emergency admissions` | `epileptic fit`
-Emergency Admissions     | `emergency admissions measure`       | `avoidable emergency admissions` | `falls (76+ years)`
-Emergency Admissions     | `emergency admissions measure`       | `avoidable emergency admissions` | `hypoglycaemia`
-Emergency Admissions     | `emergency admissions measure`       | `avoidable emergency admissions` | `minor head injuries`
-Emergency Admissions     | `emergency admissions measure`       | `avoidable emergency admissions` | `non-specific chest pain`
-Emergency Admissions     | `emergency admissions measure`       | `avoidable emergency admissions` | `pyrexial child (<6 years)`
-Emergency Admissions     | `emergency admissions measure`       | `avoidable emergency admissions` | `urinary tract infection`
-Length of Stay           | `length of stay measure`             | `length of stay`                 | `mean`
-Length of Stay           | `length of stay measure`             | `length of stay`                 | `median`
-Critical Care            | `critical care stays measure`        | `critical care stays`            | `all`
-Critical Care            | `critical care stays measure`        | `critical care stays`            | `critical care`
-Critical Care            | `critical care stays measure`        | `critical care stays`            | `fraction critical care`
+Description              | `Data Frames`                             | `Measure`                        | `Sub-Measure`
+-------------------------|-------------------------------------------|----------------------------------|-----------------------------
+Attendance               | `ed_attendances_by_mode_site_measure`     | `ed attendances`                 | `any`
+Attendance               | `ed_attendances_by_mode_site_measure`     | `ed attendances`                 | `ambulance`
+Attendance               | `ed_attendances_by_mode_site_measure`     | `ed attendances`                 | `ambulance`
+Attendance               | `ed_attendances by_mode_site_measure`     | `ed attendances`                 | `other`
+Unnecesssary Attendance  | `unnecessary_ed_attendances_site_measure` | `unnecessary ed attendances`     | `NA`
+Attendances Admitted     | `ed_attendances_admitted_site_measure`    | `ed attendances admitted`        | `all`
+Attendances Admitted     | `ed_attendances_admitted_site_measure`    | `ed attendances admitted`        | `fraction admitted`
+Attendances Admitted     | `ed_attendances_admitted_site_measure`    | `ed attendances admitted`        | `admitted`
+Emergency Admissions     | `emergency_admissions_site_measure`       | `all emergency admissions`       | `NA`
+Emergency Admissions     | `emergency_admissions_site_measure`       | `avoidable emergency admissions` | `acute mental health crisis`
+Emergency Admissions     | `emergency_admissions_site_measure`       | `avoidable emergency admissions` | `angina`
+Emergency Admissions     | `emergency_admissions_site_measure`       | `avoidable emergency admissions` | `any`
+Emergency Admissions     | `emergency_admissions_site_measure`       | `avoidable emergency admissions` | `blocked catheter`
+Emergency Admissions     | `emergency_admissions_site_measure`       | `avoidable emergency admissions` | `cellulitis`
+Emergency Admissions     | `emergency_admissions_site_measure`       | `avoidable emergency admissions` | `copd`
+Emergency Admissions     | `emergency_admissions_site_measure`       | `avoidable emergency admissions` | `dvt`
+Emergency Admissions     | `emergency_admissions_site_measure`       | `avoidable emergency admissions` | `epileptic fit`
+Emergency Admissions     | `emergency_admissions_site_measure`       | `avoidable emergency admissions` | `falls (76+ years)`
+Emergency Admissions     | `emergency_admissions_site_measure`       | `avoidable emergency admissions` | `hypoglycaemia`
+Emergency Admissions     | `emergency_admissions_site_measure`       | `avoidable emergency admissions` | `minor head injuries`
+Emergency Admissions     | `emergency_admissions_site_measure`       | `avoidable emergency admissions` | `non-specific chest pain`
+Emergency Admissions     | `emergency_admissions_site_measure`       | `avoidable emergency admissions` | `pyrexial child (<6 years)`
+Emergency Admissions     | `emergency_admissions_site_measure`       | `avoidable emergency admissions` | `urinary tract infection`
+Length of Stay           | `length_of_stay_site_measure`             | `length of stay`                 | `mean`
+Length of Stay           | `length_of_stay_site_measure`             | `length of stay`                 | `median`
+Critical Care            | `critical_care_stays_site_measure`        | `critical care stays`            | `all`
+Critical Care            | `critical_care_stays_site_measure`        | `critical care stays`            | `critical care`
+Critical Care            | `critical_care_stays_site_measure`        | `critical care stays`            | `fraction critical care`
+Case Fatality Ratio      | `case_fatality_site_measure` | `case fatality ratio` | `any`
+Case Fatality Ratio      | `case_fatality_site_measure` | `case fatality ratio` | `acute heart failure`
+Case Fatality Ratio      | `case_fatality_site_measure` | `case fatality ratio` | `anaphylaxis`
+Case Fatality Ratio      | `case_fatality_site_measure` | `case fatality ratio` | `asphyxiation`
+Case Fatality Ratio      | `case_fatality_site_measure` | `case fatality ratio` | `asthma`
+Case Fatality Ratio      | `case_fatality_site_measure` | `case fatality ratio` | `falls`
+Case Fatality Ratio      | `case_fatality_site_measure` | `case fatality ratio` | `fractured neck of femur`
+Case Fatality Ratio      | `case_fatality_site_measure` | `case fatality ratio` | `meningitis`
+Case Fatality Ratio      | `case_fatality_site_measure` | `case fatality ratio` | `myocardial infarction`
+Case Fatality Ratio      | `case_fatality_site_measure` | `case fatality ratio` | `pregnancy and birth related`
+Case Fatality Ratio      | `case_fatality_site_measure` | `case fatality ratio` | `road traffic accident`
+Case Fatality Ratio      | `case_fatality_site_measure` | `case fatality ratio` | `ruptured aortic aneurysm`
+Case Fatality Ratio      | `case_fatality_site_measure` | `case fatality ratio` | `self harm`
+Case Fatality Ratio      | `case_fatality_site_measure` | `case fatality ratio` | `septic shock`
+Case Fatality Ratio      | `case_fatality_site_measure` | `case fatality ratio` | `serious head injury`
+Case Fatality Ratio      | `case_fatality_site_measure` | `case fatality ratio` | `stroke cva`
+Ambulance Mean Times     | `ambulance_mean_times_site_measure` | `ambulance mean times` | `call_to_dest`
+Ambulance Mean Times     | `ambulance_mean_times_site_measure` | `ambulance mean times` | `call_to_scene_any`
+Ambulance Mean Times     | `ambulance_mean_times_site_measure` | `ambulance mean times` | `call_to_scene_conveying`
+Ambulance Mean Times     | `ambulance_mean_times_site_measure` | `ambulance mean times` | `dest_to_clear`
+Ambulance Mean Times     | `ambulance_mean_times_site_measure` | `ambulance mean times` | `scene_to_dest`
+
+
 
 
 
@@ -94,5 +117,10 @@ Critical Care           | Critical      | N/A             | N/A
 Critical Care           | Fraction      | N/A             | N/A
 Length of Stay          | Mean          | N/A             | N/A
 Length of Stay          | Median        | N/A             | N/A
+Ambulance Mean Times    | Call to Destination       | |
+Ambulance Mean Times    | Call to Scene (Any)       | |
+Ambulance Mean Times    | Call to Scene (Conveying) | |
+Ambulance Mean Times    | Destination to Clear      | |
+Ambulance Mean Times    | Scene to Destination      | |
 
 Some are straight-forward to remove (e.g. Bishop Auckland at months 1 and 6) whilst others are less straight-forward.  For example for Attendance by Any mode removing Basingstoke months 1-9 would mean that in Models 4 and 5 (which are pooled across sites) the time-series would start at week 10 rather than week 1.  For Attendance by Any mode removing Yeovil would be problematic as it is the date of the closure step and its probably undesirable to remove this for all centers.  Similarly for Attendance by Ambulance in Scunthorpe removing the first 16 months from it and other panels when balancing them would be undesirable.  Its quite possible there are meaningful steps for these two centres but documentary analysis has not been performed on these sites.
