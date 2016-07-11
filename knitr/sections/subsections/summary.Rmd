@@ -95,7 +95,7 @@ Visual inspection of time-series plots (see 'Time-Series Plots' tab under each i
 Indicator				| Sub-indicator | Site            | Relative Month
 ------------------------|---------------|-----------------|--------------------------
 Attendance				| Any           | Bishop Auckalnd | 1, 6
-Attendance              | Any           | Basingstoke     | 1-9?
+Attendance              | Any           | Basingstoke     | 1-9? 31-47?
 Attendance              | Any           | Yeovil          | 25?
 Attendance				| Ambulance     | Bishop Auckalnd | 1, 6
 Attendance				| Ambulance     | Scunthorpe      | 1-16
@@ -117,6 +117,22 @@ Critical Care           | Critical      | N/A             | N/A
 Critical Care           | Fraction      | N/A             | N/A
 Length of Stay          | Mean          | N/A             | N/A
 Length of Stay          | Median        | N/A             | N/A
+Case Fatality Ratio      | Any                         | |
+Case Fatality Ratio      | Acute Heart Failure         | |
+Case Fatality Ratio      | Anaphylaxis                 | |
+Case Fatality Ratio      | Asphyxiation				   | |
+Case Fatality Ratio      | Asthma					   | |
+Case Fatality Ratio      | Falls					   | |
+Case Fatality Ratio      | Fractured Neck of Femur	   | |
+Case Fatality Ratio      | Meningitis				   | |
+Case Fatality Ratio      | Myocardial Infarction	   | |
+Case Fatality Ratio      | Pregnancy and Birth Related | |
+Case Fatality Ratio      | Road Traffic Accident	   | |
+Case Fatality Ratio      | Ruptured Aortic Aneurysm	   | |
+Case Fatality Ratio      | Self Harm				   | |
+Case Fatality Ratio      | Septic Shock				   | |
+Case Fatality Ratio      | Serious Head Injury		   | |
+Case Fatality Ratio      | Stroke CVA				   | |
 Ambulance Mean Times    | Call to Destination       | |
 Ambulance Mean Times    | Call to Scene (Any)       | |
 Ambulance Mean Times    | Call to Scene (Conveying) | |
