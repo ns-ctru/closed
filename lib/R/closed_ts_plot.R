@@ -289,6 +289,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     #######################################################################
     ## Identify and remove spurious data points                          ##
     #######################################################################
+    ## TODO - Convert to calls to closed_clean()
     if(tidy == TRUE){
         ## Condition on the indicator and sub indicator
         if(indicator == 'ed attendances' & sub.indicator == 'any'){
