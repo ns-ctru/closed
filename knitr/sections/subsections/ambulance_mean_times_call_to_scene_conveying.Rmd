@@ -1,0 +1,210 @@
+#### Time-Series Plots
+
+These time-series plots show the trends over time *before* the removal of any potentially spurious data points and the balancing of the panels.  They are presented for that very purpose, identification of possibly spurious data points.
+
+##### Case Sites
+
+```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_case, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call_to_scene_conveying',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+               legend        = TRUE)
+```
+
+##### Control Sites
+
+```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call_to_scene_conveying',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Salford', 'Scarborough', 'Whitehaven',
+                                 'Blackburn', 'Grimsby', 'Wigan',
+                                 'Basingstoke', 'Warwick', 'Yeovil',
+                                 'Carlisle', 'Salisbury', 'Southport',
+                                 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE)
+```
+
+##### Bishop Auckland
+
+```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_bishop, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call_to_scene_conveying',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
+               legend        = TRUE)
+```
+
+##### Hartlepool
+
+```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_hartlepool, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call_to_scene_conveying',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
+```
+
+##### Hemel Hempstead
+
+```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call_to_scene_conveying',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               legend        = TRUE)
+```
+
+##### Newark
+
+```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_newark, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call_to_scene_conveying',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
+               legend        = TRUE)
+```
+
+##### Rochdale
+
+```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_rochdale, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call_to_scene_conveying',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE)
+```
+
+
+#### Model 1
+`Case Site    : Individual`\
+`Control Site : None`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure + nhs111 + ambulance.divert + other.centre `\
+
+```{r ambulance_mean_times_call_to_scene_conveying_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+ambulance.mean.times.call.to.scene.conveying$model1.ts.plot
+ambulance.mean.times.call.to.scene.conveying$model1.forest$forest
+ambulance.mean.times.call.to.scene.conveying$model1.panelar$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model1.panelar$caption)
+```
+
+#### Model 2
+
+`Case Site    : Individual`\
+`Control Site : One Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
+
+```{r ambulance_mean_times_call_to_scene_conveying_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+ambulance.mean.times.call.to.scene.conveying$model2.ts.plot
+ambulance.mean.times.call.to.scene.conveying$model2.forest$forest
+ambulance.mean.times.call.to.scene.conveying$model2.panelar$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model2.panelar$caption)
+```
+
+#### Model 3
+
+`Case Site    : Individual`\
+`Control Site : All Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
+
+```{r ambulance_mean_times_call_to_scene_conveying_model3, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+ambulance.mean.times.call.to.scene.conveying$model3.ts.plot
+ambulance.mean.times.call.to.scene.conveying$model3.forest$forest
+ambulance.mean.times.call.to.scene.conveying$model3.panelar$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model3.panelar$caption)
+```
+
+#### Model 4
+
+`Case Site    : All`\
+`Control Site : One Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
+
+```{r ambulance_mean_times_call_to_scene_conveying_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+ambulance.mean.times.call.to.scene.conveying$model4.ts.plot.trust
+ambulance.mean.times.call.to.scene.conveying$model4.forest$forest
+ambulance.mean.times.call.to.scene.conveying$model4.panelar$coef[3:9] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model4.panelar$caption)
+```
+
+#### Model 5
+
+`Case Site    : All`\
+`Control Site : All Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
+
+
+```{r ambulance_mean_times_call_to_scene_conveying_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+ambulance.mean.times.call.to.scene.conveying$model5.ts.plot.trust
+ambulance.mean.times.call.to.scene.conveying$model5.forest$forest
+ambulance.mean.times.call.to.scene.conveying$model5.panelar$coef[3:9] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model5.panelar$caption)
+```
+
+#### Model 6
+
+`Case Site    : Individual`\
+`Control Site : One Matched`\
+`Panel        : LSOA`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
+
+```{r ambulance_mean_times_call_to_scene_conveying_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+ambulance.mean.times.call.to.scene.conveying$model6.ts.plot.trust
+ambulance.mean.times.call.to.scene.conveying$model6.forest.model$forest
+ambulance.mean.times.call.to.scene.conveying$model6.panelar$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model6.panelar$caption)
+```
+
+#### Model 7
+
+`Case Site    : All`\
+`Control Site : One Matched`\
+`Panel        : LSOA`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
+
+```{r ambulance_mean_times_call_to_scene_conveying_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+ambulance.mean.times.call.to.scene.conveying$model7.ts.plot.trust
+ambulance.mean.times.call.to.scene.conveying$model7.forest.model$forest
+ambulance.mean.times.call.to.scene.conveying$model7.panelar$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model7.panelar$caption)
+```
+
+#### Model 8
+
+`Case Site    : Individual and All`\
+`Control Site : Pooled`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
+
+```{r ambulance_mean_times_call_to_scene_conveying_model8, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+ambulance.mean.times.call.to.scene.conveying$model8.ts.plot.trust
+ambulance.mean.times.call.to.scene.conveying$model8.forest.model$forest
+ambulance.mean.times.call.to.scene.conveying$model8.panelar$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model8.panelar$caption)
+```

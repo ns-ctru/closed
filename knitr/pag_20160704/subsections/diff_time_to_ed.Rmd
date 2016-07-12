@@ -1,0 +1,7 @@
+The difference in time to emergency department from the centroid of Lower Super Output Areas (LSOA) is summarised for each site in the table below.  For sites where an Emergency Department (ED) closed there are two summaries, one when the ED was open and another summarising travel times after they had closed, although its worth bearing in mind that these will not all be to the same ED after closure.
+
+```{r summary_time_to_ed, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
+kable(diff.time.to.ed$formatted)
+diff.time.to.ed$plot.time.to.ed
+
+```

@@ -1,0 +1,15 @@
+#### Missing Data   {.tabset .tabset-fade .tabset-pills}
+
+A summary of the pattern of missing data for each of the outcomes is provided at both the Site (ED) level and at the LSOA level (within each site).
+
+```{r missing_site, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
+kable(check.site,
+      caption = 'EDs with missing data for all outcomes.')
+
+```
+
+```{r missing_lsoa, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
+kable(check.lsoa,
+      caption = 'EDs with missing data for all outcomes. The LSOAs column indicates the number of LSOAs within the denoted site with missing data for the stated relative month.')
+
+```
