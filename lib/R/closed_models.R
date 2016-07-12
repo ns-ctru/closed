@@ -143,8 +143,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## data so that it is common across all outcomes for the given indicator
     ## print("Debug 4")
     if(common.y == TRUE){
-        df.lsoa.max  <-  max(df.lsoa$value, na.rm = TRUE)
-        df.trust.max <-  max(df.trust$value, na.rm = TRUE)
+        df.lsoa.max  <-  max(as.numeric(df.lsoa$value), na.rm = TRUE)
+        df.trust.max <-  max(as.numeric(df.trust$value), na.rm = TRUE)
         y.max <- max(df.lsoa.max, df.trust.max) %>%
                  round(-2)
     }
