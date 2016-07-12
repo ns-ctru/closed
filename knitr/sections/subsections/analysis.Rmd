@@ -95,6 +95,34 @@ model.opts$return.residuals	<- FALSE
 model.opts$join.line            <- FALSE
 model.opts$legend               <- TRUE
 model.opts$rho.na.rm            <- TRUE
+## Regularly want to exclude majority of 'avoidable emergency admission' and 'case fatality ratio'
+## sub indicators so put them in lists here to (hopefully) save a lot of retyping
+exclude.avoidable <- c('acute mental health crisis',
+                       'angina',
+                       'blocked catheter',
+                       'cellulitis',
+                       'copd',
+                       'dvt',
+                       'epileptic fit',
+                       'falls (75+ years)',
+                       'hypoglycaemia',
+                       'minor head injuries',
+                       'pyrexial child (<6 years)',
+                       'urinary tract infection')
+exclude.fatality  <- c('anaphylaxis',
+                       'asphyxiation',
+                       'asthma',
+                       'falls',
+                       'fractured neck of femur',
+                       'meningitis',
+                       'myocardial infarction',
+                       'pregnancy and birth related',
+                       'road traffic accident',
+                       'ruptured aortic aneurysm',
+                       'self harm',
+                       'septic shock',
+                       'serious head injury')
+
 ```
 
 ```{r summary_analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
