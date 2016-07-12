@@ -6,16 +6,18 @@ Seven models are tested sequentially with growing complexity and are detailed be
 
 Table: Models tested in ClosED
 
-Model | Case Site  | Control Site     | Panel | Covariates
-------|------------|------------------|-------|----------------------------------------
-1     | Individual | None             | ED    | season + time + closure + nhs111 + other.centre + ambulance.diversion
-2     | Individual | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-3     | Individual | All Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-4     | All        | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-5     | All        | All Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-6     | Individual | One Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
-7     | All        | All Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
+Model | Case Site    | Control Site     | Panel | Covariates
+------|--------------|------------------|-------|----------------------------------------
+1     | Individual   | None             | ED    | season + time + closure + nhs111 + other.centre + ambulance.diversion
+2     | Individual   | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+3     | Individual   | All Matched      | ED    | season + time + closure * pooled.site + site + nhs111 + other.centre + ambulance.diversion
+4     | All          | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+5     | All          | All Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+6     | Individual   | One Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
+7     | All          | All Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
+8     | Individual and All | All Matched (Pooled)      | ED  | season + time + closure * pooled.site + nhs111 + other.centre + ambulance.diversion
 
+**NB** - Model 8 is now included after the Project Advisoty Group Meeting held 2016-07-04 which suggested that pooling control sites could be one approach.  The advisory statistician (Alex Bottle), advised when asked if such a model would be preferable, that it could certainly be investigated, but only after careful consideration of the results of Models 3 and 5 where sites are considered individually.  Subsequently àt a project meeting on 2016-07-08 [Jon Nicholl](mailto:j.nicholl@sheffield.ac.uk) inidcated that Model 3 should be modified to interact the same pooled dummy variable (`pooled.site`) with the dummy variable for (`closure`) but retain the dummy for `site` which would be excluded from Model 8.
 
 #### Indicators
 
@@ -90,6 +92,11 @@ Rotherham        |                 | 2013-03-01 (48) | 2009-06-01 (11) |
 #### Panels
 
 The panels that are being considered change depending on the type of anayses that are being performed (see above table).  If the summary data across a catchment area is being analysed under the 'step' models then the panels are the Trust/Hospital/Emergency Departments themselves.  If the data is being considered at the Lower Super Output Area (LSOA) as it is under the 'dose' models which include a 'change in ED time' term then the panels are the LSOAs themselves, since these are the units on which repeated measures over time are available and are being analysed.
+
+
+#### Spurious Data Points
+
+Two approaches are taken to identifying potentially spurious data points, the first is visual inspection of the raw data using time-series plots.  Potentially spruious data points will then be noted.  This method is however subjective and therefore subject to bias.  A more objective approach suggested was to the observations across all time points and calculate the mean and standard deviation  (`SD`) )and the identify any data points that are outside the range `mean -/+ A x SD`, where `A` is a pre-specified value, in this case `3`.  It was suggested that this method was applied to the methodologically similar analyses looking at [the effect of the introduction of NHS111](http://bmjopen.bmj.com/content/3/11/e003451.full)[@turner2013] but there is no mention of this aspect of data cleaning in the methods of the BMJ article, nor in the 210 page report submitted to funders.  This approach is not without its drawbacks as there are expected to be changes in the mean observed value pre/post intervention, so taking a global mean and the resulting high variance will potentially not exclude some possibly spurious data points.
 
 
 #### Heteroskedasticity and Correlation
