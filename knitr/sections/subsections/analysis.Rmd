@@ -96,7 +96,7 @@ model.opts$join.line            <- FALSE
 model.opts$legend               <- TRUE
 model.opts$rho.na.rm            <- TRUE
 ## Other Common options
-systematic.outler <- 2
+systematic.outlier <- 3
 ## Regularly want to exclude majority of 'avoidable emergency admission' and 'case fatality ratio'
 ## sub indicators so put them in lists here to (hopefully) save a lot of retyping
 exclude.avoidable <- c('acute mental health crisis',
