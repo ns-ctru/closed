@@ -1,3 +1,182 @@
+## 2016-07-12 Trouble shooting Time-Series plots in models 4-8
+check.models <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
+                              df.trust         = ed_attendances_by_mode_site_measure,
+                              indicator        = 'ed attendances',
+                              sub.indicator    = 'other',
+                              steps            = c('closure'),
+                              fit.with         = model.opts$fit.with,
+                              panel.lsoa       = model.opts$panel.lsoa,
+                              panel.trust      = model.opts$panel.trust,
+                              timevar          = model.opts$timevar,
+                              outcome          = model.opts$outcome,
+                              model1           = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              model2           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              model3           = c('pooled.control * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              model4           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              model5           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              model6           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                              model7           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                              model8           = c('pooled.control * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              ## model1           = NULL,
+                              ## model2           = NULL,
+                              ## model3           = NULL,
+                              ## model4           = NULL,
+                              ## model5           = NULL,
+                              ## model6           = NULL,
+                              ## model7           = NULL,
+                              ## model8           = NULL,
+                              autocorr         = model.opts$autocorr,
+                              panelcorrmethod  = model.opts$panelcorrmethod,
+                              coefficients     = model.opts$coefficients,
+                              seq.times        = model.opts$seq.times,
+                              rho.na.rm        = model.opts$rho.na.rm,
+                              plot             = model.opts$plot,
+                              common.y         = model.opts$common.y,
+                              theme            = model.opts$theme,
+                              return.df        = TRUE,
+                              return.model     = model.opts$return.model,
+                              return.residuals = model.opts$return.residuals,
+                              return.residuals.plot = FALSE,
+                              join.line        = model.opts$join.line,
+                              legend           = model.opts$legend)
+
+## 2016-07-12 Trouble shooting Time Series plots for Unnecessary ED Attendance
+unnecessary.ts.plot <- closed_ts_plot(df            = unnecessary_ed_attendances_site_measure,
+                                      indicator     = 'unnecessary ed attendances',
+                                      sub.indicator = 'all',
+                                      steps         = TRUE,
+                                      theme         = theme_bw(),
+                                      tidy          = FALSE,
+                                      facet         = FALSE,
+                                      sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+                                      legend        = TRUE)
+save(unnecessary.ts.plot,
+     file = '~/work/closed/tmp/check.RData')
+
+
+## 2016-07-11 Testing systematic removal of spurious data points using closed_clean()
+t <- as.data.frame(ed_attendances_by_mode_site_measure)
+names(t) <- gsub("_", ".", names(t))
+ed.attendance.any.unbalanced <- closed_clean(df      = t,
+                                       indicator     = 'ed attendances',
+                                       sub.indicator = 'any',
+                                       systematic    = 2,
+                                       balance       = FALSE)
+## Check ED Attendances Any
+filter(ed.attendance.any.unbalanced, sub.measure == 'any' & is.na(value))
+## Check ED Attendances Ambulance
+filter(ed.attendance.any.unbalanced, sub.measure == 'ambulance' & is.na(value))
+## Check ED Attendances Other
+filter(ed.attendance.any.unbalanced, sub.measure == 'other' & is.na(value))
+
+## 2016-07-11 Testing development of closed_clean() which converts to NA spurious data points in
+##            either a balanced or unbalanced manner.
+t <- as.data.frame(ed_attendances_by_mode_site_measure)
+names(t) <- gsub("_", ".", names(t))
+ed.attendance.any.unbalanced <- closed_clean(df            = t,
+                                       indicator     = 'ed attendances',
+                                       sub.indicator = 'any',
+                                       balance       = FALSE)
+filter(ed.attendance.any.unbalanced, sub.measure == 'any' & is.na(value)) %>% arrange(town, relative.month)
+ed.attendance.any.balanced <- closed_clean(df            = t,
+                                      indicator     = 'ed attendances',
+                                      sub.indicator = 'any',
+                                      balance       = TRUE)
+filter(ed.attendance.any.balanced, sub.measure == 'any' & is.na(value)) %>% arrange(town, relative.month)
+save(ed.attendance.any.unbalanced,
+     ed.attendance.any.balanced
+     file = '~/work/closed/tmp/check.RData')
+
+## 2016-07-11 Checking closed_models() works correctly with internal function pool() that derives
+##            pooling and changes the step dummys for control sites that are pooled.
+check.model8 <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
+                              df.trust         = ed_attendances_by_mode_site_measure,
+                              indicator        = 'ed attendances',
+                              sub.indicator    = 'other',
+                              steps            = c('closure'),
+                              fit.with         = model.opts$fit.with,
+                              panel.lsoa       = model.opts$panel.lsoa,
+                              panel.trust      = model.opts$panel.trust,
+                              timevar          = model.opts$timevar,
+                              outcome          = model.opts$outcome,
+                              model1           = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              model2           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              model3           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              model4           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              model5           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              model6           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                              model7           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                              model8           = c('pooled.control * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              ## model1           = NULL,
+                              ## model2           = NULL,
+                              ## model3           = NULL,
+                              ## model4           = NULL,
+                              ## model5           = NULL,
+                              ## model6           = NULL,
+                              ## model7           = NULL,
+                              ## model8           = NULL,
+                              autocorr         = model.opts$autocorr,
+                              panelcorrmethod  = model.opts$panelcorrmethod,
+                              coefficients     = model.opts$coefficients,
+                              seq.times        = model.opts$seq.times,
+                              rho.na.rm        = model.opts$rho.na.rm,
+                              plot             = model.opts$plot,
+                              common.y         = model.opts$common.y,
+                              theme            = model.opts$theme,
+                              return.df        = TRUE,
+                              return.model     = model.opts$return.model,
+                              return.residuals = model.opts$return.residuals,
+                              return.residuals.plot = FALSE,
+                              join.line        = model.opts$join.line,
+                              legend           = model.opts$legend)
+save(check.model8,
+     file = '~/work/closed/tmp/check.RData')
+
+## 2016-07-06 Checking Model 8 which now performs pooled within centers as well as across all.
+check.model8 <- check.model8 <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
+                                     df.trust         = ed_attendances_by_mode_site_measure,
+                                     indicator        = 'ed attendances',
+                                     sub.indicator    = 'other',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model2           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model3           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model4           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model5           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model6           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                                     model7           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                                     model8           = c('pooled.control * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     ## model1           = NULL,
+                                     ## model2           = NULL,
+                                     ## model3           = NULL,
+                                     ## model4           = NULL,
+                                     ## model5           = NULL,
+                                     ## model6           = NULL,
+                                     ## model7           = NULL,
+                                     ## model8           = NULL,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = TRUE,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     return.residuals.plot = FALSE,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+save(check.model8,
+     file = '~/work/closed/tmp/check.RData')
+
+
 ## 2016-07-05 Checking Model 8
 check.model8 <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
                                      df.trust         = ed_attendances_by_mode_site_measure,
@@ -16,7 +195,7 @@ check.model8 <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
                                      model5           = NULL,
                                      model6           = NULL,
                                      model7           = NULL,
-                                     model7           = c('pooled.control * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                                     model8           = c('pooled.control * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
                                      autocorr         = model.opts$autocorr,
                                      panelcorrmethod  = model.opts$panelcorrmethod,
                                      coefficients     = model.opts$coefficients,
@@ -25,7 +204,7 @@ check.model8 <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
                                      plot             = model.opts$plot,
                                      common.y         = model.opts$common.y,
                                      theme            = model.opts$theme,
-                                     return.df        = model.opts$return.df,
+                                     return.df        = TRUE,
                                      return.model     = model.opts$return.model,
                                      return.residuals = model.opts$return.residuals,
                                      join.line        = model.opts$join.line,
