@@ -749,11 +749,11 @@ avoidable.emergency.admissions.pyrexial.child <- closed_models(df.lsoa         =
 ```
 
 <!--- Avoidable Emergency Admissions - Urinary Tract Infection --->
-```{r avoidable_emergency_admissions_urinary.tract.infection, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r avoidable_emergency_admissions_urinary_tract_infection, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 avoidable.emergency.admissions.urinary.tract.infection <- closed_models(df.lsoa         = emergency_admissions_measure,
                                      df.trust         = emergency_admissions_site_measure,
                                      indicator        = 'avoidable emergency admissions',
-                                     sub.indicator    = 'angina',
+                                     sub.indicator    = 'urinary tract infection',
                                      steps            = c('closure'),
                                      fit.with         = model.opts$fit.with,
                                      panel.lsoa       = model.opts$panel.lsoa,
