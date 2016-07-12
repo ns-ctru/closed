@@ -45,941 +45,943 @@ closed_clean <- function(df              = ed_attendances_by_mode_measure,
                          balance         = TRUE,
                          ...){
     ## Systematic removal
-    if(is.integer(systematic)){
-        df <- group_by(df, town) %>%
+    if(!is.na(systematic)){
+        df <- group_by(df, town, sub.measure) %>%
               mutate(mean      = mean(value, na.rm = TRUE),
                      sd        = sd(value, na.rm = TRUE))
         df <- mutate(df,
-                     value = ifelse(value > (mean - systematic * sd) |
-                                    value < (mean - systematic * sd),
+                     value = ifelse(value < (mean - systematic * sd) |
+                                    value > (mean + systematic * sd),
                                     yes = NA,
                                     no  = value))
         df <- dplyr::select(df, -c(mean, sd))
         return(df)
     }
     ## Clean the data set conditional on the Indicator and in turn Sub-indicator
-    if(indicator == 'ed attendances'){
-        if(sub.indicator == 'any'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                            relative.month %in% c(1, 6, 24),
-                                            yes = NA,
-                                            no  = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == 'Basingstoke' &
-                                            sub.measure == sub.indicator &
-                                            relative.month %in% c(1:9, 31:47),
-                                            yes = NA,
-                                            no  = value),
-                             value = ifelse(town == 'Bishop Auckland' &
-                                            sub.measure == sub.indicator &
-                                            relative.month %in% c(1, 6),
-                                            yes = NA,
-                                            no  = value),
-                             value = ifelse(town == 'Yeovil' &
-                                            sub.measure == sub.indicator &
-                                            relative.month %in% c(25),
-                                            yes = NA,
-                                            no  = value),
-                             )
-            }
-        }
-        if(sub.indicator == 'ambulance'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                            relative.month %in% c(1, 6),
-                                            yes = NA,
-                                            no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == 'Basingstoke' &
-                                            sub.measure == sub.indicator &
-                                            relative.month %in% c(1:9, 31:47),
-                                            yes = NA,
-                                            no = value),
-                             value = ifelse(town == 'Bishop Auckland' &
-                                            sub.measure == sub.indicator &
-                                            relative.month %in% c(1, 6),
-                                            yes = NA,
-                                            no = value),
-                             value = ifelse(town == 'Grimsby' &
-                                            sub.measure == sub.indicator &
-                                            relative.month %in% c(1:12),
-                                            yes = NA,
-                                            no  = value),
-                             value = ifelse(town == 'Scunthorpe' &
-                                            sub.measure == sub.indicator &
-                                            relative.month %in% c(1:16),
-                                            yes = NA,
-                                            no = value),
-                             value = ifelse(town == 'Yeovil' &
-                                            sub.measure == sub.indicator &
-                                            relative.month %in% c(1:16),
-                                            yes = NA,
-                                            no = value))
-            }
-        }
-        if(sub.indicator == 'other'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
+    else{
+        if(indicator == 'ed attendances'){
+            if(sub.indicator == 'any'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(1, 6, 24),
                                                 yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == 'Basingstoke' &
-                                            sub.measure == sub.indicator &
-                                            relative.month %in% c(1:9, 31:47),
-                                            yes = NA,
-                                            no = value),
-                             value = ifelse(town == 'Bishop Auckland' &
-                                            sub.measure == sub.indicator &
-                                            relative.month %in% c(1, 6),
-                                            yes = NA,
-                                            no = value),
-                             value = ifelse(town == 'Southport' &
-                                            sub.measure == sub.indicator &
-                                            relative.month %in% c(24),
-                                            yes = NA,
-                                            no = value),
-                             value = ifelse(town == 'Yeovil' &
-                                            sub.measure == sub.indicator &
-                                            relative.month %in% c(1:25),
-                                            yes = NA,
-                                            no = value))
-            }
-        }
-    }
-    else if(indicator == 'unnecessary attendances'){
-        if(sub.indicator == 'unnecessary attendances'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(1, 6),
+                                                no  = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == 'Basingstoke' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(1:9, 31:47),
                                                 yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == 'Bishop Auckland' &
+                                                no  = value),
+                                 value = ifelse(town == 'Bishop Auckland' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(1, 6),
                                                 yes = NA,
-                                                no = value),
-                             value = ifelse(town == 'Yeovil' &
+                                                no  = value),
+                                 value = ifelse(town == 'Yeovil' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(25),
                                                 yes = NA,
-                                                no = value))
+                                                no  = value),
+                                 )
+                }
             }
-        }
-    }
-    else if(indicator == 'all emergency admissions'){
-        if(sub.indicator == 'all emergency admissions'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
+            if(sub.indicator == 'ambulance'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(1, 6),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == 'Newark' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(49),
-                                                yes = NA,
-                                                no = value))
-            }
-        }
-    }
-    else if(indicator == 'avoidable emergency admissions'){
-        if(sub.indicator == 'any'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-        }
-        if(sub.indicator == 'acute mental health crisis'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-        }
-        if(sub.indicator == 'angina'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-        }
-        if(sub.indicator == 'blocked catheter'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-        }
-        if(sub.indicator == 'cellulitis'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-        }
-        if(sub.indicator == 'copd'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-        }
-        if(sub.indicator == 'dvt'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-        }
-        if(sub.indicator == 'epileptic fit'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-        }
-        if(sub.indicator == 'falls (75+ years)'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-        }
-        if(sub.indicator == 'hypoglycaemia'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-        }
-        if(sub.indicator == 'minor head injuries'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-        }
-        if(sub.indicator == 'non-specific chest pain'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-        }
-        if(sub.indicator == 'pyrexial child (<6 years)'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-        }
-        if(sub.indicator == 'urinary tract infection'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-        }
-    }
-    else if(indicator == 'ed attendances admitted'){
-        if(sub.indicator == 'all'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == 'Basingstoke' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == 'Basingstoke' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(1:9, 31:47),
                                                 yes = NA,
                                                 no = value),
-                             value = ifelse(town == 'Bishop Auckland' &
+                                 value = ifelse(town == 'Bishop Auckland' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(1, 6),
                                                 yes = NA,
                                                 no = value),
-                             value = ifelse(town == 'Southpor' &
+                                 value = ifelse(town == 'Grimsby' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(1:12),
+                                                yes = NA,
+                                                no  = value),
+                                 value = ifelse(town == 'Scunthorpe' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(1:16),
+                                                yes = NA,
+                                                no = value),
+                                 value = ifelse(town == 'Yeovil' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(1:16),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+            if(sub.indicator == 'other'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == 'Basingstoke' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(1:9, 31:47),
+                                                yes = NA,
+                                                no = value),
+                                 value = ifelse(town == 'Bishop Auckland' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(1, 6),
+                                                yes = NA,
+                                                no = value),
+                                 value = ifelse(town == 'Southport' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(24),
                                                 yes = NA,
                                                 no = value),
-                             value = ifelse(town == 'Yeovil' &
+                                 value = ifelse(town == 'Yeovil' &
                                                 sub.measure == sub.indicator &
-                                                relative.month %in% c(25),
+                                                relative.month %in% c(1:25),
                                                 yes = NA,
                                                 no = value))
+                }
             }
         }
-        if(sub.indicator == 'fraction admitted'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
+        else if(indicator == 'unnecessary attendances'){
+            if(sub.indicator == 'unnecessary attendances'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(1, 6),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == 'Basingstoke' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(1),
-                                                yes = NA,
-                                                no = value),
-                             value = ifelse(town == 'Hemel Hempstead' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(1),
-                                                yes = NA,
-                                                no = value),
-                             value = ifelse(town == 'Warwick' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(1),
-                                                yes = NA,
-                                                no = value),
-                             value = ifelse(town == 'Yeovil' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(1),
-                                                yes = NA,
-                                                no = value))
-            }
-        }
-        if(sub.indicator == 'admitted'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
-                                                relative.month %in% c(),
-                                                yes = NA,
-                                                no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == 'Basingstoke' &
-                                                sub.measure == sub.indicator &
-                                                relative.month %in% c(1:9, 31:47),
-                                                yes = NA,
-                                                no = value),
-                             value = ifelse(town == 'Bishop Auckland' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == 'Bishop Auckland' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(1, 6),
                                                 yes = NA,
                                                 no = value),
-                             value = ifelse(town == 'Yeovil' &
+                                 value = ifelse(town == 'Yeovil' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(25),
                                                 yes = NA,
                                                 no = value))
+                }
             }
         }
-    }
-    else if(indicator == 'critical care stays'){
-        if(sub.indicator == 'all'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+        else if(indicator == 'all emergency admissions'){
+            if(sub.indicator == 'all emergency admissions'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == 'Newark' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(49),
+                                                yes = NA,
+                                                no = value))
+                }
             }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == 'Newark' &
+        }
+        else if(indicator == 'avoidable emergency admissions'){
+            if(sub.indicator == 'any'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+            if(sub.indicator == 'acute mental health crisis'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+            if(sub.indicator == 'angina'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+            if(sub.indicator == 'blocked catheter'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+            if(sub.indicator == 'cellulitis'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+            if(sub.indicator == 'copd'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+            if(sub.indicator == 'dvt'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+            if(sub.indicator == 'epileptic fit'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+            if(sub.indicator == 'falls (75+ years)'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+            if(sub.indicator == 'hypoglycaemia'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+            if(sub.indicator == 'minor head injuries'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+            if(sub.indicator == 'non-specific chest pain'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+            if(sub.indicator == 'pyrexial child (<6 years)'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+            if(sub.indicator == 'urinary tract infection'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+        }
+        else if(indicator == 'ed attendances admitted'){
+            if(sub.indicator == 'all'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == 'Basingstoke' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(1:9, 31:47),
+                                                yes = NA,
+                                                no = value),
+                                 value = ifelse(town == 'Bishop Auckland' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(1, 6),
+                                                yes = NA,
+                                                no = value),
+                                 value = ifelse(town == 'Southpor' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(24),
+                                                yes = NA,
+                                                no = value),
+                                 value = ifelse(town == 'Yeovil' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(25),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+            if(sub.indicator == 'fraction admitted'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == 'Basingstoke' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(1),
+                                                yes = NA,
+                                                no = value),
+                                 value = ifelse(town == 'Hemel Hempstead' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(1),
+                                                yes = NA,
+                                                no = value),
+                                 value = ifelse(town == 'Warwick' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(1),
+                                                yes = NA,
+                                                no = value),
+                                 value = ifelse(town == 'Yeovil' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(1),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+            if(sub.indicator == 'admitted'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == 'Basingstoke' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(1:9, 31:47),
+                                                yes = NA,
+                                                no = value),
+                                 value = ifelse(town == 'Bishop Auckland' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(1, 6),
+                                                yes = NA,
+                                                no = value),
+                                 value = ifelse(town == 'Yeovil' &
+                                                sub.measure == sub.indicator &
+                                                relative.month %in% c(25),
+                                                yes = NA,
+                                                no = value))
+                }
+            }
+        }
+        else if(indicator == 'critical care stays'){
+            if(sub.indicator == 'all'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
+                                                relative.month %in% c(),
+                                                yes = NA,
+                                                no = value))
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == 'Newark' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(47),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'critical care'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'critical care'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == 'Newark' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == 'Newark' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(26),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'fraction critical care'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'fraction critical care'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == 'Newark' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == 'Newark' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(26),
                                                 yes = NA,
                                                 no = value))
+                }
             }
         }
-    }
-    else if(indicator == 'length of stay'){
-        if(sub.indicator == 'mean'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+        else if(indicator == 'length of stay'){
+            if(sub.indicator == 'mean'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'median'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'median'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
         }
-    }
-    else if(indicator == 'case fatality ratio'){
-        if(sub.indicator == 'any'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+        else if(indicator == 'case fatality ratio'){
+            if(sub.indicator == 'any'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'acute heart failure'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'acute heart failure'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'anaphylaxis'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'anaphylaxis'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'asphyxiation'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'asphyxiation'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'asthma'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'asthma'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'falls'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'falls'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'fractured neck of femur'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'fractured neck of femur'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'meningitis'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'meningitis'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'myocardial infarction'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'myocardial infarction'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'pregnancy and birth related'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'pregnancy and birth related'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'road traffic accident'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'road traffic accident'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'ruptured aurtoc aneurysm'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'ruptured aurtoc aneurysm'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'self harm'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'self harm'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'septic shock'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'septic shock'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'serious head injury'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'serious head injury'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'stroke cva'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'stroke cva'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
         }
-    }
-    else if(indicator == 'ambulance mean times'){
-        if(sub.indicator == 'call_to_dest'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+        else if(indicator == 'ambulance mean times'){
+            if(sub.indicator == 'call_to_dest'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'call_to_scene_any'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'call_to_scene_any'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'call_to_scene_conveying'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'call_to_scene_conveying'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'dest_to_clear'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'dest_to_clear'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
-        }
-        if(sub.indicator == 'scene_to_dest'){
-            if(balance == TRUE){
-                df <- mutate(df,
-                             value = ifelse(sub.measure == sub.indicator &
+            if(sub.indicator == 'scene_to_dest'){
+                if(balance == TRUE){
+                    df <- mutate(df,
+                                 value = ifelse(sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
-            }
-            else{
-                df <- mutate(df,
-                             value = ifelse(town == '' &
+                }
+                else{
+                    df <- mutate(df,
+                                 value = ifelse(town == '' &
                                                 sub.measure == sub.indicator &
                                                 relative.month %in% c(),
                                                 yes = NA,
                                                 no = value))
+                }
             }
         }
     }
