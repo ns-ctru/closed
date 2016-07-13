@@ -143,6 +143,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## data so that it is common across all outcomes for the given indicator
     ## print("Debug 4")
     if(common.y == TRUE){
+        ## print('Dim LSOA')
+        ## dim(df.lsoa) %>% print()
+        ## print('Dim Trust')
+        ## dim(df.trust) %>% print()
         df.lsoa.max  <-  max(as.numeric(df.lsoa$value), na.rm = TRUE)
         df.trust.max <-  max(as.numeric(df.trust$value), na.rm = TRUE)
         y.max <- max(df.lsoa.max, df.trust.max) %>%
@@ -413,6 +417,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         t <- filter(df1,
                     town        == 'Bishop Auckland')
+        ## dim(t) %>% print()
+        ## head(t) %>% print()
+        ## table(t$value) %>% print()
+        ## return(t)
         if(nrow(t) != 0){
             model1.panelar.bishop <- panelAR(data      = t,
                                              formula   = formula.model1,
@@ -1360,12 +1368,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Reformulate outcome and covariates
         formula.model8 <- reformulate(response = outcome,
                                       termlabels = model8)
-        ## Define group pooling for controls
-        df8 <- pool(x                    = df.trust,
-                    remove.control.steps = TRUE)
+        ## Pool the data
+        df8 <- closed_pool(df             = df.trust,
+                           within.centres = TRUE)
         ## Generate Time-Series Plots
         df8$group <- paste0('Cohort : ', df8$group)
-        sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'WansbeckWarwick', 'Whitehaven', 'Wigan', 'Yeovil')
+        sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'Wansbeck', 'Warwick', 'Whitehaven', 'Wigan', 'Yeovil')
         results$model8.ts.plot <- closed_ts_plot(df            = df8,
                                                  sites         = sites,
                                                  indicator     = indicator,
@@ -1375,7 +1383,17 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  tidy          = TRUE,
                                                  join          = join.line,
                                                  legend        = legend,
-                                                 pool.control  = TRUE)
+                                                 pool.control  = FALSE) ## NB - This is FALSE because data has already been pooled
+        table(df8$group, df8$town) %>% print()
+        t <- filter(df8,
+                    group == 'Cohort : Bishop Auckland General Hospital')
+        t %>% print()
+        print('Type of relative.month')
+        typeof(df8$relative.month) %>% print()
+        is.integer(df8$relative.month) %>% print()
+        is.numeric(df8$relative.month) %>% print()
+        table(df8$relative.month, df8$town) %>% print()
+        is.data.frame(df8) %>% print()
         ##################################################
         ## Bishop Auckland                              ##
         ##################################################
@@ -1464,6 +1482,14 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## All sites                                    ##
         ##################################################
+        ## Pool the data across centres
+        df8 <- closed_pool(df             = df.trust,
+                           within.centres = TRUE)
+        ## Remove 'season' from the model since that is only feasible when pooling within
+        ## centres because months/dates do not align
+        model8 <- gsub('season', '', model8)
+        formula.model8 <- reformulate(response = outcome,
+                                      termlabels = model8)
         model8.panelar.all <- filter(df8,
                                      measure     == indicator &
                                      sub.measure == sub.indicator) %>%
