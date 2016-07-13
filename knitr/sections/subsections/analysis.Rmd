@@ -43,6 +43,21 @@ if(os != 'unix'){
     load('~/work/closed/lib/data/case fatality measure - lsoa - 2016-06-10 18.09.Rda')
     load('~/work/closed/lib/data/case fatality measure - site - 2016-06-10 18.10.Rda')
 }
+## Convert everything to data frames, why I didn't do this first I've no idea!
+ed_attendances_by_mode_measure          <- as.data.frame(ed_attendances_by_mode_measure)
+ed_attendances_by_mode_site_measure     <- as.data.frame(ed_attendances_by_mode_site_measure)
+unnecessary_ed_attendances_measure      <- as.data.frame(unnecessary_ed_attendances_measure)
+unnecessary_ed_attendances_site_measure <- as.data.frame(unnecessary_ed_attendances_site_measure)
+ed_attendances_admitted_measure         <- as.data.frame(ed_attendances_admitted_measure)
+ed_attendances_admitted_site_measure    <- as.data.frame(ed_attendances_admitted_site_measure)
+critical_care_cips_measure              <- as.data.frame(critical_care_cips_measure)
+critical_care_cips_site_measure         <- as.data.frame(critical_care_cips_site_measure)
+emergency_admissions_measure            <- as.data.frame(emergency_admissions_measure)
+emergency_admissions_site_measure       <- as.data.frame(emergency_admissions_site_measure)
+length_of_stay_measure                  <- as.data.frame(length_of_stay_measure)
+length_of_stay_site_measure             <- as.data.frame(length_of_stay_site_measure)
+amb_mean_times_measure                  <- as.data.frame(amb_mean_times_measure)
+amb_mean_times_site_measure             <- as.data.frame(amb_mean_times_site_measure)
 ## There are some instances where there is no sub_measure, correct those to 'all'
 unnecessary_ed_attendances_measure$sub_measure <- ifelse(is.na(unnecessary_ed_attendances_measure$sub_measure),
                                                          'all',
@@ -56,9 +71,9 @@ emergency_admissions_measure$sub_measure <- ifelse(is.na(emergency_admissions_me
 emergency_admissions_site_measure$sub_measure <- ifelse(is.na(emergency_admissions_site_measure$sub_measure),
                                                         'all',
                                                         emergency_admissions_site_measure$sub_measure)
-## Convert time from seconds to minutes
-amb_mean_times_measure$value <- amb_mean_times_measure$value / 60
-amb_mean_times_site_measure$value <- amb_mean_times_site_measure$value / 60
+## Convert time from seconds to minutes and ensure they're numeric.
+amb_mean_times_measure$value <- amb_mean_times_measure$value / 60 %>% as.numeric
+amb_mean_times_site_measure$value <- amb_mean_times_site_measure$value / 60 %>% as.numeric
 
 ```
 
@@ -1593,7 +1608,7 @@ case.fatality.ratio.serious.head.injury <- closed_models(df.lsoa         = case_
 ```
 
 <!--- Case Fatality Ratio - Stroke Cva --->
-```{r case_fatality_ratio_stroke_cva, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r case_fatality_ratio_stroke_cva, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 case.fatality.ratio.stroke.cva <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
