@@ -58,6 +58,21 @@ length_of_stay_measure                  <- as.data.frame(length_of_stay_measure)
 length_of_stay_site_measure             <- as.data.frame(length_of_stay_site_measure)
 amb_mean_times_measure                  <- as.data.frame(amb_mean_times_measure)
 amb_mean_times_site_measure             <- as.data.frame(amb_mean_times_site_measure)
+## And convert all variable names to periods not underscore
+names(ed_attendances_by_mode_measure)          <- gsub('_', '.', names(ed_attendances_by_mode_measure))
+names(ed_attendances_by_mode_site_measure)     <- gsub('_', '.', names(ed_attendances_by_mode_site_measure))
+names(unnecessary_ed_attendances_measure)      <- gsub('_', '.', names(unnecessary_ed_attendances_measure))
+names(unnecessary_ed_attendances_site_measure) <- gsub('_', '.', names(unnecessary_ed_attendances_site_measure))
+names(ed_attendances_admitted_measure)         <- gsub('_', '.', names(ed_attendances_admitted_measure))
+names(ed_attendances_admitted_site_measure)    <- gsub('_', '.', names(ed_attendances_admitted_site_measure))
+names(critical_care_cips_measure)              <- gsub('_', '.', names(critical_care_cips_measure))
+names(critical_care_cips_site_measure)         <- gsub('_', '.', names(critical_care_cips_site_measure))
+names(emergency_admissions_measure)            <- gsub('_', '.', names(emergency_admissions_measure))
+names(emergency_admissions_site_measure)       <- gsub('_', '.', names(emergency_admissions_site_measure))
+names(length_of_stay_measure)                  <- gsub('_', '.', names(length_of_stay_measure))
+names(length_of_stay_site_measure)             <- gsub('_', '.', names(length_of_stay_site_measure))
+names(amb_mean_times_measure)                  <- gsub('_', '.', names(amb_mean_times_measure))
+names(amb_mean_times_site_measure)             <- gsub('_', '.', names(amb_mean_times_site_measure))
 ## There are some instances where there is no sub_measure, correct those to 'all'
 unnecessary_ed_attendances_measure$sub_measure <- ifelse(is.na(unnecessary_ed_attendances_measure$sub_measure),
                                                          'all',
@@ -92,7 +107,7 @@ if(os != 'unix' | node != 'mcru-closed-hp.shef.ac.uk'){
 } else{
     model.opts$mod7 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
 }
-model.opts$mod8 <- c('pooled.control * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+model.opts$mod8 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 model.opts$panel.lsoa		<- 'lsoa'
 model.opts$panel.trust		<- 'town'
 model.opts$timevar		<- 'relative.month'
