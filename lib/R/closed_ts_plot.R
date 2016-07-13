@@ -13,7 +13,6 @@
 #' @param sites The sites that are to be plotted, default is for case sites.
 #' @param indicator The performance indicator to assess.
 #' @param sub.indicator The sub-measure performance indicator to assess.
-#' @param pool.control Logical indicator of whether to pool controls.
 #' @param steps Logical indicator of whether to plot vertical lines for each step.
 #' @param common.y Generate all plots with a common y-axis range.
 #' @param theme GGplot2 theme to use.
@@ -21,6 +20,7 @@
 #' @param join Logical indicator of whether to completely remove time points with spurious data so that lines are continuous
 #' @param legend Logical indicator of whether to include a legend
 #' @param lines Logical indicator of whether to include a vertical line for steps.
+#' @param exclude.control Logical indicator of whether to exclude vertical step lines for pooled controls (default is \code{FALSE}, switch to \code{TRUE} when passing a pooled data set)
 #' @param xaxis.steps Logical indicator of whether to add x-axis labels for steps.
 #'
 #' @return A list of ggplot2 objects.
@@ -35,7 +35,6 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            sites           = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
                            indicator       = 'ed attendances',
                            sub.indicator   = 'any',
-                           pool.control    = FALSE,
                            steps           = TRUE,
                            common.y        = TRUE,
                            theme           = theme_bw(),
@@ -44,6 +43,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            join            = FALSE,
                            legend          = FALSE,
                            lines           = TRUE,
+                           exclude.control = FALSE,
                            xaxis.steps     = FALSE,
                            ...){
     ## Initialise results for returning
@@ -376,9 +376,8 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Add vertical lines for all steps
     if(lines == TRUE){
         ## If pooled then only include the steps for Case sites
-        if(pool.control == TRUE){
-            df.steps <- filter(df.steps,
-                               town %in% c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'))
+        if(exclude.control == TRUE){
+            df.steps <- filter(df.steps, town %in% c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'))
         }
         results$plot <- results$plot + geom_vline(data = df.steps,
                                                   mapping = aes(xintercept = steps,
