@@ -74,18 +74,18 @@ names(length_of_stay_site_measure)             <- gsub('_', '.', names(length_of
 names(amb_mean_times_measure)                  <- gsub('_', '.', names(amb_mean_times_measure))
 names(amb_mean_times_site_measure)             <- gsub('_', '.', names(amb_mean_times_site_measure))
 ## There are some instances where there is no sub_measure, correct those to 'all'
-unnecessary_ed_attendances_measure$sub_measure <- ifelse(is.na(unnecessary_ed_attendances_measure$sub_measure),
+unnecessary_ed_attendances_measure$sub.measure <- ifelse(is.na(unnecessary_ed_attendances_measure$sub.measure),
                                                          'all',
-                                                         unnecessary_ed_attendances_measure$sub_measure)
-unnecessary_ed_attendances_site_measure$sub_measure <- ifelse(is.na(unnecessary_ed_attendances_site_measure$sub_measure),
+                                                         unnecessary_ed_attendances_measure$sub.measure)
+unnecessary_ed_attendances_site_measure$sub.measure <- ifelse(is.na(unnecessary_ed_attendances_site_measure$sub.measure),
                                                          'all',
-                                                         unnecessary_ed_attendances_site_measure$sub_measure)
-emergency_admissions_measure$sub_measure <- ifelse(is.na(emergency_admissions_measure$sub_measure),
+                                                         unnecessary_ed_attendances_site_measure$sub.measure)
+emergency_admissions_measure$sub.measure <- ifelse(is.na(emergency_admissions_measure$sub.measure),
                                                    'all',
-                                                   emergency_admissions_measure$sub_measure)
-emergency_admissions_site_measure$sub_measure <- ifelse(is.na(emergency_admissions_site_measure$sub_measure),
+                                                   emergency_admissions_measure$sub.measure)
+emergency_admissions_site_measure$sub.measure <- ifelse(is.na(emergency_admissions_site_measure$sub.measure),
                                                         'all',
-                                                        emergency_admissions_site_measure$sub_measure)
+                                                        emergency_admissions_site_measure$sub.measure)
 ## Convert time from seconds to minutes and ensure they're numeric.
 amb_mean_times_measure$value <- amb_mean_times_measure$value / 60 %>% as.numeric
 amb_mean_times_site_measure$value <- amb_mean_times_site_measure$value / 60 %>% as.numeric
@@ -184,8 +184,8 @@ check.lsoa <- rbind(check.ed.attendances$check.lsoa,
                     check.critical.care$check.lsoa,
                     check.length.stay$check.lsoa) %>%
               ungroup() %>%
-              arrange(measure, sub_measure, relative_month, group, town) %>%
-	      dplyr::select(measure, sub_measure, town, relative_month, n)
+              arrange(measure, sub_measure, relative.month, group, town) %>%
+	      dplyr::select(measure, sub_measure, town, relative.month, n)
 names(check.lsoa) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month', 'LSOAs')
 
 check.length.stay$check.site$sub_measure[is.na(check.length.stay$check.site$sub_measure)] <- "N/A"
@@ -194,8 +194,8 @@ check.site <- rbind(check.ed.attendances$check.site,
                     check.ed.admitted$check.site,
                     check.critical.care$check.site,
                     check.length.stay$check.site) %>%
-              arrange(measure, sub_measure, relative_month, group, town) %>%
-	      dplyr::select(measure, sub_measure, town, relative_month)
+              arrange(measure, sub_measure, relative.month, group, town) %>%
+	      dplyr::select(measure, sub_measure, town, relative.month)
 names(check.site) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month')
 ```
 <!--- Mode of Arrival - Any --->
