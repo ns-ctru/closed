@@ -353,48 +353,26 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                   town %in% sites &
                   measure     == indicator &
                   sub.measure == sub.indicator)
-    #######################################################################
-    ## Pool Controls                                                     ##
-    #######################################################################
-    if(pool.control == TRUE){
-        ## Derive indicator
-        df <- mutate(df,
-                     pooled.control = ifelse(site.type %in% c('matched control', 'pooled control'), 'Control', town))
-        ## Sum value by pooled.control and month
-        df <- group_by(df,
-                       pooled.control, relative.month) %>%
-              summarise(value = sum(value))
-
-    }
-    ## Generate time-series plot
-    if(pool.control == FALSE){
-        results$plot <- ggplot(data = df,
-                               mapping = aes(x     = relative.month,
-                                             y     = value,
-                                             color = town))
-    }
-    else if(pool.control == TRUE){
-        results$plot <- ggplot(data = df,
-                               mapping = aes(x     = relative.month,
-                                             y     = value,
-                                             color = pooled.control))
-    }
-            ## Basic line plot
+    results$plot <- ggplot(data = df,
+                           mapping = aes(x     = relative.month,
+                                         y     = value,
+                                         color = town))
+    ## Basic line plot
     results$plot <- results$plot + geom_line() +
-            ## Graph and axis labels
-            labs(list(title  = paste0(title1, title2),
-                      x      = 'Month (Aligned)',
-                      y      = ylabel,
-                      colour = 'Hospital')) +
-            ## Label lines
-            geom_text_repel(data = filter(df, relative.month == 3),
-                            aes(relative.month,
-                                value,
-                                colour = town,
-                                label  = town),
-                            force   = 1,
-                            nudge_x = 0,
-                            nudge_y = 0)
+                    ## Graph and axis labels
+                    labs(list(title  = paste0(title1, title2),
+                              x      = 'Month (Aligned)',
+                              y      = ylabel,
+                              colour = 'Hospital'))
+    ## Label lines
+    results$plot <- results$plot + geom_text_repel(data = filter(df, relative.month == 3),
+                                                   aes(relative.month,
+                                                       value,
+                                                       colour = town,
+                                                       label  = town),
+                                                   force   = 1,
+                                                   nudge_x = 0,
+                                                   nudge_y = 0)
     ## Add vertical lines for all steps
     if(lines == TRUE){
         ## If pooled then only include the steps for Case sites
