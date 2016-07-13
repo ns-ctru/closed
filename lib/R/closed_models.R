@@ -421,12 +421,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## head(t) %>% print()
         ## table(t$value) %>% print()
         ## return(t)
-        print('Type of relative.month')
-        typeof(df1$relative.month) %>% print()
-        is.integer(df1$relative.month) %>% print()
-        is.numeric(df1$relative.month) %>% print()
-        table(df1$relative.month, df1$town) %>% print()
-        is.data.frame(df1) %>% print()
         if(nrow(t) != 0){
             model1.panelar.bishop <- panelAR(data      = t,
                                              formula   = formula.model1,
@@ -1399,6 +1393,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                     group == 'Cohort : Bishop Auckland General Hospital') %>%
             as.data.frame()
         if(nrow(t) > 0){
+            ## print('Bishop')
             model8.panelar.bishop <- panelAR(data     = t,
                                              formula  = formula.model8,
                                              timeVar  = timevar,
@@ -1420,6 +1415,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                     group == 'Cohort : University Hospital of Hartlepool') %>%
             as.data.frame()
         if(nrow(t) > 0){
+            ## print('Hartlepool')
             model8.panelar.hartlepool <- panelAR(data     = t,
                                                  formula  = formula.model8,
                                                  timeVar  = timevar,
@@ -1441,6 +1437,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                     group == 'Cohort : Hemel Hempstead Hospital') %>%
              as.data.frame()
         if(nrow(t) > 0){
+            ## print('Hemel')
             model8.panelar.hemel <- panelAR(data     = t,
                                             formula  = formula.model8,
                                             timeVar  = timevar,
@@ -1462,6 +1459,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                     group == 'Cohort : Newark Hospital') %>%
              as.data.frame()
         if(nrow(t) > 0){
+            ## print('Newark')
             model8.panelar.newark <- panelAR(data     = t,
                                              formula  = formula.model8,
                                              timeVar  = timevar,
@@ -1483,7 +1481,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                     group == 'Cohort : Rochdale Infirmary') %>%
             as.data.frame()
         if(nrow(t) > 0){
-            model8.panelar.rochdale <- panelAR(formula  = formula.model8,
+            ## print('Rochdale')
+            model8.panelar.rochdale <- panelAR(data     = t,
+                                               formula  = formula.model8,
                                                timeVar  = timevar,
                                                panelVar = panel.trust,
                                                autoCorr = autocorr,
@@ -1552,7 +1552,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model8.panelar.hemel      <- model8.panelar.hemel
             results$model8.panelar.newark     <- model8.panelar.newark
             results$model8.panelar.rochdale   <- model8.panelar.rochdale
-            results$model8.panelar.all     <- model8.panelar.all
+            ## results$model8.panelar.all     <- model8.panelar.all
         }
         if(return.df == TRUE){
             results$model8.df <- df8
@@ -1563,7 +1563,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model8.panelar.residuals.hemel      <- summary(model8.panelar.hemel)$residuals
             results$model8.panelar.residuals.newark     <- summary(model8.panelar.newark)$residuals
             results$model8.panelar.residuals.rochdale   <- summary(model8.panelar.rochdale)$residuals
-            results$model8.panelar.residuals.all     <- summary(model8.panelar.all)$residuals
+            ## results$model8.panelar.residuals.all     <- summary(model8.panelar.all)$residuals
         }
         if(return.residuals.plot == TRUE){
             results$model8.panelar.residuals.plot.bishop     <- summary(model8.panelar.bishop)$residuals %>% plot()
@@ -1571,7 +1571,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model8.panelar.residuals.plot.hemel      <- summary(model8.panelar.hemel)$residuals %>% plot()
             results$model8.panelar.residuals.plot.newark     <- summary(model8.panelar.newark)$residuals %>% plot()
             results$model8.panelar.residuals.plot.rochdale   <- summary(model8.panelar.rochdale)$residuals %>% plot()
-            results$model8.panelar.residuals.plot <- summary(model8.panelar)$residuals %>% plot()
+            ## results$model8.panelar.residuals.plot <- summary(model8.panelar)$residuals %>% plot()
         }
         ## Remove clutter
         rm(df8)
