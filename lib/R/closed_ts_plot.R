@@ -377,7 +377,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     if(lines == TRUE){
         ## If pooled then only include the steps for Case sites
         if(exclude.control == TRUE){
-            df.steps <- filter(df.steps, town %in% c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'))
+            df.steps <- filter(df.steps, town %in% c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'ED Closure'))
         }
         results$plot <- results$plot + geom_vline(data = df.steps,
                                                   mapping = aes(xintercept = steps,
