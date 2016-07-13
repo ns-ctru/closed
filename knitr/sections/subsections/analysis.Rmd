@@ -177,25 +177,25 @@ check.critical.care  <- closed_missing_summary(df.lsoa = critical_care_cips_meas
 check.length.stay    <- closed_missing_summary(df.lsoa = length_of_stay_measure,
                                                df.site = length_of_stay_site_measure)
 ## Bind into two data frames for tabulating
-check.length.stay$check.lsoa$sub_measure[is.na(check.length.stay$check.lsoa$sub_measure)] <- "N/A"
+check.length.stay$check.lsoa$sub.measure[is.na(check.length.stay$check.lsoa$sub.measure)] <- "N/A"
 check.lsoa <- rbind(check.ed.attendances$check.lsoa,
                     check.ed.unnecessary$.lsoa,
                     check.ed.admitted$check.lsoa,
                     check.critical.care$check.lsoa,
                     check.length.stay$check.lsoa) %>%
               ungroup() %>%
-              arrange(measure, sub_measure, relative.month, group, town) %>%
-	      dplyr::select(measure, sub_measure, town, relative.month, n)
+              arrange(measure, sub.measure, relative.month, group, town) %>%
+	      dplyr::select(measure, sub.measure, town, relative.month, n)
 names(check.lsoa) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month', 'LSOAs')
 
-check.length.stay$check.site$sub_measure[is.na(check.length.stay$check.site$sub_measure)] <- "N/A"
+check.length.stay$check.site$sub.measure[is.na(check.length.stay$check.site$sub.measure)] <- "N/A"
 check.site <- rbind(check.ed.attendances$check.site,
                     check.ed.unnecessary$.site,
                     check.ed.admitted$check.site,
                     check.critical.care$check.site,
                     check.length.stay$check.site) %>%
-              arrange(measure, sub_measure, relative.month, group, town) %>%
-	      dplyr::select(measure, sub_measure, town, relative.month)
+              arrange(measure, sub.measure, relative.month, group, town) %>%
+	      dplyr::select(measure, sub.measure, town, relative.month)
 names(check.site) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month')
 ```
 <!--- Mode of Arrival - Any --->
