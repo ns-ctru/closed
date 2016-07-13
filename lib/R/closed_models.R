@@ -364,31 +364,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         coef$caption <- paste0('Comparison of coefficients across sites.  Each cell contains a point estimate followed by the standard error (in brackets) and the associated p-value (in scientific format due to some values being very small).')
         return(coef)
     }
-    ## Pool control sites
-    pool <- function(x                    = df.trust,
-                     remove.control.steps = FALSE){
-        x <- mutate(x,
-                      pooled.control = ifelse(site.type %in% c('matched control', 'pooled control'), 'Control', town))
-        x <- mutate(x,
-                      pooled.control = ifelse(pooled.control == 2, 'Bishop Auckland', pooled.control),
-                      pooled.control = ifelse(pooled.control == 6, 'Harltepool', pooled.control),
-                      pooled.control = ifelse(pooled.control == 7, 'Hemel Hempstead', pooled.control),
-                      pooled.control = ifelse(pooled.control == 8, 'Newark', pooled.control),
-                      pooled.control = ifelse(pooled.control == 9, 'Rochdale', pooled.control))
-        x$pooled.control <- factor(x$pooled.control)
-        ## Set reference group for pooled controls
-        x$pooled.control <- relevel(x$pooled.control, ref = 'Control')
-        ## Optionally remove steps from controls since they are now pooled
-        if(remove.control.steps == TRUE){
-            control <- c('Basingstoke', 'Blackburn', 'Carlisle', 'Grimsby', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'WansbeckWarwick', 'Whitehaven', 'Wigan', 'Yeovil')
-            x <- mutate(x,
-                        nhs111 = ifelse(town %in% control, 0, nhs111),
-                        other.centre = ifelse(town %in% control, 0, other.centre),
-                        ambulance.divert = ifelse(town %in% control, 0, ambulance.divert))
-        }
-        ## Return modified data frame
-        return(x)
-    }
     #######################################################################
     ## Model 1                                                           ##
     #######################################################################
@@ -746,9 +721,18 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         df3 <- filter(df.trust,
                       measure     == indicator &
                       sub.measure == sub.indicator)
-        ## Define group pooling for controls
-        df3 <- pool(x                    = df.trust,
-                    remove.control.steps = FALSE)
+        ## Define group pooling for controls (but DON'T pool the data!)
+        df3 <- mutate(df3,
+                      pooled.control = ifelse(site.type %in% c('matched control', 'pooled control'), 'Control', town))
+        df3 <- mutate(df3,
+                      pooled.control = ifelse(pooled.control == 2, 'Bishop Auckland', pooled.control),
+                      pooled.control = ifelse(pooled.control == 6, 'Harltepool', pooled.control),
+                      pooled.control = ifelse(pooled.control == 7, 'Hemel Hempstead', pooled.control),
+                      pooled.control = ifelse(pooled.control == 8, 'Newark', pooled.control),
+                      pooled.control = ifelse(pooled.control == 9, 'Rochdale', pooled.control))
+        df3$pooled.control <- factor(df3$pooled.control)
+        ## Set reference group for pooled controls
+        df3$pooled.control <- relevel(df3$pooled.control, ref = 'Control')
         ## Generate time-series plot
         df3$group <- paste0('Cohort : ', df3$group)
         sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'WansbeckWarwick', 'Whitehaven', 'Wigan', 'Yeovil')
