@@ -421,6 +421,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## head(t) %>% print()
         ## table(t$value) %>% print()
         ## return(t)
+        print('Type of relative.month')
+        typeof(df1$relative.month) %>% print()
+        is.integer(df1$relative.month) %>% print()
+        is.numeric(df1$relative.month) %>% print()
+        table(df1$relative.month, df1$town) %>% print()
+        is.data.frame(df1) %>% print()
         if(nrow(t) != 0){
             model1.panelar.bishop <- panelAR(data      = t,
                                              formula   = formula.model1,
@@ -1373,7 +1379,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                            within.centres = TRUE)
         ## Generate Time-Series Plots
         df8$group <- paste0('Cohort : ', df8$group)
-        sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'Wansbeck', 'Warwick', 'Whitehaven', 'Wigan', 'Yeovil')
+        sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Control')
         results$model8.ts.plot <- closed_ts_plot(df            = df8,
                                                  sites         = sites,
                                                  indicator     = indicator,
@@ -1384,141 +1390,153 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  join          = join.line,
                                                  legend        = legend,
                                                  pool.control  = FALSE) ## NB - This is FALSE because data has already been pooled
-        table(df8$group, df8$town) %>% print()
-        t <- filter(df8,
-                    group == 'Cohort : Bishop Auckland General Hospital')
-        t %>% print()
-        print('Type of relative.month')
-        typeof(df8$relative.month) %>% print()
-        is.integer(df8$relative.month) %>% print()
-        is.numeric(df8$relative.month) %>% print()
-        table(df8$relative.month, df8$town) %>% print()
-        is.data.frame(df8) %>% print()
+        ## Ensure relative.month is a numeric integer
+        df8$relative.month <- as.integer(df8$relative.month) %>% as.numeric()
         ##################################################
         ## Bishop Auckland                              ##
         ##################################################
-        model8.panelar.bishop <- filter(df8,
-                                        group == 'Cohort : Bishop Auckland General Hospital') %>%
-                                 panelAR(formula  = formula.model8,
-                                         timeVar  = timevar,
-                                         panelVar = panel.trust,
-                                         autoCorr = autocorr,
-                                         panelCorrMethod = 'pcse',
-                                         seq.times = seq.times,
-                                         rho.na.rm = rho.na.rm)
-        results$model8.panelar.bishop.coef <- extract_coefficients(x              = model8.panelar.bishop,
-                                                                   .site          = 'Bishop Auckland',
-                                                                   .indicator     = indicator,
-                                                                   .sub.indicator = sub.indicator)
-        results$model8.panelar.bishop.r2 <- model8.panelar.bishop$r2
-        ##################################################
-        ## Hartlepool                                   ##
-        ##################################################
-        model8.panelar.hartlepool <- filter(df8,
-                                              group == 'Cohort : University Hospital of Hartlepool') %>%
-                                     panelAR(formula  = formula.model8,
+        t <- filter(df8,
+                    group == 'Cohort : Bishop Auckland General Hospital') %>%
+            as.data.frame()
+        if(nrow(t) > 0){
+            model8.panelar.bishop <- panelAR(data     = t,
+                                             formula  = formula.model8,
                                              timeVar  = timevar,
                                              panelVar = panel.trust,
                                              autoCorr = autocorr,
                                              panelCorrMethod = 'pcse',
                                              seq.times = seq.times,
                                              rho.na.rm = rho.na.rm)
-        results$model8.panelar.hartlepool.coef <- extract_coefficients(x             = model8.panelar.hartlepool,
-                                                                      .site          = 'Hartlepool',
-                                                                      .indicator     = indicator,
-                                                                      .sub.indicator = sub.indicator)
-        results$model8.panelar.hartlepool.r2 <- model8.panelar.hartlepool$r2
+            results$model8.panelar.bishop.coef <- extract_coefficients(x              = model8.panelar.bishop,
+                                                                       .site          = 'Bishop Auckland',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+            results$model8.panelar.bishop.r2 <- model8.panelar.bishop$r2
+        }
+        ##################################################
+        ## Hartlepool                                   ##
+        ##################################################
+        t <- filter(df8,
+                    group == 'Cohort : University Hospital of Hartlepool') %>%
+            as.data.frame()
+        if(nrow(t) > 0){
+            model8.panelar.hartlepool <- panelAR(data     = t,
+                                                 formula  = formula.model8,
+                                                 timeVar  = timevar,
+                                                 panelVar = panel.trust,
+                                                 autoCorr = autocorr,
+                                                 panelCorrMethod = 'pcse',
+                                                 seq.times = seq.times,
+                                                 rho.na.rm = rho.na.rm)
+            results$model8.panelar.hartlepool.coef <- extract_coefficients(x             = model8.panelar.hartlepool,
+                                                                           .site          = 'Hartlepool',
+                                                                           .indicator     = indicator,
+                                                                           .sub.indicator = sub.indicator)
+            results$model8.panelar.hartlepool.r2 <- model8.panelar.hartlepool$r2
+        }
         ##################################################
         ## Hemel Hempstead                              ##
         ##################################################
-        model8.panelar.hemel <- filter(df8,
-                                         group == 'Cohort : Hemel Hempstead Hospital') %>%
-                                panelAR(formula  = formula.model8,
-                                        timeVar  = timevar,
-                                        panelVar = panel.trust,
-                                        autoCorr = autocorr,
-                                        panelCorrMethod = 'pcse',
-                                        seq.times = seq.times,
-                                        rho.na.rm = rho.na.rm)
-        results$model8.panelar.hemel.coef <- extract_coefficients(x              = model8.panelar.hemel,
-                                                                  .site          = 'Hemel Hempstead',
-                                                                  .indicator     = indicator,
-                                                                  .sub.indicator = sub.indicator)
-        results$model8.panelar.hemel.r2 <- model8.panelar.hemel$r2
+        t <- filter(df8,
+                    group == 'Cohort : Hemel Hempstead Hospital') %>%
+             as.data.frame()
+        if(nrow(t) > 0){
+            model8.panelar.hemel <- panelAR(data     = t,
+                                            formula  = formula.model8,
+                                            timeVar  = timevar,
+                                            panelVar = panel.trust,
+                                            autoCorr = autocorr,
+                                            panelCorrMethod = 'pcse',
+                                            seq.times = seq.times,
+                                            rho.na.rm = rho.na.rm)
+            results$model8.panelar.hemel.coef <- extract_coefficients(x              = model8.panelar.hemel,
+                                                                      .site          = 'Hemel Hempstead',
+                                                                      .indicator     = indicator,
+                                                                      .sub.indicator = sub.indicator)
+            results$model8.panelar.hemel.r2 <- model8.panelar.hemel$r2
+        }
         ##################################################
         ## Newark                                       ##
         ##################################################
-        model8.panelar.newark <- filter(df8,
-                                          group == 'Cohort : Newark Hospital') %>%
-                                 panelAR(formula  = formula.model8,
-                                         timeVar  = timevar,
-                                         panelVar = panel.trust,
-                                         autoCorr = autocorr,
-                                         panelCorrMethod = 'pcse',
-                                         seq.times = seq.times,
-                                         rho.na.rm = rho.na.rm)
-        results$model8.panelar.newark.coef <- extract_coefficients(x              = model8.panelar.newark,
-                                                                   .site          = 'Newark',
-                                                                   .indicator     = indicator,
-                                                                   .sub.indicator = sub.indicator)
-        results$model8.panelar.newark.r2 <- model8.panelar.newark$r2
+        t <- filter(df8,
+                    group == 'Cohort : Newark Hospital') %>%
+             as.data.frame()
+        if(nrow(t) > 0){
+            model8.panelar.newark <- panelAR(data     = t,
+                                             formula  = formula.model8,
+                                             timeVar  = timevar,
+                                             panelVar = panel.trust,
+                                             autoCorr = autocorr,
+                                             panelCorrMethod = 'pcse',
+                                             seq.times = seq.times,
+                                             rho.na.rm = rho.na.rm)
+            results$model8.panelar.newark.coef <- extract_coefficients(x              = model8.panelar.newark,
+                                                                       .site          = 'Newark',
+                                                                       .indicator     = indicator,
+                                                                       .sub.indicator = sub.indicator)
+            results$model8.panelar.newark.r2 <- model8.panelar.newark$r2
+        }
         ##################################################
         ## Rochdale                                     ##
         ##################################################
-        model8.panelar.rochdale <- filter(df8,
-                                            group == 'Cohort : Rochdale Infirmary') %>%
-                                   panelAR(formula  = formula.model8,
-                                           timeVar  = timevar,
-                                           panelVar = panel.trust,
-                                           autoCorr = autocorr,
-                                           panelCorrMethod = 'pcse',
-                                           seq.times = seq.times,
-                                           rho.na.rm = rho.na.rm)
-        results$model8.panelar.rochdale.coef <- extract_coefficients(x            = model8.panelar.rochdale,
-                                                                   .site          = 'Rochdale',
-                                                                   .indicator     = indicator,
-                                                                   .sub.indicator = sub.indicator)
-        results$model8.panelar.rochdale.r2 <- model8.panelar.rochdale$r2
+        t <- filter(df8,
+                    group == 'Cohort : Rochdale Infirmary') %>%
+            as.data.frame()
+        if(nrow(t) > 0){
+            model8.panelar.rochdale <- panelAR(formula  = formula.model8,
+                                               timeVar  = timevar,
+                                               panelVar = panel.trust,
+                                               autoCorr = autocorr,
+                                               panelCorrMethod = 'pcse',
+                                               seq.times = seq.times,
+                                               rho.na.rm = rho.na.rm)
+            results$model8.panelar.rochdale.coef <- extract_coefficients(x            = model8.panelar.rochdale,
+                                                                         .site          = 'Rochdale',
+                                                                         .indicator     = indicator,
+                                                                         .sub.indicator = sub.indicator)
+            results$model8.panelar.rochdale.r2 <- model8.panelar.rochdale$r2
+        }
         ##################################################
         ## All sites                                    ##
         ##################################################
-        ## Pool the data across centres
-        df8 <- closed_pool(df             = df.trust,
-                           within.centres = TRUE)
-        ## Remove 'season' from the model since that is only feasible when pooling within
-        ## centres because months/dates do not align
-        model8 <- gsub('season', '', model8)
-        formula.model8 <- reformulate(response = outcome,
-                                      termlabels = model8)
-        model8.panelar.all <- filter(df8,
-                                     measure     == indicator &
-                                     sub.measure == sub.indicator) %>%
-                              panelAR(formula  = formula.model8,
-                                      timeVar  = timevar,
-                                      panelVar = panel.trust,
-                                      autoCorr = autocorr,
-                                      panelCorrMethod = 'pcse',
-                                      seq.times = seq.times,
-                                      rho.na.rm = rho.na.rm)
-        results$model8.panelar.all.coef <- extract_coefficients(x              = model8.panelar.all,
-                                                                .site          = 'All',
-                                                                .indicator     = indicator,
-                                                                .sub.indicator = sub.indicator)
-        results$model8.panelar.r2 <- model8.panelar.all
+        ## TODO - Maybe get this working
+        ## ## Pool the data across centres
+        ## df8 <- closed_pool(df             = df.trust,
+        ##                    within.centres = FALSE)
+        ## ## Remove 'season' from the model since that is only feasible when pooling within
+        ## ## centres because months/dates do not align
+        ## model8 <- gsub('season', '', model8)
+        ## formula.model8 <- reformulate(response = outcome,
+        ##                               termlabels = model8)
+        ## model8.panelar.all <- filter(df8,
+        ##                              measure     == indicator &
+        ##                              sub.measure == sub.indicator) %>%
+        ##                       panelAR(formula  = formula.model8,
+        ##                               timeVar  = timevar,
+        ##                               panelVar = panel.trust,
+        ##                               autoCorr = autocorr,
+        ##                               panelCorrMethod = 'pcse',
+        ##                               seq.times = seq.times,
+        ##                               rho.na.rm = rho.na.rm)
+        ## results$model8.panelar.all.coef <- extract_coefficients(x              = model8.panelar.all,
+        ##                                                         .site          = 'All',
+        ##                                                         .indicator     = indicator,
+        ##                                                         .sub.indicator = sub.indicator)
+        ## results$model8.panelar.r2 <- model8.panelar.all
         ## Summary table
         results$model8.panelar <- combine_coefficients(bishop.coef     = results$model8.panelar.bishop.coef,
                                                        hartlepool.coef = results$model8.panelar.hartlepool.coef,
                                                        hemel.coef      = results$model8.panelar.hemel.coef,
                                                        newark.coef     = results$model8.panelar.newark.coef,
-                                                       rochdale.coef   = results$model8.panelar.rochdale.coef,
-                                                       all.coef        = results$model8.panelar.all.coef)
+                                                       rochdale.coef   = results$model8.panelar.rochdale.coef)
+                                                       ## all.coef        = results$model8.panelar.all.coef)
         ## ## Forest plot
         results$model8.forest <- closed_forest(df.list       = list(results$model8.panelar.bishop.coef,
                                                                     results$model8.panelar.hartlepool.coef,
                                                                     results$model8.panelar.hemel.coef,
                                                                     results$model8.panelar.newark.coef,
-                                                                    results$model8.panelar.rochdale.coef,
-                                                                    results$model8.panelar.all.coef),
+                                                                    results$model8.panelar.rochdale.coef),
+                                                                    ## results$model8.panelar.all.coef),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
                                                title         = paste0('Model 8 : ',
