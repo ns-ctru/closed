@@ -24,6 +24,12 @@ closed_pool <- function(df              = ed_attendances_by_mode_site_measure,
                         ...){
     df <- mutate(df,
                 pooled.control = ifelse(site.type %in% c('matched control', 'pooled control'), 'Control', town))
+    df <- mutate(df,
+                 pooled.control = ifelse(pooled.control == 2, 'Bishop Auckland', pooled.control),
+                 pooled.control = ifelse(pooled.control == 6, 'Harltepool', pooled.control),
+                 pooled.control = ifelse(pooled.control == 7, 'Hemel Hempstead', pooled.control),
+                 pooled.control = ifelse(pooled.control == 8, 'Newark', pooled.control),
+                 pooled.control = ifelse(pooled.control == 9, 'Rochdale', pooled.control))
     df$pooled.control <- factor(df$pooled.control,
                                 levels = c('Bishop Auckland', 'Control', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'))
     ## Set reference group for pooled controls
