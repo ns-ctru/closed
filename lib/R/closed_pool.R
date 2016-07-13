@@ -57,6 +57,7 @@ closed_pool <- function(df              = ed_attendances_by_mode_site_measure,
                                        1, 0),
                  closure  = ifelse(relative.month  > 24, 1, 0),
                  town = pooled.control)
+    df$relative.month <- as.numeric(df$relative.month) %>% as.integer()
     df <- df[, -which(names(df) %in% c('pooled.control'))]
     ## Can only add a seasonal component if pooling is within centres since
     ## they do not align across centers
