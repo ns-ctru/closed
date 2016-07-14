@@ -765,92 +765,107 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Bishop Auckland                              ##
         ##################################################
         df3$town <- relevel(df3$town, ref = 'Whitehaven')
-        model3.panelar.bishop <- filter(df3,
-                                        group == 'Cohort : Bishop Auckland General Hospital') %>%
-                                 panelAR(formula  = formula.model3,
-                                         timeVar  = timevar,
-                                         panelVar = panel.trust,
-                                         autoCorr = autocorr,
-                                         panelCorrMethod = 'pcse',
-                                         seq.times = seq.times,
-                                         rho.na.rm = rho.na.rm)
-        results$model3.panelar.bishop.coef <- extract_coefficients(x              = model3.panelar.bishop,
-                                                                   .site          = 'Bishop Auckland',
-                                                                   .indicator     = indicator,
-                                                                   .sub.indicator = sub.indicator)
-        results$model3.panelar.bishop.r2 <- model3.panelar.bishop$r2
-        ##################################################
-        ## Hartlepool                                   ##
-        ##################################################
-        df3$town <- relevel(df3$town, ref = 'Grimsby')
-        model3.panelar.hartlepool <- filter(df3,
-                                              group == 'Cohort : University Hospital of Hartlepool') %>%
-                                     panelAR(formula  = formula.model3,
+        t <- filter(df3,
+                    group == 'Cohort : Bishop Auckland General Hospital')
+        if(nrow(t) > 0){
+            model3.panelar.bishop <- panelAR(data     = t,
+                                             formula  = formula.model3,
                                              timeVar  = timevar,
                                              panelVar = panel.trust,
                                              autoCorr = autocorr,
                                              panelCorrMethod = 'pcse',
                                              seq.times = seq.times,
                                              rho.na.rm = rho.na.rm)
-        results$model3.panelar.hartlepool.coef <- extract_coefficients(x             = model3.panelar.hartlepool,
-                                                                      .site          = 'Hartlepool',
-                                                                      .indicator     = indicator,
-                                                                      .sub.indicator = sub.indicator)
-        results$model3.panelar.hartlepool.r2 <- model3.panelar.hartlepool$r2
+            results$model3.panelar.bishop.coef <- extract_coefficients(x              = model3.panelar.bishop,
+                                                                       .site          = 'Bishop Auckland',
+                                                                       .indicator     = indicator,
+                                                                       .sub.indicator = sub.indicator)
+            results$model3.panelar.bishop.r2 <- model3.panelar.bishop$r2
+        }
+        ##################################################
+        ## Hartlepool                                   ##
+        ##################################################
+        df3$town <- relevel(df3$town, ref = 'Grimsby')
+        t <- filter(df3,
+                    group == 'Cohort : University Hospital of Hartlepool')
+        if(nrow(t) > 0){
+            model3.panelar.hartlepool <- panelAR(data     = t,
+                                                 formula  = formula.model3,
+                                                 timeVar  = timevar,
+                                                 panelVar = panel.trust,
+                                                 autoCorr = autocorr,
+                                                 panelCorrMethod = 'pcse',
+                                                 seq.times = seq.times,
+                                                 rho.na.rm = rho.na.rm)
+            results$model3.panelar.hartlepool.coef <- extract_coefficients(x             = model3.panelar.hartlepool,
+                                                                           .site          = 'Hartlepool',
+                                                                           .indicator     = indicator,
+                                                                           .sub.indicator = sub.indicator)
+            results$model3.panelar.hartlepool.r2 <- model3.panelar.hartlepool$r2
+        }
         ##################################################
         ## Hemel Hempstead                              ##
         ##################################################
         df3$town <- relevel(df3$town, ref = 'Warwick')
-        model3.panelar.hemel <- filter(df3,
-                                         group == 'Cohort : Hemel Hempstead Hospital') %>%
-                                panelAR(formula  = formula.model3,
-                                        timeVar  = timevar,
-                                        panelVar = panel.trust,
-                                        autoCorr = autocorr,
-                                        panelCorrMethod = 'pcse',
-                                        seq.times = seq.times,
-                                        rho.na.rm = rho.na.rm)
-        results$model3.panelar.hemel.coef <- extract_coefficients(x              = model3.panelar.hemel,
-                                                                  .site          = 'Hemel Hempstead',
-                                                                  .indicator     = indicator,
-                                                                  .sub.indicator = sub.indicator)
-        results$model3.panelar.hemel.r2 <- model3.panelar.hemel$r2
+        t <- filter(df3,
+                    group == 'Cohort : Hemel Hempstead Hospital')
+        if(nrow(t) > 0){
+            model3.panelar.hemel <- panelAR(data     = t,
+                                            formula  = formula.model3,
+                                            timeVar  = timevar,
+                                            panelVar = panel.trust,
+                                            autoCorr = autocorr,
+                                            panelCorrMethod = 'pcse',
+                                            seq.times = seq.times,
+                                            rho.na.rm = rho.na.rm)
+            results$model3.panelar.hemel.coef <- extract_coefficients(x              = model3.panelar.hemel,
+                                                                      .site          = 'Hemel Hempstead',
+                                                                      .indicator     = indicator,
+                                                                      .sub.indicator = sub.indicator)
+            results$model3.panelar.hemel.r2 <- model3.panelar.hemel$r2
+        }
         ##################################################
         ## Newark                                       ##
         ##################################################
         df3$town <- relevel(df3$town, ref = 'Southport')
-        model3.panelar.newark <- filter(df3,
-                                          group == 'Cohort : Newark Hospital') %>%
-                                 panelAR(formula  = formula.model3,
-                                         timeVar  = timevar,
-                                         panelVar = panel.trust,
-                                         autoCorr = autocorr,
-                                         panelCorrMethod = 'pcse',
-                                         seq.times = seq.times,
-                                         rho.na.rm = rho.na.rm)
-        results$model3.panelar.newark.coef <- extract_coefficients(x              = model3.panelar.newark,
-                                                                   .site          = 'Newark',
-                                                                   .indicator     = indicator,
-                                                                   .sub.indicator = sub.indicator)
-        results$model3.panelar.newark.r2 <- model3.panelar.newark$r2
+        t <- filter(df3,
+                    group == 'Cohort : Newark Hospital')
+        if(nrow(t) > 0){
+            model3.panelar.newark <- panelAR(data     = t,
+                                             formula  = formula.model3,
+                                             timeVar  = timevar,
+                                             panelVar = panel.trust,
+                                             autoCorr = autocorr,
+                                             panelCorrMethod = 'pcse',
+                                             seq.times = seq.times,
+                                             rho.na.rm = rho.na.rm)
+            results$model3.panelar.newark.coef <- extract_coefficients(x              = model3.panelar.newark,
+                                                                       .site          = 'Newark',
+                                                                       .indicator     = indicator,
+                                                                       .sub.indicator = sub.indicator)
+            results$model3.panelar.newark.r2 <- model3.panelar.newark$r2
+        }
         ##################################################
         ## Rochdale                                     ##
         ##################################################
         df3$town <- relevel(df3$town, ref = 'Rotherham')
-        model3.panelar.rochdale <- filter(df3,
-                                            group == 'Cohort : Rochdale Infirmary') %>%
-                                   panelAR(formula  = formula.model3,
-                                           timeVar  = timevar,
-                                           panelVar = panel.trust,
-                                           autoCorr = autocorr,
-                                           panelCorrMethod = 'pcse',
-                                           seq.times = seq.times,
-                                           rho.na.rm = rho.na.rm)
-        results$model3.panelar.rochdale.coef <- extract_coefficients(x            = model3.panelar.rochdale,
-                                                                   .site          = 'Rochdale',
-                                                                   .indicator     = indicator,
-                                                                   .sub.indicator = sub.indicator)
-        results$model3.panelar.rochdale.r2 <- model3.panelar.rochdale$r2
+        t <- filter(df3,
+                    group == 'Cohort : Rochdale Infirmary')
+        if(nrow(t) > 0){
+            model3.panelar.rochdale <- panelAR(data     = t,
+                                               formula  = formula.model3,
+                                               timeVar  = timevar,
+                                               panelVar = panel.trust,
+                                               autoCorr = autocorr,
+                                               panelCorrMethod = 'pcse',
+                                               seq.times = seq.times,
+                                               rho.na.rm = rho.na.rm)
+            results$model3.panelar.rochdale.coef <- extract_coefficients(x            = model3.panelar.rochdale,
+                                                                         .site          = 'Rochdale',
+                                                                         .indicator     = indicator,
+                                                                         .sub.indicator = sub.indicator)
+            results$model3.panelar.rochdale.r2 <- model3.panelar.rochdale$r2
+        }
         ## Summary table
         results$model3.panelar <- combine_coefficients(bishop.coef     = results$model3.panelar.bishop.coef,
                                                        hartlepool.coef = results$model3.panelar.hartlepool.coef,
