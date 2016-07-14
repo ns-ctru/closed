@@ -1140,97 +1140,112 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Model 6 - Bishop Auckland                    ##
         ##################################################
         df6$town <- relevel(df6$town, ref = 'Whitehaven')
-        model6.panelar.bishop <- filter(df6,
-                                        town == 'Bishop Auckland' |
-                                        town == 'Whitehaven') %>%
-                              panelAR(formula  = formula.model6,
-                                      timeVar  = timevar,
-                                      panelVar = panel.lsoa,
-                                      autoCorr = autocorr,
-                                      panelCorrMethod = 'pcse',
-                                      seq.times = seq.times,
-                                      rho.na.rm = rho.na.rm)
-        results$model6.panelar.bishop.coef <- extract_coefficients(x              = model6.panelar.bishop,
-                                                                .site          = 'Bishop Auckland',
-                                                                .indicator     = indicator,
-                                                                .sub.indicator = sub.indicator)
-        results$model6.panelar.bishop.r2 <- model6.panelar.bishop
-        ##################################################
-        ## Model 6 - Hartlepool                         ##
-        ##################################################
-        df6$town <- relevel(df6$town, ref = 'Grimsby')
-        model6.panelar.hartlepool <- filter(df6,
-                                            town == 'Hartlepool' |
-                                            town == 'Grimsby') %>%
-                                     panelAR(formula  = formula.model6,
+        t <- filter(df6,
+                    town == 'Bishop Auckland' |
+                    town == 'Whitehaven')
+        if(nrow(t) > 0){
+            model6.panelar.bishop <- panelAR(data     = t,
+                                             formula  = formula.model6,
                                              timeVar  = timevar,
                                              panelVar = panel.lsoa,
                                              autoCorr = autocorr,
                                              panelCorrMethod = 'pcse',
                                              seq.times = seq.times,
                                              rho.na.rm = rho.na.rm)
-        results$model6.panelar.hartlepool.coef <- extract_coefficients(x             = model6.panelar.hartlepool,
-                                                                      .site          = 'Hartlepool',
-                                                                      .indicator     = indicator,
-                                                                      .sub.indicator = sub.indicator)
-        results$model6.panelar.hartlepool.r2 <- model6.panelar.hartlepool$r2
+            results$model6.panelar.bishop.coef <- extract_coefficients(x              = model6.panelar.bishop,
+                                                                       .site          = 'Bishop Auckland',
+                                                                       .indicator     = indicator,
+                                                                       .sub.indicator = sub.indicator)
+            results$model6.panelar.bishop.r2 <- model6.panelar.bishop
+        }
+        ##################################################
+        ## Model 6 - Hartlepool                         ##
+        ##################################################
+        df6$town <- relevel(df6$town, ref = 'Grimsby')
+        t <- filter(df6,
+                    town == 'Hartlepool' |
+                    town == 'Grimsby')
+        if(nrow(t) > 0){
+            model6.panelar.hartlepool <- panelAR(data     = t,
+                                                 formula  = formula.model6,
+                                                 timeVar  = timevar,
+                                                 panelVar = panel.lsoa,
+                                                 autoCorr = autocorr,
+                                                 panelCorrMethod = 'pcse',
+                                                 seq.times = seq.times,
+                                                 rho.na.rm = rho.na.rm)
+            results$model6.panelar.hartlepool.coef <- extract_coefficients(x             = model6.panelar.hartlepool,
+                                                                           .site          = 'Hartlepool',
+                                                                           .indicator     = indicator,
+                                                                           .sub.indicator = sub.indicator)
+            results$model6.panelar.hartlepool.r2 <- model6.panelar.hartlepool$r2
+        }
         ##################################################
         ## Model 6 - Hemel Hempstead                    ##
         ##################################################
         df6$town <- relevel(df6$town, ref = 'Warwick')
-        model6.panelar.hemel <- filter(df6,
-                                       town == 'Hemel Hempstead' |
-                                       town == 'Warwick') %>%
-                                panelAR(formula  = formula.model6,
-                                        timeVar  = timevar,
-                                        panelVar = panel.lsoa,
-                                        autoCorr = autocorr,
-                                        panelCorrMethod = 'pcse',
-                                        seq.times = seq.times,
-                                        rho.na.rm = rho.na.rm)
-        results$model6.panelar.hemel.coef <- extract_coefficients(x              = model6.panelar.hemel,
-                                                                  .site          = 'Hemel Hempstead',
-                                                                  .indicator     = indicator,
-                                                                  .sub.indicator = sub.indicator)
-        results$model6.panelar.hemel.r2 <- model6.panelar.hemel$r2
+        t <- filter(df6,
+                    town == 'Hemel Hempstead' |
+                    town == 'Warwick')
+        if(nrow(t) > 0){
+            model6.panelar.hemel <- panelAR(data     = t,
+                                            formula  = formula.model6,
+                                            timeVar  = timevar,
+                                            panelVar = panel.lsoa,
+                                            autoCorr = autocorr,
+                                            panelCorrMethod = 'pcse',
+                                            seq.times = seq.times,
+                                            rho.na.rm = rho.na.rm)
+            results$model6.panelar.hemel.coef <- extract_coefficients(x              = model6.panelar.hemel,
+                                                                      .site          = 'Hemel Hempstead',
+                                                                      .indicator     = indicator,
+                                                                      .sub.indicator = sub.indicator)
+            results$model6.panelar.hemel.r2 <- model6.panelar.hemel$r2
+        }
         ##################################################
         ## Model 6 - Newark                             ##
         ##################################################
         df6$town <- relevel(df6$town, ref = 'Southport')
-        model6.panelar.newark <- filter(df6,
-                                        town == 'Newark' |
-                                        town == 'Southport') %>%
-                                 panelAR(formula  = formula.model6,
-                                         timeVar  = timevar,
-                                         panelVar = panel.lsoa,
-                                         autoCorr = autocorr,
-                                         panelCorrMethod = 'pcse',
-                                         seq.times = seq.times,
-                                         rho.na.rm = rho.na.rm)
-        results$model6.panelar.newark.coef <- extract_coefficients(x              = model6.panelar.newark,
-                                                                   .site          = 'Newark',
-                                                                   .indicator     = indicator,
-                                                                   .sub.indicator = sub.indicator)
-        results$model6.panelar.newark.r2 <- model6.panelar.newark$r2
+        t <- filter(df6,
+                    town == 'Newark' |
+                    town == 'Southport')
+        if(nrow(t) > 0){
+            model6.panelar.newark <- panelAR(data     = t,
+                                             formula  = formula.model6,
+                                             timeVar  = timevar,
+                                             panelVar = panel.lsoa,
+                                             autoCorr = autocorr,
+                                             panelCorrMethod = 'pcse',
+                                             seq.times = seq.times,
+                                             rho.na.rm = rho.na.rm)
+            results$model6.panelar.newark.coef <- extract_coefficients(x              = model6.panelar.newark,
+                                                                       .site          = 'Newark',
+                                                                       .indicator     = indicator,
+                                                                       .sub.indicator = sub.indicator)
+            results$model6.panelar.newark.r2 <- model6.panelar.newark$r2
+        }
         ##################################################
         ## Model 6 - Rochdale                           ##
         ##################################################
         df6$town <- relevel(df6$town, ref = 'Rotherham')
-        model6.panelar.rochdale <- filter(df6,
-                                          town == 'Rochdale' |
-                                          town == 'Rotherham') %>%
-                                   panelAR(formula  = formula.model6,
-                                           timeVar  = timevar,
-                                           panelVar = panel.lsoa,
-                                           autoCorr = autocorr,
-                                           panelCorrMethod = 'pcse',
-                                           seq.times = seq.times,
-                                           rho.na.rm = rho.na.rm)
-        results$model6.panelar.rochdale.coef <- extract_coefficients(x            = model6.panelar.rochdale,
-                                                                   .site          = 'Rochdale',
-                                                                   .indicator     = indicator,
-                                                                   .sub.indicator = sub.indicator)
-        results$model6.panelar.rochdale.r2 <- model6.panelar.rochdale$r2
+        t <- filter(df6,
+                    town == 'Rochdale' |
+                    town == 'Rotherham')
+        if(nrow(t) > 0){
+            model6.panelar.rochdale <- panelAR(data     = t,
+                                               formula  = formula.model6,
+                                               timeVar  = timevar,
+                                               panelVar = panel.lsoa,
+                                               autoCorr = autocorr,
+                                               panelCorrMethod = 'pcse',
+                                               seq.times = seq.times,
+                                               rho.na.rm = rho.na.rm)
+            results$model6.panelar.rochdale.coef <- extract_coefficients(x            = model6.panelar.rochdale,
+                                                                         .site          = 'Rochdale',
+                                                                         .indicator     = indicator,
+                                                                         .sub.indicator = sub.indicator)
+            results$model6.panelar.rochdale.r2 <- model6.panelar.rochdale$r2
+        }
         ## Summary table
         results$model6.panelar <- results$model6.panelar.all.coef
         results$model6.panelar <- combine_coefficients(bishop.coef     = results$model6.panelar.bishop.coef,
@@ -1325,21 +1340,24 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         formula.model7 <- reformulate(response = outcome,
                                        termlabels = c(model7))
         df7$town <- relevel(df7$town, ref = 'Whitehaven')
-        model7.panelar <- filter(df7,
-                                 measure     == indicator &
-                                 sub.measure == sub.indicator) %>%
-                              panelAR(formula  = formula.model7,
+        t <- filter(df7,
+                    measure     == indicator &
+                    sub.measure == sub.indicator)
+        if(nrow(t) > 0){
+            model7.panelar <- panelAR(data     = t,
+                                      formula  = formula.model7,
                                       timeVar  = timevar,
                                       panelVar = 'town.lsoa',
                                       autoCorr = autocorr,
                                       panelCorrMethod = 'pcse',
                                       seq.times = seq.times,
                                       rho.na.rm = rho.na.rm)
-        results$model7.panelar.coef <- extract_coefficients(x              = model7.panelar,
+            results$model7.panelar.coef <- extract_coefficients(x              = model7.panelar,
                                                                 .site          = 'All',
                                                                 .indicator     = indicator,
                                                                 .sub.indicator = sub.indicator)
-        results$model7.panelar.r2 <- model7.panelar.all
+            results$model7.panelar.r2 <- model7.panelar
+        }
         ## Summary table
         ## results$model7.panelar <- results$model7.panelar.coef
         results$model7.panelar.all <- combine_coefficients(bishop.coef     = results$model6.panelar.bishop.coef,
