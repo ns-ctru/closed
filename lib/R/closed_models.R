@@ -953,20 +953,22 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## All                                          ##
         ##################################################
         df4$town <- relevel(df4$town, ref = 'Whitehaven')
-        model4.panelar <- df4 %>%
-                          ## closed_missing() %>%
-                          panelAR(formula  = formula.model4,
-                                  timeVar  = timevar,
-                                  panelVar = panel.trust,
-                                  autoCorr = autocorr,
-                                  panelCorrMethod = 'pcse',
-                                  seq.times = seq.times,
-                                  rho.na.rm = rho.na.rm)
-        results$model4.panelar.coef <- extract_coefficients(x              = model4.panelar,
-                                                            .site          = 'All',
-                                                            .indicator     = indicator,
-                                                            .sub.indicator = sub.indicator)
-        results$model4.panelar.r2 <- model4.panelar$r2
+        t <- df4
+        if(nrow(t) > 0){
+            model4.panelar <- panelAR(data     = t,
+                                      formula  = formula.model4,
+                                      timeVar  = timevar,
+                                      panelVar = panel.trust,
+                                      autoCorr = autocorr,
+                                      panelCorrMethod = 'pcse',
+                                      seq.times = seq.times,
+                                      rho.na.rm = rho.na.rm)
+            results$model4.panelar.coef <- extract_coefficients(x              = model4.panelar,
+                                                                .site          = 'All',
+                                                                .indicator     = indicator,
+                                                                .sub.indicator = sub.indicator)
+            results$model4.panelar.r2 <- model4.panelar$r2
+        }
         ## Summary table
         results$model4.panelar.all <- combine_coefficients(bishop.coef     = results$model2.panelar.bishop.coef,
                                                        hartlepool.coef = results$model2.panelar.hartlepool.coef,
@@ -1040,20 +1042,22 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## All sites                                    ##
         ##################################################
         df5$town <- relevel(df5$town, ref = 'Whitehaven')
-        model5.panelar <- df5 %>%
-                              ## closed_missing() %>%
-                              panelAR(formula  = formula.model5,
+        t <- df5
+        if(nrow(t) > 0){
+            model5.panelar <- panelAR(data     = t,
+                                      formula  = formula.model5,
                                       timeVar  = timevar,
                                       panelVar = panel.trust,
                                       autoCorr = autocorr,
                                       panelCorrMethod = 'pcse',
                                       seq.times = seq.times,
                                       rho.na.rm = rho.na.rm)
-        results$model5.panelar.coef <- extract_coefficients(x              = model5.panelar,
-                                                            .site          = 'All',
-                                                            .indicator     = indicator,
-                                                            .sub.indicator = sub.indicator)
-        results$model5.panelar.r2 <- model5.panelar.all$r2
+            results$model5.panelar.coef <- extract_coefficients(x              = model5.panelar,
+                                                                .site          = 'All',
+                                                                .indicator     = indicator,
+                                                                .sub.indicator = sub.indicator)
+            results$model5.panelar.r2 <- model5.panelar.all$r2
+        }
         ## Summary table
         ## results$model5.panelar <- results$model5.panelar.coef
         results$model5.panelar.all <- combine_coefficients(bishop.coef     = results$model3.panelar.bishop.coef,
