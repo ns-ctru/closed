@@ -1,100 +1,114 @@
-#### Time-Series Plots
+##### Time-Series Plots
 
 These time-series plots show the trends over time *before* the removal of any potentially spurious data points and the balancing of the panels.  They are presented for that very purpose, identification of possibly spurious data points.
 
-##### Case Sites
+###### Case Sites
 
-```{r mode_of_arrival_any_time_series_plot_case, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-closed_ts_plot(indicator = 'ed attendances',
-               sub.indicator = 'any',
-               steps = TRUE,
-               theme = theme_bw(),
-               tidy  = FALSE,
-               facet = FALSE,
-               sites = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),)
+```{r mode_of_arrival_other_time_series_plot_case, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'other',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+               legend        = TRUE)
 ```
 
-##### Control Sites
+###### Control Sites
 
-```{r mode_of_arrival_any_time_series_plot_control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-closed_ts_plot(indicator = 'ed attendances',
-               sub.indicator = 'any',
-               steps = TRUE,
-               theme = theme_bw(),
-               tidy  = FALSE,
-               facet = FALSE,
-               sites = c('Salford', 'Scarborough', 'Whitehaven',
-                         'Blackburn', 'Grimsby', 'Wigan',
-                         'Basingstoke', 'Warwick', 'Yeovil',
-                         'Carlisle', 'Salisbury', 'Southport',
-                          'Rotherham', 'Scunthorpe', 'Wansbeck'))
+```{r mode_of_arrival_other_time_series_plot_control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'other',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Salford', 'Scarborough', 'Whitehaven',
+                                 'Blackburn', 'Grimsby', 'Wigan',
+                                 'Basingstoke', 'Warwick', 'Yeovil',
+                                 'Carlisle', 'Salisbury', 'Southport',
+                                 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE)
 ```
 
-##### Bishop Auckland
+###### Bishop Auckland
 
-```{r mode_of_arrival_any_time_series_plot_bishop, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(indicator = 'ed attendances',
-               sub.indicator = 'any',
-               steps = TRUE,
-               theme = theme_bw(),
-               tidy  = FALSE,
-               facet = FALSE,
-               sites = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'))
+```{r mode_of_arrival_other_time_series_plot_bishop, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'other',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
+               legend        = TRUE)
 ```
 
-##### Hartlepool
+###### Hartlepool
 
-```{r mode_of_arrival_any_time_series_plot_hartlepool, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(indicator = 'ed attendances',
-               sub.indicator = 'any',
-               steps = TRUE,
-               theme = theme_bw(),
-               tidy  = FALSE,
-               facet = FALSE,
-               sites = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'))
+```{r mode_of_arrival_other_time_series_plot_hartlepool, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'other',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
 ```
 
-##### Hemel Hempstead
+###### Hemel Hempstead
 
-```{r mode_of_arrival_any_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(indicator = 'ed attendances',
-               sub.indicator = 'any',
-               steps = TRUE,
-               theme = theme_bw(),
-               tidy  = FALSE,
-               facet = FALSE,
-               sites = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'))
+```{r mode_of_arrival_other_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'other',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               legend        = TRUE)
 ```
 
-##### Newark
+###### Newark
 
-```{r mode_of_arrival_any_time_series_plot_newark, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(indicator = 'ed attendances',
-               sub.indicator = 'any',
-               steps = TRUE,
-               theme = theme_bw(),
-               tidy  = FALSE,
-               facet = FALSE,
-               sites = c('Newark', 'Carlisle', 'Salisbury', 'Southport'))
+```{r mode_of_arrival_other_time_series_plot_newark, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'other',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
+               legend        = TRUE)
 ```
 
-##### Rochdale
+###### Rochdale
 
-```{r mode_of_arrival_any_time_series_plot_rochdale, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(indicator = 'ed attendances',
-               sub.indicator = 'any',
-               steps = TRUE,
-               theme = theme_bw(),
-               tidy  = FALSE,
-               facet = FALSE,
-               sites = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'))
+```{r mode_of_arrival_other_time_series_plot_rochdale, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'other',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE)
 ```
 
-#### Model 1
+##### Model 1
 `Case Site    : Individual`\
 `Control Site : None`\
 `Panel        : ED`\
-`Model        : observations ~ season + time + closure + nhs111 + ambulance.divert + other.centre `\
+`Model        : observations ~ season + time + closure + nhs111 + ambulance.divert + other.centre`\
 
 ```{r mode_of_arrival_other_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 mode.of.arrival.other$model1.ts.plot
@@ -102,12 +116,12 @@ mode.of.arrival.other$model1.forest$forest
 mode.of.arrival.other$model1.panelar$coef[3:8] %>% kable(caption = mode.of.arrival.other$model1.panelar$caption)
 ```
 
-#### Model 2
+##### Model 2
 
 `Case Site    : Individual`\
 `Control Site : One Matched`\
 `Panel        : ED`\
-`Model        : observations ~ season + time + closure * site + steps`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
 ```{r mode_of_arrival_other_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 mode.of.arrival.other$model2.ts.plot
@@ -115,71 +129,82 @@ mode.of.arrival.other$model2.forest$forest
 mode.of.arrival.other$model2.panelar$coef[3:8] %>% kable(caption = mode.of.arrival.other$model2.panelar$caption)
 ```
 
-#### Model 3
+##### Model 3a
 
 `Case Site    : Individual`\
 `Control Site : All Matched`\
 `Panel        : ED`\
-`Model        : observations ~ season + time + closure * site + steps`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
-```{r mode_of_arrival_other_model3, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-mode.of.arrival.other$model3.ts.plot
-mode.of.arrival.other$model3.forest$forest
-mode.of.arrival.other$model3.panelar$coef[3:8] %>% kable(caption = mode.of.arrival.other$model3.panelar$caption)
+```{r mode_of_arrival_other_model3a, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+mode.of.arrival.other$model3a.ts.plot
+mode.of.arrival.other$model3a.forest$forest
+mode.of.arrival.other$model3a.panelar$coef[3a:8] %>% kable(caption = mode.of.arrival.other$model3a.panelar$caption)
 ```
 
-#### Model 4
+##### Model 3b
+
+`Case Site    : Individual and All`\
+`Control Site : Pooled`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
+
+```{r mode_of_arrival_other_model3b, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+mode.of.arrival.other$model3b.ts.plot
+mode.of.arrival.other$model3b.forest$forest
+mode.of.arrival.other$model3b.panelar$coef[3:3b] %>% kable(caption = mode.of.arrival.other$model3b.panelar$caption)
+```
+
+##### Model 4
 
 `Case Site    : All`\
 `Control Site : One Matched`\
 `Panel        : ED`\
-`Model        : observations ~ season + time + closure * site + steps`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
 ```{r mode_of_arrival_other_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-mode.of.arrival.other$model4.ts.plot.trust
+mode.of.arrival.other$model4.ts.plot
 mode.of.arrival.other$model4.forest$forest
-mode.of.arrival.other$model4.panelar$coef[3:9] %>% kable(caption = mode.of.arrival.other$model4.panelar$caption)
+mode.of.arrival.other$model4.panelar.all$coef[3:9] %>% kable(caption = mode.of.arrival.other$model4.panelar.all$caption)
 ## mode.of.arrival.other$model4.ts.plot.lsoa
 ```
 
-#### Model 5
+##### Model 5
 
 `Case Site    : All`\
 `Control Site : All Matched`\
 `Panel        : ED`\
-`Model        : observations ~ season + time + closure * site + steps`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
 
 ```{r mode_of_arrival_other_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-mode.of.arrival.other$model5.ts.plot.trust
+mode.of.arrival.other$model5.ts.plot
 mode.of.arrival.other$model5.forest$forest
-mode.of.arrival.other$model5.panelar$coef[3:9] %>% kable(caption = mode.of.arrival.other$model5.panelar$caption)
+mode.of.arrival.other$model5.panelar.all$coef[3:9] %>% kable(caption = mode.of.arrival.other$model5.panelar.all$caption)
 ```
 
-#### Model 6
+##### Model 6
 
 `Case Site    : Individual`\
 `Control Site : One Matched`\
 `Panel        : LSOA`\
-`Model        : observations ~ season + time + closure * site + steps + change in ED time`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre + change in ED time`\
 
 ```{r mode_of_arrival_other_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-mode.of.arrival.other$model6.ts.plot.trust
-mode.of.arrival.other$model6.forest.model$forest
+mode.of.arrival.other$model6.ts.plot
+mode.of.arrival.other$model6.forest$forest
 mode.of.arrival.other$model6.panelar$coef[3:8] %>% kable(caption = mode.of.arrival.other$model6.panelar$caption)
 ```
 
-#### Model 7
-
-Model 7 seeks to analyse at the LSOA level across all case sites and their one matched contorl site the effects of the various steps, and other co-variates.  However, the amount of RAM required by the software is (~26Gb if only one matched control site, rising to 126Gb if all contorl sites are included as there are 2648 LSOAs) exceeds the 16Gb available on the Virtual Machine.
+##### Model 7
 
 `Case Site    : All`\
 `Control Site : One Matched`\
 `Panel        : LSOA`\
-`Model        : observations ~ season + time + closure * site + steps + change in ED time`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre + change in ED time`\
 
 ```{r mode_of_arrival_other_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-mode.of.arrival.other$model7.ts.plot.trust
-mode.of.arrival.other$model7.forest.model$forest
-mode.of.arrival.other$model7.panelar$coef[3:8] %>% kable(caption = mode.of.arrival.other$model7.panelar$caption)
+mode.of.arrival.other$model7.ts.plot
+mode.of.arrival.other$model7.forest$forest
+mode.of.arrival.other$model7.panelar.all$coef[3:8] %>% kable(caption = mode.of.arrival.other$model7.panelar.all$caption)
 ```
