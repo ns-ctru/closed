@@ -1,3 +1,5 @@
+#### Missing Data
+
 A summary of the pattern of missing data for each of the outcomes is provided at both the Site (ED) level and at the LSOA level (within each site).
 
 ```{r missing_site, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}

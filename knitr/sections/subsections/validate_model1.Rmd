@@ -6,6 +6,6 @@ kable(validate.model1, caption = 'Comparison of Prais-Winsten Regression models 
 
 #### Another Indicator
 
-```{r validate_another_mode_any, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
-kable(validate.another, caption = 'Comparison of Prais-Winsten Regression models from R and Stata.')
+```{r validate_another1, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
+kable(validate.another1, caption = 'Comparison of Prais-Winsten Regression models from R and Stata.')
 ```

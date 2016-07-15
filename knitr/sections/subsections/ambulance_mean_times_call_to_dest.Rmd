@@ -1,26 +1,27 @@
-#### Time-Series Plots
+##### Time-Series Plots
 
 These time-series plots show the trends over time *before* the removal of any potentially spurious data points and the balancing of the panels.  They are presented for that very purpose, identification of possibly spurious data points.
 
-##### Case Sites
+###### Case Sites
 
 ```{r ambulance_mean_times_call_to_dest_time_series_plot_case, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-closed_ts_plot(df            = case_fatality_ratio_site_measure,
-               indicator     = 'case fatality ratio',
-               sub.indicator = 'acute heart failure',
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call_to_dest',
                steps         = TRUE,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'))
+               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+               legend        = TRUE)
 ```
 
-##### Control Sites
+###### Control Sites
 
 ```{r ambulance_mean_times_call_to_dest_time_series_plot_control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-closed_ts_plot(df            = case_fatality_ratio_site_measure,
-               indicator     = 'case fatality ratio',
-               sub.indicator = 'acute heart failure',
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call_to_dest',
                steps         = TRUE,
                theme         = theme_bw(),
                tidy          = FALSE,
@@ -29,88 +30,94 @@ closed_ts_plot(df            = case_fatality_ratio_site_measure,
                                  'Blackburn', 'Grimsby', 'Wigan',
                                  'Basingstoke', 'Warwick', 'Yeovil',
                                  'Carlisle', 'Salisbury', 'Southport',
-                                 'Rotherham', 'Scunthorpe', 'Wansbeck'))
+                                 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE)
 ```
 
-##### Bishop Auckland
+###### Bishop Auckland
 
 ```{r ambulance_mean_times_call_to_dest_time_series_plot_bishop, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-closed_ts_plot(df            = case_fatality_ratio_site_measure,
-               indicator     = 'case fatality ratio',
-               sub.indicator = 'acute heart failure',
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call_to_dest',
                steps         = TRUE,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'))
+               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
+               legend        = TRUE)
 ```
 
-##### Hartlepool
+###### Hartlepool
 
 ```{r ambulance_mean_times_call_to_dest_time_series_plot_hartlepool, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-closed_ts_plot(df            = case_fatality_ratio_site_measure,
-               indicator     = 'case fatality ratio',
-               sub.indicator = 'acute heart failure',
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call_to_dest',
                steps         = TRUE,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'))
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
 ```
 
-##### Hemel Hempstead
+###### Hemel Hempstead
 
 ```{r ambulance_mean_times_call_to_dest_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-closed_ts_plot(df            = case_fatality_ratio_site_measure,
-               indicator     = 'case fatality ratio',
-               sub.indicator = 'acute heart failure',
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call_to_dest',
                steps         = TRUE,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'))
+               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               legend        = TRUE)
 ```
 
-##### Newark
+###### Newark
 
 ```{r ambulance_mean_times_call_to_dest_time_series_plot_newark, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-closed_ts_plot(df            = case_fatality_ratio_site_measure,
-               indicator     = 'case fatality ratio',
-               sub.indicator = 'acute heart failure',
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call_to_dest',
                steps         = TRUE,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'))
+               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
+               legend        = TRUE)
 ```
 
-##### Rochdale
+###### Rochdale
 
 ```{r ambulance_mean_times_call_to_dest_time_series_plot_rochdale, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-closed_ts_plot(df            = case_fatality_ratio_site_measure,
-               indicator     = 'case fatality ratio',
-               sub.indicator = 'acute heart failure',
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call_to_dest',
                steps         = TRUE,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'))
+               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE)
 ```
 
 
-#### Model 1
+##### Model 1
 `Case Site    : Individual`\
 `Control Site : None`\
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure + nhs111 + ambulance.divert + other.centre `\
 
 ```{r ambulance_mean_times_call_to_dest_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-case.fatality.ratio.acute.heart.failure$model1.ts.plot
-case.fatality.ratio.acute.heart.failure$model1.forest$forest
-case.fatality.ratio.acute.heart.failure$model1.panelar$coef[3:8] %>% kable(caption = case.fatality.ratio.acute.heart.failure$model1.panelar$caption)
+ambulance.mean.times.call.to.dest$model1.ts.plot
+ambulance.mean.times.call.to.dest$model1.forest$forest
+ambulance.mean.times.call.to.dest$model1.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.dest$model1.panelar.all$caption)
 ```
 
-#### Model 2
+##### Model 2
 
 `Case Site    : Individual`\
 `Control Site : One Matched`\
@@ -118,25 +125,39 @@ case.fatality.ratio.acute.heart.failure$model1.panelar$coef[3:8] %>% kable(capti
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
 ```{r ambulance_mean_times_call_to_dest_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-case.fatality.ratio.acute.heart.failure$model2.ts.plot
-case.fatality.ratio.acute.heart.failure$model2.forest$forest
-case.fatality.ratio.acute.heart.failure$model2.panelar$coef[3:8] %>% kable(caption = case.fatality.ratio.acute.heart.failure$model2.panelar$caption)
+ambulance.mean.times.call.to.dest$model2.ts.plot
+ambulance.mean.times.call.to.dest$model2.forest$forest
+ambulance.mean.times.call.to.dest$model2.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.dest$model2.panelar.all$caption)
 ```
 
-#### Model 3
+##### Model 3a
 
 `Case Site    : Individual`\
 `Control Site : All Matched`\
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
-```{r ambulance_mean_times_call_to_dest_model3, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-case.fatality.ratio.acute.heart.failure$model3.ts.plot
-case.fatality.ratio.acute.heart.failure$model3.forest$forest
-case.fatality.ratio.acute.heart.failure$model3.panelar$coef[3:8] %>% kable(caption = case.fatality.ratio.acute.heart.failure$model3.panelar$caption)
+```{r ambulance_mean_times_call_to_dest_model3a, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+ambulance.mean.times.call.to.dest$model3a.ts.plot
+ambulance.mean.times.call.to.dest$model3a.forest$forest
+ambulance.mean.times.call.to.dest$model3a.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.dest$model3a.panelar.all$caption)
 ```
 
-#### Model 4
+
+##### Model 3b
+
+`Case Site    : Individual and All`\
+`Control Site : Pooled`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
+
+```{r ambulance_mean_times_call_to_dest_model3b, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+ambulance.mean.times.call.to.dest$model3b.ts.plot
+ambulance.mean.times.call.to.dest$model3b.forest$forest
+ambulance.mean.times.call.to.dest$model3b.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.dest$model3b.panelar.all$caption)
+```
+
+##### Model 4
 
 `Case Site    : All`\
 `Control Site : One Matched`\
@@ -144,12 +165,12 @@ case.fatality.ratio.acute.heart.failure$model3.panelar$coef[3:8] %>% kable(capti
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
 ```{r ambulance_mean_times_call_to_dest_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-case.fatality.ratio.acute.heart.failure$model4.ts.plot.trust
-case.fatality.ratio.acute.heart.failure$model4.forest$forest
-case.fatality.ratio.acute.heart.failure$model4.panelar$coef[3:9] %>% kable(caption = case.fatality.ratio.acute.heart.failure$model4.panelar$caption)
+ambulance.mean.times.call.to.dest$model4.ts.plot
+ambulance.mean.times.call.to.dest$model4.forest$forest
+ambulance.mean.times.call.to.dest$model4.panelar.all$coef[3:9] %>% kable(caption = ambulance.mean.times.call.to.dest$model4.panelar.all$caption)
 ```
 
-#### Model 5
+##### Model 5
 
 `Case Site    : All`\
 `Control Site : All Matched`\
@@ -158,12 +179,12 @@ case.fatality.ratio.acute.heart.failure$model4.panelar$coef[3:9] %>% kable(capti
 
 
 ```{r ambulance_mean_times_call_to_dest_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-case.fatality.ratio.acute.heart.failure$model5.ts.plot.trust
-case.fatality.ratio.acute.heart.failure$model5.forest$forest
-case.fatality.ratio.acute.heart.failure$model5.panelar$coef[3:9] %>% kable(caption = case.fatality.ratio.acute.heart.failure$model5.panelar$caption)
+ambulance.mean.times.call.to.dest$model5.ts.plot
+ambulance.mean.times.call.to.dest$model5.forest$forest
+ambulance.mean.times.call.to.dest$model5.panelar.all$coef[3:9] %>% kable(caption = ambulance.mean.times.call.to.dest$model5.panelar.all$caption)
 ```
 
-#### Model 6
+##### Model 6
 
 `Case Site    : Individual`\
 `Control Site : One Matched`\
@@ -171,14 +192,12 @@ case.fatality.ratio.acute.heart.failure$model5.panelar$coef[3:9] %>% kable(capti
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
 
 ```{r ambulance_mean_times_call_to_dest_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-case.fatality.ratio.acute.heart.failure$model6.ts.plot.trust
-case.fatality.ratio.acute.heart.failure$model6.forest.model$forest
-case.fatality.ratio.acute.heart.failure$model6.panelar$coef[3:8] %>% kable(caption = case.fatality.ratio.acute.heart.failure$model6.panelar$caption)
+ambulance.mean.times.call.to.dest$model6.ts.plot
+ambulance.mean.times.call.to.dest$model6.forest$forest
+ambulance.mean.times.call.to.dest$model6.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.dest$model6.panelar.all$caption)
 ```
 
-#### Model 7
-
-Model 7 seeks to analyse at the LSOA level across all case sites and their one matched contorl site the effects of the various steps, and other co-variates.  However, the amount of RAM required by the software is (~26Gb if only one matched control site, rising to 126Gb if all contorl sites are included as there are 2648 LSOAs) exceeds the 16Gb available on the Virtual Machine.
+##### Model 7
 
 `Case Site    : All`\
 `Control Site : One Matched`\
@@ -186,7 +205,7 @@ Model 7 seeks to analyse at the LSOA level across all case sites and their one m
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
 
 ```{r ambulance_mean_times_call_to_dest_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-case.fatality.ratio.acute.heart.failure$model7.ts.plot.trust
-case.fatality.ratio.acute.heart.failure$model7.forest.model$forest
-case.fatality.ratio.acute.heart.failure$model7.panelar$coef[3:8] %>% kable(caption = case.fatality.ratio.acute.heart.failure$model7.panelar$caption)
+ambulance.mean.times.call.to.dest$model7.ts.plot
+ambulance.mean.times.call.to.dest$model7.forest$forest
+ambulance.mean.times.call.to.dest$model7.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.dest$model7.panelar.all$caption)
 ```

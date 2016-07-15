@@ -1,8 +1,8 @@
-#### Time-Series Plots
+##### Time-Series Plots
 
 These time-series plots show the trends over time *before* the removal of any potentially spurious data points and the balancing of the panels.  They are presented for that very purpose, identification of possibly spurious data points.
 
-##### Case Sites
+###### Case Sites
 
 ```{r all_emergency_admissions_all_time_series_plot_case, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 names(emergency_admissions_site_measure) <- gsub("_", ".", names(emergency_admissions_site_measure))
@@ -17,7 +17,7 @@ closed_ts_plot(df            = emergency_admissions_site_measure,
                legend        = TRUE)
 ```
 
-##### Control Sites
+###### Control Sites
 
 ```{r all_emergency_admissions_all_time_series_plot_control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 closed_ts_plot(df            = emergency_admissions_site_measure,
@@ -35,7 +35,7 @@ closed_ts_plot(df            = emergency_admissions_site_measure,
                legend        = TRUE)
 ```
 
-##### Bishop Auckland
+###### Bishop Auckland
 
 ```{r all_emergency_admissions_all_time_series_plot_bishop, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = emergency_admissions_site_measure,
@@ -49,7 +49,7 @@ closed_ts_plot(df            = emergency_admissions_site_measure,
                legend        = TRUE)
 ```
 
-##### Hartlepool
+###### Hartlepool
 
 ```{r all_emergency_admissions_all_time_series_plot_hartlepool, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = emergency_admissions_site_measure,
@@ -63,7 +63,7 @@ closed_ts_plot(df            = emergency_admissions_site_measure,
                legend        = TRUE)
 ```
 
-##### Hemel Hempstead
+###### Hemel Hempstead
 
 ```{r all_emergency_admissions_all_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = emergency_admissions_site_measure,
@@ -77,7 +77,7 @@ closed_ts_plot(df            = emergency_admissions_site_measure,
                legend        = TRUE)
 ```
 
-##### Newark
+###### Newark
 
 ```{r all_emergency_admissions_all_time_series_plot_newark, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = emergency_admissions_site_measure,
@@ -91,7 +91,7 @@ closed_ts_plot(df            = emergency_admissions_site_measure,
                legend        = TRUE)
 ```
 
-##### Rochdale
+###### Rochdale
 
 ```{r all_emergency_admissions_all_time_series_plot_rochdale, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = emergency_admissions_site_measure,
@@ -105,7 +105,7 @@ closed_ts_plot(df            = emergency_admissions_site_measure,
                legend        = TRUE)
 ```
 
-#### Model 1
+##### Model 1
 `Case Site    : Individual`\
 `Control Site : None`\
 `Panel        : ED`\
@@ -114,10 +114,10 @@ closed_ts_plot(df            = emergency_admissions_site_measure,
 ```{r all_emergency_admissions_all_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 ## all.emergency.admissions.all$model1.ts.plot
 all.emergency.admissions.all$model1.forest$forest
-all.emergency.admissions.all$model1.panelar$coef[3:8] %>% kable(caption = all.emergency.admissions.all$model1.panelar$caption)
+all.emergency.admissions.all$model1.panelar.all$coef[3:8] %>% kable(caption = all.emergency.admissions.all$model1.panelar.all$caption)
 ```
 
-#### Model 2
+##### Model 2
 
 `Case Site    : Individual`\
 `Control Site : One Matched`\
@@ -127,23 +127,36 @@ all.emergency.admissions.all$model1.panelar$coef[3:8] %>% kable(caption = all.em
 ```{r all_emergency_admissions_all_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 all.emergency.admissions.all$model2.ts.plot
 all.emergency.admissions.all$model2.forest$forest
-all.emergency.admissions.all$model2.panelar$coef[3:8] %>% kable(caption = all.emergency.admissions.all$model2.panelar$caption)
+all.emergency.admissions.all$model2.panelar.all$coef[3:8] %>% kable(caption = all.emergency.admissions.all$model2.panelar.all$caption)
 ```
 
-#### Model 3
+##### Model 3a
 
 `Case Site    : Individual`\
 `Control Site : All Matched`\
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
-```{r all_emergency_admissions_all_model3, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-all.emergency.admissions.all$model3.ts.plot
-all.emergency.admissions.all$model3.forest$forest
-all.emergency.admissions.all$model3.panelar$coef[3:8] %>% kable(caption = all.emergency.admissions.all$model3.panelar$caption)
+```{r all_emergency_admissions_all_model3a, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+all.emergency.admissions.all$model3a.ts.plot
+all.emergency.admissions.all$model3a.forest$forest
+all.emergency.admissions.all$model3a.panelar.all$coef[3:8] %>% kable(caption = all.emergency.admissions.all$model3a.panelar.all$caption)
 ```
 
-#### Model 4
+##### Model 3b
+
+`Case Site    : Individual and All`\
+`Control Site : Pooled`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
+
+```{r all_emergency_admissions_all_model3b, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+all.emergency.admissions.all$model3b.ts.plot
+all.emergency.admissions.all$model3b.forest$forest
+all.emergency.admissions.all$model3b.panelar.all$coef[3:8] %>% kable(caption = all.emergency.admissions.all$model3b.panelar.all$caption)
+```
+
+##### Model 4
 
 `Case Site    : All`\
 `Control Site : One Matched`\
@@ -151,13 +164,12 @@ all.emergency.admissions.all$model3.panelar$coef[3:8] %>% kable(caption = all.em
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
 ```{r all_emergency_admissions_all_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-all.emergency.admissions.all$model4.ts.plot.trust
+all.emergency.admissions.all$model4.ts.plot
 all.emergency.admissions.all$model4.forest$forest
-all.emergency.admissions.all$model4.panelar$coef[3:9] %>% kable(caption = all.emergency.admissions.all$model4.panelar$caption)
-## all.emergency.admissions.all$model4.ts.plot.lsoa
+all.emergency.admissions.all$model4.panelar.all$coef[3:9] %>% kable(caption = all.emergency.admissions.all$model4.panelar.all$caption)
 ```
 
-#### Model 5
+##### Model 5
 
 `Case Site    : All`\
 `Control Site : All Matched`\
@@ -166,12 +178,12 @@ all.emergency.admissions.all$model4.panelar$coef[3:9] %>% kable(caption = all.em
 
 
 ```{r all_emergency_admissions_all_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-## all.emergency.admissions.all$model5.ts.plot.trust
+## all.emergency.admissions.all$model5.ts.plot
 all.emergency.admissions.all$model5.forest$forest
-all.emergency.admissions.all$model5.panelar$coef[3:9] %>% kable(caption = all.emergency.admissions.all$model5.panelar$caption)
+all.emergency.admissions.all$model5.panelar.all$coef[3:9] %>% kable(caption = all.emergency.admissions.all$model5.panelar.all$caption)
 ```
 
-#### Model 6
+##### Model 6
 
 `Case Site    : Individual`\
 `Control Site : One Matched`\
@@ -179,14 +191,12 @@ all.emergency.admissions.all$model5.panelar$coef[3:9] %>% kable(caption = all.em
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
 
 ```{r all_emergency_admissions_all_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-all.emergency.admissions.all$model6.ts.plot.trust
-all.emergency.admissions.all$model6.forest.model$forest
-all.emergency.admissions.all$model6.panelar$coef[3:8] %>% kable(caption = all.emergency.admissions.all$model6.panelar$caption)
+all.emergency.admissions.all$model6.ts.plot
+all.emergency.admissions.all$model6.forest$forest
+all.emergency.admissions.all$model6.panelar.all$coef[3:8] %>% kable(caption = all.emergency.admissions.all$model6.panelar.all$caption)
 ```
 
-#### Model 7
-
-Model 7 seeks to analyse at the LSOA level across all case sites and their one matched contorl site the effects of the various steps, and other co-variates.  However, the amount of RAM required by the software is (~26Gb if only one matched control site, rising to 126Gb if all contorl sites are included as there are 2648 LSOAs) exceeds the 16Gb available on the Virtual Machine.
+##### Model 7
 
 `Case Site    : All`\
 `Control Site : One Matched`\
@@ -194,7 +204,7 @@ Model 7 seeks to analyse at the LSOA level across all case sites and their one m
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
 
 ```{r all_emergency_admissions_all_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-all.emergency.admissions.all$model7.ts.plot.trust
-all.emergency.admissions.all$model7.forest.model$forest
-all.emergency.admissions.all$model7.panelar$coef[3:8] %>% kable(caption = all.emergency.admissions.all$model7.panelar$caption)
+all.emergency.admissions.all$model7.ts.plot
+all.emergency.admissions.all$model7.forest$forest
+all.emergency.admissions.all$model7.panelar.all$coef[3:8] %>% kable(caption = all.emergency.admissions.all$model7.panelar.all$caption)
 ```

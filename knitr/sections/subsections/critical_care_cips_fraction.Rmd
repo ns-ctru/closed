@@ -1,8 +1,8 @@
-#### Time-Series Plots
+##### Time-Series Plots
 
 These time-series plots show the trends over time *before* the removal of any potentially spurious data points and the balancing of the panels.  They are presented for that very purpose, identification of possibly spurious data points.
 
-##### Case Sites
+###### Case Sites
 
 ```{r critical_care_cips_fraction_time_series_plot_case, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 closed_ts_plot(df            = critical_care_cips_site_measure,
@@ -12,10 +12,11 @@ closed_ts_plot(df            = critical_care_cips_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'))
+               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+               legend        = TRUE)
 ```
 
-##### Control Sites
+###### Control Sites
 
 ```{r critical_care_cips_fraction_time_series_plot_control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 closed_ts_plot(df            = critical_care_cips_site_measure,
@@ -29,10 +30,11 @@ closed_ts_plot(df            = critical_care_cips_site_measure,
                                  'Blackburn', 'Grimsby', 'Wigan',
                                  'Basingstoke', 'Warwick', 'Yeovil',
                                  'Carlisle', 'Salisbury', 'Southport',
-                                 'Rotherham', 'Scunthorpe', 'Wansbeck'))
+                                 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE)
 ```
 
-##### Bishop Auckland
+###### Bishop Auckland
 
 ```{r critical_care_cips_fraction_time_series_plot_bishop, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = critical_care_cips_site_measure,
@@ -42,10 +44,11 @@ closed_ts_plot(df            = critical_care_cips_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'))
+               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
+               legend        = TRUE)
 ```
 
-##### Hartlepool
+###### Hartlepool
 
 ```{r critical_care_cips_fraction_time_series_plot_hartlepool, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = critical_care_cips_site_measure,
@@ -55,10 +58,11 @@ closed_ts_plot(df            = critical_care_cips_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'))
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
 ```
 
-##### Hemel Hempstead
+###### Hemel Hempstead
 
 ```{r critical_care_cips_fraction_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = critical_care_cips_site_measure,
@@ -68,10 +72,11 @@ closed_ts_plot(df            = critical_care_cips_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'))
+               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               legend        = TRUE)
 ```
 
-##### Newark
+###### Newark
 
 ```{r critical_care_cips_fraction_time_series_plot_newark, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = critical_care_cips_site_measure,
@@ -81,10 +86,11 @@ closed_ts_plot(df            = critical_care_cips_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'))
+               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
+               legend        = TRUE)
 ```
 
-##### Rochdale
+###### Rochdale
 
 ```{r critical_care_cips_fraction_time_series_plot_rochdale, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = critical_care_cips_site_measure,
@@ -94,10 +100,11 @@ closed_ts_plot(df            = critical_care_cips_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'))
+               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE)
 ```
 
-#### Model 1
+##### Model 1
 `Case Site    : Individual`\
 `Control Site : None`\
 `Panel        : ED`\
@@ -106,10 +113,10 @@ closed_ts_plot(df            = critical_care_cips_site_measure,
 ```{r critical_care_cips_fraction_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 critical.care.cips.fraction$model1.ts.plot
 critical.care.cips.fraction$model1.forest$forest
-critical.care.cips.fraction$model1.panelar$coef[3:8] %>% kable(caption = critical.care.cips.fraction$model1.panelar$caption)
+critical.care.cips.fraction$model1.panelar.all$coef[3:8] %>% kable(caption = critical.care.cips.fraction$model1.panelar.all$caption)
 ```
 
-#### Model 2
+##### Model 2
 
 `Case Site    : Individual`\
 `Control Site : One Matched`\
@@ -119,23 +126,36 @@ critical.care.cips.fraction$model1.panelar$coef[3:8] %>% kable(caption = critica
 ```{r critical_care_cips_fraction_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 critical.care.cips.fraction$model2.ts.plot
 critical.care.cips.fraction$model2.forest$forest
-critical.care.cips.fraction$model2.panelar$coef[3:8] %>% kable(caption = critical.care.cips.fraction$model2.panelar$caption)
+critical.care.cips.fraction$model2.panelar.all$coef[3:8] %>% kable(caption = critical.care.cips.fraction$model2.panelar.all$caption)
 ```
 
-#### Model 3
+##### Model 3a
 
 `Case Site    : Individual`\
 `Control Site : All Matched`\
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
-```{r critical_care_cips_fraction_model3, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-critical.care.cips.fraction$model3.ts.plot
-critical.care.cips.fraction$model3.forest$forest
-critical.care.cips.fraction$model3.panelar$coef[3:8] %>% kable(caption = critical.care.cips.fraction$model3.panelar$caption)
+```{r critical_care_cips_fraction_model3a, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+critical.care.cips.fraction$model3a.ts.plot
+critical.care.cips.fraction$model3a.forest$forest
+critical.care.cips.fraction$model3a.panelar.all$coef[3:8] %>% kable(caption = critical.care.cips.fraction$model3a.panelar.all$caption)
 ```
 
-#### Model 4
+##### Model 3b
+
+`Case Site    : Individual and All`\
+`Control Site : Pooled`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
+
+```{r critical_care_cips_fraction_model3b, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+critical.care.cips.fraction$model3b.ts.plot
+critical.care.cips.fraction$model3b.forest$forest
+critical.care.cips.fraction$model3b.panelar.all$coef[3:8] %>% kable(caption = critical.care.cips.fraction$model3b.panelar.all$caption)
+```
+
+##### Model 4
 
 `Case Site    : All`\
 `Control Site : One Matched`\
@@ -143,13 +163,12 @@ critical.care.cips.fraction$model3.panelar$coef[3:8] %>% kable(caption = critica
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
 ```{r critical_care_cips_fraction_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-critical.care.cips.fraction$model4.ts.plot.trust
+critical.care.cips.fraction$model4.ts.plot
 critical.care.cips.fraction$model4.forest$forest
-critical.care.cips.fraction$model4.panelar$coef[3:9] %>% kable(caption = critical.care.cips.fraction$model4.panelar$caption)
-## critical.care.cips.fraction$model4.ts.plot.lsoa
+critical.care.cips.fraction$model4.panelar.all$coef[3:9] %>% kable(caption = critical.care.cips.fraction$model4.panelar.all$caption)
 ```
 
-#### Model 5
+##### Model 5
 
 `Case Site    : All`\
 `Control Site : All Matched`\
@@ -158,12 +177,12 @@ critical.care.cips.fraction$model4.panelar$coef[3:9] %>% kable(caption = critica
 
 
 ```{r critical_care_cips_fraction_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-critical.care.cips.fraction$model5.ts.plot.trust
+critical.care.cips.fraction$model5.ts.plot
 critical.care.cips.fraction$model5.forest$forest
-critical.care.cips.fraction$model5.panelar$coef[3:9] %>% kable(caption = critical.care.cips.fraction$model5.panelar$caption)
+critical.care.cips.fraction$model5.panelar.all$coef[3:9] %>% kable(caption = critical.care.cips.fraction$model5.panelar.all$caption)
 ```
 
-#### Model 6
+##### Model 6
 
 `Case Site    : Individual`\
 `Control Site : One Matched`\
@@ -171,14 +190,12 @@ critical.care.cips.fraction$model5.panelar$coef[3:9] %>% kable(caption = critica
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
 
 ```{r critical_care_cips_fraction_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-critical.care.cips.fraction$model6.ts.plot.trust
-critical.care.cips.fraction$model6.forest.model$forest
-critical.care.cips.fraction$model6.panelar$coef[3:8] %>% kable(caption = critical.care.cips.fraction$model6.panelar$caption)
+critical.care.cips.fraction$model6.ts.plot
+critical.care.cips.fraction$model6.forest$forest
+critical.care.cips.fraction$model6.panelar.all$coef[3:8] %>% kable(caption = critical.care.cips.fraction$model6.panelar.all$caption)
 ```
 
-#### Model 7
-
-Model 7 seeks to analyse at the LSOA level across all case sites and their one matched contorl site the effects of the various steps, and other co-variates.  However, the amount of RAM required by the software is (~26Gb if only one matched control site, rising to 126Gb if all contorl sites are included as there are 2648 LSOAs) exceeds the 16Gb available on the Virtual Machine.
+##### Model 7
 
 `Case Site    : All`\
 `Control Site : One Matched`\
@@ -186,7 +203,7 @@ Model 7 seeks to analyse at the LSOA level across all case sites and their one m
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
 
 ```{r critical_care_cips_fraction_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-critical.care.cips.fraction$model7.ts.plot.trust
-critical.care.cips.fraction$model7.forest.model$forest
-critical.care.cips.fraction$model7.panelar$coef[3:8] %>% kable(caption = critical.care.cips.fraction$model7.panelar$caption)
+critical.care.cips.fraction$model7.ts.plot
+critical.care.cips.fraction$model7.forest$forest
+critical.care.cips.fraction$model7.panelar.all$coef[3:8] %>% kable(caption = critical.care.cips.fraction$model7.panelar.all$caption)
 ```

@@ -57,3 +57,4 @@ This work is being undertaken using the Free Open Source Software (FOSS) [R](htt
 
 <!--- Run all analyses --->
 ```{r child = 'subsections/analysis.Rmd', eval = TRUE}
+```

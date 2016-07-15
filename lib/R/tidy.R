@@ -11,6 +11,8 @@
 #'
 #' @param df Data frame to tidy.
 #' @param steps Data frame containing steps
+#' @param sum.mortality Summarise across all avoidable mortalities.
+#' @param sum.admissions Summarise across all avoidable admissions.
 #'
 #' @return A merged data frame of the two specified.
 #'
@@ -19,19 +21,20 @@
 #' @references
 #'
 #' @export
-tidy <- function(df        = test,
-                 steps     = steps,
+tidy <- function(df             = test,
+                 steps          = steps,
+                 sum.mortality  = TRUE,
+                 sum.admissions = TRUE,
                  ...){
-    ## Convert all strings to lower case and underscores in
-    ## variable names to periods (as per Google R style guide
-    ## which I adopt since '_' is bound to '<-' under
-    ## Emacs Speaks Statistics)
+    ## Convert site to lower case and measure/sub-measure to first character upper
+    ## underscores in variable names to periods (as per Google R style guide
+    ## which I adopt since '_' is bound to '<-' under Emacs Speaks Statistics)
     names(df) <- names(df) %>%
                  gsub("_", ".", x = .)
     df <- within(df, {
         site <- tolower(site)
-        measure <- tolower(measure)
-        sub_measure <- tolower(sub_measure)
+        measure <- stri_trans_totitle(measure)
+        sub_measure <- stri_trans_totitle(sub_measure)
     })
     ## Merge the two based on centre and month
     combined <- merge(df,
@@ -91,6 +94,39 @@ tidy <- function(df        = test,
                                                "Rochdale"))
 
     })
+    ## ToDo - Combine mortality and admissions across sub-measures
+    ## Summarise mortality
+    mortality  <- dplyr::filter(df,
+                                sub.measure == "Acute Heart Failure" |
+                                sub.measure == "Anaphylaxis" |
+                                sub.measure == "Asphyxiation" |
+                                sub.measure == "Asthma" |
+                                sub.measure == "Cardiac Arrest" |
+                                sub.measure == "Falls" |
+                                sub.measure == "Fractured Neck Of Femur" |
+                                sub.measure == "Meningitis" |
+                                sub.measure == "Myocardial Infarction" |
+                                sub.measure == "Pregnancy And Birth Related" |
+                                sub.measure == "Road Traffic Accident" |
+                                sub.measure == "Ruptured Aortic Aneurysm" |
+                                sub.measure == "Self-harm" |
+                                sub.measure == "Septic Shock" |
+                                sub.measure == "Serious Head Injury" |
+                                sub.measure == "Stroke/CVA") %>%
+                  dplyr::select(site, site.short, group, measure, value) %>%
+                  group_by(site, measure) %>%
+                  ## ToDo - Fill in with different measures
+                  summarise()
+    admissions <- dplyr::filter(df,
+                                sub.measure == "" |
+                                sub.measure == "" |
+                                sub.measure == "" |
+                                sub.measure == "" |
+                                sub.measure == "") %>%
+                  dplyr::select(site, site.short, group, measure, value) %>%
+                  group_by(site, site.short, group, measure) %>%
+                  ## ToDo - Fill in with different measures
+                  summarise()
     ## Return the tidy and merged dataframe
     return(combined)
 }

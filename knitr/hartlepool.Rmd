@@ -1,5 +1,5 @@
 ---
-title: ClosED - Project Advisory Group Meeting 2016-07-04
+title: ClosED - Hartlepool
 output:
   html_document:
     theme: sandstone
@@ -20,24 +20,26 @@ set.seed(69027181)
 ```
 # {.tabset}
 
-## Methods
+<!-- ## Methods -->
 
-```{r child = 'pag_20160704/methods.Rmd', eval = FALSE}
-```
+<!-- ```{r child = 'sections/methods.Rmd', eval = FALSE} -->
+<!-- ``` -->
 
 ## Results {.tabset .tabset-fade}
-```{r child = 'pag_20160704/results.Rmd', eval = TRUE}
+```{r child = 'sections/results_hartlepool.Rmd', eval = TRUE}
 ```
 
 <!-- ## Validation {.tabset .tabset-fade .tabset-pills} -->
-```{r child = 'pag_20160704/validation.Rmd', eval = FALSE}
-```
+<!-- ```{r child = 'sections/validation.Rmd', eval = TRUE} -->
+<!-- ``` -->
 <!-- ## Investigations {.tabset .tabset-fade .tabset-pills} -->
-```{r child = 'pag_20160704/investigations.Rmd', eval = FALSE}
-```
+<!-- ```{r child = 'sections/investigations.Rmd', eval = TRUE} -->
+<!-- ``` -->
 
 <!-- ## ToDo {.tabset .tabset-fade .tabset-pills} -->
-```{r child = 'pag_20160704/todo.Rmd', eval = FALSE}
-```
+<!-- ```{r child = 'sections/todo.Rmd', eval = TRUE} -->
+<!-- ``` -->
+
+## References
 
 # References

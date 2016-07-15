@@ -114,7 +114,7 @@ closed_ts_plot(df            = case_fatality_site_measure,
 ```{r case_fatality_ratio_stroke_cva_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 case.fatality.ratio.stroke.cva$model1.ts.plot
 case.fatality.ratio.stroke.cva$model1.forest$forest
-case.fatality.ratio.stroke.cva$model1.panelar$coef[3:8] %>% kable(caption = case.fatality.ratio.stroke.cva$model1.panelar$caption)
+case.fatality.ratio.stroke.cva$model1.panelar.all$coef[3:8] %>% kable(caption = case.fatality.ratio.stroke.cva$model1.panelar.all$caption)
 ```
 
 ##### Model 2
@@ -127,20 +127,32 @@ case.fatality.ratio.stroke.cva$model1.panelar$coef[3:8] %>% kable(caption = case
 ```{r case_fatality_ratio_stroke_cva_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 case.fatality.ratio.stroke.cva$model2.ts.plot
 case.fatality.ratio.stroke.cva$model2.forest$forest
-case.fatality.ratio.stroke.cva$model2.panelar$coef[3:8] %>% kable(caption = case.fatality.ratio.stroke.cva$model2.panelar$caption)
+case.fatality.ratio.stroke.cva$model2.panelar.all$coef[3:8] %>% kable(caption = case.fatality.ratio.stroke.cva$model2.panelar.all$caption)
 ```
 
-##### Model 3
+##### Model 3a
 
 `Case Site    : Individual`\
 `Control Site : All Matched`\
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
-```{r case_fatality_ratio_stroke_cva_model3, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-case.fatality.ratio.stroke.cva$model3.ts.plot
-case.fatality.ratio.stroke.cva$model3.forest$forest
-case.fatality.ratio.stroke.cva$model3.panelar$coef[3:8] %>% kable(caption = case.fatality.ratio.stroke.cva$model3.panelar$caption)
+```{r case_fatality_ratio_stroke_cva_model3a, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+case.fatality.ratio.stroke.cva$model3a.ts.plot
+case.fatality.ratio.stroke.cva$model3a.forest$forest
+case.fatality.ratio.stroke.cva$model3a.panelar.all$coef[3:8] %>% kable(caption = case.fatality.ratio.stroke.cva$model3a.panelar.all$caption)
+```
+##### Model 3b
+
+`Case Site    : Individual and All`\
+`Control Site : Pooled`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
+
+```{r case_fatality_ratio_stroke_cva_model3b, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+case.fatality.ratio.stroke.cva$model3b.ts.plot
+case.fatality.ratio.stroke.cva$model3b.forest$forest
+case.fatality.ratio.stroke.cva$model3b.panelar.all$coef[3:8] %>% kable(caption = case.fatality.ratio.stroke.cva$model3b.panelar.all$caption)
 ```
 
 ##### Model 4
@@ -153,7 +165,7 @@ case.fatality.ratio.stroke.cva$model3.panelar$coef[3:8] %>% kable(caption = case
 ```{r case_fatality_ratio_stroke_cva_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 case.fatality.ratio.stroke.cva$model4.ts.plot
 case.fatality.ratio.stroke.cva$model4.forest$forest
-case.fatality.ratio.stroke.cva$model4.panelar$coef[3:9] %>% kable(caption = case.fatality.ratio.stroke.cva$model4.panelar$caption)
+case.fatality.ratio.stroke.cva$model4.panelar.all$coef[3:9] %>% kable(caption = case.fatality.ratio.stroke.cva$model4.panelar.all$caption)
 ```
 
 ##### Model 5
@@ -167,7 +179,7 @@ case.fatality.ratio.stroke.cva$model4.panelar$coef[3:9] %>% kable(caption = case
 ```{r case_fatality_ratio_stroke_cva_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 case.fatality.ratio.stroke.cva$model5.ts.plot
 case.fatality.ratio.stroke.cva$model5.forest$forest
-case.fatality.ratio.stroke.cva$model5.panelar$coef[3:9] %>% kable(caption = case.fatality.ratio.stroke.cva$model5.panelar$caption)
+case.fatality.ratio.stroke.cva$model5.panelar.all$coef[3:9] %>% kable(caption = case.fatality.ratio.stroke.cva$model5.panelar.all$caption)
 ```
 
 ##### Model 6
@@ -179,8 +191,8 @@ case.fatality.ratio.stroke.cva$model5.panelar$coef[3:9] %>% kable(caption = case
 
 ```{r case_fatality_ratio_stroke_cva_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 case.fatality.ratio.stroke.cva$model6.ts.plot
-case.fatality.ratio.stroke.cva$model6.forest.model$forest
-case.fatality.ratio.stroke.cva$model6.panelar$coef[3:8] %>% kable(caption = case.fatality.ratio.stroke.cva$model6.panelar$caption)
+case.fatality.ratio.stroke.cva$model6.forest$forest
+case.fatality.ratio.stroke.cva$model6.panelar.all$coef[3:8] %>% kable(caption = case.fatality.ratio.stroke.cva$model6.panelar.all$caption)
 ```
 
 ##### Model 7
@@ -192,19 +204,6 @@ case.fatality.ratio.stroke.cva$model6.panelar$coef[3:8] %>% kable(caption = case
 
 ```{r case_fatality_ratio_stroke_cva_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 case.fatality.ratio.stroke.cva$model7.ts.plot
-case.fatality.ratio.stroke.cva$model7.forest.model$forest
-case.fatality.ratio.stroke.cva$model7.panelar$coef[3:8] %>% kable(caption = case.fatality.ratio.stroke.cva$model7.panelar$caption)
-```
-
-##### Model 8
-
-`Case Site    : Individual and All`\
-`Control Site : Pooled`\
-`Panel        : ED`\
-`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
-
-```{r case_fatality_ratio_stroke_cva_model8, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-case.fatality.ratio.stroke.cva$model8.ts.plot
-case.fatality.ratio.stroke.cva$model8.forest.model$forest
-case.fatality.ratio.stroke.cva$model8.panelar$coef[3:8] %>% kable(caption = case.fatality.ratio.stroke.cva$model8.panelar$caption)
+case.fatality.ratio.stroke.cva$model7.forest$forest
+case.fatality.ratio.stroke.cva$model7.panelar.all$coef[3:8] %>% kable(caption = case.fatality.ratio.stroke.cva$model7.panelar.all$caption)
 ```

@@ -179,12 +179,13 @@ closed_regress<- function(df            = ed_attendances_by_mode_measure,
         df <- within(df, {
                      closure[town == site.town & yearmonth >= closure.date] <- 1
         })
-        ## Select out data points that are -/+ 2 years either side of the closure date
-        ## results$df <- df
-        ## return(results)
+        ## Select out data points that are -/+ 2 years from the lowest and highest
+        ## closure dates
         df <- mutate(df,
-                     diff = as.numeric(closure.date) - as.numeric(yearmonth)) %>%
-              dplyr::filter(diff < -730 | diff > 730)
+                     first.closure = min(closure.date),
+                     last.closure  = max(closure.date)) %>%
+              dplyr::filter(as.numeric(first.closure) - as.numeric(yearmonth) > -730) %>%
+              dplyr::filter(as.numeric(last.closure)  - as.numeric(yearmonth) <  730)
     }
     else if(site == 'All'){
         ## ToDo - Dummy for sites with closures
@@ -198,8 +199,10 @@ closed_regress<- function(df            = ed_attendances_by_mode_measure,
         df <- mutate(df,
                      first.closure = min(closure.date),
                      last.closure  = max(closure.date)) %>%
-            dplyr::filter(as.numeric(first.closure) - as.numeric(yearmonth) < -730 |
-                          as.numeric(last.closure)  - as.numeric(yearmonth) >  730)
+              mutate(diff.start  = as.numeric(first.closure) - as.numeric(yearmonth),
+                     diff.finish = as.numeric(last.closure)  - as.numeric(yearmonth)) ## %>%
+              ## dplyr::filter(as.numeric(first.closure) - as.numeric(yearmonth) < 731) %>%
+              ## dplyr::filter(as.numeric(last.closure)  - as.numeric(yearmonth) <  730)
     }
     ## Optionally return results
     if(return.df == TRUE){
@@ -335,7 +338,7 @@ closed_regress<- function(df            = ed_attendances_by_mode_measure,
         results$coefficients$town          <- site
         results$coefficients$indicator     <- indicator
         results$coefficients$sub.indicator <- sub.indicator
-        names(results$coefficients) <- c('est', 'se', 't', 'p', 'site', 'term', 'indicator', 'sub.indicator')
+        names(results$coefficients) <- c('est', 'se', 't', 'p', 'term', 'site', 'indicator', 'sub.indicator')
         ## results$coefficients$term <- rownames(results$coefficients)
         ## results$coefficients$site <- site
         results$r2 <- results$panelar$r2

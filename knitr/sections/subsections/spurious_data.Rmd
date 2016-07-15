@@ -3,6 +3,7 @@
 Visual inspection of time-series plots (see 'Time-Series Plots' tab under each indicator) identified a number of potentially spurious data points which were removed prior to balancing the panels (i.e. a spurious data point in one ED department resulted in the removal of that data point from all comparator sites for the given model).  Potentially spurious data points are detailed in the table below, those without '?' have *not* yet been removed.
 
 
+
 Indicator				| Sub-indicator | Site            | Relative Month
 ------------------------|---------------|-----------------|--------------------------
 Attendance              | Any           | Basingstoke     | 1-9? 31-47?
@@ -40,25 +41,13 @@ Length of Stay          | Mean          | N/A             | N/A
 Length of Stay          | Median        | N/A             | N/A
 Case Fatality Ratio      | Any                         | N/A | N/A
 Case Fatality Ratio      | Acute Heart Failure         | N/A | N/A
-<!-- Case Fatality Ratio      | Anaphylaxis                 | N/A | N/A -->
-<!-- Case Fatality Ratio      | Asphyxiation				   | N/A | N/A -->
-<!-- Case Fatality Ratio      | Asthma					   | N/A | N/A -->
-<!-- Case Fatality Ratio      | Falls					   | N/A | N/A -->
-<!-- Case Fatality Ratio      | Fractured Neck of Femur	   | N/A | N/A -->
-<!-- Case Fatality Ratio      | Meningitis				   | N/A | N/A -->
-<!-- Case Fatality Ratio      | Myocardial Infarction	   | N/A | N/A -->
-<!-- Case Fatality Ratio      | Pregnancy and Birth Related | N/A | N/A -->
-<!-- Case Fatality Ratio      | Road Traffic Accident	   | N/A | N/A -->
-<!-- Case Fatality Ratio      | Ruptured Aortic Aneurysm	   | N/A | N/A -->
-<!-- Case Fatality Ratio      | Self Harm				   | N/A | N/A -->
-<!-- Case Fatality Ratio      | Septic Shock				   | N/A | N/A -->
-<!-- Case Fatality Ratio      | Serious Head Injury		   | N/A | N/A -->
 Case Fatality Ratio      | Stroke CVA				   | N/A | N/A
 Ambulance Mean Times    | Call to Destination       | N/A | N/A
 Ambulance Mean Times    | Call to Scene (Any)       | N/A | N/A
 Ambulance Mean Times    | Call to Scene (Conveying) | N/A | N/A
 Ambulance Mean Times    | Destination to Clear      | N/A | N/A
 Ambulance Mean Times    | Scene to Destination      | N/A | N/A
+
 
 Some are straight-forward to remove (e.g. Bishop Auckland at months 1 and 6) whilst others are less straight-forward.  For example for Attendance by Any mode removing Basingstoke months 1-9 would mean that in Models 4 and 5 (which are pooled across sites) the time-series would start at week 10 rather than week 1.  For Attendance by Any mode removing Yeovil would be problematic as it is the date of the closure step and its probably undesirable to remove this for all centers.  Similarly for Attendance by Ambulance in Scunthorpe removing the first 16 months from it and other panels when balancing them would be undesirable.  Its quite possible there are meaningful steps for these two centres but documentary analysis has not been performed on these sites.
 
@@ -75,81 +64,197 @@ names(t) <- gsub("_", ".", names(t))
 ed.attendances.clean.unbalanced <- closed_clean(df      = t,
                                                 indicator     = 'ed attendances',
                                                 sub.indicator = 'any',
-                                                systematic    = 2,
+                                                systematic    = systematic.outlier,
                                                 balance       = FALSE)
 t <- as.data.frame(unnecessary_ed_attendances_site_measure)
 names(t) <- gsub("_", ".", names(t))
 unnecessary.attendances.clean.unbalanced <- closed_clean(df      = t,
-                                                indicator     = 'ed attendances',
+                                                indicator     = 'unnecessary ed attendances',
                                                 sub.indicator = 'any',
-                                                systematic    = 2,
+                                                systematic    = systematic.outlier,
                                                 balance       = FALSE)
 t <- as.data.frame(emergency_admissions_site_measure)
 names(t) <- gsub("_", ".", names(t))
 emergency.admissions.clean.unbalanced <- closed_clean(df      = t,
-                                                      indicator     = 'ed attendances',
+                                                      indicator     = 'avoidable emergency admissions',
                                                       sub.indicator = 'any',
-                                                      systematic    = 2,
+                                                      systematic    = systematic.outlier,
                                                       balance       = FALSE)
+## Remove avoidable admissions and avoidable deaths that are not of interest
+emergency.admissions.clean.unbalanced <- filter(emergency.admissions.clean.unbalanced,
+                                                !(sub.measure %in% exclude.avoidable))
 t <- as.data.frame(ed_attendances_admitted_site_measure)
 names(t) <- gsub("_", ".", names(t))
 ed.attendances.admitted.clean.unbalanced <- closed_clean(df      = t,
-                                                      indicator     = 'ed attendances',
-                                                      sub.indicator = 'any',
-                                                      systematic    = 2,
-                                                      balance       = FALSE)
+                                                         indicator     = 'ed attendances admitted',
+                                                         sub.indicator = 'any',
+                                                         systematic    = systematic.outlier,
+                                                         balance       = FALSE)
 t <- as.data.frame(critical_care_cips_site_measure)
 names(t) <- gsub("_", ".", names(t))
 critical.care.clean.unbalanced <- closed_clean(df      = t,
-                                                      indicator     = 'ed attendances',
-                                                      sub.indicator = 'any',
-                                                      systematic    = 2,
-                                                      balance       = FALSE)
+                                               indicator     = 'critical care stays',
+                                               sub.indicator = 'all',
+                                               systematic    = systematic.outlier,
+                                               balance       = FALSE)
 t <- as.data.frame(length_of_stay_site_measure)
 names(t) <- gsub("_", ".", names(t))
 length.of.stay.clean.unbalanced <- closed_clean(df      = t,
-                                                      indicator     = 'ed attendances',
-                                                      sub.indicator = 'any',
-                                                      systematic    = 2,
-                                                      balance       = FALSE)
-t <- as.data.frame(case_fatality_site_measure)
-names(t) <- gsub("_", ".", names(t))
-case.fatality.clean.unbalanced <- closed_clean(df      = t,
-                                                      indicator     = 'ed attendances',
-                                                      sub.indicator = 'any',
-                                                      systematic    = 2,
-                                                      balance       = FALSE)
+                                                indicator     = 'length of stay',
+                                                sub.indicator = 'mean',
+                                                systematic    = systematic.outlier,
+                                                balance       = FALSE)
+## t <- as.data.frame(case_fatality_site_measure)
+## names(t) <- gsub("_", ".", names(t))
+## case.fatality.clean.unbalanced <- closed_clean(df      = t,
+##                                                indicator     = 'case fatality ratio',
+##                                                sub.indicator = 'any',
+##                                                systematic    = systematic.outlier,
+##                                                balance       = FALSE)
+## ## Exclude avoidable deaths that are not of interest
+## case.fatality.clean.unbalanced <- filter(case.fatality.clean.unbalanced,
+##                                          !(sub.measure %in% exclude.fatality))
 t <- as.data.frame(amb_mean_times_site_measure)
 names(t) <- gsub("_", ".", names(t))
 amb.mean.times.clean.unbalanced <- closed_clean(df      = t,
-                                                      indicator     = 'ed attendances',
-                                                      sub.indicator = 'any',
-                                                      systematic    = 2,
-                                                      balance       = FALSE)
+                                                indicator     = 'ambulance mean times',
+                                                sub.indicator = 'call_to_dest',
+                                                systematic    = systematic.outlier,
+                                                balance       = FALSE)
 ## Combine all cleaned (and now missing) data points into one data frame
-missing <- rbind(ed.attendances.clean.unbalanced,
-               unnecessary.attendances.clean.unbalanced,
-               emergency.admissions.clean.unbalanced,
-               ed.attendances.admitted.clean.unbalanced,
-               critical.care.clean.unbalanced,
-               length.of.stay.clean.unbalanced,
-               case.fatality.clean.unbalanced,
-               amb.mean.times.clean.unbalanced) %>%
-           filter(is.na(value))
+spurious <- rbind(ed.attendances.clean.unbalanced,
+                  unnecessary.attendances.clean.unbalanced,
+                  emergency.admissions.clean.unbalanced,
+                  ed.attendances.admitted.clean.unbalanced,
+                  critical.care.clean.unbalanced,
+                  length.of.stay.clean.unbalanced,
+                                        #case.fatality.clean.unbalanced,
+                  amb.mean.times.clean.unbalanced) %>%
+                  filter(is.na(value))
+spurious <- mutate(spurious,
+                   outcome  = paste(measure, sub.measure, sep = " : "),
+                   sd        = systematic.outlier,
+                   Town     = town)
 rm(ed.attendances.clean.unbalanced,
    unnecessary.attendances.clean.unbalanced,
    emergency.admissions.clean.unbalanced,
    ed.attendances.admitted.clean.unbalanced,
    critical.care.clean.unbalanced,
    length.of.stay.clean.unbalanced,
-   case.fatality.clean.unbalanced,
+   ## case.fatality.clean.unbalanced,
    amb.mean.times.clean.unbalanced)
+## Repeat for SD of 2
+t <- as.data.frame(ed_attendances_by_mode_site_measure)
+names(t) <- gsub("_", ".", names(t))
+ed.attendances.clean.unbalanced <- closed_clean(df      = t,
+                                                indicator     = 'ed attendances',
+                                                sub.indicator = 'any',
+                                                systematic    = 2,
+                                                balance       = FALSE)
+t <- as.data.frame(unnecessary_ed_attendances_site_measure)
+names(t) <- gsub("_", ".", names(t))
+unnecessary.attendances.clean.unbalanced <- closed_clean(df      = t,
+                                                indicator     = 'unnecessary ed attendances',
+                                                sub.indicator = 'any',
+                                                systematic    = 2,
+                                                balance       = FALSE)
+t <- as.data.frame(emergency_admissions_site_measure)
+names(t) <- gsub("_", ".", names(t))
+emergency.admissions.clean.unbalanced <- closed_clean(df      = t,
+                                                      indicator     = 'avoidable emergency admissions',
+                                                      sub.indicator = 'any',
+                                                      systematic    = 2,
+                                                      balance       = FALSE)
+## Remove avoidable admissions and avoidable deaths that are not of interest
+emergency.admissions.clean.unbalanced <- filter(emergency.admissions.clean.unbalanced,
+                                                !(sub.measure %in% exclude.avoidable))
+t <- as.data.frame(ed_attendances_admitted_site_measure)
+names(t) <- gsub("_", ".", names(t))
+ed.attendances.admitted.clean.unbalanced <- closed_clean(df      = t,
+                                                         indicator     = 'ed attendances admitted',
+                                                         sub.indicator = 'any',
+                                                         systematic    = 2,
+                                                         balance       = FALSE)
+t <- as.data.frame(critical_care_cips_site_measure)
+names(t) <- gsub("_", ".", names(t))
+critical.care.clean.unbalanced <- closed_clean(df      = t,
+                                               indicator     = 'critical care stays',
+                                               sub.indicator = 'all',
+                                               systematic    = 2,
+                                               balance       = FALSE)
+t <- as.data.frame(length_of_stay_site_measure)
+names(t) <- gsub("_", ".", names(t))
+length.of.stay.clean.unbalanced <- closed_clean(df      = t,
+                                                indicator     = 'length of stay',
+                                                sub.indicator = 'mean',
+                                                systematic    = 2,
+                                                balance       = FALSE)
+## t <- as.data.frame(case_fatality_site_measure)
+## names(t) <- gsub("_", ".", names(t))
+## case.fatality.clean.unbalanced <- closed_clean(df      = t,
+##                                                indicator     = 'case fatality ratio',
+##                                                sub.indicator = 'any',
+##                                                systematic    = 2,
+##                                                balance       = FALSE)
+## ## Exclude avoidable deaths that are not of interest
+## case.fatality.clean.unbalanced <- filter(case.fatality.clean.unbalanced,
+##                                          !(sub.measure %in% exclude.fatality))
+t <- as.data.frame(amb_mean_times_site_measure)
+names(t) <- gsub("_", ".", names(t))
+amb.mean.times.clean.unbalanced <- closed_clean(df      = t,
+                                                indicator     = 'ambulance mean times',
+                                                sub.indicator = 'call_to_dest',
+                                                systematic    = 2,
+                                                balance       = FALSE)
+## Combine all cleaned (and now missing) data points into one data frame
+spurious2 <- rbind(ed.attendances.clean.unbalanced,
+                  unnecessary.attendances.clean.unbalanced,
+                  emergency.admissions.clean.unbalanced,
+                  ed.attendances.admitted.clean.unbalanced,
+                  critical.care.clean.unbalanced,
+                  length.of.stay.clean.unbalanced,
+                                        #case.fatality.clean.unbalanced,
+                  amb.mean.times.clean.unbalanced) %>%
+                  filter(is.na(value))
+spurious2 <- mutate(spurious,
+                   outcome  = paste(measure, sub.measure, sep = " : "),
+                   sd        = 2,
+                   Town     = town)
+rm(ed.attendances.clean.unbalanced,
+   unnecessary.attendances.clean.unbalanced,
+   emergency.admissions.clean.unbalanced,
+   ed.attendances.admitted.clean.unbalanced,
+   critical.care.clean.unbalanced,
+   length.of.stay.clean.unbalanced,
+   ## case.fatality.clean.unbalanced,
+   amb.mean.times.clean.unbalanced)
+## Bind spurious 2 with spurious 'systematic.outlier' (currently 3)
+spurious <- rbind(spurious,
+                  spurious2)
 ## Save for plotting on NS computer
-save(missing,
+save(spurious,
      file = '~/work/closed/knitr/data/spurious_cleaned.RData')
 ```
 
-```{r spurious_data_points, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+```{r spurious_data_points, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, fig.height = 8, eval = TRUE}
+load(file = '~/work/closed/knitr/data/spurious_cleaned.RData')
+filter(spurious, sd == 3) %>%
+ggplot(aes(relative.month, Town, color = Town)) +
+    ## geom_rug(size = 3) +
+    geom_point() + geom_jitter() +
+    facet_wrap(facets = ~outcome, ncol = 1) +
+    theme(axis.ticks.y = element_blank(),
+          axis.text.y = element_blank()) +
+    labs(title = paste0('SD = ', systematic.outlier))
+
+## filter(spurious, sd == 2) %>%
+## ggplot(aes(relative.month, Town, color = Town)) +
+##     ## geom_rug(size = 3) +
+##     geom_point() + geom_jitter() +
+##     facet_wrap(facets = ~outcome, ncol = 1) +
+##     theme(axis.ticks.y = element_blank(),
+##           axis.text.y = element_blank()) +
+##     labs(title = paste0('SD = ', 2))
 
 
 ```

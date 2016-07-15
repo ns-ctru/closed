@@ -113,7 +113,7 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
 ```{r mode_of_arrival_other_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 mode.of.arrival.other$model1.ts.plot
 mode.of.arrival.other$model1.forest$forest
-mode.of.arrival.other$model1.panelar$coef[3:8] %>% kable(caption = mode.of.arrival.other$model1.panelar$caption)
+mode.of.arrival.other$model1.panelar.all$coef[3:8] %>% kable(caption = mode.of.arrival.other$model1.panelar.all$caption)
 ```
 
 ##### Model 2
@@ -126,7 +126,7 @@ mode.of.arrival.other$model1.panelar$coef[3:8] %>% kable(caption = mode.of.arriv
 ```{r mode_of_arrival_other_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 mode.of.arrival.other$model2.ts.plot
 mode.of.arrival.other$model2.forest$forest
-mode.of.arrival.other$model2.panelar$coef[3:8] %>% kable(caption = mode.of.arrival.other$model2.panelar$caption)
+mode.of.arrival.other$model2.panelar.all$coef[3:8] %>% kable(caption = mode.of.arrival.other$model2.panelar.all$caption)
 ```
 
 ##### Model 3a
@@ -139,7 +139,7 @@ mode.of.arrival.other$model2.panelar$coef[3:8] %>% kable(caption = mode.of.arriv
 ```{r mode_of_arrival_other_model3a, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 mode.of.arrival.other$model3a.ts.plot
 mode.of.arrival.other$model3a.forest$forest
-mode.of.arrival.other$model3a.panelar$coef[3a:8] %>% kable(caption = mode.of.arrival.other$model3a.panelar$caption)
+mode.of.arrival.other$model3a.panelar.all$coef[3:8] %>% kable(caption = mode.of.arrival.other$model3a.panelar.all$caption)
 ```
 
 ##### Model 3b
@@ -152,7 +152,7 @@ mode.of.arrival.other$model3a.panelar$coef[3a:8] %>% kable(caption = mode.of.arr
 ```{r mode_of_arrival_other_model3b, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 mode.of.arrival.other$model3b.ts.plot
 mode.of.arrival.other$model3b.forest$forest
-mode.of.arrival.other$model3b.panelar$coef[3:3b] %>% kable(caption = mode.of.arrival.other$model3b.panelar$caption)
+mode.of.arrival.other$model3b.panelar.all$coef[3:8] %>% kable(caption = mode.of.arrival.other$model3b.panelar.all$caption)
 ```
 
 ##### Model 4
@@ -193,7 +193,7 @@ mode.of.arrival.other$model5.panelar.all$coef[3:9] %>% kable(caption = mode.of.a
 ```{r mode_of_arrival_other_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 mode.of.arrival.other$model6.ts.plot
 mode.of.arrival.other$model6.forest$forest
-mode.of.arrival.other$model6.panelar$coef[3:8] %>% kable(caption = mode.of.arrival.other$model6.panelar$caption)
+mode.of.arrival.other$model6.panelar.all$coef[3:8] %>% kable(caption = mode.of.arrival.other$model6.panelar.all$caption)
 ```
 
 ##### Model 7

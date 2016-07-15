@@ -114,7 +114,7 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
 ```{r ambulance_mean_times_dest_to_clear_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 ambulance.mean.times.dest.to.clear$model1.ts.plot
 ambulance.mean.times.dest.to.clear$model1.forest$forest
-ambulance.mean.times.dest.to.clear$model1.panelar$coef[3:8] %>% kable(caption = ambulance.mean.times.dest.to.clear$model1.panelar$caption)
+ambulance.mean.times.dest.to.clear$model1.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.dest.to.clear$model1.panelar.all$caption)
 ```
 
 ##### Model 2
@@ -127,7 +127,7 @@ ambulance.mean.times.dest.to.clear$model1.panelar$coef[3:8] %>% kable(caption = 
 ```{r ambulance_mean_times_dest_to_clear_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 ambulance.mean.times.dest.to.clear$model2.ts.plot
 ambulance.mean.times.dest.to.clear$model2.forest$forest
-ambulance.mean.times.dest.to.clear$model2.panelar$coef[3:8] %>% kable(caption = ambulance.mean.times.dest.to.clear$model2.panelar$caption)
+ambulance.mean.times.dest.to.clear$model2.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.dest.to.clear$model2.panelar.all$caption)
 ```
 
 ##### Model 3a
@@ -140,7 +140,7 @@ ambulance.mean.times.dest.to.clear$model2.panelar$coef[3:8] %>% kable(caption = 
 ```{r ambulance_mean_times_dest_to_clear_model3a, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 ambulance.mean.times.dest.to.clear$model3a.ts.plot
 ambulance.mean.times.dest.to.clear$model3a.forest$forest
-ambulance.mean.times.dest.to.clear$model3a.panelar$coef[3:8] %>% kable(caption = ambulance.mean.times.dest.to.clear$model3a.panelar$caption)
+ambulance.mean.times.dest.to.clear$model3a.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.dest.to.clear$model3a.panelar.all$caption)
 ```
 
 ##### Model 3b
@@ -153,7 +153,7 @@ ambulance.mean.times.dest.to.clear$model3a.panelar$coef[3:8] %>% kable(caption =
 ```{r ambulance_mean_times_dest_to_clear_model3b, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 ambulance.mean.times.dest.to.clear$model3b.ts.plot
 ambulance.mean.times.dest.to.clear$model3b.forest$forest
-ambulance.mean.times.dest.to.clear$model3b.panelar$coef[3:8] %>% kable(caption = ambulance.mean.times.dest.to.clear$model3b.panelar$caption)
+ambulance.mean.times.dest.to.clear$model3b.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.dest.to.clear$model3b.panelar.all$caption)
 ```
 
 ##### Model 4
@@ -193,7 +193,7 @@ ambulance.mean.times.dest.to.clear$model5.panelar.all$coef[3:9] %>% kable(captio
 ```{r ambulance_mean_times_dest_to_clear_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 ambulance.mean.times.dest.to.clear$model6.ts.plot
 ambulance.mean.times.dest.to.clear$model6.forest$forest
-ambulance.mean.times.dest.to.clear$model6.panelar$coef[3:8] %>% kable(caption = ambulance.mean.times.dest.to.clear$model6.panelar$caption)
+ambulance.mean.times.dest.to.clear$model6.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.dest.to.clear$model6.panelar.all$caption)
 ```
 
 ##### Model 7

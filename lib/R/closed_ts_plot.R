@@ -54,12 +54,12 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ##              the main indicator which is supplied as the sub.indicator
     ##              argument
     ## which.df <- substitute(df) %>% deparse()
-    if(indicator == 'unnecessary_ed_attendances_site_measure'){
-        df$sub.measure <- ifelse(is.na(df$sub.measure), 'all', df$sub.measure)
-    }
-    if(indicator == 'all emergency admissions'){
-        df$sub.measure <- ifelse(is.na(df$sub.measure), 'all', df$sub.measure)
-    }
+    ## if(indicator == 'unnecessary_ed_attendances_site_measure'){
+    ##     df$sub.measure <- ifelse(is.na(df$sub.measure), 'all', df$sub.measure)
+    ## }
+    ## if(indicator == 'all emergency admissions'){
+    ##     df$sub.measure <- ifelse(is.na(df$sub.measure), 'all', df$sub.measure)
+    ## }
     ## Convert variable names for ease of typing within this function
     ## (ESS artefact, hitting underscore inserts '<-' so lots of underscores are
     ## tedious to type)

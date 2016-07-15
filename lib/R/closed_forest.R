@@ -13,7 +13,7 @@
 #' @param facet.outcome Logical indicator of whether to facet plots by outcome for comparison.
 #' @param title Title for Forest plot.
 #' @param digits Number of digits to include in formatted output.
-#' @param plot.ci If \code{TRUE} 95% Confidence Intervals are plotted rather than Standard Error bars.
+#' @param plot.ci If \code{TRUE} 95\% Confidence Intervals are plotted rather than Standard Error bars.
 #' @param theme GGplot2 theme to use.
 #' @param latex Produce results table in LaTeX format using Stargazer.
 #' @param html Produce results table in HTML format using Stargazer.
@@ -42,7 +42,7 @@ closed_forest <- function(df.list       = list(bishop.attendance.any.matched$coe
                           facet.outcome = FALSE,
                           title         = c('ED Attendance (Any)', 'Site v Matched Control'),
                           digits        = 3,
-                          plot.ci       = TRUE
+                          plot.ci       = TRUE,
                           theme         = theme_bw(),
                           latex         = FALSE,
                           html          = FALSE,
@@ -109,9 +109,8 @@ closed_forest <- function(df.list       = list(bishop.attendance.any.matched$coe
         results$forest <- results$forest +
                           geom_errorbarh(aes(xmin = est - (1.96 * se),
                                              xmax = est + (1.96 * se)),
-                                         height = 0.25) +
+                                         height = 0.25)
                                      ## position = pd) +
-
     }
     if(facet.outcome == TRUE){
         results$forest <- results$forest +

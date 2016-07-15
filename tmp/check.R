@@ -1,3 +1,271 @@
+## 2016-07-13 Function not working, lets try manually
+formula.model8 <- reformulate(response = model.opts$outcome,
+                      termlabels = model.opts$mod8)
+## Pool the data
+df8 <- closed_pool(df             = ed_attendances_by_mode_site_measure,
+                   within.centres = TRUE)
+df8$group <- paste0('Cohort : ', df8$group)
+## Run the model
+df8 <- filter(df8,
+       group == 'Cohort : Bishop Auckland General Hospital') %>% as.data.frame()
+panelAR(data     = df8,
+        formula  = formula.model8,
+        timeVar  = model.opts$timevar,
+        panelVar = model.opts$panel.trust,
+        autoCorr = model.opts$autocorr,
+        panelCorrMethod = 'pcse',
+        seq.times = model.opts$seq.times,
+        rho.na.rm = model.opts$rho.na.rm)
+
+## 2016-07-13 Testing pooling for Model 8 models (NOT CURRENTLY WORKING) and plots (ONLY CURRENTLY
+##            GET CASE SITES)
+check.models <- closed_models(df.lsoa          = ed_attendances_by_mode_measure,
+                              df.trust         = ed_attendances_by_mode_site_measure,
+                              indicator        = 'ed attendances',
+                              sub.indicator    = 'any',
+                              steps            = c('closure'),
+                              fit.with         = model.opts$fit.with,
+                              panel.lsoa       = model.opts$panel.lsoa,
+                              panel.trust      = model.opts$panel.trust,
+                              timevar          = model.opts$timevar,
+                              outcome          = model.opts$outcome,
+                              ## model1           = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              ## model2           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              model3           = c('pooled.control * closure', 'town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              ## model4           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              ## model5           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              ## model6           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                              ## model7           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                              model8           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              model1           = NULL,
+                              model2           = NULL,
+                              ## model3           = NULL,
+                              model4           = NULL,
+                              model5           = NULL,
+                              model6           = NULL,
+                              model7           = NULL,
+                              ## model8           = NULL,
+                              autocorr         = model.opts$autocorr,
+                              panelcorrmethod  = model.opts$panelcorrmethod,
+                              coefficients     = model.opts$coefficients,
+                              seq.times        = model.opts$seq.times,
+                              rho.na.rm        = model.opts$rho.na.rm,
+                              plot             = model.opts$plot,
+                              common.y         = model.opts$common.y,
+                              theme            = model.opts$theme,
+                              return.df        = TRUE,
+                              return.model     = model.opts$return.model,
+                              return.residuals = model.opts$return.residuals,
+                              return.residuals.plot = FALSE,
+                              join.line        = model.opts$join.line,
+                              legend           = model.opts$legend)
+save(check.models,
+     file = '~/work/closed/tmp/check.RData')
+
+## 2016-07-13 Testing pooling for plots, which is now working \o/
+sites <- c('Bishop Auckland', 'Control')
+check.plots.bishop <- closed_pool(ed_attendances_by_mode_site_measure, within.centre = TRUE) %>%
+                      filter(group == 'Bishop Auckland General Hospital' ) %>%
+                      closed_ts_plot(sites         = sites,
+                              indicator     = 'ed attendances',
+                              sub.indicator = 'any',
+                              steps         = TRUE,
+                              facet         = FALSE,
+                              tidy          = TRUE,
+                              join          = model.opts$join.line,
+                              legend        = model.opts$legend,
+                              lines         = TRUE,
+                              exclude.control = TRUE)
+sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Control')
+check.plots.all <- closed_pool(ed_attendances_by_mode_site_measure, within.centre = TRUE) %>%
+                   closed_ts_plot(sites         = sites,
+                              indicator     = 'ed attendances',
+                              sub.indicator = 'any',
+                              steps         = TRUE,
+                              facet         = TRUE,
+                              tidy          = TRUE,
+                              join          = model.opts$join.line,
+                              legend        = model.opts$legend,
+                              lines         = TRUE,
+                              exclude.control = TRUE)
+save(check.plots.bishop, check.plots.all,
+     file = '~/work/closed/tmp/check.RData')
+
+## 2016-07-13 Checking pooling funciton which has been written to replace internal code in
+##            closed_models() and closed_ts_plots()
+t <- as.data.frame(ed_attendances_by_mode_site_measure)
+names(t) <- gsub('_', '.', names(t))
+check.within <- closed_pool(df            = t,
+                     within.centre = TRUE)
+check.across <- closed_pool(df            = t,
+                     within.centre = FALSE)
+table(check.within$town, check.within$group)
+table(check.across$town)
+
+## 2016-07-13 Fixing Faceting of pooled plots
+## Pool control sites
+pool <- function(x                    = df.trust,
+                 remove.control.steps = FALSE){
+    x <- mutate(x,
+                pooled.control = ifelse(site.type %in% c('matched control', 'pooled control'), 'Control', town))
+    x <- mutate(x,
+                pooled.control = ifelse(pooled.control == 2, 'Bishop Auckland', pooled.control),
+                pooled.control = ifelse(pooled.control == 6, 'Harltepool', pooled.control),
+                pooled.control = ifelse(pooled.control == 7, 'Hemel Hempstead', pooled.control),
+                pooled.control = ifelse(pooled.control == 8, 'Newark', pooled.control),
+                pooled.control = ifelse(pooled.control == 9, 'Rochdale', pooled.control))
+    x$pooled.control <- factor(x$pooled.control)
+    ## Set reference group for pooled controls
+    x$pooled.control <- relevel(x$pooled.control, ref = 'Control')
+    ## Optionally remove steps from controls since they are now pooled
+        if(remove.control.steps == TRUE){
+            control <- c('Basingstoke', 'Blackburn', 'Carlisle', 'Grimsby', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'WansbeckWarwick', 'Whitehaven', 'Wigan', 'Yeovil')
+            x <- mutate(x,
+                        nhs111 = ifelse(town %in% control, 0, nhs111),
+                        other.centre = ifelse(town %in% control, 0, other.centre),
+                        ambulance.divert = ifelse(town %in% control, 0, ambulance.divert))
+        }
+    ## Return modified data frame
+    return(x)
+}
+t <- as.data.frame(ed_attendances_by_mode_site_measure)
+names(t) <- gsub('_', '.', names(t))
+## Add in dummies
+t <- mutate(t,
+            nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
+                            (town == 'Southport' & relative.month >= 48) |
+                            ## ToDo - Uncomment once confirmed and revised dates available
+                            (town == 'Rochdale' & relative.month >= 48) |
+                            (town == 'Rotherham' & relative.month >= 48) |
+                            (town == 'Hartlepool' & relative.month >= 45) |
+                            (town == 'Grimsby' & relative.month >= 16),
+                            1, 0),
+            ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
+            other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
+                                  (town == 'Newark' & relative.month >= 3) |
+                                  (town == 'Rochdale' & relative.month >= 11) |
+                                  (town == 'Hartlepool' & relative.month >= 22),
+                                  1, 0),
+            closure = ifelse(relative.month > 24, 1, 0))
+t$season <- 1
+t <- within(t,{
+    season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
+    season[month(yearmonth) == 3  | month(yearmonth) == 4]  <- 2
+    season[month(yearmonth) == 5  | month(yearmonth) == 6]  <- 3
+    season[month(yearmonth) == 7  | month(yearmonth) == 8]  <- 4
+    season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
+    season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
+})
+t <- filter(t, sub.measure == 'any') %>%
+     pool(x                    = ,
+          remove.control.steps = TRUE)
+t$group <- paste0('Cohort : ', t$group)
+sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'Wansbeck', 'Warwick', 'Whitehaven', 'Wigan', 'Yeovil')
+pooled.plot <- closed_ts_plot(df            = t,
+                              sites         = sites,
+                              indicator     = 'ed attendances',
+                              sub.indicator = 'any',
+                              steps         = TRUE,
+                              facet         = FALSE,
+                              tidy          = TRUE,
+                              join          = model.opts$join.line,
+                              legend        = model.opts$legend,
+                              pool.control  = TRUE,
+                              lines         = FALSE)
+save(pooled.plot,
+     file = '~/work/closed/tmp/check.RData')
+rm(pool, t)
+
+## 2016-07-12 Ambulance Mean Times - only running when there is data.
+## Model didn't work, lets look at the data in isolation
+## Subset out Bishop Auckland
+t <- filter(as.data.frame(amb_mean_times_site_measure),
+            town == 'Bishop Auckland',
+            measure == 'ambulance mean times',
+            sub_measure == 'call_to_dest')
+names(t) <- gsub('_', '.', names(t))
+## Add in dummies
+t <- mutate(t,
+            nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
+                            (town == 'Southport' & relative.month >= 48) |
+                            ## ToDo - Uncomment once confirmed and revised dates available
+                            (town == 'Rochdale' & relative.month >= 48) |
+                            (town == 'Rotherham' & relative.month >= 48) |
+                            (town == 'Hartlepool' & relative.month >= 45) |
+                            (town == 'Grimsby' & relative.month >= 16),
+                            1, 0),
+            ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
+            other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
+                                  (town == 'Newark' & relative.month >= 3) |
+                                  (town == 'Rochdale' & relative.month >= 11) |
+                                  (town == 'Hartlepool' & relative.month >= 22),
+                                  1, 0),
+            closure = ifelse(relative.month > 24, 1, 0))
+t$season <- 1
+t <- within(t,{
+    season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
+    season[month(yearmonth) == 3  | month(yearmonth) == 4]  <- 2
+    season[month(yearmonth) == 5  | month(yearmonth) == 6]  <- 3
+    season[month(yearmonth) == 7  | month(yearmonth) == 8]  <- 4
+    season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
+    season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
+})
+model1 <- reformulate(response = model.opts$outcome,
+                      termlabels = model.opts$mod1)
+panelAR(data = t,
+        formula = model1,
+        timeVar          = model.opts$timevar,
+        panelVar         = model.opts$panel.trust,
+        autoCorr         = model.opts$autocorr,
+        panelCorrMethod  = 'pcse',
+        seq.times        = model.opts$seq.times,
+        rho.na.rm        = model.opts$rho.na.rm)
+
+## 2016-07-12 Testing closed_model() to accommodate incomplete ambulance data
+check.models <- closed_models(df.lsoa         = amb_mean_times_measure,
+                              df.trust         = amb_mean_times_site_measure,
+                              indicator        = 'ambulance mean times',
+                              sub.indicator    = 'call_to_dest',
+                              steps            = c('closure'),
+                              fit.with         = model.opts$fit.with,
+                              panel.lsoa       = model.opts$panel.lsoa,
+                              panel.trust      = model.opts$panel.trust,
+                              timevar          = model.opts$timevar,
+                              outcome          = model.opts$outcome,
+                              model1           = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              ## model2           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              ## model3           = c('pooled.control * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              ## model4           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              ## model5           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              ## model6           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                              ## model7           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                              ## model8           = c('pooled.control * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                              ## model1           = NULL,
+                              model2           = NULL,
+                              model3           = NULL,
+                              model4           = NULL,
+                              model5           = NULL,
+                              model6           = NULL,
+                              model7           = NULL,
+                              model8           = NULL,
+                              autocorr         = model.opts$autocorr,
+                              panelcorrmethod  = model.opts$panelcorrmethod,
+                              coefficients     = model.opts$coefficients,
+                              seq.times        = model.opts$seq.times,
+                              rho.na.rm        = model.opts$rho.na.rm,
+                              plot             = model.opts$plot,
+                              common.y         = model.opts$common.y,
+                              theme            = model.opts$theme,
+                              return.df        = TRUE,
+                              return.model     = model.opts$return.model,
+                              return.residuals = model.opts$return.residuals,
+                              return.residuals.plot = FALSE,
+                              join.line        = model.opts$join.line,
+                              legend           = model.opts$legend)
+save(check.models,
+     file = '~/work/closed/tmp/check.RData')
+
+
 ## 2016-07-12 Trouble shooting Time-Series plots in models 4-8
 check.models <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
                               df.trust         = ed_attendances_by_mode_site_measure,
@@ -39,6 +307,8 @@ check.models <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
                               return.residuals.plot = FALSE,
                               join.line        = model.opts$join.line,
                               legend           = model.opts$legend)
+save(check.models,
+     file = '~/work/closed/tmp/check.RData')
 
 ## 2016-07-12 Trouble shooting Time Series plots for Unnecessary ED Attendance
 unnecessary.ts.plot <- closed_ts_plot(df            = unnecessary_ed_attendances_site_measure,

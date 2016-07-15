@@ -1,4 +1,110 @@
-#### Model 1
+##### Time-Series Plots
+
+These time-series plots show the trends over time *before* the removal of any potentially spurious data points and the balancing of the panels.  They are presented for that very purpose, identification of possibly spurious data points.
+
+###### Case Sites
+
+```{r unnecessary_attendance_time_series_plot_case, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = unnecessary_ed_attendances_site_measure,
+               indicator     = 'unnecessary ed attendances',
+               sub.indicator = 'all',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+               legend        = TRUE)
+```
+
+###### Control Sites
+
+```{r unnecessary_attendance_time_series_plot_control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = unnecessary_ed_attendances_site_measure,
+               indicator     = 'unnecessary ed attendances',
+               sub.indicator = 'all',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Salford', 'Scarborough', 'Whitehaven',
+                                 'Blackburn', 'Grimsby', 'Wigan',
+                                 'Basingstoke', 'Warwick', 'Yeovil',
+                                 'Carlisle', 'Salisbury', 'Southport',
+                                 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE)
+```
+
+###### Bishop Auckland
+
+```{r unnecessary_attendance_time_series_plot_bishop, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = unnecessary_ed_attendances_site_measure,
+               indicator     = 'unnecessary ed attendances',
+               sub.indicator = 'all',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
+               legend        = TRUE)
+```
+
+###### Hartlepool
+
+```{r unnecessary_attendance_time_series_plot_hartlepool, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = unnecessary_ed_attendances_site_measure,
+               indicator     = 'unnecessary ed attendances',
+               sub.indicator = 'all',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
+```
+
+###### Hemel Hempstead
+
+```{r unnecessary_attendance_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = unnecessary_ed_attendances_site_measure,
+               indicator     = 'unnecessary ed attendances',
+               sub.indicator = 'all',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               legend        = TRUE)
+```
+
+###### Newark
+
+```{r unnecessary_attendance_time_series_plot_newark, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = unnecessary_ed_attendances_site_measure,
+               indicator     = 'unnecessary ed attendances',
+               sub.indicator = 'all',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
+               legend        = TRUE)
+```
+
+###### Rochdale
+
+```{r unnecessary_attendance_time_series_plot_rochdale, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = unnecessary_ed_attendances_site_measure,
+               indicator     = 'unnecessary ed attendances',
+               sub.indicator = 'all',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE)
+```
+
+##### Model 1
 `Case Site    : Individual`\
 `Control Site : None`\
 `Panel        : ED`\
@@ -7,10 +113,10 @@
 ```{r unnecessary_attendance_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 unnecessary.attendance$model1.ts.plot
 unnecessary.attendance$model1.forest$forest
-unnecessary.attendance$model1.panelar$coef[3:8] %>% kable(caption = unnecessary.attendance$model1.panelar$caption)
+unnecessary.attendance$model1.panelar.all$coef[3:8] %>% kable(caption = unnecessary.attendance$model1.panelar.all$caption)
 ```
 
-#### Model 2
+##### Model 2
 
 `Case Site    : Individual`\
 `Control Site : One Matched`\
@@ -20,23 +126,35 @@ unnecessary.attendance$model1.panelar$coef[3:8] %>% kable(caption = unnecessary.
 ```{r unnecessary_attendance_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 unnecessary.attendance$model2.ts.plot
 unnecessary.attendance$model2.forest$forest
-unnecessary.attendance$model2.panelar$coef[3:8] %>% kable(caption = unnecessary.attendance$model2.panelar$caption)
+unnecessary.attendance$model2.panelar.all$coef[3:8] %>% kable(caption = unnecessary.attendance$model2.panelar.all$caption)
 ```
 
-#### Model 3
+##### Model 3a
 
 `Case Site    : Individual`\
 `Control Site : All Matched`\
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
-```{r unnecessary_attendance_model3, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-unnecessary.attendance$model3.ts.plot
-unnecessary.attendance$model3.forest$forest
-unnecessary.attendance$model3.panelar$coef[3:8] %>% kable(caption = unnecessary.attendance$model3.panelar$caption)
+```{r unnecessary_attendance_model3a, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+unnecessary.attendance$model3a.ts.plot
+unnecessary.attendance$model3a.forest$forest
+unnecessary.attendance$model3a.panelar.all$coef[3:8] %>% kable(caption = unnecessary.attendance$model3a.panelar.all$caption)
+```
+##### Model 3b
+
+`Case Site    : Individual and All`\
+`Control Site : Pooled`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
+
+```{r unnecessary_attendance_model3b, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+unnecessary.attendance$model3b.ts.plot
+unnecessary.attendance$model3b.forest$forest
+unnecessary.attendance$model3b.panelar.all$coef[3:8] %>% kable(caption = unnecessary.attendance$model3b.panelar.all$caption)
 ```
 
-#### Model 4
+##### Model 4
 
 `Case Site    : All`\
 `Control Site : One Matched`\
@@ -44,13 +162,12 @@ unnecessary.attendance$model3.panelar$coef[3:8] %>% kable(caption = unnecessary.
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
 ```{r unnecessary_attendance_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-unnecessary.attendance$model4.ts.plot.trust
+unnecessary.attendance$model4.ts.plot
 unnecessary.attendance$model4.forest$forest
-unnecessary.attendance$model4.panelar$coef[3:9] %>% kable(caption = unnecessary.attendance$model4.panelar$caption)
-## unnecessary.attendance$model4.ts.plot.lsoa
+unnecessary.attendance$model4.panelar.all$coef[3:9] %>% kable(caption = unnecessary.attendance$model4.panelar.all$caption)
 ```
 
-#### Model 5
+##### Model 5
 
 `Case Site    : All`\
 `Control Site : All Matched`\
@@ -59,12 +176,12 @@ unnecessary.attendance$model4.panelar$coef[3:9] %>% kable(caption = unnecessary.
 
 
 ```{r unnecessary_attendance_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-unnecessary.attendance$model5.ts.plot.trust
+unnecessary.attendance$model5.ts.plot
 unnecessary.attendance$model5.forest$forest
-unnecessary.attendance$model5.panelar$coef[3:9] %>% kable(caption = unnecessary.attendance$model5.panelar$caption)
+unnecessary.attendance$model5.panelar.all$coef[3:9] %>% kable(caption = unnecessary.attendance$model5.panelar.all$caption)
 ```
 
-#### Model 6
+##### Model 6
 
 `Case Site    : Individual`\
 `Control Site : One Matched`\
@@ -72,14 +189,12 @@ unnecessary.attendance$model5.panelar$coef[3:9] %>% kable(caption = unnecessary.
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
 
 ```{r unnecessary_attendance_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-unnecessary.attendance$model6.ts.plot.trust
-unnecessary.attendance$model6.forest.model$forest
-unnecessary.attendance$model6.panelar$coef[3:8] %>% kable(caption = unnecessary.attendance$model6.panelar$caption)
+unnecessary.attendance$model6.ts.plot
+unnecessary.attendance$model6.forest$forest
+unnecessary.attendance$model6.panelar.all$coef[3:8] %>% kable(caption = unnecessary.attendance$model6.panelar.all$caption)
 ```
 
-#### Model 7
-
-Model 7 seeks to analyse at the LSOA level across all case sites and their one matched contorl site the effects of the various steps, and other co-variates.  However, the amount of RAM required by the software is (~26Gb if only one matched control site, rising to 126Gb if all contorl sites are included as there are 2648 LSOAs) exceeds the 16Gb available on the Virtual Machine.
+##### Model 7
 
 `Case Site    : All`\
 `Control Site : One Matched`\
@@ -87,7 +202,7 @@ Model 7 seeks to analyse at the LSOA level across all case sites and their one m
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
 
 ```{r unnecessary_attendance_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-unnecessary.attendance$model7.ts.plot.trust
-unnecessary.attendance$model7.forest.model$forest
-unnecessary.attendance$model7.panelar$coef[3:8] %>% kable(caption = unnecessary.attendance$model7.panelar$caption)
+unnecessary.attendance$model7.ts.plot
+unnecessary.attendance$model7.forest$forest
+unnecessary.attendance$model7.panelar.all$coef[3:8] %>% kable(caption = unnecessary.attendance$model7.panelar.all$caption)
 ```

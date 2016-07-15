@@ -7,4 +7,6 @@ kable(validate.model2, caption = 'Comparison of Prais-Winsten Regression models 
 
 #### Another Indicator
 
-Comparison of Model 2 for Another Indicator from [panelAR](https://cran.r-project.org/web/packages/panelAR/index.html) in [R](https://www.r-project.org/) and [Stata v14.1](https://www.stata.com/).
+```{r validate_another2, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
+kable(validate.another2, caption = 'Comparison of Prais-Winsten Regression models from R and Stata.')
+```

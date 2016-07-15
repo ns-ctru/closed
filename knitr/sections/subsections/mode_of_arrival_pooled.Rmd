@@ -1,157 +1,64 @@
-## ED Attendance by Mode of Arrival (Pooled Control)
+### ED Attendance by Mode of Arrival {.tabset .tabset-fade .tabset-pills}
 
-### Bishop Auckland General Hospital
+#### All v's  Matched Controls
 
-#### Any
+##### Any
 
-```{r bishop_attendance_any_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-bishop.attendance.any.pooled$ts.plot.events
+```{r all_attendance_any_matched_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
+all.attendance.any.matched$ts.plot.events
 ```
-```{r bishop_attendance_any_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-bishop.attendance.any.pooled$panelar %>% summary()
-```
-
-#### Ambulance
-
-```{r bishop_attendance_ambulance_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-bishop.attendance.ambulance.pooled$ts.plot.events
-```
-```{r bishop_attendance_ambulance_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-bishop.attendance.ambulance.pooled$panelar %>% summary()
+```{r all_attendance_any_matched_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+all.attendance.any.matched$panelar %>% summary()
 ```
 
-#### Other
+##### Ambulance
 
-```{r bishop_attendance_other_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-bishop.attendance.other.pooled$ts.plot.events
+```{r all_attendance_ambulance_matched_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
+all.attendance.ambulance.matched$ts.plot.events
 ```
-```{r bishop_attendance_other_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-bishop.attendance.other.pooled$panelar %>% summary()
-```
-
-### Hemel Hempstead Hospital
-
-#### Any
-
-```{r hemel_attendance_any_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-hemel.attendance.any.pooled$ts.plot.events
-```
-```{r hemel_attendance_any_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-hemel.attendance.any.pooled$panelar %>% summary()
-```
-
-#### Ambulance
-
-```{r hemel_attendance_ambulance_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-hemel.attendance.ambulance.pooled$ts.plot.events
-```
-```{r hemel_attendance_ambulance_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-hemel.attendance.ambulance.pooled$panelar %>% summary()
-```
-
-#### Other
-
-```{r hemel_attendance_other_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-hemel.attendance.other.pooled$ts.plot.events
-```
-```{r hemel_attendance_other_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-hemel.attendance.other.pooled$panelar %>% summary()
-```
-
-### Newark Hospital
-
-#### Any
-
-```{r newark_attendance_any_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-newark.attendance.any.pooled$ts.plot.events
-```
-```{r newark_attendance_any_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-newark.attendance.any.pooled$panelar %>% summary()
-```
-
-#### Ambulance
-
-```{r newark_attendance_ambulance_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-newark.attendance.ambulance.pooled$ts.plot.events
-```
-```{r newark_attendance_ambulance_pooled_panel, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-newark.attendance.ambulance.pooled$panelar %>% summary()
-```
-#### Other
-
-```{r newark_attendance_other_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-newark.attendance.other.pooled$ts.plot.events
-```
-```{r newark_attendance_other_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-newark.attendance.other.pooled$panelar %>% summary()
-```
-
-### Rochdale Infirmary
-
-#### Any
-```{r rochdale_attendance_any_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-rochdale.attendance.any.pooled$ts.plot.events
-```
-```{r rochdale_attendance_any_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-rochdale.attendance.any.pooled$panelar %>% summary()
-
-#### Ambulance
-```{r rochdale_attendance_ambulance_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-rochdale.attendance.ambulance.pooled$ts.plot.events
-```
-```{r rochdale_attendance_ambulance_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-rochdale.attendance.ambulance.pooled$panelar %>% summary()
-
-#### Other
-```{r rochdale_attendance_other_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-rochdale.attendance.other.pooled$ts.plot.events
-```
-```{r rochdale_attendance_other_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-rochdale.attendance.other.pooled$panelar %>% summary()
-```
-
-### University Hospital of Hartlepool
-
-#### Any
-```{r hartlepool_attendance_any_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-hartlepool.attendance.any.pooled$ts.plot.events
-```
-```{r hartlepool_attendance_any_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-hartlepool.attendance.any.pooled$panelar %>% summary()
-```
-
-#### Ambulance
-```{r hartlepool_attendance_ambulance_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-hartlepool.attendance.ambulance.pooled$ts.plot.events
-```
-```{r hartlepool_attendance_ambulance_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-hartlepool.attendance.ambulance.pooled$panelar %>% summary()
-```
-
-#### Other
-```{r hartlepool_attendance_other_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
-hartlepool.attendance.other.pooled$ts.plot.events
-```
-```{r hartlepool_attendance_other_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-hartlepool.attendance.other.pooled$panelar %>% summary()
+```{r all_attendance_ambulance_matched_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+all.attendance.ambulance.matched$panelar %>% summary()
 ```
 
 
-```{r echo = FALSE, cache = FALSE, eval = TRUE}
-rm(ed_attendances_by_mode_measure.pooled,
-   bishop.attendance.any.pooled,
-   bishop.attendance.ambulance.pooled,
-   bishop.attendance.other.pooled,
-   hemel.attendance.any.pooled,
-   hemel.attendance.ambulance.pooled,
-   hemel.attendance.other.pooled,
-   newark.attendance.any.pooled,
-   newark.attendance.ambulance.pooled,
-   newark.attendance.other.pooled,
-   rochdale.attendance.any.pooled,
-   rochdale.attendance.ambulance.pooled,
-   rochdale.attendance.other.pooled,
-   hartlepool.attendance.any.pooled,
-   hartlepool.attendance.ambulance.pooled,
-   hartlepool.attendance.other.pooled)
+##### Other
+
+```{r all_attendance_other_matched_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = TRUE}
+all.attendance.other.matched$ts.plot.events
+```
+```{r all_attendance_other_matched_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+all.attendance.other.matched$panelar %>% summary()
+```
+
+
+#### All v's Pooled Controls
+
+**ToDo**
+
+##### Any
+
+```{r all_attendance_any_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = FALSE}
+all.attendance.any.pooled$ts.plot.events
+```
+```{r all_attendance_any_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
+all.attendance.any.pooled$panelar %>% summary()
+```
+
+##### Ambulance
+
+```{r all_attendance_ambulance_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = FALSE}
+all.attendance.ambulance.pooled$ts.plot.events
+```
+```{r all_attendance_ambulance_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
+all.attendance.ambulance.pooled$panelar %>% summary()
+```
+
+
+##### Other
+
+```{r all_attendance_other_pooled_plot, echo = FALSE, cache = FALSE, results = 'asis', eval = FALSE}
+all.attendance.other.pooled$ts.plot.events
+```
+```{r all_attendance_other_pooled_panelar, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
+all.attendance.other.pooled$panelar %>% summary()
 ```

@@ -119,7 +119,7 @@ check.site <- rbind(check.ed.attendances$check.site,
 names(check.site) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month')
 ```
 <!--- Mode of Arrival --->
-```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 mode.of.arrival.any <- closed_models(df.lsoa          = ed_attendances_by_mode_measure,
                                      df.trust         = ed_attendances_by_mode_site_measure,
                                      indicator        = 'ed attendances',
@@ -152,7 +152,7 @@ mode.of.arrival.any <- closed_models(df.lsoa          = ed_attendances_by_mode_m
                                      legend           = model.opts$legend)
 ```
 <!--- All Emergency Admissions - Any --->
-```{r all_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r all_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 all.emergency.admissions.all <- closed_models(df.lsoa         = emergency_admissions_measure,
                                      df.trust         = emergency_admissions_site_measure,
                                      indicator        = 'all emergency admissions',
@@ -184,7 +184,7 @@ all.emergency.admissions.all <- closed_models(df.lsoa         = emergency_admiss
                                      legend           = model.opts$legend)
 ```
 <!--- Case Fatality Ratio --->
-```{r case_fatality_ratio, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r case_fatality_ratio, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -218,7 +218,7 @@ case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_measure
 ```
 
 <!--- Ambulance Mean Times - Call to Destination --->
-```{r ambulance_mean_times_call_to_dest, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r ambulance_mean_times_call_to_dest, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ## ambulance.mean.times.call.to.dest <- closed_models(df.lsoa         = amb_mean_times_measure,
 ##                                      df.trust         = amb_mean_times_site_measure,
 ##                                      indicator        = 'ambulance mean times',
@@ -378,12 +378,12 @@ rm(extract_coefficients)
 ```
 
 <!--- Save Results --->
-```{r save_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r save_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 save(model.opts,
      diff.time.to.ed,
      check.site,
      mode.of.arrival.any,
-     avoidable.emergency.admissions.any,
+     all.emergency.admissions.all,
      case.fatality.ratio.any,
      model1.panelar.hartlepool,
      model1.panelar.hartlepool.coeff,

@@ -41,8 +41,9 @@ closed_missing <- function(df    = ed_attendances_by_mode_measure,
           group_by(relative.month) %>%
           mutate(value = ifelse(anyNA(value), NA, value)) %>%
           ## transform(value = ifelse(anyNA(value), NA, value)) %>%
-          ungroup()
+          ungroup() %>%
+          as.data.frame()
     ## For some reason the relative.month variable isn't an interger when returned
-    df$relative.month <- as.integer(df$relative.month)
+    ## df$relative.month <- as.integer(df$relative.month)
     return(df)
 }

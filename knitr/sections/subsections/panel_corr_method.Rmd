@@ -5,8 +5,8 @@ Despite the study protocol stating the [heteroskedasticity](https://en.wikipedia
 `Correlation across Panels : Yes`\
 
 ```{r mode_of_arrival_any_model5_pcse, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-mode.of.arrival.any$model5.ts.plot.trust
-mode.of.arrival.any$model5.forest$forest
+## mode.of.arrival.any$model5.ts.plot
+## mode.of.arrival.any$model5.forest$forest
 mode.of.arrival.any$model5.panelar$coef[3:9] %>% kable(caption = mode.of.arrival.any$model5.panelar$caption)
 ```
 
@@ -21,29 +21,32 @@ mode.of.arrival.any.huberwhite <- closed_models(df.lsoa         = ed_attendances
                                      indicator       = 'ed attendances',
                                      sub.indicator   = 'any',
                                      steps           = c('closure'),
-                                     fit.with        = 'both',
-                                     panel.lsoa      = 'lsoa',
-                                     panel.trust     = 'town',
-                                     timevar         = 'relative.month',
-                                     outcome         = 'value',
-                                     model1          = NULL,
-                                     model2          = NULL,
-                                     model3          = mod3,
-                                     model4          = NULL,
-                                     model5          = mod5,
-                                     model6          = NULL,
-				     model7          = NULL,
-                                     autocorr        = 'ar1',
-                                     panelcorrmethod = 'phet',
-                                     coefficients    = 'closure.town',
-                                     seq.times       = TRUE,
-                                     plot            = TRUE,
-                                     common.y        = TRUE,
-                                     theme           = theme_bw(),
-                                     return.df       = TRUE)
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3           = model.opts$mod3,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = 'phet',
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     ## return.df        = model.opts$return.df,
+                                     return.df        = TRUE,
+                                     return.model     = model.opts$return.model,
+				     return.residuals = model.opts$return.residuals)
 ```
-```{r mode_of_arrival_any_model5_pcse, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-mode.of.arrival.any.huberwhite$model5.ts.plot.trust
-mode.of.arrival.any.huberwhite$model5.forest$forest
-mode.of.arrival.any.huberwhite$model5.panelar$coef[3:9] %>% kable(caption = mode.of.arrival.any$model5.panelar$caption)
+```{r mode_of_arrival_any_model5_huberwhite, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+## mode.of.arrival.any.huberwhite$model5.ts.plot
+## mode.of.arrival.any.huberwhite$model5.forest$forest
+mode.of.arrival.any.huberwhite$model5.panelar$coef[3:9] %>% kable(caption = mode.of.arrival.any.huberwhite$model5.panelar$caption)
 ```

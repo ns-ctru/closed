@@ -138,11 +138,11 @@ summary.attendance.any.matched <- closed_forest(df.list   = list(bishop.attendan
                                                                  hemel.attendance.any.matched$coefficients,
                                                                  newark.attendance.any.matched$coefficients,
                                                                  rochdale.attendance.any.matched$coefficients),
-                                                plot.term = c('time.to.ed', 'closure'),
+                                                plot.term = c('closure', 'time.to.ed'),
                                                 title     = 'ED Attendance (Any) v Matched Control',
                                                digits    = 3)
+summary.attendance.any.matched$forest
 kable(summary.attendance.any.matched$summary)
-summary.attendance.any.matched$forest```
 ```
 
 ##### Ambulance Attendance
@@ -152,11 +152,11 @@ summary.attendance.ambulance.matched <- closed_forest(df.list   = list(bishop.at
                                                                  hemel.attendance.ambulance.matched$coefficients,
                                                                  newark.attendance.ambulance.matched$coefficients,
                                                                  rochdale.attendance.ambulance.matched$coefficients),
-                                                plot.term = c('time.to.ed', 'closure'),
+                                                plot.term = c('closure', 'time.to.ed'),
                                                 title     = 'ED Attendance (Ambulance) v Matched Control',
                                                 digits    = 3)
-kable(summary.attendance.ambulance.matched$summary)
 summary.attendance.ambulance.matched$forest
+kable(summary.attendance.ambulance.matched$summary)
 ```
 
 ##### Other Attendance
@@ -166,11 +166,11 @@ summary.attendance.other.matched <- closed_forest(df.list   = list(bishop.attend
                                                                  hemel.attendance.other.matched$coefficients,
                                                                  newark.attendance.other.matched$coefficients,
                                                                  rochdale.attendance.other.matched$coefficients),
-                                                plot.term = c('time.to.ed', 'closure'),
+                                                plot.term = c('closure', 'time.to.ed'),
                                                 title     = 'ED Attendance (Other) v Matched Control',
                                                 digits    = 3)
-kable(summary.attendance.other.matched$summary)
 summary.attendance.other.matched$forest
+kable(summary.attendance.other.matched$summary)
 ```
 
 ```{r echo = FALSE, cache = FALSE, eval = TRUE}

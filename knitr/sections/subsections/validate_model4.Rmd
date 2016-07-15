@@ -1,8 +1,11 @@
 #### Mode of Arrival (Any)
 
-Comparison of Model 4 for Mode of Arrival (Any) from [panelAR](https://cran.r-project.org/web/packages/panelAR/index.html) in [R](https://www.r-project.org/) and [Stata v14.1].
-
+```{r validate_model4_mode_any, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+kable(validate.model4, caption = 'Comparison of Prais-Winsten Regression models from R and Stata.')
+```
 
 #### Another Indicator
 
-Comparison of Model 4 for Another Indicator from [panelAR](https://cran.r-project.org/web/packages/panelAR/index.html) in [R](https://www.r-project.org/) and [Stata v14.1].
+```{r validate_another4, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
+kable(validate.another4, caption = 'Comparison of Prais-Winsten Regression models from R and Stata.')
+```

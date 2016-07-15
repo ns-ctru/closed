@@ -2,7 +2,7 @@
 
 [R]{https://www.r-project.org/} and [Stata]{https://www.stata.com/} handle interaction terms slightly differently.  The details can be found on the respective help pages ([R interactions]() and [Stata fvvarlist](http://www.stata.com/help.cgi?fvvarlist)).  The following output shows first the results from interacting the two variables `town` and `closure` for Bishop Auckland (where ED closed) v's Whitehaven, and you will see the coefficient for the interaction is `NA` (which is R's internal representation of missing values).
 
-```{r interaction_r1, , echo = TRUE, cache = FALSE, results = 'asis', eval = TRUE}
+```{r interaction_r1, , echo = TRUE, cache = FALSE, results = 'markup', eval = TRUE}
 ## Model as called with interaction term between town and closure
 mod2 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 formula.model2 <- reformulate(response   = 'value',
@@ -20,7 +20,7 @@ panelAR(#data            = to.analyse,
 
 Explicitly deriving a dummy variable which is the product of multiplying the two factor variables (as their numerical representation) gives *exactly* the same results...
 
-```{r interaction_r2, , echo = TRUE, cache = FALSE, results = 'asis', eval = TRUE}
+```{r interaction_r2, , echo = TRUE, cache = FALSE, results = 'markup', eval = TRUE}
 ## Derive an independent dummy variable representing the interaction
 to.analyse <- filter(mode.of.arrival.any$model2.df,
                      town == 'Bishop Auckland' |

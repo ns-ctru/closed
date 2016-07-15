@@ -10,8 +10,8 @@
 ```{r child = 'subsections/mode_of_arrival_any.Rmd', eval = TRUE}
 ```
 
-### Emergency Admissions -  Any {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/avoidable_emergency_admissions_any.Rmd', eval = TRUE}
+### Emergency Admissions - All {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/all_emergency_admissions_all.Rmd', eval = TRUE}
 ```
 
 ### Ambulance Time to Hospital {.tabset .tabset-fade .tabset-pills}

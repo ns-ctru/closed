@@ -3,6 +3,12 @@
 ```{r child = 'subsections/summary.Rmd', eval = TRUE}
 ```
 
+```{r child = 'subsections/missing.Rmd', eval = TRUE}
+```
+
+```{r child = 'subsections/spurious_data.Rmd', eval = TRUE}
+```
+
 ```{r dummy, eval = FALSE}
 ```
 
@@ -212,5 +218,5 @@
 ```
 
 #### Regression Summary
-```{r child = 'subsections/regression_summary.Rmd', eval = TRUE}
+```{r child = 'subsections/regression_summary.Rmd', eval = FALSE}
 ```

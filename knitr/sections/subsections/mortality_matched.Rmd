@@ -1,4 +1,4 @@
-### Mortality
+### Mortality  {.tabset .tabset-fade .tabset-pills}
 
 #### Bishop Auckland General Hospital
 ```{r echo = FALSE, cache = FALSE, results = 'asis', eval = FALSE}
