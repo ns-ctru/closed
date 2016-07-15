@@ -173,6 +173,65 @@ mode.of.arrival.other$model7.panelar %>% summary()
 
 ```
 
+#### Unnecessary  {.tabset .tabset-fade .tabset-pills}
+```{r hartlepool_mode_of_arrival_other_ts_plot, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+closed_ts_plot(df            = unnecessary_ed_attendances_site_measure,
+               indicator     = 'unnecessary ed attendances',
+               sub.indicator = 'all',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
+```
+
+##### Model 1
+```{r hartlepool_mode_of_arrival_other_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+unnecessary.attendance$model1.panelar.hartlepool %>% summary()
+
+```
+##### Model 2
+```{r hartlepool_mode_of_arrival_other_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+unnecessary.attendance$model2.panelar.hartlepool %>% summary()
+
+```
+
+##### Model 3a
+```{r hartlepool_mode_of_arrival_other_model3a, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+unnecessary.attendance$model3a.panelar.hartlepool %>% summary()
+
+```
+
+##### Model 3b
+```{r hartlepool_mode_of_arrival_other_model3b, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+unnecessary.attendance$model3b.panelar.hartlepool %>% summary()
+
+```
+
+##### Model 4
+```{r hartlepool_mode_of_arrival_other_model4, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+unnecessary.attendance$model4.panelar %>% summary()
+
+```
+##### Model 5
+```{r hartlepool_mode_of_arrival_other_model5, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+unnecessary.attendance$model5.panelar %>% summary()
+
+```
+
+##### Model 6
+```{r hartlepool_mode_of_arrival_other_model6, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+unnecessary.attendance$model6.panelar.hartlepool %>% summary()
+
+```
+
+##### Model 7
+```{r hartlepool_mode_of_arrival_other_model7, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+unnecessary.attendance$model7.panelar %>% summary()
+
+```
+
 
 ### Emergency Admissions  {.tabset .tabset-fade .tabset-pills}
 
