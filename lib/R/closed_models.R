@@ -1304,10 +1304,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model5.df <- df5
         }
         if(return.residuals == TRUE){
-            results$model5.panelar.residuals.all     <- summary(model5.panelar.all)$residuals
+            results$model5.panelar.residuals.all     <- summary(model5.panelar)$residuals
         }
         if(return.residuals.plot == TRUE){
-            results$model2.panelar.residuals.plot <- summary(model4.panelar)$residuals %>% plot()
+            results$model5.panelar.residuals.plot <- summary(model5.panelar)$residuals %>% plot()
         }
         ## Remove clutter
         rm(df5)
@@ -1604,7 +1604,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model7.df <- df7
         }
         if(return.residuals == TRUE){
-            results$model7.panelar.residuals.all     <- summary(model7.panelar.all)$residuals
+            results$model7.panelar.residuals.all     <- summary(model7.panelar)$residuals
         }
         if(return.residuals.plot == TRUE){
             results$model7.panelar.residuals.plot <- summary(model7.panelar)$residuals %>% plot()
