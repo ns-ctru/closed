@@ -492,11 +492,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model1.panelar.rochdale.r2 <- model1.panelar.rochdale$r2
         }
         ## Summary table
-        results$model1.panelar <- combine_coefficients(bishop.coef     = results$model1.panelar.bishop.coef,
-                                                       hartlepool.coef = results$model1.panelar.hartlepool.coef,
-                                                       hemel.coef      = results$model1.panelar.hemel.coef,
-                                                       newark.coef     = results$model1.panelar.newark.coef,
-                                                       rochdale.coef   = results$model1.panelar.rochdale.coef)
+        results$model1.panelar.all <- combine_coefficients(bishop.coef     = results$model1.panelar.bishop.coef,
+                                                           hartlepool.coef = results$model1.panelar.hartlepool.coef,
+                                                           hemel.coef      = results$model1.panelar.hemel.coef,
+                                                           newark.coef     = results$model1.panelar.newark.coef,
+                                                           rochdale.coef   = results$model1.panelar.rochdale.coef)
         ## Forest plot
         results$model1.forest <- closed_forest(df.list       = list(results$model1.panelar.bishop.coef,
                                                                     results$model1.panelar.hartlepool.coef,
@@ -678,11 +678,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model2.panelar.rochdale.r2 <- model2.panelar.rochdale$r2
         }
         ## Summary table
-        results$model2.panelar <- combine_coefficients(bishop.coef     = results$model2.panelar.bishop.coef,
-                                                       hartlepool.coef = results$model2.panelar.hartlepool.coef,
-                                                       hemel.coef      = results$model2.panelar.hemel.coef,
-                                                       newark.coef     = results$model2.panelar.newark.coef,
-                                                       rochdale.coef   = results$model2.panelar.rochdale.coef)
+        results$model2.panelar.all <- combine_coefficients(bishop.coef     = results$model2.panelar.bishop.coef,
+                                                           hartlepool.coef = results$model2.panelar.hartlepool.coef,
+                                                           hemel.coef      = results$model2.panelar.hemel.coef,
+                                                           newark.coef     = results$model2.panelar.newark.coef,
+                                                           rochdale.coef   = results$model2.panelar.rochdale.coef)
         ## Forest plot
         results$model2.forest <- closed_forest(df.list       = list(results$model2.panelar.bishop.coef,
                                                                     results$model2.panelar.hartlepool.coef,
@@ -867,11 +867,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model3a.panelar.rochdale.r2 <- model3a.panelar.rochdale$r2
         }
         ## Summary table
-        results$model3a.panelar <- combine_coefficients(bishop.coef     = results$model3a.panelar.bishop.coef,
-                                                       hartlepool.coef = results$model3a.panelar.hartlepool.coef,
-                                                       hemel.coef      = results$model3a.panelar.hemel.coef,
-                                                       newark.coef     = results$model3a.panelar.newark.coef,
-                                                       rochdale.coef   = results$model3a.panelar.rochdale.coef)
+        results$model3a.panelar.all <- combine_coefficients(bishop.coef     = results$model3a.panelar.bishop.coef,
+                                                            hartlepool.coef = results$model3a.panelar.hartlepool.coef,
+                                                            hemel.coef      = results$model3a.panelar.hemel.coef,
+                                                            newark.coef     = results$model3a.panelar.newark.coef,
+                                                            rochdale.coef   = results$model3a.panelar.rochdale.coef)
         ## Forest plot
         results$model3a.forest <- closed_forest(df.list       = list(results$model3a.panelar.bishop.coef,
                                                                       results$model3a.panelar.hartlepool.coef,
@@ -913,6 +913,221 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         }
         ## Remove clutter
         rm(df3)
+    }
+    #######################################################################
+    ## Model 3b                                                           ##
+    #######################################################################
+    if(!is.null(model3b)){
+        ## Reformulate outcome and covariates
+        formula.model3b <- reformulate(response = outcome,
+                                      termlabels = model3b)
+        ## Pool the data
+        df3b <- closed_pool(df             = df.trust,
+                           within.centres = TRUE)
+        ## Generate Time-Series Plots
+        df3b$group <- paste0('Cohort : ', df3b$group)
+        sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Control')
+        results$model3b.ts.plot <- closed_ts_plot(df            = df3b,
+                                                 sites         = sites,
+                                                 indicator     = indicator,
+                                                 sub.indicator = sub.indicator,
+                                                 steps         = TRUE,
+                                                 facet         = TRUE,
+                                                 tidy          = TRUE,
+                                                 join          = join.line,
+                                                 legend        = legend,
+                                                 pool.control  = FALSE) ## NB - This is FALSE because data has already been pooled
+        ## Ensure relative.month is a numeric integer
+        df3b$relative.month <- as.integer(df3b$relative.month) %>% as.numeric()
+        ##################################################
+        ## Bishop Auckland                              ##
+        ##################################################
+        t <- filter(df3b,
+                    group == 'Cohort : Bishop Auckland General Hospital') %>%
+            as.data.frame()
+        if(nrow(t) > 0){
+            ## print('Bishop')
+            model3b.panelar.bishop <- panelAR(data     = t,
+                                             formula  = formula.model3b,
+                                             timeVar  = timevar,
+                                             panelVar = panel.trust,
+                                             autoCorr = autocorr,
+                                             panelCorrMethod = 'pcse',
+                                             seq.times = seq.times,
+                                             rho.na.rm = rho.na.rm)
+            results$model3b.panelar.bishop.coef <- extract_coefficients(x              = model3b.panelar.bishop,
+                                                                       .site          = 'Bishop Auckland',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+            results$model3b.panelar.bishop.r2 <- model3b.panelar.bishop$r2
+        }
+        ##################################################
+        ## Hartlepool                                   ##
+        ##################################################
+        t <- filter(df3b,
+                    group == 'Cohort : University Hospital of Hartlepool') %>%
+            as.data.frame()
+        if(nrow(t) > 0){
+            ## print('Hartlepool')
+            model3b.panelar.hartlepool <- panelAR(data     = t,
+                                                 formula  = formula.model3b,
+                                                 timeVar  = timevar,
+                                                 panelVar = panel.trust,
+                                                 autoCorr = autocorr,
+                                                 panelCorrMethod = 'pcse',
+                                                 seq.times = seq.times,
+                                                 rho.na.rm = rho.na.rm)
+            results$model3b.panelar.hartlepool.coef <- extract_coefficients(x             = model3b.panelar.hartlepool,
+                                                                           .site          = 'Hartlepool',
+                                                                           .indicator     = indicator,
+                                                                           .sub.indicator = sub.indicator)
+            results$model3b.panelar.hartlepool.r2 <- model3b.panelar.hartlepool$r2
+        }
+        ##################################################
+        ## Hemel Hempstead                              ##
+        ##################################################
+        t <- filter(df3b,
+                    group == 'Cohort : Hemel Hempstead Hospital') %>%
+             as.data.frame()
+        if(nrow(t) > 0){
+            ## print('Hemel')
+            model3b.panelar.hemel <- panelAR(data     = t,
+                                            formula  = formula.model3b,
+                                            timeVar  = timevar,
+                                            panelVar = panel.trust,
+                                            autoCorr = autocorr,
+                                            panelCorrMethod = 'pcse',
+                                            seq.times = seq.times,
+                                            rho.na.rm = rho.na.rm)
+            results$model3b.panelar.hemel.coef <- extract_coefficients(x              = model3b.panelar.hemel,
+                                                                      .site          = 'Hemel Hempstead',
+                                                                      .indicator     = indicator,
+                                                                      .sub.indicator = sub.indicator)
+            results$model3b.panelar.hemel.r2 <- model3b.panelar.hemel$r2
+        }
+        ##################################################
+        ## Newark                                       ##
+        ##################################################
+        t <- filter(df3b,
+                    group == 'Cohort : Newark Hospital') %>%
+             as.data.frame()
+        if(nrow(t) > 0){
+            ## print('Newark')
+            model3b.panelar.newark <- panelAR(data     = t,
+                                             formula  = formula.model3b,
+                                             timeVar  = timevar,
+                                             panelVar = panel.trust,
+                                             autoCorr = autocorr,
+                                             panelCorrMethod = 'pcse',
+                                             seq.times = seq.times,
+                                             rho.na.rm = rho.na.rm)
+            results$model3b.panelar.newark.coef <- extract_coefficients(x              = model3b.panelar.newark,
+                                                                       .site          = 'Newark',
+                                                                       .indicator     = indicator,
+                                                                       .sub.indicator = sub.indicator)
+            results$model3b.panelar.newark.r2 <- model3b.panelar.newark$r2
+        }
+        ##################################################
+        ## Rochdale                                     ##
+        ##################################################
+        t <- filter(df3b,
+                    group == 'Cohort : Rochdale Infirmary') %>%
+            as.data.frame()
+        if(nrow(t) > 0){
+            ## print('Rochdale')
+            model3b.panelar.rochdale <- panelAR(data     = t,
+                                               formula  = formula.model3b,
+                                               timeVar  = timevar,
+                                               panelVar = panel.trust,
+                                               autoCorr = autocorr,
+                                               panelCorrMethod = 'pcse',
+                                               seq.times = seq.times,
+                                               rho.na.rm = rho.na.rm)
+            results$model3b.panelar.rochdale.coef <- extract_coefficients(x            = model3b.panelar.rochdale,
+                                                                         .site          = 'Rochdale',
+                                                                         .indicator     = indicator,
+                                                                         .sub.indicator = sub.indicator)
+            results$model3b.panelar.rochdale.r2 <- model3b.panelar.rochdale$r2
+        }
+        ##################################################
+        ## All sites                                    ##
+        ##################################################
+        ## TODO - Maybe get this working
+        ## ## Pool the data across centres
+        ## df3b <- closed_pool(df             = df.trust,
+        ##                    within.centres = FALSE)
+        ## ## Remove 'season' from the model since that is only feasible when pooling within
+        ## ## centres because months/dates do not align
+        ## model3b <- gsub('season', '', model3b)
+        ## formula.model3b <- reformulate(response = outcome,
+        ##                               termlabels = model3b)
+        ## model3b.panelar.all <- filter(df3b,
+        ##                              measure     == indicator &
+        ##                              sub.measure == sub.indicator) %>%
+        ##                       panelAR(formula  = formula.model3b,
+        ##                               timeVar  = timevar,
+        ##                               panelVar = panel.trust,
+        ##                               autoCorr = autocorr,
+        ##                               panelCorrMethod = 'pcse',
+        ##                               seq.times = seq.times,
+        ##                               rho.na.rm = rho.na.rm)
+        ## results$model3b.panelar.all.coef <- extract_coefficients(x              = model3b.panelar.all,
+        ##                                                         .site          = 'All',
+        ##                                                         .indicator     = indicator,
+        ##                                                         .sub.indicator = sub.indicator)
+        ## results$model3b.panelar.r2 <- model3b.panelar.all
+        ## Summary table
+        results$model3b.panelar.all <- combine_coefficients(bishop.coef     = results$model3b.panelar.bishop.coef,
+                                                       hartlepool.coef = results$model3b.panelar.hartlepool.coef,
+                                                       hemel.coef      = results$model3b.panelar.hemel.coef,
+                                                       newark.coef     = results$model3b.panelar.newark.coef,
+                                                       rochdale.coef   = results$model3b.panelar.rochdale.coef)
+                                                       ## all.coef        = results$model3b.panelar.all.coef)
+        ## ## Forest plot
+        results$model3b.forest <- closed_forest(df.list       = list(results$model3b.panelar.bishop.coef,
+                                                                    results$model3b.panelar.hartlepool.coef,
+                                                                    results$model3b.panelar.hemel.coef,
+                                                                    results$model3b.panelar.newark.coef,
+                                                                    results$model3b.panelar.rochdale.coef),
+                                                                    ## results$model3b.panelar.all.coef),
+                                               plot.term     = c('closure'),
+                                               facet.outcome = FALSE,
+                                               title         = paste0('Model 8 : ',
+                                                                      indicator,
+                                                                      ' (',
+                                                                      sub.indicator,
+                                                                      ')'),
+                                               theme         = theme_bw())
+        ## Return model objects if requested
+        if(return.model == TRUE){
+            results$model3b.panelar.bishop     <- model3b.panelar.bishop
+            results$model3b.panelar.hartlepool <- model3b.panelar.hartlepool
+            results$model3b.panelar.hemel      <- model3b.panelar.hemel
+            results$model3b.panelar.newark     <- model3b.panelar.newark
+            results$model3b.panelar.rochdale   <- model3b.panelar.rochdale
+            ## results$model3b.panelar.all     <- model3b.panelar.all
+        }
+        if(return.df == TRUE){
+            results$model3b.df <- df3b
+        }
+        if(return.residuals == TRUE){
+            results$model3b.panelar.residuals.bishop     <- summary(model3b.panelar.bishop)$residuals
+            results$model3b.panelar.residuals.hartlepool <- summary(model3b.panelar.hartlepool)$residuals
+            results$model3b.panelar.residuals.hemel      <- summary(model3b.panelar.hemel)$residuals
+            results$model3b.panelar.residuals.newark     <- summary(model3b.panelar.newark)$residuals
+            results$model3b.panelar.residuals.rochdale   <- summary(model3b.panelar.rochdale)$residuals
+            ## results$model3b.panelar.residuals.all     <- summary(model3b.panelar.all)$residuals
+        }
+        if(return.residuals.plot == TRUE){
+            results$model3b.panelar.residuals.plot.bishop     <- summary(model3b.panelar.bishop)$residuals %>% plot()
+            results$model3b.panelar.residuals.plot.hartlepool <- summary(model3b.panelar.hartlepool)$residuals %>% plot()
+            results$model3b.panelar.residuals.plot.hemel      <- summary(model3b.panelar.hemel)$residuals %>% plot()
+            results$model3b.panelar.residuals.plot.newark     <- summary(model3b.panelar.newark)$residuals %>% plot()
+            results$model3b.panelar.residuals.plot.rochdale   <- summary(model3b.panelar.rochdale)$residuals %>% plot()
+            ## results$model3b.panelar.residuals.plot <- summary(model3b.panelar)$residuals %>% plot()
+        }
+        ## Remove clutter
+        rm(df3b)
     }
     #######################################################################
     ## Model 4                                                           ##
@@ -1247,8 +1462,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model6.panelar.rochdale.r2 <- model6.panelar.rochdale$r2
         }
         ## Summary table
-        results$model6.panelar <- results$model6.panelar.all.coef
-        results$model6.panelar <- combine_coefficients(bishop.coef     = results$model6.panelar.bishop.coef,
+        ## results$model6.panelar <- results$model6.panelar.all.coef
+        results$model6.panelar.all <- combine_coefficients(bishop.coef     = results$model6.panelar.bishop.coef,
                                                        hartlepool.coef = results$model6.panelar.hartlepool.coef,
                                                        hemel.coef      = results$model6.panelar.hemel.coef,
                                                        newark.coef     = results$model6.panelar.newark.coef,
@@ -1396,221 +1611,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         }
         ## Remove clutter
         rm(df7)
-    }
-    #######################################################################
-    ## Model 8                                                           ##
-    #######################################################################
-    if(!is.null(model3b)){
-        ## Reformulate outcome and covariates
-        formula.model3b <- reformulate(response = outcome,
-                                      termlabels = model3b)
-        ## Pool the data
-        df8 <- closed_pool(df             = df.trust,
-                           within.centres = TRUE)
-        ## Generate Time-Series Plots
-        df8$group <- paste0('Cohort : ', df8$group)
-        sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Control')
-        results$model3b.ts.plot <- closed_ts_plot(df            = df8,
-                                                 sites         = sites,
-                                                 indicator     = indicator,
-                                                 sub.indicator = sub.indicator,
-                                                 steps         = TRUE,
-                                                 facet         = TRUE,
-                                                 tidy          = TRUE,
-                                                 join          = join.line,
-                                                 legend        = legend,
-                                                 pool.control  = FALSE) ## NB - This is FALSE because data has already been pooled
-        ## Ensure relative.month is a numeric integer
-        df8$relative.month <- as.integer(df8$relative.month) %>% as.numeric()
-        ##################################################
-        ## Bishop Auckland                              ##
-        ##################################################
-        t <- filter(df8,
-                    group == 'Cohort : Bishop Auckland General Hospital') %>%
-            as.data.frame()
-        if(nrow(t) > 0){
-            ## print('Bishop')
-            model3b.panelar.bishop <- panelAR(data     = t,
-                                             formula  = formula.model3b,
-                                             timeVar  = timevar,
-                                             panelVar = panel.trust,
-                                             autoCorr = autocorr,
-                                             panelCorrMethod = 'pcse',
-                                             seq.times = seq.times,
-                                             rho.na.rm = rho.na.rm)
-            results$model3b.panelar.bishop.coef <- extract_coefficients(x              = model3b.panelar.bishop,
-                                                                       .site          = 'Bishop Auckland',
-                                                                   .indicator     = indicator,
-                                                                   .sub.indicator = sub.indicator)
-            results$model3b.panelar.bishop.r2 <- model3b.panelar.bishop$r2
-        }
-        ##################################################
-        ## Hartlepool                                   ##
-        ##################################################
-        t <- filter(df8,
-                    group == 'Cohort : University Hospital of Hartlepool') %>%
-            as.data.frame()
-        if(nrow(t) > 0){
-            ## print('Hartlepool')
-            model3b.panelar.hartlepool <- panelAR(data     = t,
-                                                 formula  = formula.model3b,
-                                                 timeVar  = timevar,
-                                                 panelVar = panel.trust,
-                                                 autoCorr = autocorr,
-                                                 panelCorrMethod = 'pcse',
-                                                 seq.times = seq.times,
-                                                 rho.na.rm = rho.na.rm)
-            results$model3b.panelar.hartlepool.coef <- extract_coefficients(x             = model3b.panelar.hartlepool,
-                                                                           .site          = 'Hartlepool',
-                                                                           .indicator     = indicator,
-                                                                           .sub.indicator = sub.indicator)
-            results$model3b.panelar.hartlepool.r2 <- model3b.panelar.hartlepool$r2
-        }
-        ##################################################
-        ## Hemel Hempstead                              ##
-        ##################################################
-        t <- filter(df8,
-                    group == 'Cohort : Hemel Hempstead Hospital') %>%
-             as.data.frame()
-        if(nrow(t) > 0){
-            ## print('Hemel')
-            model3b.panelar.hemel <- panelAR(data     = t,
-                                            formula  = formula.model3b,
-                                            timeVar  = timevar,
-                                            panelVar = panel.trust,
-                                            autoCorr = autocorr,
-                                            panelCorrMethod = 'pcse',
-                                            seq.times = seq.times,
-                                            rho.na.rm = rho.na.rm)
-            results$model3b.panelar.hemel.coef <- extract_coefficients(x              = model3b.panelar.hemel,
-                                                                      .site          = 'Hemel Hempstead',
-                                                                      .indicator     = indicator,
-                                                                      .sub.indicator = sub.indicator)
-            results$model3b.panelar.hemel.r2 <- model3b.panelar.hemel$r2
-        }
-        ##################################################
-        ## Newark                                       ##
-        ##################################################
-        t <- filter(df8,
-                    group == 'Cohort : Newark Hospital') %>%
-             as.data.frame()
-        if(nrow(t) > 0){
-            ## print('Newark')
-            model3b.panelar.newark <- panelAR(data     = t,
-                                             formula  = formula.model3b,
-                                             timeVar  = timevar,
-                                             panelVar = panel.trust,
-                                             autoCorr = autocorr,
-                                             panelCorrMethod = 'pcse',
-                                             seq.times = seq.times,
-                                             rho.na.rm = rho.na.rm)
-            results$model3b.panelar.newark.coef <- extract_coefficients(x              = model3b.panelar.newark,
-                                                                       .site          = 'Newark',
-                                                                       .indicator     = indicator,
-                                                                       .sub.indicator = sub.indicator)
-            results$model3b.panelar.newark.r2 <- model3b.panelar.newark$r2
-        }
-        ##################################################
-        ## Rochdale                                     ##
-        ##################################################
-        t <- filter(df8,
-                    group == 'Cohort : Rochdale Infirmary') %>%
-            as.data.frame()
-        if(nrow(t) > 0){
-            ## print('Rochdale')
-            model3b.panelar.rochdale <- panelAR(data     = t,
-                                               formula  = formula.model3b,
-                                               timeVar  = timevar,
-                                               panelVar = panel.trust,
-                                               autoCorr = autocorr,
-                                               panelCorrMethod = 'pcse',
-                                               seq.times = seq.times,
-                                               rho.na.rm = rho.na.rm)
-            results$model3b.panelar.rochdale.coef <- extract_coefficients(x            = model3b.panelar.rochdale,
-                                                                         .site          = 'Rochdale',
-                                                                         .indicator     = indicator,
-                                                                         .sub.indicator = sub.indicator)
-            results$model3b.panelar.rochdale.r2 <- model3b.panelar.rochdale$r2
-        }
-        ##################################################
-        ## All sites                                    ##
-        ##################################################
-        ## TODO - Maybe get this working
-        ## ## Pool the data across centres
-        ## df8 <- closed_pool(df             = df.trust,
-        ##                    within.centres = FALSE)
-        ## ## Remove 'season' from the model since that is only feasible when pooling within
-        ## ## centres because months/dates do not align
-        ## model3b <- gsub('season', '', model3b)
-        ## formula.model3b <- reformulate(response = outcome,
-        ##                               termlabels = model3b)
-        ## model3b.panelar.all <- filter(df8,
-        ##                              measure     == indicator &
-        ##                              sub.measure == sub.indicator) %>%
-        ##                       panelAR(formula  = formula.model3b,
-        ##                               timeVar  = timevar,
-        ##                               panelVar = panel.trust,
-        ##                               autoCorr = autocorr,
-        ##                               panelCorrMethod = 'pcse',
-        ##                               seq.times = seq.times,
-        ##                               rho.na.rm = rho.na.rm)
-        ## results$model3b.panelar.all.coef <- extract_coefficients(x              = model3b.panelar.all,
-        ##                                                         .site          = 'All',
-        ##                                                         .indicator     = indicator,
-        ##                                                         .sub.indicator = sub.indicator)
-        ## results$model3b.panelar.r2 <- model3b.panelar.all
-        ## Summary table
-        results$model3b.panelar <- combine_coefficients(bishop.coef     = results$model3b.panelar.bishop.coef,
-                                                       hartlepool.coef = results$model3b.panelar.hartlepool.coef,
-                                                       hemel.coef      = results$model3b.panelar.hemel.coef,
-                                                       newark.coef     = results$model3b.panelar.newark.coef,
-                                                       rochdale.coef   = results$model3b.panelar.rochdale.coef)
-                                                       ## all.coef        = results$model3b.panelar.all.coef)
-        ## ## Forest plot
-        results$model3b.forest <- closed_forest(df.list       = list(results$model3b.panelar.bishop.coef,
-                                                                    results$model3b.panelar.hartlepool.coef,
-                                                                    results$model3b.panelar.hemel.coef,
-                                                                    results$model3b.panelar.newark.coef,
-                                                                    results$model3b.panelar.rochdale.coef),
-                                                                    ## results$model3b.panelar.all.coef),
-                                               plot.term     = c('closure'),
-                                               facet.outcome = FALSE,
-                                               title         = paste0('Model 8 : ',
-                                                                      indicator,
-                                                                      ' (',
-                                                                      sub.indicator,
-                                                                      ')'),
-                                               theme         = theme_bw())
-        ## Return model objects if requested
-        if(return.model == TRUE){
-            results$model3b.panelar.bishop     <- model3b.panelar.bishop
-            results$model3b.panelar.hartlepool <- model3b.panelar.hartlepool
-            results$model3b.panelar.hemel      <- model3b.panelar.hemel
-            results$model3b.panelar.newark     <- model3b.panelar.newark
-            results$model3b.panelar.rochdale   <- model3b.panelar.rochdale
-            ## results$model3b.panelar.all     <- model3b.panelar.all
-        }
-        if(return.df == TRUE){
-            results$model3b.df <- df8
-        }
-        if(return.residuals == TRUE){
-            results$model3b.panelar.residuals.bishop     <- summary(model3b.panelar.bishop)$residuals
-            results$model3b.panelar.residuals.hartlepool <- summary(model3b.panelar.hartlepool)$residuals
-            results$model3b.panelar.residuals.hemel      <- summary(model3b.panelar.hemel)$residuals
-            results$model3b.panelar.residuals.newark     <- summary(model3b.panelar.newark)$residuals
-            results$model3b.panelar.residuals.rochdale   <- summary(model3b.panelar.rochdale)$residuals
-            ## results$model3b.panelar.residuals.all     <- summary(model3b.panelar.all)$residuals
-        }
-        if(return.residuals.plot == TRUE){
-            results$model3b.panelar.residuals.plot.bishop     <- summary(model3b.panelar.bishop)$residuals %>% plot()
-            results$model3b.panelar.residuals.plot.hartlepool <- summary(model3b.panelar.hartlepool)$residuals %>% plot()
-            results$model3b.panelar.residuals.plot.hemel      <- summary(model3b.panelar.hemel)$residuals %>% plot()
-            results$model3b.panelar.residuals.plot.newark     <- summary(model3b.panelar.newark)$residuals %>% plot()
-            results$model3b.panelar.residuals.plot.rochdale   <- summary(model3b.panelar.rochdale)$residuals %>% plot()
-            ## results$model3b.panelar.residuals.plot <- summary(model3b.panelar)$residuals %>% plot()
-        }
-        ## Remove clutter
-        rm(df8)
     }
     #######################################################################
     ## Return the results                                                ##
