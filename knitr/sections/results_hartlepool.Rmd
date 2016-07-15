@@ -174,7 +174,7 @@ mode.of.arrival.other$model7.panelar %>% summary()
 ```
 
 #### Unnecessary  {.tabset .tabset-fade .tabset-pills}
-```{r hartlepool_mode_of_arrival_other_ts_plot, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+```{r hartlepool_unnecessary_attendance_ts_plot, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 closed_ts_plot(df            = unnecessary_ed_attendances_site_measure,
                indicator     = 'unnecessary ed attendances',
                sub.indicator = 'all',
@@ -187,47 +187,47 @@ closed_ts_plot(df            = unnecessary_ed_attendances_site_measure,
 ```
 
 ##### Model 1
-```{r hartlepool_mode_of_arrival_other_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+```{r hartlepool_unnecessary_attendance_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 unnecessary.attendance$model1.panelar.hartlepool %>% summary()
 
 ```
 ##### Model 2
-```{r hartlepool_mode_of_arrival_other_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+```{r hartlepool_unnecessary_attendance_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 unnecessary.attendance$model2.panelar.hartlepool %>% summary()
 
 ```
 
 ##### Model 3a
-```{r hartlepool_mode_of_arrival_other_model3a, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+```{r hartlepool_unnecessary_attendance_model3a, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 unnecessary.attendance$model3a.panelar.hartlepool %>% summary()
 
 ```
 
 ##### Model 3b
-```{r hartlepool_mode_of_arrival_other_model3b, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+```{r hartlepool_unnecessary_attendance_model3b, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 unnecessary.attendance$model3b.panelar.hartlepool %>% summary()
 
 ```
 
 ##### Model 4
-```{r hartlepool_mode_of_arrival_other_model4, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+```{r hartlepool_unnecessary_attendance_model4, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 unnecessary.attendance$model4.panelar %>% summary()
 
 ```
 ##### Model 5
-```{r hartlepool_mode_of_arrival_other_model5, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+```{r hartlepool_unnecessary_attendance_model5, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 unnecessary.attendance$model5.panelar %>% summary()
 
 ```
 
 ##### Model 6
-```{r hartlepool_mode_of_arrival_other_model6, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+```{r hartlepool_unnecessary_attendance_model6, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 unnecessary.attendance$model6.panelar.hartlepool %>% summary()
 
 ```
 
 ##### Model 7
-```{r hartlepool_mode_of_arrival_other_model7, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+```{r hartlepool_unnecessary_attendance_model7, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 unnecessary.attendance$model7.panelar %>% summary()
 
 ```
@@ -568,7 +568,9 @@ ed.attendances.admitted.fraction.admitted$model7.panelar %>% summary()
 
 
 ### Case Fatality Ratio {.tabset .tabset-fade .tabset-pills}
-```{r hartlepool_case_fatality_ratio_ts_plot, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+
+#### Any  {.tabset .tabset-fade}
+```{r hartlepool_case_fatality_ratio_any_ts_plot, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 closed_ts_plot(df            = case_fatality_site_measure,
                indicator     = 'case fatality ratio',
                sub.indicator = 'any',
@@ -580,45 +582,165 @@ closed_ts_plot(df            = case_fatality_site_measure,
                legend        = TRUE)
 ```
 
-#### Model 1
-```{r hartlepool_case_fatality_ratio_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+##### Model 1
+```{r hartlepool_case_fatality_ratio_any_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 case.fatality.ratio.any$model1.panelar.hartlepool %>% summary()
 
 ```
-#### Model 2
-```{r hartlepool_case_fatality_ratio_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+##### Model 2
+```{r hartlepool_case_fatality_ratio_any_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 case.fatality.ratio.any$model2.panelar.hartlepool %>% summary()
 
 ```
-#### Model 3a
-```{r hartlepool_case_fatality_ratio_model3a, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+##### Model 3a
+```{r hartlepool_case_fatality_ratio_any_model3a, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 case.fatality.ratio.any$model3a.panelar.hartlepool %>% summary()
 
 ```
 
-#### Model 3b
-```{r hartlepool_case_fatality_ratio_model3b, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+##### Model 3b
+```{r hartlepool_case_fatality_ratio_any_model3b, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 case.fatality.ratio.any$model3b.panelar.hartlepool %>% summary()
 
 ```
 
-#### Model 4
-```{r hartlepool_case_fatality_ratio_model4, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+##### Model 4
+```{r hartlepool_case_fatality_ratio_any_model4, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 case.fatality.ratio.any$model4.panelar %>% summary()
 
 ```
-#### Model 5
-```{r hartlepool_case_fatality_ratio_model5, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+##### Model 5
+```{r hartlepool_case_fatality_ratio_any_model5, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 case.fatality.ratio.any$model5.panelar %>% summary()
 
 ```
-#### Model 6
-```{r hartlepool_case_fatality_ratio_model6, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+##### Model 6
+```{r hartlepool_case_fatality_ratio_any_model6, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 case.fatality.ratio.any$model6.panelar.hartlepool %>% summary()
 
 ```
-#### Model 7
-```{r hartlepool_case_fatality_ratio_model7, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+##### Model 7
+```{r hartlepool_case_fatality_ratio_any_model7, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 case.fatality.ratio.any$model7.panelar %>% summary()
+
+```
+
+#### Acute Heart Failure  {.tabset .tabset-fade}
+```{r hartlepool_case_fatality_ratio_acute_ts_plot, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+closed_ts_plot(df            = case_fatality_site_measure,
+               indicator     = 'case fatality ratio',
+               sub.indicator = 'acute heart failure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
+```
+
+**NB** Currently get errors trying to run models on this outcome.  Under investigation.
+
+##### Model 1
+```{r hartlepool_case_fatality_ratio_acute_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+case.fatality.ratio.acute.heart.failure$model1.panelar.hartlepool %>% summary()
+
+```
+##### Model 2
+```{r hartlepool_case_fatality_ratio_acute_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+case.fatality.ratio.acute.heart.failure$model2.panelar.hartlepool %>% summary()
+
+```
+##### Model 3a
+```{r hartlepool_case_fatality_ratio_acute_model3a, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+case.fatality.ratio.acute.heart.failure$model3a.panelar.hartlepool %>% summary()
+
+```
+
+##### Model 3b
+```{r hartlepool_case_fatality_ratio_acute_model3b, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+case.fatality.ratio.acute.heart.failure$model3b.panelar.hartlepool %>% summary()
+
+```
+
+##### Model 4
+```{r hartlepool_case_fatality_ratio_acute_model4, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+case.fatality.ratio.acute.heart.failure$model4.panelar %>% summary()
+
+```
+##### Model 5
+```{r hartlepool_case_fatality_ratio_acute_model5, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+case.fatality.ratio.acute.heart.failure$model5.panelar %>% summary()
+
+```
+##### Model 6
+```{r hartlepool_case_fatality_ratio_acute_model6, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+case.fatality.ratio.acute.heart.failure$model6.panelar.hartlepool %>% summary()
+
+```
+##### Model 7
+```{r hartlepool_case_fatality_ratio_acute_model7, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+case.fatality.ratio.acute.heart.failure$model7.panelar %>% summary()
+
+```
+
+
+### Ambulance Times {.tabset .tabset-fade .tabset-pills}
+
+#### Call to Destination  {.tabset .tabset-fade}
+
+```{r ambulance_mean_times_call_to_dest_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call_to_dest',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               legend        = TRUE)
+```
+
+**NB** Currently haven't got all models run so there are no results.  Working on this, tricky due to large amount of missing data, so most sites/models can't run.  Worked around for Project Advisory Group so please refer to `~/knitr/pag_20160704.html` for some results (albeit limited).
+
+##### Model 1
+```{r hartlepool_case_fatality_ratio_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.mean.times.call.to.dest$model1.panelar.hartlepool %>% summary()
+
+```
+##### Model 2
+```{r hartlepool_case_fatality_ratio_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.mean.times.call.to.dest$model2.panelar.hartlepool %>% summary()
+
+```
+##### Model 3a
+```{r hartlepool_case_fatality_ratio_model3a, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.mean.times.call.to.dest$model3a.panelar.hartlepool %>% summary()
+
+```
+
+##### Model 3b
+```{r hartlepool_case_fatality_ratio_model3b, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.mean.times.call.to.dest$model3b.panelar.hartlepool %>% summary()
+
+```
+
+##### Model 4
+```{r hartlepool_case_fatality_ratio_model4, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.mean.times.call.to.dest$model4.panelar %>% summary()
+
+```
+##### Model 5
+```{r hartlepool_case_fatality_ratio_model5, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.mean.times.call.to.dest$model5.panelar %>% summary()
+
+```
+##### Model 6
+```{r hartlepool_case_fatality_ratio_model6, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.mean.times.call.to.dest$model6.panelar.hartlepool %>% summary()
+
+```
+##### Model 7
+```{r hartlepool_case_fatality_ratio_model7, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.mean.times.call.to.dest$model7.panelar %>% summary()
 
 ```
