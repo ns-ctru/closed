@@ -166,7 +166,7 @@ critical.care.cips.critical$model3b.panelar.all$coef[3:8] %>% kable(caption = cr
 ```{r critical_care_cips_critical_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 critical.care.cips.critical$model4.ts.plot
 critical.care.cips.critical$model4.forest$forest
-critical.care.cips.critical$model4.panelar.all$coef[3:9] %>% kable(caption = critical.care.cips.critical.all$model4.panelar.all$caption)
+critical.care.cips.critical$model4.panelar.all$coef[3:9] %>% kable(caption = critical.care.cips.critical$model4.panelar.all$caption)
 ```
 
 ##### Model 5
