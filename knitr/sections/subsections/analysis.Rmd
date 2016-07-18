@@ -42,8 +42,8 @@ if(os != 'unix'){
     load('~/work/closed/lib/data/ambulance mean times measure - site - 2016-06-17 01.23.Rda')
     load('~/work/closed/lib/data/ambulance non-conveyance measure - lsoa - 2016-07-15 20.09.Rda')
     load('~/work/closed/lib/data/ambulance non-conveyance measure - site - 2016-07-15 20.09.Rda')
-    load('~/work/closed/lib/data/ambulance red-calls measure - lsoa - 2016-07-15 20.11.Rda')
-    load('~/work/closed/lib/data/ambulance red-calls measure - site - 2016-07-15 20.11.Rda')
+    load('~/work/closed/lib/data/ambulance red calls measure - lsoa - 2016-07-15 20.11.Rda')
+    load('~/work/closed/lib/data/ambulance red calls measure - site - 2016-07-15 20.11.Rda')
     ## load('~/work/closed/lib/data/case fatality measure - lsoa - 2016-06-10 18.09.Rda')
     ## load('~/work/closed/lib/data/case fatality measure - site - 2016-06-10 18.10.Rda')
     load('~/work/closed/lib/data/case fatality measure - lsoa - 2016-07-15 21.05.Rda')
@@ -93,8 +93,8 @@ emergency_admissions_site_measure$sub.measure <- ifelse(is.na(emergency_admissio
                                                         'all',
                                                         emergency_admissions_site_measure$sub.measure)
 ## Convert time from seconds to minutes and ensure they're numeric.
-amb_mean_times_measure$value <- amb_mean_times_measure$value / 60 %>% as.numeric
-amb_mean_times_site_measure$value <- amb_mean_times_site_measure$value / 60 %>% as.numeric
+amb_mean_times_measure$value <- amb_mean_times_measure$value / 60 %>% as.numeric()
+amb_mean_times_site_measure$value <- amb_mean_times_site_measure$value / 60 %>% as.numeric()
 
 ```
 
