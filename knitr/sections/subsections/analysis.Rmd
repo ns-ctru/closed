@@ -49,52 +49,25 @@ if(os != 'unix'){
     load('~/work/closed/lib/data/case fatality measure - lsoa - 2016-07-15 21.05.Rda')
     load('~/work/closed/lib/data/case fatality measure - site - 2016-07-15 21.06.Rda')
 }
-## Convert everything to data frames, why I didn't do this first I've no idea!
-ed_attendances_by_mode_measure          <- as.data.frame(ed_attendances_by_mode_measure)
-ed_attendances_by_mode_site_measure     <- as.data.frame(ed_attendances_by_mode_site_measure)
-unnecessary_ed_attendances_measure      <- as.data.frame(unnecessary_ed_attendances_measure)
-unnecessary_ed_attendances_site_measure <- as.data.frame(unnecessary_ed_attendances_site_measure)
-ed_attendances_admitted_measure         <- as.data.frame(ed_attendances_admitted_measure)
-ed_attendances_admitted_site_measure    <- as.data.frame(ed_attendances_admitted_site_measure)
-critical_care_cips_measure              <- as.data.frame(critical_care_cips_measure)
-critical_care_cips_site_measure         <- as.data.frame(critical_care_cips_site_measure)
-emergency_admissions_measure            <- as.data.frame(emergency_admissions_measure)
-emergency_admissions_site_measure       <- as.data.frame(emergency_admissions_site_measure)
-length_of_stay_measure                  <- as.data.frame(length_of_stay_measure)
-length_of_stay_site_measure             <- as.data.frame(length_of_stay_site_measure)
-amb_mean_times_measure                  <- as.data.frame(amb_mean_times_measure)
-amb_mean_times_site_measure             <- as.data.frame(amb_mean_times_site_measure)
-## And convert all variable names to periods not underscore
-names(ed_attendances_by_mode_measure)          <- gsub('_', '.', names(ed_attendances_by_mode_measure))
-names(ed_attendances_by_mode_site_measure)     <- gsub('_', '.', names(ed_attendances_by_mode_site_measure))
-names(unnecessary_ed_attendances_measure)      <- gsub('_', '.', names(unnecessary_ed_attendances_measure))
-names(unnecessary_ed_attendances_site_measure) <- gsub('_', '.', names(unnecessary_ed_attendances_site_measure))
-names(ed_attendances_admitted_measure)         <- gsub('_', '.', names(ed_attendances_admitted_measure))
-names(ed_attendances_admitted_site_measure)    <- gsub('_', '.', names(ed_attendances_admitted_site_measure))
-names(critical_care_cips_measure)              <- gsub('_', '.', names(critical_care_cips_measure))
-names(critical_care_cips_site_measure)         <- gsub('_', '.', names(critical_care_cips_site_measure))
-names(emergency_admissions_measure)            <- gsub('_', '.', names(emergency_admissions_measure))
-names(emergency_admissions_site_measure)       <- gsub('_', '.', names(emergency_admissions_site_measure))
-names(length_of_stay_measure)                  <- gsub('_', '.', names(length_of_stay_measure))
-names(length_of_stay_site_measure)             <- gsub('_', '.', names(length_of_stay_site_measure))
-names(amb_mean_times_measure)                  <- gsub('_', '.', names(amb_mean_times_measure))
-names(amb_mean_times_site_measure)             <- gsub('_', '.', names(amb_mean_times_site_measure))
-## There are some instances where there is no sub_measure, correct those to 'all'
-unnecessary_ed_attendances_measure$sub.measure <- ifelse(is.na(unnecessary_ed_attendances_measure$sub.measure),
-                                                         'all',
-                                                         unnecessary_ed_attendances_measure$sub.measure)
-unnecessary_ed_attendances_site_measure$sub.measure <- ifelse(is.na(unnecessary_ed_attendances_site_measure$sub.measure),
-                                                         'all',
-                                                         unnecessary_ed_attendances_site_measure$sub.measure)
-emergency_admissions_measure$sub.measure <- ifelse(is.na(emergency_admissions_measure$sub.measure),
-                                                   'all',
-                                                   emergency_admissions_measure$sub.measure)
-emergency_admissions_site_measure$sub.measure <- ifelse(is.na(emergency_admissions_site_measure$sub.measure),
-                                                        'all',
-                                                        emergency_admissions_site_measure$sub.measure)
-## Convert time from seconds to minutes and ensure they're numeric.
-amb_mean_times_measure$value <- amb_mean_times_measure$value / 60 %>% as.numeric()
-amb_mean_times_site_measure$value <- amb_mean_times_site_measure$value / 60 %>% as.numeric()
+## Tidy data frames, why I didn't do this first I've no idea!
+ed_attendances_by_mode_measure          <- closed_tidy(ed_attendances_by_mode_measure)
+ed_attendances_by_mode_site_measure     <- closed_tidy(ed_attendances_by_mode_site_measure)
+unnecessary_ed_attendances_measure      <- closed_tidy(unnecessary_ed_attendances_measure)
+unnecessary_ed_attendances_site_measure <- closed_tidy(unnecessary_ed_attendances_site_measure)
+ed_attendances_admitted_measure         <- closed_tidy(ed_attendances_admitted_measure)
+ed_attendances_admitted_site_measure    <- closed_tidy(ed_attendances_admitted_site_measure)
+critical_care_cips_measure              <- closed_tidy(critical_care_cips_measure)
+critical_care_cips_site_measure         <- closed_tidy(critical_care_cips_site_measure)
+emergency_admissions_measure            <- closed_tidy(emergency_admissions_measure)
+emergency_admissions_site_measure       <- closed_tidy(emergency_admissions_site_measure)
+length_of_stay_measure                  <- closed_tidy(length_of_stay_measure)
+length_of_stay_site_measure             <- closed_tidy(length_of_stay_site_measure)
+amb_mean_times_measure                  <- closed_tidy(amb_mean_times_measure)
+amb_mean_times_site_measure             <- closed_tidy(amb_mean_times_site_measure)
+amb_non_conveyance_measure              <- closed_tidy(amb_non_conveyance_measure)
+amb_non_conveyance_site_measure         <- closed_tidy(amb_non_conveyance_site_measure)
+amb_red_calls_measure                   <- closed_tidy(amb_red_calls_measure)
+amb_red_calls_site_measure              <- closed_tidy(amb_red_calls_site_measure)
 
 ```
 
@@ -1880,6 +1853,180 @@ ambulance.mean.times.scene.to.dest <- closed_models(df.lsoa         = amb_mean_t
                                      legend           = model.opts$legend)
 ```
 
+<!--- Ambulance Non-Conveyances - Green Calls --->
+```{r ambulance_non_conveyances_green_calls, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+ambulance.non.conveyances.green.calls <- closed_models(df.lsoa         = amb_mean_times_measure,
+                                     df.trust         = amb_mean_times_site_measure,
+                                     indicator        = 'ambulance non-conveyance',
+                                     sub.indicator    = 'green calls',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3a          = model.opts$mod3a,
+                                     model3b          = model.opts$mod3b,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+```
+
+<!--- Ambulance Non-Conveyances - Green Calls Not Conveyed--->
+```{r ambulance_non_conveyances_green_calls_not_conveyed, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+ambulance.non.conveyances.green.calls.non.conveyed <- closed_models(df.lsoa         = amb_mean_times_measure,
+                                     df.trust         = amb_mean_times_site_measure,
+                                     indicator        = 'ambulance non-conveyance',
+                                     sub.indicator    = 'not conveyed green calls',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3a          = model.opts$mod3a,
+                                     model3b          = model.opts$mod3b,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+```
+
+<!--- Ambulance Non-Conveyances - Fraction not Conveyed --->
+```{r ambulance_non_conveyances_fraction_not_conveyed, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+ambulance.non.conveyances.fraction.not.conveyed <- closed_models(df.lsoa         = amb_mean_times_measure,
+                                     df.trust         = amb_mean_times_site_measure,
+                                     indicator        = 'ambulance non-conveyance',
+                                     sub.indicator    = 'fraction not conveyed',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3a          = model.opts$mod3a,
+                                     model3b          = model.opts$mod3b,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+```
+
+<!--- Ambulance Red Calls - Hospital Transfers --->
+```{r ambulance_red_calls_hospital_transfers, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+ambulance.red.calls.hospital.transfers <- closed_models(df.lsoa         = amb_mean_times_measure,
+                                     df.trust         = amb_mean_times_site_measure,
+                                     indicator        = 'ambulance red calls',
+                                     sub.indicator    = 'hospital transfers',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3a          = model.opts$mod3a,
+                                     model3b          = model.opts$mod3b,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+```
+
+<!--- Ambulance Red Calls - Total --->
+```{r ambulance_red_calls_total, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+ambulance.red.calls.total <- closed_models(df.lsoa         = amb_mean_times_measure,
+                                     df.trust         = amb_mean_times_site_measure,
+                                     indicator        = 'ambulance red calls',
+                                     sub.indicator    = 'total',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3a          = model.opts$mod3a,
+                                     model3b          = model.opts$mod3b,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6           = model.opts$mod6,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+```
 
 <!--- Save all objects --->
 ```{r save_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
@@ -1935,6 +2082,11 @@ save(diff.time.to.ed,
      ## ambulance.mean.times.call.to.scene.conveying,
      ## ambulance.mean.times.dest.to.clear,
      ## ambulance.mean.times.scene.to.dest,
+     ambulance.non.conveyances.green.calls,
+     ambulance.non.conveyances.green.calls.non.conveyed,
+     ambulance.non.conveyances.fraction.not.conveyed,
+     ambulance.red.calls.hospital.transfers,
+     ambulance.red.calls.total
      ## results,
      ## closure,
      file = '~/work/closed/knitr/data/results.RData')
