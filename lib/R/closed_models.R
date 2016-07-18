@@ -416,10 +416,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         print("Bishop Auckland")
         t <- filter(df1,
                     town        == 'Bishop Auckland')
-        dim(t) %>% print()
-        head(t) %>% print()
-        table(t$value) %>% print()
-        table(t$town) %>% print()
         ## return(t)
         if(nrow(t) > 0){
             model1.panelar.bishop <- panelAR(data      = t,
@@ -442,10 +438,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         print("Hartlepool")
         t <- filter(df1,
                     town        == 'Hartlepool')
-        dim(t) %>% print()
-        head(t) %>% print()
-        table(t$value) %>% print()
-        table(t$town) %>% print()
         if(nrow(t) > 0){
             model1.panelar.hartlepool <- panelAR(data     = t,
                                                  formula  = formula.model1,
@@ -467,10 +459,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         print("Hemel Hempstead")
         t <- filter(df1,
                     town        == 'Hemel Hempstead')
-        dim(t) %>% print()
-        head(t) %>% print()
-        table(t$value) %>% print()
-        table(t$town) %>% print()
         if(nrow(t) > 0){
             model1.panelar.hemel <- panelAR(data     = t,
                                             formula  = formula.model1,
@@ -550,40 +538,40 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                theme         = theme_bw())
         ## Return model objects if requested
         if(return.model == TRUE){
-            if(!is.null(model1.panelar.bishop)){
+            if(exists('model1.panelar.bishop')){
                 results$model1.panelar.bishop     <- model1.panelar.bishop
             }
-            if(!is.null(model1.panelar.hartlepool)){
-                results$model1.panelar.hartlepool     <- model1.panelar.hartlepool
+            if(exists('model1.panelar.hartlepool')){
+                results$model1.panelar.hartlepool <- model1.panelar.hartlepool
             }
-            if(!is.null(model1.panelar.hemel)){
-                results$model1.panelar.hemel     <- model1.panelar.hemel
+            if(exists('model1.panelar.hemel')){
+                results$model1.panelar.hemel      <- model1.panelar.hemel
             }
-            if(!is.null(model1.panelar.newark)){
+            if(exists('model1.panelar.newark')){
                 results$model1.panelar.newark     <- model1.panelar.newark
             }
-            if(!is.null(model1.panelar.rochdale)){
-                results$model1.panelar.rochdale     <- model1.panelar.rochdale
+            if(exists('model1.panelar.rochdale')){
+                results$model1.panelar.rochdale   <- model1.panelar.rochdale
             }
         }
         if(return.df == TRUE){
             results$model1.df <- df1
         }
         if(return.residuals == TRUE){
-            if(!is.null(model1.panelar.bishop)){
+            if(exists('model1.panelar.bishop')){
                 results$model1.panelar.residuals.bishop     <- summary(model1.panelar.bishop)$residuals
             }
-            if(!is.null(model1.panelar.hartlepool)){
-                results$model1.panelar.residuals.hartlepool     <- summary(model1.panelar.hartlepool)$residuals
+            if(exists('model1.panelar.hartlepool')){
+                results$model1.panelar.residuals.hartlepool <- summary(model1.panelar.hartlepool)$residuals
             }
-            if(!is.null(model1.panelar.hemel)){
-                results$model1.panelar.residuals.hemel     <- summary(model1.panelar.hemel)$residuals
+            if(exists('model1.panelar.hemel')){
+                results$model1.panelar.residuals.hemel      <- summary(model1.panelar.hemel)$residuals
             }
-            if(!is.null(model1.panelar.newark)){
+            if(exists('model1.panelar.newark')){
                 results$model1.panelar.residuals.newark     <- summary(model1.panelar.newark)$residuals
             }
-            if(!is.null(model1.panelar.rochdale)){
-                results$model1.panelar.residuals.rochdale     <- summary(model1.panelar.rochdale)$residuals
+            if(exists('model1.panelar.rochdale')){
+                results$model1.panelar.residuals.rochdale   <- summary(model1.panelar.rochdale)$residuals
             }
         }
         ## Remove clutter
@@ -593,7 +581,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Model 2                                                           ##
     #######################################################################
     if(!is.null(model2)){
-        prin("Model 2")
+        print("Model 2")
         ## Reformulate outcome and covariates
         formula.model2 <- reformulate(response = outcome,
                                       termlabels = model2)
@@ -755,28 +743,41 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                theme         = theme_bw())
         ## Return model objects if requested
         if(return.model == TRUE){
-            results$model2.panelar.bishop     <- model2.panelar.bishop
-            results$model2.panelar.hartlepool <- model2.panelar.hartlepool
-            results$model2.panelar.hemel      <- model2.panelar.hemel
-            results$model2.panelar.newark     <- model2.panelar.newark
-            results$model2.panelar.rochdale   <- model2.panelar.rochdale
+            if(exists('model2.panelar.bishop')){
+                results$model2.panelar.bishop     <- model2.panelar.bishop
+            }
+            if(exists('model2.panelar.hartlepool')){
+                results$model2.panelar.hartlepool <- model2.panelar.hartlepool
+            }
+            if(exists('model2.panelar.hemel')){
+                results$model2.panelar.hemel      <- model2.panelar.hemel
+            }
+            if(exists('model2.panelar.newark')){
+                results$model2.panelar.newark     <- model2.panelar.newark
+            }
+            if(exists('model2.panelar.rochdale')){
+                results$model2.panelar.rochdale   <- model2.panelar.rochdale
+            }
         }
         if(return.df == TRUE){
             results$model2.df <- df2
         }
         if(return.residuals == TRUE){
-            results$model2.panelar.residuals.bishop     <- summary(model2.panelar.bishop)$residuals
-            results$model2.panelar.residuals.hartlepool <- summary(model2.panelar.hartlepool)$residuals
-            results$model2.panelar.residuals.hemel      <- summary(model2.panelar.hemel)$residuals
-            results$model2.panelar.residuals.newark     <- summary(model2.panelar.newark)$residuals
-            results$model2.panelar.residuals.rochdale   <- summary(model2.panelar.rochdale)$residuals
-        }
-        if(return.residuals.plot == TRUE){
-            results$model2.panelar.residuals.plot.bishop     <- summary(model2.panelar.bishop)$residuals %>% plot()
-            results$model2.panelar.residuals.plot.hartlepool <- summary(model2.panelar.hartlepool)$residuals %>% plot()
-            results$model2.panelar.residuals.plot.hemel      <- summary(model2.panelar.hemel)$residuals %>% plot()
-            results$model2.panelar.residuals.plot.newark     <- summary(model2.panelar.newark)$residuals %>% plot()
-            results$model2.panelar.residuals.plot.rochdale   <- summary(model2.panelar.rochdale)$residuals %>% plot()
+            if(exists('model2.panelar.bishop')){
+                results$model2.panelar.residuals.bishop     <- summary(model2.panelar.bishop)$residuals
+            }
+            if(exists('model2.panelar.hartlepool')){
+                results$model2.panelar.residuals.hartlepool <- summary(model2.panelar.hartlepool)$residuals
+            }
+            if(exists('model2.panelar.hemel')){
+                results$model2.panelar.residuals.hemel      <- summary(model2.panelar.hemel)$residuals
+            }
+            if(exists('model2.panelar.newark')){
+                results$model2.panelar.residuals.newark     <- summary(model2.panelar.newark)$residuals
+            }
+            if(exists('model2.panelar.rochdale')){
+                results$model2.panelar.residuals.rochdale   <- summary(model2.panelar.rochdale)$residuals
+            }
         }
         ## Remove clutter
         rm(df2)
@@ -950,28 +951,41 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                theme         = theme_bw())
         ## Return model objects if requested
         if(return.model == TRUE){
-            results$model3a.panelar.bishop     <- model3a.panelar.bishop
-            results$model3a.panelar.hartlepool <- model3a.panelar.hartlepool
-            results$model3a.panelar.hemel      <- model3a.panelar.hemel
-            results$model3a.panelar.newark     <- model3a.panelar.newark
-            results$model3a.panelar.rochdale   <- model3a.panelar.rochdale
+            if(exists('model3a.panelar.bishop')){
+                results$model3a.panelar.bishop     <- model3a.panelar.bishop
+            }
+            if(exists('model3a.panelar.hartlepool')){
+                results$model3a.panelar.hartlepool <- model3a.panelar.hartlepool
+            }
+            if(exists('model3a.panelar.hemel')){
+                results$model3a.panelar.hemel      <- model3a.panelar.hemel
+            }
+            if(exists('model3a.panelar.newark')){
+                results$model3a.panelar.newark     <- model3a.panelar.newark
+            }
+            if(exists('model3a.panelar.rochdale')){
+                results$model3a.panelar.rochdale   <- model3a.panelar.rochdale
+            }
         }
         if(return.df == TRUE){
             results$model3a.df <- df3
         }
         if(return.residuals == TRUE){
-            results$model3a.panelar.residuals.bishop     <- summary(model3a.panelar.bishop)$residuals
-            results$model3a.panelar.residuals.hartlepool <- summary(model3a.panelar.hartlepool)$residuals
-            results$model3a.panelar.residuals.hemel      <- summary(model3a.panelar.hemel)$residuals
-            results$model3a.panelar.residuals.newark     <- summary(model3a.panelar.newark)$residuals
-            results$model3a.panelar.residuals.rochdale   <- summary(model3a.panelar.rochdale)$residuals
-        }
-        if(return.residuals.plot == TRUE){
-            results$model3a.panelar.residuals.plot.bishop     <- summary(model3a.panelar.bishop)$residuals %>% plot()
-            results$model3a.panelar.residuals.plot.hartlepool <- summary(model3a.panelar.hartlepool)$residuals %>% plot()
-            results$model3a.panelar.residuals.plot.hemel      <- summary(model3a.panelar.hemel)$residuals %>% plot()
-            results$model3a.panelar.residuals.plot.newark     <- summary(model3a.panelar.newark)$residuals %>% plot()
-            results$model3a.panelar.residuals.plot.rochdale   <- summary(model3a.panelar.rochdale)$residuals %>% plot()
+            if(exists('model3a.panelar.bishop')){
+                results$model3a.panelar.residuals.bishop     <- summary(model3a.panelar.bishop)$residuals
+            }
+            if(exists('model3a.panelar.hartlepool')){
+                results$model3a.panelar.residuals.hartlepool <- summary(model3a.panelar.hartlepool)$residuals
+            }
+            if(exists('model3a.panelar.hemel')){
+                results$model3a.panelar.residuals.hemel      <- summary(model3a.panelar.hemel)$residuals
+            }
+            if(exists('model3a.panelar.newark')){
+                results$model3a.panelar.residuals.newark     <- summary(model3a.panelar.newark)$residuals
+            }
+            if(exists('model3a.panelar.rochdale')){
+                results$model3a.panelar.residuals.rochdale   <- summary(model3a.panelar.rochdale)$residuals
+            }
         }
         ## Remove clutter
         rm(df3)
@@ -1168,31 +1182,41 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                theme         = theme_bw())
         ## Return model objects if requested
         if(return.model == TRUE){
-            results$model3b.panelar.bishop     <- model3b.panelar.bishop
-            results$model3b.panelar.hartlepool <- model3b.panelar.hartlepool
-            results$model3b.panelar.hemel      <- model3b.panelar.hemel
-            results$model3b.panelar.newark     <- model3b.panelar.newark
-            results$model3b.panelar.rochdale   <- model3b.panelar.rochdale
-            ## results$model3b.panelar.all     <- model3b.panelar.all
+            if(exists('model3b.panelar.bishop')){
+                results$model3b.panelar.bishop     <- model3b.panelar.bishop
+            }
+            if(exists('model3b.panelar.hartlepool')){
+                results$model3b.panelar.hartlepool <- model3b.panelar.hartlepool
+            }
+            if(exists('model3b.panelar.hemel')){
+                results$model3b.panelar.hemel      <- model3b.panelar.hemel
+            }
+            if(exists('model3b.panelar.newark')){
+                results$model3b.panelar.newark     <- model3b.panelar.newark
+            }
+            if(exists('model3b.panelar.rochdale')){
+                results$model3b.panelar.rochdale   <- model3b.panelar.rochdale
+            }
         }
         if(return.df == TRUE){
             results$model3b.df <- df3b
         }
         if(return.residuals == TRUE){
-            results$model3b.panelar.residuals.bishop     <- summary(model3b.panelar.bishop)$residuals
-            results$model3b.panelar.residuals.hartlepool <- summary(model3b.panelar.hartlepool)$residuals
-            results$model3b.panelar.residuals.hemel      <- summary(model3b.panelar.hemel)$residuals
-            results$model3b.panelar.residuals.newark     <- summary(model3b.panelar.newark)$residuals
-            results$model3b.panelar.residuals.rochdale   <- summary(model3b.panelar.rochdale)$residuals
-            ## results$model3b.panelar.residuals.all     <- summary(model3b.panelar.all)$residuals
-        }
-        if(return.residuals.plot == TRUE){
-            results$model3b.panelar.residuals.plot.bishop     <- summary(model3b.panelar.bishop)$residuals %>% plot()
-            results$model3b.panelar.residuals.plot.hartlepool <- summary(model3b.panelar.hartlepool)$residuals %>% plot()
-            results$model3b.panelar.residuals.plot.hemel      <- summary(model3b.panelar.hemel)$residuals %>% plot()
-            results$model3b.panelar.residuals.plot.newark     <- summary(model3b.panelar.newark)$residuals %>% plot()
-            results$model3b.panelar.residuals.plot.rochdale   <- summary(model3b.panelar.rochdale)$residuals %>% plot()
-            ## results$model3b.panelar.residuals.plot <- summary(model3b.panelar)$residuals %>% plot()
+            if(exists('model3b.panelar.bishop')){
+                results$model3b.panelar.residuals.bishop     <- summary(model3b.panelar.bishop)$residuals
+            }
+            if(exists('model3b.panelar.hartlepool')){
+                results$model3b.panelar.residuals.hartlepool <- summary(model3b.panelar.hartlepool)$residuals
+            }
+            if(exists('model3b.panelar.hemel')){
+                results$model3b.panelar.residuals.hemel      <- summary(model3b.panelar.hemel)$residuals
+            }
+            if(exists('model3b.panelar.newark')){
+                results$model3b.panelar.residuals.newark     <- summary(model3b.panelar.newark)$residuals
+            }
+            if(exists('model3b.panelar.rochdale')){
+                results$model3b.panelar.residuals.rochdale   <- summary(model3b.panelar.rochdale)$residuals
+            }
         }
         ## Remove clutter
         rm(df3b)
@@ -1277,16 +1301,17 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                theme         = theme_bw())
         ## Return model objects if requested
         if(return.model == TRUE){
-            results$model4.panelar     <- model4.panelar
+            if(exists('model4.panelar')){
+                results$model4.panelar     <- model4.panelar
+            }
         }
         if(return.df == TRUE){
             results$model4.df <- df4
         }
         if(return.residuals == TRUE){
-            results$model4.panelar.residuals     <- summary(model4.panelar)$residuals
-        }
-        if(return.residuals.plot == TRUE){
-            results$model4.panelar.residuals.plot <- summary(model4.panelar)$residuals %>% plot()
+            if(exists('model4.panelar')){
+                results$model4.panelar.residuals     <- summary(model4.panelar)$residuals
+            }
         }
         ## Remove clutter
         rm(df4)
@@ -1368,16 +1393,17 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                theme         = theme_bw())
         ## Return model objects if requested
         if(return.model == TRUE){
-            results$model5.panelar     <- model5.panelar
+            if(exists('model5.panelar')){
+                results$model5.panelar     <- model5.panelar
+            }
         }
         if(return.df == TRUE){
             results$model5.df <- df5
         }
         if(return.residuals == TRUE){
-            results$model5.panelar.residuals.all     <- summary(model5.panelar)$residuals
-        }
-        if(return.residuals.plot == TRUE){
-            results$model5.panelar.residuals.plot <- summary(model5.panelar)$residuals %>% plot()
+            if(exists('model5.panelar')){
+                results$model5.panelar.residuals.all     <- summary(model5.panelar)$residuals
+            }
         }
         ## Remove clutter
         rm(df5)
@@ -1560,28 +1586,41 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                theme         = theme_bw())
         ## Return model objects if requested
         if(return.model == TRUE){
-            results$model6.panelar.bishop     <- model6.panelar.bishop
-            results$model6.panelar.hartlepool <- model6.panelar.hartlepool
-            results$model6.panelar.hemel      <- model6.panelar.hemel
-            results$model6.panelar.newark     <- model6.panelar.newark
-            results$model6.panelar.rochdale   <- model6.panelar.rochdale
+            if(exists('model6.panelar.bishop')){
+                results$model6.panelar.bishop     <- model6.panelar.bishop
+            }
+            if(exists('model6.panelar.hartlepool')){
+                results$model6.panelar.hartlepool <- model6.panelar.hartlepool
+            }
+            if(exists('model6.panelar.hemel')){
+                results$model6.panelar.hemel      <- model6.panelar.hemel
+            }
+            if(exists('model6.panelar.newark')){
+                results$model6.panelar.newark     <- model6.panelar.newark
+            }
+            if(exists('model6.panelar.rochdale')){
+                results$model6.panelar.rochdale   <- model6.panelar.rochdale
+            }
         }
         if(return.df == TRUE){
             results$model6.df <- df6
         }
         if(return.residuals == TRUE){
-            results$model6.panelar.residuals.bishop     <- summary(model6.panelar.bishop)$residuals
-            results$model6.panelar.residuals.hartlepool <- summary(model6.panelar.hartlepool)$residuals
-            results$model6.panelar.residuals.hemel      <- summary(model6.panelar.hemel)$residuals
-            results$model6.panelar.residuals.newark     <- summary(model6.panelar.newark)$residuals
-            results$model6.panelar.residuals.rochdale   <- summary(model6.panelar.rochdale)$residuals
-        }
-        if(return.residuals.plot == TRUE){
-            results$model6.panelar.residuals.plot.bishop     <- summary(model6.panelar.bishop)$residuals %>% plot()
-            results$model6.panelar.residuals.plot.hartlepool <- summary(model6.panelar.hartlepool)$residuals %>% plot()
-            results$model6.panelar.residuals.plot.hemel      <- summary(model6.panelar.hemel)$residuals %>% plot()
-            results$model6.panelar.residuals.plot.newark     <- summary(model6.panelar.newark)$residuals %>% plot()
-            results$model6.panelar.residuals.plot.rochdale   <- summary(model6.panelar.rochdale)$residuals %>% plot()
+            if(exists('model6.panelar.bishop')){
+                results$model6.panelar.residuals.bishop     <- summary(model6.panelar.bishop)$residuals
+            }
+            if(exists('model6.panelar.hartlepool')){
+                results$model6.panelar.residuals.hartlepool <- summary(model6.panelar.hartlepool)$residuals
+            }
+            if(exists('model6.panelar.hemel')){
+                results$model6.panelar.residuals.hemel      <- summary(model6.panelar.hemel)$residuals
+            }
+            if(exists('model6.panelar.newark')){
+                results$model6.panelar.residuals.newark     <- summary(model6.panelar.newark)$residuals
+            }
+            if(exists('model6.panelar.rochdale')){
+                results$model6.panelar.residuals.rochdale   <- summary(model6.panelar.rochdale)$residuals
+            }
         }
         ## Remove clutter
         rm(df6)
@@ -1675,16 +1714,17 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                theme         = theme_bw())
         ## Return model objects if requested
         if(return.model == TRUE){
-            results$model7.panelar     <- model7.panelar
+            if(exists('model7.panelar')){
+                results$model7.panelar     <- model7.panelar
+            }
         }
         if(return.df == TRUE){
             results$model7.df <- df7
         }
         if(return.residuals == TRUE){
-            results$model7.panelar.residuals.all     <- summary(model7.panelar)$residuals
-        }
-        if(return.residuals.plot == TRUE){
-            results$model7.panelar.residuals.plot <- summary(model7.panelar)$residuals %>% plot()
+            if(exists('model7.panelar')){
+                results$model7.panelar.residuals.all     <- summary(model7.panelar)$residuals
+            }
         }
         ## Remove clutter
         rm(df7)
