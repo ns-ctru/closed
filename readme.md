@@ -127,3 +127,8 @@ The following reconciles the description of outcomes given in the study Protocol
 | `ambulance mean times` | `call_to_scene_conveying`	| Time from Call to Scene only if subsequent conveyencing to ED. |
 | `ambulance mean times` | `dest_to_clear`				| Time from Destination ED? to Ambulance being clear. |
 | `ambulance mean times` | `scene_to_dest`				| Time from Scene to Destination ED. |
+| `ambulance non-conveyance` | `fraction not conveyed`    | Fraction of Calls not Conveyed
+| `ambulance non-conveyance` | `green calls`              | Green Calls
+| `ambulance non-conveyance` | `not conveyed green calls` | Green Calls not Conveyed
+| `ambulance red calls` | `hospital transfers`            | Inter-Hospital Transfers
+| `ambulance red calls` | `total`                         | Total Red Calls
