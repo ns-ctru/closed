@@ -354,12 +354,35 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         names(.r2) <- gsub("variable", "term", names(.r2))
         coef$coef <- rbind(.coef, .r2)
         rm(.r2)
-        if(is.null(all.coef)){
-            names(coef$coef) <- c('Indicator', 'Subindicator', 'Term', 'Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
+        ## Build the column names conditional on the non-null arguments
+        ## Bear in mind that the reshape puts everything in alphabetical order
+        ## Stub that all require
+        column.names <- c('Indicator', 'Subindicator', 'Term')
+        ## All column
+        if(!is.null(all.coef)){
+            column.names <- c(column.names, 'All')
         }
-        else{
-            names(coef$coef) <- c('Indicator', 'Subindicator', 'Term', 'All', 'Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
+        if(!is.null(bishop.coef)){
+            column.names <- c(column.names, 'Bishop Auckland')
+
         }
+        if(!is.null(hartlepool.coef)){
+            column.names <- c(column.names, 'Hartlepool')
+
+        }
+        if(!is.null(hemel.coef)){
+            column.names <- c(column.names, 'Hemel Hempstead')
+
+        }
+        if(!is.null(newark.coef)){
+            column.names <- c(column.names, 'Newark')
+
+        }
+        if(!is.null(rochdale.coef)){
+            column.names <- c(column.names, 'Rochdale')
+
+        }
+        names(coef$coef) <- column.names
         ## Derive a caption for the table
         coef$caption <- paste0('Comparison of coefficients across sites.  Each cell contains a point estimate followed by the standard error (in brackets) and the associated p-value (in scientific format due to some values being very small).')
         return(coef)
