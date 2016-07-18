@@ -368,6 +368,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Model 1                                                           ##
     #######################################################################
     if(!is.null(model1)){
+        print("Model 1")
         ## Reformulate outcome and covariates
         formula.model1 <- reformulate(response = outcome,
                                       termlabels = model1)
@@ -390,13 +391,15 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 1 - Bishop Auckland                    ##
         ##################################################
+        print("Bishop Auckland")
         t <- filter(df1,
                     town        == 'Bishop Auckland')
-        ## dim(t) %>% print()
-        ## head(t) %>% print()
-        ## table(t$value) %>% print()
+        dim(t) %>% print()
+        head(t) %>% print()
+        table(t$value) %>% print()
+        table(t$town) %>% print()
         ## return(t)
-        if(nrow(t) != 0){
+        if(nrow(t) > 0){
             model1.panelar.bishop <- panelAR(data      = t,
                                              formula   = formula.model1,
                                              timeVar   = timevar,
@@ -414,9 +417,14 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 1 - Hartlepool                         ##
         ##################################################
+        print("Hartlepool")
         t <- filter(df1,
                     town        == 'Hartlepool')
-        if(nrow(t) != 0){
+        dim(t) %>% print()
+        head(t) %>% print()
+        table(t$value) %>% print()
+        table(t$town) %>% print()
+        if(nrow(t) > 0){
             model1.panelar.hartlepool <- panelAR(data     = t,
                                                  formula  = formula.model1,
                                                  timeVar  = timevar,
@@ -434,9 +442,14 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 1 - Hemel Hempstead                    ##
         ##################################################
+        print("Hemel Hempstead")
         t <- filter(df1,
                     town        == 'Hemel Hempstead')
-        if(nrow(t) >= 0){
+        dim(t) %>% print()
+        head(t) %>% print()
+        table(t$value) %>% print()
+        table(t$town) %>% print()
+        if(nrow(t) > 0){
             model1.panelar.hemel <- panelAR(data     = t,
                                             formula  = formula.model1,
                                             timeVar  = timevar,
@@ -454,9 +467,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 1 - Newark                             ##
         ##################################################
+        print("Newark")
         t <- filter(df1,
                     town        == 'Newark')
-        if(nrow(t) >= 0){
+        if(nrow(t) > 0){
             model1.panelar.newark <- panelAR(data     = t,
                                              formula  = formula.model1,
                                              timeVar  = timevar,
@@ -474,9 +488,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 1 - Rochdale                           ##
         ##################################################
+        print("Rochdale")
         t <- filter(df1,
                     town        == 'Rochdale')
-        if(nrow(t) >= 0){
+        if(nrow(t) > 0){
             model1.panelar.rochdale <- panelAR(data     = t,
                                                formula  = formula.model1,
                                                timeVar  = timevar,
@@ -543,6 +558,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Model 2                                                           ##
     #######################################################################
     if(!is.null(model2)){
+        prin("Model 2")
         ## Reformulate outcome and covariates
         formula.model2 <- reformulate(response = outcome,
                                       termlabels = model2)
@@ -570,6 +586,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 2 - Bishop Auckland                    ##
         ##################################################
+        print("Bishop Auckland")
         df2$town <- relevel(df2$town, ref = 'Whitehaven')
         t <- filter(df2,
                     town == 'Bishop Auckland' |
@@ -592,6 +609,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 2 - Hartlepool                         ##
         ##################################################
+        print("Hartlepool")
         df2$town <- relevel(df2$town, ref = 'Grimsby')
         t <- filter(df2,
                     town == 'Hartlepool' |
@@ -614,6 +632,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 2 - Hemel Hempstead                    ##
         ##################################################
+        print("Hemel Hempstead")
         df2$town <- relevel(df2$town, ref = 'Warwick')
         t <- filter(df2,
                     town == 'Hemel Hempstead' |
@@ -636,6 +655,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 2 - Newark                             ##
         ##################################################
+        print("Newark")
         df2$town <- relevel(df2$town, ref = 'Southport')
         t <- filter(df2,
                     town == 'Newark' |
@@ -658,6 +678,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 2 - Rochdale                           ##
         ##################################################
+        print("Rochdale")
         df2$town <- relevel(df2$town, ref = 'Rotherham')
         t <- filter(df2,
                     town == 'Rochdale' |
@@ -729,6 +750,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Model 3a                                                          ##
     #######################################################################
     if(!is.null(model3a)){
+        print("Model 3a")
         ## Reformulate outcome and covariates
         formula.model3a <- reformulate(response = outcome,
                                       termlabels = model3a)
@@ -764,6 +786,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Bishop Auckland                              ##
         ##################################################
+        print("Bishop Auckland")
         df3$town <- relevel(df3$town, ref = 'Whitehaven')
         t <- filter(df3,
                     group == 'Cohort : Bishop Auckland General Hospital')
@@ -785,6 +808,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Hartlepool                                   ##
         ##################################################
+        print("Hartlepool")
         df3$town <- relevel(df3$town, ref = 'Grimsby')
         t <- filter(df3,
                     group == 'Cohort : University Hospital of Hartlepool')
@@ -806,6 +830,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Hemel Hempstead                              ##
         ##################################################
+        print("Hemel Hempstead")
         df3$town <- relevel(df3$town, ref = 'Warwick')
         t <- filter(df3,
                     group == 'Cohort : Hemel Hempstead Hospital')
@@ -827,6 +852,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Newark                                       ##
         ##################################################
+        print("Newark")
         df3$town <- relevel(df3$town, ref = 'Southport')
         t <- filter(df3,
                     group == 'Cohort : Newark Hospital')
@@ -848,6 +874,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Rochdale                                     ##
         ##################################################
+        print("Rochdale")
         df3$town <- relevel(df3$town, ref = 'Rotherham')
         t <- filter(df3,
                     group == 'Cohort : Rochdale Infirmary')
@@ -918,6 +945,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Model 3b                                                           ##
     #######################################################################
     if(!is.null(model3b)){
+        print("Model 3b")
         ## Reformulate outcome and covariates
         formula.model3b <- reformulate(response = outcome,
                                       termlabels = model3b)
@@ -942,6 +970,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Bishop Auckland                              ##
         ##################################################
+        print("Bishop Auckland")
         t <- filter(df3b,
                     group == 'Cohort : Bishop Auckland General Hospital') %>%
             as.data.frame()
@@ -964,6 +993,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Hartlepool                                   ##
         ##################################################
+        print("Hartlepool")
         t <- filter(df3b,
                     group == 'Cohort : University Hospital of Hartlepool') %>%
             as.data.frame()
@@ -986,6 +1016,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Hemel Hempstead                              ##
         ##################################################
+        print("Hemel Hempstead")
         t <- filter(df3b,
                     group == 'Cohort : Hemel Hempstead Hospital') %>%
              as.data.frame()
@@ -1008,6 +1039,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Newark                                       ##
         ##################################################
+        print("Newark")
         t <- filter(df3b,
                     group == 'Cohort : Newark Hospital') %>%
              as.data.frame()
@@ -1030,6 +1062,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Rochdale                                     ##
         ##################################################
+        print("Rochdale")
         t <- filter(df3b,
                     group == 'Cohort : Rochdale Infirmary') %>%
             as.data.frame()
@@ -1133,6 +1166,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Model 4                                                           ##
     #######################################################################
     if(!is.null(model4)){
+        print("Model 4")
         ## Reformulate outcome and covariates
         formula.model4 <- reformulate(response = outcome,
                                       termlabels = model4)
@@ -1226,6 +1260,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Model 5                                                           ##
     #######################################################################
     if(!is.null(model5)){
+        print("Model 5")
         ## Reformulate outcome and covariates
         formula.model5 <- reformulate(response = outcome,
                                       termlabels = model5)
@@ -1316,6 +1351,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Model 6                                                           ##
     #######################################################################
     if(!is.null(model6)){
+        print("Model 6")
         ## Reformulate outcome and covariates
         formula.model6 <- reformulate(response = outcome,
                                       termlabels = model6)
@@ -1354,6 +1390,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 6 - Bishop Auckland                    ##
         ##################################################
+        print("Bishop Auckland")
         df6$town <- relevel(df6$town, ref = 'Whitehaven')
         t <- filter(df6,
                     town == 'Bishop Auckland' |
@@ -1376,6 +1413,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 6 - Hartlepool                         ##
         ##################################################
+        print("Hartlepool")
         df6$town <- relevel(df6$town, ref = 'Grimsby')
         t <- filter(df6,
                     town == 'Hartlepool' |
@@ -1398,6 +1436,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 6 - Hemel Hempstead                    ##
         ##################################################
+        print("Hemel Hempstead")
         df6$town <- relevel(df6$town, ref = 'Warwick')
         t <- filter(df6,
                     town == 'Hemel Hempstead' |
@@ -1420,6 +1459,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 6 - Newark                             ##
         ##################################################
+        print("Newark")
         df6$town <- relevel(df6$town, ref = 'Southport')
         t <- filter(df6,
                     town == 'Newark' |
@@ -1442,6 +1482,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Model 6 - Rochdale                           ##
         ##################################################
+        print("Rochdale")
         df6$town <- relevel(df6$town, ref = 'Rotherham')
         t <- filter(df6,
                     town == 'Rochdale' |
@@ -1514,6 +1555,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Model 7                                                           ##
     #######################################################################
     if(!is.null(model7)){
+        print("Model 7")
         ## Reformulate outcome and covariates
         formula.model7 <- reformulate(response = outcome,
                                       termlabels = model7)
