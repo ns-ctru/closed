@@ -1855,8 +1855,8 @@ ambulance.mean.times.scene.to.dest <- closed_models(df.lsoa         = amb_mean_t
 
 <!--- Ambulance Non-Conveyances - Green Calls --->
 ```{r ambulance_non_conveyances_green_calls, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-ambulance.non.conveyances.green.calls <- closed_models(df.lsoa         = amb_mean_times_measure,
-                                     df.trust         = amb_mean_times_site_measure,
+ambulance.non.conveyances.green.calls <- closed_models(df.lsoa         = amb_non_conveyance_measure,
+                                     df.trust         = amb_non_conveyance_site_measure,
                                      indicator        = 'ambulance non-conveyance',
                                      sub.indicator    = 'green calls',
                                      steps            = c('closure'),
@@ -1890,8 +1890,8 @@ ambulance.non.conveyances.green.calls <- closed_models(df.lsoa         = amb_mea
 
 <!--- Ambulance Non-Conveyances - Green Calls Not Conveyed--->
 ```{r ambulance_non_conveyances_green_calls_not_conveyed, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-ambulance.non.conveyances.green.calls.non.conveyed <- closed_models(df.lsoa         = amb_mean_times_measure,
-                                     df.trust         = amb_mean_times_site_measure,
+ambulance.non.conveyances.green.calls.non.conveyed <- closed_models(df.lsoa         = amb_non_conveyance_measure,
+                                     df.trust         = amb_non_conveyance_site_measure,
                                      indicator        = 'ambulance non-conveyance',
                                      sub.indicator    = 'not conveyed green calls',
                                      steps            = c('closure'),
@@ -1925,8 +1925,8 @@ ambulance.non.conveyances.green.calls.non.conveyed <- closed_models(df.lsoa     
 
 <!--- Ambulance Non-Conveyances - Fraction not Conveyed --->
 ```{r ambulance_non_conveyances_fraction_not_conveyed, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-ambulance.non.conveyances.fraction.not.conveyed <- closed_models(df.lsoa         = amb_mean_times_measure,
-                                     df.trust         = amb_mean_times_site_measure,
+ambulance.non.conveyances.fraction.not.conveyed <- closed_models(df.lsoa         = amb_non_conveyance_measure,
+                                     df.trust         = amb_non_conveyance_site_measure,
                                      indicator        = 'ambulance non-conveyance',
                                      sub.indicator    = 'fraction not conveyed',
                                      steps            = c('closure'),
@@ -1960,8 +1960,8 @@ ambulance.non.conveyances.fraction.not.conveyed <- closed_models(df.lsoa        
 
 <!--- Ambulance Red Calls - Hospital Transfers --->
 ```{r ambulance_red_calls_hospital_transfers, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-ambulance.red.calls.hospital.transfers <- closed_models(df.lsoa         = amb_mean_times_measure,
-                                     df.trust         = amb_mean_times_site_measure,
+ambulance.red.calls.hospital.transfers <- closed_models(df.lsoa         = amb_red_calls_measure,
+                                     df.trust         = amb_red_calls_site_measure,
                                      indicator        = 'ambulance red calls',
                                      sub.indicator    = 'hospital transfers',
                                      steps            = c('closure'),
@@ -1995,8 +1995,8 @@ ambulance.red.calls.hospital.transfers <- closed_models(df.lsoa         = amb_me
 
 <!--- Ambulance Red Calls - Total --->
 ```{r ambulance_red_calls_total, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-ambulance.red.calls.total <- closed_models(df.lsoa         = amb_mean_times_measure,
-                                     df.trust         = amb_mean_times_site_measure,
+ambulance.red.calls.total <- closed_models(df.lsoa         = amb_red_calls_measure,
+                                     df.trust         = amb_red_calls_site_measure,
                                      indicator        = 'ambulance red calls',
                                      sub.indicator    = 'total',
                                      steps            = c('closure'),
