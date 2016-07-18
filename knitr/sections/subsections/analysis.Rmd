@@ -40,8 +40,14 @@ if(os != 'unix'){
     load('~/work/closed/lib/data/length of stay measure - site - 2016-05-24 14.35.Rda')
     load('~/work/closed/lib/data/ambulance mean times measure - lsoa - 2016-06-17 01.21.Rda')
     load('~/work/closed/lib/data/ambulance mean times measure - site - 2016-06-17 01.23.Rda')
-    load('~/work/closed/lib/data/case fatality measure - lsoa - 2016-06-10 18.09.Rda')
-    load('~/work/closed/lib/data/case fatality measure - site - 2016-06-10 18.10.Rda')
+    load('~/work/closed/lib/data/ambulance non-conveyance measure - lsoa - 2016-07-15 20.09.Rda')
+    load('~/work/closed/lib/data/ambulance non-conveyance measure - site - 2016-07-15 20.09.Rda')
+    load('~/work/closed/lib/data/ambulance red-calls measure - lsoa - 2016-07-15 20.11.Rda')
+    load('~/work/closed/lib/data/ambulance red-calls measure - site - 2016-07-15 20.11.Rda')
+    ## load('~/work/closed/lib/data/case fatality measure - lsoa - 2016-06-10 18.09.Rda')
+    ## load('~/work/closed/lib/data/case fatality measure - site - 2016-06-10 18.10.Rda')
+    load('~/work/closed/lib/data/case fatality measure - lsoa - 2016-07-15 21.05.Rda')
+    load('~/work/closed/lib/data/case fatality measure - site - 2016-07-15 21.06.Rda')
 }
 ## Convert everything to data frames, why I didn't do this first I've no idea!
 ed_attendances_by_mode_measure          <- as.data.frame(ed_attendances_by_mode_measure)
