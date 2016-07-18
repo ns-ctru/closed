@@ -44,7 +44,6 @@
 #' @param return.df Logical operator of whether to return the subsetted/summarised data frame (useful for subsequent development).
 #' @param return.model Logical operator of whether to return the fitted models (not currently working correctly).
 #' @param return.residuals Logical oeprator of whether to return the residuals of the fitted model.
-#' @param return.residuals.plot Logical operator of whether to return a plot of residuals from the fitted model(s).
 #' @param join.line Logical operator of whether to join missing data points on plots.
 #' @param legend Logical operator of whether to include legends passed to \code{closed_ts_plot()}.
 #' @param rho.na.rm Logical operator passed to panelAR() for excluding panel specific autocorrelation when it can not be calculated.
@@ -93,7 +92,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           return.df       = FALSE,
                           return.model    = TRUE,
                           return.residuals = FALSE,
-                          return.residuals.plot = FALSE,
                           join.line        = TRUE,
                           legend           = FALSE,
                           ...){
@@ -382,6 +380,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             column.names <- c(column.names, 'Rochdale')
 
         }
+        print(column.names)
         names(coef$coef) <- column.names
         ## Derive a caption for the table
         coef$caption <- paste0('Comparison of coefficients across sites.  Each cell contains a point estimate followed by the standard error (in brackets) and the associated p-value (in scientific format due to some values being very small).')
@@ -551,28 +550,41 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                theme         = theme_bw())
         ## Return model objects if requested
         if(return.model == TRUE){
-            results$model1.panelar.bishop     <- model1.panelar.bishop
-            results$model1.panelar.hartlepool <- model1.panelar.hartlepool
-            results$model1.panelar.hemel      <- model1.panelar.hemel
-            results$model1.panelar.newark     <- model1.panelar.newark
-            results$model1.panelar.rochdale   <- model1.panelar.rochdale
+            if(!is.null(model1.panelar.bishop)){
+                results$model1.panelar.bishop     <- model1.panelar.bishop
+            }
+            if(!is.null(model1.panelar.hartlepool)){
+                results$model1.panelar.hartlepool     <- model1.panelar.hartlepool
+            }
+            if(!is.null(model1.panelar.hemel)){
+                results$model1.panelar.hemel     <- model1.panelar.hemel
+            }
+            if(!is.null(model1.panelar.newark)){
+                results$model1.panelar.newark     <- model1.panelar.newark
+            }
+            if(!is.null(model1.panelar.rochdale)){
+                results$model1.panelar.rochdale     <- model1.panelar.rochdale
+            }
         }
         if(return.df == TRUE){
             results$model1.df <- df1
         }
         if(return.residuals == TRUE){
-            results$model1.panelar.residuals.bishop     <- summary(model1.panelar.bishop)$residuals
-            results$model1.panelar.residuals.hartlepool <- summary(model1.panelar.hartlepool)$residuals
-            results$model1.panelar.residuals.hemel      <- summary(model1.panelar.hemel)$residuals
-            results$model1.panelar.residuals.newark     <- summary(model1.panelar.newark)$residuals
-            results$model1.panelar.residuals.rochdale   <- summary(model1.panelar.rochdale)$residuals
-        }
-        if(return.residuals.plot == TRUE){
-            results$model1.panelar.residuals.plot.bishop     <- summary(model1.panelar.bishop)$residuals %>% plot()
-            results$model1.panelar.residuals.plot.hartlepool <- summary(model1.panelar.hartlepool)$residuals %>% plot()
-            results$model1.panelar.residuals.plot.hemel      <- summary(model1.panelar.hemel)$residuals %>% plot()
-            results$model1.panelar.residuals.plot.newark     <- summary(model1.panelar.newark)$residuals %>% plot()
-            results$model1.panelar.residuals.plot.rochdale   <- summary(model1.panelar.rochdale)$residuals %>% plot()
+            if(!is.null(model1.panelar.bishop)){
+                results$model1.panelar.residuals.bishop     <- summary(model1.panelar.bishop)$residuals
+            }
+            if(!is.null(model1.panelar.hartlepool)){
+                results$model1.panelar.residuals.hartlepool     <- summary(model1.panelar.hartlepool)$residuals
+            }
+            if(!is.null(model1.panelar.hemel)){
+                results$model1.panelar.residuals.hemel     <- summary(model1.panelar.hemel)$residuals
+            }
+            if(!is.null(model1.panelar.newark)){
+                results$model1.panelar.residuals.newark     <- summary(model1.panelar.newark)$residuals
+            }
+            if(!is.null(model1.panelar.rochdale)){
+                results$model1.panelar.residuals.rochdale     <- summary(model1.panelar.rochdale)$residuals
+            }
         }
         ## Remove clutter
         rm(df1)
