@@ -46,8 +46,12 @@ The derived datasets (*not* available in this repository) all take the same form
 | `length of stay measure - site - 2016-05-24 14.35.Rda`             | HSCIC         | Site  | Length of stay for admissions |
 | `ambulance mean times measure - lsoa - 2016-06-17 01.21.Rda`       | AS            | LSOA  | Ambulance conveyance times |
 | `ambulance mean times measure - site - 2016-06-17 01.23.Rda`       | AS            | Site  | Ambulance conveyance times |
-| `case fatality measure - lsoa - 2016-06-10 18.09.Rda`              | ONS Mortality | LSOA  | Mortality rates |
-| `case fatality measure - site - 2016-06-10 18.10.Rda`              | ONS Mortality | Site  | Mortality rates |
+| `case fatality measure - lsoa - 2016-07-15 21.05.Rda`              | ONS Mortality | LSOA  | Mortality rates |
+| `case fatality measure - site - 2016-07-15 21.06.Rda`              | ONS Mortality | Site  | Mortality rates |
+| `ambulance non-conveyance measure - lsoa - 2016-07-15 20.09.Rda`   | AS            | LSOA  | Non-conveyances |
+| `ambulance non-conveyance measure - site - 2016-07-15 20.09.Rda`   | AS            | Site  | Non-conveyances |
+| `ambulance red calls measure - lsoa - 2016-07-15 20.11.Rda`        | AS            | LSOA  | 'Red' Ambulance Calls |
+| `ambulance red calls measure - site - 2016-07-15 20.11.Rda`        | AS            | Site  | 'Red' Ambulance Calls |
 
 **TODO** Clarify/reocncile the above against the descriptions in the protocol, question the following...
 
