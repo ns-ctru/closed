@@ -1729,19 +1729,19 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         if(towns.type$n[towns.type$town == 'Bishop Auckland'] > 0 &
            towns.type$n[towns.type$town == 'Salford'] > 0 &
            towns.type$n[towns.type$town == 'Scarborough'] > 0 &
-           towns.type$n[towns.type$town == 'Whitehaven'] > 0
+           towns.type$n[towns.type$town == 'Whitehaven'] > 0 &
            towns.type$n[towns.type$town == 'Hartlepool'] > 0 &
            towns.type$n[towns.type$town == 'Blackburn'] > 0 &
            towns.type$n[towns.type$town == 'Grimsby'] > 0 &
-           towns.type$n[towns.type$town == 'Wigan'] > 0
+           towns.type$n[towns.type$town == 'Wigan'] > 0 &
            towns.type$n[towns.type$town == 'Hemel Hempstead'] > 0 &
            towns.type$n[towns.type$town == 'Basingstoke'] > 0 &
            towns.type$n[towns.type$town == 'Warwick'] > 0 &
-           towns.type$n[towns.type$town == 'Yeovil'] > 0
+           towns.type$n[towns.type$town == 'Yeovil'] > 0 &
            towns.type$n[towns.type$town == 'Newark'] > 0 &
            towns.type$n[towns.type$town == 'Carlisle'] > 0 &
            towns.type$n[towns.type$town == 'Salisbury'] > 0 &
-           towns.type$n[towns.type$town == 'Southport'] > 0
+           towns.type$n[towns.type$town == 'Southport'] > 0 &
            towns.type$n[towns.type$town == 'Rochdale'] > 0 &
            towns.type$n[towns.type$town == 'Rotherham'] > 0 &
            towns.type$n[towns.type$town == 'Scunthorpe'] > 0 &
