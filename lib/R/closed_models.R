@@ -111,9 +111,21 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## within each to control subsequent analyses
     ## ToDo - Think how to loop over each of these groups testing each of the models
     ##        This would make the function very general and flexible for future use.
-    towns.type <- filter(df.trust, measure == indicator & sub.measure == sub.indicator) %>%
-                  group_by(town, group, site.type) %>%
-                  summarise(n = n())
+    town.group <- filter(df.trust, measure == indicator & sub.measure == sub.indicator) %>%
+                          group_by(town, group, site.type) %>%
+                          summarise(n = n())
+    ## ToDo - For now fill in levels of town/group that are missing, will have to have
+    ##        this provided as an additional argument when generalising the function
+    all.town <- data.frame(c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven', 'Basingstoke', 'Hemel Hempstead', 'Warwick', 'Yeovil', 'Carlisle', 'Newark', 'Salisbury', 'Southport', 'Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck', 'Blackburn', 'Grimsby', 'Hartlepool', 'Wigan'),
+                           c('Bishop Auckland General Hospital', 'Bishop Auckland General Hospital', 'Bishop Auckland General Hospital', 'Bishop Auckland General Hospital', 'Hemel Hempstead Hospital', 'Hemel Hempstead Hospital', 'Hemel Hempstead Hospital', 'Hemel Hempstead Hospital', 'Newark Hospital', 'Newark Hospital', 'Newark Hospital', 'Newark Hospital', 'Rochdale Infirmary', 'Rochdale Infirmary', 'Rochdale Infirmary', 'Rochdale Infirmary', 'University Hospital of Hartlepool', 'University Hospital of Hartlepool', 'University Hospital of Hartlepool', 'University Hospital of Hartlepool'))
+    names(all.town) <- c('town', 'group')
+    town.group <- merge(town.group,
+                        all.town,
+                        by     = c('town', 'group'),
+                        all    = TRUE)
+    town.group <- mutate(town.group,
+                         n = ifelse(is.na(n), 0, n))
+    print(town.group)
     ## print("Debug 2")
     names(df.lsoa)  <- names(df.lsoa) %>%
                        gsub("_", ".", x = .)
@@ -254,6 +266,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                        rochdale.coef,
                        all.coef)
         ## Rename
+        print(.coef)
         names(.coef) <- c('est', 'se', 't', 'p', 'term', 'site', 'indicator', 'sub.indicator', 'r2')
         .coef$r2 <- formatC(.coef$r2, digits = 3, format = 'f')
         ## Extract and reshape the r2
@@ -413,7 +426,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         t <- filter(df1,
                     town        == 'Bishop Auckland')
         ## return(t)
-        if(towns.type$n[towns.type$town == 'Bishop Auckland'] > 0){
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
             model1.panelar.bishop <- panelAR(data      = t,
                                              formula   = formula.model1,
                                              timeVar   = timevar,
@@ -434,7 +447,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         print("Hartlepool")
         t <- filter(df1,
                     town        == 'Hartlepool')
-        if(towns.type$n[towns.type$town == 'Bishop Auckland'] > 0){
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
             model1.panelar.hartlepool <- panelAR(data     = t,
                                                  formula  = formula.model1,
                                                  timeVar  = timevar,
@@ -455,7 +468,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         print("Hemel Hempstead")
         t <- filter(df1,
                     town        == 'Hemel Hempstead')
-        if(towns.type$n[towns.type$town == 'Hemel Hempstead'] > 0){
+        if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0){
             model1.panelar.hemel <- panelAR(data     = t,
                                             formula  = formula.model1,
                                             timeVar  = timevar,
@@ -476,7 +489,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         print("Newark")
         t <- filter(df1,
                     town        == 'Newark')
-        if(towns.type$n[towns.type$town == 'Newark'] > 0){
+        if(town.group$n[town.group$town == 'Newark'] > 0){
             model1.panelar.newark <- panelAR(data     = t,
                                              formula  = formula.model1,
                                              timeVar  = timevar,
@@ -497,7 +510,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         print("Rochdale")
         t <- filter(df1,
                     town        == 'Rochdale')
-        if(towns.type$n[towns.type$town == 'Rochdale'] > 0){
+        if(town.group$n[town.group$town == 'Rochdale'] > 0){
             model1.panelar.rochdale <- panelAR(data     = t,
                                                formula  = formula.model1,
                                                timeVar  = timevar,
@@ -610,7 +623,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                     town == 'Bishop Auckland' |
                     town == 'Whitehaven')
         whitehaven <- filter(df2, town == 'Whitehaven') %>% count()
-        if(towns.type$n[towns.type$town == 'Bishop Auckland'] > 0 & towns.type$n[towns.type$town == 'Whitehaven'] > 0){
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 & town.group$n[town.group$town == 'Whitehaven'] > 0){
             t$town <- relevel(t$town, ref = 'Whitehaven')
             model2.panelar.bishop <- panelAR(data     = t,
                                              formula  = formula.model2,
@@ -634,7 +647,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                     town == 'Hartlepool' |
                     town == 'Grimsby')
         grimsby <- filter(df2, town == 'Grimsby') %>% count()
-        if(towns.type$n[towns.type$town == 'Hartlepool'] > 0 & towns.type$n[towns.type$town == 'Grimsby'] > 0){
+        if(town.group$n[town.group$town == 'Hartlepool'] > 0 & town.group$n[town.group$town == 'Grimsby'] > 0){
             t$town <- relevel(t$town, ref = 'Grimsby')
             model2.panelar.hartlepool <- panelAR(data     = t,
                                                  formula  = formula.model2,
@@ -658,7 +671,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                     town == 'Hemel Hempstead' |
                     town == 'Warwick')
         warwick <- filter(df2, town == 'Warwick') %>% count()
-        if(towns.type$n[towns.type$town == 'Hemel Hempstead'] > 0 & towns.type$n[towns.type$town == 'Warwick']  > 0){
+        if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0 & town.group$n[town.group$town == 'Warwick']  > 0){
             t$town <- relevel(t$town, ref = 'Warwick')
             model2.panelar.hemel <- panelAR(data     = t,
                                             formula  = formula.model2,
@@ -682,7 +695,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                     town == 'Newark' |
                     town == 'Southport')
         southport <- filter(df2, town == 'Southport') %>% count()
-        if(towns.type$n[towns.type$town == 'Newark'] > 0 & towns.type$n[towns.type$town == 'Southport']  > 0){
+        if(town.group$n[town.group$town == 'Newark'] > 0 & town.group$n[town.group$town == 'Southport']  > 0){
             t$town <- relevel(t$town, ref = 'Southport')
             model2.panelar.newark <- panelAR(data     = t,
                                              formula  = formula.model2,
@@ -706,7 +719,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                     town == 'Rochdale' |
                     town == 'Rotherham')
         rotherham <- filter(df2, town == 'Rotherham') %>% count()
-        if(towns.type$n[towns.type$town == 'Rochdale'] > 0 & towns.type$n[towns.type$town == 'Rotherham'] > 0){
+        if(town.group$n[town.group$town == 'Rochdale'] > 0 & town.group$n[town.group$town == 'Rotherham'] > 0){
             t$town <- relevel(t$town, ref = 'Rotherham')
             model2.panelar.rochdale <- panelAR(data     = t,
                                                formula  = formula.model2,
@@ -826,10 +839,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         print("Bishop Auckland")
         t <- filter(df3,
                     group == 'Cohort : Bishop Auckland General Hospital')
-        if(towns.type$n[towns.type$town == 'Bishop Auckland'] > 0 &
-           towns.type$n[towns.type$town == 'Salford'] > 0 &
-           towns.type$n[towns.type$town == 'Scarborough'] > 0 &
-           towns.type$n[towns.type$town == 'Whitehaven'] > 0){
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
+           town.group$n[town.group$town == 'Salford'] > 0 &
+           town.group$n[town.group$town == 'Scarborough'] > 0 &
+           town.group$n[town.group$town == 'Whitehaven'] > 0){
             t$town <- relevel(t$town, ref = 'Whitehaven')
             model3a.panelar.bishop <- panelAR(data     = t,
                                              formula  = formula.model3a,
@@ -851,10 +864,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         print("Hartlepool")
         t <- filter(df3,
                     group == 'Cohort : University Hospital of Hartlepool')
-        if(towns.type$n[towns.type$town == 'Hartlepool'] > 0 &
-           towns.type$n[towns.type$town == 'Blackburn'] > 0 &
-           towns.type$n[towns.type$town == 'Grimsby'] > 0 &
-           towns.type$n[towns.type$town == 'Wigan'] > 0){
+        if(town.group$n[town.group$town == 'Hartlepool'] > 0 &
+           town.group$n[town.group$town == 'Blackburn'] > 0 &
+           town.group$n[town.group$town == 'Grimsby'] > 0 &
+           town.group$n[town.group$town == 'Wigan'] > 0){
             t$town <- relevel(t$town, ref = 'Grimsby')
             model3a.panelar.hartlepool <- panelAR(data     = t,
                                                  formula  = formula.model3a,
@@ -876,10 +889,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         print("Hemel Hempstead")
         t <- filter(df3,
                     group == 'Cohort : Hemel Hempstead Hospital')
-        if(towns.type$n[towns.type$town == 'Hemel Hempstead'] > 0 &
-           towns.type$n[towns.type$town == 'Basingstoke'] > 0 &
-           towns.type$n[towns.type$town == 'Warwick'] > 0 &
-           towns.type$n[towns.type$town == 'Yeovil'] > 0){
+        if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
+           town.group$n[town.group$town == 'Basingstoke'] > 0 &
+           town.group$n[town.group$town == 'Warwick'] > 0 &
+           town.group$n[town.group$town == 'Yeovil'] > 0){
             t$town <- relevel(t$town, ref = 'Warwick')
             model3a.panelar.hemel <- panelAR(data     = t,
                                             formula  = formula.model3a,
@@ -901,10 +914,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         print("Newark")
         t <- filter(df3,
                     group == 'Cohort : Newark Hospital')
-        if(towns.type$n[towns.type$town == 'Newark'] > 0 &
-           towns.type$n[towns.type$town == 'Carlisle'] > 0 &
-           towns.type$n[towns.type$town == 'Salisbury'] > 0 &
-           towns.type$n[towns.type$town == 'Southport'] > 0){
+        if(town.group$n[town.group$town == 'Newark'] > 0 &
+           town.group$n[town.group$town == 'Carlisle'] > 0 &
+           town.group$n[town.group$town == 'Salisbury'] > 0 &
+           town.group$n[town.group$town == 'Southport'] > 0){
             t$town <- relevel(t$town, ref = 'Southport')
             model3a.panelar.newark <- panelAR(data     = t,
                                              formula  = formula.model3a,
@@ -926,10 +939,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         print("Rochdale")
         t <- filter(df3,
                     group == 'Cohort : Rochdale Infirmary')
-        if(towns.type$n[towns.type$town == 'Rochdale'] > 0 &
-           towns.type$n[towns.type$town == 'Rotherham'] > 0 &
-           towns.type$n[towns.type$town == 'Scunthorpe'] > 0 &
-           towns.type$n[towns.type$town == 'Wansbeck'] > 0){
+        if(town.group$n[town.group$town == 'Rochdale'] > 0 &
+           town.group$n[town.group$town == 'Rotherham'] > 0 &
+           town.group$n[town.group$town == 'Scunthorpe'] > 0 &
+           town.group$n[town.group$town == 'Wansbeck'] > 0){
             t$town <- relevel(t$town, ref = 'Rotherham')
             model3a.panelar.rochdale <- panelAR(data     = t,
                                                formula  = formula.model3a,
@@ -946,25 +959,31 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model3a.panelar.rochdale.r2 <- model3a.panelar.rochdale$r2
         }
         ## Summary table
-        results$model3a.panelar.all <- combine_coefficients(bishop.coef     = results$model3a.panelar.bishop.coef,
-                                                            hartlepool.coef = results$model3a.panelar.hartlepool.coef,
-                                                            hemel.coef      = results$model3a.panelar.hemel.coef,
-                                                            newark.coef     = results$model3a.panelar.newark.coef,
-                                                            rochdale.coef   = results$model3a.panelar.rochdale.coef)
-        ## Forest plot
-        results$model3a.forest <- closed_forest(df.list       = list(results$model3a.panelar.bishop.coef,
-                                                                      results$model3a.panelar.hartlepool.coef,
-                                                                      results$model3a.panelar.hemel.coef,
-                                                                      results$model3a.panelar.newark.coef,
-                                                                      results$model3a.panelar.rochdale.coef),
-                                               plot.term     = c('closure'),
-                                               facet.outcome = FALSE,
-                                               title         = paste0('Model 3 : ',
-                                                                      indicator,
-                                                                      ' (',
-                                                                      sub.indicator,
-                                                                      ')'),
-                                               theme         = theme_bw())
+        if(!is.null(results$model3a.panelar.bishop.coef) |
+           !is.null(results$model3a.panelar.hartlepool.coef) |
+           !is.null(results$model3a.panelar.hemel.coef) |
+           !is.null(results$model3a.panelar.newark.coef) |
+           !is.null(results$model3a.panelar.rochdale.coef)){
+            results$model3a.panelar.all <- combine_coefficients(bishop.coef     = results$model3a.panelar.bishop.coef,
+                                                                hartlepool.coef = results$model3a.panelar.hartlepool.coef,
+                                                                hemel.coef      = results$model3a.panelar.hemel.coef,
+                                                                newark.coef     = results$model3a.panelar.newark.coef,
+                                                                rochdale.coef   = results$model3a.panelar.rochdale.coef)
+            ## Forest plot
+            results$model3a.forest <- closed_forest(df.list       = list(results$model3a.panelar.bishop.coef,
+                                                                         results$model3a.panelar.hartlepool.coef,
+                                                                         results$model3a.panelar.hemel.coef,
+                                                                         results$model3a.panelar.newark.coef,
+                                                                         results$model3a.panelar.rochdale.coef),
+                                                    plot.term     = c('closure'),
+                                                    facet.outcome = FALSE,
+                                                    title         = paste0('Model 3 : ',
+                                                                           indicator,
+                                                                           ' (',
+                                                                           sub.indicator,
+                                                                           ')'),
+                                                    theme         = theme_bw())
+        }
         ## Return model objects if requested
         if(return.model == TRUE){
             if(exists('model3a.panelar.bishop')){
@@ -1039,10 +1058,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         t <- filter(df3b,
                     group == 'Cohort : Bishop Auckland General Hospital') %>%
             as.data.frame()
-        if(towns.type$n[towns.type$town == 'Bishop Auckland'] > 0 &
-           towns.type$n[towns.type$town == 'Salford'] > 0 &
-           towns.type$n[towns.type$town == 'Scarborough'] > 0 &
-           towns.type$n[towns.type$town == 'Whitehaven'] > 0){
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
+           town.group$n[town.group$town == 'Salford'] > 0 &
+           town.group$n[town.group$town == 'Scarborough'] > 0 &
+           town.group$n[town.group$town == 'Whitehaven'] > 0){
             ## print('Bishop')
             model3b.panelar.bishop <- panelAR(data     = t,
                                               formula  = formula.model3b,
@@ -1065,10 +1084,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         t <- filter(df3b,
                     group == 'Cohort : University Hospital of Hartlepool') %>%
             as.data.frame()
-        if(towns.type$n[towns.type$town == 'Hartlepool'] > 0 &
-           towns.type$n[towns.type$town == 'Blackburn'] > 0 &
-           towns.type$n[towns.type$town == 'Grimsby'] > 0 &
-           towns.type$n[towns.type$town == 'Wigan'] > 0){
+        if(town.group$n[town.group$town == 'Hartlepool'] > 0 &
+           town.group$n[town.group$town == 'Blackburn'] > 0 &
+           town.group$n[town.group$town == 'Grimsby'] > 0 &
+           town.group$n[town.group$town == 'Wigan'] > 0){
             ## print('Hartlepool')
             model3b.panelar.hartlepool <- panelAR(data     = t,
                                                   formula  = formula.model3b,
@@ -1091,10 +1110,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         t <- filter(df3b,
                     group == 'Cohort : Hemel Hempstead Hospital') %>%
              as.data.frame()
-        if(towns.type$n[towns.type$town == 'Hemel Hempstead'] > 0 &
-           towns.type$n[towns.type$town == 'Basingstoke'] > 0 &
-           towns.type$n[towns.type$town == 'Warwick'] > 0 &
-           towns.type$n[towns.type$town == 'Yeovil'] > 0){
+        if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
+           town.group$n[town.group$town == 'Basingstoke'] > 0 &
+           town.group$n[town.group$town == 'Warwick'] > 0 &
+           town.group$n[town.group$town == 'Yeovil'] > 0){
             ## print('Hemel')
             model3b.panelar.hemel <- panelAR(data     = t,
                                             formula  = formula.model3b,
@@ -1117,10 +1136,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         t <- filter(df3b,
                     group == 'Cohort : Newark Hospital') %>%
              as.data.frame()
-        if(towns.type$n[towns.type$town == 'Newark'] > 0 &
-           towns.type$n[towns.type$town == 'Carlisle'] > 0 &
-           towns.type$n[towns.type$town == 'Salisbury'] > 0 &
-           towns.type$n[towns.type$town == 'Southport'] > 0){
+        if(town.group$n[town.group$town == 'Newark'] > 0 &
+           town.group$n[town.group$town == 'Carlisle'] > 0 &
+           town.group$n[town.group$town == 'Salisbury'] > 0 &
+           town.group$n[town.group$town == 'Southport'] > 0){
             ## print('Newark')
             model3b.panelar.newark <- panelAR(data     = t,
                                              formula  = formula.model3b,
@@ -1143,10 +1162,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         t <- filter(df3b,
                     group == 'Cohort : Rochdale Infirmary') %>%
             as.data.frame()
-        if(towns.type$n[towns.type$town == 'Rochdale'] > 0 &
-           towns.type$n[towns.type$town == 'Rotherham'] > 0 &
-           towns.type$n[towns.type$town == 'Scunthorpe'] > 0 &
-           towns.type$n[towns.type$town == 'Wansbeck'] > 0){
+        if(town.group$n[town.group$town == 'Rochdale'] > 0 &
+           town.group$n[town.group$town == 'Rotherham'] > 0 &
+           town.group$n[town.group$town == 'Scunthorpe'] > 0 &
+           town.group$n[town.group$town == 'Wansbeck'] > 0){
             ## print('Rochdale')
             model3b.panelar.rochdale <- panelAR(data     = t,
                                                formula  = formula.model3b,
@@ -1177,26 +1196,27 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         t <- filter(df3b,
                     measure     == indicator &
                     sub.measure == sub.indicator) %>%
-        if(towns.type$n[towns.type$town == 'Bishop Auckland'] > 0 &
-           towns.type$n[towns.type$town == 'Salford'] > 0 &
-           towns.type$n[towns.type$town == 'Scarborough'] > 0 &
-           towns.type$n[towns.type$town == 'Whitehaven'] > 0 &
-           towns.type$n[towns.type$town == 'Hartlepool'] > 0 &
-           towns.type$n[towns.type$town == 'Blackburn'] > 0 &
-           towns.type$n[towns.type$town == 'Grimsby'] > 0 &
-           towns.type$n[towns.type$town == 'Wigan'] > 0 &
-           towns.type$n[towns.type$town == 'Hemel Hempstead'] > 0 &
-           towns.type$n[towns.type$town == 'Basingstoke'] > 0 &
-           towns.type$n[towns.type$town == 'Warwick'] > 0 &
-           towns.type$n[towns.type$town == 'Yeovil'] > 0 &
-           towns.type$n[towns.type$town == 'Newark'] > 0 &
-           towns.type$n[towns.type$town == 'Carlisle'] > 0 &
-           towns.type$n[towns.type$town == 'Salisbury'] > 0 &
-           towns.type$n[towns.type$town == 'Southport'] > 0 &
-           towns.type$n[towns.type$town == 'Rochdale'] > 0 &
-           towns.type$n[towns.type$town == 'Rotherham'] > 0 &
-           towns.type$n[towns.type$town == 'Scunthorpe'] > 0 &
-           towns.type$n[towns.type$town == 'Wansbeck'] > 0){
+             as.data.frame()
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
+           town.group$n[town.group$town == 'Salford'] > 0 &
+           town.group$n[town.group$town == 'Scarborough'] > 0 &
+           town.group$n[town.group$town == 'Whitehaven'] > 0 &
+           town.group$n[town.group$town == 'Hartlepool'] > 0 &
+           town.group$n[town.group$town == 'Blackburn'] > 0 &
+           town.group$n[town.group$town == 'Grimsby'] > 0 &
+           town.group$n[town.group$town == 'Wigan'] > 0 &
+           town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
+           town.group$n[town.group$town == 'Basingstoke'] > 0 &
+           town.group$n[town.group$town == 'Warwick'] > 0 &
+           town.group$n[town.group$town == 'Yeovil'] > 0 &
+           town.group$n[town.group$town == 'Newark'] > 0 &
+           town.group$n[town.group$town == 'Carlisle'] > 0 &
+           town.group$n[town.group$town == 'Salisbury'] > 0 &
+           town.group$n[town.group$town == 'Southport'] > 0 &
+           town.group$n[town.group$town == 'Rochdale'] > 0 &
+           town.group$n[town.group$town == 'Rotherham'] > 0 &
+           town.group$n[town.group$town == 'Scunthorpe'] > 0 &
+           town.group$n[town.group$town == 'Wansbeck'] > 0){
             model3b.panelar.all <- panelAR(data     = t,
                                            formula  = formula.model3b,
                                            timeVar  = timevar,
@@ -1212,27 +1232,34 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model3b.panelar.r2 <- model3b.panelar.all
         }
         ## Summary table
-        results$model3b.panelar.all <- combine_coefficients(bishop.coef     = results$model3b.panelar.bishop.coef,
-                                                       hartlepool.coef = results$model3b.panelar.hartlepool.coef,
-                                                       hemel.coef      = results$model3b.panelar.hemel.coef,
-                                                       newark.coef     = results$model3b.panelar.newark.coef,
-                                                       rochdale.coef   = results$model3b.panelar.rochdale.coef)
-                                                       ## all.coef        = results$model3b.panelar.all.coef)
-        ## ## Forest plot
-        results$model3b.forest <- closed_forest(df.list       = list(results$model3b.panelar.bishop.coef,
-                                                                    results$model3b.panelar.hartlepool.coef,
-                                                                    results$model3b.panelar.hemel.coef,
-                                                                    results$model3b.panelar.newark.coef,
-                                                                    results$model3b.panelar.rochdale.coef),
-                                                                    ## results$model3b.panelar.all.coef),
-                                               plot.term     = c('closure'),
-                                               facet.outcome = FALSE,
-                                               title         = paste0('Model 8 : ',
-                                                                      indicator,
-                                                                      ' (',
-                                                                      sub.indicator,
-                                                                      ')'),
-                                               theme         = theme_bw())
+        if(!is.null(results$model3a.panelar.bishop.coef) |
+           !is.null(results$model3a.panelar.hartlepool.coef) |
+           !is.null(results$model3a.panelar.hemel.coef) |
+           !is.null(results$model3a.panelar.newark.coef) |
+           !is.null(results$model3a.panelar.rochdale.coef) |
+           !is.null(results$model3a.panelar.all.coef)){
+            results$model3b.panelar.all <- combine_coefficients(bishop.coef     = results$model3b.panelar.bishop.coef,
+                                                                hartlepool.coef = results$model3b.panelar.hartlepool.coef,
+                                                                hemel.coef      = results$model3b.panelar.hemel.coef,
+                                                                newark.coef     = results$model3b.panelar.newark.coef,
+                                                                rochdale.coef   = results$model3b.panelar.rochdale.coef,
+                                                                all.coef        = results$model3b.panelar.all.coef)
+            ## Forest plot
+            results$model3b.forest <- closed_forest(df.list       = list(results$model3b.panelar.bishop.coef,
+                                                                         results$model3b.panelar.hartlepool.coef,
+                                                                         results$model3b.panelar.hemel.coef,
+                                                                         results$model3b.panelar.newark.coef,
+                                                                         results$model3b.panelar.rochdale.coef,
+                                                                         results$model3b.panelar.all.coef),
+                                                    plot.term     = c('closure'),
+                                                    facet.outcome = FALSE,
+                                                    title         = paste0('Model 8 : ',
+                                                                           indicator,
+                                                                           ' (',
+                                                                           sub.indicator,
+                                                                           ')'),
+                                                    theme         = theme_bw())
+        }
         ## Return model objects if requested
         if(return.model == TRUE){
             if(exists('model3b.panelar.bishop')){
@@ -1314,7 +1341,16 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## All                                          ##
         ##################################################
         t <- df4
-        if(nrow(t) > 0){
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
+           town.group$n[town.group$town == 'Whitehaven'] > 0 &
+           town.group$n[town.group$town == 'Hartlepool'] > 0 &
+           town.group$n[town.group$town == 'Grimsby'] > 0 &
+           town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
+           town.group$n[town.group$town == 'Warwick'] > 0 &
+           town.group$n[town.group$town == 'Newark'] > 0 &
+           town.group$n[town.group$town == 'Southport'] > 0 &
+           town.group$n[town.group$town == 'Rochdale'] > 0 &
+           town.group$n[town.group$town == 'Rotherham'] > 0){
             t$town <- relevel(t$town, ref = 'Grimsby')
             model4.panelar <- panelAR(data     = t,
                                       formula  = formula.model4,
@@ -1331,27 +1367,34 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model4.panelar.r2 <- model4.panelar$r2
         }
         ## Summary table
-        results$model4.panelar.all <- combine_coefficients(bishop.coef     = results$model2.panelar.bishop.coef,
-                                                       hartlepool.coef = results$model2.panelar.hartlepool.coef,
-                                                       hemel.coef      = results$model2.panelar.hemel.coef,
-                                                       newark.coef     = results$model2.panelar.newark.coef,
-                                                       rochdale.coef   = results$model2.panelar.rochdale.coef,
-                                                       all.coef        = results$model4.panelar.coef)
-        ## Forest plot
-        results$model4.forest <- closed_forest(df.list       = list(results$model2.panelar.bishop.coef,
-                                                                    results$model2.panelar.hartlepool.coef,
-                                                                    results$model2.panelar.hemel.coef,
-                                                                    results$model2.panelar.newark.coef,
-                                                                    results$model2.panelar.rochdale.coef,
-                                                                    results$model4.panelar.coef),
-                                               plot.term     = c('closure'),
-                                               facet.outcome = FALSE,
-                                               title         = paste0('Model 2 & 4 : ',
-                                                                      indicator,
-                                                                      ' (',
-                                                                      sub.indicator,
-                                                                      ')'),
-                                               theme         = theme_bw())
+        if(!is.null(results$model2.panelar.bishop.coef) |
+           !is.null(results$model2.panelar.hartlepool.coef) |
+           !is.null(results$model2.panelar.hemel.coef) |
+           !is.null(results$model2.panelar.newark.coef) |
+           !is.null(results$model2.panelar.rochdale.coef) |
+           !is.null(results$model4.panelar.coef)){
+            results$model4.panelar.all <- combine_coefficients(bishop.coef     = results$model2.panelar.bishop.coef,
+                                                               hartlepool.coef = results$model2.panelar.hartlepool.coef,
+                                                               hemel.coef      = results$model2.panelar.hemel.coef,
+                                                               newark.coef     = results$model2.panelar.newark.coef,
+                                                               rochdale.coef   = results$model2.panelar.rochdale.coef,
+                                                               all.coef        = results$model4.panelar.coef)
+            ## Forest plot
+            results$model4.forest <- closed_forest(df.list       = list(results$model2.panelar.bishop.coef,
+                                                                        results$model2.panelar.hartlepool.coef,
+                                                                        results$model2.panelar.hemel.coef,
+                                                                        results$model2.panelar.newark.coef,
+                                                                        results$model2.panelar.rochdale.coef,
+                                                                        results$model4.panelar.coef),
+                                                   plot.term     = c('closure'),
+                                                   facet.outcome = FALSE,
+                                                   title         = paste0('Model 2 & 4 : ',
+                                                                          indicator,
+                                                                          ' (',
+                                                                          sub.indicator,
+                                                                          ')'),
+                                                   theme         = theme_bw())
+        }
         ## Return model objects if requested
         if(return.model == TRUE){
             if(exists('model4.panelar')){
@@ -1405,7 +1448,26 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## All sites                                    ##
         ##################################################
         t <- df5
-        if(nrow(t) > 0){
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
+           town.group$n[town.group$town == 'Salford'] > 0 &
+           town.group$n[town.group$town == 'Scarborough'] > 0 &
+           town.group$n[town.group$town == 'Whitehaven'] > 0 &
+           town.group$n[town.group$town == 'Hartlepool'] > 0 &
+           town.group$n[town.group$town == 'Blackburn'] > 0 &
+           town.group$n[town.group$town == 'Grimsby'] > 0 &
+           town.group$n[town.group$town == 'Wigan'] > 0 &
+           town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
+           town.group$n[town.group$town == 'Basingstoke'] > 0 &
+           town.group$n[town.group$town == 'Warwick'] > 0 &
+           town.group$n[town.group$town == 'Yeovil'] > 0 &
+           town.group$n[town.group$town == 'Newark'] > 0 &
+           town.group$n[town.group$town == 'Carlisle'] > 0 &
+           town.group$n[town.group$town == 'Salisbury'] > 0 &
+           town.group$n[town.group$town == 'Southport'] > 0 &
+           town.group$n[town.group$town == 'Rochdale'] > 0 &
+           town.group$n[town.group$town == 'Rotherham'] > 0 &
+           town.group$n[town.group$town == 'Scunthorpe'] > 0 &
+           town.group$n[town.group$town == 'Wansbeck'] > 0){
             t$town <- relevel(t$town, ref = 'Grimsby')
             model5.panelar <- panelAR(data     = t,
                                       formula  = formula.model5,
@@ -1422,28 +1484,34 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model5.panelar.r2 <- model5.panelar$r2
         }
         ## Summary table
-        ## results$model5.panelar <- results$model5.panelar.coef
-        results$model5.panelar.all <- combine_coefficients(bishop.coef     = results$model3a.panelar.bishop.coef,
-                                                           hartlepool.coef = results$model3a.panelar.hartlepool.coef,
-                                                           hemel.coef      = results$model3a.panelar.hemel.coef,
-                                                           newark.coef     = results$model3a.panelar.newark.coef,
-                                                           rochdale.coef   = results$model3a.panelar.rochdale.coef,
-                                                           all.coef        = results$model5.panelar.coef)
-        ## Forest plot
-        results$model5.forest <- closed_forest(df.list       = list(results$model3a.panelar.bishop.coef,
-                                                                    results$model3a.panelar.hartlepool.coef,
-                                                                    results$model3a.panelar.hemel.coef,
-                                                                    results$model3a.panelar.newark.coef,
-                                                                    results$model3a.panelar.rochdale.coef,
-                                                                    results$model5.panelar.coef),
-                                               plot.term     = c('closure'),
-                                               facet.outcome = FALSE,
-                                               title         = paste0('Model 3 & 5  : ',
-                                                                      indicator,
-                                                                      ' (',
-                                                                      sub.indicator,
-                                                                      ')'),
-                                               theme         = theme_bw())
+        if(!is.null(results$model3a.panelar.bishop.coef) |
+           !is.null(results$model3a.panelar.hartlepool.coef) |
+           !is.null(results$model3a.panelar.hemel.coef) |
+           !is.null(results$model3a.panelar.newark.coef) |
+           !is.null(results$model3a.panelar.rochdale.coef) |
+           !is.null(results$model5.panelar.coef)){
+            results$model5.panelar.all <- combine_coefficients(bishop.coef     = results$model3a.panelar.bishop.coef,
+                                                               hartlepool.coef = results$model3a.panelar.hartlepool.coef,
+                                                               hemel.coef      = results$model3a.panelar.hemel.coef,
+                                                               newark.coef     = results$model3a.panelar.newark.coef,
+                                                               rochdale.coef   = results$model3a.panelar.rochdale.coef,
+                                                               all.coef        = results$model5.panelar.coef)
+            ## Forest plot
+            results$model5.forest <- closed_forest(df.list       = list(results$model3a.panelar.bishop.coef,
+                                                                        results$model3a.panelar.hartlepool.coef,
+                                                                        results$model3a.panelar.hemel.coef,
+                                                                        results$model3a.panelar.newark.coef,
+                                                                        results$model3a.panelar.rochdale.coef,
+                                                                        results$model5.panelar.coef),
+                                                   plot.term     = c('closure'),
+                                                   facet.outcome = FALSE,
+                                                   title         = paste0('Model 3 & 5  : ',
+                                                                          indicator,
+                                                                          ' (',
+                                                                          sub.indicator,
+                                                                          ')'),
+                                                   theme         = theme_bw())
+        }
         ## Return model objects if requested
         if(return.model == TRUE){
             if(exists('model5.panelar')){
@@ -1508,7 +1576,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         t <- filter(df6,
                     town == 'Bishop Auckland' |
                     town == 'Whitehaven')
-        if(towns.type$n[towns.type$town == 'Bishop Auckland'] > 0 & towns.type$n[towns.type$town == 'Whitehaven'] > 0 ){
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 & town.group$n[town.group$town == 'Whitehaven'] > 0 ){
             t$town <- relevel(t$town, ref = 'Whitehaven')
             model6.panelar.bishop <- panelAR(data     = t,
                                              formula  = formula.model6,
@@ -1531,7 +1599,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         t <- filter(df6,
                     town == 'Hartlepool' |
                     town == 'Grimsby')
-        if(towns.type$n[towns.type$town == 'Hartlepool'] > 0 & towns.type$n[towns.type$town == 'Grimsby'] > 0){
+        if(town.group$n[town.group$town == 'Hartlepool'] > 0 & town.group$n[town.group$town == 'Grimsby'] > 0){
             t$town <- relevel(t$town, ref = 'Grimsby')
             model6.panelar.hartlepool <- panelAR(data     = t,
                                                  formula  = formula.model6,
@@ -1554,7 +1622,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         t <- filter(df6,
                     town == 'Hemel Hempstead' |
                     town == 'Warwick')
-        if(towns.type$n[towns.type$town == 'Hemel Hempstead'] > 0 & towns.type$n[towns.type$town == 'Warwick'] > 0){
+        if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0 & town.group$n[town.group$town == 'Warwick'] > 0){
             t$town <- relevel(t$town, ref = 'Warwick')
             model6.panelar.hemel <- panelAR(data     = t,
                                             formula  = formula.model6,
@@ -1577,7 +1645,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         t <- filter(df6,
                     town == 'Newark' |
                     town == 'Southport')
-        if(towns.type$n[towns.type$town == 'Newark'] > 0 & towns.type$n[towns.type$town == 'Southport'] > 0){
+        if(town.group$n[town.group$town == 'Newark'] > 0 & town.group$n[town.group$town == 'Southport'] > 0){
             t$town <- relevel(t$town, ref = 'Southport')
             model6.panelar.newark <- panelAR(data     = t,
                                              formula  = formula.model6,
@@ -1600,7 +1668,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         t <- filter(df6,
                     town == 'Rochdale' |
                     town == 'Rotherham')
-        if(towns.type$n[towns.type$town == 'Rochdale'] > 0 & towns.type$n[towns.type$town == 'Rotherham'] > 0){
+        if(town.group$n[town.group$town == 'Rochdale'] > 0 & town.group$n[town.group$town == 'Rotherham'] > 0){
             t$town <- relevel(t$town, ref = 'Rotherham')
             model6.panelar.rochdale <- panelAR(data     = t,
                                                formula  = formula.model6,
@@ -1617,26 +1685,31 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model6.panelar.rochdale.r2 <- model6.panelar.rochdale$r2
         }
         ## Summary table
-        ## results$model6.panelar <- results$model6.panelar.all.coef
-        results$model6.panelar.all <- combine_coefficients(bishop.coef     = results$model6.panelar.bishop.coef,
-                                                       hartlepool.coef = results$model6.panelar.hartlepool.coef,
-                                                       hemel.coef      = results$model6.panelar.hemel.coef,
-                                                       newark.coef     = results$model6.panelar.newark.coef,
-                                                       rochdale.coef   = results$model6.panelar.rochdale.coef)
-        ## ## Forest plot
-        results$model6.forest.model6 <- closed_forest(df.list       = list(results$model6.panelar.bishop.coef,
-                                                                           results$model6.panelar.hartlepool.coef,
-                                                                           results$model6.panelar.hemel.coef,
-                                                                           results$model6.panelar.newark.coef,
-                                                                           results$model6.panelar.rochdale.coef),
-                                               plot.term     = c('closure'),
-                                               facet.outcome = FALSE,
-                                               title         = paste0('Model 6 : ',
-                                                                      indicator,
-                                                                      ' (',
-                                                                      sub.indicator,
-                                                                      ')'),
-                                               theme         = theme_bw())
+        if(!is.null(results$model6.panelar.bishop.coef) |
+           !is.null(results$model6.panelar.hartlepool.coef) |
+           !is.null(results$model6.panelar.hemel.coef) |
+           !is.null(results$model6.panelar.newark.coef) |
+           !is.null(results$model6.panelar.rochdale.coef)){
+            results$model6.panelar.all <- combine_coefficients(bishop.coef     = results$model6.panelar.bishop.coef,
+                                                               hartlepool.coef = results$model6.panelar.hartlepool.coef,
+                                                               hemel.coef      = results$model6.panelar.hemel.coef,
+                                                               newark.coef     = results$model6.panelar.newark.coef,
+                                                               rochdale.coef   = results$model6.panelar.rochdale.coef)
+            ## Forest plot
+            results$model6.forest.model6 <- closed_forest(df.list       = list(results$model6.panelar.bishop.coef,
+                                                                               results$model6.panelar.hartlepool.coef,
+                                                                               results$model6.panelar.hemel.coef,
+                                                                               results$model6.panelar.newark.coef,
+                                                                               results$model6.panelar.rochdale.coef),
+                                                          plot.term     = c('closure'),
+                                                          facet.outcome = FALSE,
+                                                          title         = paste0('Model 6 : ',
+                                                                                 indicator,
+                                                                                 ' (',
+                                                                                 sub.indicator,
+                                                                                 ')'),
+                                                          theme         = theme_bw())
+        }
         ## Return model objects if requested
         if(return.model == TRUE){
             if(exists('model6.panelar.bishop')){
@@ -1726,26 +1799,16 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         t <- filter(df7,
                     measure     == indicator &
                     sub.measure == sub.indicator)
-        if(towns.type$n[towns.type$town == 'Bishop Auckland'] > 0 &
-           towns.type$n[towns.type$town == 'Salford'] > 0 &
-           towns.type$n[towns.type$town == 'Scarborough'] > 0 &
-           towns.type$n[towns.type$town == 'Whitehaven'] > 0 &
-           towns.type$n[towns.type$town == 'Hartlepool'] > 0 &
-           towns.type$n[towns.type$town == 'Blackburn'] > 0 &
-           towns.type$n[towns.type$town == 'Grimsby'] > 0 &
-           towns.type$n[towns.type$town == 'Wigan'] > 0 &
-           towns.type$n[towns.type$town == 'Hemel Hempstead'] > 0 &
-           towns.type$n[towns.type$town == 'Basingstoke'] > 0 &
-           towns.type$n[towns.type$town == 'Warwick'] > 0 &
-           towns.type$n[towns.type$town == 'Yeovil'] > 0 &
-           towns.type$n[towns.type$town == 'Newark'] > 0 &
-           towns.type$n[towns.type$town == 'Carlisle'] > 0 &
-           towns.type$n[towns.type$town == 'Salisbury'] > 0 &
-           towns.type$n[towns.type$town == 'Southport'] > 0 &
-           towns.type$n[towns.type$town == 'Rochdale'] > 0 &
-           towns.type$n[towns.type$town == 'Rotherham'] > 0 &
-           towns.type$n[towns.type$town == 'Scunthorpe'] > 0 &
-           towns.type$n[towns.type$town == 'Wansbeck'] > 0){
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
+           town.group$n[town.group$town == 'Whitehaven'] > 0 &
+           town.group$n[town.group$town == 'Hartlepool'] > 0 &
+           town.group$n[town.group$town == 'Grimsby'] > 0 &
+           town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
+           town.group$n[town.group$town == 'Warwick'] > 0 &
+           town.group$n[town.group$town == 'Newark'] > 0 &
+           town.group$n[town.group$town == 'Southport'] > 0 &
+           town.group$n[town.group$town == 'Rochdale'] > 0 &
+           town.group$n[town.group$town == 'Rotherham'] > 0){
             t$town <- relevel(t$town, ref = 'Grimsby')
             model7.panelar <- panelAR(data     = t,
                                       formula  = formula.model7,
@@ -1755,35 +1818,41 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                       panelCorrMethod = 'pcse',
                                       seq.times = seq.times,
                                       rho.na.rm = rho.na.rm)
-            results$model7.panelar.coef <- extract_coefficients(x              = model7.panelar,
+            results$model7.panelar.all.coef <- extract_coefficients(x              = model7.panelar,
                                                                 .site          = 'All',
                                                                 .indicator     = indicator,
                                                                 .sub.indicator = sub.indicator)
             results$model7.panelar.r2 <- model7.panelar$r2
         }
         ## Summary table
-        ## results$model7.panelar <- results$model7.panelar.coef
-        results$model7.panelar.all <- combine_coefficients(bishop.coef     = results$model6.panelar.bishop.coef,
-                                                       hartlepool.coef = results$model6.panelar.hartlepool.coef,
-                                                       hemel.coef      = results$model6.panelar.hemel.coef,
-                                                       newark.coef     = results$model6.panelar.newark.coef,
-                                                       rochdale.coef   = results$model6.panelar.rochdale.coef,
-                                                       all.coef        = results$model7.panelar.all.coef)
-        ## ## Forest plot
-        results$model7.forest <- closed_forest(df.list       = list(results$model6.panelar.bishop.coef,
-                                                                    results$model6.panelar.hartlepool.coef,
-                                                                    results$model6.panelar.hemel.coef,
-                                                                    results$model6.panelar.newark.coef,
-                                                                    results$model6.panelar.rochdale.coef,
-                                                                    results$model7.panelar.all.coef),
-                                               plot.term     = c('closure'),
-                                               facet.outcome = FALSE,
-                                               title         = paste0('Model 6 & Model 7 : ',
-                                                                      indicator,
-                                                                      ' (',
-                                                                      sub.indicator,
-                                                                      ')'),
-                                               theme         = theme_bw())
+        if(!is.null(results$model6.panelar.bishop.coef) |
+           !is.null(results$model6.panelar.hartlepool.coef) |
+           !is.null(results$model6.panelar.hemel.coef) |
+           !is.null(results$model6.panelar.newark.coef) |
+           !is.null(results$model6.panelar.rochdale.coef) |
+           !is.null(results$model7.panelar.all.coef)){
+            results$model7.panelar.all <- combine_coefficients(bishop.coef     = results$model6.panelar.bishop.coef,
+                                                               hartlepool.coef = results$model6.panelar.hartlepool.coef,
+                                                               hemel.coef      = results$model6.panelar.hemel.coef,
+                                                               newark.coef     = results$model6.panelar.newark.coef,
+                                                               rochdale.coef   = results$model6.panelar.rochdale.coef,
+                                                               all.coef        = results$model7.panelar.all.coef)
+            ## ## Forest plot
+            results$model7.forest <- closed_forest(df.list       = list(results$model6.panelar.bishop.coef,
+                                                                        results$model6.panelar.hartlepool.coef,
+                                                                        results$model6.panelar.hemel.coef,
+                                                                        results$model6.panelar.newark.coef,
+                                                                        results$model6.panelar.rochdale.coef,
+                                                                        results$model7.panelar.all.coef),
+                                                   plot.term     = c('closure'),
+                                                   facet.outcome = FALSE,
+                                                   title         = paste0('Model 6 & Model 7 : ',
+                                                                          indicator,
+                                                                          ' (',
+                                                                          sub.indicator,
+                                                                          ')'),
+                                                   theme         = theme_bw())
+        }
         ## Return model objects if requested
         if(return.model == TRUE){
             if(exists('model7.panelar')){
