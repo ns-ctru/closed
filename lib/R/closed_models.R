@@ -1024,7 +1024,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Model 3b                                                           ##
     #######################################################################
     if(!is.null(model3b)){
-        print("Model 3b")
+        ## print("Model 3b")
         ## Reformulate outcome and covariates
         formula.model3b <- reformulate(response = outcome,
                                       termlabels = model3b)
@@ -1049,7 +1049,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Bishop Auckland                              ##
         ##################################################
-        print("Bishop Auckland")
+        ## print("Bishop Auckland")
         t <- filter(df3b,
                     group == 'Cohort : Bishop Auckland General Hospital') %>%
             as.data.frame()
@@ -1057,9 +1057,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
            town.group$n[town.group$town == 'Salford'] > 0 &
            town.group$n[town.group$town == 'Scarborough'] > 0 &
            town.group$n[town.group$town == 'Whitehaven'] > 0){
-            print('Bishop Auckland')
-            table(t$town) %>% print()
-            formula.model3b %>% print()
+            ## print('Bishop Auckland')
             model3b.panelar.bishop <- panelAR(data     = t,
                                               formula  = formula.model3b,
                                               timeVar  = timevar,
@@ -1077,7 +1075,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Hartlepool                                   ##
         ##################################################
-        print("Hartlepool")
+        ## print("Hartlepool")
         t <- filter(df3b,
                     group == 'Cohort : University Hospital of Hartlepool') %>%
             as.data.frame()
@@ -1085,9 +1083,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
            town.group$n[town.group$town == 'Blackburn'] > 0 &
            town.group$n[town.group$town == 'Grimsby'] > 0 &
            town.group$n[town.group$town == 'Wigan'] > 0){
-            print('Hartlepool')
-            table(t$town) %>% print()
-            formula.model3b %>% print()
+            ## print('Hartlepool')
             model3b.panelar.hartlepool <- panelAR(data     = t,
                                                   formula  = formula.model3b,
                                                    timeVar  = timevar,
@@ -1105,7 +1101,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Hemel Hempstead                              ##
         ##################################################
-        print("Hemel Hempstead")
+        ## print("Hemel Hempstead")
         t <- filter(df3b,
                     group == 'Cohort : Hemel Hempstead Hospital') %>%
              as.data.frame()
@@ -1113,9 +1109,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
            town.group$n[town.group$town == 'Basingstoke'] > 0 &
            town.group$n[town.group$town == 'Warwick'] > 0 &
            town.group$n[town.group$town == 'Yeovil'] > 0){
-            print('Hemel')
-            table(t$town) %>% print()
-            formula.model3b %>% print()
+            ## print('Hemel Hempstead')
             model3b.panelar.hemel <- panelAR(data     = t,
                                             formula  = formula.model3b,
                                             timeVar  = timevar,
@@ -1133,7 +1127,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Newark                                       ##
         ##################################################
-        print("Newark")
+        ## print("Newark")
         t <- filter(df3b,
                     group == 'Cohort : Newark Hospital') %>%
              as.data.frame()
@@ -1141,9 +1135,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
            town.group$n[town.group$town == 'Carlisle'] > 0 &
            town.group$n[town.group$town == 'Salisbury'] > 0 &
            town.group$n[town.group$town == 'Southport'] > 0){
-            print('Newark')
-            table(t$town) %>% print()
-            formula.model3b %>% print()
+            ## print('Newark')
             model3b.panelar.newark <- panelAR(data     = t,
                                              formula  = formula.model3b,
                                              timeVar  = timevar,
@@ -1161,7 +1153,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Rochdale                                     ##
         ##################################################
-        print("Rochdale")
+        ## print("Rochdale")
         t <- filter(df3b,
                     group == 'Cohort : Rochdale Infirmary') %>%
             as.data.frame()
@@ -1169,9 +1161,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
            town.group$n[town.group$town == 'Rotherham'] > 0 &
            town.group$n[town.group$town == 'Scunthorpe'] > 0 &
            town.group$n[town.group$town == 'Wansbeck'] > 0){
-            print('Rochdale')
-            table(t$town) %>% print()
-            formula.model3b %>% print()
+            ## print('Rochdale')
             model3b.panelar.rochdale <- panelAR(data     = t,
                                                formula  = formula.model3b,
                                                timeVar  = timevar,
