@@ -49,7 +49,9 @@ Indicators of Emergency Department closure adversely affecting local populations
 
 ##### Avoidable Emergency Admissions and Avoidable Deaths
 
-The following table details the specific conditions for which admissions or deaths are considered avoidable
+Avoidable deaths and admissions will be analysed across the conditions described in the table below.  A few conditions will also be analysed individually.
+
+Table : Specific conditions for which admissions or deaths are considered avoidable. * denotes the condition will be analysed on its own.
 
 | Avoidable Deaths | Avoidable Admissions |
 |------------------|----------------------|
@@ -64,11 +66,11 @@ The following table details the specific conditions for which admissions or deat
 | Myocardial Infarction | Falls in those >75 |
 | Non-superficial Head Injuries | Hypoglycaemia |
 | Pregnancy and Birth Related Conditions | Non-specific Abdominal Pains |
-| Road Traffic Accidents | Non-specific Chest Pains ^ |
+| Road Traffic Accidents | Non-specific Chest Pains * |
 | Ruptured Aortic Aneurysm | Superficial Head Injuries |
 | Self-harm | Urinary Tract Infections |
 | Septic Shock | |
-| Stroke/CVA | |
+| Stroke/CVA * | |
 
 
 #### Steps
