@@ -10,12 +10,13 @@ Model | Case Site    | Control Site     | Panel | Covariates
 ------|--------------|------------------|-------|----------------------------------------
 1     | Individual   | None             | ED    | season + time + closure + nhs111 + other.centre + ambulance.diversion
 2     | Individual   | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-3     | Individual   | All Matched      | ED    | season + time + closure * pooled.site + site + nhs111 + other.centre + ambulance.diversion
+3a    | Individual   | All Matched      | ED    | season + time + closure * pooled.site + site + nhs111 + other.centre + ambulance.diversion
+3b    | Individual and All | All Matched (Pooled)      | ED  | season + time + closure * pooled.site + nhs111 + other.centre + ambulance.diversion
 4     | All          | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
 5     | All          | All Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
 6     | Individual   | One Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
 7     | All          | All Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
-8     | Individual and All | All Matched (Pooled)      | ED  | season + time + closure * pooled.site + nhs111 + other.centre + ambulance.diversion
+
 
 **NB** - Model 8 is now included after the Project Advisoty Group Meeting held 2016-07-04 which suggested that pooling control sites could be one approach.  The advisory statistician (Alex Bottle), advised when asked if such a model would be preferable, that it could certainly be investigated, but only after careful consideration of the results of Models 3 and 5 where sites are considered individually.  Subsequently àt a project meeting on 2016-07-08 [Jon Nicholl](mailto:j.nicholl@sheffield.ac.uk) inidcated that Model 3 should be modified to interact the same pooled dummy variable (`pooled.site`) with the dummy variable for (`closure`) but retain the dummy for `site` which would be excluded from Model 8.
 
