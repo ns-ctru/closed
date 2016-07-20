@@ -1153,7 +1153,7 @@ ambulance.non.conveyances.green.calls.non.conveyed$model7.panelar$residuals %>% 
 ```{r ambulance_non_conveyances_fraction_not_conveyed_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 closed_ts_plot(df            = amb_non_conveyance_site_measure,
                indicator     = 'ambulance non-conveyance',
-               sub.indicator = 'not conveyed green calls',
+               sub.indicator = 'fraction not conveyed',
                steps         = TRUE,
                theme         = theme_bw(),
                tidy          = FALSE,
@@ -1208,4 +1208,134 @@ ambulance.non.conveyances.fraction.not.conveyed$model6.panelar.hartlepool$residu
 ```{r hartlepool_non_conveyances_fraction_not_conveyed_model7, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
 ambulance.non.conveyances.fraction.not.conveyed$model7.panelar %>% summary()
 ambulance.non.conveyances.fraction.not.conveyed$model7.panelar$residuals %>% plot()
+```
+
+### Ambulance Red Calls {.tabset .tabset-fade .tabset-pills}
+
+**NB** Ambulance Service data is incomplete, only Hartlepool and Grimsby data available so no 'pooled' analyses.
+
+#### Hospital Transfers  {.tabset .tabset-fade}
+
+```{r ambulance_red_calls_hospital_transfers_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = amb_non_conveyance_site_measure,
+               indicator     = 'ambulance red calls',
+               sub.indicator = 'hospital transfers',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
+```
+
+
+##### Model 1
+```{r hartlepool_red_calls_hospital_transfers_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+ambulance.red.calls.hospital.transfers$model1.panelar.hartlepool %>% summary()
+ambulance.red.calls.hospital.transfers$model1.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 2
+```{r hartlepool_red_calls_hospital_transfers_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+ambulance.red.calls.hospital.transfers$model2.panelar.hartlepool %>% summary()
+ambulance.red.calls.hospital.transfers$model2.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 3a
+```{r hartlepool_red_calls_hospital_transfers_model3a, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+ambulance.red.calls.hospital.transfers$model3a.panelar.hartlepool %>% summary()
+ambulance.red.calls.hospital.transfers$model3a.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 3b
+```{r hartlepool_red_calls_hospital_transfers_model3b, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+ambulance.red.calls.hospital.transfers$model3b.panelar.hartlepool %>% summary()
+ambulance.red.calls.hospital.transfers$model3b.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 4
+```{r hartlepool_red_calls_hospital_transfers_model4, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+ambulance.red.calls.hospital.transfers$model4.panelar %>% summary()
+ambulance.red.calls.hospital.transfers$model4.panelar$residuals %>% plot()
+```
+
+##### Model 5
+```{r hartlepool_red_calls_hospital_transfers_model5, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+ambulance.red.calls.hospital.transfers$model5.panelar %>% summary()
+ambulance.red.calls.hospital.transfers$model5.panelar$residuals %>% plot()
+```
+
+##### Model 6
+```{r hartlepool_red_calls_hospital_transfers_model6, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+ambulance.red.calls.hospital.transfers$model6.panelar.hartlepool %>% summary()
+ambulance.red.calls.hospital.transfers$model6.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 7
+```{r hartlepool_red_calls_hospital_transfers_model7, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+ambulance.red.calls.hospital.transfers$model7.panelar %>% summary()
+ambulance.red.calls.hospital.transfers$model7.panelar$residuals %>% plot()
+```
+
+#### Total  {.tabset .tabset-fade}
+
+```{r ambulance_red_calls_total_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = amb_non_conveyance_site_measure,
+               indicator     = 'ambulance red calls',
+               sub.indicator = 'total',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
+```
+
+
+##### Model 1
+```{r hartlepool_red_calls_total_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+ambulance.red.calls.total$model1.panelar.hartlepool %>% summary()
+ambulance.red.calls.total$model1.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 2
+```{r hartlepool_red_calls_total_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+ambulance.red.calls.total$model2.panelar.hartlepool %>% summary()
+ambulance.red.calls.total$model2.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 3a
+```{r hartlepool_red_calls_total_model3a, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+ambulance.red.calls.total$model3a.panelar.hartlepool %>% summary()
+ambulance.red.calls.total$model3a.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 3b
+```{r hartlepool_red_calls_total_model3b, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+ambulance.red.calls.total$model3b.panelar.hartlepool %>% summary()
+ambulance.red.calls.total$model3b.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 4
+```{r hartlepool_red_calls_total_model4, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+ambulance.red.calls.total$model4.panelar %>% summary()
+ambulance.red.calls.total$model4.panelar$residuals %>% plot()
+```
+
+##### Model 5
+```{r hartlepool_red_calls_total_model5, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+ambulance.red.calls.total$model5.panelar %>% summary()
+ambulance.red.calls.total$model5.panelar$residuals %>% plot()
+```
+
+##### Model 6
+```{r hartlepool_red_calls_total_model6, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+ambulance.red.calls.total$model6.panelar.hartlepool %>% summary()
+ambulance.red.calls.total$model6.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 7
+```{r hartlepool_red_calls_total_model7, echo = FALSE, cache = FALSE, results = 'markup',  eval = FALSE}
+ambulance.red.calls.total$model7.panelar %>% summary()
+ambulance.red.calls.total$model7.panelar$residuals %>% plot()
 ```
