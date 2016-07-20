@@ -72,8 +72,8 @@ amb_red_calls_measure                   <- closed_tidy(amb_red_calls_measure)
 amb_red_calls_site_measure              <- closed_tidy(amb_red_calls_site_measure)
 
 ## Convert ambulance times to minutes (currently function not working as expected)
-amb_mean_times_measure$value      <- amb_mean_times_measure / 60
-amb_mean_times_site_measure$value <- amb_mean_times_site_measure / 60
+amb_mean_times_measure$value      <- amb_mean_times_measure$value / 60
+amb_mean_times_site_measure$value <- amb_mean_times_site_measure$value / 60
 
 
 ```
