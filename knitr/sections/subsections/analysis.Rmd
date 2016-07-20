@@ -71,6 +71,11 @@ amb_non_conveyance_site_measure         <- closed_tidy(amb_non_conveyance_site_m
 amb_red_calls_measure                   <- closed_tidy(amb_red_calls_measure)
 amb_red_calls_site_measure              <- closed_tidy(amb_red_calls_site_measure)
 
+## Convert ambulance times to minutes (currently function not working as expected)
+amb_mean_times_measure$value      <- amb_mean_times_measure / 60
+amb_mean_times_site_measure$value <- amb_mean_times_site_measure / 60
+
+
 ```
 
 ```{r define_models, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
@@ -180,7 +185,7 @@ check.site <- rbind(check.ed.attendances$check.site,
 names(check.site) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month')
 ```
 <!--- Mode of Arrival - Any --->
-```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 mode.of.arrival.any <- closed_models(df.lsoa          = ed_attendances_by_mode_measure,
                                      df.trust         = ed_attendances_by_mode_site_measure,
                                      indicator        = 'ed attendances',
@@ -215,7 +220,7 @@ mode.of.arrival.any <- closed_models(df.lsoa          = ed_attendances_by_mode_m
                                      legend           = model.opts$legend)
 ```
 <!--- Mode of Arrival - Other --->
-```{r mode_of_arrival_other, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r mode_of_arrival_other, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 mode.of.arrival.other <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
                                      df.trust         = ed_attendances_by_mode_site_measure,
                                      indicator        = 'ed attendances',
@@ -250,7 +255,7 @@ mode.of.arrival.other <- closed_models(df.lsoa         = ed_attendances_by_mode_
 ```
 
 <!--- Mode of Arrival - Ambulance --->
-```{r mode_of_arrival_ambulance, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r mode_of_arrival_ambulance, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_mode_measure,
                                      df.trust         = ed_attendances_by_mode_site_measure,
                                      indicator        = 'ed attendances',
@@ -285,7 +290,7 @@ mode.of.arrival.ambulance <- closed_models(df.lsoa         = ed_attendances_by_m
 ```
 
 <!--- Unnecessary Attendance - NA --->
-```{r unnecessary_ed_attendances, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r unnecessary_ed_attendances, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 unnecessary.attendance <- closed_models(df.lsoa         = unnecessary_ed_attendances_measure,
                                      df.trust         = unnecessary_ed_attendances_site_measure,
                                      indicator        = 'unnecessary ed attendances',
@@ -319,7 +324,7 @@ unnecessary.attendance <- closed_models(df.lsoa         = unnecessary_ed_attenda
                                      legend           = model.opts$legend)
 ```
 <!--- All Emergency Admissions - All --->
-```{r all_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r all_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 all.emergency.admissions.all <- closed_models(df.lsoa         = emergency_admissions_measure,
                                      df.trust         = emergency_admissions_site_measure,
                                      indicator        = 'all emergency admissions',
@@ -354,7 +359,7 @@ all.emergency.admissions.all <- closed_models(df.lsoa         = emergency_admiss
 ```
 
 <!--- Avoidable Emergency Admissions - Any --->
-```{r avoidable_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r avoidable_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 avoidable.emergency.admissions.any <- closed_models(df.lsoa         = emergency_admissions_measure,
                                      df.trust         = emergency_admissions_site_measure,
                                      indicator        = 'avoidable emergency admissions',
@@ -426,7 +431,7 @@ avoidable.emergency.admissions.chest.pain <- closed_models(df.lsoa         = eme
 
 
 <!--- ED Attendances Admitted - All --->
-```{r ed_attendances_admitted_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r ed_attendances_admitted_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
                                      df.trust         = ed_attendances_admitted_site_measure,
                                      indicator        = 'ed attendances admitted',
@@ -461,7 +466,7 @@ ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_ad
 ```
 
 <!--- ED Attendances Admitted - Fraction Admitted --->
-```{r ed_attendances_admitted_fraction_admitted, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r ed_attendances_admitted_fraction_admitted, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
                                      df.trust         = ed_attendances_admitted_site_measure,
                                      indicator        = 'ed attendances admitted',
@@ -496,7 +501,7 @@ ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_
 ```
 
 <!--- ED Attendances Admitted - Admitted --->
-```{r ed_attendances_admitted_admitted, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r ed_attendances_admitted_admitted, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ed.attendances.admitted.admitted <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
                                      df.trust         = ed_attendances_admitted_site_measure,
                                      indicator        = 'ed attendances admitted',
@@ -531,7 +536,7 @@ ed.attendances.admitted.admitted <- closed_models(df.lsoa         = ed_attendanc
 ```
 
 <!--- Critical Care - All --->
-```{r critical_care_cips_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r critical_care_cips_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 critical.care.cips.all <- closed_models(df.lsoa         = critical_care_cips_measure,
                                      df.trust         = critical_care_cips_site_measure,
                                      indicator        = 'critical care stays',
@@ -566,7 +571,7 @@ critical.care.cips.all <- closed_models(df.lsoa         = critical_care_cips_mea
 ```
 
 <!--- Critical Care - Critical --->
-```{r critical_care_cips_critical, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r critical_care_cips_critical, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 critical.care.cips.critical <- closed_models(df.lsoa         = critical_care_cips_measure,
                                      df.trust         = critical_care_cips_site_measure,
                                      indicator        = 'critical care stays',
@@ -601,7 +606,7 @@ critical.care.cips.critical <- closed_models(df.lsoa         = critical_care_cip
 ```
 
 <!--- Critical Care - Fraction --->
-```{r critical_care_cips_fraction, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r critical_care_cips_fraction, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 critical.care.cips.fraction <- closed_models(df.lsoa         = critical_care_cips_measure,
                                      df.trust         = critical_care_cips_site_measure,
                                      indicator        = 'critical care stays',
@@ -636,7 +641,7 @@ critical.care.cips.fraction <- closed_models(df.lsoa         = critical_care_cip
 ```
 
 <!--- Length of Stay - Mean --->
-```{r length_of_stay_mean, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r length_of_stay_mean, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 length.of.stay.mean <- closed_models(df.lsoa         = length_of_stay_measure,
                                      df.trust         = length_of_stay_site_measure,
                                      indicator        = 'length of stay',
@@ -671,7 +676,7 @@ length.of.stay.mean <- closed_models(df.lsoa         = length_of_stay_measure,
 ```
 
 <!--- Length of Stay - Median --->
-```{r length_of_stay_median, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r length_of_stay_median, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure,
                                      df.trust         = length_of_stay_site_measure,
                                      indicator        = 'length of stay',
@@ -705,7 +710,7 @@ length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure,
                                      legend           = model.opts$legend)
 ```
 <!--- Case Fatality Ratio - Any --->
-```{r case_fatality_ratio_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r case_fatality_ratio_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -775,7 +780,7 @@ case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = case_
 
 
 <!--- Case Fatality Ratio - Stroke Cva --->
-```{r case_fatality_ratio_stroke_cva, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r case_fatality_ratio_stroke_cva, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 case.fatality.ratio.stroke.cva <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -1208,16 +1213,16 @@ save(diff.time.to.ed,
      ## case.fatality.ratio.septic.shock,
      ## case.fatality.ratio.serious.head.injury,
      ## case.fatality.ratio.stroke.cva,
-     ## ambulance.mean.times.call.to.dest,
-     ## ambulance.mean.times.call.to.scene.any,
-     ## ambulance.mean.times.call.to.scene.conveying,
-     ## ambulance.mean.times.dest.to.clear,
-     ## ambulance.mean.times.scene.to.dest,
-     ## ambulance.non.conveyances.green.calls,
-     ## ambulance.non.conveyances.green.calls.non.conveyed,
-     ## ambulance.non.conveyances.fraction.not.conveyed,
-     ## ambulance.red.calls.hospital.transfers,
-     ## ambulance.red.calls.total
+     ambulance.mean.times.call.to.dest,
+     ambulance.mean.times.call.to.scene.any,
+     ambulance.mean.times.call.to.scene.conveying,
+     ambulance.mean.times.dest.to.clear,
+     ambulance.mean.times.scene.to.dest,
+     ambulance.non.conveyances.green.calls,
+     ambulance.non.conveyances.green.calls.non.conveyed,
+     ambulance.non.conveyances.fraction.not.conveyed,
+     ambulance.red.calls.hospital.transfers,
+     ambulance.red.calls.total
      ## results,
      ## closure,
      file = '~/work/closed/knitr/data/results.RData')
