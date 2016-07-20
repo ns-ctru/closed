@@ -114,7 +114,7 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
 ```{r ambulance_mean_times_call_to_dest_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 ambulance.mean.times.call.to.dest$model1.ts.plot
 ambulance.mean.times.call.to.dest$model1.forest$forest
-ambulance.mean.times.call.to.dest$model1.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.dest$model1.panelar.all$caption)
+ambulance.mean.times.call.to.dest$model1.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.dest$model1.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.dest$model1.panelar.all$caption)
 ```
 
 ##### Model 2
@@ -127,7 +127,7 @@ ambulance.mean.times.call.to.dest$model1.panelar.all$coef[3:8] %>% kable(caption
 ```{r ambulance_mean_times_call_to_dest_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 ambulance.mean.times.call.to.dest$model2.ts.plot
 ambulance.mean.times.call.to.dest$model2.forest$forest
-ambulance.mean.times.call.to.dest$model2.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.dest$model2.panelar.all$caption)
+ambulance.mean.times.call.to.dest$model2.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.dest$model2.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.dest$model2.panelar.all$caption)
 ```
 
 ##### Model 3a
@@ -140,7 +140,7 @@ ambulance.mean.times.call.to.dest$model2.panelar.all$coef[3:8] %>% kable(caption
 ```{r ambulance_mean_times_call_to_dest_model3a, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 ambulance.mean.times.call.to.dest$model3a.ts.plot
 ambulance.mean.times.call.to.dest$model3a.forest$forest
-ambulance.mean.times.call.to.dest$model3a.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.dest$model3a.panelar.all$caption)
+ambulance.mean.times.call.to.dest$model3a.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.dest$model3a.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.dest$model3a.panelar.all$caption)
 ```
 
 
@@ -154,7 +154,7 @@ ambulance.mean.times.call.to.dest$model3a.panelar.all$coef[3:8] %>% kable(captio
 ```{r ambulance_mean_times_call_to_dest_model3b, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 ambulance.mean.times.call.to.dest$model3b.ts.plot
 ambulance.mean.times.call.to.dest$model3b.forest$forest
-ambulance.mean.times.call.to.dest$model3b.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.dest$model3b.panelar.all$caption)
+ambulance.mean.times.call.to.dest$model3b.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.dest$model3b.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.dest$model3b.panelar.all$caption)
 ```
 
 ##### Model 4
@@ -167,7 +167,7 @@ ambulance.mean.times.call.to.dest$model3b.panelar.all$coef[3:8] %>% kable(captio
 ```{r ambulance_mean_times_call_to_dest_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 ambulance.mean.times.call.to.dest$model4.ts.plot
 ambulance.mean.times.call.to.dest$model4.forest$forest
-ambulance.mean.times.call.to.dest$model4.panelar.all$coef[3:9] %>% kable(caption = ambulance.mean.times.call.to.dest$model4.panelar.all$caption)
+ambulance.mean.times.call.to.dest$model4.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.dest$model4.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.dest$model4.panelar.all$caption)
 ```
 
 ##### Model 5
@@ -181,7 +181,7 @@ ambulance.mean.times.call.to.dest$model4.panelar.all$coef[3:9] %>% kable(caption
 ```{r ambulance_mean_times_call_to_dest_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 ambulance.mean.times.call.to.dest$model5.ts.plot
 ambulance.mean.times.call.to.dest$model5.forest$forest
-ambulance.mean.times.call.to.dest$model5.panelar.all$coef[3:9] %>% kable(caption = ambulance.mean.times.call.to.dest$model5.panelar.all$caption)
+ambulance.mean.times.call.to.dest$model5.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.dest$model5.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.dest$model5.panelar.all$caption)
 ```
 
 ##### Model 6
@@ -194,7 +194,7 @@ ambulance.mean.times.call.to.dest$model5.panelar.all$coef[3:9] %>% kable(caption
 ```{r ambulance_mean_times_call_to_dest_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 ambulance.mean.times.call.to.dest$model6.ts.plot
 ambulance.mean.times.call.to.dest$model6.forest$forest
-ambulance.mean.times.call.to.dest$model6.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.dest$model6.panelar.all$caption)
+ambulance.mean.times.call.to.dest$model6.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.dest$model6.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.dest$model6.panelar.all$caption)
 ```
 
 ##### Model 7
@@ -205,7 +205,7 @@ ambulance.mean.times.call.to.dest$model6.panelar.all$coef[3:8] %>% kable(caption
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
 
 ```{r ambulance_mean_times_call_to_dest_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-ambulance.mean.times.call.to.dest$model7.ts.plot
+## ambulance.mean.times.call.to.dest$model7.ts.plot
 ambulance.mean.times.call.to.dest$model7.forest$forest
-ambulance.mean.times.call.to.dest$model7.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.dest$model7.panelar.all$caption)
+ambulance.mean.times.call.to.dest$model7.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.dest$model7.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.dest$model7.panelar.all$caption)
 ```
