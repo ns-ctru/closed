@@ -22,6 +22,7 @@
 #' @param lines Logical indicator of whether to include a vertical line for steps.
 #' @param exclude.control Logical indicator of whether to exclude vertical step lines for pooled controls (default is \code{FALSE}, switch to \code{TRUE} when passing a pooled data set)
 #' @param xaxis.steps Logical indicator of whether to add x-axis labels for steps.
+#' @param fig String of the figure number to apply to the title.
 #'
 #' @return A list of ggplot2 objects.
 #'
@@ -45,6 +46,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            lines           = TRUE,
                            exclude.control = FALSE,
                            xaxis.steps     = FALSE,
+                           fig             = '',
                            ...){
     ## Initialise results for returning
     results <- list()
@@ -116,7 +118,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ##        internal consistency
     ## indicator <- substitute(df) %>% evaulate()
     if(indicator == 'ed attendances'){
-        title1 <- 'ED Attendance'
+        title1 <- 'Total ED Attendance'
         if(sub.indicator == 'any')            title2 <- ' (Any)'
         else if(sub.indicator == 'other')     title2 <- ' (Other)'
         else if(sub.indicator == 'ambulance') title2 <- ' (Ambulance)'
@@ -125,18 +127,18 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     }
     else if(indicator == 'unnecessary ed attendances'){
         title1 <- 'Unnecessary ED Attendances'
-        title2 <- '(All)'
+        title2 <- ''
         ylabel <- 'N'
     }
     else if(indicator == 'ed attendances admitted'){
         title1 <- 'ED Attendances Admitted'
         if(sub.indicator == 'all')                    title2 <- ' (All)'
-        else if(sub.indicator == 'fraction admitted') title2 <- ' (Fraction Admitted)'
-        else if(sub.indicator == 'admitted')          title2 <- ' (Admitted)'
+        else if(sub.indicator == 'fraction admitted') title2 <- ' (Fraction)'
+        else if(sub.indicator == 'admitted')          title2 <- ' (Absolute)'
         ylabel <- 'N'
     }
     else if(indicator == 'all emergency admissions'){
-        title1 <- 'Emergency Admissions'
+        title1 <- 'All Emergency Admissions'
         title2 <- ''
         ylabel <- 'N'
     }
@@ -227,7 +229,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     #######################################################################
     ## Define vertical lines for steps                                   ##
     #######################################################################
-    steps        <- c(25)
+    steps        <- c(24.5)
     steps.labels <- c('ED Closure')
     town         <- c('ED Closure')
     variable     <- c(1)
@@ -375,10 +377,10 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Basic line plot
     results$plot <- results$plot + geom_line() +
                     ## Graph and axis labels
-                    labs(list(title  = paste0(title1, title2),
+                    labs(list(title  = paste0(fig, title1, title2),
                               x      = 'Month (Aligned)',
                               y      = ylabel,
-                              colour = 'Hospital'))
+                              colour = 'Hospital Catchment Area'))
     ## Label lines
     results$plot <- results$plot + geom_text_repel(data = filter(df, relative.month == 3),
                                                    aes(relative.month,
@@ -401,7 +403,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     }
     ## Scale y-axis to have range 0-1 if this is case fatality ratio
     if(indicator == 'case fatality ratio'){
-        results$plot <- results$plot + scale_y_continuous(limits = c(0, 1))
+        results$plot <- results$plot + scale_y_continuous(limits = c(0, 0.5))
     }
     ## X-axis labels for events
     if(xaxis.steps == TRUE){
