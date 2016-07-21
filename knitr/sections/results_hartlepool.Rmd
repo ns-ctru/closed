@@ -1219,7 +1219,7 @@ ambulance.non.conveyances.fraction.not.conveyed$model7.panelar %>% summary()
 #### Hospital Transfers  {.tabset .tabset-fade}
 
 ```{r ambulance_red_calls_hospital_transfers_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-closed_ts_plot(df            = amb_non_conveyance_site_measure,
+closed_ts_plot(df            = amb_red_calls_site_measure,
                indicator     = 'ambulance red calls',
                sub.indicator = 'hospital transfers',
                steps         = TRUE,
@@ -1282,7 +1282,7 @@ ambulance.red.calls.hospital.transfers$model7.panelar %>% summary()
 #### Total  {.tabset .tabset-fade}
 
 ```{r ambulance_red_calls_total_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-closed_ts_plot(df            = amb_non_conveyance_site_measure,
+closed_ts_plot(df            = amb_red_calls_site_measure,
                indicator     = 'ambulance red calls',
                sub.indicator = 'total',
                steps         = TRUE,
