@@ -709,7 +709,7 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
                legend        = TRUE)
 ```
 
@@ -773,8 +773,9 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
                legend        = TRUE)
+
 ```
 
 
@@ -837,8 +838,9 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
                legend        = TRUE)
+
 ```
 
 
@@ -901,7 +903,7 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
                legend        = TRUE)
 ```
 
@@ -964,7 +966,7 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
                theme         = theme_bw(),
                tidy          = FALSE,
                facet         = FALSE,
-               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
                legend        = TRUE)
 ```
 
