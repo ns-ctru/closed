@@ -84,31 +84,31 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     #######################################################################
     ## 2016-05-24 - Post meeting with Jon, this should be 0/1 for _all_ sites not
     ##              just intervention ones
-    df$closure <- ifelse(df$relative.month > 24, 1, 0)
-    #######################################################################
-    ## Add dummy for other 'steps'                                       ##
-    ##                                                                   ##
-    ## See list from e.l.knowles@sheffield.ac.uk at...                   ##
-    ##                                                                   ##
-    ## https://goo.gl/TlhfCF                                             ##
-    ##                                                                   ##
-    #######################################################################
-    df <- mutate(df,
-                       nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
-                                       (town == 'Southport' & relative.month >= 48) |
-                                       ## ToDo - Uncomment once confirmed and revised dates available
-                                       (town == 'Rochdale' & relative.month >= 48) |
-                                       (town == 'Rotherham' & relative.month >= 48) |
-                                       (town == 'Hartlepool' & relative.month >= 45) |
-                                       (town == 'Grimsby' & relative.month >= 16),
-                                       1, 0),
-                       ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
-                       other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
-                                             (town == 'Newark' & relative.month >= 3) |
-                                             (town == 'Rochdale' & relative.month >= 11) |
-                                             (town == 'Hartlepool' & relative.month >= 22),
-                                             1, 0)
-                 )
+    ## df$closure <- ifelse(df$relative.month > 24, 1, 0)
+    ## #######################################################################
+    ## ## Add dummy for other 'steps'                                       ##
+    ## ##                                                                   ##
+    ## ## See list from e.l.knowles@sheffield.ac.uk at...                   ##
+    ## ##                                                                   ##
+    ## ## https://goo.gl/TlhfCF                                             ##
+    ## ##                                                                   ##
+    ## #######################################################################
+    ## df <- mutate(df,
+    ##                    nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
+    ##                                    (town == 'Southport' & relative.month >= 48) |
+    ##                                    ## ToDo - Uncomment once confirmed and revised dates available
+    ##                                    (town == 'Rochdale' & relative.month >= 48) |
+    ##                                    (town == 'Rotherham' & relative.month >= 48) |
+    ##                                    (town == 'Hartlepool' & relative.month >= 45) |
+    ##                                    (town == 'Grimsby' & relative.month >= 16),
+    ##                                    1, 0),
+    ##                    ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
+    ##                    other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
+    ##                                          (town == 'Newark' & relative.month >= 3) |
+    ##                                          (town == 'Rochdale' & relative.month >= 11) |
+    ##                                          (town == 'Hartlepool' & relative.month >= 22),
+    ##                                          1, 0)
+    ##              )
     #######################################################################
     ## Labels and captions conditional on outcome                        ##
     #######################################################################
