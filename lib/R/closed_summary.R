@@ -47,13 +47,6 @@ closed_summary <- function(df          = ed_attendances_by_mode_measure,
     #######################################################################
     ## Initialise results list for returning everything
     results <- list()
-    ## Convert to data frame
-    df <- as.data.frame(df)
-    ## Convert variable names for ease of typing within this function
-    ## (ESS artefact, hitting underscore inserts '<-' so lots of underscores are
-    ## tedious to type)
-    names(df) <- names(df) %>%
-        gsub('_', '.', x = .)
     #######################################################################
     ## Combine steps with data frame                                     ##
     #######################################################################
