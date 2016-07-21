@@ -98,7 +98,6 @@ The following reconciles the description of outcomes given in the study Protocol
 | `avoidable emergency admissions` | `dvt`                        | Avoidable [Deep Veing Thrombosis (DVT)](https://en.wikipedia.org/wiki/Deep_vein_thrombosis) admissions.|
 | `avoidable emergency admissions` | `epileptic fit`              | Avoidable [Epileptic Fit](https://en.wikipedia.org/wiki/Epileptic_seizure) admissions. |
 | `avoidable emergency admissions` | `falls (>75 years)`          | Avoidable admissions following falls in individuals >75yrs old.
- |
 | `avoidable emergency admissions` | `hypoglycaemia`              | Avoidable [Hypoglycaemia](https://en.wikipedia.org/wiki/Hypoglycemia) admissions (common in diabetics). |
 | `avoidable emergency admissions` | `minor head injuries`        | Avoidable Minor Head Injury admissions. |
 | `avoidable emergency admissions` | `non-specific chest pain`    | Avoidable Non-Specific Chest Pain admissions. |
