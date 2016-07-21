@@ -12,8 +12,8 @@ Model | Case Site    | Control Site     | Panel | Covariates
 2     | Individual   | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
 3a    | Individual   | All Matched      | ED    | season + time + closure * pooled.site + site + nhs111 + other.centre + ambulance.diversion
 3b    | Individual and All | All Matched (Pooled)      | ED  | season + time + closure * pooled.site + nhs111 + other.centre + ambulance.diversion
-4     | All          | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-5     | All          | All Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+4     | All (Pooled) | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+5     | All (Pooled) | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
 6     | Individual   | One Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
 7     | All          | All Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
 
@@ -51,11 +51,11 @@ Indicators of Emergency Department closure adversely affecting local populations
 
 Avoidable deaths and admissions will be analysed across the conditions described in the table below.  A few conditions will also be analysed individually.
 
-Table : Specific conditions for which admissions or deaths are considered avoidable. * denotes the condition will be analysed on its own.
+Table : Specific conditions for which admissions or deaths are considered avoidable. * denotes the condition will be analysed on its own. \* Denotes condition to be considered individual.
 
 | Avoidable Deaths | Avoidable Admissions |
 |------------------|----------------------|
-| Acute Heart Failure * | Acute Mental Crisis|
+| Acute Heart Failure\* | Acute Mental Crisis|
 | Anaphalaxis | Angina|
 | Asphyxiation | Blocked Urinary Catheter |
 | Asthma | Cellulitis |
@@ -66,11 +66,11 @@ Table : Specific conditions for which admissions or deaths are considered avoida
 | Myocardial Infarction | Falls in those >75 |
 | Non-superficial Head Injuries | Hypoglycaemia |
 | Pregnancy and Birth Related Conditions | Non-specific Abdominal Pains |
-| Road Traffic Accidents | Non-specific Chest Pains * |
+| Road Traffic Accidents | Non-specific Chest Pains\* |
 | Ruptured Aortic Aneurysm | Superficial Head Injuries |
 | Self-harm | Urinary Tract Infections |
 | Septic Shock | |
-| Stroke/CVA * | |
+| Stroke/CVA\* | |
 
 
 #### Steps
