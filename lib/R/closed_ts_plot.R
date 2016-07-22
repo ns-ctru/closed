@@ -86,41 +86,12 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                   round(-2)
     }
     #######################################################################
-    ## Add a dummy 'step' for closure                                    ##
-    #######################################################################
-    ## 2016-05-24 - Post meeting with Jon, this should be 0/1 for _all_ sites not
-    ##              just intervention ones
-    ## df$closure <- ifelse(df$relative.month > 24, 1, 0)
-    ## #######################################################################
-    ## ## Add dummy for other 'steps'                                       ##
-    ## ##                                                                   ##
-    ## ## See list from e.l.knowles@sheffield.ac.uk at...                   ##
-    ## ##                                                                   ##
-    ## ## https://goo.gl/TlhfCF                                             ##
-    ## ##                                                                   ##
-    ## #######################################################################
-    ## df <- mutate(df,
-    ##                    nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
-    ##                                    (town == 'Southport' & relative.month >= 48) |
-    ##                                    ## ToDo - Uncomment once confirmed and revised dates available
-    ##                                    (town == 'Rochdale' & relative.month >= 48) |
-    ##                                    (town == 'Rotherham' & relative.month >= 48) |
-    ##                                    (town == 'Hartlepool' & relative.month >= 45) |
-    ##                                    (town == 'Grimsby' & relative.month >= 16),
-    ##                                    1, 0),
-    ##                    ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
-    ##                    other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
-    ##                                          (town == 'Newark' & relative.month >= 3) |
-    ##                                          (town == 'Rochdale' & relative.month >= 11) |
-    ##                                          (town == 'Hartlepool' & relative.month >= 22),
-    ##                                          1, 0)
-    ##              )
-    #######################################################################
     ## Labels and captions conditional on outcome                        ##
     #######################################################################
     ## ToDo - Switch to parsing the data frames name, slightly easier/greater
     ##        internal consistency
     ## indicator <- substitute(df) %>% evaulate()
+    print("Debug 1")
     if(indicator == 'ed attendances'){
         title1 <- 'Total ED Attendance'
         if(sub.indicator == 'any')            title2 <- ' (Any)'
@@ -233,6 +204,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     #######################################################################
     ## Define vertical lines for steps                                   ##
     #######################################################################
+    print("Debug 2")
     steps        <- c(24.5)
     steps.labels <- c('ED Closure')
     town         <- c('')
@@ -311,6 +283,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Identify and remove spurious data points                          ##
     #######################################################################
     ## TODO - Convert to calls to closed_clean()
+    print("Debug 3")
     if(tidy == TRUE){
         ## Condition on the indicator and sub indicator
         if(indicator == 'ed attendances' & sub.indicator == 'any'){
@@ -370,6 +343,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Plot!                                                             ##
     #######################################################################
     ## Subset data
+    print("Debug 4")
     df <- filter(df,
                   town %in% sites &
                   measure     == indicator &
@@ -379,6 +353,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     df$town <- ifelse(df$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham'), paste0(df$town, ' (Primary)'), df$town)
     df$town <- factor(df$town)
     ## Add linetype based on the remaining centers that are being plotted
+    print("Debug 6")
     df$linetype <- as.numeric(levels(df$town))
     if(colour == TRUE){
         results$plot <- ggplot(data = df,
