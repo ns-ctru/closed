@@ -416,72 +416,72 @@ avoidable.emergency.admissions.any$model7.panelar$residuals %>% plot()
 
 
 
-#### ED Attendances Admitted (All) {.tabset .tabset-fade}
-```{r hartlepool_ed_attendances_admitted_all_ts_plot, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-closed_ts_plot(df            = ed_attendances_admitted_site_measure,
-               indicator     = 'ed attendances admitted',
-               sub.indicator = 'all',
-               steps         = TRUE,
-               theme         = theme_bw(),
-               tidy          = FALSE,
-               facet         = FALSE,
-               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
-               legend        = TRUE)
-```
+<!-- #### ED Attendances Admitted (All) {.tabset .tabset-fade} -->
+<!-- ```{r hartlepool_ed_attendances_admitted_all_ts_plot, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE} -->
+<!-- closed_ts_plot(df            = ed_attendances_admitted_site_measure, -->
+<!--                indicator     = 'ed attendances admitted', -->
+<!--                sub.indicator = 'all', -->
+<!--                steps         = TRUE, -->
+<!--                theme         = theme_bw(), -->
+<!--                tidy          = FALSE, -->
+<!--                facet         = FALSE, -->
+<!--                sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'), -->
+<!--                legend        = TRUE) -->
+<!-- ``` -->
 
-##### Model 1
-```{r hartlepool_ed_attendances_admitted_all_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ed.attendances.admitted.all$model1.panelar.hartlepool %>% summary()
-ed.attendances.admitted.all$model1.panelar.hartlepool$residuals %>% plot()
-```
+<!-- ##### Model 1 -->
+<!-- ```{r hartlepool_ed_attendances_admitted_all_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE} -->
+<!-- ed.attendances.admitted.all$model1.panelar.hartlepool %>% summary() -->
+<!-- ed.attendances.admitted.all$model1.panelar.hartlepool$residuals %>% plot() -->
+<!-- ``` -->
 
-##### Model 2
-```{r hartlepool_ed_attendances_admitted_all_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ed.attendances.admitted.all$model2.panelar.hartlepool %>% summary()
-ed.attendances.admitted.all$model2.panelar.hartlepool$residuals %>% plot()
-```
+<!-- ##### Model 2 -->
+<!-- ```{r hartlepool_ed_attendances_admitted_all_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE} -->
+<!-- ed.attendances.admitted.all$model2.panelar.hartlepool %>% summary() -->
+<!-- ed.attendances.admitted.all$model2.panelar.hartlepool$residuals %>% plot() -->
+<!-- ``` -->
 
-##### Model 3a
-```{r hartlepool_ed_attendances_admitted_all_model3a, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ed.attendances.admitted.all$model3a.panelar.hartlepool %>% summary()
-ed.attendances.admitted.all$model3a.panelar.hartlepool$residuals %>% plot()
-```
+<!-- ##### Model 3a -->
+<!-- ```{r hartlepool_ed_attendances_admitted_all_model3a, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE} -->
+<!-- ed.attendances.admitted.all$model3a.panelar.hartlepool %>% summary() -->
+<!-- ed.attendances.admitted.all$model3a.panelar.hartlepool$residuals %>% plot() -->
+<!-- ``` -->
 
-##### Model 3b
-```{r hartlepool_ed_attendances_admitted_all_model3b, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ed.attendances.admitted.all$model3b.panelar.hartlepool %>% summary()
-ed.attendances.admitted.all$model3b.panelar.hartlepool$residuals %>% plot()
-```
+<!-- ##### Model 3b -->
+<!-- ```{r hartlepool_ed_attendances_admitted_all_model3b, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE} -->
+<!-- ed.attendances.admitted.all$model3b.panelar.hartlepool %>% summary() -->
+<!-- ed.attendances.admitted.all$model3b.panelar.hartlepool$residuals %>% plot() -->
+<!-- ``` -->
 
-##### Model 4
-```{r hartlepool_ed_attendances_admitted_all_model4, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ed.attendances.admitted.all$model4.panelar %>% summary()
-ed.attendances.admitted.all$model4.panelar$residuals %>% plot()
-```
+<!-- ##### Model 4 -->
+<!-- ```{r hartlepool_ed_attendances_admitted_all_model4, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE} -->
+<!-- ed.attendances.admitted.all$model4.panelar %>% summary() -->
+<!-- ed.attendances.admitted.all$model4.panelar$residuals %>% plot() -->
+<!-- ``` -->
 
-##### Model 5
-```{r hartlepool_ed_attendances_admitted_all_model5, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ed.attendances.admitted.all$model5.panelar %>% summary()
-ed.attendances.admitted.all$model5.panelar$residuals %>% plot()
-```
+<!-- ##### Model 5 -->
+<!-- ```{r hartlepool_ed_attendances_admitted_all_model5, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE} -->
+<!-- ed.attendances.admitted.all$model5.panelar %>% summary() -->
+<!-- ed.attendances.admitted.all$model5.panelar$residuals %>% plot() -->
+<!-- ``` -->
 
-##### Model 6.1
-```{r hartlepool_ed_attendances_admitted_all_model6_1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ed.attendances.admitted.all$model6.1.panelar.hartlepool %>% summary()
-ed.attendances.admitted.all$model6.1.panelar.hartlepool$residuals %>% plot()
-```
+<!-- ##### Model 6.1 -->
+<!-- ```{r hartlepool_ed_attendances_admitted_all_model6_1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE} -->
+<!-- ed.attendances.admitted.all$model6.1.panelar.hartlepool %>% summary() -->
+<!-- ed.attendances.admitted.all$model6.1.panelar.hartlepool$residuals %>% plot() -->
+<!-- ``` -->
 
-##### Model 6.2
-```{r hartlepool_ed_attendances_admitted_all_model6_2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ed.attendances.admitted.all$model6.2.panelar.hartlepool %>% summary()
-ed.attendances.admitted.all$model6.2.panelar.hartlepool$residuals %>% plot()
-```
+<!-- ##### Model 6.2 -->
+<!-- ```{r hartlepool_ed_attendances_admitted_all_model6_2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE} -->
+<!-- ed.attendances.admitted.all$model6.2.panelar.hartlepool %>% summary() -->
+<!-- ed.attendances.admitted.all$model6.2.panelar.hartlepool$residuals %>% plot() -->
+<!-- ``` -->
 
-##### Model 7
-```{r hartlepool_ed_attendances_admitted_all_model7, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ed.attendances.admitted.all$model7.panelar %>% summary()
-ed.attendances.admitted.all$model7.panelar$residuals %>% plot()
-```
+<!-- ##### Model 7 -->
+<!-- ```{r hartlepool_ed_attendances_admitted_all_model7, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE} -->
+<!-- ed.attendances.admitted.all$model7.panelar %>% summary() -->
+<!-- ed.attendances.admitted.all$model7.panelar$residuals %>% plot() -->
+<!-- ``` -->
 
 
 #### ED Attendances Admitted (Admitted) {.tabset .tabset-fade}
