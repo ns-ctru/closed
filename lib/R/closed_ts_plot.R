@@ -91,7 +91,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## ToDo - Switch to parsing the data frames name, slightly easier/greater
     ##        internal consistency
     ## indicator <- substitute(df) %>% evaulate()
-    print("Debug 1")
+    ## print("Debug 1")
     if(indicator == 'ed attendances'){
         title1 <- 'Total ED Attendance'
         if(sub.indicator == 'any')            title2 <- ' (Any)'
@@ -204,7 +204,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     #######################################################################
     ## Define vertical lines for steps                                   ##
     #######################################################################
-    print("Debug 2")
+    ## print("Debug 2")
     steps        <- c(24.5)
     steps.labels <- c('ED Closure')
     town         <- c('')
@@ -283,7 +283,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Identify and remove spurious data points                          ##
     #######################################################################
     ## TODO - Convert to calls to closed_clean()
-    print("Debug 3")
+    ## print("Debug 3")
     if(tidy == TRUE){
         ## Condition on the indicator and sub indicator
         if(indicator == 'ed attendances' & sub.indicator == 'any'){
@@ -343,7 +343,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Plot!                                                             ##
     #######################################################################
     ## Subset data
-    print("Debug 4")
+    ## print("Debug 4")
     df <- filter(df,
                   town %in% sites &
                   measure     == indicator &
@@ -353,8 +353,9 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     df$town <- ifelse(df$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham'), paste0(df$town, ' (Primary)'), df$town)
     df$town <- factor(df$town)
     ## Add linetype based on the remaining centers that are being plotted
-    print("Debug 6")
-    df$linetype <- as.numeric(levels(df$town))
+    ## print("Debug 5")
+    ## df$linetype <- as.numeric(levels(df$town))
+    ## print("Debug 6")
     if(colour == TRUE){
         results$plot <- ggplot(data = df,
                                mapping = aes(x     = relative.month,
