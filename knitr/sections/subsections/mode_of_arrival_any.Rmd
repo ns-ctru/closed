@@ -183,17 +183,30 @@ mode.of.arrival.any$model5.forest$forest
 mode.of.arrival.any$model5.panelar.all$coef[3:9] %>% kable(caption = mode.of.arrival.any$model5.panelar.all$caption)
 ```
 
-##### Model 6
+##### Model 6.1
 
 `Case Site    : Individual`\
 `Control Site : One Matched`\
 `Panel        : LSOA`\
-`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre + change in ED time`\
+`Model        : observations ~ season + time + nhs111 + ambulance.divert + other.centre + change in ED time`\
 
-```{r mode_of_arrival_any_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-mode.of.arrival.any$model6.ts.plot
-mode.of.arrival.any$model6.forest$forest
-mode.of.arrival.any$model6.panelar.all$coef[3:8] %>% kable(caption = mode.of.arrival.any$model6.panelar.all$caption)
+```{r mode_of_arrival_any_model6_1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+mode.of.arrival.any$model6.1.ts.plot
+mode.of.arrival.any$model6.1.forest$forest
+mode.of.arrival.any$model6.1.panelar.all$coef[3:8] %>% kable(caption = mode.of.arrival.any$model6.1.panelar.all$caption)
+```
+
+##### Model 6.2
+
+`Case Site    : Individual`\
+`Control Site : One Matched`\
+`Panel        : LSOA`\
+`Model        : observations ~ season + time + site + nhs111 + ambulance.divert + other.centre + change in ED time`\
+
+```{r mode_of_arrival_any_model6_2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+mode.of.arrival.any$model6.2.ts.plot
+mode.of.arrival.any$model6.2.forest$forest
+mode.of.arrival.any$model6.2.panelar.all$coef[3:8] %>% kable(caption = mode.of.arrival.any$model6.2.panelar.all$caption)
 ```
 
 ##### Model 7
@@ -206,7 +219,7 @@ mode.of.arrival.any$model6.panelar.all$coef[3:8] %>% kable(caption = mode.of.arr
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre + change in ED time`\
 
 ```{r mode_of_arrival_any_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-mode.of.arrival.any$model7.ts.plot
+## mode.of.arrival.any$model7.ts.plot
 mode.of.arrival.any$model7.forest$forest
 mode.of.arrival.any$model7.panelar.all$coef[3:8] %>% kable(caption = mode.of.arrival.any$model7.panelar.all$caption)
 ```
