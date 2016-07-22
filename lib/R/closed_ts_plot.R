@@ -69,12 +69,12 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Convert variable names for ease of typing within this function
     ## (ESS artefact, hitting underscore inserts '<-' so lots of underscores are
     ## tedious to type)
-    names(df) <- names(df) %>%
-        gsub("_", ".", x = .)
+    ## names(df) <- names(df) %>%
+    ##     gsub("_", ".", x = .)
     ## Convert to data frame,  and convert
     ## town to factor so that it can be releveled as required
-    df <- as.data.frame(df)
-    df$town <- factor(df$town)
+    ## df <- as.data.frame(df)
+    ## df$town <- factor(df$town)
     ## df.steps <- as.data.frame(df.steps)
     ## names(df.steps) <- names(df.steps) %>%
     ##                    gsub("_", ".", x = .)
