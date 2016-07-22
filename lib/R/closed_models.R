@@ -106,7 +106,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ##              the main indicator which is supplied as the sub.indicator
     ##              argument
     ## which.df <- substitute(df.lsoa) %>% deparse()
-    ## print("Debug 1")
+    print("Debug 1")
     ## Obtain the levels of town and group and site type the number of observations
     ## within each to control subsequent analyses
     ## ToDo - Think how to loop over each of these groups testing each of the models
@@ -125,14 +125,14 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                         all    = TRUE)
     town.group <- mutate(town.group,
                          n = ifelse(is.na(n), 0, n))
-    ## print("Debug 2")
+    print("Debug 2")
     names(df.lsoa)  <- names(df.lsoa) %>%
                        gsub("_", ".", x = .)
     names(df.trust) <- names(df.trust) %>%
                        gsub("_", ".", x = .)
     ## Convert to data frame, selecting only the specified outcome and convert
     ## town to factor so that it can be releveled as required
-    ## print("Debug 3")
+    print("Debug 3")
     df.lsoa  <- as.data.frame(df.lsoa) %>%
                 dplyr::filter(measure == indicator,
                               sub.measure == sub.indicator)
@@ -143,7 +143,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     df.trust$town <- factor(df.trust$town)
     ## Conditionally select range for y-axis, MUST do this BEFORE subsetting
     ## data so that it is common across all outcomes for the given indicator
-    ## print("Debug 4")
+    print("Debug 4")
     if(common.y == TRUE){
         ## print('Dim LSOA')
         ## dim(df.lsoa) %>% print()
@@ -158,7 +158,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Derive a seasonal indicator (really this should be on the data    ##
     ## preparation side but Tony is already doing tons)                  ##
     #######################################################################
-    ## print("Debug 5")
+    print("Debug 5")
+    ## print("LSOA")
+    ## dim(df.lsoa) %>% print()
+    ## print("TRUST")
+    ## dim(df.trust) %>% print()
     df.lsoa$season <- 1
     df.lsoa <- within(df.lsoa,{
                       season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
@@ -168,6 +172,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
                       season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
     })
+    df.lsoa$season <- factor(df.lsoa$season)
+    df.lsoa$season <- relevel(df.lsoa$season, ref = '1')
+    ## print("LSOA")
+    ## dim(df.lsoa) %>% print()
+    ## print("TRUST")
+    ## dim(df.trust) %>% print()
     df.trust$season <- 1
     df.trust <- within(df.trust,{
                       season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
@@ -177,12 +187,14 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
                       season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
     })
+    df.trust$season <- factor(df.trust$season)
+    df.trust$season <- relevel(df.trust$season, ref = '1')
     #######################################################################
     ## Add a dummy 'step' for closure                                    ##
     #######################################################################
     ## 2016-05-24 - Post meeting with Jon, this should be 0/1 for _all_ sites not
     ##              just intervention ones
-    ## print("Debug 6")
+    print("Debug 6")
     df.lsoa$closure  <- ifelse(df.lsoa$relative.month  > 24, 1, 0)
     df.trust$closure <- ifelse(df.trust$relative.month > 24, 1, 0)
     #######################################################################
@@ -193,7 +205,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## https://goo.gl/TlhfCF                                             ##
     ##                                                                   ##
     #######################################################################
-    ## print("Debug 7")
+    print("Debug 7")
     df.lsoa <- mutate(df.lsoa,
                       nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
                                       (town == 'Southport' & relative.month >= 48) |
