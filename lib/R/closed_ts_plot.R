@@ -23,6 +23,8 @@
 #' @param exclude.control Logical indicator of whether to exclude vertical step lines for pooled controls (default is \code{FALSE}, switch to \code{TRUE} when passing a pooled data set)
 #' @param xaxis.steps Logical indicator of whether to add x-axis labels for steps.
 #' @param fig String of the figure number to apply to the title.
+#' @param repel Add repelled labels to graph (deafult \code{FALSE}).
+#' @param colour Produce colour plots or not.
 #'
 #' @return A list of ggplot2 objects.
 #'
@@ -47,6 +49,8 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            exclude.control = FALSE,
                            xaxis.steps     = FALSE,
                            fig             = '',
+                           repel           = FALSE,
+                           colour          = TRUE,
                            ...){
     ## Initialise results for returning
     results <- list()
@@ -231,7 +235,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     #######################################################################
     steps        <- c(24.5)
     steps.labels <- c('ED Closure')
-    town         <- c('ED Closure')
+    town         <- c('')
     variable     <- c(1)
     if('Bishop Auckland' %in% sites){
         steps <- c(steps, 35)
@@ -242,7 +246,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     if('Grimsby' %in% sites){
         steps <- c(steps, 16)
         steps.labels <- c(steps.labels, 'NHS111')
-        town <- c(town, 'Grimsby')
+        town <- c(town, 'Grimsby (Primary)')
         variable <- c(variable, 2)
     }
     if('Hartlepool' %in% sites){
@@ -272,13 +276,13 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     if('Rotherham' %in% sites){
         steps <- c(steps, 48)
         steps.labels <- c(steps.labels, 'NHS111')
-        town <- c(town, 'Rotherham')
+        town <- c(town, 'Rotherham (Primary)')
         variable <- c(variable, 2)
     }
     if('Southport' %in% sites){
         steps <- c(steps, 48)
         steps.labels <- c(steps.labels, 'NHS111')
-        town <- c(town, 'Southport')
+        town <- c(town, 'Southport (Primary)')
         variable <- c(variable, 2)
     }
     if('Warwick' %in% sites){
@@ -370,36 +374,76 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                   town %in% sites &
                   measure     == indicator &
                   sub.measure == sub.indicator)
-    results$plot <- ggplot(data = df,
-                           mapping = aes(x     = relative.month,
-                                         y     = value,
-                                         color = town))
+    ## Add indicator of primary matched control
+    df$town <- as.character(df$town)
+    df$town <- ifelse(df$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham'), paste0(df$town, ' (Primary)'), df$town)
+    df$town <- factor(df$town)
+    ## Add linetype based on the remaining centers that are being plotted
+    df$linetype <- as.numeric(levels(df$town))
+    if(colour == TRUE){
+        results$plot <- ggplot(data = df,
+                               mapping = aes(x     = relative.month,
+                                             y     = value,
+                                             colour  = town))
+    }
+    else{
+        results$plot <- ggplot(data = df,
+                               mapping = aes(x     = relative.month,
+                                             y     = value,
+                                             linetype = town))
+    }
     ## Basic line plot
+    ## results$plot <- results$plot + geom_line(linetype = linetype) +
     results$plot <- results$plot + geom_line() +
                     ## Graph and axis labels
                     labs(list(title  = paste0(fig, title1, title2),
                               x      = 'Month (Aligned)',
                               y      = ylabel,
-                              colour = 'Hospital Catchment Area'))
+                              colour = 'Hospital Catchment Area',
+                              linetype = 'Hospital Catchment Area'))
     ## Label lines
-    results$plot <- results$plot + geom_text_repel(data = filter(df, relative.month == 3),
-                                                   aes(relative.month,
-                                                       value,
-                                                       colour = town,
-                                                       label  = town),
-                                                   force   = 1,
-                                                   nudge_x = 0,
-                                                   nudge_y = 0)
+    if(repel == TRUE){
+        if(colour == TRUE){
+            results$plot <- results$plot + geom_text_repel(data = filter(df, relative.month == 3),
+                                                           aes(relative.month,
+                                                               value,
+                                                               colour = town,
+                                                               linetype  = town),
+                                                           force   = 1,
+                                                           nudge_x = 0,
+                                                           nudge_y = 0)
+        }
+        else{
+            results$plot <- results$plot + geom_text_repel(data = filter(df, relative.month == 3),
+                                                           aes(relative.month,
+                                                               value,
+                                                               label  = town),
+                                                           force   = 1,
+                                                           nudge_x = 0,
+                                                           nudge_y = 0)
+        }
+    }
     ## Add vertical lines for all steps
     if(lines == TRUE){
         ## If pooled then only include the steps for Case sites
         if(exclude.control == TRUE){
             df.steps <- filter(df.steps, town %in% c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'ED Closure'))
         }
-        results$plot <- results$plot + geom_vline(data = df.steps,
-                                                  mapping = aes(xintercept = steps,
-                                                                color      = town,
-                                                                linetype   = variable))
+        if(colour == TRUE){
+            results$plot <- results$plot + geom_vline(data = df.steps,
+                                                      mapping = aes(xintercept = steps,
+                                                                    colour     = town,
+                                                                    linetype   = variable)) +
+                            labs(linetype = 'Modelled Changes', colour = 'Hospital Catchment Area')
+        }
+        else{
+            results$plot <- results$plot + geom_vline(data = df.steps,
+                                                      mapping = aes(xintercept = steps,
+                                                                    label      = town,
+                                                                    linetype   = variable)) +
+                            labs(linetype = 'Modelled Changes', colour = 'Hospital Catchment Area')
+
+        }
     }
     ## Scale y-axis to have range 0-1 if this is case fatality ratio
     if(indicator == 'case fatality ratio'){
