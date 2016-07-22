@@ -94,9 +94,9 @@
 
 ### Attendances Admitted {.tabset .tabset-fade}
 
-#### All  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/ed_attendances_admitted_all.Rmd', eval = TRUE}
-```
+<!-- #### All  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/ed_attendances_admitted_all.Rmd', eval = FALSE} -->
+<!-- ``` -->
 
 #### Admitted  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/ed_attendances_admitted_admitted.Rmd', eval = TRUE}
@@ -187,9 +187,9 @@
 <!-- ```{r child = 'subsections/case_fatality_ratio_septic_shock.Rmd', eval = FALSE} -->
 <!-- ``` -->
 
-#### Serious Head Injury  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/case_fatality_ratio_serious_head_injury.Rmd', eval = FALSE}
-```
+<!-- #### Serious Head Injury  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_serious_head_injury.Rmd', eval = FALSE} -->
+<!-- ``` -->
 
 #### Stroke CVA  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/case_fatality_ratio_stroke_cva.Rmd', eval = FALSE}
@@ -198,23 +198,47 @@
 ### Ambulance Mean Times  {.tabset .tabset-fade}
 
 #### Call to Destianation  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/ambulance_mean_times_call_to_dest.Rmd', eval = FALSE}
+```{r child = 'subsections/ambulance_mean_times_call_to_dest.Rmd', eval = TRUE}
 ```
 
 #### Call to Scene (Any)  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/ambulance_mean_times_call_to_scene_any.Rmd', eval = FALSE}
+```{r child = 'subsections/ambulance_mean_times_call_to_scene_any.Rmd', eval = TRUE}
 ```
 
 #### Call to Scene (Conveying)  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/ambulance_mean_times_call_to_scene_conveying.Rmd', eval = FALSE}
+```{r child = 'subsections/ambulance_mean_times_call_to_scene_conveying.Rmd', eval = TRUE}
 ```
 
 #### Scene to Destination  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/ambulance_mean_times_scene_to_dest.Rmd', eval = FALSE}
+```{r child = 'subsections/ambulance_mean_times_scene_to_dest.Rmd', eval = TRUE}
 ```
 
 #### Destination to Clear  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/ambulance_mean_times_dest_to_clear.Rmd', eval = FALSE}
+```{r child = 'subsections/ambulance_mean_times_dest_to_clear.Rmd', eval = TRUE}
+```
+
+### Ambulance Non-Conveyance
+
+#### Green Calls  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_non_conveyances_green_calls.Rmd', eval = TRUE}
+```
+
+#### Green Calls Not Conveyed  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_non_conveyances_green_calls_not_conveyed.Rmd', eval = TRUE}
+```
+
+#### Fraction Not Conveyed  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_non_conveyances_fraction_non_conveyed.Rmd', eval = TRUE}
+```
+
+### Ambulance Red Calls
+
+#### Hospital Transfers  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_red_calls_hospital_transfers.Rmd', eval = TRUE}
+```
+
+#### Total  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_red_calls_total.Rmd', eval = TRUE}
 ```
 
 #### Regression Summary
