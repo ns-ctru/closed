@@ -1035,15 +1035,15 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         df3.2 <- closed_pool(df             = df.trust,
                            within.centres = TRUE)
         ## Define group pooling for controls (but DON'T pool the data!)
-        df3.2 <- mutate(df3.2,
-                      pooled.control = ifelse(site.type %in% c('matched control', 'pooled control'), 'Control', town))
-        df3.2 <- mutate(df3.2,
-                      pooled.control = ifelse(pooled.control == 2, 'Bishop Auckland', pooled.control),
-                      pooled.control = ifelse(pooled.control == 6, 'Harltepool', pooled.control),
-                      pooled.control = ifelse(pooled.control == 7, 'Hemel Hempstead', pooled.control),
-                      pooled.control = ifelse(pooled.control == 8, 'Newark', pooled.control),
-                      pooled.control = ifelse(pooled.control == 9, 'Rochdale', pooled.control))
-        df3.2$pooled.control <- factor(df3.2$pooled.control)
+        ## df3.2 <- mutate(df3.2,
+        ##               pooled.control = ifelse(site.type %in% c('matched control', 'pooled control'), 'Control', town))
+        ## df3.2 <- mutate(df3.2,
+        ##               pooled.control = ifelse(pooled.control == 2, 'Bishop Auckland', pooled.control),
+        ##               pooled.control = ifelse(pooled.control == 6, 'Harltepool', pooled.control),
+        ##               pooled.control = ifelse(pooled.control == 7, 'Hemel Hempstead', pooled.control),
+        ##               pooled.control = ifelse(pooled.control == 8, 'Newark', pooled.control),
+        ##               pooled.control = ifelse(pooled.control == 9, 'Rochdale', pooled.control))
+        ## df3.2$pooled.control <- factor(df3.2$pooled.control)
         ## Set reference group for pooled controls
         df3.2$pooled.control <- relevel(df3.2$pooled.control, ref = 'Control')
         ## Generate Time-Series Plots
