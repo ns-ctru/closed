@@ -84,14 +84,15 @@ amb_mean_times_site_measure$value <- amb_mean_times_site_measure$value / 60
 ## Set model options here (easier when tweaking en-mass)
 model.opts <- list()
 model.opts
-model.opts$mod1   <- c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
-model.opts$mod2   <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
-model.opts$mod3.1  <- c('pooled.control * closure', 'town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
-model.opts$mod3.2  <- c('pooled.control * closure', 'town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')model.opts$mod4   <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
-model.opts$mod5   <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
-model.opts$mod6   <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
-model.opts$mod6.1 <- c('season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
-model.opts$mod6.2 <- c('town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
+model.opts$mod1    <- c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+model.opts$mod2    <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+model.opts$mod3.1  <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+model.opts$mod3.2  <- c('pooled.control * closure', 'town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+model.opts$mod4    <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+model.opts$mod5    <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
+model.opts$mod6    <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
+model.opts$mod6.1  <- c('season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
+model.opts$mod6.2  <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
 if(os != 'unix' | node != 'mcru-closed-hp.shef.ac.uk'){
     model.opts$mod7 = NULL
 } else{
@@ -202,8 +203,8 @@ mode.of.arrival.any <- closed_models(df.lsoa          = ed_attendances_by_mode_m
                                      outcome          = model.opts$outcome,
                                      model1           = model.opts$mod1,
                                      model2           = model.opts$mod2,
-                                     model3a          = model.opts$mod3a,
-                                     model3b          = model.opts$mod3b,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
                                      model4           = model.opts$mod4,
                                      model5           = model.opts$mod5,
                                      model6.1         = model.opts$mod6.1,
