@@ -6,15 +6,16 @@ Seven models are tested sequentially with growing complexity and are detailed be
 
 Table: Models tested in ClosED
 
-Model | Case Site    | Control Site     | Panel | Covariates
-------|--------------|------------------|-------|----------------------------------------
-1     | Individual   | None             | ED    | season + time + closure + nhs111 + other.centre + ambulance.diversion
-2     | Individual   | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-3a    | Individual   | All Matched      | ED    | season + time + closure * pooled.site + site + nhs111 + other.centre + ambulance.diversion
-3b    | Individual and All | All Matched (Pooled)      | ED  | season + time + closure * pooled.site + nhs111 + other.centre + ambulance.diversion
-4     | All (Pooled) | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-5     | All (Pooled) | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-6     | Individual   | One Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
+Model  | Case Site    | Control Site     | Panel | Covariates
+-------|--------------|------------------|-------|----------------------------------------
+1      | Individual   | None             | ED    | season + time + closure + nhs111 + other.centre + ambulance.diversion
+2      | Individual   | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+3.1    | Individual   | All Matched      | ED    | season + time + closure * pooled.site + site + nhs111 + other.centre + ambulance.diversion
+3.2    | Individual and All | All Matched (Pooled)      | ED  | season + time + closure * pooled.site + nhs111 + other.centre + ambulance.diversion
+4      | All (Pooled) | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+5      | All (Pooled) | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+6.1      | Individual   | None           | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
+6.2      | All (Pooled) | One Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
 7     | All          | All Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
 
 
