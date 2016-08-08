@@ -129,20 +129,20 @@ ed.attendances.admitted.fraction.admitted$model2.forest$forest
 ed.attendances.admitted.fraction.admitted$model2.panelar.all$coef[3:8] %>% kable(caption = ed.attendances.admitted.fraction.admitted$model2.panelar.all$caption)
 ```
 
-##### Model 3a
+##### Model 3.1
 
 `Case Site    : Individual`\
 `Control Site : All Matched`\
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
-```{r ed_attendances_admitted_fraction_admitted_model3a, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-ed.attendances.admitted.fraction.admitted$model3a.ts.plot
-ed.attendances.admitted.fraction.admitted$model3a.forest$forest
-ed.attendances.admitted.fraction.admitted$model3a.panelar.all$coef[3:8] %>% kable(caption = ed.attendances.admitted.fraction.admitted$model3a.panelar.all$caption)
+```{r ed_attendances_admitted_fraction_admitted_model3_1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+ed.attendances.admitted.fraction.admitted$model3.1.ts.plot
+ed.attendances.admitted.fraction.admitted$model3.1.forest$forest
+ed.attendances.admitted.fraction.admitted$model3.1.panelar.all$coef[3:8] %>% kable(caption = ed.attendances.admitted.fraction.admitted$model3.1.panelar.all$caption)
 ```
 
-##### Model 3b
+##### Model 3.2
 
 
 `Case Site    : Individual and All`\
@@ -150,10 +150,10 @@ ed.attendances.admitted.fraction.admitted$model3a.panelar.all$coef[3:8] %>% kabl
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
-```{r ed_attendances_admitted_fraction_admitted_model3b, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-ed.attendances.admitted.fraction.admitted$model3b.ts.plot
-ed.attendances.admitted.fraction.admitted$model3b.forest$forest
-ed.attendances.admitted.fraction.admitted$model3b.panelar.all$coef[3:8] %>% kable(caption = ed.attendances.admitted.fraction.admitted$model3b.panelar.all$caption)
+```{r ed_attendances_admitted_fraction_admitted_model3_2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+ed.attendances.admitted.fraction.admitted$model3.2.ts.plot
+ed.attendances.admitted.fraction.admitted$model3.2.forest$forest
+ed.attendances.admitted.fraction.admitted$model3.2.panelar.all$coef[3:8] %>% kable(caption = ed.attendances.admitted.fraction.admitted$model3.2.panelar.all$caption)
 ```
 
 ##### Model 4
@@ -183,17 +183,30 @@ ed.attendances.admitted.fraction.admitted$model5.forest$forest
 ed.attendances.admitted.fraction.admitted$model5.panelar.all$coef[3:9] %>% kable(caption = ed.attendances.admitted.fraction.admitted$model5.panelar.all$caption)
 ```
 
-##### Model 6
+##### Model 6.1
+
+`Case Site    : Individual`\
+`Control Site : None`\
+`Panel        : LSOA`\
+`Model        : observations ~ season + time + nhs111 + ambulance.divert + other.centre  + change in ED time`\
+
+```{r ed_attendances_admitted_fraction_admitted_model6_1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+ed.attendances.admitted.fraction.admitted$model6.1.ts.plot
+ed.attendances.admitted.fraction.admitted$model6.1.forest$forest
+ed.attendances.admitted.fraction.admitted$model6.1.panelar.all$coef[3:8] %>% kable(caption = ed.attendances.admitted.fraction.admitted$model6.1.panelar.all$caption)
+```
+
+##### Model 6.2
 
 `Case Site    : Individual`\
 `Control Site : One Matched`\
 `Panel        : LSOA`\
-`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
+`Model        : observations ~ season + time + site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
 
-```{r ed_attendances_admitted_fraction_admitted_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-ed.attendances.admitted.fraction.admitted$model6.ts.plot
-ed.attendances.admitted.fraction.admitted$model6.forest$forest
-ed.attendances.admitted.fraction.admitted$model6.panelar.all$coef[3:8] %>% kable(caption = ed.attendances.admitted.fraction.admitted$model6.panelar.all$caption)
+```{r ed_attendances_admitted_fraction_admitted_model6_2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+ed.attendances.admitted.fraction.admitted$model6.2.ts.plot
+ed.attendances.admitted.fraction.admitted$model6.2.forest$forest
+ed.attendances.admitted.fraction.admitted$model6.2.panelar.all$coef[3:8] %>% kable(caption = ed.attendances.admitted.fraction.admitted$model6.2.panelar.all$caption)
 ```
 
 ##### Model 7
@@ -204,7 +217,7 @@ ed.attendances.admitted.fraction.admitted$model6.panelar.all$coef[3:8] %>% kable
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
 
 ```{r ed_attendances_admitted_fraction_admitted_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-ed.attendances.admitted.fraction.admitted$model7.ts.plot
+## ed.attendances.admitted.fraction.admitted$model7.ts.plot
 ed.attendances.admitted.fraction.admitted$model7.forest$forest
 ed.attendances.admitted.fraction.admitted$model7.panelar.all$coef[3:8] %>% kable(caption = ed.attendances.admitted.fraction.admitted$model7.panelar.all$caption)
 ```
