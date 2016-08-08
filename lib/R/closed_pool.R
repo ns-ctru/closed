@@ -8,7 +8,6 @@
 #' control sites.  This function pools control sites, either against their
 #' matched controls or across all sites.
 #'
-#' This function produces time-series plots in different formats.
 #'
 #' @param df Data frame to be plotted.
 #' @param within.centre Whether to pool within case centres or across all.
