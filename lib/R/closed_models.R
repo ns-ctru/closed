@@ -599,7 +599,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     #######################################################################
     if(!is.null(model2)){
         ## print("Model 2")
-        print(model2)
+        ## print(model2)
         ## Reformulate outcome and covariates
         formula.model2 <- reformulate(response = outcome,
                                       termlabels = model2)
