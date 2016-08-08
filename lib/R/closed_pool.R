@@ -38,7 +38,7 @@ closed_pool <- function(df              = ed_attendances_by_mode_site_measure,
               summarise(value = sum(value))
     }
     else{
-        df <- group_by(df, measure, sub.measure, pooled.control, relative.month) %>%
+        df <- group_by(df, measure, sub.measure, pooled.control, relative.month, yearmonth) %>%
               summarise(value = sum(value))
     }
     ## Add dummy indicators back into the data
@@ -56,7 +56,8 @@ closed_pool <- function(df              = ed_attendances_by_mode_site_measure,
                  closure  = ifelse(relative.month  > 24, 1, 0),
                  town = pooled.control)
     df$relative.month <- as.numeric(df$relative.month) %>% as.integer()
-    df <- df[, -which(names(df) %in% c('pooled.control'))]
+    ## No idea why pooled.control is removed, I think its actually needed
+    ## df <- df[, -which(names(df) %in% c('pooled.control'))]
     ## Can only add a seasonal component if pooling is within centres since
     ## they do not align across centers
     if(within.centre == TRUE){
