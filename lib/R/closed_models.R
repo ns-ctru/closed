@@ -1496,24 +1496,24 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model5.panelar.r2 <- model5.panelar$r2
         }
         ## Summary table
-        if(!is.null(results$model3a.panelar.bishop.coef) |
-           !is.null(results$model3a.panelar.hartlepool.coef) |
-           !is.null(results$model3a.panelar.hemel.coef) |
-           !is.null(results$model3a.panelar.newark.coef) |
-           !is.null(results$model3a.panelar.rochdale.coef) |
+        if(!is.null(results$model3.1.panelar.bishop.coef) |
+           !is.null(results$model3.1.panelar.hartlepool.coef) |
+           !is.null(results$model3.1.panelar.hemel.coef) |
+           !is.null(results$model3.1.panelar.newark.coef) |
+           !is.null(results$model3.1.panelar.rochdale.coef) |
            !is.null(results$model5.panelar.all.coef)){
-            results$model5.panelar.all <- combine_coefficients(bishop.coef     = results$model3a.panelar.bishop.coef,
-                                                               hartlepool.coef = results$model3a.panelar.hartlepool.coef,
-                                                               hemel.coef      = results$model3a.panelar.hemel.coef,
-                                                               newark.coef     = results$model3a.panelar.newark.coef,
-                                                               rochdale.coef   = results$model3a.panelar.rochdale.coef,
+            results$model5.panelar.all <- combine_coefficients(bishop.coef     = results$model3.1.panelar.bishop.coef,
+                                                               hartlepool.coef = results$model3.1.panelar.hartlepool.coef,
+                                                               hemel.coef      = results$model3.1.panelar.hemel.coef,
+                                                               newark.coef     = results$model3.1.panelar.newark.coef,
+                                                               rochdale.coef   = results$model3.1.panelar.rochdale.coef,
                                                                all.coef        = results$model5.panelar.all.coef)
             ## Forest plot
-            results$model5.forest <- closed_forest(df.list       = list(results$model3a.panelar.bishop.coef,
-                                                                        results$model3a.panelar.hartlepool.coef,
-                                                                        results$model3a.panelar.hemel.coef,
-                                                                        results$model3a.panelar.newark.coef,
-                                                                        results$model3a.panelar.rochdale.coef,
+            results$model5.forest <- closed_forest(df.list       = list(results$model3.1.panelar.bishop.coef,
+                                                                        results$model3.1.panelar.hartlepool.coef,
+                                                                        results$model3.1.panelar.hemel.coef,
+                                                                        results$model3.1.panelar.newark.coef,
+                                                                        results$model3.1.panelar.rochdale.coef,
                                                                         results$model5.panelar.all.coef),
                                                    plot.term     = c('closure'),
                                                    facet.outcome = FALSE,
