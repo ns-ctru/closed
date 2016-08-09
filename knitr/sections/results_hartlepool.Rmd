@@ -130,7 +130,7 @@ mode.of.arrival.ambulance$model6.1.panelar.hartlepool %>% summary()
 ```
 
 ##### Model 6.2
-```{r hartlepool_mode_of_arrival_ambulance_model6_1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+```{r hartlepool_mode_of_arrival_ambulance_model6_2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 mode.of.arrival.ambulance$model6.2.panelar.hartlepool %>% summary()
 mode.of.arrival.ambulance$model6.2.panelar.hartlepool %>% summary()
 ```
@@ -198,7 +198,7 @@ mode.of.arrival.other$model6.1.panelar.hartlepool$residuals %>% plot()
 ```
 
 ##### Model 6.2
-```{r hartlepool_mode_of_arrival_other_model6_1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+```{r hartlepool_mode_of_arrival_other_model6_2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 mode.of.arrival.other$model6.2.panelar.hartlepool %>% summary()
 mode.of.arrival.other$model6.2.panelar.hartlepool$residuals %>% plot()
 ```
