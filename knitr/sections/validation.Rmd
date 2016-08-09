@@ -39,7 +39,7 @@ stata.model3 <- filter(stata, model == 3) %>%
                 dplyr::select(town, term, out) %>%
                 dcast(term ~ town)
 names(stata.model3) <- c('Term', 'Bishop Auckland (Stata)', 'Hartlepool (Stata)', 'Hemel Hempstead (Stata)', 'Newark (Stata)', 'Rochdale (Stata)')
-validate.model3 <- merge(mode.of.arrival.any$model3.panelar.all$coef,
+validate.model3 <- merge(mode.of.arrival.any$model3.1.panelar.all$coef,
                          stata.model3,
 			 by     = 'Term',
 			 all.x    = TRUE) %>%
