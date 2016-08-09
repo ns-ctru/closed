@@ -922,10 +922,10 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
 
 
 
-##### Model 2
-```{r hartlepool_mean_times_call_to_scene_conveying_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ambulance.mean.times.call.to.scene.conveying$model2.panelar.hartlepool %>% summary()
-## ambulance.mean.times.call.to.scene.conveying$model2.panelar.hartlepool$residuals %>% plot()
+##### Model 1
+```{r hartlepool_mean_times_call_to_scene_conveying_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.mean.times.call.to.scene.conveying$model1.panelar.hartlepool %>% summary()
+## ambulance.mean.times.call.to.scene.conveying$model1.panelar.hartlepool$residuals %>% plot()
 ```
 
 ##### Model 2
@@ -958,6 +958,12 @@ ambulance.mean.times.call.to.scene.conveying$model5.panelar %>% summary()
 ## ambulance.mean.times.call.to.scene.conveying$model5.panelar$residuals %>% plot()
 ```
 
+##### Model 6.1
+```{r hartlepool_mean_times_call_to_scene_conveying_model6_1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.mean.times.call.to.scene.conveying$model6.1.panelar.hartlepool %>% summary()
+## ambulance.mean.times.call.to.scene.conveying$model6.1.panelar.hartlepool$residuals %>% plot()
+```
+
 ##### Model 6.2
 ```{r hartlepool_mean_times_call_to_scene_conveying_model6_2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 ambulance.mean.times.call.to.scene.conveying$model6.2.panelar.hartlepool %>% summary()
@@ -985,10 +991,10 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
 ```
 
 
-##### Model 2
-```{r hartlepool_mean_times_dest_to_clear_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ambulance.mean.times.dest.to.clear$model2.panelar.hartlepool %>% summary()
-## ambulance.mean.times.dest.to.clear$model2.panelar.hartlepool$residuals %>% plot()
+##### Model 1
+```{r hartlepool_mean_times_dest_to_clear_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.mean.times.dest.to.clear$model1.panelar.hartlepool %>% summary()
+## ambulance.mean.times.dest.to.clear$model1.panelar.hartlepool$residuals %>% plot()
 ```
 
 ##### Model 2
@@ -1021,6 +1027,12 @@ ambulance.mean.times.dest.to.clear$model5.panelar %>% summary()
 ## ambulance.mean.times.dest.to.clear$model5.panelar$residuals %>% plot()
 ```
 
+##### Model 6.1
+```{r hartlepool_mean_times_dest_to_clear_model6_1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.mean.times.dest.to.clear$model6.1.panelar.hartlepool %>% summary()
+## ambulance.mean.times.dest.to.clear$model6.1.panelar.hartlepool$residuals %>% plot()
+```
+
 ##### Model 6.2
 ```{r hartlepool_mean_times_dest_to_clear_model6_2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 ambulance.mean.times.dest.to.clear$model6.2.panelar.hartlepool %>% summary()
@@ -1049,10 +1061,10 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
 
 
 
-##### Model 2
-```{r hartlepool_mean_times_scene_to_dest_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ambulance.mean.times.scene.to.dest$model2.panelar.hartlepool %>% summary()
-## ambulance.mean.times.scene.to.dest$model2.panelar.hartlepool$residuals %>% plot()
+##### Model 1
+```{r hartlepool_mean_times_scene_to_dest_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.mean.times.scene.to.dest$model1.panelar.hartlepool %>% summary()
+## ambulance.mean.times.scene.to.dest$model1.panelar.hartlepool$residuals %>% plot()
 ```
 
 ##### Model 2
@@ -1083,6 +1095,12 @@ ambulance.mean.times.scene.to.dest$model4.panelar %>% summary()
 ```{r hartlepool_mean_times_scene_to_dest_model5, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 ambulance.mean.times.scene.to.dest$model5.panelar %>% summary()
 ## ambulance.mean.times.scene.to.dest$model5.panelar$residuals %>% plot()
+```
+
+##### Model 6.1
+```{r hartlepool_mean_times_scene_to_dest_model6_1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.mean.times.scene.to.dest$model6.1.panelar.hartlepool %>% summary()
+## ambulance.mean.times.scene.to.dest$model6.1.panelar.hartlepool$residuals %>% plot()
 ```
 
 ##### Model 6.2
@@ -1116,10 +1134,10 @@ closed_ts_plot(df            = amb_non_conveyance_site_measure,
 ```
 
 
-##### Model 2
-```{r hartlepool_non_conveyance_green_call_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ambulance.non.conveyances.green.calls$model2.panelar.hartlepool %>% summary()
-## ambulance.non.conveyances.green.calls$model2.panelar.hartlepool$residuals %>% plot()
+##### Model 1
+```{r hartlepool_non_conveyance_green_call_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.non.conveyances.green.calls$model1.panelar.hartlepool %>% summary()
+## ambulance.non.conveyances.green.calls$model1.panelar.hartlepool$residuals %>% plot()
 ```
 
 ##### Model 2
@@ -1152,6 +1170,12 @@ ambulance.non.conveyances.green.calls$model5.panelar %>% summary()
 ## ambulance.non.conveyances.green.calls$model5.panelar$residuals %>% plot()
 ```
 
+##### Model 6.1
+```{r hartlepool_non_conveyance_green_call_model6_1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.non.conveyances.green.calls$model6.1.panelar.hartlepool %>% summary()
+## ambulance.non.conveyances.green.calls$model6.1.panelar.hartlepool$residuals %>% plot()
+```
+
 ##### Model 6.2
 ```{r hartlepool_non_conveyance_green_call_model6_2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 ambulance.non.conveyances.green.calls$model6.2.panelar.hartlepool %>% summary()
@@ -1179,10 +1203,10 @@ closed_ts_plot(df            = amb_non_conveyance_site_measure,
                legend        = TRUE)
 ```
 
-##### Model 2
-```{r hartlepool_non_conveyances_green_calls_non_conveyed_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ambulance.non.conveyances.green.calls.non.conveyed$model2.panelar.hartlepool %>% summary()
-## ambulance.non.conveyances.green.calls.non.conveyed$model2.panelar.hartlepool$residuals %>% plot()
+##### Model 1
+```{r hartlepool_non_conveyances_green_calls_non_conveyed_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.non.conveyances.green.calls.non.conveyed$model1.panelar.hartlepool %>% summary()
+## ambulance.non.conveyances.green.calls.non.conveyed$model1.panelar.hartlepool$residuals %>% plot()
 ```
 
 ##### Model 2
@@ -1215,6 +1239,12 @@ ambulance.non.conveyances.green.calls.non.conveyed$model5.panelar %>% summary()
 ## ambulance.non.conveyances.green.calls.non.conveyed$model5.panelar$residuals %>% plot()
 ```
 
+##### Model 6.1
+```{r hartlepool_non_conveyances_green_calls_non_conveyed_model6_1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.non.conveyances.green.calls.non.conveyed$model6.1.panelar.hartlepool %>% summary()
+## ambulance.non.conveyances.green.calls.non.conveyed$model6.1.panelar.hartlepool$residuals %>% plot()
+```
+
 ##### Model 6.2
 ```{r hartlepool_non_conveyances_green_calls_non_conveyed_model6_2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 ambulance.non.conveyances.green.calls.non.conveyed$model6.2.panelar.hartlepool %>% summary()
@@ -1241,10 +1271,10 @@ closed_ts_plot(df            = amb_non_conveyance_site_measure,
                legend        = TRUE)
 ```
 
-##### Model 2
-```{r hartlepool_non_conveyances_fraction_not_conveyed_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ambulance.non.conveyances.fraction.not.conveyed$model2.panelar.hartlepool %>% summary()
-## ambulance.non.conveyances.fraction.not.conveyed$model2.panelar.hartlepool$residuals %>% plot()
+##### Model 1
+```{r hartlepool_non_conveyances_fraction_not_conveyed_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.non.conveyances.fraction.not.conveyed$model1.panelar.hartlepool %>% summary()
+## ambulance.non.conveyances.fraction.not.conveyed$model1.panelar.hartlepool$residuals %>% plot()
 ```
 
 ##### Model 2
@@ -1275,6 +1305,12 @@ ambulance.non.conveyances.fraction.not.conveyed$model4.panelar %>% summary()
 ```{r hartlepool_non_conveyances_fraction_not_conveyed_model5, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 ambulance.non.conveyances.fraction.not.conveyed$model5.panelar %>% summary()
 ## ambulance.non.conveyances.fraction.not.conveyed$model5.panelar$residuals %>% plot()
+```
+
+##### Model 6.1
+```{r hartlepool_non_conveyances_fraction_not_conveyed_model6_1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.non.conveyances.fraction.not.conveyed$model6.1.panelar.hartlepool %>% summary()
+## ambulance.non.conveyances.fraction.not.conveyed$model6.1.panelar.hartlepool$residuals %>% plot()
 ```
 
 ##### Model 6.2
@@ -1308,10 +1344,10 @@ closed_ts_plot(df            = amb_red_calls_site_measure,
 ```
 
 
-##### Model 2
-```{r hartlepool_red_calls_hospital_transfers_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ambulance.red.calls.hospital.transfers$model2.panelar.hartlepool %>% summary()
-## ambulance.red.calls.hospital.transfers$model2.panelar.hartlepool$residuals %>% plot()
+##### Model 1
+```{r hartlepool_red_calls_hospital_transfers_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.red.calls.hospital.transfers$model1.panelar.hartlepool %>% summary()
+## ambulance.red.calls.hospital.transfers$model1.panelar.hartlepool$residuals %>% plot()
 ```
 
 ##### Model 2
@@ -1344,6 +1380,12 @@ ambulance.red.calls.hospital.transfers$model5.panelar %>% summary()
 ## ambulance.red.calls.hospital.transfers$model5.panelar$residuals %>% plot()
 ```
 
+##### Model 6.1
+```{r hartlepool_red_calls_hospital_transfers_model6_1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.red.calls.hospital.transfers$model6.1.panelar.hartlepool %>% summary()
+## ambulance.red.calls.hospital.transfers$model6.1.panelar.hartlepool$residuals %>% plot()
+```
+
 ##### Model 6.2
 ```{r hartlepool_red_calls_hospital_transfers_model6_2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 ambulance.red.calls.hospital.transfers$model6.2.panelar.hartlepool %>% summary()
@@ -1371,10 +1413,10 @@ closed_ts_plot(df            = amb_red_calls_site_measure,
 ```
 
 
-##### Model 2
-```{r hartlepool_red_calls_total_model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
-ambulance.red.calls.total$model2.panelar.hartlepool %>% summary()
-## ambulance.red.calls.total$model2.panelar.hartlepool$residuals %>% plot()
+##### Model 1
+```{r hartlepool_red_calls_total_model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.red.calls.total$model1.panelar.hartlepool %>% summary()
+## ambulance.red.calls.total$model1.panelar.hartlepool$residuals %>% plot()
 ```
 
 ##### Model 2
@@ -1405,6 +1447,12 @@ ambulance.red.calls.total$model4.panelar %>% summary()
 ```{r hartlepool_red_calls_total_model5, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
 ambulance.red.calls.total$model5.panelar %>% summary()
 ## ambulance.red.calls.total$model5.panelar$residuals %>% plot()
+```
+
+##### Model 6.1
+```{r hartlepool_red_calls_total_model6_1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+ambulance.red.calls.total$model6.1.panelar.hartlepool %>% summary()
+## ambulance.red.calls.total$model6.1.panelar.hartlepool$residuals %>% plot()
 ```
 
 ##### Model 6.2
