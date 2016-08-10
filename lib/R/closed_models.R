@@ -174,20 +174,28 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                    p25      = quantile(value, probs = 0.25, na.rm = TRUE),
                                    p50      = quantile(value, probs = 0.50, na.rm = TRUE),
                                    p75      = quantile(value, probs = 0.75, na.rm = TRUE))
-    results$summary.df$mean.sd    <- paste0(formatC(mean, digits = digits, format = 'f'),
-                                            ' (',
-                                            formatC(sd, digits = digits, format = 'f'),
-                                            ' )')
-    results$summary.df$median.iqr <- paste0(formatC(p50, digits = digits, format = 'f'),
-                                            ' (',
-                                            formatC(p25, digits = digits, format = 'f'),
-                                            '-',
-                                            formatC(p75, digits = digits, format = 'f'),
-                                            ' )')
-    results$summary.df$range      <- paste0(formatC(min, digits = digits, format = 'f'),
-                                            '-',
-                                            formatC(max, digits = digits, format = 'f'),
-                                            ' )')
+    results$summary.table.head <- results$summary.df
+    results$summary.table.head <- mutate(results$summary.df,
+                                         mean.sd    = paste0(formatC(mean, digits = digits, format = 'f'),
+                                                             ' (',
+                                                             formatC(sd, digits = digits, format = 'f'),
+                                                             ')'))
+    results$summary.table.head <- mutate(results$summary.df,
+                                         median.iqr = paste0(formatC(p50, digits = digits, format = 'f'),
+                                                             ' (',
+                                                             formatC(p25, digits = digits, format = 'f'),
+                                                             '-',
+                                                             formatC(p75, digits = digits, format = 'f'),
+                                                             ')'))
+    results$summary.table.head <- mutate(results$summary.df,
+                                         min.max    = paste0(formatC(min, digits = digits, format = 'f'),
+                                                             '-',
+                                                             formatC(max, digits = digits, format = 'f')))
+    results$summary.table.head <- dplyr::select(results$summary.table.head,
+                                                town, before.after, n, mean.sd, median.iqr, min.max)
+    ## Reshape the table header
+    results$summary.table.head <- melt(results$summary.table.head, id.vars = c('town', 'before.after')) %>%
+                                  dcast(town ~ before.after + variable)
     #######################################################################
     ## Derive a seasonal indicator                                       ##
     #######################################################################
