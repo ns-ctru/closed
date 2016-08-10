@@ -91,7 +91,7 @@ model.opts$mod3.2  <- c('pooled.control * closure', 'town', 'season', 'relative.
 model.opts$mod4    <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 model.opts$mod5    <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 model.opts$mod6    <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
-model.opts$mod6.1  <- c('season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
+model.opts$mod6.1  <- c('season', 'closure', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
 model.opts$mod6.2  <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
 if(os != 'unix' | node != 'mcru-closed-hp.shef.ac.uk'){
     model.opts$mod7 = NULL
@@ -443,7 +443,7 @@ avoidable.emergency.admissions.chest.pain <- closed_models(df.lsoa         = eme
 
 
 <!--- ED Attendances Admitted - All --->
-```{r ed_attendances_admitted_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE
+```{r ed_attendances_admitted_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE
 ed.attendances.admitted.all <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
                                      df.trust         = ed_attendances_admitted_site_measure,
                                      indicator        = 'ed attendances admitted',
@@ -765,7 +765,7 @@ case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_measure
                                      legend           = model.opts$legend)
 ```
 <!--- Case Fatality Ratio - Acute Heart Failure --->
-```{r case_fatality_ratio_acute_heart_failure, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE
+```{r case_fatality_ratio_acute_heart_failure, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE
 case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
@@ -802,7 +802,7 @@ case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = case_
 
 
 <!--- Case Fatality Ratio - Stroke Cva --->
-```{r case_fatality_ratio_stroke_cva, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE
+```{r case_fatality_ratio_stroke_cva, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE
 case.fatality.ratio.stroke.cva <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
