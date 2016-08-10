@@ -225,12 +225,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                 After_mean.sd, After_median.iqr, After_min.max)
     ## Add in grouping to facilitate subsetting later
     results$summary.table.head$group <- NA
-    results$summary.table.head$group[results$summary.table.head$town %in% c('Bishop Auckland', 'Whitehaven', 'Salfrod', 'Scarborough')] <- 'Bishop Auckland'
+    results$summary.table.head$group[results$summary.table.head$town %in% c('Bishop Auckland', 'Whitehaven', 'Salford', 'Scarborough')] <- 'Bishop Auckland'
     results$summary.table.head$group[results$summary.table.head$town %in% c('Hartlepool', 'Grimsby', 'Blackburn', 'Wigan')] <- 'Hartlepool'
     results$summary.table.head$group[results$summary.table.head$town %in% c('Hemel Hempstead', 'Warwick', 'Basingstoke', 'Yeovil')] <- 'Hemel Hempstead'
     results$summary.table.head$group[results$summary.table.head$town %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')] <- 'Newark'
     results$summary.table.head$group[results$summary.table.head$town %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')] <- 'Rochdale'
     ## Add indicator for primary control
+    results$summary.table.head$town <- as.character(results$summary.table.head$town)
     results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')] <- paste0(results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')], ' (Primary)')
     #######################################################################
     ## Derive a seasonal indicator                                       ##
@@ -2184,6 +2185,66 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Remove clutter
         rm(df7)
     }
+    #######################################################################
+    ## Produce summary tables by center using results$summary.table.head ##
+    ## and the coefficients from each model                              ##
+    #######################################################################
+    ## Bind all model results together
+    model1.coef <- rbind(results$model1.panelar.bishop.coef,
+                         results$model1.panelar.hartlepool.coef,
+                         results$model1.panelar.hemel.coef,
+                         results$model1.panelar.newark.coef,
+                         results$model1.panelar.rochdale.coef)
+    model1.coef$model <- 'Model 1'
+    model2.coef <- rbind(results$model2.panelar.bishop.coef,
+                         results$model2.panelar.hartlepool.coef,
+                         results$model2.panelar.hemel.coef,
+                         results$model2.panelar.newark.coef,
+                         results$model2.panelar.rochdale.coef)
+    model2.coef$model <- 'Model 2'
+    model3.1.coef <- rbind(results$model3.1.panelar.bishop.coef,
+                           results$model3.1.panelar.hartlepool.coef,
+                           results$model3.1.panelar.hemel.coef,
+                           results$model3.1.panelar.newark.coef,
+                           results$model3.1.panelar.rochdale.coef)
+    model3.1.coef$model <- 'Model 3.1'
+    model3.2.coef <- rbind(results$model3.2.panelar.bishop.coef,
+                           results$model3.2.panelar.hartlepool.coef,
+                           results$model3.2.panelar.hemel.coef,
+                           results$model3.2.panelar.newark.coef,
+                           results$model3.2.panelar.rochdale.coef)
+    model3.2.coef$model <- 'Model 3.2'
+    model4.coef <- results$model4.panelar.all.coef
+    model4.coef$model <- 'Model 4'
+    model5.coef <- results$model5.panelar.all.coef
+    model5.coef$model <- 'Model 5'
+    model6.1.coef <- rbind(results$model6.1.panelar.bishop.coef,
+                           results$model6.1.panelar.hartlepool.coef,
+                           results$model6.1.panelar.hemel.coef,
+                           results$model6.1.panelar.newark.coef,
+                           results$model6.1.panelar.rochdale.coef)
+    model6.1.coef$model <- 'Model 6.1'
+    model6.2.coef <- rbind(results$model6.2.panelar.bishop.coef,
+                           results$model6.2.panelar.hartlepool.coef,
+                           results$model6.2.panelar.hemel.coef,
+                           results$model6.2.panelar.newark.coef,
+                           results$model6.2.panelar.rochdale.coef)
+    model6.2.coef$model <- 'Model 6.2'
+    model7.coef <- results$model7.panelar.all.coef
+    model7.coef$model <- 'Model 7'
+    ## Return all coefficients across models
+    results$all.model.all.coef <- rbind(model1.coef,
+                                        model2.coef,
+                                        model3.1.coef,
+                                        model3.2.coef,
+                                        model4.coef,
+                                        model5.coef,
+                                        model6.1.coef,
+                                        model6.2.coef,
+                                        model7.coef)
+    ## Subset out the closure coefficients
+    results$all.model.closure.coef <- filter(results$all.model.all.coef,
+                                             term == 'closure')
     #######################################################################
     ## Return the results                                                ##
     #######################################################################
