@@ -47,6 +47,7 @@
 #' @param join.line Logical operator of whether to join missing data points on plots.
 #' @param legend Logical operator of whether to include legends passed to \code{closed_ts_plot()}.
 #' @param rho.na.rm Logical operator passed to panelAR() for excluding panel specific autocorrelation when it can not be calculated.
+#' @param digits Number of digits to include in summary table of means/sd.
 #'
 #' @return A list of results depending on the options specified.
 #'
@@ -96,6 +97,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           return.residuals = FALSE,
                           join.line        = TRUE,
                           legend           = FALSE,
+                          digits           = 3,
                           ...){
     #######################################################################
     ## Set up (results, formula, renaming variables)                     ##
@@ -127,14 +129,14 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                         all    = TRUE)
     town.group <- mutate(town.group,
                          n = ifelse(is.na(n), 0, n))
-    ## ## print("Debug 2")
+    ## print("Debug 2")
     names(df.lsoa)  <- names(df.lsoa) %>%
                        gsub("_", ".", x = .)
     names(df.trust) <- names(df.trust) %>%
                        gsub("_", ".", x = .)
     ## Convert to data frame, selecting only the specified outcome and convert
     ## town to factor so that it can be releveled as required
-    ## ## print("Debug 3")
+    ## print("Debug 3")
     df.lsoa  <- as.data.frame(df.lsoa) %>%
                 dplyr::filter(measure == indicator,
                               sub.measure == sub.indicator)
@@ -157,8 +159,37 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                  round(-2)
     }
     #######################################################################
-    ## Derive a seasonal indicator (really this should be on the data    ##
-    ## preparation side but Tony is already doing tons)                  ##
+    ## Derive the mean, sd, median, iqr, min and max of events before/   ##
+    ## after closure for combining into a summary table with model       ##
+    ## coefficients                                                      ##
+    #######################################################################
+    df.trust <- mutate(df.trust,
+                       before.after = ifelse(site.type == 'intervention' & relative.month >= 25, "After", "Before"))
+    results$summary.df <- group_by(df.trust, town, before.after) %>%
+                         summarise(n        = n(),
+                                   mean     = mean(value, na.rm = TRUE),
+                                   sd       = sd(value, na.rm = TRUE),
+                                   min      = min(value, na.rm = TRUE),
+                                   max      = min(value, na.rm = TRUE),
+                                   p25      = quantile(value, probs = 0.25, na.rm = TRUE),
+                                   p50      = quantile(value, probs = 0.50, na.rm = TRUE),
+                                   p75      = quantile(value, probs = 0.75, na.rm = TRUE))
+    results$summary.df$mean.sd    <- paste0(formatC(mean, digits = digits, format = 'f'),
+                                            ' (',
+                                            formatC(sd, digits = digits, format = 'f'),
+                                            ' )')
+    results$summary.df$median.iqr <- paste0(formatC(p50, digits = digits, format = 'f'),
+                                            ' (',
+                                            formatC(p25, digits = digits, format = 'f'),
+                                            '-',
+                                            formatC(p75, digits = digits, format = 'f'),
+                                            ' )')
+    results$summary.df$range      <- paste0(formatC(min, digits = digits, format = 'f'),
+                                            '-',
+                                            formatC(max, digits = digits, format = 'f'),
+                                            ' )')
+    #######################################################################
+    ## Derive a seasonal indicator                                       ##
     #######################################################################
     ## ## print("Debug 5")
     ## ## print("LSOA")
