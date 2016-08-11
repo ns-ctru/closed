@@ -241,81 +241,81 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## dim(df.lsoa) %>% print()
     ## print("TRUST")
     ## dim(df.trust) %>% print()
-    df.lsoa$season <- 1
-    df.lsoa <- within(df.lsoa,{
-                      season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
-                      season[month(yearmonth) == 3  | month(yearmonth) == 4]  <- 2
-                      season[month(yearmonth) == 5  | month(yearmonth) == 6]  <- 3
-                      season[month(yearmonth) == 7  | month(yearmonth) == 8]  <- 4
-                      season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
-                      season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
-    })
-    df.lsoa$season <- factor(df.lsoa$season)
-    df.lsoa$season <- relevel(df.lsoa$season, ref = '1')
-    ## ## print("LSOA")
-    ## dim(df.lsoa) %>% print()
-    ## ## print("TRUST")
-    ## dim(df.trust) %>% print()
-    df.trust$season <- 1
-    df.trust <- within(df.trust,{
-                      season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
-                      season[month(yearmonth) == 3  | month(yearmonth) == 4]  <- 2
-                      season[month(yearmonth) == 5  | month(yearmonth) == 6]  <- 3
-                      season[month(yearmonth) == 7  | month(yearmonth) == 8]  <- 4
-                      season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
-                      season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
-    })
-    df.trust$season <- factor(df.trust$season)
-    df.trust$season <- relevel(df.trust$season, ref = '1')
-    #######################################################################
-    ## Add a dummy 'step' for closure                                    ##
-    #######################################################################
-    ## 2016-05-24 - Post meeting with Jon, this should be 0/1 for _all_ sites not
-    ##              just intervention ones
-    ## ## print("Debug 6")
-    df.lsoa$closure  <- ifelse(df.lsoa$relative.month  > 24, 1, 0)
-    df.trust$closure <- ifelse(df.trust$relative.month > 24, 1, 0)
-    #######################################################################
-    ## Add dummy for other 'steps'                                       ##
-    ##                                                                   ##
-    ## See list from e.l.knowles@sheffield.ac.uk at...                   ##
-    ##                                                                   ##
-    ## https://goo.gl/TlhfCF                                             ##
-    ##                                                                   ##
-    #######################################################################
-    ## ## print("Debug 7")
-    df.lsoa <- mutate(df.lsoa,
-                      nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
-                                      (town == 'Southport' & relative.month >= 48) |
-                                      ## ToDo - Uncomment once confirmed and revised dates available
-                                      (town == 'Rochdale' & relative.month >= 48) |
-                                      (town == 'Rotherham' & relative.month >= 48) |
-                                      (town == 'Hartlepool' & relative.month >= 45) |
-                                      (town == 'Grimsby' & relative.month >= 16),
-                                      1, 0),
-                      ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
-                      other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
-                                            (town == 'Newark' & relative.month >= 3) |
-                                            (town == 'Rochdale' & relative.month >= 11) |
-                                            (town == 'Hartlepool' & relative.month >= 22),
-                                            1, 0)
-                      )
-    df.trust <- mutate(df.trust,
-                       nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
-                                       (town == 'Southport' & relative.month >= 48) |
-                                       ## ToDo - Uncomment once confirmed and revised dates available
-                                       (town == 'Rochdale' & relative.month >= 48) |
-                                       (town == 'Rotherham' & relative.month >= 48) |
-                                       (town == 'Hartlepool' & relative.month >= 45) |
-                                       (town == 'Grimsby' & relative.month >= 16),
-                                       1, 0),
-                       ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
-                       other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
-                                             (town == 'Newark' & relative.month >= 3) |
-                                             (town == 'Rochdale' & relative.month >= 11) |
-                                             (town == 'Hartlepool' & relative.month >= 22),
-                                             1, 0)
-                       )
+    ## df.lsoa$season <- 1
+    ## df.lsoa <- within(df.lsoa,{
+    ##                   season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
+    ##                   season[month(yearmonth) == 3  | month(yearmonth) == 4]  <- 2
+    ##                   season[month(yearmonth) == 5  | month(yearmonth) == 6]  <- 3
+    ##                   season[month(yearmonth) == 7  | month(yearmonth) == 8]  <- 4
+    ##                   season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
+    ##                   season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
+    ## })
+    ## df.lsoa$season <- factor(df.lsoa$season)
+    ## df.lsoa$season <- relevel(df.lsoa$season, ref = '1')
+    ## ## ## print("LSOA")
+    ## ## dim(df.lsoa) %>% print()
+    ## ## ## print("TRUST")
+    ## ## dim(df.trust) %>% print()
+    ## df.trust$season <- 1
+    ## df.trust <- within(df.trust,{
+    ##                   season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
+    ##                   season[month(yearmonth) == 3  | month(yearmonth) == 4]  <- 2
+    ##                   season[month(yearmonth) == 5  | month(yearmonth) == 6]  <- 3
+    ##                   season[month(yearmonth) == 7  | month(yearmonth) == 8]  <- 4
+    ##                   season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
+    ##                   season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
+    ## })
+    ## df.trust$season <- factor(df.trust$season)
+    ## df.trust$season <- relevel(df.trust$season, ref = '1')
+    ## #######################################################################
+    ## ## Add a dummy 'step' for closure                                    ##
+    ## #######################################################################
+    ## ## 2016-05-24 - Post meeting with Jon, this should be 0/1 for _all_ sites not
+    ## ##              just intervention ones
+    ## ## ## print("Debug 6")
+    ## df.lsoa$closure  <- ifelse(df.lsoa$relative.month  > 24, 1, 0)
+    ## df.trust$closure <- ifelse(df.trust$relative.month > 24, 1, 0)
+    ## #######################################################################
+    ## ## Add dummy for other 'steps'                                       ##
+    ## ##                                                                   ##
+    ## ## See list from e.l.knowles@sheffield.ac.uk at...                   ##
+    ## ##                                                                   ##
+    ## ## https://goo.gl/TlhfCF                                             ##
+    ## ##                                                                   ##
+    ## #######################################################################
+    ## ## ## print("Debug 7")
+    ## df.lsoa <- mutate(df.lsoa,
+    ##                   nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
+    ##                                   (town == 'Southport' & relative.month >= 48) |
+    ##                                   ## ToDo - Uncomment once confirmed and revised dates available
+    ##                                   (town == 'Rochdale' & relative.month >= 48) |
+    ##                                   (town == 'Rotherham' & relative.month >= 48) |
+    ##                                   (town == 'Hartlepool' & relative.month >= 45) |
+    ##                                   (town == 'Grimsby' & relative.month >= 16),
+    ##                                   1, 0),
+    ##                   ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
+    ##                   other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
+    ##                                         (town == 'Newark' & relative.month >= 3) |
+    ##                                         (town == 'Rochdale' & relative.month >= 11) |
+    ##                                         (town == 'Hartlepool' & relative.month >= 22),
+    ##                                         1, 0)
+    ##                   )
+    ## df.trust <- mutate(df.trust,
+    ##                    nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
+    ##                                    (town == 'Southport' & relative.month >= 48) |
+    ##                                    ## ToDo - Uncomment once confirmed and revised dates available
+    ##                                    (town == 'Rochdale' & relative.month >= 48) |
+    ##                                    (town == 'Rotherham' & relative.month >= 48) |
+    ##                                    (town == 'Hartlepool' & relative.month >= 45) |
+    ##                                    (town == 'Grimsby' & relative.month >= 16),
+    ##                                    1, 0),
+    ##                    ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
+    ##                    other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
+    ##                                          (town == 'Newark' & relative.month >= 3) |
+    ##                                          (town == 'Rochdale' & relative.month >= 11) |
+    ##                                          (town == 'Hartlepool' & relative.month >= 22),
+    ##                                          1, 0)
+    ##                    )
     #######################################################################
     ## Internal functions (to save typing)                               ##
     #######################################################################
@@ -1135,7 +1135,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Bishop Auckland                              ##
         ##################################################
-        ## print("Bishop Auckland")
+        print("Bishop Auckland")
+        town.group %>% print()
         t <- filter(df3.2,
                     group == 'Cohort : Bishop Auckland General Hospital') %>%
             as.data.frame()
@@ -1143,7 +1144,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
            town.group$n[town.group$town == 'Salford'] > 0 &
            town.group$n[town.group$town == 'Scarborough'] > 0 &
            town.group$n[town.group$town == 'Whitehaven'] > 0){
-            ## print('Bishop Auckland')
+            print('Bishop Auckland')
             model3.2.panelar.bishop <- panelAR(data     = t,
                                               formula  = formula.model3.2,
                                               timeVar  = timevar,
@@ -1161,7 +1162,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Hartlepool                                   ##
         ##################################################
-        ## print("Hartlepool")
+        print("Hartlepool")
         t <- filter(df3.2,
                     group == 'Cohort : University Hospital of Hartlepool') %>%
             as.data.frame()
@@ -1169,7 +1170,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
            town.group$n[town.group$town == 'Blackburn'] > 0 &
            town.group$n[town.group$town == 'Grimsby'] > 0 &
            town.group$n[town.group$town == 'Wigan'] > 0){
-            ## print('Hartlepool')
+            print('Hartlepool')
             model3.2.panelar.hartlepool <- panelAR(data     = t,
                                                   formula  = formula.model3.2,
                                                    timeVar  = timevar,
@@ -2241,10 +2242,97 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                         model5.coef,
                                         model6.1.coef,
                                         model6.2.coef,
-                                        model7.coef)
-    ## Subset out the closure coefficients
+                                        model7.coef) %>%
+                                  as.data.frame()
+    names(results$all.model.all.coef) <- gsub('site', 'town', names(results$all.model.all.coef))
+
+    ## Subset out the closure coefficients and derive output variable/df to append to
+    ## table header which contains the means
     results$all.model.closure.coef <- filter(results$all.model.all.coef,
                                              term == 'closure')
+    names(results$all.model.closure.coef) <- c('est', 'se', 't', 'p', 'term', 'town', 'indicator', 'sub.indicator', 'r2', 'model')
+    results$all.model.closure.coef$lci <- results$all.model.closure.coef$est - (1.96 * results$all.model.closure.coef$se)
+    results$all.model.closure.coef$uci <- results$all.model.closure.coef$est + (1.96 * results$all.model.closure.coef$se)
+    results$all.model.closure.coef$estimate <- paste0(formatC(results$all.model.closure.coef$est, digits = digits, format = 'f'),
+                                                      ' (',
+                                                      formatC(results$all.model.closure.coef$lci, digits = digits, format = 'f'),
+                                                      '-',
+                                                      formatC(results$all.model.closure.coef$uci, digits = digits, format = 'f'),
+                                                      ') p = ',
+                                                      formatC(results$all.model.closure.coef$p, digits = digits, format = 'f'))
+    results$summary.table.tail <- dplyr::select(results$all.model.closure.coef,
+                                                town,
+                                                model,
+                                                estimate)
+    results$summary.table.tail$Before_mean.sd    <- NA
+    results$summary.table.tail$Before_median.iqr <- results$summary.table.tail$model
+    results$summary.table.tail$Before_min.max    <- NA
+    results$summary.table.tail$After_mean.sd     <- NA
+    results$summary.table.tail$After_median.iqr  <- NA
+    results$summary.table.tail$After_min.max     <- results$summary.table.tail$estimate
+    results$summary.table.tail <- dplyr::select(results$summary.table.tail,
+                                                town,
+                                                Before_mean.sd, Before_median.iqr, Before_min.max,
+                                                After_mean.sd, After_median.iqr, After_min.max)
+    results$summary.table.tail$group <- results$summary.table.tail$town
+    results$summary.table <- rbind(results$summary.table.head,
+                                   results$summary.table.tail)
+    ## Sort out indicators
+    results$summary.table$town[grep('Model', results$summary.table$Before_median.iqr)]             <- NA
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 1']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 1']     <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 1']      <- 'No Control'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 1']   <- 'ED Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 2']     <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 2']      <- 'Primary Control'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 2']   <- 'ED Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 3.1']    <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.1']    <- 'All Control'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 3.1'] <- 'ED Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 3.2']    <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.2']    <- 'All Controls Pooled'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 3.2'] <- 'ED Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 4']     <- 'All Case Sites'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 4']      <- 'Primary Control'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 4']   <- 'ED Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 5']     <- 'All Case Sites'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 5']      <- 'All Controls'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 5']   <- 'ED Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'None'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.1'] <- 'LSOA Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.2']    <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.2']    <- 'Primary Control'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.2'] <- 'LSOA Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7']     <- 'All Case Sites'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7']      <- 'All Controls'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7']   <- 'LSOA Panel'
+    ## Site specific tables
+    ## Bishop Auckland
+    results$summary.table.bishop <- filter(results$summary.table,
+                                           group %in% c('Bishop Auckland', 'All')) %>%
+                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
+    names(results$summary.table.bishop) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
+    ## Hartlepool
+    results$summary.table.hartlepool <- filter(results$summary.table,
+                                                     group %in% c('Hartlepool', 'All')) %>%
+                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
+    names(results$summary.table.hartlepool) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
+    ## Hemel Hempstead
+    results$summary.table.hemel <- filter(results$summary.table,
+                                          group %in% c('Hemel Hempstead', 'All')) %>%
+                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
+    names(results$summary.table.hemel) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
+    ## Newark
+    results$summary.table.newark <- filter(results$summary.table,
+                                           group %in% c('Newark', 'All')) %>%
+                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
+    names(results$summary.table.newark) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
+    ## Rochdale
+    results$summary.table.rochdale <- filter(results$summary.table,
+                                             group %in% c('Rochdale', 'All')) %>%
+                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
+    names(results$summary.table.rochdale) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
     #######################################################################
     ## Return the results                                                ##
     #######################################################################
