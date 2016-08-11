@@ -115,7 +115,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## within each to control subsequent analyses
     ## ToDo - Think how to loop over each of these groups testing each of the models
     ##        This would make the function very general and flexible for future use.
-    town.group <- filter(df.trust, measure == indicator & sub.measure == sub.indicator) %>%
+    town.group <- filter(df.trust, measure == indicator & sub.measure == sub.indicator & !is.na(value)) %>%
                           group_by(town, group, site.type) %>%
                           summarise(n = n())
     ## ToDo - For now fill in levels of town/group that are missing, will have to have
