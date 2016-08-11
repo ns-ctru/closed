@@ -46,6 +46,10 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
                facet         = FALSE,
                sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
                legend        = TRUE)
+kable(mode.of.arrival.any$summary.table.bishop,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Bishop Auckland cohort.')
+
 ```
 
 ###### Hartlepool
@@ -60,6 +64,10 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
                facet         = FALSE,
                sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
                legend        = TRUE)
+kable(mode.of.arrival.any$summary.table.hartlepool,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Hartlepool cohort.')
+
 ```
 
 ###### Hemel Hempstead
@@ -74,6 +82,10 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
                facet         = FALSE,
                sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
                legend        = TRUE)
+kable(mode.of.arrival.any$summary.table.hemel,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Hemel Hempstead cohort.')
+
 ```
 
 ###### Newark
@@ -88,6 +100,10 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
                facet         = FALSE,
                sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
                legend        = TRUE)
+kable(mode.of.arrival.any$summary.table.newark,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Newark cohort.')
+
 ```
 
 ###### Rochdale
@@ -102,8 +118,11 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
                facet         = FALSE,
                sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
                legend        = TRUE)
-```
+kable(mode.of.arrival.any$summary.table.rochdale,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Rochdale cohort.')
 
+```
 
 ##### Model 1
 `Case Site    : Individual`\
@@ -130,30 +149,30 @@ mode.of.arrival.any$model2.forest$forest
 mode.of.arrival.any$model2.panelar.all$coef[3:8] %>% kable(caption = mode.of.arrival.any$model2.panelar.all$caption)
 ```
 
-##### Model 3a
+##### Model 3.1
 
 `Case Site    : Individual`\
 `Control Site : All Matched`\
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
-```{r mode_of_arrival_any_model3a, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-mode.of.arrival.any$model3a.ts.plot
-mode.of.arrival.any$model3a.forest$forest
-mode.of.arrival.any$model3a.panelar.all$coef[3:8] %>% kable(caption = mode.of.arrival.any$model3a.panelar.all$caption)
+```{r mode_of_arrival_any_model3_1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+mode.of.arrival.any$model3.1.ts.plot
+mode.of.arrival.any$model3.1.forest$forest
+mode.of.arrival.any$model3.1.panelar.all$coef[3:8] %>% kable(caption = mode.of.arrival.any$model3.1.panelar.all$caption)
 ```
 
-##### Model 3b
+##### Model 3.2
 
 `Case Site    : Individual and All`\
 `Control Site : Pooled`\
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
-```{r mode_of_arrival_any_model3b, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-mode.of.arrival.any$model3b.ts.plot
-mode.of.arrival.any$model3b.forest$forest
-mode.of.arrival.any$model3b.panelar.all$coef[3:8] %>% kable(caption = mode.of.arrival.any$model3b.panelar.all$caption)
+```{r mode_of_arrival_any_model3_2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+mode.of.arrival.any$model3.2.ts.plot
+mode.of.arrival.any$model3.2.forest$forest
+mode.of.arrival.any$model3.2.panelar.all$coef[3:8] %>% kable(caption = mode.of.arrival.any$model3.2.panelar.all$caption)
 ```
 
 ##### Model 4
@@ -186,7 +205,7 @@ mode.of.arrival.any$model5.panelar.all$coef[3:9] %>% kable(caption = mode.of.arr
 ##### Model 6.1
 
 `Case Site    : Individual`\
-`Control Site : One Matched`\
+`Control Site : None`\
 `Panel        : LSOA`\
 `Model        : observations ~ season + time + nhs111 + ambulance.divert + other.centre + change in ED time`\
 
