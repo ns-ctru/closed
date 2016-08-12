@@ -1135,8 +1135,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Bishop Auckland                              ##
         ##################################################
-        print("Bishop Auckland")
-        town.group %>% print()
+        ## print("Bishop Auckland")
         t <- filter(df3.2,
                     group == 'Cohort : Bishop Auckland General Hospital') %>%
             as.data.frame()
@@ -1144,7 +1143,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
            town.group$n[town.group$town == 'Salford'] > 0 &
            town.group$n[town.group$town == 'Scarborough'] > 0 &
            town.group$n[town.group$town == 'Whitehaven'] > 0){
-            print('Bishop Auckland')
+            ## print('Bishop Auckland')
             model3.2.panelar.bishop <- panelAR(data     = t,
                                               formula  = formula.model3.2,
                                               timeVar  = timevar,
@@ -1162,7 +1161,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Hartlepool                                   ##
         ##################################################
-        print("Hartlepool")
+        ## print("Hartlepool")
         t <- filter(df3.2,
                     group == 'Cohort : University Hospital of Hartlepool') %>%
             as.data.frame()
@@ -1170,7 +1169,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
            town.group$n[town.group$town == 'Blackburn'] > 0 &
            town.group$n[town.group$town == 'Grimsby'] > 0 &
            town.group$n[town.group$town == 'Wigan'] > 0){
-            print('Hartlepool')
+            ## print('Hartlepool')
             model3.2.panelar.hartlepool <- panelAR(data     = t,
                                                   formula  = formula.model3.2,
                                                    timeVar  = timevar,
@@ -2233,6 +2232,17 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     model6.2.coef$model <- 'Model 6.2'
     model7.coef <- results$model7.panelar.all.coef
     model7.coef$model <- 'Model 7'
+    ## Some model*.coef may not have any data though as the models weren't run
+    ## make those NULL so the subsequent rbind() doesn't fail
+    if(length(model1.coef) == 1) model1.coef     <- NULL
+    if(length(model2.coef) == 1) model2.coef     <- NULL
+    if(length(model3.1.coef) == 1) model3.1.coef <- NULL
+    if(length(model3.2.coef) == 1) model3.2.coef <- NULL
+    if(length(model4.coef) == 1) model4.coef     <- NULL
+    if(length(model5.coef) == 1) model5.coef     <- NULL
+    if(length(model6.1.coef) == 1) model6.1.coef <- NULL
+    if(length(model6.2.coef) == 1) model6.2.coef <- NULL
+    if(length(model7.coef) == 1) model7.coef     <- NULL
     ## Return all coefficients across models
     results$all.model.all.coef <- rbind(model1.coef,
                                         model2.coef,
