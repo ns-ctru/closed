@@ -1,0 +1,244 @@
+##### Time-Series Plots
+
+These time-series plots show the trends over time *before* the removal of any potentially spurious data points and the balancing of the panels.  They are presented for that very purpose, identification of possibly spurious data points.
+
+###### Case Sites
+
+```{r template_time_series_plot_case, echo = FALSE, cache = FALSE, results = 'hide' eval = TRUE}
+closed_ts_plot(df            = df_site_measure,
+               indicator     = 'measure',
+               sub.indicator = 'submeasure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+               legend        = TRUE)
+```
+
+###### Control Sites
+
+```{r template_time_series_plot_control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = df_site_measure,
+               indicator     = 'measure',
+               sub.indicator = 'submeasure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Salford', 'Scarborough', 'Whitehaven',
+                                 'Blackburn', 'Grimsby', 'Wigan',
+                                 'Basingstoke', 'Warwick', 'Yeovil',
+                                 'Carlisle', 'Salisbury', 'Southport',
+                                 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE)
+```
+
+###### Bishop Auckland
+
+```{r template_time_series_plot_bishop, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = df_site_measure,
+               indicator     = 'measure',
+               sub.indicator = 'submeasure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
+               legend        = TRUE)
+kable(template.any$summary.table.bishop,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Bishop Auckland cohort.')
+
+```
+
+###### Hartlepool
+
+```{r template_time_series_plot_hartlepool, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = df_site_measure,
+               indicator     = 'measure',
+               sub.indicator = 'submeasure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
+kable(template.any$summary.table.hartlepool,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Hartlepool cohort.')
+
+```
+
+###### Hemel Hempstead
+
+```{r template_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = df_site_measure,
+               indicator     = 'measure',
+               sub.indicator = 'submeasure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               legend        = TRUE)
+kable(template.any$summary.table.hemel,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Hemel Hempstead cohort.')
+
+```
+
+###### Newark
+
+```{r template_time_series_plot_newark, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = df_site_measure,
+               indicator     = 'measure',
+               sub.indicator = 'submeasure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
+               legend        = TRUE)
+kable(template.any$summary.table.newark,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Newark cohort.')
+
+```
+
+###### Rochdale
+
+```{r template_time_series_plot_rochdale, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = df_site_measure,
+               indicator     = 'measure',
+               sub.indicator = 'submeasure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE)
+kable(template.any$summary.table.rochdale,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Rochdale cohort.')
+
+```
+
+##### Model 1
+`Case Site    : Individual`\
+`Control Site : None`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure + nhs111 + ambulance.divert + other.centre`\
+
+```{r template_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+template.any$model1.ts.plot
+template.any$model1.forest$forest
+template.any$model1.panelar.all$coef[3:8] %>% kable(caption = template.any$model1.panelar.all$caption)
+```
+
+##### Model 2
+
+`Case Site    : Individual`\
+`Control Site : Primary Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
+
+```{r template_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+template.any$model2.ts.plot
+template.any$model2.forest$forest
+template.any$model2.panelar.all$coef[3:8] %>% kable(caption = template.any$model2.panelar.all$caption)
+```
+
+##### Model 3.1
+
+`Case Site    : Individual`\
+`Control Site : All Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
+
+```{r template_model3_1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+template.any$model3.1.ts.plot
+template.any$model3.1.forest$forest
+template.any$model3.1.panelar.all$coef[3:8] %>% kable(caption = template.any$model3.1.panelar.all$caption)
+```
+
+##### Model 3.2
+
+`Case Site    : Individual`\
+`Control Site : All Matched (Pooled)`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
+
+```{r template_model3_2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+template.any$model3.2.ts.plot
+template.any$model3.2.forest$forest
+template.any$model3.2.panelar.all$coef[3:8] %>% kable(caption = template.any$model3.2.panelar.all$caption)
+```
+
+##### Model 4
+
+`Case Site    : All`\
+`Control Site : Primary Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
+
+```{r template_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+template.any$model4.ts.plot
+template.any$model4.forest$forest
+template.any$model4.panelar.all$coef[3:9] %>% kable(caption = template.any$model4.panelar.all$caption)
+```
+
+##### Model 5
+
+`Case Site    : All`\
+`Control Site : All Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
+
+
+```{r template_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+template.any$model5.ts.plot
+template.any$model5.forest$forest
+template.any$model5.panelar.all$coef[3:9] %>% kable(caption = template.any$model5.panelar.all$caption)
+```
+
+##### Model 6.1
+
+`Case Site    : Individual`\
+`Control Site : None`\
+`Panel        : LSOA`\
+`Model        : observations ~ season + time + nhs111 + ambulance.divert + other.centre + change in ED time`\
+
+```{r template_model6_1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+template.any$model6.1.ts.plot
+template.any$model6.1.forest$forest
+template.any$model6.1.panelar.all$coef[3:8] %>% kable(caption = template.any$model6.1.panelar.all$caption)
+```
+
+##### Model 6.2
+
+`Case Site    : Individual`\
+`Control Site : Primary Matched`\
+`Panel        : LSOA`\
+`Model        : observations ~ season + time + site + nhs111 + ambulance.divert + other.centre + change in ED time`\
+
+```{r template_model6_2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+template.any$model6.2.ts.plot
+template.any$model6.2.forest$forest
+template.any$model6.2.panelar.all$coef[3:8] %>% kable(caption = template.any$model6.2.panelar.all$caption)
+```
+
+##### Model 7
+
+
+
+`Case Site    : All`\
+`Control Site : Primary Matched`\
+`Panel        : LSOA`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre + change in ED time`\
+
+```{r template_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+## template.any$model7.ts.plot
+template.any$model7.forest$forest
+template.any$model7.panelar.all$coef[3:8] %>% kable(caption = template.any$model7.panelar.all$caption)
+```
