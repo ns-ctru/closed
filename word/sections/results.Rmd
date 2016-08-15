@@ -1,0 +1,123 @@
+<!--- Load the results --->
+```{r load.results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+load(file = '~/work/closed/knitr/data/results.RData')
+
+```
+
+### Attendance
+#### Any
+```{r child = 'subsections/mode_of_arrival_any.Rmd', eval = TRUE}
+```
+
+#### Ambulance
+```{r child = 'subsections/mode_of_arrival_ambulance.Rmd', eval = TRUE}
+```
+
+#### Other
+```{r child = 'subsections/mode_of_arrival_other.Rmd', eval = TRUE}
+```
+
+#### Unnecessary
+```{r child = 'subsections/unnecessary_attendance.Rmd', eval = TRUE}
+```
+
+### Emergency Admissions
+#### All
+```{r child = 'subsections/all_emergency_admissions_all.Rmd', eval = TRUE}
+```
+
+#### Avoidable - Any
+```{r child = 'subsections/avoidable_emergency_admissions_any.Rmd', eval = TRUE}
+```
+
+#### Avoidable - Non-Specific Chest Pain
+```{r child = 'subsections/avoidable_emergency_admissions_non_specific_chest_pain.Rmd', eval = FALSE}
+```
+
+### Attendances Admitted
+#### Admitted
+```{r child = 'subsections/ed_attendances_admitted_admitted.Rmd', eval = TRUE}
+```
+
+#### Fraction Admitted
+```{r child = 'subsections/ed_attendances_admitted_fraction_admitted.Rmd', eval = TRUE}
+```
+
+### Critical Care
+#### All
+```{r child = 'subsections/critical_care_cips_all.Rmd', eval = TRUE}
+```
+
+#### Critical
+```{r child = 'subsections/critical_care_cips_critical.Rmd', eval = TRUE}
+```
+
+#### Fraction
+```{r child = 'subsections/critical_care_cips_fraction.Rmd', eval = TRUE}
+```
+
+### Length of Stay
+#### Mean
+```{r child = 'subsections/length_of_stay_mean.Rmd', eval = TRUE}
+```
+
+#### Median
+```{r child = 'subsections/length_of_stay_median.Rmd', eval = TRUE}
+```
+
+### Case Fatality Ratio
+
+#### Any
+```{r child = 'subsections/case_fatality_ratio_any.Rmd', eval = TRUE}
+```
+
+#### Acute Heart Failure
+```{r child = 'subsections/case_fatality_ratio_acute_heart_failure.Rmd', eval = FALSE}
+```
+
+#### Stroke CVA
+```{r child = 'subsections/case_fatality_ratio_stroke_cva.Rmd', eval = FALSE}
+```
+
+### Ambulance Mean Times
+#### Call to Destianation
+```{r child = 'subsections/ambulance_mean_times_call_to_dest.Rmd', eval = TRUE}
+```
+
+#### Call to Scene (Any)
+```{r child = 'subsections/ambulance_mean_times_call_to_scene_any.Rmd', eval = TRUE}
+```
+
+#### Call to Scene (Conveying)
+```{r child = 'subsections/ambulance_mean_times_call_to_scene_conveying.Rmd', eval = TRUE}
+```
+
+#### Scene to Destination
+```{r child = 'subsections/ambulance_mean_times_scene_to_dest.Rmd', eval = TRUE}
+```
+
+#### Destination to Clear
+```{r child = 'subsections/ambulance_mean_times_dest_to_clear.Rmd', eval = TRUE}
+```
+
+### Ambulance Non-Conveyance
+#### Green Calls
+```{r child = 'subsections/ambulance_non_conveyances_green_calls.Rmd', eval = TRUE}
+```
+
+#### Green Calls Not Conveyed
+```{r child = 'subsections/ambulance_non_conveyances_green_calls_non_conveyed.Rmd', eval = TRUE}
+```
+
+#### Fraction Not Conveyed
+```{r child = 'subsections/ambulance_non_conveyances_fraction_not_conveyed.Rmd', eval = TRUE}
+```
+
+### Ambulance Red Calls
+#### Hospital Transfers
+```{r child = 'subsections/ambulance_red_calls_hospital_transfers.Rmd', eval = TRUE}
+```
+
+#### Total
+```{r child = 'subsections/ambulance_red_calls_total.Rmd', eval = TRUE}
+```
