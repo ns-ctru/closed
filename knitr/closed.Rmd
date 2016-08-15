@@ -29,6 +29,10 @@ set.seed(69027181)
 ```{r child = 'sections/results.Rmd', eval = TRUE}
 ```
 
+<!--- Run all analyses --->
+```{r child = 'sections/subsections/analysis.Rmd', eval = TRUE}
+```
+
 ## Validation {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'sections/validation.Rmd', eval = TRUE}
 ```
