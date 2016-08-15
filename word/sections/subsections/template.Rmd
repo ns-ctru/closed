@@ -1,0 +1,95 @@
+##### Bishop Auckland
+```{r template.bishop.plot, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
+               legend        = TRUE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+kable(template$summary.table.bishop,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Bishop Auckland cohort.')
+
+```
+
+
+##### Hartlepool
+```{r template.hartlepool.plot, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+kable(template$summary.table.bishop,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Hartlepool cohort.')
+
+```
+
+##### Hemel Hempstead
+```{r template.hemel.plot, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               legend        = TRUE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+kable(template$summary.table.bishop,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Hemel Hempstead cohort.')
+
+```
+
+##### Newark
+```{r template.newark.plot, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
+               legend        = TRUE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+kable(template$summary.table.bishop,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Newark cohort.')
+
+```
+
+##### Rochdale
+```{r template.rochdale.plot, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+kable(template$summary.table.bishop,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Rochdale cohort.')
+
+```
