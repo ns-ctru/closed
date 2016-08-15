@@ -45,9 +45,9 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            tidy            = FALSE,
                            join            = FALSE,
                            legend          = FALSE,
-                           lines           = TRUE,
+                           lines           = FALSE,
                            exclude.control = FALSE,
-                           xaxis.steps     = FALSE,
+                           xaxis.steps     = TRUE,
                            fig             = '',
                            repel           = FALSE,
                            colour          = TRUE,
@@ -99,11 +99,13 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'ambulance') title2 <- ' (Ambulance)'
         ylabel <- 'N'
         y.text <- -10
+        y.text.steps <- 1000
     }
     else if(indicator == 'unnecessary ed attendances'){
         title1 <- 'Unnecessary ED Attendances'
         title2 <- ''
         ylabel <- 'N'
+        y.text.steps <- 1000
     }
     else if(indicator == 'ed attendances admitted'){
         title1 <- 'ED Attendances Admitted'
@@ -111,11 +113,18 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'fraction admitted') title2 <- ' (Fraction)'
         else if(sub.indicator == 'admitted')          title2 <- ' (Absolute)'
         ylabel <- 'N'
+        if(sub.indicator %in% c('all', 'admitted')){
+            y.text.steps <- 200
+        }
+        else if(sub.indicator %in% c('all', 'admitted')){
+            y.text.steps <- 0.05
+        }
     }
     else if(indicator == 'all emergency admissions'){
         title1 <- 'All Emergency Admissions'
         title2 <- ''
         ylabel <- 'N'
+        y.text.steps <- 1000
     }
     else if(indicator == 'avoidable emergency admissions'){
         title1 <- 'Avoidable Emergency Admissions'
@@ -134,17 +143,20 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'pyrexial child (<6 years)')  title2 <- ' (Pyrexial Child <6yrs)'
         else if(sub.indicator == 'urinary tract infection')    title2 <- ' (Urinary Tract Infection)'
         ylabel <- 'N'
+        y.text.steps <- 150
     }
     else if(indicator == 'all emergency admissions'){
         title1 <- 'All Emergency Admissions'
         title2 <- ' (All)'
         ylabel <- 'N'
+        y.text.steps <- 1000
     }
     else if(indicator == 'length of stay'){
         title1 <- 'Length of Stay'
         if(sub.indicator == 'mean')        title2 <- ' (Mean)'
         else if(sub.indicator == 'median') title2 <- ' (Median)'
         ylabel <- 'Length of Stay (Days)'
+        y.text.steps <- 5
     }
     else if(indicator == 'critical care stays'){
         title1 <- 'Critical Care Stays'
@@ -152,6 +164,15 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'critical care')            title2 <- ' (Critical Care)'
         else if(sub.indicator == 'fraction critical care') title2 <- ' (Fractional Critical Care)'
         ylabel <- 'N'
+        if(sub.indicator == 'all'){
+            y.text.steps <-
+        }
+        if(sub.indicator == 'critical care'){
+            y.text.steps <- 200
+        }
+        else if(sub.indicator == 'fraction critical care'){
+            y.text.steps <- 0.1
+        }
     }
     else if(indicator == 'case fatality ratio'){
         title1 <- 'Case Fatality Ratio'
@@ -175,14 +196,30 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         nudge <- 0.5
         ylabel <- 'Case Fatality Ratio'
         y.text <- -0.05
+        y.text.steps <- 0.05
     }
     else if(indicator == 'ambulance mean times'){
         title1 <- 'Ambulance Mean Times'
-        if(sub.indicator == 'call_to_dest')                 title2 <- ' (Call to Destination)'
-        else if(sub.indicator == 'call_to_scene_any')       title2 <- ' (Call to Scene, Any)'
-        else if(sub.indicator == 'call_to_scene_conveying') title2 <- ' (Call to Scene, Conveying)'
-        else if(sub.indicator == 'dest_to_clear')           title2 <- ' (Destination to Clear)'
-        else if(sub.indicator == 'scene_to_dest')           title2 <- ' (Scene to Destination)'
+        if(sub.indicator == 'call_to_dest'){
+            title2 <- ' (Call to Destination)'
+            y.text.steps <- 30
+        }
+        else if(sub.indicator == 'call_to_scene_any'){
+            title2 <- ' (Call to Scene, Any)'
+            y.text.steps <- 5
+        }
+        else if(sub.indicator == 'call_to_scene_conveying'){
+            title2 <- ' (Call to Scene, Conveying)'
+            y.text.steps <- 5
+        }
+        else if(sub.indicator == 'dest_to_clear'){
+            title2 <- ' (Destination to Clear)'
+            y.text.steps <- 10
+        }
+        else if(sub.indicator == 'scene_to_dest'){
+            title2 <- ' (Scene to Destination)'
+            y.text.steps <- 15
+        }
         nudge <- 10
         ylabel <- 'Mean Time (minutes)'
     }
@@ -193,6 +230,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'not conveyed green calls') title2 <- ' (Green Calls Not Conveyed)'
         nudge <- 10
         ylabel <- 'Mean Time (minutes)'
+        y.text.steps <- 1000
     }
     else if(indicator == 'ambulance red calls'){
         title1 <- 'Ambulance Red Calls'
@@ -200,6 +238,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'total')                    title2 <- ' (Total)'
         nudge <- 10
         ylabel <- 'Mean Time (minutes)'
+        y.text.steps <- 1000
     }
     #######################################################################
     ## Define vertical lines for steps                                   ##
@@ -271,6 +310,11 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     }
     ## Bind into a dataframe
     df.steps <- data.frame(steps, steps.labels, town, variable)
+    df.steps$xaxis.steps.labels <- paste0(steps.labels,
+                                          " (",
+                                          town,
+                                          ")")
+    df.steps$xaxis.steps.labels[df.steps$xaxis.steps.labels == 'ED Closure ()'] <- NA
     ## df.steps <- filter(df.steps, steps.labels != 'ED Closure')
     df.steps$town <- factor(df.steps$town)
     df.steps$steps.labels <- factor(df.steps$steps.labels)
@@ -425,12 +469,17 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     if(indicator == 'case fatality ratio'){
         results$plot <- results$plot + scale_y_continuous(limits = c(0, 0.5))
     }
+    else{
+        results$plot <- results$plot + scale_y_continuous(limits = c(0, max(df$value)))
+    }
     ## X-axis labels for events
     if(xaxis.steps == TRUE){
-        results$plot <- results$plot + annotate(geom   = 'text',
-                                                x      = df.steps$steps,
-                                                y      = y.text,
-                                                label  = steps.labels)
+        results$plot <- results$plot +
+                        annotate(geom   = 'text',
+                                 x      = df.steps$steps,
+                                 y      = y.text.steps,
+                                 label  = df.steps$xaxis.steps.labels, angle = 90) +
+                        geom_vline(xintercept = 24.5)
     }
     ## Facet
     if(facet == TRUE){
