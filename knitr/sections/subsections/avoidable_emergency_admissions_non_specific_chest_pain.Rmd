@@ -1,0 +1,243 @@
+##### Time-Series Plots
+
+These time-series plots show the trends over time *before* the removal of any potentially spurious data points and the balancing of the panels.  They are presented for that very purpose, identification of possibly spurious data points.
+
+###### Case Sites
+
+```{r avoidable_emergency_admissions_chest_time_series_plot_case, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'avoidable emergency admissions',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+               legend        = TRUE)
+```
+
+###### Control Sites
+
+```{r avoidable_emergency_admissions_chest_time_series_plot_control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'avoidable emergency admissions',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Salford', 'Scarborough', 'Whitehaven',
+                                 'Blackburn', 'Grimsby', 'Wigan',
+                                 'Basingstoke', 'Warwick', 'Yeovil',
+                                 'Carlisle', 'Salisbury', 'Southport',
+                                 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE)
+```
+
+###### Bishop Auckland
+
+```{r avoidable_emergency_admissions_chest_time_series_plot_bishop, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'avoidable emergency admissions',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
+               legend        = TRUE)
+kable(avoidable.emergency.admissions.chest$summary.table.bishop,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Bishop Auckland cohort.')
+
+```
+
+###### Hartlepool
+
+```{r avoidable_emergency_admissions_chest_time_series_plot_hartlepool, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'avoidable emergency admissions',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
+kable(avoidable.emergency.admissions.chest$summary.table.bishop,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Bishop Auckland cohort.')
+
+```
+
+###### Hemel Hempstead
+
+```{r avoidable_emergency_admissions_chest_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'avoidable emergency admissions',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               legend        = TRUE)
+kable(avoidable.emergency.admissions.chest$summary.table.bishop,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Bishop Auckland cohort.')
+
+```
+
+###### Newark
+
+```{r avoidable_emergency_admissions_chest_time_series_plot_newark, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'avoidable emergency admissions',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
+               legend        = TRUE)
+kable(avoidable.emergency.admissions.chest$summary.table.bishop,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Bishop Auckland cohort.')
+
+```
+
+###### Rochdale
+
+```{r avoidable_emergency_admissions_chest_time_series_plot_rochdale, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'avoidable emergency admissions',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE)
+kable(avoidable.emergency.admissions.chest$summary.table.bishop,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Bishop Auckland cohort.')
+
+```
+
+##### Model 1
+`Case Site    : Individual`\
+`Control Site : None`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure + nhs111 + ambulance.divert + other.centre `\
+
+```{r avoidable_emergency_admissions_chest_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+avoidable.emergency.admissions.chest$model1.ts.plot
+avoidable.emergency.admissions.chest$model1.forest$forest
+avoidable.emergency.admissions.chest$model1.panelar.all$coef[3:8] %>% kable(caption = avoidable.emergency.admissions.chest$model1.panelar.all$caption)
+```
+
+##### Model 2
+
+`Case Site    : Individual`\
+`Control Site : Primary Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
+
+```{r avoidable_emergency_admissions_chest_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+avoidable.emergency.admissions.chest$model2.ts.plot
+avoidable.emergency.admissions.chest$model2.forest$forest
+avoidable.emergency.admissions.chest$model2.panelar.all$coef[3:8] %>% kable(caption = avoidable.emergency.admissions.chest$model2.panelar.all$caption)
+```
+
+##### Model 3.1
+
+`Case Site    : Individual`\
+`Control Site : All Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
+
+```{r avoidable_emergency_admissions_chest_model3_1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+avoidable.emergency.admissions.chest$model3.1.ts.plot
+avoidable.emergency.admissions.chest$model3.1.forest$forest
+avoidable.emergency.admissions.chest$model3.1.panelar.all$coef[3:8] %>% kable(caption = avoidable.emergency.admissions.chest$model3.1.panelar.all$caption)
+```
+
+##### Model 3.2
+
+`Case Site    : Individual`\
+`Control Site : All Matched (Pooled)`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
+
+```{r avoidable_emergency_admissions_chest_model3_2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+avoidable.emergency.admissions.chest$model3.2.ts.plot
+avoidable.emergency.admissions.chest$model3.2.forest$forest
+avoidable.emergency.admissions.chest$model3.2.panelar.all$coef[3:8] %>% kable(caption = avoidable.emergency.admissions.chest$model3.2.panelar.all$caption)
+```
+
+##### Model 4
+
+`Case Site    : All`\
+`Control Site : Primary Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
+
+```{r avoidable_emergency_admissions_chest_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+avoidable.emergency.admissions.chest$model4.ts.plot
+avoidable.emergency.admissions.chest$model4.forest$forest
+avoidable.emergency.admissions.chest$model4.panelar.all$coef[3:9] %>% kable(caption = avoidable.emergency.admissions.chest$model4.panelar.all$caption)
+```
+
+##### Model 5
+
+`Case Site    : All`\
+`Control Site : All Matched`\
+`Panel        : ED`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
+
+
+```{r avoidable_emergency_admissions_chest_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+avoidable.emergency.admissions.chest$model5.ts.plot
+avoidable.emergency.admissions.chest$model5.forest$forest
+avoidable.emergency.admissions.chest$model5.panelar.all$coef[3:9] %>% kable(caption = avoidable.emergency.admissions.chest$model5.panelar.all$caption)
+```
+
+##### Model 6.1
+
+`Case Site    : Individual`\
+`Control Site : None`\
+`Panel        : LSOA`\
+`Model        : observations ~ season + time + nhs111 + ambulance.divert + other.centre  + change in ED time`\
+
+```{r avoidable_emergency_admissions_chest_model6_1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+avoidable.emergency.admissions.chest$model6.1.ts.plot
+avoidable.emergency.admissions.chest$model6.1.forest$forest
+avoidable.emergency.admissions.chest$model6.1.panelar.all$coef[3:8] %>% kable(caption = avoidable.emergency.admissions.chest$model6.1.panelar.all$caption)
+```
+
+##### Model 6.2
+
+`Case Site    : Individual`\
+`Control Site : Primary Matched`\
+`Panel        : LSOA`\
+`Model        : observations ~ season + time + site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
+
+```{r avoidable_emergency_admissions_chest_model6_2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+avoidable.emergency.admissions.chest$model6.2.ts.plot
+avoidable.emergency.admissions.chest$model6.2.forest$forest
+avoidable.emergency.admissions.chest$model6.2.panelar.all$coef[3:8] %>% kable(caption = avoidable.emergency.admissions.chest$model6.2.panelar.all$caption)
+```
+
+
+##### Model 7
+
+`Case Site    : All`\
+`Control Site : Primary Matched`\
+`Panel        : LSOA`\
+`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
+
+```{r avoidable_emergency_admissions_chest_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+## avoidable.emergency.admissions.chest$model7.ts.plot
+avoidable.emergency.admissions.chest$model7.forest$forest
+avoidable.emergency.admissions.chest$model7.panelar.all$coef[3:8] %>% kable(caption = avoidable.emergency.admissions.chest$model7.panelar.all$caption)
+```
