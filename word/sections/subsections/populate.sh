@@ -77,7 +77,7 @@ sed -e 's/template/ed.attendances.admitted.fraction.admitted/g' \
 ## Critical Care - All
 sed -e 's/template/critical.care.cips.all/g' \
     -e 's/data_frame/critical_care_cips/g' \
-    -e 's/Measure/critcial care stays/g' \
+    -e 's/Measure/critical care stays/g' \
     -e 's/sub_measure/all/g' \
     -e 's/DESCRIPTION/Critical Care Stays (All)/g' \
     template.Rmd > critical_care_cips_all.Rmd
@@ -85,7 +85,7 @@ sed -e 's/template/critical.care.cips.all/g' \
 ## Critical Care - Critical
 sed -e 's/template/critical.care.cips.critical/g' \
     -e 's/data_frame/critical_care_cips/g' \
-    -e 's/Measure/critcial care stays/g' \
+    -e 's/Measure/critical care stays/g' \
     -e 's/sub_measure/critical care/g' \
     -e 's/DESCRIPTION/Critical Care Stays (Critical)/g' \
     template.Rmd > critical_care_cips_critical.Rmd
@@ -93,7 +93,7 @@ sed -e 's/template/critical.care.cips.critical/g' \
 ## Critical Care - Fraction
 sed -e 's/template/critical.care.cips.fraction/g' \
     -e 's/data_frame/critical_care_cips/g' \
-    -e 's/Measure/critcial care stays/g' \
+    -e 's/Measure/critical care stays/g' \
     -e 's/sub_measure/fraction critical care/g' \
     -e 's/DESCRIPTION/Critical Care Stays (Fraction Critical)/g' \
     template.Rmd > critical_care_cips_fraction.Rmd
