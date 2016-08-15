@@ -6,20 +6,20 @@ Seven models are tested sequentially with growing complexity and are detailed be
 
 Table: Models tested in ClosED
 
-Model  | Case Site    | Control Site     | Panel | Covariates
--------|--------------|------------------|-------|----------------------------------------
-1      | Individual   | None             | ED    | season + time + closure + nhs111 + other.centre + ambulance.diversion
-2      | Individual   | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-3.1    | Individual   | All Matched      | ED    | season + time + closure * pooled.site + site + nhs111 + other.centre + ambulance.diversion
-3.2    | Individual and All | All Matched (Pooled)      | ED  | season + time + closure * pooled.site + nhs111 + other.centre + ambulance.diversion
-4      | All (Pooled) | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-5      | All (Pooled) | One Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-6.1      | Individual   | None           | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
-6.2      | All (Pooled) | One Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
-7     | All          | All Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
+Model  | Case Site    | Control Site         | Panel | Covariates
+-------|--------------|----------------------|-------|----------------------------------------
+1      | Individual   | None                 | ED    | season + time + closure + nhs111 + other.centre + ambulance.diversion
+2      | Individual   | Primary Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+3.1    | Individual   | All Matched          | ED    | season + time + closure * pooled.site + site + nhs111 + other.centre + ambulance.diversion
+3.2    | Individual   | All Matched (Pooled) | ED  | season + time + closure * pooled.site + nhs111 + other.centre + ambulance.diversion
+4      | All          | Primary Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+5      | All          | All Matched          | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+6.1    | Individual   | None                 | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
+6.2    | Individual   | Primary Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
+7      | All          | Primary Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
 
 
-**NB** - Model 8 is now included after the Project Advisoty Group Meeting held 2016-07-04 which suggested that pooling control sites could be one approach.  The advisory statistician (Alex Bottle), advised when asked if such a model would be preferable, that it could certainly be investigated, but only after careful consideration of the results of Models 3 and 5 where sites are considered individually.  Subsequently àt a project meeting on 2016-07-08 [Jon Nicholl](mailto:j.nicholl@sheffield.ac.uk) inidcated that Model 3 should be modified to interact the same pooled dummy variable (`pooled.site`) with the dummy variable for (`closure`) but retain the dummy for `site` which would be excluded from Model 8.
+**NB** - Model 3.2 is now included after the Project Advisoty Group Meeting held 2016-07-04 which suggested that pooling control sites could be one approach.  The advisory statistician (Alex Bottle), advised when asked if such a model would be preferable, that it could certainly be investigated, but only after careful consideration of the results of Models 3.1 and 5 where sites are considered individually.  Subsequently àt a project meeting on 2016-07-08 [Jon Nicholl](mailto:j.nicholl@sheffield.ac.uk) inidcated that Model 3 should be modified to interact the same pooled dummy variable (`pooled.site`) with the dummy variable for (`closure`).
 
 #### Indicators
 
@@ -111,8 +111,3 @@ Because of the scope for [heterpskedasticity](https://en.wikipedia.org/wiki/Hete
 ### Software
 
 There are two packages for [R](https://www.r-projects.org/) that implement the Prais-Winsten method of adjusting for auto-correlation in time-series analyses, [panelAR](https://cran.r-project.org/web/packages/panelAR/index.html) or [prais](https://cran.r-project.org/web/packages/prais/index.html).  The panelAR package is being used for this work but it is intended to cross-validate these against the routines provided in [Stata (v14.1)](https://www.stata.com/) however the constarint of having to work with the data stored on a Virtual Machine (VM) this will only be possible for models which use ED panels as the observed counts of events at LSOA level mean the data would have potentially identifiable data which should remain on the VM.
-
-
-<!--- Run all analyses --->
-```{r child = 'subsections/analysis.Rmd', eval = TRUE}
-```
