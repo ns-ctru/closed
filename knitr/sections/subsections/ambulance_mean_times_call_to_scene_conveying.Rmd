@@ -36,7 +36,7 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
 
 ###### Bishop Auckland
 
-```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_bishop, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_bishop, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = amb_mean_times_site_measure,
                indicator     = 'ambulance mean times',
                sub.indicator = 'call_to_scene_conveying',
@@ -46,11 +46,15 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
                facet         = FALSE,
                sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
                legend        = TRUE)
+kable(ambulance.mean.times.call.to.scene.conveying$summary.table.bishop,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Bishop Auckland cohort.')
+
 ```
 
 ###### Hartlepool
 
-```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_hartlepool, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_hartlepool, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = amb_mean_times_site_measure,
                indicator     = 'ambulance mean times',
                sub.indicator = 'call_to_scene_conveying',
@@ -60,11 +64,15 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
                facet         = FALSE,
                sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
                legend        = TRUE)
+kable(ambulance.mean.times.call.to.scene.conveying$summary.table.hartelpool,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Hartlepool cohort.')
+
 ```
 
 ###### Hemel Hempstead
 
-```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = amb_mean_times_site_measure,
                indicator     = 'ambulance mean times',
                sub.indicator = 'call_to_scene_conveying',
@@ -74,11 +82,15 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
                facet         = FALSE,
                sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
                legend        = TRUE)
+kable(ambulance.mean.times.call.to.scene.conveying$summary.table.hemel,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Hemel Hempstead cohort.')
+
 ```
 
 ###### Newark
 
-```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_newark, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_newark, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = amb_mean_times_site_measure,
                indicator     = 'ambulance mean times',
                sub.indicator = 'call_to_scene_conveying',
@@ -88,11 +100,15 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
                facet         = FALSE,
                sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
                legend        = TRUE)
+kable(ambulance.mean.times.call.to.scene.conveying$summary.table.newark,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Newark cohort.')
+
 ```
 
 ###### Rochdale
 
-```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_rochdale, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r ambulance_mean_times_call_to_scene_conveying_time_series_plot_rochdale, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = amb_mean_times_site_measure,
                indicator     = 'ambulance mean times',
                sub.indicator = 'call_to_scene_conveying',
@@ -102,6 +118,10 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
                facet         = FALSE,
                sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
                legend        = TRUE)
+kable(ambulance.mean.times.call.to.scene.conveying$summary.table.rochdale,
+      align   = summary.table.align,
+      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Rochdale cohort.')
+
 ```
 
 
@@ -114,59 +134,59 @@ closed_ts_plot(df            = amb_mean_times_site_measure,
 ```{r ambulance_mean_times_call_to_scene_conveying_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 ambulance.mean.times.call.to.scene.conveying$model1.ts.plot
 ambulance.mean.times.call.to.scene.conveying$model1.forest$forest
-ambulance.mean.times.call.to.scene.conveying$model1.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model1.panelar.all$caption)
+ambulance.mean.times.call.to.scene.conveying$model1.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.scene.conveying$model1.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model1.panelar.all$caption)
 ```
 
 ##### Model 2
 
 `Case Site    : Individual`\
-`Control Site : One Matched`\
+`Control Site : Primary Matched`\
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
 ```{r ambulance_mean_times_call_to_scene_conveying_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 ambulance.mean.times.call.to.scene.conveying$model2.ts.plot
 ambulance.mean.times.call.to.scene.conveying$model2.forest$forest
-ambulance.mean.times.call.to.scene.conveying$model2.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model2.panelar.all$caption)
+ambulance.mean.times.call.to.scene.conveying$model2.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.scene.conveying$model2.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model2.panelar.all$caption)
 ```
 
-##### Model 3a
+##### Model 3.1
 
 `Case Site    : Individual`\
 `Control Site : All Matched`\
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
-```{r ambulance_mean_times_call_to_scene_conveying_model3a, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-ambulance.mean.times.call.to.scene.conveying$model3a.ts.plot
-ambulance.mean.times.call.to.scene.conveying$model3a.forest$forest
-ambulance.mean.times.call.to.scene.conveying$model3a.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model3a.panelar.all$caption)
+```{r ambulance_mean_times_call_to_scene_conveying_model3_1, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
+ambulance.mean.times.call.to.scene.conveying$model3.1.ts.plot
+ambulance.mean.times.call.to.scene.conveying$model3.1.forest$forest
+ambulance.mean.times.call.to.scene.conveying$model3.1.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.scene.conveying$model3.1.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model3.1.panelar.all$caption)
 ```
 
-##### Model 3b
+##### Model 3.2
 
 `Case Site    : Individual and All`\
-`Control Site : Pooled`\
+`Control Site : All Matched (Pooled)`\
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
-```{r ambulance_mean_times_call_to_scene_conveying_model3b, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-ambulance.mean.times.call.to.scene.conveying$model3b.ts.plot
-ambulance.mean.times.call.to.scene.conveying$model3b.forest$forest
-ambulance.mean.times.call.to.scene.conveying$model3b.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model3b.panelar.all$caption)
+```{r ambulance_mean_times_call_to_scene_conveying_model3_2, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
+ambulance.mean.times.call.to.scene.conveying$model3.2.ts.plot
+ambulance.mean.times.call.to.scene.conveying$model3.2.forest$forest
+ambulance.mean.times.call.to.scene.conveying$model3.2.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.scene.conveying$model3.2.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model3.2.panelar.all$caption)
 ```
 
 ##### Model 4
 
 `Case Site    : All`\
-`Control Site : One Matched`\
+`Control Site : Primary Matched`\
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
-```{r ambulance_mean_times_call_to_scene_conveying_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+```{r ambulance_mean_times_call_to_scene_conveying_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
 ambulance.mean.times.call.to.scene.conveying$model4.ts.plot
 ambulance.mean.times.call.to.scene.conveying$model4.forest$forest
-ambulance.mean.times.call.to.scene.conveying$model4.panelar.all$coef[3:9] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model4.panelar.all$caption)
+ambulance.mean.times.call.to.scene.conveying$model4.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.scene.conveying$model4.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model4.panelar.all$caption)
 ```
 
 ##### Model 5
@@ -177,34 +197,47 @@ ambulance.mean.times.call.to.scene.conveying$model4.panelar.all$coef[3:9] %>% ka
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre `\
 
 
-```{r ambulance_mean_times_call_to_scene_conveying_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+```{r ambulance_mean_times_call_to_scene_conveying_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
 ambulance.mean.times.call.to.scene.conveying$model5.ts.plot
 ambulance.mean.times.call.to.scene.conveying$model5.forest$forest
-ambulance.mean.times.call.to.scene.conveying$model5.panelar.all$coef[3:9] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model5.panelar.all$caption)
+ambulance.mean.times.call.to.scene.conveying$model5.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.scene.conveying$model5.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model5.panelar.all$caption)
 ```
 
-##### Model 6
+##### Model 6.1
 
 `Case Site    : Individual`\
-`Control Site : One Matched`\
+`Control Site : Primary Matched`\
 `Panel        : LSOA`\
-`Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
+`Model        : observations ~ season + time + nhs111 + ambulance.divert + other.centre  + change in ED time`\
 
-```{r ambulance_mean_times_call_to_scene_conveying_model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-ambulance.mean.times.call.to.scene.conveying$model6.ts.plot
-ambulance.mean.times.call.to.scene.conveying$model6.forest$forest
-ambulance.mean.times.call.to.scene.conveying$model6.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model6.panelar.all$caption)
+```{r ambulance_mean_times_call_to_scene_conveying_model6_1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+ambulance.mean.times.call.to.scene.conveying$model6.1.ts.plot
+ambulance.mean.times.call.to.scene.conveying$model6.1.forest$forest
+ambulance.mean.times.call.to.scene.conveying$model6.1.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.scene.conveying$model6.1.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model6.1.panelar.all$caption)
+```
+
+##### Model 6.2
+
+`Case Site    : Individual`\
+`Control Site : Primary Matched`\
+`Panel        : LSOA`\
+`Model        : observations ~ season + time + site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
+
+```{r ambulance_mean_times_call_to_scene_conveying_model6_2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+ambulance.mean.times.call.to.scene.conveying$model6.2.ts.plot
+ambulance.mean.times.call.to.scene.conveying$model6.2.forest$forest
+ambulance.mean.times.call.to.scene.conveying$model6.2.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.scene.conveying$model6.2.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model6.2.panelar.all$caption)
 ```
 
 ##### Model 7
 
 `Case Site    : All`\
-`Control Site : One Matched`\
+`Control Site : Primary Matched`\
 `Panel        : LSOA`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre  + change in ED time`\
 
-```{r ambulance_mean_times_call_to_scene_conveying_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-ambulance.mean.times.call.to.scene.conveying$model7.ts.plot
+```{r ambulance_mean_times_call_to_scene_conveying_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
+## ambulance.mean.times.call.to.scene.conveying$model7.ts.plot
 ambulance.mean.times.call.to.scene.conveying$model7.forest$forest
-ambulance.mean.times.call.to.scene.conveying$model7.panelar.all$coef[3:8] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model7.panelar.all$caption)
+ambulance.mean.times.call.to.scene.conveying$model7.panelar.all$coef[3:ncol(ambulance.mean.times.call.to.scene.conveying$model7.panelar.all$coef)] %>% kable(caption = ambulance.mean.times.call.to.scene.conveying$model7.panelar.all$caption)
 ```
