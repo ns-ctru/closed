@@ -1,0 +1,66 @@
+#### OUTCOME  {.tabset .tabset-fade .tabset-pills}
+```{r hartlepool.template.ts.plot, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+closed_ts_plot(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE)
+```
+
+##### Model 1
+```{r hartlepool.template.model1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+template$model1.panelar.hartlepool %>% summary()
+template$model1.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 2
+```{r hartlepool.template.model2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+template$model2.panelar.hartlepool %>% summary()
+template$model2.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 3.1
+```{r hartlepool.template.model3.1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+template$model3.1.panelar.hartlepool %>% summary()
+template$model3.1.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 3.2
+```{r hartlepool.template.model3.2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+template$model3.2.panelar.hartlepool %>% summary()
+template$model3.2.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 4
+```{r hartlepool.template.model4, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+template$model4.panelar %>% summary()
+## template$model4.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 5
+```{r hartlepool.template.model5, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+template$model5.panelar %>% summary()
+template$model5.panelar$residuals %>% plot()
+```
+
+##### Model 6.1
+```{r hartlepool.template.model6.1, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+template$model6.1.panelar.hartlepool %>% summary()
+template$model6.1.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 6.2
+```{r hartlepool.template.model6.2, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+template$model6.2.panelar.hartlepool %>% summary()
+template$model6.2.panelar.hartlepool$residuals %>% plot()
+```
+
+##### Model 7
+```{r hartlepool.template.model7, echo = FALSE, cache = FALSE, results = 'markup',  eval = TRUE}
+template$model7.panelar %>% summary()
+template$model7.panelar$residuals %>% plot()
+```
