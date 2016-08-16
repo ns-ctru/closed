@@ -116,7 +116,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         if(sub.indicator %in% c('all', 'admitted')){
             y.text.steps <- 200
         }
-        else if(sub.indicator %in% c('all', 'admitted')){
+        else if(sub.indicator %in% c('fraction.admitted')){
             y.text.steps <- 0.05
         }
     }
@@ -165,7 +165,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'fraction critical care') title2 <- ' (Fractional Critical Care)'
         ylabel <- 'N'
         if(sub.indicator == 'all'){
-            y.text.steps <-
+            y.text.steps <- 200
         }
         if(sub.indicator == 'critical care'){
             y.text.steps <- 200
