@@ -2,125 +2,151 @@
 
 These time-series plots show the trends over time *before* the removal of any potentially spurious data points and the balancing of the panels.  They are presented for that very purpose, identification of possibly spurious data points.
 
-###### Case Sites
+<!-- ###### Case Sites -->
 
-```{r template_time_series_plot_case, echo = FALSE, cache = FALSE, results = 'hide' eval = TRUE}
-closed_ts_plot(df            = df_site_measure,
-               indicator     = 'measure',
-               sub.indicator = 'submeasure',
+<!-- ```{r template.time.series.plot.case, echo = FALSE, cache = FALSE, results = 'hide' eval = TRUE} -->
+<!-- closed_ts_plot(df            = df_site_measure, -->
+<!--                indicator     = 'measure', -->
+<!--                sub.indicator = 'submeasure', -->
+<!--                steps         = TRUE, -->
+<!--                theme         = theme_bw(), -->
+<!--                tidy          = FALSE, -->
+<!--                facet         = FALSE, -->
+<!--                sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'), -->
+<!--                legend        = TRUE) -->
+<!-- ``` -->
+
+<!-- ###### Control Sites -->
+
+<!-- ```{r template.time.series.plot.control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE} -->
+<!-- closed_ts_plot(df            = df_site_measure, -->
+<!--                indicator     = 'measure', -->
+<!--                sub.indicator = 'submeasure', -->
+<!--                steps         = TRUE, -->
+<!--                theme         = theme_bw(), -->
+<!--                tidy          = FALSE, -->
+<!--                facet         = FALSE, -->
+<!--                sites         = c('Salford', 'Scarborough', 'Whitehaven', -->
+<!--                                  'Blackburn', 'Grimsby', 'Wigan', -->
+<!--                                  'Basingstoke', 'Warwick', 'Yeovil', -->
+<!--                                  'Carlisle', 'Salisbury', 'Southport', -->
+<!--                                  'Rotherham', 'Scunthorpe', 'Wansbeck'), -->
+<!--                legend        = TRUE) -->
+<!-- ``` -->
+
+##### Bishop Auckland
+```{r template.bishop.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
                steps         = TRUE,
                theme         = theme_bw(),
-               tidy          = FALSE,
-               facet         = FALSE,
-               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
-               legend        = TRUE)
-```
-
-###### Control Sites
-
-```{r template_time_series_plot_control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-closed_ts_plot(df            = df_site_measure,
-               indicator     = 'measure',
-               sub.indicator = 'submeasure',
-               steps         = TRUE,
-               theme         = theme_bw(),
-               tidy          = FALSE,
-               facet         = FALSE,
-               sites         = c('Salford', 'Scarborough', 'Whitehaven',
-                                 'Blackburn', 'Grimsby', 'Wigan',
-                                 'Basingstoke', 'Warwick', 'Yeovil',
-                                 'Carlisle', 'Salisbury', 'Southport',
-                                 'Rotherham', 'Scunthorpe', 'Wansbeck'),
-               legend        = TRUE)
-```
-
-###### Bishop Auckland
-
-```{r template_time_series_plot_bishop, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = df_site_measure,
-               indicator     = 'measure',
-               sub.indicator = 'submeasure',
-               steps         = TRUE,
-               theme         = theme_bw(),
-               tidy          = FALSE,
                facet         = FALSE,
                sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
-               legend        = TRUE)
-kable(template.any$summary.table.bishop,
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = FALSE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+kable(template$summary.table.bishop,
       align   = summary.table.align,
-      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Bishop Auckland cohort.')
+      format   = 'pandoc',
+      caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Bishop Auckland cohort.')
+## print('Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Bishop Auckland cohort.')
+## pander(template$summary.table.bishop)
 
 ```
 
-###### Hartlepool
 
-```{r template_time_series_plot_hartlepool, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = df_site_measure,
-               indicator     = 'measure',
-               sub.indicator = 'submeasure',
+##### Hartlepool
+```{r template.hartlepool.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
                steps         = TRUE,
                theme         = theme_bw(),
-               tidy          = FALSE,
                facet         = FALSE,
                sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
-               legend        = TRUE)
-kable(template.any$summary.table.hartlepool,
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = FALSE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+kable(template$summary.table.hartlepool,
       align   = summary.table.align,
-      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Hartlepool cohort.')
+      format   = 'pandoc',
+      caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Hartlepool cohort.')
+## print('Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Hartlepool cohort.')
+## pander(template$summary.table.hartlepool)
 
 ```
 
-###### Hemel Hempstead
-
-```{r template_time_series_plot_hemel, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = df_site_measure,
-               indicator     = 'measure',
-               sub.indicator = 'submeasure',
+##### Hemel Hempstead
+```{r template.hemel.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
                steps         = TRUE,
                theme         = theme_bw(),
-               tidy          = FALSE,
                facet         = FALSE,
                sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
-               legend        = TRUE)
-kable(template.any$summary.table.hemel,
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = FALSE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+kable(template$summary.table.hemel,
       align   = summary.table.align,
-      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Hemel Hempstead cohort.')
+      format   = 'pandoc',
+      caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Hemel Hempstead cohort.')
+## print('Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Hemel Hempstead cohort.')
+## pander(template$summary.table.hemel)
 
 ```
 
-###### Newark
-
-```{r template_time_series_plot_newark, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = df_site_measure,
-               indicator     = 'measure',
-               sub.indicator = 'submeasure',
+##### Newark
+```{r template.newark.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
                steps         = TRUE,
                theme         = theme_bw(),
-               tidy          = FALSE,
                facet         = FALSE,
                sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
-               legend        = TRUE)
-kable(template.any$summary.table.newark,
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = FALSE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+kable(template$summary.table.newark,
       align   = summary.table.align,
-      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Newark cohort.')
+      format   = 'pandoc',
+      caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Newark cohort.')
+## print('Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Newark cohort.')
+## pander(template$summary.table.newark)
 
 ```
 
-###### Rochdale
-
-```{r template_time_series_plot_rochdale, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = df_site_measure,
-               indicator     = 'measure',
-               sub.indicator = 'submeasure',
+##### Rochdale
+```{r template.rochdale.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
                steps         = TRUE,
                theme         = theme_bw(),
-               tidy          = FALSE,
                facet         = FALSE,
                sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
-               legend        = TRUE)
-kable(template.any$summary.table.rochdale,
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = FALSE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+kable(template$summary.table.rochdale,
       align   = summary.table.align,
-      caption = 'Pre and Post closure statistics and adjusted differences from the nine models tested in the Rochdale cohort.')
+      format   = 'pandoc',
+      caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Rochdale cohort.')
+## print('Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Rochdale cohort.')
+## pander(template$summary.table.rochdale)
 
 ```
 
@@ -130,10 +156,10 @@ kable(template.any$summary.table.rochdale,
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure + nhs111 + ambulance.divert + other.centre`\
 
-```{r template_model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-template.any$model1.ts.plot
-template.any$model1.forest$forest
-template.any$model1.panelar.all$coef[3:8] %>% kable(caption = template.any$model1.panelar.all$caption)
+```{r template.model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+template$model1.ts.plot
+template$model1.forest$forest
+template$model1.panelar.all$coef[3:8] %>% kable(caption = template$model1.panelar.all$caption)
 ```
 
 ##### Model 2
@@ -143,10 +169,10 @@ template.any$model1.panelar.all$coef[3:8] %>% kable(caption = template.any$model
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
-```{r template_model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-template.any$model2.ts.plot
-template.any$model2.forest$forest
-template.any$model2.panelar.all$coef[3:8] %>% kable(caption = template.any$model2.panelar.all$caption)
+```{r template.model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+template$model2.ts.plot
+template$model2.forest$forest
+template$model2.panelar.all$coef[3:8] %>% kable(caption = template$model2.panelar.all$caption)
 ```
 
 ##### Model 3.1
@@ -156,10 +182,10 @@ template.any$model2.panelar.all$coef[3:8] %>% kable(caption = template.any$model
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
-```{r template_model3_1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-template.any$model3.1.ts.plot
-template.any$model3.1.forest$forest
-template.any$model3.1.panelar.all$coef[3:8] %>% kable(caption = template.any$model3.1.panelar.all$caption)
+```{r template.model3_1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+template$model3.1.ts.plot
+template$model3.1.forest$forest
+template$model3.1.panelar.all$coef[3:8] %>% kable(caption = template$model3.1.panelar.all$caption)
 ```
 
 ##### Model 3.2
@@ -169,10 +195,10 @@ template.any$model3.1.panelar.all$coef[3:8] %>% kable(caption = template.any$mod
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
-```{r template_model3_2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-template.any$model3.2.ts.plot
-template.any$model3.2.forest$forest
-template.any$model3.2.panelar.all$coef[3:8] %>% kable(caption = template.any$model3.2.panelar.all$caption)
+```{r template.model3_2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+template$model3.2.ts.plot
+template$model3.2.forest$forest
+template$model3.2.panelar.all$coef[3:8] %>% kable(caption = template$model3.2.panelar.all$caption)
 ```
 
 ##### Model 4
@@ -182,10 +208,10 @@ template.any$model3.2.panelar.all$coef[3:8] %>% kable(caption = template.any$mod
 `Panel        : ED`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
-```{r template_model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-template.any$model4.ts.plot
-template.any$model4.forest$forest
-template.any$model4.panelar.all$coef[3:9] %>% kable(caption = template.any$model4.panelar.all$caption)
+```{r template.model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+template$model4.ts.plot
+template$model4.forest$forest
+template$model4.panelar.all$coef[3:9] %>% kable(caption = template$model4.panelar.all$caption)
 ```
 
 ##### Model 5
@@ -196,10 +222,10 @@ template.any$model4.panelar.all$coef[3:9] %>% kable(caption = template.any$model
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
 
-```{r template_model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-template.any$model5.ts.plot
-template.any$model5.forest$forest
-template.any$model5.panelar.all$coef[3:9] %>% kable(caption = template.any$model5.panelar.all$caption)
+```{r template.model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+template$model5.ts.plot
+template$model5.forest$forest
+template$model5.panelar.all$coef[3:9] %>% kable(caption = template$model5.panelar.all$caption)
 ```
 
 ##### Model 6.1
@@ -209,10 +235,10 @@ template.any$model5.panelar.all$coef[3:9] %>% kable(caption = template.any$model
 `Panel        : LSOA`\
 `Model        : observations ~ season + time + nhs111 + ambulance.divert + other.centre + change in ED time`\
 
-```{r template_model6_1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-template.any$model6.1.ts.plot
-template.any$model6.1.forest$forest
-template.any$model6.1.panelar.all$coef[3:8] %>% kable(caption = template.any$model6.1.panelar.all$caption)
+```{r template.model6_1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+template$model6.1.ts.plot
+template$model6.1.forest$forest
+template$model6.1.panelar.all$coef[3:8] %>% kable(caption = template$model6.1.panelar.all$caption)
 ```
 
 ##### Model 6.2
@@ -222,10 +248,10 @@ template.any$model6.1.panelar.all$coef[3:8] %>% kable(caption = template.any$mod
 `Panel        : LSOA`\
 `Model        : observations ~ season + time + site + nhs111 + ambulance.divert + other.centre + change in ED time`\
 
-```{r template_model6_2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-template.any$model6.2.ts.plot
-template.any$model6.2.forest$forest
-template.any$model6.2.panelar.all$coef[3:8] %>% kable(caption = template.any$model6.2.panelar.all$caption)
+```{r template.model6_2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+template$model6.2.ts.plot
+template$model6.2.forest$forest
+template$model6.2.panelar.all$coef[3:8] %>% kable(caption = template$model6.2.panelar.all$caption)
 ```
 
 ##### Model 7
@@ -237,8 +263,8 @@ template.any$model6.2.panelar.all$coef[3:8] %>% kable(caption = template.any$mod
 `Panel        : LSOA`\
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre + change in ED time`\
 
-```{r template_model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-## template.any$model7.ts.plot
-template.any$model7.forest$forest
-template.any$model7.panelar.all$coef[3:8] %>% kable(caption = template.any$model7.panelar.all$caption)
+```{r template.model7, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+## template$model7.ts.plot
+template$model7.forest$forest
+template$model7.panelar.all$coef[3:8] %>% kable(caption = template$model7.panelar.all$caption)
 ```
