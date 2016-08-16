@@ -116,7 +116,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         if(sub.indicator %in% c('all', 'admitted')){
             y.text.steps <- 200
         }
-        else if(sub.indicator %in% c('fraction.admitted')){
+        else if(sub.indicator %in% c('fraction admitted')){
             y.text.steps <- 0.05
         }
     }
