@@ -230,7 +230,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'not conveyed green calls') title2 <- ' (Green Calls Not Conveyed)'
         nudge <- 10
         ylabel <- 'Mean Time (minutes)'
-        y.text.steps <- 1000
+        y.text.steps <- 200
     }
     else if(indicator == 'ambulance red calls'){
         title1 <- 'Ambulance Red Calls'
@@ -238,7 +238,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'total')                    title2 <- ' (Total)'
         nudge <- 10
         ylabel <- 'Mean Time (minutes)'
-        y.text.steps <- 1000
+        y.text.steps <- 20
     }
     #######################################################################
     ## Define vertical lines for steps                                   ##
