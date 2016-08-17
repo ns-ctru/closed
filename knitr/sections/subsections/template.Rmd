@@ -5,7 +5,7 @@ These time-series plots show the trends over time *before* the removal of any po
 <!-- ###### Case Sites -->
 
 <!-- ```{r template.time.series.plot.case, echo = FALSE, cache = FALSE, results = 'hide' eval = TRUE} -->
-<!-- closed_ts_plot(df            = df_site_measure, -->
+<!-- closed_ts_plot(df            = df_site_measure_clean, -->
 <!--                indicator     = 'measure', -->
 <!--                sub.indicator = 'submeasure', -->
 <!--                steps         = TRUE, -->
@@ -19,7 +19,7 @@ These time-series plots show the trends over time *before* the removal of any po
 <!-- ###### Control Sites -->
 
 <!-- ```{r template.time.series.plot.control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE} -->
-<!-- closed_ts_plot(df            = df_site_measure, -->
+<!-- closed_ts_plot(df            = df_site_measure_clean, -->
 <!--                indicator     = 'measure', -->
 <!--                sub.indicator = 'submeasure', -->
 <!--                steps         = TRUE, -->
@@ -36,7 +36,7 @@ These time-series plots show the trends over time *before* the removal of any po
 
 ##### Bishop Auckland
 ```{r template.bishop.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = data_frame_site_measure,
+closed_ts_plot(df            = data_frame_site_measure_clean,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = TRUE,
@@ -60,7 +60,7 @@ kable(template$summary.table.bishop,
 
 ##### Hartlepool
 ```{r template.hartlepool.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = data_frame_site_measure,
+closed_ts_plot(df            = data_frame_site_measure_clean,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = TRUE,
@@ -83,7 +83,7 @@ kable(template$summary.table.hartlepool,
 
 ##### Hemel Hempstead
 ```{r template.hemel.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = data_frame_site_measure,
+closed_ts_plot(df            = data_frame_site_measure_clean,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = TRUE,
@@ -106,7 +106,7 @@ kable(template$summary.table.hemel,
 
 ##### Newark
 ```{r template.newark.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = data_frame_site_measure,
+closed_ts_plot(df            = data_frame_site_measure_clean,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = TRUE,
@@ -129,7 +129,7 @@ kable(template$summary.table.newark,
 
 ##### Rochdale
 ```{r template.rochdale.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = data_frame_site_measure,
+closed_ts_plot(df            = data_frame_site_measure_clean,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = TRUE,
