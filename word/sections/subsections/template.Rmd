@@ -1,95 +1,228 @@
 ##### Bishop Auckland
-```{r template.bishop.plot, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r template.bishop.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = data_frame_site_measure,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = TRUE,
                theme         = theme_bw(),
-               tidy          = FALSE,
                facet         = FALSE,
                sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
                legend        = TRUE,
+               tidy          = TRUE,
+               colour        = FALSE,
                lines         = FALSE,
                xaxis.steps   = TRUE)
-kable(template$summary.table.bishop,
-      align   = summary.table.align,
-      caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Bishop Auckland cohort.')
+## kable(template$summary.table.bishop,
+##       align   = summary.table.align,
+##       format   = 'pandoc',
+##       caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Bishop Auckland cohort.')
+print('Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Bishop Auckland cohort.')
+pander(template$summary.table.bishop)
+
+```
+
+```{r template.bishop.out, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+png(filename = '~/work/closed/word/png/template.bishop.png', width = 1024, height = 768)
+closed_ts_plot(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = FALSE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+dev.off()
+write.table(template$summary.table.bishop,
+            file = '~/work/closed/word/csv/template.bishop.csv',
+            row.names = FALSE,
+            sep       = ',',
+            na        = '')
 
 ```
 
 
 ##### Hartlepool
-```{r template.hartlepool.plot, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r template.hartlepool.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = data_frame_site_measure,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = TRUE,
                theme         = theme_bw(),
-               tidy          = FALSE,
                facet         = FALSE,
                sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
                legend        = TRUE,
+               tidy          = TRUE,
+               colour        = FALSE,
                lines         = FALSE,
                xaxis.steps   = TRUE)
-kable(template$summary.table.bishop,
-      align   = summary.table.align,
-      caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Hartlepool cohort.')
+## kable(template$summary.table.hartlepool,
+##       align   = summary.table.align,
+##       format   = 'pandoc',
+##       caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Hartlepool cohort.')
+print('Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Hartlepool cohort.')
+pander(template$summary.table.hartlepool)
+```
+
+```{r template.hartlepool.out, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+png(filename = '~/work/closed/word/png/template.hartlepool.png', width = 1024, height = 768)
+closed_ts_plot(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = FALSE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+dev.off()
+write.table(template$summary.table.hartlepool,
+            file = '~/work/closed/word/csv/template.hartlepool.csv',
+            row.names = FALSE,
+            sep       = ',',
+            na        = '')
 
 ```
 
 ##### Hemel Hempstead
-```{r template.hemel.plot, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r template.hemel.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = data_frame_site_measure,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = TRUE,
                theme         = theme_bw(),
-               tidy          = FALSE,
                facet         = FALSE,
                sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
                legend        = TRUE,
+               tidy          = TRUE,
+               colour        = FALSE,
                lines         = FALSE,
                xaxis.steps   = TRUE)
-kable(template$summary.table.bishop,
-      align   = summary.table.align,
-      caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Hemel Hempstead cohort.')
+## kable(template$summary.table.hemel,
+##       align   = summary.table.align,
+##       format   = 'pandoc',
+##       caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Hemel Hempstead cohort.')
+print('Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Hemel Hempstead cohort.')
+pander(template$summary.table.hemel)
+```
+
+```{r template.hemel.out, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+png(filename = '~/work/closed/word/png/template.hemel.png', width = 1024, height = 768)
+closed_ts_plot(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               facet         = FALSE,
+               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = FALSE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+dev.off()
+write.table(template$summary.table.hemel,
+            file = '~/work/closed/word/csv/template.hemel.csv',
+            row.names = FALSE,
+            sep       = ',',
+            na        = '')
 
 ```
 
 ##### Newark
-```{r template.newark.plot, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r template.newark.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = data_frame_site_measure,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = TRUE,
                theme         = theme_bw(),
-               tidy          = FALSE,
                facet         = FALSE,
                sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
                legend        = TRUE,
+               tidy          = TRUE,
+               colour        = FALSE,
                lines         = FALSE,
                xaxis.steps   = TRUE)
-kable(template$summary.table.bishop,
-      align   = summary.table.align,
-      caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Newark cohort.')
+## kable(template$summary.table.newark,
+##       align   = summary.table.align,
+##       format   = 'pandoc',
+##       caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Newark cohort.')
+print('Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Newark cohort.')
+pander(template$summary.table.newark)
+
+```
+
+```{r template.newark.out, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+png(filename = '~/work/closed/word/png/template.newark.png', width = 1024, height = 768)
+closed_ts_plot(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               facet         = FALSE,
+               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = FALSE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+dev.off()
+write.table(template$summary.table.newark,
+            file = '~/work/closed/word/csv/template.newark.csv',
+            row.names = FALSE,
+            sep       = ',',
+            na        = '')
 
 ```
 
 ##### Rochdale
-```{r template.rochdale.plot, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r template.rochdale.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = data_frame_site_measure,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = TRUE,
                theme         = theme_bw(),
-               tidy          = FALSE,
                facet         = FALSE,
                sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
                legend        = TRUE,
+               tidy          = TRUE,
+               colour        = FALSE,
                lines         = FALSE,
                xaxis.steps   = TRUE)
-kable(template$summary.table.bishop,
-      align   = summary.table.align,
-      caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Rochdale cohort.')
+## kable(template$summary.table.rochdale,
+##       align   = summary.table.align,
+##       format   = 'pandoc',
+##       caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Rochdale cohort.')
+print('Pre and Post closure statistics and adjusted differences in DESCRIPTION from the nine models tested in the Rochdale cohort.')
+pander(template$summary.table.rochdale)
+
+```
+
+```{r template.rochdale.out, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+png(filename = '~/work/closed/word/png/template.rochdale.png', width = 1024, height = 768)
+closed_ts_plot(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               facet         = FALSE,
+               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = FALSE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+dev.off()
+write.table(template$summary.table.rochdale,
+            file = '~/work/closed/word/csv/template.rochdale.csv',
+            row.names = FALSE,
+            sep       = ',',
+            na        = '')
 
 ```
