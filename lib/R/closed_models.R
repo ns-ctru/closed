@@ -15,7 +15,8 @@
 #' specified by the user.
 #'
 #' @param df.lsoa Data frame at the LSOA level to analyse.
-#' @param df.trust Data frame at the Trust level to analyse.
+#' @param df.trust Data frame at the Trust level to analyse ideally cleaned of spurious datasets by \code{closed_clean()}.
+#' @param df.trsut.plot Uncleaned data frame for plotting.
 #' @param indicator The performance indicator to assess.
 #' @param sub.indicator The sub-measure performance indicator to assess.
 #' @param steps List of steps (dummy variables) to include in time-series analysis.
@@ -65,7 +66,8 @@
 #'
 #' @export
 closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
-                          df.trust        = ed_attendances_by_mode_site_measure,
+                          df.trust        = ed_attendances_by_mode_site_measure_clean,
+                          df.trust.plot   = ed_attendances_by_mode_site_measure,
                           indicator       = 'ed attendances',
                           sub.indicator   = 'any',
                           steps           = c('closure'),
@@ -491,8 +493,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       town %in% sites &
                       measure     == indicator &
                       sub.measure == sub.indicator)
+        df1.plot <- filter(df.trust.orig,
+                           town %in% sites &
+                           measure     == indicator &
+                           sub.measure == sub.indicator)
         ## Generate time-series plot
-        results$model1.ts.plot <- closed_ts_plot(df = df1,
+        results$model1.ts.plot <- closed_ts_plot(df = df1.plot,
                                                  sites = sites,
                                                  indicator = indicator,
                                                  sub.indicator = sub.indicator,
@@ -909,6 +915,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  indicator = indicator,
                                                  sub.indicator = sub.indicator,
                                                  steps = TRUE,
+                                                 lines = TRUE,
+                                                 xaxis.steps = FALSE,
                                                  facet = TRUE,
                                                  tidy  = TRUE,
                                                  join  = join.line,
@@ -1142,6 +1150,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  indicator     = indicator,
                                                  sub.indicator = sub.indicator,
                                                  steps         = TRUE,
+                                                 lines         = TRUE,
+                                                 xaxis.steps   = FALSE,
                                                  facet         = TRUE,
                                                  tidy          = TRUE,
                                                  join          = join.line,
@@ -1437,6 +1447,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  indicator = indicator,
                                                  sub.indicator = sub.indicator,
                                                  steps = TRUE,
+                                                 lines         = TRUE,
+                                                 xaxis.steps   = FALSE,
                                                  facet = TRUE,
                                                  tidy  = TRUE,
                                                  join  = join.line,
@@ -1545,6 +1557,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  indicator = indicator,
                                                  sub.indicator = sub.indicator,
                                                  steps = TRUE,
+                                                 lines         = TRUE,
+                                                 xaxis.steps   = FALSE,
                                                  facet = TRUE,
                                                  tidy  = TRUE,
                                                  join  = join.line,
@@ -1671,6 +1685,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  indicator = indicator,
                                                  sub.indicator = sub.indicator,
                                                  steps = TRUE,
+                                                 lines         = TRUE,
+                                                 xaxis.steps   = FALSE,
                                                  facet = TRUE,
                                                  tidy  = TRUE,
                                                  join  = join.line,
@@ -1682,6 +1698,17 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## print("Bishop Auckland")
         t <- filter(df6.1,
                     town == 'Bishop Auckland')
+        ## Getting errors with complete.case == TRUE...
+        ##
+        ## Error: Unable to compute correlated SEs / PCSEs because there are no time
+        ## periods in common across all units. Instead, consider setting
+        ## complete.case =FALSE.
+        ##
+        ## ...so have opted for that for ALL LSOA analyses rather than conditionally
+        ## switching.
+        ## complete.case.6.1 <- complete.case
+        ## if(indicator == 'case fatality ratio' & sub.indicator == 'any') complete.case.6.1 <- FALSE
+        complete.case <- FALSE
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
             ## Remove instances where there are missing observations for LSOAs
             t <- filter(t, !is.na(value))
@@ -1763,6 +1790,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                              panelVar = panel.lsoa,
                                              autoCorr = autocorr,
                                              panelCorrMethod = 'pcse',
+                                             complete.case = complete.case,
                                              seq.times = seq.times,
                                              rho.na.rm = rho.na.rm)
             results$model6.1.panelar.newark.coef <- extract_coefficients(x              = model6.1.panelar.newark,
@@ -1897,6 +1925,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  indicator = indicator,
                                                  sub.indicator = sub.indicator,
                                                  steps = TRUE,
+                                                 lines         = TRUE,
+                                                 xaxis.steps   = FALSE,
                                                  facet = TRUE,
                                                  tidy  = TRUE,
                                                  join  = join.line,
@@ -1909,6 +1939,17 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         t <- filter(df6.2,
                     town == 'Bishop Auckland' |
                     town == 'Whitehaven')
+        ## Getting errors with complete.case == TRUE...
+        ##
+        ## Error: Unable to compute correlated SEs / PCSEs because there are no time
+        ## periods in common across all units. Instead, consider setting
+        ## complete.case =FALSE.
+        ##
+        ## ...so have opted for that for ALL LSOA analyses rather than conditionally
+        ## switching.
+        ## complete.case.6.2 <- complete.case
+        ## if(indicator == 'case fatality ratio' & sub.indicator == 'any') complete.case.6.2 <- FALSE
+        complete.case <- FALSE
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 & town.group$n[town.group$town == 'Whitehaven'] > 0 ){
             t$town <- relevel(t$town, ref = 'Whitehaven')
             ## Remove instances where there are missing observations for LSOAs
@@ -2134,6 +2175,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  indicator = indicator,
                                                  sub.indicator = sub.indicator,
                                                  steps = TRUE,
+                                                 lines         = TRUE,
+                                                 xaxis.steps   = FALSE,
                                                  facet = TRUE,
                                                  tidy  = TRUE,
                                                  join  = join.line,
@@ -2158,6 +2201,17 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
            town.group$n[town.group$town == 'Rochdale'] > 0 &
            town.group$n[town.group$town == 'Rotherham'] > 0){
             t$town <- relevel(t$town, ref = 'Grimsby')
+            ## Getting errors with complete.case == TRUE...
+            ##
+            ## Error: Unable to compute correlated SEs / PCSEs because there are no time
+            ## periods in common across all units. Instead, consider setting
+            ## complete.case =FALSE.
+            ##
+            ## ...so have opted for that for ALL LSOA analyses rather than conditionally
+            ## switching.
+            ## if(indicator == 'length of stay')      complete.case <- FALSE
+            ## if(indicator == 'case fatality ratio') complete.case <- FALSE
+            complete.case <- FALSE
             model7.panelar <- panelAR(data     = t,
                                       formula  = formula.model7,
                                       timeVar  = timevar,
