@@ -218,19 +218,16 @@ emergency_admissions_site_measure_clean <- closed_clean(df      = emergency_admi
 ## Remove avoidable admissions and avoidable deaths that are not of interest
 ## emergency_admissions_site_measure_clean <- filter(emergency_admissions_site_measure_clean,
 ##                                                 !(sub.measure %in% exclude.avoidable))
-t <- as.data.frame(ed_attendances_admitted_site_measure)
 ed_attendances_admitted_site_measure_clean <- closed_clean(df      = ed_attendances_admitted_site_measure,
                                                          indicator     = 'ed attendances admitted',
                                                          sub.indicator = 'any',
                                                          systematic    = systematic.outlier,
                                                          balance       = FALSE)
-t <- as.data.frame(critical_care_cips_site_measure)
 critical_care_cips_site_measure_clean <- closed_clean(df      = critical_care_cips_site_measure,
                                                indicator     = 'critical care stays',
                                                sub.indicator = 'all',
                                                systematic    = systematic.outlier,
                                                balance       = FALSE)
-t <- as.data.frame(length_of_stay_site_measure)
 length_of_stay_site_measure_clean <- closed_clean(df      = length_of_stay_site_measure,
                                                 indicator     = 'length of stay',
                                                 sub.indicator = 'mean',
@@ -244,8 +241,7 @@ length_of_stay_site_measure_clean <- closed_clean(df      = length_of_stay_site_
 ## ## Exclude avoidable deaths that are not of interest
 ## case_fatality_site_measure_clean <- filter(case_fatality_site_measure_clean,
 ##                                          !(sub.measure %in% exclude.fatality))
-t <- as.data.frame(amb_mean_times_site_measure)
-amb_mean_times_site_measure_clean <- closed_clean(df      = amb_mean_times_site_measure_clean,
+amb_mean_times_site_measure_clean <- closed_clean(df      = amb_mean_times_site_measure,
                                                 indicator     = 'ambulance mean times',
                                                 sub.indicator = 'call_to_dest',
                                                 systematic    = systematic.outlier,
@@ -283,19 +279,16 @@ emergency_admissions_site_measure_clean_sd2 <- closed_clean(df      = emergency_
 ## Remove avoidable admissions and avoidable deaths that are not of interest
 ## emergency_admissions_site_measure_clean_sd2 <- filter(emergency_admissions_site_measure_clean_sd2,
 ##                                                 !(sub.measure %in% exclude.avoidable))
-t <- as.data.frame(ed_attendances_admitted_site_measure)
 ed_attendances_admitted_site_measure_clean_sd2 <- closed_clean(df      = ed_attendances_admitted_site_measure,
                                                          indicator     = 'ed attendances admitted',
                                                          sub.indicator = 'any',
                                                          systematic    = systematic.outlier,
                                                          balance       = FALSE)
-t <- as.data.frame(critical_care_cips_site_measure)
 critical_care_cips_site_measure_clean_sd2 <- closed_clean(df      = critical_care_cips_site_measure,
                                                indicator     = 'critical care stays',
                                                sub.indicator = 'all',
                                                systematic    = systematic.outlier,
                                                balance       = FALSE)
-t <- as.data.frame(length_of_stay_site_measure)
 length_of_stay_site_measure_clean_sd2 <- closed_clean(df      = length_of_stay_site_measure,
                                                 indicator     = 'length of stay',
                                                 sub.indicator = 'mean',
@@ -309,8 +302,7 @@ length_of_stay_site_measure_clean_sd2 <- closed_clean(df      = length_of_stay_s
 ## ## Exclude avoidable deaths that are not of interest
 ## case_fatality_site_measure_clean_sd2 <- filter(case_fatality_site_measure_clean_sd2,
 ##                                          !(sub.measure %in% exclude.fatality))
-t <- as.data.frame(amb_mean_times_site_measure)
-amb_mean_times_site_measure_clean_sd2 <- closed_clean(df      = amb_mean_times_site_measure_clean,
+amb_mean_times_site_measure_clean_sd2 <- closed_clean(df      = amb_mean_times_site_measure,
                                                 indicator     = 'ambulance mean times',
                                                 sub.indicator = 'call_to_dest',
                                                 systematic    = systematic.outlier,
