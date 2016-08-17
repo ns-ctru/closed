@@ -16,7 +16,6 @@
 #'
 #' @param df.lsoa Data frame at the LSOA level to analyse.
 #' @param df.trust Data frame at the Trust level to analyse ideally cleaned of spurious datasets by \code{closed_clean()}.
-#' @param df.trsut.plot Uncleaned data frame for plotting.
 #' @param indicator The performance indicator to assess.
 #' @param sub.indicator The sub-measure performance indicator to assess.
 #' @param steps List of steps (dummy variables) to include in time-series analysis.
@@ -67,7 +66,6 @@
 #' @export
 closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           df.trust        = ed_attendances_by_mode_site_measure_clean,
-                          df.trust.plot   = ed_attendances_by_mode_site_measure,
                           indicator       = 'ed attendances',
                           sub.indicator   = 'any',
                           steps           = c('closure'),
@@ -493,12 +491,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       town %in% sites &
                       measure     == indicator &
                       sub.measure == sub.indicator)
-        df1.plot <- filter(df.trust.orig,
-                           town %in% sites &
-                           measure     == indicator &
-                           sub.measure == sub.indicator)
         ## Generate time-series plot
-        results$model1.ts.plot <- closed_ts_plot(df = df1.plot,
+        results$model1.ts.plot <- closed_ts_plot(df = df1,
                                                  sites = sites,
                                                  indicator = indicator,
                                                  sub.indicator = sub.indicator,
@@ -704,6 +698,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  indicator = indicator,
                                                  sub.indicator = sub.indicator,
                                                  steps = TRUE,
+                                                 lines = TRUE,
+                                                 xaxis.steps = FALSE,
                                                  facet = TRUE,
                                                  tidy  = TRUE,
                                                  join  = join.line,
