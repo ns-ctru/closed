@@ -60,7 +60,9 @@ In doing so the datapoints described in the table below are identified as being 
 
 ```{r spurious_data_points, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, fig.height = 8, eval = TRUE}
 ## load(file = '~/work/closed/knitr/data/spurious_cleaned.RData')
-filter(spurious, sd == 3) %>%
+filter(spurious,
+       sd == 3 &
+       sub.measure %in% !c(exclude.avoidable, exclude.fatality)) %>%
 ggplot(aes(relative.month, Town, color = Town)) +
     ## geom_rug(size = 3) +
     geom_point() + geom_jitter() +
