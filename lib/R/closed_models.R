@@ -106,12 +106,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     #######################################################################
     ## Initialise results list for returning everything
     results <- list()
-    ## 2016-05-24 - For a small number of outcomes there is no sub-indicator
-    ##              and it is therefore missing.  In order to work with this
-    ##              function such missing values are therefore replaced with
-    ##              the main indicator which is supplied as the sub.indicator
-    ##              argument
-    ## which.df <- substitute(df.lsoa) %>% deparse()
     ## ## print("Debug 1")
     ## Obtain the levels of town and group and site type the number of observations
     ## within each to control subsequent analyses
