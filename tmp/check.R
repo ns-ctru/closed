@@ -1,7 +1,187 @@
-## 2016-08-10 Developing requested summary of before/after means, sd etc. along with adjusted
-##            model coefficients
-load('~/work/closed/lib/data/ed attendances by mode measure - lsoa - 2016-05-24 14.25.Rda')
-load('~/work/closed/lib/data/ed attendances by mode measure - site - 2016-05-24 14.26.Rda')
+## 2016-08-18 Quick check of code for producing different plots, which are being moved out of
+##            calls to closed_models()
+
+## Model 1
+load('~/work/closed/tmp/ed attendances by mode measure - site - 2016-05-24 14.26.Rda')
+ed_attendances_by_mode_site_measure       <- closed_tidy(ed_attendances_by_mode_site_measure)
+ed_attendances_by_mode_site_measure_clean <- closed_clean(ed_attendances_by_mode_site_measure)
+## Set variables
+measure <- 'ed attendances'
+sub.measure <- 'any'
+## Set sites to plot
+sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
+## Filter
+to.plot <- filter(ed_attendances_by_mode_site_measure_clean,
+                  town %in% sites &
+                  measure == measure,
+                  sub.measure == sub.measure)
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = TRUE,
+               lines         = TRUE,
+               xaxis.steps   = FALSE,
+               join.line     = TRUE,
+               legend        = FALSE,
+               facet         = FALSE)
+
+## Model 2
+## Set sites to plot
+sites <- c('Bishop Auckland', 'Whitehaven',
+                   'Hartlepool', 'Grimsby',
+                   'Hemel Hempstead', 'Warwick',
+                   'Newark', 'Southport',
+                   'Rochdale', 'Rotherham')
+## Filter
+to.plot <- filter(ed_attendances_by_mode_site_measure_clean,
+                  town %in% sites &
+                  measure == measure,
+                  sub.measure == sub.measure)
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = TRUE,
+               lines         = TRUE,
+               xaxis.steps   = FALSE,
+               join.line     = TRUE,
+               legend        = TRUE,
+               facet         = TRUE)
+
+## Model 3.1
+## Set sites to plot
+sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'Wansbeck', 'Warwick', 'Whitehaven', 'Wigan', 'Yeovil')
+## Filter
+to.plot <- filter(ed_attendances_by_mode_site_measure_clean,
+                  town %in% sites &
+                  measure == measure,
+                  sub.measure == sub.measure)
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = TRUE,
+               lines         = TRUE,
+               xaxis.steps   = FALSE,
+               join.line     = TRUE,
+               legend        = TRUE,
+               facet         = TRUE)
+
+## Model 3.2
+## Set sites to plot
+sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Control')
+## Filter
+to.plot <- closed_pool(df = ed_attendances_by_mode_site_measure,
+                       within.centres = TRUE) # %>% closed_clean()
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = TRUE,
+               lines         = TRUE,
+               xaxis.steps   = FALSE,
+               join.line     = TRUE,
+               legend        = TRUE,
+               facet         = TRUE)
+
+## Model 4
+sites <- c('Bishop Auckland', 'Whitehaven',
+           'Hartlepool', 'Grimsby',
+           'Hemel Hempstead', 'Warwick',
+           'Newark', 'Southport',
+           'Rochdale', 'Rotherham')
+## Filter
+to.plot <- filter(ed_attendances_by_mode_site_measure_clean,
+                  town %in% sites &
+                  measure == measure,
+                  sub.measure == sub.measure)
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = TRUE,
+               lines         = TRUE,
+               xaxis.steps   = FALSE,
+               join.line     = TRUE,
+               legend        = TRUE,
+               facet         = TRUE)
+## Model 5
+sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'Wansbeck', 'Warwick', 'Whitehaven', 'Wigan', 'Yeovil')
+## Filter
+to.plot <- filter(ed_attendances_by_mode_site_measure_clean,
+                  town %in% sites &
+                  measure == measure,
+                  sub.measure == sub.measure)
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = TRUE,
+               lines         = TRUE,
+               xaxis.steps   = FALSE,
+               join.line     = TRUE,
+               legend        = TRUE,
+               facet         = TRUE)
+
+## Model 6.1
+sites <- c('Bishop Auckland',
+                  'Hartlepool',
+                  'Hemel Hempstead',
+                  'Newark',
+                  'Rochdale')
+## Filter
+to.plot <- filter(ed_attendances_by_mode_site_measure_clean,
+                  town %in% sites &
+                  measure == measure,
+                  sub.measure == sub.measure)
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = TRUE,
+               lines         = TRUE,
+               xaxis.steps   = FALSE,
+               join.line     = TRUE,
+               legend        = TRUE,
+               facet         = TRUE)
+
+## Model 6.2
+sites <- c('Bishop Auckland', 'Whitehaven',
+                   'Hartlepool', 'Grimsby',
+                   'Hemel Hempstead', 'Warwick',
+                   'Newark', 'Southport',
+                   'Rochdale', 'Rotherham')
+## Filter
+to.plot <- filter(ed_attendances_by_mode_site_measure_clean,
+                  town %in% sites &
+                  measure == measure,
+                  sub.measure == sub.measure)
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = TRUE,
+               lines         = TRUE,
+               xaxis.steps   = FALSE,
+               join.line     = TRUE,
+               legend        = TRUE,
+               facet         = TRUE)
+
+
+## 2016-08-17 Why have closed_ts_plots() made internal to closed_models() stopped working for models >= 3.1
+##
+##            Most likely something I've changed with regards to the default options of closed_ts_model()
+##            but need to work out what then explicity set it within closed)
+
 mode.of.arrival.any <- closed_models(df.lsoa          = ed_attendances_by_mode_measure,
                                      df.trust         = ed_attendances_by_mode_site_measure,
                                      indicator        = 'ed attendances',
@@ -12,15 +192,210 @@ mode.of.arrival.any <- closed_models(df.lsoa          = ed_attendances_by_mode_m
                                      panel.trust      = model.opts$panel.trust,
                                      timevar          = model.opts$timevar,
                                      outcome          = model.opts$outcome,
-                                     model1           = NULL,
-                                     model2           = NULL,
-                                     model3.1         = NULL,
-                                     model3.2         = NULL,
-                                     model4           = NULL,
-                                     model5           = NULL,
-                                     model6.1         = NULL,
-                                     model6.2         = NULL,
-                                     model7           = NULL,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     ## return.df        = model.opts$return.df,
+                                     return.df        = TRUE,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+mode.of.arrival.any$model1.ts.plot
+mode.of.arrival.any$model2.ts.plot
+mode.of.arrival.any$model3.1.ts.plot
+mode.of.arrival.any$model3.2.ts.plot
+mode.of.arrival.any$model4.ts.plot
+mode.of.arrival.any$model5.ts.plot
+mode.of.arrival.any$model6.1.ts.plot
+mode.of.arrival.any$model6.2.ts.plot
+mode.of.arrival.any$model7.ts.plot
+
+
+## 2016-08-12 Finishing off black and white graphs
+load('~/work/closed/tmp/ed attendances by mode measure - site - 2016-05-24 14.26.Rda')
+ed_attendances_by_mode_site_measure <- closed_tidy(ed_attendances_by_mode_site_measure)
+
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+               legend        = TRUE,
+               colour        = FALSE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'any',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               tidy          = FALSE,
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
+               legend        = TRUE)
+
+
+
+## 2016-08-11 Checking ambulance outcomes with new data
+load('~/work/closed/lib/data/ambulance mean times measure - lsoa - 2016-08-01 17.14.Rda')
+load('~/work/closed/lib/data/ambulance mean times measure - site - 2016-08-01 17.14.Rda')
+amb_mean_times_measure                  <- closed_tidy(amb_mean_times_measure)
+amb_mean_times_site_measure             <- closed_tidy(amb_mean_times_site_measure)
+
+## Complains about lack of contrasts when attempting to analyse Hartlepool
+check <- filter(amb_mean_times_site_measure,
+                group == 'University Hospital of Hartlepool' &
+                sub.measure == 'call_to_dest')
+
+ambulance.mean.times.call.to.dest <- closed_models(df.lsoa         = amb_mean_times_measure,
+                                     df.trust         = amb_mean_times_site_measure,
+                                     indicator        = 'ambulance mean times',
+                                     sub.indicator    = 'call_to_dest',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1          = model.opts$mod3.1,
+                                     model3.2          = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+
+load('~/work/closed/lib/data/ambulance non-conveyance measure - lsoa - 2016-08-01 17.16.Rda')
+load('~/work/closed/lib/data/ambulance non-conveyance measure - site - 2016-08-01 17.16.Rda')
+amb_non_conveyance_measure              <- closed_tidy(amb_non_conveyance_measure)
+amb_non_conveyance_site_measure         <- closed_tidy(amb_non_conveyance_site_measure)
+ambulance.non.conveyances.green.calls <- closed_models(df.lsoa         = amb_non_conveyance_measure,
+                                     df.trust         = amb_non_conveyance_site_measure,
+                                     indicator        = 'ambulance non-conveyance',
+                                     sub.indicator    = 'green calls',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1          = model.opts$mod3.1,
+                                     model3.2          = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+
+load('~/work/closed/lib/data/ambulance red calls measure - lsoa - 2016-08-01 17.15.Rda')
+load('~/work/closed/lib/data/ambulance red calls measure - site - 2016-08-01 17.15.Rda')
+amb_red_calls_measure                   <- closed_tidy(amb_red_calls_measure)
+amb_red_calls_site_measure              <- closed_tidy(amb_red_calls_site_measure)
+ambulance.red.calls.hospital.transfers <- closed_models(df.lsoa         = amb_red_calls_measure,
+                                     df.trust         = amb_red_calls_site_measure,
+                                     indicator        = 'ambulance red calls',
+                                     sub.indicator    = 'hospital transfers',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1          = model.opts$mod3.1,
+                                     model3.2          = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+
+
+## 2016-08-10 Developing requested summary of before/after means, sd etc. along with adjusted
+##            model coefficients
+
+mode.of.arrival.any <- closed_models(df.lsoa          = ed_attendances_by_mode_measure,
+                                     df.trust         = ed_attendances_by_mode_site_measure,
+                                     indicator        = 'ed attendances',
+                                     sub.indicator    = 'any',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7           = model.opts$mod7,
                                      autocorr         = model.opts$autocorr,
                                      panelcorrmethod  = model.opts$panelcorrmethod,
                                      coefficients     = model.opts$coefficients,
