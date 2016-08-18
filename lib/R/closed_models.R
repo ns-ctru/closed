@@ -492,15 +492,17 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       measure     == indicator &
                       sub.measure == sub.indicator)
         ## Generate time-series plot
-        results$model1.ts.plot <- closed_ts_plot(df = df1,
-                                                 sites = sites,
-                                                 indicator = indicator,
-                                                 sub.indicator = sub.indicator,
-                                                 steps = TRUE,
-                                                 facet = FALSE,
-                                                 tidy  = TRUE,
-                                                 join  = join.line,
-                                                 legend = legend)
+        ## results$model1.ts.plot <- closed_ts_plot(df = df1,
+        ##                                          sites = sites,
+        ##                                          indicator = indicator,
+        ##                                          sub.indicator = sub.indicator,
+        ##                                          steps = TRUE,
+        ##                                          lines = TRUE,
+        ##                                          xaxis.steps = FALSE,
+        ##                                          facet = FALSE,
+        ##                                          tidy  = TRUE,
+        ##                                          join  = join.line,
+        ##                                          legend = legend)
         ##################################################
         ## Model 1 - Bishop Auckland                    ##
         ##################################################
@@ -693,17 +695,17 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       sub.measure == sub.indicator)
         ## Generate time-series plot
         df2$group <- paste0('Cohort : ', df2$group)
-        results$model2.ts.plot <- closed_ts_plot(df = df2,
-                                                 sites = sites,
-                                                 indicator = indicator,
-                                                 sub.indicator = sub.indicator,
-                                                 steps = TRUE,
-                                                 lines = TRUE,
-                                                 xaxis.steps = FALSE,
-                                                 facet = TRUE,
-                                                 tidy  = TRUE,
-                                                 join  = join.line,
-                                                 legend = legend)
+        ## results$model2.ts.plot <- closed_ts_plot(df = df2,
+        ##                                          sites = sites,
+        ##                                          indicator = indicator,
+        ##                                          sub.indicator = sub.indicator,
+        ##                                          steps = TRUE,
+        ##                                          lines = TRUE,
+        ##                                          xaxis.steps = FALSE,
+        ##                                          facet = TRUE,
+        ##                                          tidy  = TRUE,
+        ##                                          join  = join.line,
+        ##                                          legend = legend)
         ## Perform analysis with panelAR in each
         ##################################################
         ## Model 2 - Bishop Auckland                    ##
@@ -905,18 +907,18 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       sub.measure == sub.indicator)
         ## Generate time-series plot
         df3$group <- paste0('Cohort : ', df3$group)
-        sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'WansbeckWarwick', 'Whitehaven', 'Wigan', 'Yeovil')
-        results$model3.1.ts.plot <- closed_ts_plot(df = df3,
-                                                 sites = sites,
-                                                 indicator = indicator,
-                                                 sub.indicator = sub.indicator,
-                                                 steps = TRUE,
-                                                 lines = TRUE,
-                                                 xaxis.steps = FALSE,
-                                                 facet = TRUE,
-                                                 tidy  = TRUE,
-                                                 join  = join.line,
-                                                 legend = legend)
+        sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'Wansbeck' 'Warwick', 'Whitehaven', 'Wigan', 'Yeovil')
+        ## results$model3.1.ts.plot <- closed_ts_plot(df = df3,
+        ##                                          sites = sites,
+        ##                                          indicator = indicator,
+        ##                                          sub.indicator = sub.indicator,
+        ##                                          steps = TRUE,
+        ##                                          lines = TRUE,
+        ##                                          xaxis.steps = FALSE,
+        ##                                          facet = TRUE,
+        ##                                          tidy  = TRUE,
+        ##                                          join  = join.line,
+        ##                                          legend = legend)
         ## Perform analysis with panelAR in each
         ##################################################
         ## Bishop Auckland                              ##
@@ -1141,18 +1143,18 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Generate Time-Series Plots
         df3.2$group <- paste0('Cohort : ', df3.2$group)
         sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Control')
-        results$model3.2.ts.plot <- closed_ts_plot(df            = df3.2,
-                                                 sites         = sites,
-                                                 indicator     = indicator,
-                                                 sub.indicator = sub.indicator,
-                                                 steps         = TRUE,
-                                                 lines         = TRUE,
-                                                 xaxis.steps   = FALSE,
-                                                 facet         = TRUE,
-                                                 tidy          = TRUE,
-                                                 join          = join.line,
-                                                 legend        = legend,
-                                                 pool.control  = FALSE) ## NB - This is FALSE because data has already been pooled
+        ## results$model3.2.ts.plot <- closed_ts_plot(df            = df3.2,
+        ##                                          sites         = sites,
+        ##                                          indicator     = indicator,
+        ##                                          sub.indicator = sub.indicator,
+        ##                                          steps         = TRUE,
+        ##                                          lines         = TRUE,
+        ##                                          xaxis.steps   = FALSE,
+        ##                                          facet         = TRUE,
+        ##                                          tidy          = TRUE,
+        ##                                          join          = join.line,
+        ##                                          legend        = legend,
+        ##                                          pool.control  = FALSE) ## NB - This is FALSE because data has already been pooled
         ## Ensure relative.month is a numeric integer
         df3.2$relative.month <- as.integer(df3.2$relative.month) %>% as.numeric()
         ##################################################
@@ -1438,17 +1440,17 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         df4$status <- ifelse(df4$town %in% case, 'Case', 'Control')
         ## Generate time-series plot (at site/town level)
         df4$group <- paste0('Cohort : ', df4$group)
-        results$model4.ts.plot <- closed_ts_plot(df = df4,
-                                                 sites = sites,
-                                                 indicator = indicator,
-                                                 sub.indicator = sub.indicator,
-                                                 steps = TRUE,
-                                                 lines         = TRUE,
-                                                 xaxis.steps   = FALSE,
-                                                 facet = TRUE,
-                                                 tidy  = TRUE,
-                                                 join  = join.line,
-                                                 legend = legend)
+        ## results$model4.ts.plot <- closed_ts_plot(df = df4,
+        ##                                          sites = sites,
+        ##                                          indicator = indicator,
+        ##                                          sub.indicator = sub.indicator,
+        ##                                          steps = TRUE,
+        ##                                          lines         = TRUE,
+        ##                                          xaxis.steps   = FALSE,
+        ##                                          facet = TRUE,
+        ##                                          tidy  = TRUE,
+        ##                                          join  = join.line,
+        ##                                          legend = legend)
         ## Perform analysis with panelAR in each
         ##################################################
         ## All                                          ##
@@ -1548,17 +1550,17 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Generate time-series plot (at site/town level)
         df5$group <- paste0('Cohort : ', df5$group)
         sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'WansbeckWarwick', 'Whitehaven', 'Wigan', 'Yeovil')
-        results$model5.ts.plot <- closed_ts_plot(df = df5,
-                                                 sites = sites,
-                                                 indicator = indicator,
-                                                 sub.indicator = sub.indicator,
-                                                 steps = TRUE,
-                                                 lines         = TRUE,
-                                                 xaxis.steps   = FALSE,
-                                                 facet = TRUE,
-                                                 tidy  = TRUE,
-                                                 join  = join.line,
-                                                 legend = legend)
+        ## results$model5.ts.plot <- closed_ts_plot(df = df5,
+        ##                                          sites = sites,
+        ##                                          indicator = indicator,
+        ##                                          sub.indicator = sub.indicator,
+        ##                                          steps = TRUE,
+        ##                                          lines         = TRUE,
+        ##                                          xaxis.steps   = FALSE,
+        ##                                          facet = TRUE,
+        ##                                          tidy  = TRUE,
+        ##                                          join  = join.line,
+        ##                                          legend = legend)
         ## Perform analysis with panelAR in each
         ##################################################
         ## All sites                                    ##
@@ -1676,17 +1678,17 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                             measure     == indicator &
                             sub.measure == sub.indicator)
         df6.1.trust$group <- paste0('Cohort : ', df6.1.trust$group)
-        results$model6.1.ts.plot <- closed_ts_plot(df = df6.1.trust,
-                                                 sites = sites,
-                                                 indicator = indicator,
-                                                 sub.indicator = sub.indicator,
-                                                 steps = TRUE,
-                                                 lines         = TRUE,
-                                                 xaxis.steps   = FALSE,
-                                                 facet = TRUE,
-                                                 tidy  = TRUE,
-                                                 join  = join.line,
-                                                 legend = legend)
+        ## results$model6.1.ts.plot <- closed_ts_plot(df = df6.1.trust,
+        ##                                          sites = sites,
+        ##                                          indicator = indicator,
+        ##                                          sub.indicator = sub.indicator,
+        ##                                          steps = TRUE,
+        ##                                          lines         = TRUE,
+        ##                                          xaxis.steps   = FALSE,
+        ##                                          facet = TRUE,
+        ##                                          tidy  = TRUE,
+        ##                                          join  = join.line,
+        ##                                          legend = legend)
         ## Perform analysis with panelAR in each
         ##################################################
         ## Model 6.1 - Bishop Auckland                    ##
@@ -1916,17 +1918,17 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                             measure     == indicator &
                             sub.measure == sub.indicator)
         df6.2.trust$group <- paste0('Cohort : ', df6.2.trust$group)
-        results$model6.2.ts.plot <- closed_ts_plot(df = df6.2.trust,
-                                                 sites = sites,
-                                                 indicator = indicator,
-                                                 sub.indicator = sub.indicator,
-                                                 steps = TRUE,
-                                                 lines         = TRUE,
-                                                 xaxis.steps   = FALSE,
-                                                 facet = TRUE,
-                                                 tidy  = TRUE,
-                                                 join  = join.line,
-                                                 legend = legend)
+        ## results$model6.2.ts.plot <- closed_ts_plot(df = df6.2.trust,
+        ##                                          sites = sites,
+        ##                                          indicator = indicator,
+        ##                                          sub.indicator = sub.indicator,
+        ##                                          steps = TRUE,
+        ##                                          lines         = TRUE,
+        ##                                          xaxis.steps   = FALSE,
+        ##                                          facet = TRUE,
+        ##                                          tidy  = TRUE,
+        ##                                          join  = join.line,
+        ##                                          legend = legend)
         ## Perform analysis with panelAR in each
         ##################################################
         ## Model 6.2 - Bishop Auckland                  ##
