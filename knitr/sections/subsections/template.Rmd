@@ -157,7 +157,28 @@ kable(template$summary.table.rochdale,
 `Model        : observations ~ season + time + closure + nhs111 + ambulance.divert + other.centre`\
 
 ```{r template.model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-template$model1.ts.plot
+## template$model1.ts.plot
+## Set variables
+measure <- 'Measure'
+sub.measure <- 'sub_measure'
+## Set sites to plot
+sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
+## Filter
+to.plot <- filter(ed_attendances_by_mode_site_measure_clean,
+                  town %in% sites &
+                  measure == measure,
+                  sub.measure == sub.measure)
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = TRUE,
+               lines         = TRUE,
+               xaxis.steps   = FALSE,
+               join.line     = TRUE,
+               legend        = FALSE,
+               facet         = FALSE)
 template$model1.forest$forest
 template$model1.panelar.all$coef[3:8] %>% kable(caption = template$model1.panelar.all$caption)
 ```
@@ -170,7 +191,29 @@ template$model1.panelar.all$coef[3:8] %>% kable(caption = template$model1.panela
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
 ```{r template.model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-template$model2.ts.plot
+## template$model2.ts.plot
+## Set sites to plot
+sites <- c('Bishop Auckland', 'Whitehaven',
+                   'Hartlepool', 'Grimsby',
+                   'Hemel Hempstead', 'Warwick',
+                   'Newark', 'Southport',
+                   'Rochdale', 'Rotherham')
+## Filter
+to.plot <- filter(ed_attendances_by_mode_site_measure_clean,
+                  town %in% sites &
+                  measure == measure,
+                  sub.measure == sub.measure)
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = TRUE,
+               lines         = TRUE,
+               xaxis.steps   = FALSE,
+               join.line     = TRUE,
+               legend        = TRUE,
+               facet         = TRUE)
 template$model2.forest$forest
 template$model2.panelar.all$coef[3:8] %>% kable(caption = template$model2.panelar.all$caption)
 ```
@@ -183,7 +226,25 @@ template$model2.panelar.all$coef[3:8] %>% kable(caption = template$model2.panela
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
 ```{r template.model3_1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-template$model3.1.ts.plot
+## template$model3.1.ts.plot
+## Set sites to plot
+sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'Wansbeck', 'Warwick', 'Whitehaven', 'Wigan', 'Yeovil')
+## Filter
+to.plot <- filter(ed_attendances_by_mode_site_measure_clean,
+                  town %in% sites &
+                  measure == measure,
+                  sub.measure == sub.measure)
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = TRUE,
+               lines         = TRUE,
+               xaxis.steps   = FALSE,
+               join.line     = TRUE,
+               legend        = TRUE,
+               facet         = TRUE)
 template$model3.1.forest$forest
 template$model3.1.panelar.all$coef[3:8] %>% kable(caption = template$model3.1.panelar.all$caption)
 ```
@@ -196,7 +257,23 @@ template$model3.1.panelar.all$coef[3:8] %>% kable(caption = template$model3.1.pa
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
 ```{r template.model3_2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-template$model3.2.ts.plot
+## template$model3.2.ts.plot
+## Set sites to plot
+sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Control')
+## Filter
+to.plot <- closed_pool(df = ed_attendances_by_mode_site_measure,
+                       within.centres = TRUE) # %>% closed_clean()
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = TRUE,
+               lines         = TRUE,
+               xaxis.steps   = FALSE,
+               join.line     = TRUE,
+               legend        = TRUE,
+               facet         = TRUE)
 template$model3.2.forest$forest
 template$model3.2.panelar.all$coef[3:8] %>% kable(caption = template$model3.2.panelar.all$caption)
 ```
@@ -209,7 +286,28 @@ template$model3.2.panelar.all$coef[3:8] %>% kable(caption = template$model3.2.pa
 `Model        : observations ~ season + time + closure * site + nhs111 + ambulance.divert + other.centre`\
 
 ```{r template.model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-template$model4.ts.plot
+## template$model4.ts.plot
+sites <- c('Bishop Auckland', 'Whitehaven',
+           'Hartlepool', 'Grimsby',
+           'Hemel Hempstead', 'Warwick',
+           'Newark', 'Southport',
+           'Rochdale', 'Rotherham')
+## Filter
+to.plot <- filter(ed_attendances_by_mode_site_measure_clean,
+                  town %in% sites &
+                  measure == measure,
+                  sub.measure == sub.measure)
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = TRUE,
+               lines         = TRUE,
+               xaxis.steps   = FALSE,
+               join.line     = TRUE,
+               legend        = TRUE,
+               facet         = TRUE)
 template$model4.forest$forest
 template$model4.panelar.all$coef[3:9] %>% kable(caption = template$model4.panelar.all$caption)
 ```
@@ -223,7 +321,25 @@ template$model4.panelar.all$coef[3:9] %>% kable(caption = template$model4.panela
 
 
 ```{r template.model5, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-template$model5.ts.plot
+## template$model5.ts.plot
+## Model 5
+sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'Wansbeck', 'Warwick', 'Whitehaven', 'Wigan', 'Yeovil')
+## Filter
+to.plot <- filter(ed_attendances_by_mode_site_measure_clean,
+                  town %in% sites &
+                  measure == measure,
+                  sub.measure == sub.measure)
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = TRUE,
+               lines         = TRUE,
+               xaxis.steps   = FALSE,
+               join.line     = TRUE,
+               legend        = TRUE,
+               facet         = TRUE)
 template$model5.forest$forest
 template$model5.panelar.all$coef[3:9] %>% kable(caption = template$model5.panelar.all$caption)
 ```
@@ -236,7 +352,28 @@ template$model5.panelar.all$coef[3:9] %>% kable(caption = template$model5.panela
 `Model        : observations ~ season + time + nhs111 + ambulance.divert + other.centre + change in ED time`\
 
 ```{r template.model6_1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-template$model6.1.ts.plot
+## template$model6.1.ts.plot
+sites <- c('Bishop Auckland',
+                  'Hartlepool',
+                  'Hemel Hempstead',
+                  'Newark',
+                  'Rochdale')
+## Filter
+to.plot <- filter(ed_attendances_by_mode_site_measure_clean,
+                  town %in% sites &
+                  measure == measure,
+                  sub.measure == sub.measure)
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = TRUE,
+               lines         = TRUE,
+               xaxis.steps   = FALSE,
+               join.line     = TRUE,
+               legend        = TRUE,
+               facet         = TRUE)
 template$model6.1.forest$forest
 template$model6.1.panelar.all$coef[3:8] %>% kable(caption = template$model6.1.panelar.all$caption)
 ```
@@ -249,7 +386,29 @@ template$model6.1.panelar.all$coef[3:8] %>% kable(caption = template$model6.1.pa
 `Model        : observations ~ season + time + site + nhs111 + ambulance.divert + other.centre + change in ED time`\
 
 ```{r template.model6_2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-template$model6.2.ts.plot
+## template$model6.2.ts.plot
+## Model 6.2
+sites <- c('Bishop Auckland', 'Whitehaven',
+                   'Hartlepool', 'Grimsby',
+                   'Hemel Hempstead', 'Warwick',
+                   'Newark', 'Southport',
+                   'Rochdale', 'Rotherham')
+## Filter
+to.plot <- filter(ed_attendances_by_mode_site_measure_clean,
+                  town %in% sites &
+                  measure == measure,
+                  sub.measure == sub.measure)
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = TRUE,
+               lines         = TRUE,
+               xaxis.steps   = FALSE,
+               join.line     = TRUE,
+               legend        = TRUE,
+               facet         = TRUE)
 template$model6.2.forest$forest
 template$model6.2.panelar.all$coef[3:8] %>% kable(caption = template$model6.2.panelar.all$caption)
 ```
