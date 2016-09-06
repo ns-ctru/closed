@@ -62,8 +62,8 @@ if(os != 'unix'){
     load('~/work/closed/lib/data/case fatality measure - site - 2016-07-15 21.06.Rda')
     ## load('~/work/closed/lib/data/case fatality measure - lsoa - 2016-06-10 18.09.Rda')
     ## load('~/work/closed/lib/data/case fatality measure - site - 2016-06-10 18.10.Rda')
-    load('~/work/closed/lib/data/hospital transfer measure - lsoa - 2016-09-02 13.05.Rda')
-    load('~/work/closed/lib/data/hospital transfer measure - site - 2016-09-02 13.06.Rda')
+    load('~/work/closed/lib/data/hospital transfers measure - lsoa - 2016-09-02 13.05.Rda')
+    load('~/work/closed/lib/data/hospital transfers measure - site - 2016-09-02 13.06.Rda')
 }
 ## Tidy data frames, why I didn't do this first I've no idea!
 ed_attendances_by_mode_measure          <- closed_tidy(ed_attendances_by_mode_measure)
