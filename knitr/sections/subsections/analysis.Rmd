@@ -266,6 +266,11 @@ amb_red_calls_site_measure_clean <- closed_clean(df      = amb_red_calls_site_me
                                                 sub.indicator = 'call_to_dest',
                                                 systematic    = systematic.outlier,
                                                 balance       = FALSE)
+hospital_transfers_site_measure_clean <- closed_clean(df = hostpial_transfers_site_measure,
+                                                indicator     = 'hospital transfers',
+                                                sub.indicator = 'stays with transfer',
+                                                systematic    = systematic.outlier,
+                                                balance       = FALSE)
 ## Combine all cleaned (and now missing) data points into one data frame
 spurious <- rbind(ed_attendances_by_mode_site_measure_clean,
                   unnecessary_ed_attendances_site_measure_clean,
@@ -276,7 +281,8 @@ spurious <- rbind(ed_attendances_by_mode_site_measure_clean,
                   #case.fatality.clean.unbalanced,
                   amb_mean_times_site_measure_clean,
                   amb_non_conveyance_site_measure_clean,
-                  amb_red_calls_site_measure_clean) %>%
+                  amb_red_calls_site_measure_clean,
+                  hospital_transfers_site_measure_clean) %>%
                   filter(is.na(value))
 spurious <- mutate(spurious,
                    outcome  = paste(measure, sub.measure, sep = " : "),
@@ -339,6 +345,11 @@ amb_red_calls_site_measure_clean_sd2 <- closed_clean(df      = amb_red_calls_sit
                                                 sub.indicator = 'call_to_dest',
                                                 systematic    = systematic.outlier,
                                                 balance       = FALSE)
+hospital_transfers_site_measure_clean_sd2 <- closed_clean(df      = hospital_transfers_site_measure,
+                                                indicator     = 'hospital transfers',
+                                                sub.indicator = 'stays with transfer',
+                                                systematic    = systematic.outlier,
+                                                balance       = FALSE)
 ## Combine all cleaned (and now missing) data points into one data frame
 spurious2 <- rbind(ed_attendances_by_mode_site_measure_clean_sd2,
                    unnecessary_ed_attendances_site_measure_clean_sd2,
@@ -349,13 +360,24 @@ spurious2 <- rbind(ed_attendances_by_mode_site_measure_clean_sd2,
                    # case_fatality_site_measure_clean_sd2,
                    amb_mean_times_site_measure_clean_sd2,
                    amb_non_conveyance_site_measure_clean_sd2,
-                   amb_red_calls_site_measure_clean_sd2) %>%
+                   amb_red_calls_site_measure_clean_sd2,
+                   hospital_transfers_site_measure_clean_sd2) %>%
     filter(is.na(value))
 spurious2 <- mutate(spurious2,
                     outcome  = paste(measure, sub.measure, sep = " : "),
                     sd       = 2,
                     Town     = town)
-
+rm(ed_attendances_by_mode_site_measure_clean_sd2,
+   unnecessary_ed_attendances_site_measure_clean_sd2,
+   emergency_admissions_site_measure_clean_sd2,
+   ed_attendances_admitted_site_measure_clean_sd2,
+   critical_care_cips_site_measure_clean_sd2,
+   length_of_stay_site_measure_clean_sd2,
+   ## case_fatality_site_measure_clean_sd2,
+   amb_mean_times_site_measure_clean_sd2,
+   amb_non_conveyance_site_measure_clean_sd2,
+   amb_red_calls_site_measure_clean_sd2,
+   hospital_transfers_site_measure_clean_sd2)
 ## Bind spurious 2 with spurious 'systematic.outlier' (currently 3)
 spurious <- rbind(spurious,
                   spurious2)
