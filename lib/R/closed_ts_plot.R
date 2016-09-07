@@ -54,30 +54,6 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            ...){
     ## Initialise results for returning
     results <- list()
-    ## 2016-05-24 - For a small number of outcomes there is no sub-indicator
-    ##              and it is therefore missing.  In order to work with this
-    ##              function such missing values are therefore replaced with
-    ##              the main indicator which is supplied as the sub.indicator
-    ##              argument
-    ## which.df <- substitute(df) %>% deparse()
-    ## if(indicator == 'unnecessary_ed_attendances_site_measure'){
-    ##     df$sub.measure <- ifelse(is.na(df$sub.measure), 'all', df$sub.measure)
-    ## }
-    ## if(indicator == 'all emergency admissions'){
-    ##     df$sub.measure <- ifelse(is.na(df$sub.measure), 'all', df$sub.measure)
-    ## }
-    ## Convert variable names for ease of typing within this function
-    ## (ESS artefact, hitting underscore inserts '<-' so lots of underscores are
-    ## tedious to type)
-    ## names(df) <- names(df) %>%
-    ##     gsub("_", ".", x = .)
-    ## Convert to data frame,  and convert
-    ## town to factor so that it can be releveled as required
-    ## df <- as.data.frame(df)
-    ## df$town <- factor(df$town)
-    ## df.steps <- as.data.frame(df.steps)
-    ## names(df.steps) <- names(df.steps) %>%
-    ##                    gsub("_", ".", x = .)
     ## Conditionally select range for y-axis, MUST do this BEFORE subsetting
     ## data so that it is common across all outcomes for the given indicator
     if(common.y == TRUE){
@@ -239,6 +215,13 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         nudge <- 10
         ylabel <- 'Mean Time (minutes)'
         y.text.steps <- 20
+    }
+    else if(indicator == 'hospital transfers'){
+        title1 <- 'Hospital Transfers'
+        if(sub.indicator == 'all stays')                   <- ' (All Stays)'
+        else if(sub.indicator == 'fraction with transfer') <- ' (Fraction of Stays with Transfers)'
+        else if(sub.indicator == 'stays with transfer')    <- ' (Stays with Transfers)'
+
     }
     #######################################################################
     ## Define vertical lines for steps                                   ##
@@ -469,9 +452,9 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     if(indicator == 'case fatality ratio'){
         results$plot <- results$plot + scale_y_continuous(limits = c(0, 0.5))
     }
-    else{
-        results$plot <- results$plot + scale_y_continuous(limits = c(0, max(df$value)))
-    }
+    ## else{
+    ##     results$plot <- results$plot + scale_y_continuous(limits = c(0, max(df$value)))
+    ## }
     ## X-axis labels for events
     if(xaxis.steps == TRUE){
         results$plot <- results$plot +
