@@ -382,8 +382,8 @@ rm(ed_attendances_by_mode_site_measure_clean_sd2,
 spurious <- rbind(spurious,
                   spurious2)
 ## Save for plotting on NS computer
-## save(spurious,
-##      file = '~/work/closed/knitr/data/spurious_cleaned.RData')
+save(spurious,
+     file = '~/work/closed/knitr/data/spurious_cleaned.RData')
 
 ```
 
@@ -1428,7 +1428,7 @@ ambulance.red.calls.total <- closed_models(df.lsoa         = amb_red_calls_measu
 <!--- Hospital Transfers - All Stays --->
 ```{r hospital_transfers_all_stays, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 hospital.transfers.all.stays <- closed_models(df.lsoa         = hospital_transfers_measure,
-                                     df.trust         = hospital_transfers_measure_clean,
+                                     df.trust         = hospital_transfers_site_measure_clean,
                                      indicator        = 'hospital transfers',
                                      sub.indicator    = 'all stays',
                                      steps            = c('closure'),
@@ -1465,7 +1465,7 @@ hospital.transfers.all.stays <- closed_models(df.lsoa         = hospital_transfe
 <!--- Hospital Transfers - Stays with Transfers --->
 ```{r hospital_transfers_stays_with_transfer, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 hospital.transfers.stays.with.transfer <- closed_models(df.lsoa         = hospital_transfers_measure,
-                                     df.trust         = hospital_transfers_measure_clean,
+                                     df.trust         = hospital_transfers_site_measure_clean,
                                      indicator        = 'hospital transfers',
                                      sub.indicator    = 'stays with transfer',
                                      steps            = c('closure'),
@@ -1502,7 +1502,7 @@ hospital.transfers.stays.with.transfer <- closed_models(df.lsoa         = hospit
 <!--- Hospital Transfers - Proportion with Transfers --->
 ```{r hospital_transfers_proportion_with_transfer, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 hospital.transfers.proportion.with.transfer <- closed_models(df.lsoa         = hospital_transfers_measure,
-                                     df.trust         = hospital_transfers_measure_clean,
+                                     df.trust         = hospital_transfers_site_measure_clean,
                                      indicator        = 'hospital transfers',
                                      sub.indicator    = 'proportion with transfer',
                                      steps            = c('closure'),
