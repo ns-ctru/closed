@@ -86,6 +86,8 @@ amb_red_calls_measure                   <- closed_tidy(amb_red_calls_measure)
 amb_red_calls_site_measure              <- closed_tidy(amb_red_calls_site_measure)
 case_fatality_measure                   <- closed_tidy(case_fatality_measure)
 case_fatality_site_measure              <- closed_tidy(case_fatality_site_measure)
+hospital_transfers_measure              <- closed_tidy(hospital_transfers_measure)
+hospital_transfers_site_measure         <- closed_tidy(hospital_transfers_site_measure)
 
 ## Convert ambulance times to minutes (currently function not working as expected)
 amb_mean_times_measure$value      <- amb_mean_times_measure$value / 60
@@ -1401,6 +1403,117 @@ ambulance.red.calls.total <- closed_models(df.lsoa         = amb_red_calls_measu
                                      legend           = model.opts$legend)
 ```
 
+<!--- Hospital Transfers - All Stays --->
+```{r hospital_transfers_all_stays, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+hospital.transfers.all.stays <- closed_models(df.lsoa         = hospital_transfers_measure,
+                                     df.trust         = hospital_transfers_measure_clean,
+                                     indicator        = 'hospital transfers',
+                                     sub.indicator    = 'all stays',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+```
+
+<!--- Hospital Transfers - Stays with Transfers --->
+```{r hospital_transfers_stays_with_transfer, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+hospital.transfers.stays.with.transfer <- closed_models(df.lsoa         = hospital_transfers_measure,
+                                     df.trust         = hospital_transfers_measure_clean,
+                                     indicator        = 'hospital transfers',
+                                     sub.indicator    = 'stays with transfer',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+```
+
+<!--- Hospital Transfers - Proportion with Transfers --->
+```{r hospital_transfers_proportion_with_transfer, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+hospital.transfers.proportion.with.transfer <- closed_models(df.lsoa         = hospital_transfers_measure,
+                                     df.trust         = hospital_transfers_measure_clean,
+                                     indicator        = 'hospital transfers',
+                                     sub.indicator    = 'proportion with transfer',
+                                     steps            = c('closure'),
+                                     fit.with         = model.opts$fit.with,
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7           = model.opts$mod7,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     plot             = model.opts$plot,
+                                     common.y         = model.opts$common.y,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+```
+
 <!--- Save all objects --->
 ```{r save_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ## save(file = '~/work/closed/knitr/data/summary.RData')
@@ -1460,6 +1573,9 @@ save(diff.time.to.ed,
      ambulance.non.conveyances.fraction.not.conveyed,
      ambulance.red.calls.hospital.transfers,
      ambulance.red.calls.total,
+     hospital.transfers.all.stays,
+     hospital.transfers.stays.with.transfer,
+     hospital.transfers.proportion.with.transfer
      spurious,
      ## results,
      ## closure,
