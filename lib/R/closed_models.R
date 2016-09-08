@@ -1,4 +1,4 @@
-#' Plot and Perform Regression on ClosED data
+#' Perform Regression on ClosED data
 #'
 #' @description Plot time-series and Perform Prais-Winsten Regression on ClosED data
 #'
@@ -818,7 +818,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       sub.measure == sub.indicator)
         ## Generate time-series plot
         df3$group <- paste0('Cohort : ', df3$group)
-        sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'Wansbeck' 'Warwick', 'Whitehaven', 'Wigan', 'Yeovil')
+        sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle',
+                   'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark',
+                   'Rochdale', 'Rotherham', 'Salford', 'Salisbury',
+                   'Scarborough', 'Scunthorpe', 'Southport', 'Wansbeck',
+                   'Warwick', 'Whitehaven', 'Wigan', 'Yeovil')
         ## results$model3.1.ts.plot <- closed_ts_plot(df = df3,
         ##                                          sites = sites,
         ##                                          indicator = indicator,
