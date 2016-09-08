@@ -1,10 +1,10 @@
 #' Perform Regression on ClosED data
 #'
-#' @description Plot time-series and Perform Prais-Winsten Regression on ClosED data
+#' @description Perform Prais-Winsten Regression on ClosED data
 #'
 #' @details The ClosED study uses time-series with dummy indicators to
 #' test for the impact of closing Emergency Departments on indicators of
-#' performance.  This function generates time-series plots and performs
+#' performance.  This performs
 #' Prais-Winsten time-series regression analysis to account for atuo-correlation.
 #'
 #' This function differs from \code{closed_regress} in that it runs one model on
@@ -83,7 +83,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           model6.1        = c('season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
                           model6.2        = c('town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
                           model7          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
-
                           autocorr        = 'ar1',
                           panelcorrmethod = 'pcse',
                           coefficients    = 'closure.town',
