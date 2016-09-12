@@ -1,3 +1,39 @@
+## 2016-09-12 Testing models using tscount package (mainly tsglm() function)
+## save(ed_attendances_by_mode_site_measure_clean, file = '~/work/closed/tmp/ed_attendances_clean.RData')
+##
+## Caveats...
+##
+## 1. tsglm() works with vectors/matrices, doesn't follow the same structure/syntax as other
+##    regression modelling functions.
+##
+## 2. tsglm() does not permit missing data points in the time series, therefore have to
+##    remove those observations completely
+##
+## 3. For some reason NHS111 isn't coming out in the subsetting?
+##
+load('~/work/closed/tmp/ed_attendances_clean.RData')
+ed_attendances_by_mode_site_measure_clean <- ungroup(ed_attendances_by_mode_site_measure_clean) %>%
+                                             filter(sub.measure == 'ambulance') %>%
+    filter(!is.na(value))
+## Model 1a - Start with site only, no covariates
+ts.bishop <- filter(ed_attendances_by_mode_site_measure_clean,
+                     town == 'Bishop Auckland') %>% as.data.frame() %>% .[,'value']
+
+regressors.bishop <- filter(ed_attendances_by_mode_site_measure_clean,
+                            town == 'Bishop Auckland') %>%
+                     dplyr::select(ed_attendances_by_mode_site_measure_clean,
+                                   closure, season, relative.month, nhs11, other.centre, ambulance.divert)
+regressors.bishop <- filter(ed_attendances_by_mode_site_measure_clean,
+                            town == 'Bishop Auckland')
+regressors.bishop <- ed_attendances_by_mode_site_measure_clean[,c('closure', 'season', 'relative.month', 'other.centre', 'ambulance.divert')] %>% data.frame()
+## Test model
+attendance.tsglm.model1 <- tsglm(ts    = timeseries,
+                                 link  = 'log',
+                                 ## xreg = regressors,
+                                 distr = 'nbinom',
+                                 vmmin = )
+
+
 ## 2016-08-18 Quick check of code for producing different plots, which are being moved out of
 ##            calls to closed_models()
 
