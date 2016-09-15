@@ -29,15 +29,15 @@ set.seed(69027181)
 ```
 
 ## Model 2 {.tabset .tabset-fade}
-```{r child = 'sections/negbin_model2.Rmd', eval = FALSE}
+```{r child = 'sections/negbin_model2.Rmd', eval = TRUE}
 ```
 
 ## Model 3.1 {.tabset .tabset-fade}
-```{r child = 'sections/negbin_model3.1.Rmd', eval = FALSE}
+```{r child = 'sections/negbin_model3.1.Rmd', eval = TRUE}
 ```
 
 ## Model 3.2 {.tabset .tabset-fade}
-```{r child = 'sections/negbin_model3.2.Rmd', eval = FALSE}
+```{r child = 'sections/negbin_model3.2.Rmd', eval = TRUE}
 ```
 
 ## Model 4 {.tabset .tabset-fade}
@@ -45,17 +45,17 @@ set.seed(69027181)
 ```
 
 ## Model 5 {.tabset .tabset-fade}
-```{r child = 'sections/negbin_model5.Rmd', eval = FALSE}
+```{r child = 'sections/negbin_model5.Rmd', eval = TRUE}
 ```
 
 ## Model 6.1 {.tabset .tabset-fade}
-```{r child = 'sections/negbin_model6.1.Rmd', eval = FALSE}
+```{r child = 'sections/negbin_model6.1.Rmd', eval = TRUE}
 ```
 
 ## Model 6.2 {.tabset .tabset-fade}
-```{r child = 'sections/negbin_model6.2.Rmd', eval = FALSE}
+```{r child = 'sections/negbin_model6.2.Rmd', eval = TRUE}
 ```
 
 ## Model 7 {.tabset .tabset-fade}
-```{r child = 'sections/negbin_model7.Rmd', eval = FALSE}
+```{r child = 'sections/negbin_model7.Rmd', eval = TRUE}
 ```
