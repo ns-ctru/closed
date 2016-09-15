@@ -23,8 +23,6 @@ ed_attendances_by_mode_measure <- ungroup(ed_attendances_by_mode_measure) %>%
                                   filter(sub.measure == 'ambulance') %>%
                                   filter(!is.na(value))
 
-## Load the main results
-load('~/work/closed/knitr/data/results.RData')
 
 ```
 
@@ -574,5 +572,46 @@ tsglm.all.model4 <- tsglm(ts    = ts.vec,
                                  xreg = regressors,
                                  distr = 'nbinom')
 
+save(tsglm.bishop.model1,
+     tsglm.hartlepool.model1,
+     tsglm.hemel.model1,
+     tsglm.newark.model1,
+     tsglm.rochdale.model1,
+     tsglm.bishop.model2,
+     tsglm.hartlepool.model2,
+     tsglm.hemel.model2,
+     tsglm.newark.model2,
+     tsglm.rochdale.model2,
+     tsglm.bishop.model3.1,
+     tsglm.hartlepool.model3.1,
+     tsglm.hemel.model3.1,
+     tsglm.newark.model3.1,
+     tsglm.rochdale.model3.1,
+     tsglm.bishop.model3.2,
+     tsglm.hartlepool.model3.2,
+     tsglm.hemel.model3.2,
+     tsglm.newark.model3.2,
+     tsglm.rochdale.model3.2,
+     tsglm.all.model4,
+     tsglm.all.model5,
+     tsglm.bishop.model6.1,
+     tsglm.hartlepool.model6.1,
+     tsglm.hemel.model6.1,
+     tsglm.newark.model6.1,
+     tsglm.rochdale.model6.1,
+     tsglm.bishop.model6.2,
+     tsglm.hartlepool.model6.2,
+     tsglm.hemel.model6.2,
+     tsglm.newark.model6.2,
+     tsglm.rochdale.model6.2,
+     tsglm.all.model7,
+     file = '~/work/closed/knitr/data/negbin.RData')
+
+```
+
+```{r load-results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+## Load the main results
+load('~/work/closed/knitr/data/results.RData')
+load('~/work/closed/knitr/data/negbin.RData')
 
 ```
