@@ -14,6 +14,15 @@ if(os != 'unix'){
 ed_attendances_by_mode_measure          <- closed_tidy(ed_attendances_by_mode_measure)
 ed_attendances_by_mode_site_measure     <- closed_tidy(ed_attendances_by_mode_site_measure)
 
+## Subset out Ambulance attendances
+## Need to remove any instances where the outcome (observation in time series) is missing
+ed_attendances_by_mode_site_measure_clean <- ungroup(ed_attendances_by_mode_site_measure_clean) %>%
+                                             filter(sub.measure == 'ambulance') %>%
+                                             filter(!is.na(value))
+ed_attendances_by_mode_measure <- ungroup(ed_attendances_by_mode_measure) %>%
+                                  filter(sub.measure == 'ambulance') %>%
+                                  filter(!is.na(value))
+
 ## Load the main results
 load('~/work/closed/knitr/data/results.RData')
 
@@ -42,10 +51,6 @@ load('~/work/closed/knitr/data/results.RData')
 ##    ...this is caused by one matrix having a determinent of 0 and when logs are then taken
 ##    the value is Infinity which isn't valid.
 library(tscount)
-load('~/work/closed/tmp/ed_attendances_clean.RData')
-ed_attendances_by_mode_site_measure_clean <- ungroup(ed_attendances_by_mode_site_measure_clean) %>%
-                                             filter(sub.measure == 'ambulance') %>%
-                                             filter(!is.na(value))
 ## Model 1a - Start with site only, no covariates
 ##
 ## Bishop
@@ -426,7 +431,6 @@ tsglm.bishop.model6.1 <- tsglm(ts    = ts.bishop,
                                  model = list(past_obs = 1),
                                  xreg = regressors.bishop,
                                  distr = 'nbinom')
-
 ## Hartlepool
 ts.hartlepool <- filter(ed_attendances_by_mode_measure,
                      town == 'Hartlepool') %>% as.data.frame() %>% .[,'value']
@@ -439,7 +443,6 @@ tsglm.hartlepool.model6.1 <- tsglm(ts    = ts.hartlepool,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hartlepool,
                                  distr = 'nbinom')
-
 ## Hemel Hempstead
 ts.hemel <- filter(ed_attendances_by_mode_measure,
                      town == 'Hemel Hempstead') %>% as.data.frame() %>% .[,'value']
@@ -452,7 +455,6 @@ tsglm.hemel.model6.1 <- tsglm(ts    = ts.hemel,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hemel,
                                  distr = 'nbinom')
-
 ## Newark
 ts.newark <- filter(ed_attendances_by_mode_measure,
                      town == 'Newark') %>% as.data.frame() %>% .[,'value']
@@ -465,7 +467,6 @@ tsglm.newark.model6.1 <- tsglm(ts    = ts.newark,
                                  model = list(past_obs = 1),
                                  xreg = regressors.newark,
                                  distr = 'nbinom')
-
 ## Rochdale
 ts.rochdale <- filter(ed_attendances_by_mode_measure,
                      town == 'Rochdale') %>% as.data.frame() %>% .[,'value']
