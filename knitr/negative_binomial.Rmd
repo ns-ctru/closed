@@ -1,0 +1,61 @@
+---
+title: ClosED
+output:
+  html_document:
+    theme: sandstone
+    toc: false
+    toc_float: false
+    toc_depth: 5
+bibliography: bibliography.bib
+---
+
+```{r setup, include=FALSE}
+##opts_chunk$set(dev = 'pdf')
+opts_chunk$set(cache.path = 'cache/',
+               width    = 200,
+               fig.height = 8,
+               fig.width  = 8)
+## Set a seed
+set.seed(69027181)
+```
+# {.tabset}
+
+<!--- Run all analyses --->
+```{r child = 'sections/subsections/negbin.Rmd', eval = TRUE}
+```
+
+## Model 1
+```{r child = 'sections/negbin_model1.Rmd', eval = TRUE}
+```
+
+## Model 2
+```{r child = 'sections/negbin_model2.Rmd', eval = FALSE}
+```
+
+## Model 3.1
+```{r child = 'sections/negbin_model3.1.Rmd', eval = FALSE}
+```
+
+## Model 3.2
+```{r child = 'sections/negbin_model3.2.Rmd', eval = FALSE}
+```
+
+## Model 4
+```{r child = 'sections/negbin_model4.Rmd', eval = FALSE}
+```
+
+## Model 5
+```{r child = 'sections/negbin_model5.Rmd', eval = FALSE}
+```
+
+## Model 6.1
+```{r child = 'sections/negbin_model6.1.Rmd', eval = FALSE}
+```
+
+## Model 6.2
+```{r child = 'sections/negbin_model6.2.Rmd', eval = FALSE}
+```
+
+## Model 7
+```{r child = 'sections/negbin_model7.Rmd', eval = FALSE}
+```
