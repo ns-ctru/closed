@@ -1,0 +1,60 @@
+### Bishop Auckland
+#### Prais-Winsten Regression
+```{r model1-bishop-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+mode.of.arrival.ambulance$model1.panelar.bishop %>% summary()
+
+```
+#### Negative-Binomial Time-Series (INGARCH)
+```{r model1-bishop-negbin, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+tsglm.bishop.model1 %>% summary()
+
+```
+
+### Hartlepool
+#### Prais-Winsten Regression
+```{r model1-hartlepool-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+mode.of.arrival.ambulance$model1.panelar.hartlepool %>% summary()
+
+```
+#### Negative-Binomial Time-Series (INGARCH)
+```{r model1-hartlepool-negbin, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+tsglm.hartlepool.model1 %>% summary()
+
+```
+
+### Hemel Hempstead
+#### Prais-Winsten Regression
+```{r model1-hemel-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+mode.of.arrival.ambulance$model1.panelar.hartlepool %>% summary()
+
+```
+#### Negative-Binomial Time-Series (INGARCH)
+```{r model1-hemel-negbin, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+tsglm.hemel.model1 %>% summary()
+
+```
+
+
+### Newark
+#### Prais-Winsten Regression
+```{r model1-newark-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+mode.of.arrival.ambulance$model1.panelar.newark %>% summary()
+
+```
+#### Negative-Binomial Time-Series (INGARCH)
+```{r model1-newark-negbin, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+tsglm.newark.model1 %>% summary()
+
+```
+
+### Rochdale
+#### Prais-Winsten Regression
+```{r model1-rochdale-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+mode.of.arrival.ambulance$model1.panelar.rochdale %>% summary()
+
+```
+#### Negative-Binomial Time-Series (INGARCH)
+```{r model1-rochdale-negbin, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+tsglm.rochdale.model1 %>% summary()
+
+```
