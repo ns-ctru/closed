@@ -13,6 +13,10 @@ if(os != 'unix'){
 ## Tidy data frames, why I didn't do this first I've no idea!
 ed_attendances_by_mode_measure          <- closed_tidy(ed_attendances_by_mode_measure)
 ed_attendances_by_mode_site_measure     <- closed_tidy(ed_attendances_by_mode_site_measure)
+
+## Load the main results
+load('~/work/closed/knitr/data/results.RData')
+
 ```
 
 ```{r negbin-analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
