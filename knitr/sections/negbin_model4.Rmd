@@ -1,0 +1,11 @@
+### All
+#### Prais-Winsten Regression
+```{r model4-all-prais, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+mode.of.arrival.ambulance$model4.panelar %>% summary()
+
+```
+#### Negative-Binomial Time-Series (INGARCH)
+```{r model4-all-negbin, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+tsglm.all.model4 %>% summary()
+
+```
