@@ -99,7 +99,7 @@ amb_mean_times_site_measure$value <- amb_mean_times_site_measure$value / 60
 ```{r define_models, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ## Set model options here (easier when tweaking en-mass)
 model.opts <- list()
-model.opts
+model.opts$mod0    <- c('closure')
 model.opts$mod1    <- c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 model.opts$mod2    <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 model.opts$mod3.1  <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
@@ -114,7 +114,6 @@ if(os != 'unix' | node != 'mcru-closed-hp.shef.ac.uk'){
 } else{
     model.opts$mod7 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
 }
-model.opts$mod3b <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 model.opts$panel.lsoa		<- 'lsoa'
 model.opts$panel.trust		<- 'town'
 model.opts$timevar		<- 'relative.month'
