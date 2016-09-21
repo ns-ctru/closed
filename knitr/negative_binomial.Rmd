@@ -24,6 +24,10 @@ set.seed(69027181)
 ```{r child = 'sections/subsections/negbin.Rmd', eval = TRUE}
 ```
 
+## Model 0 {.tabset .tabset-fade}
+```{r child = 'sections/negbin_model0.Rmd', eval = TRUE}
+```
+
 ## Model 1 {.tabset .tabset-fade}
 ```{r child = 'sections/negbin_model1.Rmd', eval = TRUE}
 ```
