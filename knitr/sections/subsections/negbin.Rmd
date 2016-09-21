@@ -1,4 +1,4 @@
-```{r load_data, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r load_data, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ## Obtain the OS and node such that the data can be conditionally loaded
 os <- .Platform$OS.type
 node <- Sys.info()[['nodename']]
@@ -26,7 +26,7 @@ ed_attendances_by_mode_measure <- ungroup(ed_attendances_by_mode_measure) %>%
 
 ```
 
-```{r negbin-analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r negbin-analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ## Caveats...
 ##
 ## 1. tsglm() works with vectors/matrices, doesn't follow the same structure/syntax as other
