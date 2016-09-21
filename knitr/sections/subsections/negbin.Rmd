@@ -540,6 +540,8 @@ tsglm.rochdale.model6.1 <- tsglm(ts    = ts.rochdale,
 
 
 ## Model 6.2 - Case and its primary matched control
+## Derive interaction term for town/closure
+ed_attendances_by_mode_measure$town_closure <- ed_attendances_by_mode_measure$town_ * ed_attendances_by_mode_measure$closure
 ## Bishop
 ts.bishop <- filter(ed_attendances_by_mode_measure,
                      town %in% c('Bishop Auckland', 'Whitehaven')) %>% as.data.frame() %>% .[,'value']
@@ -621,7 +623,6 @@ ed_attendances_by_mode_measure <- within(ed_attendances_by_mode_measure, {
                                                     town_[town == 'Rochdale'] <- 8
                                                     town_[town == 'Rotherham'] <- 9
 })
-ed_attendances_by_mode_measure$town_closure <- ed_attendances_by_mode_measure$town_ * ed_attendances_by_mode_measure$closure
 regressors <- filter(ed_attendances_by_mode_measure,
                      town %in% c('Bishop Auckland', 'Whitehaven', 'Hartlepool', 'Grimsby', 'Hemel Hempstead', 'Warwick', 'Newark', 'Southport', 'Rochdale', 'Rotherham')) %>%
                      dplyr::select(town_, closure, town_closure, season, relative.month, nhs111, other.centre, ambulance.divert) %>% as.data.frame()
