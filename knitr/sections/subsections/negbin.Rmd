@@ -21,8 +21,17 @@ ed_attendances_by_mode_site_measure_clean <- ungroup(ed_attendances_by_mode_site
                                              filter(!is.na(value))
 ed_attendances_by_mode_measure <- ungroup(ed_attendances_by_mode_measure) %>%
                                   filter(sub.measure == 'ambulance') %>%
-                                  filter(!is.na(value))
+    filter(!is.na(value))
+## Generate dummy variables for categorical variable season since tsglm does not accept factor variables.
+##
+## NB - Can't do categorical variable town since that varies between centres and model so has to be done
+##      prior to each model
+season <- model.matrix(~ed_attendances_by_mode_site_measure_clean$season) %>%
+          as.data.frame()
 
+names(season) <- c('intercept', 'season2', 'season3', 'season4', 'season5', 'season6')
+season <- dplyr::select(season, season2, season3, season4, season5, season6)
+ed_attendances_by_mode_site_measure_clean <- cbind(ed_attendances_by_mode_site_measure_clean, season)
 
 ```
 
@@ -116,9 +125,10 @@ ts.bishop <- filter(ed_attendances_by_mode_site_measure_clean,
                      town == 'Bishop Auckland') %>% as.data.frame() %>% .[,'value']
 regressors.bishop <- filter(ed_attendances_by_mode_site_measure_clean,
                             town == 'Bishop Auckland') %>%
-                     dplyr::select(closure, season, relative.month, nhs111)  %>% as.data.frame()
-                     ## dplyr::select(closure) %>% as.data.frame()
-regressors.bishop$season <- as.numeric(regressors.bishop$season)
+                     dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111) %>%
+                     as.data.frame()
+##                      dplyr::select(closure, season, relative.month, nhs111)  %>% as.data.frame()
+## regressors.bishop$season <- as.numeric(regressors.bishop$season)
 tsglm.bishop.model1 <- tsglm(ts    = ts.bishop,
                                  link  = 'identity',
                                  model = list(past_obs = 1),
@@ -129,8 +139,10 @@ ts.hartlepool <- filter(ed_attendances_by_mode_site_measure_clean,
                      town == 'Hartlepool') %>% as.data.frame() %>% .[,'value']
 regressors.hartlepool <- filter(ed_attendances_by_mode_site_measure_clean,
                             town == 'Hartlepool') %>%
-                     dplyr::select(closure, season, relative.month, nhs111, other.centre)  %>% as.data.frame()
-regressors.hartlepool$season <- as.numeric(regressors.hartlepool$season)
+                         dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre)  %>%
+                         as.data.frame()
+##                      dplyr::select(closure, season, relative.month, nhs111, other.centre)  %>% as.data.frame()
+## regressors.hartlepool$season <- as.numeric(regressors.hartlepool$season)
 tsglm.hartlepool.model1 <- tsglm(ts    = ts.hartlepool,
                                  link  = 'identity',
                                  model = list(past_obs = 1),
@@ -140,9 +152,11 @@ tsglm.hartlepool.model1 <- tsglm(ts    = ts.hartlepool,
 ts.hemel <- filter(ed_attendances_by_mode_site_measure_clean,
                      town == 'Hemel Hempstead') %>% as.data.frame() %>% .[,'value']
 regressors.hemel <- filter(ed_attendances_by_mode_site_measure_clean,
-                            town == 'Hemel Hempstead') %>%
-                     dplyr::select(closure, season, relative.month, other.centre) %>% as.data.frame()
-regressors.hemel$season <- as.numeric(regressors.hemel$season)
+                           town == 'Hemel Hempstead') %>%
+                    dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, other.centre) %>%
+                    as.data.frame()
+##                      dplyr::select(closure, season, relative.month, other.centre) %>% as.data.frame()
+## regressors.hemel$season <- as.numeric(regressors.hemel$season)
 tsglm.hemel.model1 <- tsglm(ts    = ts.hemel,
                                  link  = 'identity',
                                  model = list(past_obs = 1),
@@ -153,8 +167,10 @@ ts.newark <- filter(ed_attendances_by_mode_site_measure_clean,
                      town == 'Newark') %>% as.data.frame() %>% .[,'value']
 regressors.newark <- filter(ed_attendances_by_mode_site_measure_clean,
                             town == 'Newark') %>%
-                     dplyr::select(closure, season, relative.month, other.centre) %>% as.data.frame()
-regressors.newark$season <- as.numeric(regressors.newark$season)
+                     dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, other.centre) %>%
+                     as.data.frame()
+##                     dplyr::select(closure, season, relative.month, other.centre) %>% as.data.frame()
+## regressors.newark$season <- as.numeric(regressors.newark$season)
 tsglm.newark.model1 <- tsglm(ts    = ts.newark,
                                  link  = 'identity',
                                  model = list(past_obs = 1),
@@ -165,8 +181,10 @@ ts.rochdale <- filter(ed_attendances_by_mode_site_measure_clean,
                      town == 'Rochdale') %>% as.data.frame() %>% .[,'value']
 regressors.rochdale <- filter(ed_attendances_by_mode_site_measure_clean,
                             town == 'Rochdale') %>%
-                     dplyr::select(closure, season, relative.month, nhs111, other.centre, ambulance.divert) %>% as.data.frame()
-regressors.rochdale$season <- as.numeric(regressors.rochdale$season)
+                       dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert) %>%
+                       as.data.frame()
+##                     dplyr::select(closure, season, relative.month, nhs111, other.centre, ambulance.divert) %>% as.data.frame()
+## regressors.rochdale$season <- as.numeric(regressors.rochdale$season)
 tsglm.rochdale.model1 <- tsglm(ts    = ts.rochdale,
                                  link  = 'identity',
                                  model = list(past_obs = 1),
@@ -181,8 +199,12 @@ ed_attendances_by_mode_site_measure_clean$town_ <- ifelse(ed_attendances_by_mode
 ed_attendances_by_mode_site_measure_clean$town_closure <- ed_attendances_by_mode_site_measure_clean$town_ * ed_attendances_by_mode_site_measure_clean$closure
 regressors.bishop <- filter(ed_attendances_by_mode_site_measure_clean,
                             town %in% c('Bishop Auckland', 'Whitehaven')) %>%
-                     dplyr::select(town_, closure, town_closure, season, relative.month, nhs111)  %>% as.data.frame()
-regressors.bishop$season <- as.numeric(regressors.bishop$season)
+                     dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111) %>%
+                     as.data.frame()
+##                      dplyr::select(town_, closure, town_closure, season, relative.month, nhs111)  %>% as.data.frame()
+## regressors.bishop$season <- as.numeric(regressors.bishop$season)
+town <- model.matrix(~regressors.bishop$town_)
+regressors.bishop <- cbind()
 tsglm.bishop.model2 <- tsglm(ts    = ts.bishop,
                                  link  = 'identity',
                                  model = list(past_obs = 1),
@@ -195,8 +217,10 @@ ed_attendances_by_mode_site_measure_clean$town_ <- ifelse(ed_attendances_by_mode
 ed_attendances_by_mode_site_measure_clean$town_closure <- ed_attendances_by_mode_site_measure_clean$town_ * ed_attendances_by_mode_site_measure_clean$closure
 regressors.hartlepool <- filter(ed_attendances_by_mode_site_measure_clean,
                             town %in% c('Hartlepool', 'Grimsby')) %>%
-                     dplyr::select(town_, closure, town_closure, season, relative.month, nhs111, other.centre)  %>% as.data.frame()
-regressors.hartlepool$season <- as.numeric(regressors.hartlepool$season)
+                         dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre) %>%
+                         as.data.frame()
+##                      dplyr::select(town_, closure, town_closure, season, relative.month, nhs111, other.centre)  %>% as.data.frame()
+## regressors.hartlepool$season <- as.numeric(regressors.hartlepool$season)
 tsglm.hartlepool.model2 <- tsglm(ts    = ts.hartlepool,
                                  link  = 'identity',
                                  model = list(past_obs = 1),
@@ -209,8 +233,10 @@ ed_attendances_by_mode_site_measure_clean$town_ <- ifelse(ed_attendances_by_mode
 ed_attendances_by_mode_site_measure_clean$town_closure <- ed_attendances_by_mode_site_measure_clean$town_ * ed_attendances_by_mode_site_measure_clean$closure
 regressors.hemel <- filter(ed_attendances_by_mode_site_measure_clean,
                             town %in% c('Hemel Hempstead', 'Warwick')) %>%
-                     dplyr::select(town_, closure, town_closure, season, relative.month, other.centre) %>% as.data.frame()
-regressors.hemel$season <- as.numeric(regressors.hemel$season)
+                    dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, other.centre) %>%
+                    as.data.frame()
+##                      dplyr::select(town_, closure, town_closure, season, relative.month, other.centre) %>% as.data.frame()
+## regressors.hemel$season <- as.numeric(regressors.hemel$season)
 tsglm.hemel.model2 <- tsglm(ts    = ts.hemel,
                                  link  = 'identity',
                                  model = list(past_obs = 1),
@@ -223,8 +249,10 @@ ed_attendances_by_mode_site_measure_clean$town_ <- ifelse(ed_attendances_by_mode
 ed_attendances_by_mode_site_measure_clean$town_closure <- ed_attendances_by_mode_site_measure_clean$town_ * ed_attendances_by_mode_site_measure_clean$closure
 regressors.newark <- filter(ed_attendances_by_mode_site_measure_clean,
                             town %in% c('Newark', 'Southport')) %>%
-                     dplyr::select(town_, closure, town_closure, season, relative.month, nhs111, other.centre) %>% as.data.frame()
-regressors.newark$season <- as.numeric(regressors.newark$season)
+                     dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre) %>%
+                     as.data.frame()
+##                      dplyr::select(town_, closure, town_closure, season, relative.month, nhs111, other.centre) %>% as.data.frame()
+## regressors.newark$season <- as.numeric(regressors.newark$season)
 tsglm.newark.model2 <- tsglm(ts    = ts.newark,
                                  link  = 'identity',
                                  model = list(past_obs = 1),
@@ -237,8 +265,11 @@ ed_attendances_by_mode_site_measure_clean$town_ <- ifelse(ed_attendances_by_mode
 ed_attendances_by_mode_site_measure_clean$town_closure <- ed_attendances_by_mode_site_measure_clean$town_ * ed_attendances_by_mode_site_measure_clean$closure
 regressors.rochdale <- filter(ed_attendances_by_mode_site_measure_clean,
                             town %in% c('Rochdale', 'Rotherham')) %>%
-                     dplyr::select(town_, closure, town_closure, season, relative.month, nhs111, other.centre, ambulance.divert) %>% as.data.frame()
-regressors.rochdale$season <- as.numeric(regressors.rochdale$season)
+                       dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert) %>%
+                       as.data.frame()
+##                     dplyr::select(town_, closure, town_closure, season, relative.month, nhs111, other.centre, ambulance.divert) %>% as.data.frame()
+## regressors.rochdale$season <- as.numeric(regressors.rochdale$season)
+##
 tsglm.rochdale.model2 <- tsglm(ts    = ts.rochdale,
                                  link  = 'identity',
                                  model = list(past_obs = 1),
@@ -548,7 +579,7 @@ ts.bishop <- filter(ed_attendances_by_mode_measure,
 ed_attendances_by_mode_measure$town_ <- ifelse(ed_attendances_by_mode_measure$town == 'Bishop Auckland', yes = 1, no = 0)
 regressors.bishop <- filter(ed_attendances_by_mode_measure,
                             town %in% c('Bishop Auckland', 'Whitehaven')) %>%
-                     dplyr::select(town_, closure, town_closure, season, relative.month, nhs111)  %>% as.data.frame()
+                     dplyr::select(town_, closure, season, relative.month, nhs111)  %>% as.data.frame()
 regressors.bishop$season <- as.numeric(regressors.bishop$season)
 tsglm.bishop.model6.2 <- tsglm(ts    = ts.bishop,
                                  link  = 'identity',
@@ -561,7 +592,7 @@ ts.hartlepool <- filter(ed_attendances_by_mode_measure,
 ed_attendances_by_mode_measure$town_ <- ifelse(ed_attendances_by_mode_measure$town == 'Hartlepool', yes = 1, no = 0)
 regressors.hartlepool <- filter(ed_attendances_by_mode_measure,
                             town %in% c('Hartlepool', 'Grimsby')) %>%
-                     dplyr::select(town_, closure, town_closure, season, relative.month, nhs111, other.centre)  %>% as.data.frame()
+                     dplyr::select(town_, closure, season, relative.month, nhs111, other.centre)  %>% as.data.frame()
 regressors.hartlepool$season <- as.numeric(regressors.hartlepool$season)
 tsglm.hartlepool.model6.2 <- tsglm(ts    = ts.hartlepool,
                                  link  = 'identity',
@@ -574,7 +605,7 @@ ts.hemel <- filter(ed_attendances_by_mode_measure,
 ed_attendances_by_mode_measure$town_ <- ifelse(ed_attendances_by_mode_measure$town == 'Hemel Hempstead', yes = 1, no = 0)
 regressors.hemel <- filter(ed_attendances_by_mode_measure,
                             town %in% c('Hemel Hempstead', 'Warwick')) %>%
-                     dplyr::select(town_, closure, town_closure, season, relative.month, other.centre) %>% as.data.frame()
+                     dplyr::select(town_, closure, season, relative.month, other.centre) %>% as.data.frame()
 regressors.hemel$season <- as.numeric(regressors.hemel$season)
 tsglm.hemel.model6.2 <- tsglm(ts    = ts.hemel,
                                  link  = 'identity',
@@ -587,7 +618,7 @@ ts.newark <- filter(ed_attendances_by_mode_measure,
 ed_attendances_by_mode_measure$town_ <- ifelse(ed_attendances_by_mode_measure$town == 'Newark', yes = 1, no = 0)
 regressors.newark <- filter(ed_attendances_by_mode_measure,
                             town %in% c('Newark', 'Southport')) %>%
-                     dplyr::select(town_, closure, town_closure, season, relative.month, nhs111, other.centre) %>% as.data.frame()
+                     dplyr::select(town_, closure, season, relative.month, nhs111, other.centre) %>% as.data.frame()
 regressors.newark$season <- as.numeric(regressors.newark$season)
 tsglm.newark.model6.2 <- tsglm(ts    = ts.newark,
                                  link  = 'identity',
@@ -600,7 +631,7 @@ ts.rochdale <- filter(ed_attendances_by_mode_measure,
 ed_attendances_by_mode_measure$town_ <- ifelse(ed_attendances_by_mode_measure$town == 'Rochdale', yes = 1, no = 0)
 regressors.rochdale <- filter(ed_attendances_by_mode_measure,
                             town %in% c('Rochdale', 'Rotherham')) %>%
-                     dplyr::select(town_, closure, town_closure, season, relative.month, nhs111, other.centre, ambulance.divert) %>% as.data.frame()
+                     dplyr::select(town_, closure, season, relative.month, nhs111, other.centre, ambulance.divert) %>% as.data.frame()
 regressors.rochdale$season <- as.numeric(regressors.rochdale$season)
 tsglm.rochdale.model6.2 <- tsglm(ts    = ts.rochdale,
                                  link  = 'identity',
