@@ -16,7 +16,7 @@ ed_attendances_by_mode_site_measure     <- closed_tidy(ed_attendances_by_mode_si
 
 ## Subset out Ambulance attendances
 ## Need to remove any instances where the outcome (observation in time series) is missing
-ed_attendances_by_mode_site_measure_clean <- ungroup(ed_attendances_by_mode_site_measure_clean) %>%
+ed_attendances_by_mode_site_measure_clean <- ungroup(ed_attendances_by_mode_site_measure) %>%
                                              filter(sub.measure == 'ambulance') %>%
                                              filter(!is.na(value))
 ed_attendances_by_mode_measure <- ungroup(ed_attendances_by_mode_measure) %>%
@@ -49,6 +49,66 @@ ed_attendances_by_mode_measure <- ungroup(ed_attendances_by_mode_measure) %>%
 ##    ...this is caused by one matrix having a determinent of 0 and when logs are then taken
 ##    the value is Infinity which isn't valid.
 library(tscount)
+## Model 0 - Start with site only, and one step, closure
+##
+## Bishop
+ts.bishop <- filter(ed_attendances_by_mode_site_measure_clean,
+                     town == 'Bishop Auckland') %>% as.data.frame() %>% .[,'value']
+regressors.bishop <- filter(ed_attendances_by_mode_site_measure_clean,
+                            town == 'Bishop Auckland') %>%
+                     dplyr::select(closure)  %>% as.data.frame()
+                     ## dplyr::select(closure) %>% as.data.frame()
+tsglm.bishop.model0 <- tsglm(ts    = ts.bishop,
+                                 link  = 'identity',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.bishop,
+                                 distr = 'nbinom')
+## Hartlepool
+ts.hartlepool <- filter(ed_attendances_by_mode_site_measure_clean,
+                     town == 'Hartlepool') %>% as.data.frame() %>% .[,'value']
+regressors.hartlepool <- filter(ed_attendances_by_mode_site_measure_clean,
+                            town == 'Hartlepool') %>%
+                     dplyr::select(closure)  %>% as.data.frame()
+tsglm.hartlepool.model0 <- tsglm(ts    = ts.hartlepool,
+                                 link  = 'identity',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hartlepool,
+                                 distr = 'nbinom')
+## Hemel Hempstead
+ts.hemel <- filter(ed_attendances_by_mode_site_measure_clean,
+                     town == 'Hemel Hempstead') %>% as.data.frame() %>% .[,'value']
+regressors.hemel <- filter(ed_attendances_by_mode_site_measure_clean,
+                            town == 'Hemel Hempstead') %>%
+                     dplyr::select(closure) %>% as.data.frame()
+tsglm.hemel.model0 <- tsglm(ts    = ts.hemel,
+                                 link  = 'identity',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hemel,
+                                 distr = 'nbinom')
+## Newark
+ts.newark <- filter(ed_attendances_by_mode_site_measure_clean,
+                     town == 'Newark') %>% as.data.frame() %>% .[,'value']
+regressors.newark <- filter(ed_attendances_by_mode_site_measure_clean,
+                            town == 'Newark') %>%
+                     dplyr::select(closure) %>% as.data.frame()
+tsglm.newark.model0 <- tsglm(ts    = ts.newark,
+                                 link  = 'identity',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.newark,
+                                 distr = 'nbinom')
+## Rochdale
+ts.rochdale <- filter(ed_attendances_by_mode_site_measure_clean,
+                     town == 'Rochdale') %>% as.data.frame() %>% .[,'value']
+regressors.rochdale <- filter(ed_attendances_by_mode_site_measure_clean,
+                            town == 'Rochdale') %>%
+                     dplyr::select(closure, other.centre, ambulance.divert) %>% as.data.frame()
+tsglm.rochdale.model0 <- tsglm(ts    = ts.rochdale,
+                                 link  = 'identity',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.rochdale,
+                                 distr = 'nbinom')
+
+
 ## Model 1a - Start with site only, no covariates
 ##
 ## Bishop
@@ -421,7 +481,7 @@ ts.bishop <- filter(ed_attendances_by_mode_measure,
                      town == 'Bishop Auckland') %>% as.data.frame() %>% .[,'value']
 regressors.bishop <- filter(ed_attendances_by_mode_measure,
                             town == 'Bishop Auckland') %>%
-                     dplyr::select(closure, season, relative.month, other.centre)  %>% as.data.frame()
+                     dplyr::select(closure, season, relative.month, nhs111)  %>% as.data.frame()
                      ## dplyr::select(closure) %>% as.data.frame()
 regressors.bishop$season <- as.numeric(regressors.bishop$season)
 tsglm.bishop.model6.1 <- tsglm(ts    = ts.bishop,
@@ -458,7 +518,7 @@ ts.newark <- filter(ed_attendances_by_mode_measure,
                      town == 'Newark') %>% as.data.frame() %>% .[,'value']
 regressors.newark <- filter(ed_attendances_by_mode_measure,
                             town == 'Newark') %>%
-                     dplyr::select(closure, season, relative.month, nhs111, other.centre) %>% as.data.frame()
+                     dplyr::select(closure, season, relative.month, other.centre) %>% as.data.frame()
 regressors.newark$season <- as.numeric(regressors.newark$season)
 tsglm.newark.model6.1 <- tsglm(ts    = ts.newark,
                                  link  = 'identity',
