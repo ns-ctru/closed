@@ -706,7 +706,7 @@ ts.vec <- filter(ed_attendances_by_mode_measure,
 ed_attendances_by_mode_site_measure_clean$town_ <- relevel(ed_attendances_by_mode_site_measure_clean$town, 'Whitehaven')
 town <- model.matrix(~ed_attendances_by_mode_site_measure_clean$town_) %>% as.data.frame()
 names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'wigan', 'yeovil')
-regressors <- cbind(ed_attendances_by_mode_site_measure_clean, town) %>%
+regressors <- cbind(ed_attendances_by_mode_measure, town) %>%
               filter(town %in% c('Bishop Auckland', 'Whitehaven', 'Hartlepool', 'Grimsby', 'Hemel Hempstead', 'Warwick', 'Newark', 'Southport', 'Rochdale', 'Rotherham')) %>%
                      dplyr::select(bishop, hartlepool, grimsby, hemel, warwick, newark, southport, rochdale, rotherham, closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert) %>% as.data.frame()
 ## regressors$season <- as.numeric(regressors$season)
