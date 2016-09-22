@@ -1,4 +1,4 @@
-```{r load_data, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r load_data, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ## Obtain the OS and node such that the data can be conditionally loaded
 os <- .Platform$OS.type
 node <- Sys.info()[['nodename']]
@@ -8,12 +8,10 @@ if(os != 'unix'){
 } else if(os == 'unix' & node == 'mcru-closed-hp.shef.ac.uk'){
     load('~/work/closed/lib/data/ed attendances by mode measure - lsoa - 2016-05-24 14.25.Rda')
     load('~/work/closed/lib/data/ed attendances by mode measure - site - 2016-05-24 14.26.Rda')
-
 }
 ## Tidy data frames, why I didn't do this first I've no idea!
 ed_attendances_by_mode_measure          <- closed_tidy(ed_attendances_by_mode_measure)
 ed_attendances_by_mode_site_measure     <- closed_tidy(ed_attendances_by_mode_site_measure)
-
 ## Subset out Ambulance attendances
 ## Need to remove any instances where the outcome (observation in time series) is missing
 ed_attendances_by_mode_site_measure_clean <- ungroup(ed_attendances_by_mode_site_measure) %>%
@@ -28,27 +26,23 @@ ed_attendances_by_mode_measure <- ungroup(ed_attendances_by_mode_measure) %>%
 ##      prior to each model
 season <- model.matrix(~ed_attendances_by_mode_site_measure_clean$season) %>%
           as.data.frame()
-
 names(season) <- c('intercept', 'season2', 'season3', 'season4', 'season5', 'season6')
 season <- dplyr::select(season, season2, season3, season4, season5, season6)
 ed_attendances_by_mode_site_measure_clean <- cbind(ed_attendances_by_mode_site_measure_clean, season)
 ## Repeat for LSOA level data
 season <- model.matrix(~ed_attendances_by_mode_measure$season) %>%
           as.data.frame()
-
 names(season) <- c('intercept', 'season2', 'season3', 'season4', 'season5', 'season6')
 season <- dplyr::select(season, season2, season3, season4, season5, season6)
 ed_attendances_by_mode_measure <- cbind(ed_attendances_by_mode_measure, season)
-
 ## Write a Stata file for Jon to analyse
 write.dta(ed_attendances_by_mode_site_measure_clean,
           file = '~/work/closed/tmp/attendances_by_ambulance.dta',
           convert.factors = )
 
-
 ```
 
-```{r negbin-analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r negbin-analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ## Caveats...
 ##
 ## 1. tsglm() works with vectors/matrices, doesn't follow the same structure/syntax as other
