@@ -704,7 +704,7 @@ ts.vec <- filter(ed_attendances_by_mode_measure,
 ##                                                     town_[town == 'Rotherham'] <- 9
 ## })
 ed_attendances_by_mode_site_measure_clean$town_ <- relevel(ed_attendances_by_mode_site_measure_clean$town, 'Whitehaven')
-town <- model.matrix(~ed_attendances_by_mode_site_measure_clean$town_) %>% as.data.frame()
+town <- model.matrix(~ed_attendances_by_mode_measure$town_) %>% as.data.frame()
 names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'wigan', 'yeovil')
 regressors <- cbind(ed_attendances_by_mode_measure, town) %>%
               filter(town %in% c('Bishop Auckland', 'Whitehaven', 'Hartlepool', 'Grimsby', 'Hemel Hempstead', 'Warwick', 'Newark', 'Southport', 'Rochdale', 'Rotherham')) %>%
