@@ -1627,7 +1627,7 @@ save(diff.time.to.ed,
      ambulance.red.calls.total,
      hospital.transfers.all.stays,
      hospital.transfers.stays.with.transfer,
-     hospital.transfers.proportion.with.transfer
+     hospital.transfers.proportion.with.transfer,
      spurious,
      ## results,
      ## closure,
