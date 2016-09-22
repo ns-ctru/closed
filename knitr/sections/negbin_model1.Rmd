@@ -1,4 +1,20 @@
 ### Bishop Auckland
+#### Time-Series Plot
+```{r model1-bishop-plot, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
+               indicator     = 'ed attendances',
+               sub.indicator = 'ambulance',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = TRUE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+
+```
 #### Prais-Winsten Regression
 ```{r model1-bishop-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 mode.of.arrival.ambulance$model1.panelar.bishop %>% summary()
@@ -11,6 +27,22 @@ tsglm.bishop.model1 %>% summary()
 ```
 
 ### Hartlepool
+#### Time-Series Plot
+```{r model1-hartlepool-plot, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
+               indicator     = 'ed attendances',
+               sub.indicator = 'ambulance',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = TRUE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+
+```
 #### Prais-Winsten Regression
 ```{r model1-hartlepool-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 mode.of.arrival.ambulance$model1.panelar.hartlepool %>% summary()
@@ -23,6 +55,22 @@ tsglm.hartlepool.model1 %>% summary()
 ```
 
 ### Hemel Hempstead
+#### Time-Series Plot
+```{r model1-hemel-plot, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
+               indicator     = 'ed attendances',
+               sub.indicator = 'ambulance',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               facet         = FALSE,
+               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = TRUE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+
+```
 #### Prais-Winsten Regression
 ```{r model1-hemel-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 mode.of.arrival.ambulance$model1.panelar.hartlepool %>% summary()
@@ -36,6 +84,22 @@ tsglm.hemel.model1 %>% summary()
 
 
 ### Newark
+#### Time-Series Plot
+```{r model1-newark-plot, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
+               indicator     = 'ed attendances',
+               sub.indicator = 'ambulance',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               facet         = FALSE,
+               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = TRUE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+
+```
 #### Prais-Winsten Regression
 ```{r model1-newark-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 mode.of.arrival.ambulance$model1.panelar.newark %>% summary()
@@ -48,6 +112,22 @@ tsglm.newark.model1 %>% summary()
 ```
 
 ### Rochdale
+#### Time-Series Plot
+```{r model1-rochdale-plot, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
+               indicator     = 'ed attendances',
+               sub.indicator = 'ambulance',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               facet         = FALSE,
+               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = TRUE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+
+```
 #### Prais-Winsten Regression
 ```{r model1-rochdale-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 mode.of.arrival.ambulance$model1.panelar.rochdale %>% summary()
