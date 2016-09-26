@@ -124,7 +124,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     season <- model.matrix(df.trust$season) %>% as.data.frame()
     names(season) <- c('intercept', 'season2', 'season3', 'season4', 'season5', 'season6')
     season <- dplyr::select(season, season2, season3, season4, season5, season6)
-    df.trust <- <- cbind(df.trust, season)
+    df.trust <- cbind(df.trust, season)
     #######################################################################
     ## Derive the mean, sd, median, iqr, min and max of events before/   ##
     ## after closure for combining into a summary table with model       ##
