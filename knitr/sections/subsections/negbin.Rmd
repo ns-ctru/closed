@@ -19,7 +19,7 @@ ed_attendances_by_mode_site_measure_clean <- ungroup(ed_attendances_by_mode_site
                                              filter(!is.na(value))
 ed_attendances_by_mode_measure <- ungroup(ed_attendances_by_mode_measure) %>%
                                   filter(sub.measure == 'ambulance') %>%
-    filter(!is.na(value))
+                                  filter(!is.na(value))
 ## Generate dummy variables for categorical variable season since tsglm does not accept factor variables.
 ##
 ## NB - Can't do categorical variable town since that varies between centres and model so has to be done
@@ -79,6 +79,19 @@ tsglm.bishop.model0 <- tsglm(ts    = ts.bishop,
                                  model = list(past_obs = 1),
                                  xreg = regressors.bishop,
                                  distr = 'nbinom')
+## Log-linear model
+ts.bishop <- filter(ed_attendances_by_mode_site_measure_clean,
+                     town == 'Bishop Auckland') %>% as.data.frame() %>% .[,'value']
+regressors.bishop <- filter(ed_attendances_by_mode_site_measure_clean,
+                            town == 'Bishop Auckland') %>%
+                     dplyr::select(closure)  %>% as.data.frame()
+                     ## dplyr::select(closure) %>% as.data.frame()
+tsglm.bishop.model0 <- tsglm(ts    = ts.bishop,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.bishop,
+                                 distr = 'nbinom')
+
 ## Hartlepool
 ts.hartlepool <- filter(ed_attendances_by_mode_site_measure_clean,
                      town == 'Hartlepool') %>% as.data.frame() %>% .[,'value']
