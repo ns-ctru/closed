@@ -33,6 +33,9 @@
 #' @param model5 Covariates to include in model 5.
 #' @param model6 Covariates to include in model 6.
 #' @param model7 Covariates to include in model 7.
+#' @param tsglm.link Link to use for \code{tsglm()} (options are \code{log}, the default as it permits negative values and \code{identity} which is constrainged to positive values).
+#' @param tsglm.model Model (i.e. lags in this instance) to use in the call to \code{tsglm}.
+#' @param tsglm.distr Distribution to use in the call to \code{tsglm} (options are \code{nbinom} the default to allow for over-disperssion and \code{poisson}).
 #' @param return.df Logical operator of whether to return the subsetted/summarised data frame (useful for subsequent development).
 #' @param return.model Logical operator of whether to return the fitted models (not currently working correctly).
 #' @param return.residuals Logical oeprator of whether to return the residuals of the fitted model.
@@ -52,28 +55,31 @@
 #' @references
 #'
 #' @export
-closed_tsglm <- function(df.lsoa         = ed_attendances_by_mode_measure,
-                         df.trust        = ed_attendances_by_mode_site_measure_clean,
-                         indicator       = 'ed attendances',
-                         sub.indicator   = 'any',
-                         steps           = c('closure'),
-                         fit.with        = 'both',
-                         panel.lsoa      = 'lsoa',
-                         panel.trust     = 'town',
-                         timevar         = 'relative.month',
-                         outcome         = 'value',
-                         model0          = c('closure'),
-                         model1          = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-                         model2          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-                         model3.1        = c('pooled.control * closure', 'town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-                         model3.2        = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-                         model4          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-                         model5          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-                         model6.1        = c('season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
-                         model6.2        = c('town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
-                         model7          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
-                         return.df       = FALSE,
-                          return.model    = TRUE,
+closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
+                         df.trust         = ed_attendances_by_mode_site_measure_clean,
+                         indicator        = 'ed attendances',
+                         sub.indicator    = 'any',
+                         steps            = c('closure'),
+                         fit.with         = 'both',
+                         panel.lsoa       = 'lsoa',
+                         panel.trust      = 'town',
+                         timevar          = 'relative.month',
+                         outcome          = 'value',
+                         model0           = c('closure'),
+                         model1           = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                         model2           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                         model3.1         = c('pooled.control * closure', 'town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                         model3.2         = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                         model4           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                         model5           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+                         model6.1         = c('season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                         model6.2         = c('town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                         model7           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                         tsglm.link       = 'log',
+                         tsglm.model      = list(past_obs = 1),
+                         tsglm.distr      = 'nbinom',
+                         return.df        = FALSE,
+                         return.model     = TRUE,
                          return.residuals = FALSE,
                          digits           = 3,
                          ...){
@@ -112,16 +118,16 @@ closed_tsglm <- function(df.lsoa         = ed_attendances_by_mode_measure,
     df.lsoa  <- as.data.frame(df.lsoa) %>%
                 dplyr::filter(measure == indicator,
                               sub.measure == sub.indicator) %>%
-                dplyr::filter(!is.na())
-    season <- model.matrix(df.lsoa$season) %>% as.data.frame()
+                dplyr::filter(!is.na(value))
+    season <- model.matrix(~df.lsoa$season) %>% as.data.frame()
     names(season) <- c('intercept', 'season2', 'season3', 'season4', 'season5', 'season6')
     season <- dplyr::select(season, season2, season3, season4, season5, season6)
     df.lsoa <- cbind(df.lsoa, season)
     df.trust <- as.data.frame(df.trust) %>%
                 dplyr::filter(measure == indicator,
                               sub.measure == sub.indicator) %>%
-                dplyr::filter(!is.na())
-    season <- model.matrix(df.trust$season) %>% as.data.frame()
+                dplyr::filter(!is.na(value))
+    season <- model.matrix(~df.trust$season) %>% as.data.frame()
     names(season) <- c('intercept', 'season2', 'season3', 'season4', 'season5', 'season6')
     season <- dplyr::select(season, season2, season3, season4, season5, season6)
     df.trust <- cbind(df.trust, season)
@@ -377,113 +383,85 @@ closed_tsglm <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ts.vector  <- filter(df0,
                              town        == 'Bishop Auckland') %>%
                       dplyr::select(value)
+        print(model0)
         regressors <-  filter(df0,
                              town        == 'Bishop Auckland') %>%
-                      dplyr::select(closure)
+                      dplyr::select(model0)
         ## return(t)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
-            model0.tsglm.bishop <- panelAR(data      = t,
-                                             formula   = formula.model0,
-                                             timeVar   = timevar,
-                                             panelVar  = panel.trust,
-                                             autoCorr  = autocorr,
-                                             panelCorrMethod = 'pcse',
-                                             complete.case = complete.case,
-                                             seq.times = seq.times,
-                                             rho.na.rm = rho.na.rm)
-            results$model0.tsglm.bishop.coef <- extract_coefficients(x              = model0.tsglm.bishop,
-                                                                       .site          = 'Bishop Auckland',
-                                                                       .indicator     = indicator,
-                                                                       .sub.indicator = sub.indicator)
-            results$model0.tsglm.bishop.r2 <- model0.tsglm.bishop$r2
+            model0.tsglm.bishop <- tsglm(ts = ts.vector,
+                                         link = tsglm.link,
+                                         model = tsglm.model,
+                                         xreg  = regressors,
+                                         distr = tsglm.distr)
         }
         ##################################################
         ## Model 1 - Hartlepool                         ##
         ##################################################
         ## print("Hartlepool")
-        t <- filter(df0,
-                    town        == 'Hartlepool')
-        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
-            model0.tsglm.hartlepool <- panelAR(data     = t,
-                                                 formula  = formula.model0,
-                                                 timeVar  = timevar,
-                                                 panelVar = panel.trust,
-                                                 autoCorr = autocorr,
-                                                 panelCorrMethod = 'pcse',
-                                                 complete.case = complete.case,
-                                                 seq.times = seq.times,
-                                                 rho.na.rm = rho.na.rm)
-            results$model0.tsglm.hartlepool.coef <- extract_coefficients(x              = model0.tsglm.hartlepool,
-                                                                           .site          = 'Hartlepool',
-                                                                           .indicator     = indicator,
-                                                                           .sub.indicator = sub.indicator)
-            results$model0.tsglm.hartlepool.r2 <- model0.tsglm.hartlepool$r2
+        ts.vector  <- filter(df0,
+                             town        == 'Hartlepool') %>%
+                      dplyr::select(value)
+        regressors <-  filter(df0,
+                             town        == 'Hartlepool') %>%
+                      dplyr::select(closure)
+        if(town.group$n[town.group$town == 'Hartlepool'] > 0){
+            model0.tsglm.hartlepool <- tsglm(ts = ts.vector,
+                                             link = tsglm.link,
+                                             model = tsglm.model,
+                                             xreg  = regressors,
+                                             distr = tsglm.distr)
         }
         ##################################################
         ## Model 1 - Hemel Hempstead                    ##
         ##################################################
         ## print("Hemel Hempstead")
-        t <- filter(df0,
-                    town        == 'Hemel Hempstead')
+        ts.vector  <- filter(df0,
+                             town        == 'Hemel Hempstead') %>%
+                      dplyr::select(value)
+        regressors <-  filter(df0,
+                             town        == 'Hemel Hempstead') %>%
+                      dplyr::select(closure)
         if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0){
-            model0.tsglm.hemel <- panelAR(data     = t,
-                                            formula  = formula.model0,
-                                            timeVar  = timevar,
-                                            panelVar = panel.trust,
-                                            autoCorr = autocorr,
-                                            panelCorrMethod = 'pcse',
-                                            complete.case = complete.case,
-                                            seq.times = seq.times,
-                                            rho.na.rm = rho.na.rm)
-            results$model0.tsglm.hemel.coef <- extract_coefficients(x              = model0.tsglm.hemel,
-                                                                      .site          = 'Hemel Hempstead',
-                                                                      .indicator     = indicator,
-                                                                      .sub.indicator = sub.indicator)
-            results$model0.tsglm.hemel.r2 <- model0.tsglm.hemel$r2
+            model0.tsglm.hemel <- tsglm(ts = ts.vector,
+                                        link = tsglm.link,
+                                        model = tsglm.model,
+                                        xreg  = regressors,
+                                        distr = tsglm.distr)
         }
         ##################################################
         ## Model 1 - Newark                             ##
         ##################################################
         ## print("Newark")
-        t <- filter(df0,
-                    town        == 'Newark')
+        ts.vector  <- filter(df0,
+                             town        == 'Newark') %>%
+                      dplyr::select(value)
+        regressors <-  filter(df0,
+                             town        == 'Newark') %>%
+                      dplyr::select(closure)
         if(town.group$n[town.group$town == 'Newark'] > 0){
-            model0.tsglm.newark <- panelAR(data     = t,
-                                             formula  = formula.model0,
-                                             timeVar  = timevar,
-                                             panelVar = panel.trust,
-                                             autoCorr = autocorr,
-                                             panelCorrMethod = 'pcse',
-                                             complete.case = complete.case,
-                                             seq.times = seq.times,
-                                             rho.na.rm = rho.na.rm)
-            results$model0.tsglm.newark.coef <- extract_coefficients(x              = model0.tsglm.newark,
-                                                                       .site          = 'Newark',
-                                                                       .indicator     = indicator,
-                                                                       .sub.indicator = sub.indicator)
-            results$model0.tsglm.newark.r2 <- model0.tsglm.newark$r2
+            model0.tsglm.newark <- tsglm(ts = ts.vector,
+                                         link = tsglm.link,
+                                         model = tsglm.model,
+                                         xreg  = regressors,
+                                         distr = tsglm.distr)
         }
         ##################################################
         ## Model 1 - Rochdale                           ##
         ##################################################
         ## print("Rochdale")
-        t <- filter(df0,
-                    town        == 'Rochdale')
+        ts.vector  <- filter(df0,
+                             town        == 'Rochdale') %>%
+                      dplyr::select(value)
+        regressors <-  filter(df0,
+                             town        == 'Rochdale') %>%
+                      dplyr::select(closure)
         if(town.group$n[town.group$town == 'Rochdale'] > 0){
-            model0.tsglm.rochdale <- panelAR(data     = t,
-                                               formula  = formula.model0,
-                                               timeVar  = timevar,
-                                               panelVar = panel.trust,
-                                               autoCorr = autocorr,
-                                               panelCorrMethod = 'pcse',
-                                               complete.case = complete.case,
-                                               seq.times = seq.times,
-                                               rho.na.rm = rho.na.rm)
-            results$model0.tsglm.rochdale.coef <- extract_coefficients(x            = model0.tsglm.rochdale,
-                                                                         .site          = 'Rochdale',
-                                                                         .indicator     = indicator,
-                                                                         .sub.indicator = sub.indicator)
-            results$model0.tsglm.rochdale.r2 <- model0.tsglm.rochdale$r2
+            model0.tsglm.rochdale <- tsglm(ts = ts.vector,
+                                           link = tsglm.link,
+                                           model = tsglm.model,
+                                           xreg  = regressors,
+                                           distr = tsglm.distr)
         }
         ## Summary table
         results$model0.tsglm.all <- combine_coefficients(bishop.coef     = results$model0.tsglm.bishop.coef,
