@@ -404,7 +404,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                       measure     == indicator &
                       sub.measure == sub.indicator)
         ##################################################
-        ## Model 1 - Bishop Auckland                    ##
+        ## Model 0 - Bishop Auckland                    ##
         ##################################################
         ## print("Bishop Auckland")
         t <- filter(df0,
@@ -427,12 +427,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model0.panelar.bishop.r2 <- model0.panelar.bishop$r2
         }
         ##################################################
-        ## Model 1 - Hartlepool                         ##
+        ## Model 0 - Hartlepool                         ##
         ##################################################
         ## print("Hartlepool")
         t <- filter(df0,
                     town        == 'Hartlepool')
-        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
+        if(town.group$n[town.group$town == 'Hartlepool'] > 0){
             model0.panelar.hartlepool <- panelAR(data     = t,
                                                  formula  = formula.model0,
                                                  timeVar  = timevar,
@@ -449,7 +449,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model0.panelar.hartlepool.r2 <- model0.panelar.hartlepool$r2
         }
         ##################################################
-        ## Model 1 - Hemel Hempstead                    ##
+        ## Model 0 - Hemel Hempstead                    ##
         ##################################################
         ## print("Hemel Hempstead")
         t <- filter(df0,
@@ -471,7 +471,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model0.panelar.hemel.r2 <- model0.panelar.hemel$r2
         }
         ##################################################
-        ## Model 1 - Newark                             ##
+        ## Model 0 - Newark                             ##
         ##################################################
         ## print("Newark")
         t <- filter(df0,
@@ -493,7 +493,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model0.panelar.newark.r2 <- model0.panelar.newark$r2
         }
         ##################################################
-        ## Model 1 - Rochdale                           ##
+        ## Model 0 - Rochdale                           ##
         ##################################################
         ## print("Rochdale")
         t <- filter(df0,
@@ -618,7 +618,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## print("Hartlepool")
         t <- filter(df1,
                     town        == 'Hartlepool')
-        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
+        if(town.group$n[town.group$town == 'Hartlepool'] > 0){
             model1.panelar.hartlepool <- panelAR(data     = t,
                                                  formula  = formula.model1,
                                                  timeVar  = timevar,
