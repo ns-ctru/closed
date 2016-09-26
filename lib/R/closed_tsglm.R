@@ -116,7 +116,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     season <- model.matrix(df.lsoa$season) %>% as.data.frame()
     names(season) <- c('intercept', 'season2', 'season3', 'season4', 'season5', 'season6')
     season <- dplyr::select(season, season2, season3, season4, season5, season6)
-    df.lsoa <- <- cbind(df.lsoa, season)
+    df.lsoa <- cbind(df.lsoa, season)
     df.trust <- as.data.frame(df.trust) %>%
                 dplyr::filter(measure == indicator,
                               sub.measure == sub.indicator) %>%
