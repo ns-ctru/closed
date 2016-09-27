@@ -84,7 +84,7 @@ tsglm.bishop.model0 <- tsglm(ts    = ts.bishop,
                                  model = list(past_obs = 1),
                                  xreg = regressors.bishop,
                                  distr = 'nbinom')
-interv_test(tsglm.bishop.model0, tau = 23, delta = 1)
+## interv_test(tsglm.bishop.model0, tau = 23, delta = 1)
 ## Quick plot to show the step
 ## dput(ts.bishop)
 ## dput(regressors.bishop)
@@ -103,7 +103,7 @@ tsglm.hartlepool.model0 <- tsglm(ts    = ts.hartlepool,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hartlepool,
                                  distr = 'nbinom')
-interv_test(tsglm.bishop.model0, tau = 24, delta = 1)
+## interv_test(tsglm.bishop.model0, tau = 24, delta = 1)
 ## Hemel Hempstead
 ts.hemel <- filter(ed_attendances_by_mode_site_measure_clean,
                      town == 'Hemel Hempstead') %>% as.data.frame() %>% .[,'value']
@@ -115,7 +115,7 @@ tsglm.hemel.model0 <- tsglm(ts    = ts.hemel,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hemel,
                                  distr = 'nbinom')
-interv_test(tsglm.bishop.model0, tau = 23, delta = 1)
+## interv_test(tsglm.bishop.model0, tau = 23, delta = 1)
 ## Newark
 ts.newark <- filter(ed_attendances_by_mode_site_measure_clean,
                      town == 'Newark') %>% as.data.frame() %>% .[,'value']
@@ -127,7 +127,7 @@ tsglm.newark.model0 <- tsglm(ts    = ts.newark,
                                  model = list(past_obs = 1),
                                  xreg = regressors.newark,
                                  distr = 'nbinom')
-interv_test(tsglm.bishop.model0, tau = 24, delta = 1)
+## interv_test(tsglm.bishop.model0, tau = 24, delta = 1)
 ## Rochdale
 ts.rochdale <- filter(ed_attendances_by_mode_site_measure_clean,
                      town == 'Rochdale') %>% as.data.frame() %>% .[,'value']
@@ -139,7 +139,7 @@ tsglm.rochdale.model0 <- tsglm(ts    = ts.rochdale,
                                  model = list(past_obs = 1),
                                  xreg = regressors.rochdale,
                                  distr = 'nbinom')
-interv_test(tsglm.bishop.model0, tau = 24, delta = 1)
+## interv_test(tsglm.bishop.model0, tau = 24, delta = 1)
 ## Write a Stata file for Jon to analyse
 
 
@@ -159,7 +159,8 @@ tsglm.bishop.model1 <- tsglm(ts    = ts.bishop,
                                  model = list(past_obs = 1),
                                  xreg = regressors.bishop,
                                  distr = 'nbinom')
-interv_test(tsglm.bishop.model1, tau = c(23, 45), delta = c(1, 1))
+## interv_test(tsglm.bishop.model1, tau = c(23, 45), delta = c(1, 1))
+## interv_test(tsglm.bishop.model1, tau = c(23), delta = c(1))
 ## Hartlepool
 ts.hartlepool <- filter(ed_attendances_by_mode_site_measure_clean,
                      town == 'Hartlepool') %>% as.data.frame() %>% .[,'value']
@@ -174,7 +175,8 @@ tsglm.hartlepool.model1 <- tsglm(ts    = ts.hartlepool,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hartlepool,
                                  distr = 'nbinom')
-interv_test(tsglm.hartlepool.model1, tau = c(22, 24, 45), delta = c(1, 1, 1))
+## interv_test(tsglm.hartlepool.model1, tau = c(22, 24, 45), delta = c(1, 1, 1))
+## interv_test(tsglm.hartlepool.model1, tau = c(24), delta = c(1))
 ## Hemel Hempstead
 ts.hemel <- filter(ed_attendances_by_mode_site_measure_clean,
                      town == 'Hemel Hempstead') %>% as.data.frame() %>% .[,'value']
@@ -189,7 +191,8 @@ tsglm.hemel.model1 <- tsglm(ts    = ts.hemel,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hemel,
                                  distr = 'nbinom')
-interv_test(tsglm.hemel.model1, tau = c(20, 23), delta = c(1, 1))
+## interv_test(tsglm.hemel.model1, tau = c(20, 23), delta = c(1, 1))
+## interv_test(tsglm.hemel.model1, tau = c(23), delta = c(1))
 ## Newark
 ts.newark <- filter(ed_attendances_by_mode_site_measure_clean,
                      town == 'Newark') %>% as.data.frame() %>% .[,'value']
@@ -204,7 +207,8 @@ tsglm.newark.model1 <- tsglm(ts    = ts.newark,
                                  model = list(past_obs = 1),
                                  xreg = regressors.newark,
                                  distr = 'nbinom')
-interv_test(tsglm.newark.model1, tau = c(3, 24), delta = c(1, 1))
+## interv_test(tsglm.newark.model1, tau = c(3, 24), delta = c(1, 1))
+## interv_test(tsglm.newark.model1, tau = c(24), delta = c(1))
 ## Rochdale
 ts.rochdale <- filter(ed_attendances_by_mode_site_measure_clean,
                      town == 'Rochdale') %>% as.data.frame() %>% .[,'value']
@@ -219,7 +223,8 @@ tsglm.rochdale.model1 <- tsglm(ts    = ts.rochdale,
                                  model = list(past_obs = 1),
                                  xreg = regressors.rochdale,
                                  distr = 'nbinom')
-interv_test(tsglm.rochdale.model1, tau = c(11, 17, 24, 48), delta = c(1, 1, 1, 1))
+## interv_test(tsglm.rochdale.model1, tau = c(11, 17, 24, 48), delta = c(1, 1, 1, 1))
+## interv_test(tsglm.rochdale.model1, tau = c(24), delta = c(1))
 
 ## Model 2 - Case and its primary matched control
 ## Bishop
@@ -240,7 +245,8 @@ tsglm.bishop.model2 <- tsglm(ts    = ts.bishop,
                                  model = list(past_obs = 1),
                                  xreg = regressors.bishop,
                                  distr = 'nbinom')
-interv_test(tsglm.bishop.model2, tau = c(23, 45), delta = c(1))
+## interv_test(tsglm.bishop.model2, tau = c(23, 45), delta = c(1, 1))
+## interv_test(tsglm.bishop.model2, tau = c(23), delta = c(1))
 ## Hartlepool
 ts.hartlepool <- filter(ed_attendances_by_mode_site_measure_clean,
                      town %in% c('Hartlepool', 'Grimsby')) %>% as.data.frame() %>% .[,'value']
@@ -257,7 +263,8 @@ tsglm.hartlepool.model2 <- tsglm(ts    = ts.hartlepool,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hartlepool,
                                  distr = 'nbinom')
-interv_test(tsglm.hartlepool.model2, tau = c(22, 24, 45), delta = c(1))
+## interv_test(tsglm.hartlepool.model2, tau = c(22, 24, 45), delta = c(1, 1, 1))
+## interv_test(tsglm.hartlepool.model2, tau = c(24), delta = c(1))
 ## Hemel Hempstead
 ts.hemel <- filter(ed_attendances_by_mode_site_measure_clean,
                      town %in% c('Hemel Hempstead', 'Warwick')) %>% as.data.frame() %>% .[,'value']
@@ -274,7 +281,8 @@ tsglm.hemel.model2 <- tsglm(ts    = ts.hemel,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hemel,
                                  distr = 'nbinom')
-interv_test(tsglm.hemel.model2, tau = c(20, 23), delta = c(1, 1))
+## interv_test(tsglm.hemel.model2, tau = c(20, 23), delta = c(1, 1))
+## interv_test(tsglm.hemel.model2, tau = c(23), delta = c(1))
 ## Newark
 ts.newark <- filter(ed_attendances_by_mode_site_measure_clean,
                     town %in% c('Newark', 'Southport')) %>% as.data.frame() %>% .[,'value']
@@ -291,7 +299,8 @@ tsglm.newark.model2 <- tsglm(ts    = ts.newark,
                                  model = list(past_obs = 1),
                                  xreg = regressors.newark,
                                  distr = 'nbinom')
-interv_test(tsglm.newark.model2, tau = c(3, 23), delta = c(1, 1))
+## interv_test(tsglm.newark.model2, tau = c(3, 23), delta = c(1, 1))
+## interv_test(tsglm.newark.model2, tau = c(23), delta = c(1))
 ## Rochdale
 ts.rochdale <- filter(ed_attendances_by_mode_site_measure_clean,
                      town %in% c('Rochdale', 'Rotherham')) %>% as.data.frame() %>% .[,'value']
@@ -309,7 +318,8 @@ tsglm.rochdale.model2 <- tsglm(ts    = ts.rochdale,
                                  model = list(past_obs = 1),
                                  xreg = regressors.rochdale,
                                  distr = 'nbinom')
-interv_test(tsglm.rochdale.model2, tau = c(11, 17, 24, 48), delta = c(1))
+## interv_test(tsglm.rochdale.model2, tau = c(11, 17, 24, 48), delta = c(1, 1, 1, 1))
+## interv_test(tsglm.rochdale.model2, tau = c(24), delta = c(1))
 
 ## Model 3.1 - Case and all its matched controls (unpooled)
 ## Bishop
@@ -336,7 +346,8 @@ tsglm.bishop.model3.1 <- tsglm(ts    = ts.bishop,
                                  model = list(past_obs = 1),
                                  xreg = regressors.bishop,
                                  distr = 'nbinom')
-interv_test(tsglm.bishop.model3.1, tau = c(23, 45), delta = c(1, 1))
+## interv_test(tsglm.bishop.model3.1, tau = c(23, 45), delta = c(1, 1))
+## interv_test(tsglm.bishop.model3.1, tau = c(23), delta = c(1))
 ## Hartlepool
 ts.hartlepool <- filter(ed_attendances_by_mode_site_measure_clean,
                      town %in% c('Hartlepool', 'Grimsby', 'Blackburn', 'Wigan')) %>% as.data.frame() %>% .[,'value']
@@ -361,7 +372,8 @@ tsglm.hartlepool.model3.1 <- tsglm(ts    = ts.hartlepool,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hartlepool,
                                  distr = 'nbinom')
-interv_test(tsglm.hartlepool.model3.1, tau = c(22, 24, 45), delta = c(1, 1, 1))
+## interv_test(tsglm.hartlepool.model3.1, tau = c(22, 24, 45), delta = c(1, 1, 1))
+## interv_test(tsglm.hartlepool.model3.1, tau = c(24), delta = c(1))
 ## Hemel Hempstead
 ts.hemel <- filter(ed_attendances_by_mode_site_measure_clean,
                      town %in% c('Hemel Hempstead', 'Warwick', 'Basingstoke', 'Yeovil')) %>% as.data.frame() %>% .[,'value']
@@ -385,7 +397,8 @@ tsglm.hemel.model3.1 <- tsglm(ts    = ts.hemel,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hemel,
                                  distr = 'nbinom')
-interv_test(tsglm.hemel.model3.1, tau = c(20, 23), delta = c(1, 1))
+## interv_test(tsglm.hemel.model3.1, tau = c(20, 23), delta = c(1, 1))
+## interv_test(tsglm.hemel.model3.1, tau = c(23), delta = c(1))
 ## Newark
 ts.newark <- filter(ed_attendances_by_mode_site_measure_clean,
                      town %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')) %>% as.data.frame() %>% .[,'value']
@@ -410,7 +423,8 @@ tsglm.newark.model3.1 <- tsglm(ts    = ts.newark,
                                  model = list(past_obs = 1),
                                  xreg = regressors.newark,
                                  distr = 'nbinom')
-interv_test(tsglm.newark.model3.1, tau = c(3, 24), delta = c(1, 1))
+## interv_test(tsglm.newark.model3.1, tau = c(3, 24), delta = c(1, 1))
+## interv_test(tsglm.newark.model3.1, tau = c(24), delta = c(1))
 ## Rochdale
 ts.rochdale <- filter(ed_attendances_by_mode_site_measure_clean,
                      town %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')) %>% as.data.frame() %>% .[,'value']
@@ -435,7 +449,8 @@ tsglm.rochdale.model3.1 <- tsglm(ts    = ts.rochdale,
                                  model = list(past_obs = 1),
                                  xreg = regressors.rochdale,
                                  distr = 'nbinom')
-interv_test(tsglm.rochdale.model3.1, tau = c(11, 17, 24, 48), delta = c(1, 1, 1, 1))
+## interv_test(tsglm.rochdale.model3.1, tau = c(11, 17, 24, 48), delta = c(1, 1, 1, 1))
+## interv_test(tsglm.rochdale.model3.1, tau = c(24), delta = c(1))
 
 ## Model 3.2 - Case and all its matched controls (pooled)
 ## Bishop
@@ -452,7 +467,8 @@ tsglm.bishop.model3.2 <- tsglm(ts    = ts.bishop,
                                  model = list(past_obs = 1),
                                  xreg = regressors.bishop,
                                  distr = 'nbinom')
-interv_test(tsglm.bishop.model3.2, tau = c(23, 45), delta = c(1, 1))
+## interv_test(tsglm.bishop.model3.2, tau = c(23, 45), delta = c(1, 1))
+## interv_test(tsglm.bishop.model3.2, tau = c(23), delta = c(1))
 ## Hartlepool
 ts.hartlepool <- filter(ed_attendances_by_mode_site_measure_clean,
                      town %in% c('Hartlepool', 'Grimsby', 'Blackburn', 'Wigan')) %>% as.data.frame() %>% .[,'value']
@@ -467,7 +483,8 @@ tsglm.hartlepool.model3.2 <- tsglm(ts    = ts.hartlepool,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hartlepool,
                                  distr = 'nbinom')
-interv_test(tsglm.hartlepool.model3.2, tau = c(22, 24, 45), delta = c(1, 1, 1))
+## interv_test(tsglm.hartlepool.model3.2, tau = c(22, 24, 45), delta = c(1, 1, 1))
+## interv_test(tsglm.hartlepool.model3.2, tau = c(24), delta = c(1))
 ## Hemel Hempstead
 ts.hemel <- filter(ed_attendances_by_mode_site_measure_clean,
                      town %in% c('Hemel Hempstead', 'Warwick', 'Basingstoke', 'Yeovil')) %>% as.data.frame() %>% .[,'value']
@@ -482,7 +499,8 @@ tsglm.hemel.model3.2 <- tsglm(ts    = ts.hemel,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hemel,
                                  distr = 'nbinom')
-interv_test(tsglm.hemel.model3.2, tau = c(20, 23), delta = c(1, 1))
+## interv_test(tsglm.hemel.model3.2, tau = c(20, 23), delta = c(1, 1))
+## interv_test(tsglm.hemel.model3.2, tau = c(23), delta = c(1))
 ## Newark
 ts.newark <- filter(ed_attendances_by_mode_site_measure_clean,
                      town %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')) %>% as.data.frame() %>% .[,'value']
@@ -497,7 +515,8 @@ tsglm.newark.model3.2 <- tsglm(ts    = ts.newark,
                                  model = list(past_obs = 1),
                                  xreg = regressors.newark,
                                  distr = 'nbinom')
-interv_test(tsglm.newark.model3.2, tau = c(3, 24), delta = c(1, 1))
+## interv_test(tsglm.newark.model3.2, tau = c(3, 24), delta = c(1, 1))
+## interv_test(tsglm.newark.model3.2, tau = c(24), delta = c(1))
 ## Rochdale
 ts.rochdale <- filter(ed_attendances_by_mode_site_measure_clean,
                      town %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')) %>% as.data.frame() %>% .[,'value']
@@ -512,7 +531,8 @@ tsglm.rochdale.model3.2 <- tsglm(ts    = ts.rochdale,
                                  model = list(past_obs = 1),
                                  xreg = regressors.rochdale,
                                  distr = 'nbinom')
-interv_test(tsglm.rochdale.model3.2, tau = c(11, 17, 24, 48), delta = c(1, 1, 1, 1))
+## interv_test(tsglm.rochdale.model3.2, tau = c(11, 17, 24, 48), delta = c(1, 1, 1, 1))
+## interv_test(tsglm.rochdale.model3.2, tau = c(24), delta = c(1))
 
 ## Model 4 - All case sites and their primary matched controls
 ts.vec <- filter(ed_attendances_by_mode_site_measure_clean,
@@ -542,7 +562,7 @@ tsglm.all.model4 <- tsglm(ts    = ts.vec,
                                  model = list(past_obs = 1),
                                  xreg = regressors,
                                  distr = 'nbinom')
-interv_test(tsglm.all.model4, tau = 23, delta = 1)
+## interv_test(tsglm.all.model4, tau = 24, delta = 1)
 
 ## Model 5 - All Case sites and all matched controls
 ts.vec <- as.data.frame(ed_attendances_by_mode_site_measure_clean) %>% .[,'value']
@@ -584,7 +604,7 @@ tsglm.all.model5 <- tsglm(ts    = ts.vec,
                                  model = list(past_obs = 1),
                                  xreg = regressors,
                                  distr = 'nbinom')
-interv_test(tsglm.all.model5, tau = 23, delta = 1)
+## interv_test(tsglm.all.model5, tau = 24, delta = 1)
 
 
 ## Model 6.1 - LSOA level site only
@@ -602,7 +622,7 @@ tsglm.bishop.model6.1 <- tsglm(ts    = ts.bishop,
                                  model = list(past_obs = 1),
                                  xreg = regressors.bishop,
                                  distr = 'nbinom')
-interv_test(tsglm.bishop.model6.1, tau = 23, delta = 1)
+## interv_test(tsglm.bishop.model6.1, tau = 23, delta = 1)
 ## Hartlepool
 ts.hartlepool <- filter(ed_attendances_by_mode_measure,
                      town == 'Hartlepool') %>% as.data.frame() %>% .[,'value']
@@ -615,7 +635,7 @@ tsglm.hartlepool.model6.1 <- tsglm(ts    = ts.hartlepool,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hartlepool,
                                  distr = 'nbinom')
-interv_test(tsglm.hartlepool.model6.1, tau = 23, delta = 1)
+## interv_test(tsglm.hartlepool.model6.1, tau = 24, delta = 1)
 ## Hemel Hempstead
 ts.hemel <- filter(ed_attendances_by_mode_measure,
                      town == 'Hemel Hempstead') %>% as.data.frame() %>% .[,'value']
@@ -628,7 +648,7 @@ tsglm.hemel.model6.1 <- tsglm(ts    = ts.hemel,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hemel,
                                  distr = 'nbinom')
-interv_test(tsglm.hemel.model6.1, tau = 23, delta = 1)
+## interv_test(tsglm.hemel.model6.1, tau = 23, delta = 1)
 ## Newark
 ts.newark <- filter(ed_attendances_by_mode_measure,
                      town == 'Newark') %>% as.data.frame() %>% .[,'value']
@@ -641,7 +661,7 @@ tsglm.newark.model6.1 <- tsglm(ts    = ts.newark,
                                  model = list(past_obs = 1),
                                  xreg = regressors.newark,
                                  distr = 'nbinom')
-interv_test(tsglm.newark.model6.1, tau = 23, delta = 1)
+## interv_test(tsglm.newark.model6.1, tau = 24, delta = 1)
 ## Rochdale
 ts.rochdale <- filter(ed_attendances_by_mode_measure,
                      town == 'Rochdale') %>% as.data.frame() %>% .[,'value']
@@ -654,7 +674,7 @@ tsglm.rochdale.model6.1 <- tsglm(ts    = ts.rochdale,
                                  model = list(past_obs = 1),
                                  xreg = regressors.rochdale,
                                  distr = 'nbinom')
-interv_test(tsglm.rochdale.model6.1, tau = 23, delta = 1)
+## interv_test(tsglm.rochdale.model6.1, tau = 23, delta = 1)
 
 
 ## Model 6.2 - Case and its primary matched control
@@ -673,7 +693,7 @@ tsglm.bishop.model6.2 <- tsglm(ts    = ts.bishop,
                                  model = list(past_obs = 1),
                                  xreg = regressors.bishop,
                                  distr = 'nbinom')
-interv_test(tsglm.bishop.model6.2, tau = 23, delta = 1)
+## interv_test(tsglm.bishop.model6.2, tau = 23, delta = 1)
 ## Hartlepool
 ts.hartlepool <- filter(ed_attendances_by_mode_measure,
                      town %in% c('Hartlepool', 'Grimsby')) %>% as.data.frame() %>% .[,'value']
@@ -687,7 +707,7 @@ tsglm.hartlepool.model6.2 <- tsglm(ts    = ts.hartlepool,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hartlepool,
                                  distr = 'nbinom')
-interv_test(tsglm.hartlepool.model6.2, tau = 23, delta = 1)
+## interv_test(tsglm.hartlepool.model6.2, tau = 24, delta = 1)
 ## Hemel Hempstead
 ts.hemel <- filter(ed_attendances_by_mode_measure,
                      town %in% c('Hemel Hempstead', 'Warwick')) %>% as.data.frame() %>% .[,'value']
@@ -701,7 +721,7 @@ tsglm.hemel.model6.2 <- tsglm(ts    = ts.hemel,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hemel,
                                  distr = 'nbinom')
-interv_test(tsglm.hemel.model6.2, tau = 23, delta = 1)
+## interv_test(tsglm.hemel.model6.2, tau = 23, delta = 1)
 ## Newark
 ts.newark <- filter(ed_attendances_by_mode_measure,
                     town %in% c('Newark', 'Southport')) %>% as.data.frame() %>% .[,'value']
@@ -715,7 +735,7 @@ tsglm.newark.model6.2 <- tsglm(ts    = ts.newark,
                                  model = list(past_obs = 1),
                                  xreg = regressors.newark,
                                  distr = 'nbinom')
-interv_test(tsglm.newark.model6.2, tau = 23, delta = 1)
+## interv_test(tsglm.newark.model6.2, tau = 24, delta = 1)
 ## Rochdale
 ts.rochdale <- filter(ed_attendances_by_mode_measure,
                      town %in% c('Rochdale', 'Rotherham')) %>% as.data.frame() %>% .[,'value']
@@ -729,7 +749,7 @@ tsglm.rochdale.model6.2 <- tsglm(ts    = ts.rochdale,
                                  model = list(past_obs = 1),
                                  xreg = regressors.rochdale,
                                  distr = 'nbinom')
-interv_test(tsglm.rochdale.model6.2, tau = 23, delta = 1)
+## interv_test(tsglm.rochdale.model6.2, tau = 23, delta = 1)
 
 ## Model 7 - All Case sites and primary matched controls
 ts.vec <- filter(ed_attendances_by_mode_measure,
@@ -758,7 +778,7 @@ tsglm.all.model7 <- tsglm(ts    = ts.vec,
                                  model = list(past_obs = 1),
                                  xreg = regressors,
                                  distr = 'nbinom')
-interv_test(tsglm.bishop.model0, tau = 23, delta = 1)
+## interv_test(tsglm.bishop.model0, tau = 23, delta = 1)
 
 save(tsglm.bishop.model0,
      tsglm.hartlepool.model0,
