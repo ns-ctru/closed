@@ -47,7 +47,7 @@ closed_forest <- function(df.list       = list(bishop.attendance.any.matched$coe
                           theme         = theme_bw(),
                           latex         = FALSE,
                           html          = FALSE,
-                          model         = 'prais'
+                          model         = 'prais',
                           ...){
     ## Inititiate list for returning results
     results <- list()
@@ -84,10 +84,11 @@ closed_forest <- function(df.list       = list(bishop.attendance.any.matched$coe
         results$summary <- dplyr::select(df, site, term, Estimate, SE, P) %>%
                            arrange(site, term)
         names(df) <- c('est', 'se', 't', 'pvalue', 'Term', 'site', 'indicator', 'sub.indicator')
+        xaxis <- 'Prais-Winsten Time-series Estimate'
     }
-    ## else if(model == 'tscount'){
-    ##     df <- filter(df, coefficient == 'closure')
-    ## }
+    else if(model == 'tscount'){
+        xaxis <- 'Negative-Binomial log-linear Time-series Estimate'
+    }
     #########################################################################
     ## Use data frame to produce forest plot                               ##
     #########################################################################
@@ -103,7 +104,7 @@ closed_forest <- function(df.list       = list(bishop.attendance.any.matched$coe
                       ## geom_point(position = pd) +
                       geom_point() +
                       geom_vline(xintercept = 0,linetype = "dashed") +
-                      ylab("Closed ED") + xlab('Prais-Winsten Time-series Estimate') +
+                      ylab("Closed ED") + xlab(xaxis) +
                       ggtitle(title)
     if(plot.ci == FALSE){
         results$forest <- results$forest +
