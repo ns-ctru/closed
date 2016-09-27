@@ -17,6 +17,7 @@
 #' @param theme GGplot2 theme to use.
 #' @param latex Produce results table in LaTeX format using Stargazer.
 #' @param html Produce results table in HTML format using Stargazer.
+#' @param model Indicator of whether the data to be plotted is from \code{panelAR} (use \code{prais}) or \code{tscount} (use \code{tscount}).
 #'
 #' @return A list of results depending on the options specified.
 #'
@@ -46,6 +47,7 @@ closed_forest <- function(df.list       = list(bishop.attendance.any.matched$coe
                           theme         = theme_bw(),
                           latex         = FALSE,
                           html          = FALSE,
+                          model         = 'prais'
                           ...){
     ## Inititiate list for returning results
     results <- list()
@@ -72,15 +74,20 @@ closed_forest <- function(df.list       = list(bishop.attendance.any.matched$coe
     #########################################################################
     ## Bind everything together (works for arbitrary number of supplied data frames)
     ## ToDo - Might be more efficient/faster to use rbind_list() from dplyr
-    df <- do.call(rbind, df.list)
-    ## Tidy row and column names
-    row.names(df) <- NULL
-    ## Return data frame for printing as kable
-    names(df) <- gsub('Std\\. Error', 'SE', names(df))
-    names(df) <- c('Estimate', 'SE', 't value', 'P', 'term', 'site','indicator', 'sub.indicator')
-    results$summary <- dplyr::select(df, site, term, Estimate, SE, P) %>%
-                       arrange(site, term)
-    names(df) <- c('est', 'se', 't', 'pvalue', 'Term', 'site', 'indicator', 'sub.indicator')
+    if(model == 'prais'){
+        df <- do.call(rbind, df.list)
+        ## Tidy row and column names
+        row.names(df) <- NULL
+        ## Return data frame for printing as kable
+        names(df) <- gsub('Std\\. Error', 'SE', names(df))
+        names(df) <- c('Estimate', 'SE', 't value', 'P', 'term', 'site','indicator', 'sub.indicator')
+        results$summary <- dplyr::select(df, site, term, Estimate, SE, P) %>%
+                           arrange(site, term)
+        names(df) <- c('est', 'se', 't', 'pvalue', 'Term', 'site', 'indicator', 'sub.indicator')
+    }
+    ## else if(model == 'tscount'){
+    ##     df <- filter(df, coefficient == 'closure')
+    ## }
     #########################################################################
     ## Use data frame to produce forest plot                               ##
     #########################################################################
