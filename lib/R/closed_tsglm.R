@@ -412,19 +412,6 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                                       sub.indicator,
                                                                       ')'),
                                                theme         = theme_bw())
-        ## results$model0.forest <- closed_forest(df.list       = list(results$model0.tsglm.bishop.coef,
-        ##                                                             results$model0.tsglm.hartlepool.coef,
-        ##                                                             results$model0.tsglm.hemel.coef,
-        ##                                                             results$model0.tsglm.newark.coef,
-        ##                                                             results$model0.tsglm.rochdale.coef),
-        ##                                        plot.term     = c('closure'),
-        ##                                        facet.outcome = FALSE,
-        ##                                        title         = paste0('Model 1 : ',
-        ##                                                               indicator,
-        ##                                                               ' (',
-        ##                                                               sub.indicator,
-        ##                                                               ')'),
-        ##                                        theme         = theme_bw())
         ## Return model objects if requested
         if(return.model == TRUE){
             if(exists('model0.tsglm.bishop')){
@@ -469,6 +456,180 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
     #######################################################################
     ## Model 1                                                           ##
     #######################################################################
+    if(!is.null(model1)){
+        ## print("Model 1")
+        ## Subset data
+        sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
+        df1 <- filter(df.trust,
+                      town %in% sites &
+                      measure     == indicator &
+                      sub.measure == sub.indicator)
+        ##################################################
+        ## Model 1 - Bishop Auckland                    ##
+        ##################################################
+        ## print("Bishop Auckland")
+        ts.vector  <- filter(df1,
+                             town        == 'Bishop Auckland') %>%
+                      as.data.frame() %>% .[,'value']
+        regressors <- filter(df1,
+                             town        == 'Bishop Auckland') %>%
+                      dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111)
+        ## return(t)
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
+            model1.tsglm.bishop <- tsglm(ts = ts.vector,
+                                         link = tsglm.link,
+                                         model = tsglm.model,
+                                         xreg  = regressors,
+                                         distr = tsglm.distr)
+            results$model1.tsglm.bishop.coef <- se(model1.tsglm.bishop)
+            results$model1.tsglm.rochdale.coef$site          <- 'Bishop Auckland'
+            results$model1.tsglm.rochdale.coef$indicator     <- indicator
+            results$model1.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+        }
+        ##################################################
+        ## Model 1 - Hartlepool                         ##
+        ##################################################
+        ## print("Hartlepool")
+        ts.vector  <- filter(df1,
+                             town        == 'Hartlepool') %>%
+                      as.data.frame() %>% .[,'value']
+        regressors <- filter(df1,
+                             town        == 'Hartlepool') %>%
+                      dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre)
+        if(town.group$n[town.group$town == 'Hartlepool'] > 0){
+            model1.tsglm.hartlepool <- tsglm(ts = ts.vector,
+                                             link = tsglm.link,
+                                             model = tsglm.model,
+                                             xreg  = regressors,
+                                             distr = tsglm.distr)
+            results$model1.tsglm.hartlepool.coef <- se(model1.tsglm.hartlepool)
+            results$model1.tsglm.rochdale.coef$site          <- 'Hartlepool'
+            results$model1.tsglm.rochdale.coef$indicator     <- indicator
+            results$model1.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+        }
+        ##################################################
+        ## Model 1 - Hemel Hempstead                    ##
+        ##################################################
+        ## print("Hemel Hempstead")
+        ts.vector  <- filter(df1,
+                             town        == 'Hemel Hempstead') %>%
+                      as.data.frame() %>% .[,'value']
+        regressors <- filter(df1,
+                             town        == 'Hemel Hempstead') %>%
+                      dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, other.centre)
+        if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0){
+            model1.tsglm.hemel <- tsglm(ts = ts.vector,
+                                        link = tsglm.link,
+                                        model = tsglm.model,
+                                        xreg  = regressors,
+                                        distr = tsglm.distr)
+            results$model1.tsglm.hemel.coef <- se(model1.tsglm.hemel)
+            results$model1.tsglm.rochdale.coef$site          <- 'Hemel Hempstead'
+            results$model1.tsglm.rochdale.coef$indicator     <- indicator
+            results$model1.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+        }
+        ##################################################
+        ## Model 1 - Newark                             ##
+        ##################################################
+        ## print("Newark")
+        ts.vector  <- filter(df1,
+                             town        == 'Newark') %>%
+                      as.data.frame() %>% .[,'value']
+        regressors <- filter(df1,
+                             town        == 'Newark') %>%
+                      dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, other.centre)
+        if(town.group$n[town.group$town == 'Newark'] > 0){
+            model1.tsglm.newark <- tsglm(ts = ts.vector,
+                                         link = tsglm.link,
+                                         model = tsglm.model,
+                                         xreg  = regressors,
+                                         distr = tsglm.distr)
+            results$model1.tsglm.newark.coef <- se(model1.tsglm.newark)
+            results$model1.tsglm.rochdale.coef$site          <- 'Newark'
+            results$model1.tsglm.rochdale.coef$indicator     <- indicator
+            results$model1.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+        }
+        ##################################################
+        ## Model 1 - Rochdale                           ##
+        ##################################################
+        ## print("Rochdale")
+        ts.vector  <- filter(df1,
+                             town        == 'Rochdale') %>%
+                      as.data.frame() %>% .[,'value']
+        regressors <- filter(df1,
+                             town        == 'Rochdale') %>%
+                      dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert)
+        if(town.group$n[town.group$town == 'Rochdale'] > 0){
+            model1.tsglm.rochdale <- tsglm(ts = ts.vector,
+                                           link = tsglm.link,
+                                           model = tsglm.model,
+                                           xreg  = regressors,
+                                           distr = tsglm.distr)
+            results$model1.tsglm.rochdale.coef <- se(model1.tsglm.rochdale)
+            results$model1.tsglm.rochdale.coef$site          <- 'Rochdale'
+            results$model1.tsglm.rochdale.coef$indicator     <- indicator
+            results$model1.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+        }
+        ## Summary table
+        results$model1.tsglm.coefficients <- combine_coefficients(bishop.coef     = results$model1.tsglm.bishop.coef,
+                                                                  hartlepool.coef = results$model1.tsglm.hartlepool.coef,
+                                                                  hemel.coef      = results$model1.tsglm.hemel.coef,
+                                                                  newark.coef     = results$model1.tsglm.newark.coef,
+                                                                  rochdale.coef   = results$model1.tsglm.rochdale.coef,
+                                                                  .indicator      = indicator,
+                                                                  .sub.indicator  = sub.indicator)
+        ## Extract coefficients for plotting
+        ## ## Forest plot
+        results$model1.forest <- closed_forest(df.list = list(results$model1.tsglm.coefficients),
+                                               plot.term     = c('closure'),
+                                               facet.outcome = FALSE,
+                                               title         = paste1('Model 1 : ',
+                                                                      indicator,
+                                                                      ' (',
+                                                                      sub.indicator,
+                                                                      ')'),
+                                               theme         = theme_bw())
+        ## Return model objects if requested
+        if(return.model == TRUE){
+            if(exists('model1.tsglm.bishop')){
+                results$model1.tsglm.bishop     <- model1.tsglm.bishop
+            }
+            if(exists('model1.tsglm.hartlepool')){
+                results$model1.tsglm.hartlepool <- model1.tsglm.hartlepool
+            }
+            if(exists('model1.tsglm.hemel')){
+                results$model1.tsglm.hemel      <- model1.tsglm.hemel
+            }
+            if(exists('model1.tsglm.newark')){
+                results$model1.tsglm.newark     <- model1.tsglm.newark
+            }
+            if(exists('model1.tsglm.rochdale')){
+                results$model1.tsglm.rochdale   <- model1.tsglm.rochdale
+            }
+        }
+        if(return.df == TRUE){
+            results$model1.df <- df1
+        }
+        if(return.residuals == TRUE){
+            if(exists('model1.tsglm.bishop')){
+                results$model1.tsglm.residuals.bishop     <- summary(model1.tsglm.bishop)$residuals
+            }
+            if(exists('model1.tsglm.hartlepool')){
+                results$model1.tsglm.residuals.hartlepool <- summary(model1.tsglm.hartlepool)$residuals
+            }
+            if(exists('model1.tsglm.hemel')){
+                results$model1.tsglm.residuals.hemel      <- summary(model1.tsglm.hemel)$residuals
+            }
+            if(exists('model1.tsglm.newark')){
+                results$model1.tsglm.residuals.newark     <- summary(model1.tsglm.newark)$residuals
+            }
+            if(exists('model1.tsglm.rochdale')){
+                results$model1.tsglm.residuals.rochdale   <- summary(model1.tsglm.rochdale)$residuals
+            }
+        }
+        ## Remove clutter
+        rm(df1)
+    }
     ## if(!is.null(model1)){
     ##     ## print("Model 1")
     ##     ## Reformulate outcome and covariates
