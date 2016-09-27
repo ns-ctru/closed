@@ -204,7 +204,7 @@ tsglm.newark.model1 <- tsglm(ts    = ts.newark,
                                  model = list(past_obs = 1),
                                  xreg = regressors.newark,
                                  distr = 'nbinom')
-interv_test(tsglm.newark.model1, tau = c(3, 24), delta = (1, 1))
+interv_test(tsglm.newark.model1, tau = c(3, 24), delta = c(1, 1))
 ## Rochdale
 ts.rochdale <- filter(ed_attendances_by_mode_site_measure_clean,
                      town == 'Rochdale') %>% as.data.frame() %>% .[,'value']
@@ -385,7 +385,7 @@ tsglm.hemel.model3.1 <- tsglm(ts    = ts.hemel,
                                  model = list(past_obs = 1),
                                  xreg = regressors.hemel,
                                  distr = 'nbinom')
-interv_test(tsglm.hemel.model3.1, tau = c(20, 23), delta = (1, 1))
+interv_test(tsglm.hemel.model3.1, tau = c(20, 23), delta = c(1, 1))
 ## Newark
 ts.newark <- filter(ed_attendances_by_mode_site_measure_clean,
                      town %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')) %>% as.data.frame() %>% .[,'value']
