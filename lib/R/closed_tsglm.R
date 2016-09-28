@@ -839,8 +839,8 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ts.vector  <- filter(df3.1,
                              town        %in% c('Bishop Auckland', 'Whitehaven', 'Salford', 'Scarborough')) %>%
                       as.data.frame() %>% .[,'value']
-        df3.1$town_ <- relevel(df3.1$town, ref == 'Whitehaven')
-        town <- model.matrix(~df2$town_) %>% as.data.frame()
+        df3.1$town_ <- relevel(df3.1$town, ref = 'Whitehaven')
+        town <- model.matrix(~df3.1$town_) %>% as.data.frame()
         names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'wigan', 'yeovil')
         regressors <- cbind(df3.1, town) %>%
                       filter(town        %in% c('Bishop Auckland', 'Whitehaven', 'Salford', 'Scarborough')) %>%
@@ -864,8 +864,8 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ts.vector  <- filter(df3.1,
                              town        %in% c('Hartlepool', 'Grimsby', 'Blackburn', 'Wigan')) %>%
                       as.data.frame() %>% .[,'value']
-        df3.1$town_ <- relevel(df3.1$town, ref == 'Grimsby')
-        town <- model.matrix(~df2$town_) %>% as.data.frame()
+        df3.1$town_ <- relevel(df3.1$town, ref = 'Grimsby')
+        town <- model.matrix(~df3.1$town_) %>% as.data.frame()
         names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'whitehaven', 'wigan', 'yeovil')
         regressors <- cbind(df3.1, town) %>%
                       filter(town        %in% c('Hartlepool', 'Grimsby', 'Blackburn', 'Wigan')) %>%
@@ -888,8 +888,8 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ts.vector  <- filter(df3.1,
                              town        %in% c('Hemel Hempstead', 'Warwick', 'Basingstoke', 'Yeovil')) %>%
                       as.data.frame() %>% .[,'value']
-        df3.1$town_ <- relevel(df3.1$town, ref == 'Warwick')
-        town <- model.matrix(~df2$town_) %>% as.data.frame()
+        df3.1$town_ <- relevel(df3.1$town, ref = 'Warwick')
+        town <- model.matrix(~df3.1$town_) %>% as.data.frame()
         names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'whitehaven', 'wigan', 'yeovil')
         regressors <- cbind(df3.1, town) %>%
                       filter(town        %in% c('Hemel Hempstead', 'Warwick', 'Basingstoke', 'Yeovil')) %>%
@@ -912,8 +912,8 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ts.vector  <- filter(df3.1,
                              town        %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')) %>%
                       as.data.frame() %>% .[,'value']
-        df3.1$town_ <- relevel(df3.1$town, ref == 'Warwick')
-        town <- model.matrix(~df2$town_) %>% as.data.frame()
+        df3.1$town_ <- relevel(df3.1$town, ref = 'Warwick')
+        town <- model.matrix(~df3.1$town_) %>% as.data.frame()
         names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'wansbeck', 'warwick', 'whitehaven', 'wigan', 'yeovil')
         regressors <- cbind(df3.1, town) %>%
                       filter(town        %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')) %>%
@@ -936,8 +936,8 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ts.vector  <- filter(df3.1,
                              town        %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')) %>%
                       as.data.frame() %>% .[,'value']
-        df3.1$town_ <- relevel(df3.1$town, ref == 'Warwick')
-        town <- model.matrix(~df2$town_) %>% as.data.frame()
+        df3.1$town_ <- relevel(df3.1$town, ref = 'Warwick')
+        town <- model.matrix(~df3.1$town_) %>% as.data.frame()
         names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'whitehaven', 'wigan', 'yeovil')
         regressors <- cbind(df3.1, town) %>%
                       filter(town        %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')) %>%
