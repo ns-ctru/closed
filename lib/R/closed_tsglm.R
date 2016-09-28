@@ -230,6 +230,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                      hemel.coef      = results$model0.tsglm.hemel.coef,
                                      newark.coef     = results$model0.tsglm.newark.coef,
                                      rochdale.coef   = results$model0.tsglm.rochdale.coef,
+                                     all.coef        = NULL,
                                      .indicator      = indicator,
                                      .sub.indicator  = sub.indicator){
         ## List of results
@@ -265,11 +266,27 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                   data.frame()
         rochdale$coefficient <- rownames(rochdale)
         rochdale$town <- 'Rochdale'
-        .coefficients <- rbind(bishop,
-                               hartlepool,
-                               hemel,
-                               newark,
-                               rochdale)
+        if(!is.null(all.coef)){
+            all <- cbind(all.coef$est,
+                         all.coef$se,
+                         all.coef$ci) %>%
+                data.frame()
+            all$coefficient <- rownames(all)
+            all$town <- 'All'
+            .coefficients <- rbind(bishop,
+                                   hartlepool,
+                                   hemel,
+                                   newark,
+                                   rochdale,
+                                   all)
+        }
+        else{
+            .coefficients <- rbind(bishop,
+                                   hartlepool,
+                                   hemel,
+                                   newark,
+                                   rochdale)
+        }
         names(.coefficients)        <- c('est', 'se', 'lower', 'upper', 'coefficient', 'town')
         rownames(.coefficients) <- NULL
         .coefficients$indicator     <- .indicator
@@ -1217,10 +1234,11 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                              town        %in% c('Bishop Auckland', 'Whitehaven', 'Hartlepool', 'Grimsby', 'Hemel Hempstead', 'Warwick', 'Newark', 'Southport', 'Rochdale', 'Rotherham')) %>%
             as.data.frame() %>% .[,'value']
         df4$town_ <- relevel(df4$town, ref = 'Whitehaven')
-        town <- model.matrix(~df4$town_)
-        names(town) <-c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'wigan', 'yeovil')
+        town <- model.matrix(~df4$town_) %>% as.data.frame()
+        names(town) %>% print()
+        names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'wigan', 'yeovil')
         regressors <- cbind(df4, town) %>%
-                      filter(town        %in% c('Bishop Auckland', 'Whitehaven', 'Hartlepool', 'Grimsby', 'Hemel Hempstead', 'Warwick', 'Newark', 'Southport', 'Rochdale', 'Rotherham')) %>%
+                      filter(town %in% c('Bishop Auckland', 'Whitehaven', 'Hartlepool', 'Grimsby', 'Hemel Hempstead', 'Warwick', 'Newark', 'Southport', 'Rochdale', 'Rotherham')) %>%
                       dplyr::select(bishop, hartlepool, grimsby, hemel, warwick, newark, southport, rochdale, rotherham, closure, season2, season3, season4, season5, season6, relative.month, nhs111)
         ## return(t)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
@@ -1235,11 +1253,12 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
             results$model4.tsglm.all.coef$sub.indicator <- sub.indicator
         }
         ## Summary table
-        results$model4.tsglm.coefficients <- combine_coefficients(bishop.coef     = results$model4.tsglm.bishop.coef,
-                                                                  hartlepool.coef = results$model4.tsglm.hartlepool.coef,
-                                                                  hemel.coef      = results$model4.tsglm.hemel.coef,
-                                                                  newark.coef     = results$model4.tsglm.newark.coef,
-                                                                  rochdale.coef   = results$model4.tsglm.rochdale.coef,
+        results$model4.tsglm.coefficients <- combine_coefficients(bishop.coef     = results$model2.tsglm.bishop.coef,
+                                                                  hartlepool.coef = results$model2.tsglm.hartlepool.coef,
+                                                                  hemel.coef      = results$model2.tsglm.hemel.coef,
+                                                                  newark.coef     = results$model2.tsglm.newark.coef,
+                                                                  rochdale.coef   = results$model2.tsglm.rochdale.coef,
+                                                                  all.coef        = results$model4.tsglm.all.coef,
                                                                   .indicator      = indicator,
                                                                   .sub.indicator  = sub.indicator)
         ## Extract coefficients for plotting
