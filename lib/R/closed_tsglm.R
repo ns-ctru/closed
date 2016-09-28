@@ -639,9 +639,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ## Subset data
         sites <- c('Bishop Auckland', 'Whitehaven',
                    'Hartlepool', 'Grimsby',
-                   'Hemel Hempstead',
-                   'Newark',
-                   'Rochdale')
+                   'Hemel Hempstead', 'Warwick',
+                   'Newark', 'Southport',
+                   'Rochdale', 'Rotherham')
         df2 <- filter(df.trust,
                       town %in% sites &
                       measure     == indicator &
@@ -653,7 +653,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ts.vector  <- filter(df2,
                              town        %in% c('Bishop Auckland', 'Whitehaven')) %>%
                       as.data.frame() %>% .[,'value']
-        df2$town_ <- ifelse(df2%town == 'Bishop Auckland', 1, 0)
+        df2$town_ <- ifelse(df2$town == 'Bishop Auckland', 1, 0)
         df2$town_closure <- df2$town_ * df2$closure
         regressors <- filter(df2,
                              town        %in% c('Bishop Auckland', 'Whitehaven')) %>%
@@ -677,7 +677,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ts.vector  <- filter(df2,
                              town        %in% c('Hartlepool', 'Grimsby')) %>%
                       as.data.frame() %>% .[,'value']
-        df2$town_ <- ifelse(df2%town == 'Hartlepool', 1, 0)
+        df2$town_ <- ifelse(df2$town == 'Hartlepool', 1, 0)
         df2$town_closure <- df2$town_ * df2$closure
         regressors <- filter(df2,
                              town        %in% c('Hartlepool', 'Grimsby')) %>%
@@ -700,7 +700,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ts.vector  <- filter(df2,
                              town        %in% c('Hemel Hempstead', 'Warwick')) %>%
                       as.data.frame() %>% .[,'value']
-        df2$town_ <- ifelse(df2%town == 'Hemel Hempstead', 1, 0)
+        df2$town_ <- ifelse(df2$town == 'Hemel Hempstead', 1, 0)
         df2$town_closure <- df2$town_ * df2$closure
         regressors <- filter(df2,
                              town        %in% c('Hemel Hempstead', 'Warwick')) %>%
@@ -723,7 +723,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ts.vector  <- filter(df2,
                              town        %in% c('Newark', 'Southport')) %>%
                       as.data.frame() %>% .[,'value']
-        df2$town_ <- ifelse(df2%town == 'Newark', 1, 0)
+        df2$town_ <- ifelse(df2$town == 'Newark', 1, 0)
         df2$town_closure <- df2$town_ * df2$closure
         regressors <- filter(df2,
                              town        %in% c('Newark', 'Southport')) %>%
@@ -746,7 +746,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ts.vector  <- filter(df2,
                              town        %in% c('Rochdale', 'Rotherham')) %>%
                       as.data.frame() %>% .[,'value']
-        df2$town_ <- ifelse(df2%town == 'Rochdale', 1, 0)
+        df2$town_ <- ifelse(df2$town == 'Rochdale', 1, 0)
         df2$town_closure <- df2$town_ * df2$closure
         regressors <- filter(df2,
                              town        %in% c('Rochdale', 'Rotherham')) %>%
