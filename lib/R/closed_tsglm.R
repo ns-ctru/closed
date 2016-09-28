@@ -1294,7 +1294,6 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ## Remove clutter
         rm(df4)
     }
-
     #######################################################################
     ## Model 5                                                           ##
     #######################################################################
@@ -1365,7 +1364,6 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ## Remove clutter
         rm(df5)
     }
-
     #######################################################################
     ## Model 6.1                                                         ##
     #######################################################################
@@ -1543,7 +1541,6 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ## Remove clutter
         rm(df6.1)
     }
-
     #######################################################################
     ## Model 6.2                                                         ##
     #######################################################################
@@ -1734,6 +1731,77 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         }
         ## Remove clutter
         rm(df6.2)
+    }
+
+    #######################################################################
+    ## Model 7                                                           ##
+    #######################################################################
+    if(!is.null(model7)){
+        ## print("Model 4")
+        ## Subset data
+        df7 <- filter(df.lsoa,
+                      ## town %in% sites &
+                      measure     == indicator &
+                      sub.measure == sub.indicator)
+        ##################################################
+        ## Model 7 - All                                ##
+        ##################################################
+        ## print("Bishop Auckland")
+        ts.vector  <- as.data.frame(df7) %>% .[,'value']
+        df7$town_ <- relevel(df7$town, ref = 'Whitehaven')
+        town <- model.matrix(~df7$town_) %>% as.data.frame()
+        names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'wigan', 'yeovil')
+        town <- dplyr::select(town, -Intercept)
+        regressors <- dplyr::select(df7, closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert)
+        regressors <- cbind(regressors, town)
+        ## return(t)
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
+            model7.tsglm.all <- tsglm(ts = ts.vector,
+                                         link = tsglm.link,
+                                         model = tsglm.model,
+                                         xreg  = regressors,
+                                         distr = tsglm.distr)
+            results$model7.tsglm.all.coef <- se(model7.tsglm.all)
+            results$model7.tsglm.all.coef$site          <- 'All'
+            results$model7.tsglm.all.coef$indicator     <- indicator
+            results$model7.tsglm.all.coef$sub.indicator <- sub.indicator
+        }
+        ## Summary table
+        results$model7.tsglm.coefficients <- combine_coefficients(bishop.coef     = results$model3.1.tsglm.bishop.coef,
+                                                                  hartlepool.coef = results$model3.1.tsglm.hartlepool.coef,
+                                                                  hemel.coef      = results$model3.1.tsglm.hemel.coef,
+                                                                  newark.coef     = results$model3.1.tsglm.newark.coef,
+                                                                  rochdale.coef   = results$model3.1.tsglm.rochdale.coef,
+                                                                  all.coef        = results$model7.tsglm.all.coef,
+                                                                  .indicator      = indicator,
+                                                                  .sub.indicator  = sub.indicator)
+        ## Extract coefficients for plotting
+        ## ## Forest plot
+        results$model7.forest <- closed_forest(df.list = list(results$model7.tsglm.coefficients),
+                                               plot.term     = c('closure'),
+                                               facet.outcome = FALSE,
+                                               title         = paste0('Model 7 : ',
+                                                                      indicator,
+                                                                      ' (',
+                                                                      sub.indicator,
+                                                                      ')'),
+                                               theme         = theme_bw())
+        ## Return model objects if requested
+        if(return.model == TRUE){
+            if(exists('model7.tsglm.all')){
+                results$model7.tsglm.all     <- model7.tsglm.all
+            }
+        }
+        if(return.df == TRUE){
+            results$model7.df <- df7
+        }
+        if(return.residuals == TRUE){
+            if(exists('model7.tsglm.all')){
+                results$model7.tsglm.residuals.all     <- summary(model7.tsglm.all)$residuals
+            }
+        }
+        ## Remove clutter
+        rm(df7)
     }
 
     #######################################################################
