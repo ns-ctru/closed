@@ -1215,7 +1215,6 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ## Remove clutter
         rm(df3.2)
     }
-
     #######################################################################
     ## Model 4                                                           ##
     #######################################################################
@@ -1227,7 +1226,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                       measure     == indicator &
                       sub.measure == sub.indicator)
         ##################################################
-        ## Model 4 - Bishop Auckland                  ##
+        ## Model 4 - All                                ##
         ##################################################
         ## print("Bishop Auckland")
         ts.vector  <- filter(df4,
@@ -1235,11 +1234,10 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
             as.data.frame() %>% .[,'value']
         df4$town_ <- relevel(df4$town, ref = 'Whitehaven')
         town <- model.matrix(~df4$town_) %>% as.data.frame()
-        names(town) %>% print()
         names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'wigan', 'yeovil')
         regressors <- cbind(df4, town) %>%
                       filter(town %in% c('Bishop Auckland', 'Whitehaven', 'Hartlepool', 'Grimsby', 'Hemel Hempstead', 'Warwick', 'Newark', 'Southport', 'Rochdale', 'Rotherham')) %>%
-                      dplyr::select(bishop, hartlepool, grimsby, hemel, warwick, newark, southport, rochdale, rotherham, closure, season2, season3, season4, season5, season6, relative.month, nhs111)
+                      dplyr::select(bishop, hartlepool, grimsby, hemel, warwick, newark, southport, rochdale, rotherham, closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert)
         ## return(t)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
             model4.tsglm.all <- tsglm(ts = ts.vector,
@@ -1248,7 +1246,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                          xreg  = regressors,
                                          distr = tsglm.distr)
             results$model4.tsglm.all.coef <- se(model4.tsglm.all)
-            results$model4.tsglm.all.coef$site          <- 'Bishop Auckland'
+            results$model4.tsglm.all.coef$site          <- 'All'
             results$model4.tsglm.all.coef$indicator     <- indicator
             results$model4.tsglm.all.coef$sub.indicator <- sub.indicator
         }
@@ -1274,40 +1272,16 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                theme         = theme_bw())
         ## Return model objects if requested
         if(return.model == TRUE){
-            if(exists('model4.tsglm.bishop')){
-                results$model4.tsglm.bishop     <- model4.tsglm.bishop
-            }
-            if(exists('model4.tsglm.hartlepool')){
-                results$model4.tsglm.hartlepool <- model4.tsglm.hartlepool
-            }
-            if(exists('model4.tsglm.hemel')){
-                results$model4.tsglm.hemel      <- model4.tsglm.hemel
-            }
-            if(exists('model4.tsglm.newark')){
-                results$model4.tsglm.newark     <- model4.tsglm.newark
-            }
-            if(exists('model4.tsglm.rochdale')){
-                results$model4.tsglm.rochdale   <- model4.tsglm.rochdale
+            if(exists('model4.tsglm.all')){
+                results$model4.tsglm.all     <- model4.tsglm.all
             }
         }
         if(return.df == TRUE){
             results$model4.df <- df4
         }
         if(return.residuals == TRUE){
-            if(exists('model4.tsglm.bishop')){
-                results$model4.tsglm.residuals.bishop     <- summary(model4.tsglm.bishop)$residuals
-            }
-            if(exists('model4.tsglm.hartlepool')){
-                results$model4.tsglm.residuals.hartlepool <- summary(model4.tsglm.hartlepool)$residuals
-            }
-            if(exists('model4.tsglm.hemel')){
-                results$model4.tsglm.residuals.hemel      <- summary(model4.tsglm.hemel)$residuals
-            }
-            if(exists('model4.tsglm.newark')){
-                results$model4.tsglm.residuals.newark     <- summary(model4.tsglm.newark)$residuals
-            }
-            if(exists('model4.tsglm.rochdale')){
-                results$model4.tsglm.residuals.rochdale   <- summary(model4.tsglm.rochdale)$residuals
+            if(exists('model4.tsglm.all')){
+                results$model4.tsglm.residuals.all     <- summary(model4.tsglm.all)$residuals
             }
         }
         ## Remove clutter
@@ -1317,6 +1291,74 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
     #######################################################################
     ## Model 5                                                           ##
     #######################################################################
+    if(!is.null(model5)){
+        ## print("Model 4")
+        ## Subset data
+        df5 <- filter(df.trust,
+                      ## town %in% sites &
+                      measure     == indicator &
+                      sub.measure == sub.indicator)
+        ##################################################
+        ## Model 5 - All                                ##
+        ##################################################
+        ## print("Bishop Auckland")
+        ts.vector  <- as.data.frame(df5) %>% .[,'value']
+        df5$town_ <- relevel(df5$town, ref = 'Whitehaven')
+        town <- model.matrix(~df5$town_) %>% as.data.frame()
+        names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'wigan', 'yeovil')
+        town <- dplyr::select(town, -Intercept)
+        regressors <- dplyr::select(df5, closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert)
+        regressors <- cbind(regressors, town)
+        ## return(t)
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
+            model5.tsglm.all <- tsglm(ts = ts.vector,
+                                         link = tsglm.link,
+                                         model = tsglm.model,
+                                         xreg  = regressors,
+                                         distr = tsglm.distr)
+            results$model5.tsglm.all.coef <- se(model5.tsglm.all)
+            results$model5.tsglm.all.coef$site          <- 'All'
+            results$model5.tsglm.all.coef$indicator     <- indicator
+            results$model5.tsglm.all.coef$sub.indicator <- sub.indicator
+        }
+        ## Summary table
+        results$model5.tsglm.coefficients <- combine_coefficients(bishop.coef     = results$model3.tsglm.bishop.coef,
+                                                                  hartlepool.coef = results$model3.tsglm.hartlepool.coef,
+                                                                  hemel.coef      = results$model3.tsglm.hemel.coef,
+                                                                  newark.coef     = results$model3.tsglm.newark.coef,
+                                                                  rochdale.coef   = results$model3.tsglm.rochdale.coef,
+                                                                  all.coef        = results$model5.tsglm.all.coef,
+                                                                  .indicator      = indicator,
+                                                                  .sub.indicator  = sub.indicator)
+        ## Extract coefficients for plotting
+        ## ## Forest plot
+        results$model5.forest <- closed_forest(df.list = list(results$model5.tsglm.coefficients),
+                                               plot.term     = c('closure'),
+                                               facet.outcome = FALSE,
+                                               title         = paste0('Model 5 : ',
+                                                                      indicator,
+                                                                      ' (',
+                                                                      sub.indicator,
+                                                                      ')'),
+                                               theme         = theme_bw())
+        ## Return model objects if requested
+        if(return.model == TRUE){
+            if(exists('model5.tsglm.all')){
+                results$model5.tsglm.all     <- model5.tsglm.all
+            }
+        }
+        if(return.df == TRUE){
+            results$model5.df <- df5
+        }
+        if(return.residuals == TRUE){
+            if(exists('model5.tsglm.all')){
+                results$model5.tsglm.residuals.all     <- summary(model5.tsglm.all)$residuals
+            }
+        }
+        ## Remove clutter
+        rm(df5)
+    }
+
     #######################################################################
     ## Model 6.1                                                         ##
     #######################################################################
