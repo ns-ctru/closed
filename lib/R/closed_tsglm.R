@@ -821,7 +821,6 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ## Remove clutter
         rm(df2)
     }
-
     #######################################################################
     ## Model 3.1                                                         ##
     #######################################################################
@@ -936,7 +935,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ts.vector  <- filter(df3.1,
                              town        %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')) %>%
                       as.data.frame() %>% .[,'value']
-        df3.1$town_ <- relevel(df3.1$town, ref = 'Warwick')
+        df3.1$town_ <- relevel(df3.1$town, ref = 'Rotherham')
         town <- model.matrix(~df3.1$town_) %>% as.data.frame()
         names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'whitehaven', 'wigan', 'yeovil')
         regressors <- cbind(df3.1, town) %>%
@@ -1014,303 +1013,193 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         rm(df3.1)
         }
 
-    ## #######################################################################
-    ## ## Model 3.2                                                           ##
-    ## #######################################################################
-    ## if(!is.null(model3.2)){
-    ##     ## print("Model 3.2")
-    ##     ## Reformulate outcome and covariates
-    ##     formula.model3.2 <- reformulate(response = outcome,
-    ##                                   termlabels = model3.2)
-    ##     ## Pool the data
-    ##     df3.2 <- closed_pool(df             = df.trust,
-    ##                        within.centres = TRUE)
-    ##     ## Define group pooling for controls (but DON'T pool the data!)
-    ##     ## df3.2 <- mutate(df3.2,
-    ##     ##               pooled.control = ifelse(site.type %in% c('matched control', 'pooled control'), 'Control', town))
-    ##     ## df3.2 <- mutate(df3.2,
-    ##     ##               pooled.control = ifelse(pooled.control == 2, 'Bishop Auckland', pooled.control),
-    ##     ##               pooled.control = ifelse(pooled.control == 6, 'Harltepool', pooled.control),
-    ##     ##               pooled.control = ifelse(pooled.control == 7, 'Hemel Hempstead', pooled.control),
-    ##     ##               pooled.control = ifelse(pooled.control == 8, 'Newark', pooled.control),
-    ##     ##               pooled.control = ifelse(pooled.control == 9, 'Rochdale', pooled.control))
-    ##     ## df3.2$pooled.control <- factor(df3.2$pooled.control)
-    ##     ## Set reference group for pooled controls
-    ##     df3.2$pooled.control <- relevel(df3.2$pooled.control, ref = 'Control')
-    ##     ## Generate Time-Series Plots
-    ##     df3.2$group <- paste0('Cohort : ', df3.2$group)
-    ##     sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Control')
-    ##     ## results$model3.2.ts.plot <- closed_ts_plot(df            = df3.2,
-    ##     ##                                          sites         = sites,
-    ##     ##                                          indicator     = indicator,
-    ##     ##                                          sub.indicator = sub.indicator,
-    ##     ##                                          steps         = TRUE,
-    ##     ##                                          lines         = TRUE,
-    ##     ##                                          xaxis.steps   = FALSE,
-    ##     ##                                          facet         = TRUE,
-    ##     ##                                          tidy          = TRUE,
-    ##     ##                                          join          = join.line,
-    ##     ##                                          legend        = legend,
-    ##     ##                                          pool.control  = FALSE) ## NB - This is FALSE because data has already been pooled
-    ##     ## Ensure relative.month is a numeric integer
-    ##     df3.2$relative.month <- as.integer(df3.2$relative.month) %>% as.numeric()
-    ##     ##################################################
-    ##     ## Bishop Auckland                              ##
-    ##     ##################################################
-    ##     ## print("Bishop Auckland")
-    ##     t <- filter(df3.2,
-    ##                 group == 'Cohort : Bishop Auckland General Hospital') %>%
-    ##         as.data.frame()
-    ##     if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
-    ##        town.group$n[town.group$town == 'Salford'] > 0 &
-    ##        town.group$n[town.group$town == 'Scarborough'] > 0 &
-    ##        town.group$n[town.group$town == 'Whitehaven'] > 0){
-    ##         ## print('Bishop Auckland')
-    ##         model3.2.panelar.bishop <- panelAR(data     = t,
-    ##                                           formula  = formula.model3.2,
-    ##                                           timeVar  = timevar,
-    ##                                           panelVar = panel.trust,
-    ##                                           autoCorr = autocorr,
-    ##                                           panelCorrMethod = 'pcse',
-    ##                                           complete.case = complete.case,
-    ##                                           seq.times = seq.times,
-    ##                                           rho.na.rm = rho.na.rm)
-    ##         results$model3.2.panelar.bishop.coef <- extract_coefficients(x              = model3.2.panelar.bishop,
-    ##                                                                    .site          = 'Bishop Auckland',
-    ##                                                                .indicator     = indicator,
-    ##                                                                .sub.indicator = sub.indicator)
-    ##         results$model3.2.panelar.bishop.r2 <- model3.2.panelar.bishop$r2
-    ##     }
-    ##     ##################################################
-    ##     ## Hartlepool                                   ##
-    ##     ##################################################
-    ##     ## print("Hartlepool")
-    ##     t <- filter(df3.2,
-    ##                 group == 'Cohort : University Hospital of Hartlepool') %>%
-    ##         as.data.frame()
-    ##     if(town.group$n[town.group$town == 'Hartlepool'] > 0 &
-    ##        town.group$n[town.group$town == 'Blackburn'] > 0 &
-    ##        town.group$n[town.group$town == 'Grimsby'] > 0 &
-    ##        town.group$n[town.group$town == 'Wigan'] > 0){
-    ##         ## print('Hartlepool')
-    ##         model3.2.panelar.hartlepool <- panelAR(data     = t,
-    ##                                               formula  = formula.model3.2,
-    ##                                                timeVar  = timevar,
-    ##                                                panelVar = panel.trust,
-    ##                                                autoCorr = autocorr,
-    ##                                                panelCorrMethod = 'pcse',
-    ##                                               complete.case = complete.case,
-    ##                                                seq.times = seq.times,
-    ##                                                rho.na.rm = rho.na.rm)
-    ##         results$model3.2.panelar.hartlepool.coef <- extract_coefficients(x             = model3.2.panelar.hartlepool,
-    ##                                                                        .site          = 'Hartlepool',
-    ##                                                                        .indicator     = indicator,
-    ##                                                                        .sub.indicator = sub.indicator)
-    ##         results$model3.2.panelar.hartlepool.r2 <- model3.2.panelar.hartlepool$r2
-    ##     }
-    ##     ##################################################
-    ##     ## Hemel Hempstead                              ##
-    ##     ##################################################
-    ##     ## print("Hemel Hempstead")
-    ##     t <- filter(df3.2,
-    ##                 group == 'Cohort : Hemel Hempstead Hospital') %>%
-    ##          as.data.frame()
-    ##     if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
-    ##        town.group$n[town.group$town == 'Basingstoke'] > 0 &
-    ##        town.group$n[town.group$town == 'Warwick'] > 0 &
-    ##        town.group$n[town.group$town == 'Yeovil'] > 0){
-    ##         ## print('Hemel Hempstead')
-    ##         model3.2.panelar.hemel <- panelAR(data     = t,
-    ##                                         formula  = formula.model3.2,
-    ##                                         timeVar  = timevar,
-    ##                                         panelVar = panel.trust,
-    ##                                         autoCorr = autocorr,
-    ##                                         panelCorrMethod = 'pcse',
-    ##                                         complete.case = complete.case,
-    ##                                         seq.times = seq.times,
-    ##                                         rho.na.rm = rho.na.rm)
-    ##         results$model3.2.panelar.hemel.coef <- extract_coefficients(x              = model3.2.panelar.hemel,
-    ##                                                                   .site          = 'Hemel Hempstead',
-    ##                                                                   .indicator     = indicator,
-    ##                                                                   .sub.indicator = sub.indicator)
-    ##         results$model3.2.panelar.hemel.r2 <- model3.2.panelar.hemel$r2
-    ##     }
-    ##     ##################################################
-    ##     ## Newark                                       ##
-    ##     ##################################################
-    ##     ## print("Newark")
-    ##     t <- filter(df3.2,
-    ##                 group == 'Cohort : Newark Hospital') %>%
-    ##          as.data.frame()
-    ##     if(town.group$n[town.group$town == 'Newark'] > 0 &
-    ##        town.group$n[town.group$town == 'Carlisle'] > 0 &
-    ##        town.group$n[town.group$town == 'Salisbury'] > 0 &
-    ##        town.group$n[town.group$town == 'Southport'] > 0){
-    ##         ## print('Newark')
-    ##         model3.2.panelar.newark <- panelAR(data     = t,
-    ##                                          formula  = formula.model3.2,
-    ##                                          timeVar  = timevar,
-    ##                                          panelVar = panel.trust,
-    ##                                          autoCorr = autocorr,
-    ##                                          panelCorrMethod = 'pcse',
-    ##                                          complete.case = complete.case,
-    ##                                          seq.times = seq.times,
-    ##                                          rho.na.rm = rho.na.rm)
-    ##         results$model3.2.panelar.newark.coef <- extract_coefficients(x              = model3.2.panelar.newark,
-    ##                                                                    .site          = 'Newark',
-    ##                                                                    .indicator     = indicator,
-    ##                                                                    .sub.indicator = sub.indicator)
-    ##         results$model3.2.panelar.newark.r2 <- model3.2.panelar.newark$r2
-    ##     }
-    ##     ##################################################
-    ##     ## Rochdale                                     ##
-    ##     ##################################################
-    ##     ## print("Rochdale")
-    ##     t <- filter(df3.2,
-    ##                 group == 'Cohort : Rochdale Infirmary') %>%
-    ##         as.data.frame()
-    ##     if(town.group$n[town.group$town == 'Rochdale'] > 0 &
-    ##        town.group$n[town.group$town == 'Rotherham'] > 0 &
-    ##        town.group$n[town.group$town == 'Scunthorpe'] > 0 &
-    ##        town.group$n[town.group$town == 'Wansbeck'] > 0){
-    ##         ## print('Rochdale')
-    ##         model3.2.panelar.rochdale <- panelAR(data     = t,
-    ##                                            formula  = formula.model3.2,
-    ##                                            timeVar  = timevar,
-    ##                                            panelVar = panel.trust,
-    ##                                            autoCorr = autocorr,
-    ##                                            panelCorrMethod = 'pcse',
-    ##                                            complete.case = complete.case,
-    ##                                            seq.times = seq.times,
-    ##                                            rho.na.rm = rho.na.rm)
-    ##         results$model3.2.panelar.rochdale.coef <- extract_coefficients(x            = model3.2.panelar.rochdale,
-    ##                                                                      .site          = 'Rochdale',
-    ##                                                                      .indicator     = indicator,
-    ##                                                                      .sub.indicator = sub.indicator)
-    ##         results$model3.2.panelar.rochdale.r2 <- model3.2.panelar.rochdale$r2
-    ##     }
-    ##     ##################################################
-    ##     ## All sites                                    ##
-    ##     ##################################################
-    ##     ## TODO - Maybe get this working
-    ##     ## Pool the data across centres
-    ##     ## df3.2 <- closed_pool(df             = df.trust,
-    ##     ##                    within.centres = FALSE)
-    ##     ## ## Remove 'season' from the model since that is only feasible when pooling within
-    ##     ## ## centres because months/dates do not align
-    ##     ## model3.2 <- gsub('season', '', model3.2)
-    ##     ## formula.model3.2 <- reformulate(response = outcome,
-    ##     ##                               termlabels = model3.2)
-    ##     ## t <- filter(df3.2,
-    ##     ##             measure     == indicator &
-    ##     ##             sub.measure == sub.indicator) %>%
-    ##     ##      as.data.frame()
-    ##     ## if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Salford'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Scarborough'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Whitehaven'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Hartlepool'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Blackburn'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Grimsby'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Wigan'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Basingstoke'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Warwick'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Yeovil'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Newark'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Carlisle'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Salisbury'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Southport'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Rochdale'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Rotherham'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Scunthorpe'] > 0 &
-    ##     ##    town.group$n[town.group$town == 'Wansbeck'] > 0){
-    ##     ##     table(t$town) %>% print()
-    ##     ##     formula.model3.2 %>% print()
-    ##     ##     model3.2.panelar.all <- panelAR(data     = t,
-    ##     ##                                    formula  = formula.model3.2,
-    ##     ##                                    timeVar  = timevar,
-    ##     ##                                    panelVar = panel.trust,
-    ##     ##                                    autoCorr = autocorr,
-    ##     ##                                    panelCorrMethod = 'pcse',
-    ##     ##                                    seq.times = seq.times,
-    ##     ##                                    rho.na.rm = rho.na.rm)
-    ##     ##     results$model3.2.panelar.all.coef <- extract_coefficients(x              = model3.2.panelar.all,
-    ##     ##                                                              .site          = 'All',
-    ##     ##                                                              .indicator     = indicator,
-    ##     ##                                                              .sub.indicator = sub.indicator)
-    ##     ##     results$model3.2.panelar.r2 <- model3.2.panelar.all
-    ##     ## }
-    ##     ## Summary table
-    ##     if(!is.null(results$model3.2.panelar.bishop.coef) |
-    ##        !is.null(results$model3.2.panelar.hartlepool.coef) |
-    ##        !is.null(results$model3.2.panelar.hemel.coef) |
-    ##        !is.null(results$model3.2.panelar.newark.coef) |
-    ##        !is.null(results$model3.2.panelar.rochdale.coef)){
-    ##        ## !is.null(results$model3.2.panelar.all.coef)){
-    ##         results$model3.2.panelar.all <- combine_coefficients(bishop.coef     = results$model3.2.panelar.bishop.coef,
-    ##                                                             hartlepool.coef = results$model3.2.panelar.hartlepool.coef,
-    ##                                                             hemel.coef      = results$model3.2.panelar.hemel.coef,
-    ##                                                             newark.coef     = results$model3.2.panelar.newark.coef,
-    ##                                                             rochdale.coef   = results$model3.2.panelar.rochdale.coef,
-    ##                                                             all.coef        = results$model3.2.panelar.all.coef)
-    ##         ## Forest plot
-    ##         results$model3.2.forest <- closed_forest(df.list       = list(results$model3.2.panelar.bishop.coef,
-    ##                                                                      results$model3.2.panelar.hartlepool.coef,
-    ##                                                                      results$model3.2.panelar.hemel.coef,
-    ##                                                                      results$model3.2.panelar.newark.coef,
-    ##                                                                      results$model3.2.panelar.rochdale.coef,
-    ##                                                                      results$model3.2.panelar.all.coef),
-    ##                                                 plot.term     = c('closure'),
-    ##                                                 facet.outcome = FALSE,
-    ##                                                 title         = paste0('Model 8 : ',
-    ##                                                                        indicator,
-    ##                                                                        ' (',
-    ##                                                                        sub.indicator,
-    ##                                                                        ')'),
-    ##                                                 theme         = theme_bw())
-    ##     }
-    ##     ## Return model objects if requested
-    ##     if(return.model == TRUE){
-    ##         if(exists('model3.2.panelar.bishop')){
-    ##             results$model3.2.panelar.bishop     <- model3.2.panelar.bishop
-    ##         }
-    ##         if(exists('model3.2.panelar.hartlepool')){
-    ##             results$model3.2.panelar.hartlepool <- model3.2.panelar.hartlepool
-    ##         }
-    ##         if(exists('model3.2.panelar.hemel')){
-    ##             results$model3.2.panelar.hemel      <- model3.2.panelar.hemel
-    ##         }
-    ##         if(exists('model3.2.panelar.newark')){
-    ##             results$model3.2.panelar.newark     <- model3.2.panelar.newark
-    ##         }
-    ##         if(exists('model3.2.panelar.rochdale')){
-    ##             results$model3.2.panelar.rochdale   <- model3.2.panelar.rochdale
-    ##         }
-    ##     }
-    ##     if(return.df == TRUE){
-    ##         results$model3.2.df <- df3.2
-    ##     }
-    ##     if(return.residuals == TRUE){
-    ##         if(exists('model3.2.panelar.bishop')){
-    ##             results$model3.2.panelar.residuals.bishop     <- summary(model3.2.panelar.bishop)$residuals
-    ##         }
-    ##         if(exists('model3.2.panelar.hartlepool')){
-    ##             results$model3.2.panelar.residuals.hartlepool <- summary(model3.2.panelar.hartlepool)$residuals
-    ##         }
-    ##         if(exists('model3.2.panelar.hemel')){
-    ##             results$model3.2.panelar.residuals.hemel      <- summary(model3.2.panelar.hemel)$residuals
-    ##         }
-    ##         if(exists('model3.2.panelar.newark')){
-    ##             results$model3.2.panelar.residuals.newark     <- summary(model3.2.panelar.newark)$residuals
-    ##         }
-    ##         if(exists('model3.2.panelar.rochdale')){
-    ##             results$model3.2.panelar.residuals.rochdale   <- summary(model3.2.panelar.rochdale)$residuals
-    ##         }
-    ##     }
-    ##     ## Remove clutter
-    ##     rm(df3.2)
-    ## }
+    #######################################################################
+    ## Model 3.2                                                         ##
+    #######################################################################
+    if(!is.null(model3.2)){
+        ## print("Model 3.2")
+        ## Subset data
+        df3.2 <- filter(df.trust,
+                      ## town %in% sites &
+                      measure     == indicator &
+                      sub.measure == sub.indicator)
+        ##################################################
+        ## Model 3.2 - Bishop Auckland                  ##
+        ##################################################
+        ## print("Bishop Auckland")
+        ts.vector  <- filter(df3.2,
+                             town        %in% c('Bishop Auckland', 'Whitehaven', 'Salford', 'Scarborough')) %>%
+                      as.data.frame() %>% .[,'value']
+        df3.2$town_ <- ifelse(df3.2$town == 'Bishop Auckland', 1, 0)
+        df3.2$town_closure <- df3.2$town_ * df3.2$closure
+        regressors <- filter(df3.2,
+                             town        %in% c('Bishop Auckland', 'Whitehaven', 'Salford', 'Scarborough')) %>%
+                      dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111)
+        ## return(t)
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
+            model3.2.tsglm.bishop <- tsglm(ts = ts.vector,
+                                         link = tsglm.link,
+                                         model = tsglm.model,
+                                         xreg  = regressors,
+                                         distr = tsglm.distr)
+            results$model3.2.tsglm.bishop.coef <- se(model3.2.tsglm.bishop)
+            results$model3.2.tsglm.rochdale.coef$site          <- 'Bishop Auckland'
+            results$model3.2.tsglm.rochdale.coef$indicator     <- indicator
+            results$model3.2.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+        }
+        ##################################################
+        ## Model 3.2 - Hartlepool                       ##
+        ##################################################
+        ## print("Hartlepool")
+        ts.vector  <- filter(df3.2,
+                             town        %in% c('Hartlepool', 'Grimsby', 'Blackburn', 'Wigan')) %>%
+                      as.data.frame() %>% .[,'value']
+        df3.2$town_ <- ifelse(df3.2$town == 'Hartlepool', 1, 0)
+        df3.2$town_closure <- df3.2$town_ * df3.2$closure
+        regressors <- filter(df3.2,
+                             town        %in% c('Hartlepool', 'Grimsby', 'Blackburn', 'Wigan')) %>%
+                      dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre)
+        if(town.group$n[town.group$town == 'Hartlepool'] > 0){
+            model3.2.tsglm.hartlepool <- tsglm(ts = ts.vector,
+                                             link = tsglm.link,
+                                             model = tsglm.model,
+                                             xreg  = regressors,
+                                             distr = tsglm.distr)
+            results$model3.2.tsglm.hartlepool.coef <- se(model3.2.tsglm.hartlepool)
+            results$model3.2.tsglm.rochdale.coef$site          <- 'Hartlepool'
+            results$model3.2.tsglm.rochdale.coef$indicator     <- indicator
+            results$model3.2.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+        }
+        ##################################################
+        ## Model 3.2 - Hemel Hempstead                  ##
+        ##################################################
+        ## print("Hemel Hempstead")
+        ts.vector  <- filter(df3.2,
+                             town        %in% c('Hemel Hempstead', 'Warwick', 'Basingstoke', 'Yeovil')) %>%
+                      as.data.frame() %>% .[,'value']
+        df3.2$town_ <- ifelse(df3.2$town == 'Hemel Hempstead', 1, 0)
+        df3.2$town_closure <- df3.2$town_ * df3.2$closure
+        regressors <- filter(df3.2,
+                             town        %in% c('Hemel Hempstead', 'Warwick', 'Basingstoke', 'Yeovil')) %>%
+                      dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, other.centre)
+        if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0){
+            model3.2.tsglm.hemel <- tsglm(ts = ts.vector,
+                                        link = tsglm.link,
+                                        model = tsglm.model,
+                                        xreg  = regressors,
+                                        distr = tsglm.distr)
+            results$model3.2.tsglm.hemel.coef <- se(model3.2.tsglm.hemel)
+            results$model3.2.tsglm.rochdale.coef$site          <- 'Hemel Hempstead'
+            results$model3.2.tsglm.rochdale.coef$indicator     <- indicator
+            results$model3.2.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+        }
+        ##################################################
+        ## Model 3.2 - Newark                           ##
+        ##################################################
+        ## print("Newark")
+        ts.vector  <- filter(df3.2,
+                             town        %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')) %>%
+                      as.data.frame() %>% .[,'value']
+        df3.2$town_ <- ifelse(df3.2$town == 'Newark', 1, 0)
+        df3.2$town_closure <- df3.2$town_ * df3.2$closure
+        regressors <- filter(df3.2,
+                             town        %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')) %>%
+                      dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, other.centre)
+        if(town.group$n[town.group$town == 'Newark'] > 0){
+            model3.2.tsglm.newark <- tsglm(ts = ts.vector,
+                                         link = tsglm.link,
+                                         model = tsglm.model,
+                                         xreg  = regressors,
+                                         distr = tsglm.distr)
+            results$model3.2.tsglm.newark.coef <- se(model3.2.tsglm.newark)
+            results$model3.2.tsglm.rochdale.coef$site          <- 'Newark'
+            results$model3.2.tsglm.rochdale.coef$indicator     <- indicator
+            results$model3.2.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+        }
+        ##################################################
+        ## Model 3.2 - Rochdale                         ##
+        ##################################################
+        ## print("Rochdale")
+        ts.vector  <- filter(df3.2,
+                             town        %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')) %>%
+                      as.data.frame() %>% .[,'value']
+        df3.2$town_ <- ifelse(df3.2$town == 'Rochdale', 1, 0)
+        df3.2$town_closure <- df3.2$town_ * df3.2$closure
+        regressors <- filter(df3.2,
+                             town        %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')) %>%
+                      dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert)
+        if(town.group$n[town.group$town == 'Rochdale'] > 0){
+            model3.2.tsglm.rochdale <- tsglm(ts = ts.vector,
+                                           link = tsglm.link,
+                                           model = tsglm.model,
+                                           xreg  = regressors,
+                                           distr = tsglm.distr)
+            results$model3.2.tsglm.rochdale.coef <- se(model3.2.tsglm.rochdale)
+            results$model3.2.tsglm.rochdale.coef$site          <- 'Rochdale'
+            results$model3.2.tsglm.rochdale.coef$indicator     <- indicator
+            results$model3.2.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+        }
+        ## Summary table
+        results$model3.2.tsglm.coefficients <- combine_coefficients(bishop.coef     = results$model3.2.tsglm.bishop.coef,
+                                                                  hartlepool.coef = results$model3.2.tsglm.hartlepool.coef,
+                                                                  hemel.coef      = results$model3.2.tsglm.hemel.coef,
+                                                                  newark.coef     = results$model3.2.tsglm.newark.coef,
+                                                                  rochdale.coef   = results$model3.2.tsglm.rochdale.coef,
+                                                                  .indicator      = indicator,
+                                                                  .sub.indicator  = sub.indicator)
+        ## Extract coefficients for plotting
+        ## ## Forest plot
+        results$model3.2.forest <- closed_forest(df.list = list(results$model3.2.tsglm.coefficients),
+                                               plot.term     = c('closure'),
+                                               facet.outcome = FALSE,
+                                               title         = paste0('Model 3.2 : ',
+                                                                      indicator,
+                                                                      ' (',
+                                                                      sub.indicator,
+                                                                      ')'),
+                                               theme         = theme_bw())
+        ## Return model objects if requested
+        if(return.model == TRUE){
+            if(exists('model3.2.tsglm.bishop')){
+                results$model3.2.tsglm.bishop     <- model3.2.tsglm.bishop
+            }
+            if(exists('model3.2.tsglm.hartlepool')){
+                results$model3.2.tsglm.hartlepool <- model3.2.tsglm.hartlepool
+            }
+            if(exists('model3.2.tsglm.hemel')){
+                results$model3.2.tsglm.hemel      <- model3.2.tsglm.hemel
+            }
+            if(exists('model3.2.tsglm.newark')){
+                results$model3.2.tsglm.newark     <- model3.2.tsglm.newark
+            }
+            if(exists('model3.2.tsglm.rochdale')){
+                results$model3.2.tsglm.rochdale   <- model3.2.tsglm.rochdale
+            }
+        }
+        if(return.df == TRUE){
+            results$model3.2.df <- df3.2
+        }
+        if(return.residuals == TRUE){
+            if(exists('model3.2.tsglm.bishop')){
+                results$model3.2.tsglm.residuals.bishop     <- summary(model3.2.tsglm.bishop)$residuals
+            }
+            if(exists('model3.2.tsglm.hartlepool')){
+                results$model3.2.tsglm.residuals.hartlepool <- summary(model3.2.tsglm.hartlepool)$residuals
+            }
+            if(exists('model3.2.tsglm.hemel')){
+                results$model3.2.tsglm.residuals.hemel      <- summary(model3.2.tsglm.hemel)$residuals
+            }
+            if(exists('model3.2.tsglm.newark')){
+                results$model3.2.tsglm.residuals.newark     <- summary(model3.2.tsglm.newark)$residuals
+            }
+            if(exists('model3.2.tsglm.rochdale')){
+                results$model3.2.tsglm.residuals.rochdale   <- summary(model3.2.tsglm.rochdale)$residuals
+            }
+        }
+        ## Remove clutter
+        rm(df3.2)
+    }
+
     ## #######################################################################
     ## ## Model 4                                                           ##
     ## #######################################################################
