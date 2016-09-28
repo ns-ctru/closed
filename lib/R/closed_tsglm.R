@@ -236,30 +236,35 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ## List of results
         coef <- list()
         ## Combine coefficients, SE and CIs and derive tidy df for output
+        ## print("Internal Debug 1")
         bishop <- cbind(bishop.coef$est,
                         bishop.coef$se,
                         bishop.coef$ci) %>%
                   data.frame()
         bishop$coefficient <- rownames(bishop)
         bishop$town <- 'Bishop Auckland'
+        ## print("Internal Debug 2")
         hartlepool <- cbind(hartlepool.coef$est,
                             hartlepool.coef$se,
                             hartlepool.coef$ci) %>%
                       data.frame()
         hartlepool$coefficient <- rownames(hartlepool)
         hartlepool$town <- 'Hartlepool'
+        ## print("Internal Debug 3")
         hemel <- cbind(hemel.coef$est,
                        hemel.coef$se,
                        hemel.coef$ci) %>%
                   data.frame()
         hemel$coefficient <- rownames(hemel)
         hemel$town <- 'Hemel Hempstead'
+        ## print("Internal Debug 4")
         newark <- cbind(newark.coef$est,
                         newark.coef$se,
                         newark.coef$ci) %>%
                   data.frame()
         newark$coefficient <- rownames(newark)
         newark$town <- 'Newark'
+        ## print("Internal Debug 5")
         rochdale <- cbind(rochdale.coef$est,
                           rochdale.coef$se,
                           rochdale.coef$ci) %>%
@@ -267,6 +272,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         rochdale$coefficient <- rownames(rochdale)
         rochdale$town <- 'Rochdale'
         if(!is.null(all.coef)){
+            ## print("Internal Debug 6")
             all <- cbind(all.coef$est,
                          all.coef$se,
                          all.coef$ci) %>%
@@ -291,6 +297,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         rownames(.coefficients) <- NULL
         .coefficients$indicator     <- .indicator
         .coefficients$sub.indicator <- .sub.indicator
+        ## print("Internal Debug 7")
         return(.coefficients)
     }
     #######################################################################
@@ -1251,11 +1258,11 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
             results$model4.tsglm.all.coef$sub.indicator <- sub.indicator
         }
         ## Summary table
-        results$model4.tsglm.coefficients <- combine_coefficients(bishop.coef     = results$model2.tsglm.bishop.coef,
-                                                                  hartlepool.coef = results$model2.tsglm.hartlepool.coef,
-                                                                  hemel.coef      = results$model2.tsglm.hemel.coef,
-                                                                  newark.coef     = results$model2.tsglm.newark.coef,
-                                                                  rochdale.coef   = results$model2.tsglm.rochdale.coef,
+        results$model4.tsglm.coefficients <- combine_coefficients(bishop.coef     = results$model1.tsglm.bishop.coef,
+                                                                  hartlepool.coef = results$model1.tsglm.hartlepool.coef,
+                                                                  hemel.coef      = results$model1.tsglm.hemel.coef,
+                                                                  newark.coef     = results$model1.tsglm.newark.coef,
+                                                                  rochdale.coef   = results$model1.tsglm.rochdale.coef,
                                                                   all.coef        = results$model4.tsglm.all.coef,
                                                                   .indicator      = indicator,
                                                                   .sub.indicator  = sub.indicator)
@@ -1322,11 +1329,12 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
             results$model5.tsglm.all.coef$sub.indicator <- sub.indicator
         }
         ## Summary table
-        results$model5.tsglm.coefficients <- combine_coefficients(bishop.coef     = results$model3.tsglm.bishop.coef,
-                                                                  hartlepool.coef = results$model3.tsglm.hartlepool.coef,
-                                                                  hemel.coef      = results$model3.tsglm.hemel.coef,
-                                                                  newark.coef     = results$model3.tsglm.newark.coef,
-                                                                  rochdale.coef   = results$model3.tsglm.rochdale.coef,
+        head(results$model3.tsglm.bishop.coef) %>% print()
+        results$model5.tsglm.coefficients <- combine_coefficients(bishop.coef     = results$model2.tsglm.bishop.coef,
+                                                                  hartlepool.coef = results$model2.tsglm.hartlepool.coef,
+                                                                  hemel.coef      = results$model2.tsglm.hemel.coef,
+                                                                  newark.coef     = results$model2.tsglm.newark.coef,
+                                                                  rochdale.coef   = results$model2.tsglm.rochdale.coef,
                                                                   all.coef        = results$model5.tsglm.all.coef,
                                                                   .indicator      = indicator,
                                                                   .sub.indicator  = sub.indicator)
