@@ -293,7 +293,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                    newark,
                                    rochdale)
         }
-        names(.coefficients)        <- c('est', 'se', 'lower', 'upper', 'coefficient', 'town')
+        names(.coefficients)        <- c('est', 'se', 'lower', 'upper', 'term', 'town')
         rownames(.coefficients) <- NULL
         .coefficients$indicator     <- .indicator
         .coefficients$sub.indicator <- .sub.indicator
@@ -1732,7 +1732,6 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ## Remove clutter
         rm(df6.2)
     }
-
     #######################################################################
     ## Model 7                                                           ##
     #######################################################################
@@ -1805,168 +1804,137 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
     }
 
     #######################################################################
-    ## Model 6.2                                                         ##
-    #######################################################################
-    #######################################################################
-    ## Model 7                                                           ##
-    #######################################################################
-    #######################################################################
     ## Produce summary tables by center using results$summary.table.head ##
     ## and the coefficients from each model                              ##
     #######################################################################
     ## Bind all model results together
-    ## model1.coef <- rbind(results$model1.panelar.bishop.coef,
-    ##                      results$model1.panelar.hartlepool.coef,
-    ##                      results$model1.panelar.hemel.coef,
-    ##                      results$model1.panelar.newark.coef,
-    ##                      results$model1.panelar.rochdale.coef)
-    ## model1.coef$model <- 'Model 1'
-    ## model2.coef <- rbind(results$model2.panelar.bishop.coef,
-    ##                      results$model2.panelar.hartlepool.coef,
-    ##                      results$model2.panelar.hemel.coef,
-    ##                      results$model2.panelar.newark.coef,
-    ##                      results$model2.panelar.rochdale.coef)
-    ## model2.coef$model <- 'Model 2'
-    ## model3.1.coef <- rbind(results$model3.1.panelar.bishop.coef,
-    ##                        results$model3.1.panelar.hartlepool.coef,
-    ##                        results$model3.1.panelar.hemel.coef,
-    ##                        results$model3.1.panelar.newark.coef,
-    ##                        results$model3.1.panelar.rochdale.coef)
-    ## model3.1.coef$model <- 'Model 3.1'
-    ## model3.2.coef <- rbind(results$model3.2.panelar.bishop.coef,
-    ##                        results$model3.2.panelar.hartlepool.coef,
-    ##                        results$model3.2.panelar.hemel.coef,
-    ##                        results$model3.2.panelar.newark.coef,
-    ##                        results$model3.2.panelar.rochdale.coef)
-    ## model3.2.coef$model <- 'Model 3.2'
-    ## model4.coef <- results$model4.panelar.all.coef
-    ## model4.coef$model <- 'Model 4'
-    ## model5.coef <- results$model5.panelar.all.coef
-    ## model5.coef$model <- 'Model 5'
-    ## model6.1.coef <- rbind(results$model6.1.panelar.bishop.coef,
-    ##                        results$model6.1.panelar.hartlepool.coef,
-    ##                        results$model6.1.panelar.hemel.coef,
-    ##                        results$model6.1.panelar.newark.coef,
-    ##                        results$model6.1.panelar.rochdale.coef)
-    ## model6.1.coef$model <- 'Model 6.1'
-    ## model6.2.coef <- rbind(results$model6.2.panelar.bishop.coef,
-    ##                        results$model6.2.panelar.hartlepool.coef,
-    ##                        results$model6.2.panelar.hemel.coef,
-    ##                        results$model6.2.panelar.newark.coef,
-    ##                        results$model6.2.panelar.rochdale.coef)
-    ## model6.2.coef$model <- 'Model 6.2'
-    ## model7.coef <- results$model7.panelar.all.coef
-    ## model7.coef$model <- 'Model 7'
-    ## ## Some model*.coef may not have any data though as the models weren't run
-    ## ## make those NULL so the subsequent rbind() doesn't fail
-    ## if(length(model1.coef) == 1) model1.coef     <- NULL
-    ## if(length(model2.coef) == 1) model2.coef     <- NULL
-    ## if(length(model3.1.coef) == 1) model3.1.coef <- NULL
-    ## if(length(model3.2.coef) == 1) model3.2.coef <- NULL
-    ## if(length(model4.coef) == 1) model4.coef     <- NULL
-    ## if(length(model5.coef) == 1) model5.coef     <- NULL
-    ## if(length(model6.1.coef) == 1) model6.1.coef <- NULL
-    ## if(length(model6.2.coef) == 1) model6.2.coef <- NULL
-    ## if(length(model7.coef) == 1) model7.coef     <- NULL
-    ## ## Return all coefficients across models
-    ## results$all.model.all.coef <- rbind(model1.coef,
-    ##                                     model2.coef,
-    ##                                     model3.1.coef,
-    ##                                     model3.2.coef,
-    ##                                     model4.coef,
-    ##                                     model5.coef,
-    ##                                     model6.1.coef,
-    ##                                     model6.2.coef,
-    ##                                     model7.coef) %>%
-    ##                               as.data.frame()
-    ## names(results$all.model.all.coef) <- gsub('site', 'town', names(results$all.model.all.coef))
-    ## ## Subset out the closure coefficients and derive output variable/df to append to
-    ## ## table header which contains the means
-    ## results$all.model.closure.coef <- filter(results$all.model.all.coef,
-    ##                                          term == 'closure')
-    ## names(results$all.model.closure.coef) <- c('est', 'se', 't', 'p', 'term', 'town', 'indicator', 'sub.indicator', 'r2', 'model')
+    results$model0.tsglm.coefficients$model   <- 'Model 0'
+    results$model1.tsglm.coefficients$model   <- 'Model 1'
+    results$model2.tsglm.coefficients$model   <- 'Model 2'
+    results$model3.1.tsglm.coefficients$model <- 'Model 3.1'
+    results$model3.2.tsglm.coefficients$model <- 'Model 3.2'
+    results$model4.tsglm.coefficients$model   <- 'Model 4'
+    results$model5.tsglm.coefficients$model   <- 'Model 5'
+    results$model6.1.tsglm.coefficients$model <- 'Model 6.1'
+    results$model6.2.tsglm.coefficients$model <- 'Model 6.2'
+    results$model7.tsglm.coefficients$model   <- 'Model 7'
+    ## Remove extrenuous levels from models 4, 5 and 7 which have their correpsonding
+    ## center only variables included
+    model4.tsglm.coefficients <- filter(results$model4.tsglm.coefficients, town != 'All')
+    model5.tsglm.coefficients <- filter(results$model5.tsglm.coefficients, town != 'All')
+    model7.tsglm.coefficients <- filter(results$model7.tsglm.coefficients, town != 'All')
+    ## Some model*.coef may not have any data though as the models weren't run
+    ## make those NULL so the subsequent rbind() doesn't fail
+    if(length(results$model0.coefficients) == 1) results$model0.tsglm.coefficients     <- NULL
+    if(length(results$model1.coefficients) == 1) results$model1.tsglm.coefficients     <- NULL
+    if(length(results$model2.coefficients) == 1) results$model2.tsglm.coefficients     <- NULL
+    if(length(results$model3.1.coefficients) == 1) results$model3.1.tsglm.coefficients <- NULL
+    if(length(results$model3.2.coefficients) == 1) results$model3.2.tsglm.coefficients <- NULL
+    if(length(results$model4.coefficients) == 1) model4.tsglm.coefficients             <- NULL
+    if(length(results$model5.coefficients) == 1) model5.tsglm.coefficients             <- NULL
+    if(length(results$model6.1.coefficients) == 1) results$model6.1.tsglm.coefficients <- NULL
+    if(length(results$model6.2.coefficients) == 1) results$model6.2.tsglm.coefficients <- NULL
+    if(length(results$model7.coefficients) == 1) model7.tsglm.coefficients             <- NULL
+    ## Return all coefficients across models
+    results$all.model.all.coef <- rbind(results$model1.tsglm.coefficients,
+                                        results$model2.tsglm.coefficients,
+                                        results$model3.1.tsglm.coefficients,
+                                        results$model3.2.tsglm.coefficients,
+                                        model4.tsglm.coefficients,
+                                        model5.tsglm.coefficients,
+                                        results$model6.1.tsglm.coefficients,
+                                        results$model6.2.tsglm.coefficients,
+                                        model7.tsglm.coefficients) %>%
+                                  as.data.frame()
+    names(results$all.model.all.coef) <- gsub('site', 'town', names(results$all.model.all.coef))
+    ## Subset out the closure coefficients and derive output variable/df to append to
+    ## table header which contains the means
+    results$all.model.closure.coef <- filter(results$all.model.all.coef,
+                                             term == 'closure')
+    names(results$all.model.closure.coef) <- c('est', 'se', 'lower', 'upper', 'term', 'town', 'indicator', 'sub.indicator', 'model')
     ## results$all.model.closure.coef$lci <- results$all.model.closure.coef$est - (1.96 * results$all.model.closure.coef$se)
     ## results$all.model.closure.coef$uci <- results$all.model.closure.coef$est + (1.96 * results$all.model.closure.coef$se)
-    ## results$all.model.closure.coef$estimate <- paste0(formatC(results$all.model.closure.coef$est, digits = digits, format = 'f'),
-    ##                                                   ' (',
-    ##                                                   formatC(results$all.model.closure.coef$lci, digits = digits, format = 'f'),
-    ##                                                   '-',
-    ##                                                   formatC(results$all.model.closure.coef$uci, digits = digits, format = 'f'),
-    ##                                                   ') p = ',
-    ##                                                   formatC(results$all.model.closure.coef$p, digits = digits, format = 'f'))
-    ## results$summary.table.tail <- dplyr::select(results$all.model.closure.coef,
-    ##                                             town,
-    ##                                             model,
-    ##                                             estimate)
-    ## results$summary.table.tail$Before_mean.sd    <- NA
-    ## results$summary.table.tail$Before_median.iqr <- results$summary.table.tail$model
-    ## results$summary.table.tail$Before_min.max    <- NA
-    ## results$summary.table.tail$After_mean.sd     <- NA
-    ## results$summary.table.tail$After_median.iqr  <- NA
-    ## results$summary.table.tail$After_min.max     <- results$summary.table.tail$estimate
-    ## results$summary.table.tail <- dplyr::select(results$summary.table.tail,
-    ##                                             town,
-    ##                                             Before_mean.sd, Before_median.iqr, Before_min.max,
-    ##                                             After_mean.sd, After_median.iqr, After_min.max)
-    ## results$summary.table.tail$group <- results$summary.table.tail$town
-    ## results$summary.table <- rbind(results$summary.table.head,
-    ##                                results$summary.table.tail)
-    ## ## Sort out indicators
-    ## results$summary.table$town[grep('Model', results$summary.table$Before_median.iqr)]             <- NA
-    ## results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 1']               <- 'Estimated closure coefficients'
-    ## results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 1']     <- 'Individual Case Site'
-    ## results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 1']      <- 'No Control'
-    ## results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 1']   <- 'ED Panel'
-    ## results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 2']     <- 'Individual Case Site'
-    ## results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 2']      <- 'Primary Control'
-    ## results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 2']   <- 'ED Panel'
-    ## results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 3.1']    <- 'Individual Case Site'
-    ## results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.1']    <- 'All Control'
-    ## results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 3.1'] <- 'ED Panel'
-    ## results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 3.2']    <- 'Individual Case Site'
-    ## results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.2']    <- 'All Controls Pooled'
-    ## results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 3.2'] <- 'ED Panel'
-    ## results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 4']     <- 'All Case Sites'
-    ## results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 4']      <- 'Primary Control'
-    ## results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 4']   <- 'ED Panel'
-    ## results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 5']     <- 'All Case Sites'
-    ## results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 5']      <- 'All Controls'
-    ## results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 5']   <- 'ED Panel'
-    ## results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'Individual Case Site'
-    ## results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'None'
-    ## results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.1'] <- 'LSOA Panel'
-    ## results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.2']    <- 'Individual Case Site'
-    ## results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.2']    <- 'Primary Control'
-    ## results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.2'] <- 'LSOA Panel'
-    ## results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7']     <- 'All Case Sites'
-    ## results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7']      <- 'All Controls'
-    ## results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7']   <- 'LSOA Panel'
-    ## ## Site specific tables
-    ## ## Bishop Auckland
-    ## results$summary.table.bishop <- filter(results$summary.table,
-    ##                                        group %in% c('Bishop Auckland', 'All')) %>%
-    ##                                 dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
-    ## names(results$summary.table.bishop) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
-    ## ## Hartlepool
-    ## results$summary.table.hartlepool <- filter(results$summary.table,
-    ##                                                  group %in% c('Hartlepool', 'All')) %>%
-    ##                                 dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
-    ## names(results$summary.table.hartlepool) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
-    ## ## Hemel Hempstead
-    ## results$summary.table.hemel <- filter(results$summary.table,
-    ##                                       group %in% c('Hemel Hempstead', 'All')) %>%
-    ##                                 dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
-    ## names(results$summary.table.hemel) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
-    ## ## Newark
-    ## results$summary.table.newark <- filter(results$summary.table,
-    ##                                        group %in% c('Newark', 'All')) %>%
-    ##                                 dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
-    ## names(results$summary.table.newark) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
-    ## ## Rochdale
-    ## results$summary.table.rochdale <- filter(results$summary.table,
-    ##                                          group %in% c('Rochdale', 'All')) %>%
-    ##                                 dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
-    ## names(results$summary.table.rochdale) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
+    results$all.model.closure.coef$estimate <- paste0(formatC(results$all.model.closure.coef$est, digits = digits, format = 'f'),
+                                                      ' (',
+                                                      formatC(results$all.model.closure.coef$lower, digits = digits, format = 'f'),
+                                                      '-',
+                                                      formatC(results$all.model.closure.coef$upper, digits = digits, format = 'f'),
+                                                      ')')## ,
+                                                      ## ') p = ',
+                                                      ## formatC(results$all.model.closure.coef$p, digits = digits, format = 'f'))
+    results$summary.table.tail <- dplyr::select(results$all.model.closure.coef,
+                                                town,
+                                                model,
+                                                estimate)
+    results$summary.table.tail$Before_mean.sd    <- NA
+    results$summary.table.tail$Before_median.iqr <- results$summary.table.tail$model
+    results$summary.table.tail$Before_min.max    <- NA
+    results$summary.table.tail$After_mean.sd     <- NA
+    results$summary.table.tail$After_median.iqr  <- NA
+    results$summary.table.tail$After_min.max     <- results$summary.table.tail$estimate
+    results$summary.table.tail <- dplyr::select(results$summary.table.tail,
+                                                town,
+                                                Before_mean.sd, Before_median.iqr, Before_min.max,
+                                                After_mean.sd, After_median.iqr, After_min.max)
+    results$summary.table.tail$group <- results$summary.table.tail$town
+    results$summary.table <- rbind(results$summary.table.head,
+                                   results$summary.table.tail)
+    ## Sort out indicators
+    results$summary.table$town[grep('Model', results$summary.table$Before_median.iqr)]             <- NA
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 1']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 1']     <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 1']      <- 'No Control'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 1']   <- 'ED Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 2']     <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 2']      <- 'Primary Control'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 2']   <- 'ED Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 3.1']    <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.1']    <- 'All Control'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 3.1'] <- 'ED Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 3.2']    <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.2']    <- 'All Controls Pooled'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 3.2'] <- 'ED Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 4']     <- 'All Case Sites'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 4']      <- 'Primary Control'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 4']   <- 'ED Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 5']     <- 'All Case Sites'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 5']      <- 'All Controls'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 5']   <- 'ED Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'None'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.1'] <- 'LSOA Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.2']    <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.2']    <- 'Primary Control'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.2'] <- 'LSOA Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7']     <- 'All Case Sites'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7']      <- 'All Controls'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7']   <- 'LSOA Panel'
+    ## Site specific tables
+    ## Bishop Auckland
+    results$summary.table.bishop <- filter(results$summary.table,
+                                           group %in% c('Bishop Auckland', 'All')) %>%
+                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
+    names(results$summary.table.bishop) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
+    ## Hartlepool
+    results$summary.table.hartlepool <- filter(results$summary.table,
+                                                     group %in% c('Hartlepool', 'All')) %>%
+                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
+    names(results$summary.table.hartlepool) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
+    ## Hemel Hempstead
+    results$summary.table.hemel <- filter(results$summary.table,
+                                          group %in% c('Hemel Hempstead', 'All')) %>%
+                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
+    names(results$summary.table.hemel) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
+    ## Newark
+    results$summary.table.newark <- filter(results$summary.table,
+                                           group %in% c('Newark', 'All')) %>%
+                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
+    names(results$summary.table.newark) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
+    ## Rochdale
+    results$summary.table.rochdale <- filter(results$summary.table,
+                                             group %in% c('Rochdale', 'All')) %>%
+                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
+    names(results$summary.table.rochdale) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
     #######################################################################
     ## Return the results                                                ##
     #######################################################################
