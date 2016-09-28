@@ -430,7 +430,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         results$model0.forest <- closed_forest(df.list = list(results$model0.tsglm.coefficients),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
-                                               title         = paste0('Model 1 : ',
+                                               title         = paste0('Model 0 : ',
                                                                       indicator,
                                                                       ' (',
                                                                       sub.indicator,
@@ -1258,11 +1258,11 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
             results$model4.tsglm.all.coef$sub.indicator <- sub.indicator
         }
         ## Summary table
-        results$model4.tsglm.coefficients <- combine_coefficients(bishop.coef     = results$model1.tsglm.bishop.coef,
-                                                                  hartlepool.coef = results$model1.tsglm.hartlepool.coef,
-                                                                  hemel.coef      = results$model1.tsglm.hemel.coef,
-                                                                  newark.coef     = results$model1.tsglm.newark.coef,
-                                                                  rochdale.coef   = results$model1.tsglm.rochdale.coef,
+        results$model4.tsglm.coefficients <- combine_coefficients(bishop.coef     = results$model2.tsglm.bishop.coef,
+                                                                  hartlepool.coef = results$model2.tsglm.hartlepool.coef,
+                                                                  hemel.coef      = results$model2.tsglm.hemel.coef,
+                                                                  newark.coef     = results$model2.tsglm.newark.coef,
+                                                                  rochdale.coef   = results$model2.tsglm.rochdale.coef,
                                                                   all.coef        = results$model4.tsglm.all.coef,
                                                                   .indicator      = indicator,
                                                                   .sub.indicator  = sub.indicator)
@@ -1329,12 +1329,11 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
             results$model5.tsglm.all.coef$sub.indicator <- sub.indicator
         }
         ## Summary table
-        head(results$model3.tsglm.bishop.coef) %>% print()
-        results$model5.tsglm.coefficients <- combine_coefficients(bishop.coef     = results$model2.tsglm.bishop.coef,
-                                                                  hartlepool.coef = results$model2.tsglm.hartlepool.coef,
-                                                                  hemel.coef      = results$model2.tsglm.hemel.coef,
-                                                                  newark.coef     = results$model2.tsglm.newark.coef,
-                                                                  rochdale.coef   = results$model2.tsglm.rochdale.coef,
+        results$model5.tsglm.coefficients <- combine_coefficients(bishop.coef     = results$model3.1.tsglm.bishop.coef,
+                                                                  hartlepool.coef = results$model3.1.tsglm.hartlepool.coef,
+                                                                  hemel.coef      = results$model3.1.tsglm.hemel.coef,
+                                                                  newark.coef     = results$model3.1.tsglm.newark.coef,
+                                                                  rochdale.coef   = results$model3.1.tsglm.rochdale.coef,
                                                                   all.coef        = results$model5.tsglm.all.coef,
                                                                   .indicator      = indicator,
                                                                   .sub.indicator  = sub.indicator)
@@ -1368,8 +1367,183 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
     }
 
     #######################################################################
-    ## Model 6.1                                                         ##
+    ## Model 6.1                                                           ##
     #######################################################################
+    if(!is.null(model6.1)){
+        ## print("Model 6.1")
+        ## Subset data
+        sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
+        df6.1 <- filter(df.lsoa,
+                      town %in% sites &
+                      measure     == indicator &
+                      sub.measure == sub.indicator)
+        ##################################################
+        ## Model 6.1 - Bishop Auckland                    ##
+        ##################################################
+        ## print("Bishop Auckland")
+        ts.vector  <- filter(df6.1,
+                             town        == 'Bishop Auckland') %>%
+                      as.data.frame() %>% .[,'value']
+        regressors <- filter(df6.1,
+                             town        == 'Bishop Auckland') %>%
+                      dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111)
+        ## return(t)
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
+            model6.1.tsglm.bishop <- tsglm(ts = ts.vector,
+                                         link = tsglm.link,
+                                         model = tsglm.model,
+                                         xreg  = regressors,
+                                         distr = tsglm.distr)
+            results$model6.1.tsglm.bishop.coef <- se(model6.1.tsglm.bishop)
+            results$model6.1.tsglm.bishop.coef$site          <- 'Bishop Auckland'
+            results$model6.1.tsglm.bishop.coef$indicator     <- indicator
+            results$model6.1.tsglm.bishop.coef$sub.indicator <- sub.indicator
+        }
+        ##################################################
+        ## Model 6.1 - Hartlepool                         ##
+        ##################################################
+        ## print("Hartlepool")
+        ts.vector  <- filter(df6.1,
+                             town        == 'Hartlepool') %>%
+                      as.data.frame() %>% .[,'value']
+        regressors <- filter(df6.1,
+                             town        == 'Hartlepool') %>%
+                      dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre)
+        if(town.group$n[town.group$town == 'Hartlepool'] > 0){
+            model6.1.tsglm.hartlepool <- tsglm(ts = ts.vector,
+                                             link = tsglm.link,
+                                             model = tsglm.model,
+                                             xreg  = regressors,
+                                             distr = tsglm.distr)
+            results$model6.1.tsglm.hartlepool.coef <- se(model6.1.tsglm.hartlepool)
+            results$model6.1.tsglm.hartlepool.coef$site          <- 'Hartlepool'
+            results$model6.1.tsglm.hartlepool.coef$indicator     <- indicator
+            results$model6.1.tsglm.hartlepool.coef$sub.indicator <- sub.indicator
+        }
+        ##################################################
+        ## Model 6.1 - Hemel Hempstead                    ##
+        ##################################################
+        ## print("Hemel Hempstead")
+        ts.vector  <- filter(df6.1,
+                             town        == 'Hemel Hempstead') %>%
+                      as.data.frame() %>% .[,'value']
+        regressors <- filter(df6.1,
+                             town        == 'Hemel Hempstead') %>%
+                      dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, other.centre)
+        if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0){
+            model6.1.tsglm.hemel <- tsglm(ts = ts.vector,
+                                        link = tsglm.link,
+                                        model = tsglm.model,
+                                        xreg  = regressors,
+                                        distr = tsglm.distr)
+            results$model6.1.tsglm.hemel.coef <- se(model6.1.tsglm.hemel)
+            results$model6.1.tsglm.hemel.coef$site          <- 'Hemel Hempstead'
+            results$model6.1.tsglm.hemel.coef$indicator     <- indicator
+            results$model6.1.tsglm.hemel.coef$sub.indicator <- sub.indicator
+        }
+        ##################################################
+        ## Model 6.1 - Newark                             ##
+        ##################################################
+        ## print("Newark")
+        ts.vector  <- filter(df6.1,
+                             town        == 'Newark') %>%
+                      as.data.frame() %>% .[,'value']
+        regressors <- filter(df6.1,
+                             town        == 'Newark') %>%
+                      dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, other.centre)
+        if(town.group$n[town.group$town == 'Newark'] > 0){
+            model6.1.tsglm.newark <- tsglm(ts = ts.vector,
+                                         link = tsglm.link,
+                                         model = tsglm.model,
+                                         xreg  = regressors,
+                                         distr = tsglm.distr)
+            results$model6.1.tsglm.newark.coef <- se(model6.1.tsglm.newark)
+            results$model6.1.tsglm.newark.coef$site          <- 'Newark'
+            results$model6.1.tsglm.newark.coef$indicator     <- indicator
+            results$model6.1.tsglm.newark.coef$sub.indicator <- sub.indicator
+        }
+        ##################################################
+        ## Model 6.1 - Rochdale                           ##
+        ##################################################
+        ## print("Rochdale")
+        ts.vector  <- filter(df6.1,
+                             town        == 'Rochdale') %>%
+                      as.data.frame() %>% .[,'value']
+        regressors <- filter(df6.1,
+                             town        == 'Rochdale') %>%
+                      dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert)
+        if(town.group$n[town.group$town == 'Rochdale'] > 0){
+            model6.1.tsglm.rochdale <- tsglm(ts = ts.vector,
+                                           link = tsglm.link,
+                                           model = tsglm.model,
+                                           xreg  = regressors,
+                                           distr = tsglm.distr)
+            results$model6.1.tsglm.rochdale.coef <- se(model6.1.tsglm.rochdale)
+            results$model6.1.tsglm.rochdale.coef$site          <- 'Rochdale'
+            results$model6.1.tsglm.rochdale.coef$indicator     <- indicator
+            results$model6.1.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+        }
+        ## Summary table
+        results$model6.1.tsglm.coefficients <- combine_coefficients(bishop.coef     = results$model6.1.tsglm.bishop.coef,
+                                                                  hartlepool.coef = results$model6.1.tsglm.hartlepool.coef,
+                                                                  hemel.coef      = results$model6.1.tsglm.hemel.coef,
+                                                                  newark.coef     = results$model6.1.tsglm.newark.coef,
+                                                                  rochdale.coef   = results$model6.1.tsglm.rochdale.coef,
+                                                                  .indicator      = indicator,
+                                                                  .sub.indicator  = sub.indicator)
+        ## Extract coefficients for plotting
+        ## ## Forest plot
+        results$model6.1.forest <- closed_forest(df.list = list(results$model6.1.tsglm.coefficients),
+                                               plot.term     = c('closure'),
+                                               facet.outcome = FALSE,
+                                               title         = paste0('Model 6.1 : ',
+                                                                      indicator,
+                                                                      ' (',
+                                                                      sub.indicator,
+                                                                      ')'),
+                                               theme         = theme_bw())
+        ## Return model objects if requested
+        if(return.model == TRUE){
+            if(exists('model6.1.tsglm.bishop')){
+                results$model6.1.tsglm.bishop     <- model6.1.tsglm.bishop
+            }
+            if(exists('model6.1.tsglm.hartlepool')){
+                results$model6.1.tsglm.hartlepool <- model6.1.tsglm.hartlepool
+            }
+            if(exists('model6.1.tsglm.hemel')){
+                results$model6.1.tsglm.hemel      <- model6.1.tsglm.hemel
+            }
+            if(exists('model6.1.tsglm.newark')){
+                results$model6.1.tsglm.newark     <- model6.1.tsglm.newark
+            }
+            if(exists('model6.1.tsglm.rochdale')){
+                results$model6.1.tsglm.rochdale   <- model6.1.tsglm.rochdale
+            }
+        }
+        if(return.df == TRUE){
+            results$model6.1.df <- df6.1
+        }
+        if(return.residuals == TRUE){
+            if(exists('model6.1.tsglm.bishop')){
+                results$model6.1.tsglm.residuals.bishop     <- summary(model6.1.tsglm.bishop)$residuals
+            }
+            if(exists('model6.1.tsglm.hartlepool')){
+                results$model6.1.tsglm.residuals.hartlepool <- summary(model6.1.tsglm.hartlepool)$residuals
+            }
+            if(exists('model6.1.tsglm.hemel')){
+                results$model6.1.tsglm.residuals.hemel      <- summary(model6.1.tsglm.hemel)$residuals
+            }
+            if(exists('model6.1.tsglm.newark')){
+                results$model6.1.tsglm.residuals.newark     <- summary(model6.1.tsglm.newark)$residuals
+            }
+            if(exists('model6.1.tsglm.rochdale')){
+                results$model6.1.tsglm.residuals.rochdale   <- summary(model6.1.tsglm.rochdale)$residuals
+            }
+        }
+        ## Remove clutter
+        rm(df6.1)
+    }
+
     #######################################################################
     ## Model 6.2                                                         ##
     #######################################################################
