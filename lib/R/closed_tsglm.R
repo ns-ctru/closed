@@ -305,9 +305,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                          xreg  = regressors,
                                          distr = tsglm.distr)
             results$model0.tsglm.bishop.coef <- se(model0.tsglm.bishop)
-            results$model0.tsglm.rochdale.coef$site          <- 'Bishop Auckland'
-            results$model0.tsglm.rochdale.coef$indicator     <- indicator
-            results$model0.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model0.tsglm.bishop.coef$site          <- 'Bishop Auckland'
+            results$model0.tsglm.bishop.coef$indicator     <- indicator
+            results$model0.tsglm.bishop.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 0 - Hartlepool                         ##
@@ -326,9 +326,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                              xreg  = regressors,
                                              distr = tsglm.distr)
             results$model0.tsglm.hartlepool.coef <- se(model0.tsglm.hartlepool)
-            results$model0.tsglm.rochdale.coef$site          <- 'Hartlepool'
-            results$model0.tsglm.rochdale.coef$indicator     <- indicator
-            results$model0.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model0.tsglm.hartlepool.coef$site          <- 'Hartlepool'
+            results$model0.tsglm.hartlepool.coef$indicator     <- indicator
+            results$model0.tsglm.hartlepool.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 0 - Hemel Hempstead                    ##
@@ -347,9 +347,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                         xreg  = regressors,
                                         distr = tsglm.distr)
             results$model0.tsglm.hemel.coef <- se(model0.tsglm.hemel)
-            results$model0.tsglm.rochdale.coef$site          <- 'Hemel Hempstead'
-            results$model0.tsglm.rochdale.coef$indicator     <- indicator
-            results$model0.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model0.tsglm.hemel.coef$site          <- 'Hemel Hempstead'
+            results$model0.tsglm.hemel.coef$indicator     <- indicator
+            results$model0.tsglm.hemel.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 0 - Newark                             ##
@@ -368,9 +368,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                          xreg  = regressors,
                                          distr = tsglm.distr)
             results$model0.tsglm.newark.coef <- se(model0.tsglm.newark)
-            results$model0.tsglm.rochdale.coef$site          <- 'Newark'
-            results$model0.tsglm.rochdale.coef$indicator     <- indicator
-            results$model0.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model0.tsglm.newark.coef$site          <- 'Newark'
+            results$model0.tsglm.newark.coef$indicator     <- indicator
+            results$model0.tsglm.newark.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 0 - Rochdale                           ##
@@ -482,9 +482,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                          xreg  = regressors,
                                          distr = tsglm.distr)
             results$model1.tsglm.bishop.coef <- se(model1.tsglm.bishop)
-            results$model1.tsglm.rochdale.coef$site          <- 'Bishop Auckland'
-            results$model1.tsglm.rochdale.coef$indicator     <- indicator
-            results$model1.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model1.tsglm.bishop.coef$site          <- 'Bishop Auckland'
+            results$model1.tsglm.bishop.coef$indicator     <- indicator
+            results$model1.tsglm.bishop.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 1 - Hartlepool                         ##
@@ -503,9 +503,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                              xreg  = regressors,
                                              distr = tsglm.distr)
             results$model1.tsglm.hartlepool.coef <- se(model1.tsglm.hartlepool)
-            results$model1.tsglm.rochdale.coef$site          <- 'Hartlepool'
-            results$model1.tsglm.rochdale.coef$indicator     <- indicator
-            results$model1.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model1.tsglm.hartlepool.coef$site          <- 'Hartlepool'
+            results$model1.tsglm.hartlepool.coef$indicator     <- indicator
+            results$model1.tsglm.hartlepool.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 1 - Hemel Hempstead                    ##
@@ -524,9 +524,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                         xreg  = regressors,
                                         distr = tsglm.distr)
             results$model1.tsglm.hemel.coef <- se(model1.tsglm.hemel)
-            results$model1.tsglm.rochdale.coef$site          <- 'Hemel Hempstead'
-            results$model1.tsglm.rochdale.coef$indicator     <- indicator
-            results$model1.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model1.tsglm.hemel.coef$site          <- 'Hemel Hempstead'
+            results$model1.tsglm.hemel.coef$indicator     <- indicator
+            results$model1.tsglm.hemel.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 1 - Newark                             ##
@@ -545,9 +545,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                          xreg  = regressors,
                                          distr = tsglm.distr)
             results$model1.tsglm.newark.coef <- se(model1.tsglm.newark)
-            results$model1.tsglm.rochdale.coef$site          <- 'Newark'
-            results$model1.tsglm.rochdale.coef$indicator     <- indicator
-            results$model1.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model1.tsglm.newark.coef$site          <- 'Newark'
+            results$model1.tsglm.newark.coef$indicator     <- indicator
+            results$model1.tsglm.newark.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 1 - Rochdale                           ##
@@ -665,9 +665,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                          xreg  = regressors,
                                          distr = tsglm.distr)
             results$model2.tsglm.bishop.coef <- se(model2.tsglm.bishop)
-            results$model2.tsglm.rochdale.coef$site          <- 'Bishop Auckland'
-            results$model2.tsglm.rochdale.coef$indicator     <- indicator
-            results$model2.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model2.tsglm.bishop.coef$site          <- 'Bishop Auckland'
+            results$model2.tsglm.bishop.coef$indicator     <- indicator
+            results$model2.tsglm.bishop.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 2 - Hartlepool                         ##
@@ -688,9 +688,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                              xreg  = regressors,
                                              distr = tsglm.distr)
             results$model2.tsglm.hartlepool.coef <- se(model2.tsglm.hartlepool)
-            results$model2.tsglm.rochdale.coef$site          <- 'Hartlepool'
-            results$model2.tsglm.rochdale.coef$indicator     <- indicator
-            results$model2.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model2.tsglm.hartlepool.coef$site          <- 'Hartlepool'
+            results$model2.tsglm.hartlepool.coef$indicator     <- indicator
+            results$model2.tsglm.hartlepool.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 2 - Hemel Hempstead                    ##
@@ -711,9 +711,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                         xreg  = regressors,
                                         distr = tsglm.distr)
             results$model2.tsglm.hemel.coef <- se(model2.tsglm.hemel)
-            results$model2.tsglm.rochdale.coef$site          <- 'Hemel Hempstead'
-            results$model2.tsglm.rochdale.coef$indicator     <- indicator
-            results$model2.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model2.tsglm.hemel.coef$site          <- 'Hemel Hempstead'
+            results$model2.tsglm.hemel.coef$indicator     <- indicator
+            results$model2.tsglm.hemel.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 2 - Newark                             ##
@@ -734,9 +734,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                          xreg  = regressors,
                                          distr = tsglm.distr)
             results$model2.tsglm.newark.coef <- se(model2.tsglm.newark)
-            results$model2.tsglm.rochdale.coef$site          <- 'Newark'
-            results$model2.tsglm.rochdale.coef$indicator     <- indicator
-            results$model2.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model2.tsglm.newark.coef$site          <- 'Newark'
+            results$model2.tsglm.newark.coef$indicator     <- indicator
+            results$model2.tsglm.newark.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 2 - Rochdale                           ##
@@ -852,9 +852,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                          xreg  = regressors,
                                          distr = tsglm.distr)
             results$model3.1.tsglm.bishop.coef <- se(model3.1.tsglm.bishop)
-            results$model3.1.tsglm.rochdale.coef$site          <- 'Bishop Auckland'
-            results$model3.1.tsglm.rochdale.coef$indicator     <- indicator
-            results$model3.1.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model3.1.tsglm.bishop.coef$site          <- 'Bishop Auckland'
+            results$model3.1.tsglm.bishop.coef$indicator     <- indicator
+            results$model3.1.tsglm.bishop.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 3.1 - Hartlepool                       ##
@@ -876,9 +876,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                              xreg  = regressors,
                                              distr = tsglm.distr)
             results$model3.1.tsglm.hartlepool.coef <- se(model3.1.tsglm.hartlepool)
-            results$model3.1.tsglm.rochdale.coef$site          <- 'Hartlepool'
-            results$model3.1.tsglm.rochdale.coef$indicator     <- indicator
-            results$model3.1.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model3.1.tsglm.hartlepool.coef$site          <- 'Hartlepool'
+            results$model3.1.tsglm.hartlepool.coef$indicator     <- indicator
+            results$model3.1.tsglm.hartlepool.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 3.1 - Hemel Hempstead                  ##
@@ -900,9 +900,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                         xreg  = regressors,
                                         distr = tsglm.distr)
             results$model3.1.tsglm.hemel.coef <- se(model3.1.tsglm.hemel)
-            results$model3.1.tsglm.rochdale.coef$site          <- 'Hemel Hempstead'
-            results$model3.1.tsglm.rochdale.coef$indicator     <- indicator
-            results$model3.1.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model3.1.tsglm.hemel.coef$site          <- 'Hemel Hempstead'
+            results$model3.1.tsglm.hemel.coef$indicator     <- indicator
+            results$model3.1.tsglm.hemel.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 3.1 - Newark                           ##
@@ -924,9 +924,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                          xreg  = regressors,
                                          distr = tsglm.distr)
             results$model3.1.tsglm.newark.coef <- se(model3.1.tsglm.newark)
-            results$model3.1.tsglm.rochdale.coef$site          <- 'Newark'
-            results$model3.1.tsglm.rochdale.coef$indicator     <- indicator
-            results$model3.1.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model3.1.tsglm.newark.coef$site          <- 'Newark'
+            results$model3.1.tsglm.newark.coef$indicator     <- indicator
+            results$model3.1.tsglm.newark.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 3.1 - Rochdale                         ##
@@ -1011,8 +1011,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         }
         ## Remove clutter
         rm(df3.1)
-        }
-
+    }
     #######################################################################
     ## Model 3.2                                                         ##
     #######################################################################
@@ -1043,9 +1042,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                          xreg  = regressors,
                                          distr = tsglm.distr)
             results$model3.2.tsglm.bishop.coef <- se(model3.2.tsglm.bishop)
-            results$model3.2.tsglm.rochdale.coef$site          <- 'Bishop Auckland'
-            results$model3.2.tsglm.rochdale.coef$indicator     <- indicator
-            results$model3.2.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model3.2.tsglm.bishop.coef$site          <- 'Bishop Auckland'
+            results$model3.2.tsglm.bishop.coef$indicator     <- indicator
+            results$model3.2.tsglm.bishop.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 3.2 - Hartlepool                       ##
@@ -1066,9 +1065,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                              xreg  = regressors,
                                              distr = tsglm.distr)
             results$model3.2.tsglm.hartlepool.coef <- se(model3.2.tsglm.hartlepool)
-            results$model3.2.tsglm.rochdale.coef$site          <- 'Hartlepool'
-            results$model3.2.tsglm.rochdale.coef$indicator     <- indicator
-            results$model3.2.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model3.2.tsglm.hartlepool.coef$site          <- 'Hartlepool'
+            results$model3.2.tsglm.hartlepool.coef$indicator     <- indicator
+            results$model3.2.tsglm.hartlepool.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 3.2 - Hemel Hempstead                  ##
@@ -1089,9 +1088,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                         xreg  = regressors,
                                         distr = tsglm.distr)
             results$model3.2.tsglm.hemel.coef <- se(model3.2.tsglm.hemel)
-            results$model3.2.tsglm.rochdale.coef$site          <- 'Hemel Hempstead'
-            results$model3.2.tsglm.rochdale.coef$indicator     <- indicator
-            results$model3.2.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model3.2.tsglm.hemel.coef$site          <- 'Hemel Hempstead'
+            results$model3.2.tsglm.hemel.coef$indicator     <- indicator
+            results$model3.2.tsglm.hemel.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 3.2 - Newark                           ##
@@ -1112,9 +1111,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                          xreg  = regressors,
                                          distr = tsglm.distr)
             results$model3.2.tsglm.newark.coef <- se(model3.2.tsglm.newark)
-            results$model3.2.tsglm.rochdale.coef$site          <- 'Newark'
-            results$model3.2.tsglm.rochdale.coef$indicator     <- indicator
-            results$model3.2.tsglm.rochdale.coef$sub.indicator <- sub.indicator
+            results$model3.2.tsglm.newark.coef$site          <- 'Newark'
+            results$model3.2.tsglm.newark.coef$indicator     <- indicator
+            results$model3.2.tsglm.newark.coef$sub.indicator <- sub.indicator
         }
         ##################################################
         ## Model 3.2 - Rochdale                         ##
@@ -1200,863 +1199,114 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         rm(df3.2)
     }
 
-    ## #######################################################################
-    ## ## Model 4                                                           ##
-    ## #######################################################################
-    ## if(!is.null(model4)){
-    ##     ## print("Model 4")
-    ##     ## Reformulate outcome and covariates
-    ##     formula.model4 <- reformulate(response = outcome,
-    ##                                   termlabels = model4)
-    ##     ## Subset data
-    ##     sites <- c('Bishop Auckland', 'Whitehaven',
-    ##                'Hartlepool', 'Grimsby',
-    ##                'Hemel Hempstead', 'Warwick',
-    ##                'Newark', 'Southport',
-    ##                'Rochdale', 'Rotherham')
-    ##     df4 <- filter(df.trust, town %in% sites  &
-    ##                   measure     == indicator &
-    ##                   sub.measure == sub.indicator)
-    ##     ## Add in indicator of case/control status for plotting
-    ##     case <- c('Bishop Auckland',
-    ##               'Hartlepool',
-    ##               'Hemel Hempstead',
-    ##               'Newark',
-    ##               'Rochdale')
-    ##     df4$status <- ifelse(df4$town %in% case, 'Case', 'Control')
-    ##     ## Generate time-series plot (at site/town level)
-    ##     df4$group <- paste0('Cohort : ', df4$group)
-    ##     ## results$model4.ts.plot <- closed_ts_plot(df = df4,
-    ##     ##                                          sites = sites,
-    ##     ##                                          indicator = indicator,
-    ##     ##                                          sub.indicator = sub.indicator,
-    ##     ##                                          steps = TRUE,
-    ##     ##                                          lines         = TRUE,
-    ##     ##                                          xaxis.steps   = FALSE,
-    ##     ##                                          facet = TRUE,
-    ##     ##                                          tidy  = TRUE,
-    ##     ##                                          join  = join.line,
-    ##     ##                                          legend = legend)
-    ##     ## Perform analysis with panelAR in each
-    ##     ##################################################
-    ##     ## All                                          ##
-    ##     ##################################################
-    ##     t <- df4
-    ##     if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
-    ##        town.group$n[town.group$town == 'Whitehaven'] > 0 &
-    ##        town.group$n[town.group$town == 'Hartlepool'] > 0 &
-    ##        town.group$n[town.group$town == 'Grimsby'] > 0 &
-    ##        town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
-    ##        town.group$n[town.group$town == 'Warwick'] > 0 &
-    ##        town.group$n[town.group$town == 'Newark'] > 0 &
-    ##        town.group$n[town.group$town == 'Southport'] > 0 &
-    ##        town.group$n[town.group$town == 'Rochdale'] > 0 &
-    ##        town.group$n[town.group$town == 'Rotherham'] > 0){
-    ##         t$town <- relevel(t$town, ref = 'Grimsby')
-    ##         model4.panelar <- panelAR(data     = t,
-    ##                                   formula  = formula.model4,
-    ##                                   timeVar  = timevar,
-    ##                                   panelVar = panel.trust,
-    ##                                   autoCorr = autocorr,
-    ##                                   panelCorrMethod = 'pcse',
-    ##                                   complete.case = complete.case,
-    ##                                   seq.times = seq.times,
-    ##                                   rho.na.rm = rho.na.rm)
-    ##         results$model4.panelar.all.coef <- extract_coefficients(x              = model4.panelar,
-    ##                                                             .site          = 'All',
-    ##                                                             .indicator     = indicator,
-    ##                                                             .sub.indicator = sub.indicator)
-    ##         results$model4.panelar.r2 <- model4.panelar$r2
-    ##     }
-    ##     ## Summary table
-    ##     if(!is.null(results$model2.panelar.bishop.coef) |
-    ##        !is.null(results$model2.panelar.hartlepool.coef) |
-    ##        !is.null(results$model2.panelar.hemel.coef) |
-    ##        !is.null(results$model2.panelar.newark.coef) |
-    ##        !is.null(results$model2.panelar.rochdale.coef) |
-    ##        !is.null(results$model4.panelar.all.coef)){
-    ##         results$model4.panelar.all <- combine_coefficients(bishop.coef     = results$model2.panelar.bishop.coef,
-    ##                                                            hartlepool.coef = results$model2.panelar.hartlepool.coef,
-    ##                                                            hemel.coef      = results$model2.panelar.hemel.coef,
-    ##                                                            newark.coef     = results$model2.panelar.newark.coef,
-    ##                                                            rochdale.coef   = results$model2.panelar.rochdale.coef,
-    ##                                                            all.coef        = results$model4.panelar.all.coef)
-    ##         ## Forest plot
-    ##         results$model4.forest <- closed_forest(df.list       = list(results$model2.panelar.bishop.coef,
-    ##                                                                     results$model2.panelar.hartlepool.coef,
-    ##                                                                     results$model2.panelar.hemel.coef,
-    ##                                                                     results$model2.panelar.newark.coef,
-    ##                                                                     results$model2.panelar.rochdale.coef,
-    ##                                                                     results$model4.panelar.all.coef),
-    ##                                                plot.term     = c('closure'),
-    ##                                                facet.outcome = FALSE,
-    ##                                                title         = paste0('Model 2 & 4 : ',
-    ##                                                                       indicator,
-    ##                                                                       ' (',
-    ##                                                                       sub.indicator,
-    ##                                                                       ')'),
-    ##                                                theme         = theme_bw())
-    ##     }
-    ##     ## Return model objects if requested
-    ##     if(return.model == TRUE){
-    ##         if(exists('model4.panelar')){
-    ##             results$model4.panelar     <- model4.panelar
-    ##         }
-    ##     }
-    ##     if(return.df == TRUE){
-    ##         results$model4.df <- df4
-    ##     }
-    ##     if(return.residuals == TRUE){
-    ##         if(exists('model4.panelar')){
-    ##             results$model4.panelar.residuals     <- summary(model4.panelar)$residuals
-    ##         }
-    ##     }
-    ##     ## Remove clutter
-    ##     rm(df4)
-    ## }
-    ## #######################################################################
-    ## ## Model 5                                                           ##
-    ## #######################################################################
-    ## if(!is.null(model5)){
-    ##     ## print("Model 5")
-    ##     ## Reformulate outcome and covariates
-    ##     formula.model5 <- reformulate(response = outcome,
-    ##                                   termlabels = model5)
-    ##     ## Subset data
-    ##     df5 <- filter(df.trust,
-    ##                   measure     == indicator &
-    ##                   sub.measure == sub.indicator)
-    ##     ## Add in indicator of case/control status for plotting
-    ##     case <- c('Bishop Auckland',
-    ##               'Hartlepool',
-    ##               'Hemel Hempstead',
-    ##               'Newark',
-    ##               'Rochdale')
-    ##     df5$status <- ifelse(df5$town %in% case, 'Case', 'Control')
-    ##     ## Generate time-series plot (at site/town level)
-    ##     df5$group <- paste0('Cohort : ', df5$group)
-    ##     sites <- c('Basingstoke', 'Bishop Auckland', 'Blackburn', 'Carlisle', 'Grimsby', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'Rotherham', 'Salford', 'Salisbury', 'Scarborough', 'Scunthorpe', 'Southport', 'WansbeckWarwick', 'Whitehaven', 'Wigan', 'Yeovil')
-    ##     ## results$model5.ts.plot <- closed_ts_plot(df = df5,
-    ##     ##                                          sites = sites,
-    ##     ##                                          indicator = indicator,
-    ##     ##                                          sub.indicator = sub.indicator,
-    ##     ##                                          steps = TRUE,
-    ##     ##                                          lines         = TRUE,
-    ##     ##                                          xaxis.steps   = FALSE,
-    ##     ##                                          facet = TRUE,
-    ##     ##                                          tidy  = TRUE,
-    ##     ##                                          join  = join.line,
-    ##     ##                                          legend = legend)
-    ##     ## Perform analysis with panelAR in each
-    ##     ##################################################
-    ##     ## All sites                                    ##
-    ##     ##################################################
-    ##     t <- df5
-    ##     if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
-    ##        town.group$n[town.group$town == 'Salford'] > 0 &
-    ##        town.group$n[town.group$town == 'Scarborough'] > 0 &
-    ##        town.group$n[town.group$town == 'Whitehaven'] > 0 &
-    ##        town.group$n[town.group$town == 'Hartlepool'] > 0 &
-    ##        town.group$n[town.group$town == 'Blackburn'] > 0 &
-    ##        town.group$n[town.group$town == 'Grimsby'] > 0 &
-    ##        town.group$n[town.group$town == 'Wigan'] > 0 &
-    ##        town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
-    ##        town.group$n[town.group$town == 'Basingstoke'] > 0 &
-    ##        town.group$n[town.group$town == 'Warwick'] > 0 &
-    ##        town.group$n[town.group$town == 'Yeovil'] > 0 &
-    ##        town.group$n[town.group$town == 'Newark'] > 0 &
-    ##        town.group$n[town.group$town == 'Carlisle'] > 0 &
-    ##        town.group$n[town.group$town == 'Salisbury'] > 0 &
-    ##        town.group$n[town.group$town == 'Southport'] > 0 &
-    ##        town.group$n[town.group$town == 'Rochdale'] > 0 &
-    ##        town.group$n[town.group$town == 'Rotherham'] > 0 &
-    ##        town.group$n[town.group$town == 'Scunthorpe'] > 0 &
-    ##        town.group$n[town.group$town == 'Wansbeck'] > 0){
-    ##         t$town <- relevel(t$town, ref = 'Grimsby')
-    ##         model5.panelar <- panelAR(data     = t,
-    ##                                   formula  = formula.model5,
-    ##                                   timeVar  = timevar,
-    ##                                   panelVar = panel.trust,
-    ##                                   autoCorr = autocorr,
-    ##                                   panelCorrMethod = 'pcse',
-    ##                                   complete.case = complete.case,
-    ##                                   seq.times = seq.times,
-    ##                                   rho.na.rm = rho.na.rm)
-    ##         results$model5.panelar.all.coef <- extract_coefficients(x              = model5.panelar,
-    ##                                                                 .site          = 'All',
-    ##                                                                 .indicator     = indicator,
-    ##                                                                 .sub.indicator = sub.indicator)
-    ##         results$model5.panelar.r2 <- model5.panelar$r2
-    ##     }
-    ##     ## Summary table
-    ##     if(!is.null(results$model3.1.panelar.bishop.coef) |
-    ##        !is.null(results$model3.1.panelar.hartlepool.coef) |
-    ##        !is.null(results$model3.1.panelar.hemel.coef) |
-    ##        !is.null(results$model3.1.panelar.newark.coef) |
-    ##        !is.null(results$model3.1.panelar.rochdale.coef) |
-    ##        !is.null(results$model5.panelar.all.coef)){
-    ##         results$model5.panelar.all <- combine_coefficients(bishop.coef     = results$model3.1.panelar.bishop.coef,
-    ##                                                            hartlepool.coef = results$model3.1.panelar.hartlepool.coef,
-    ##                                                            hemel.coef      = results$model3.1.panelar.hemel.coef,
-    ##                                                            newark.coef     = results$model3.1.panelar.newark.coef,
-    ##                                                            rochdale.coef   = results$model3.1.panelar.rochdale.coef,
-    ##                                                            all.coef        = results$model5.panelar.all.coef)
-    ##         ## Forest plot
-    ##         results$model5.forest <- closed_forest(df.list       = list(results$model3.1.panelar.bishop.coef,
-    ##                                                                     results$model3.1.panelar.hartlepool.coef,
-    ##                                                                     results$model3.1.panelar.hemel.coef,
-    ##                                                                     results$model3.1.panelar.newark.coef,
-    ##                                                                     results$model3.1.panelar.rochdale.coef,
-    ##                                                                     results$model5.panelar.all.coef),
-    ##                                                plot.term     = c('closure'),
-    ##                                                facet.outcome = FALSE,
-    ##                                                title         = paste0('Model 3 & 5  : ',
-    ##                                                                       indicator,
-    ##                                                                       ' (',
-    ##                                                                       sub.indicator,
-    ##                                                                       ')'),
-    ##                                                theme         = theme_bw())
-    ##     }
-    ##     ## Return model objects if requested
-    ##     if(return.model == TRUE){
-    ##         if(exists('model5.panelar')){
-    ##             results$model5.panelar     <- model5.panelar
-    ##         }
-    ##     }
-    ##     if(return.df == TRUE){
-    ##         results$model5.df <- df5
-    ##     }
-    ##     if(return.residuals == TRUE){
-    ##         if(exists('model5.panelar')){
-    ##             results$model5.panelar.residuals.all     <- summary(model5.panelar)$residuals
-    ##         }
-    ##     }
-    ##     ## Remove clutter
-    ##     rm(df5)
-    ## }
-    ## #######################################################################
-    ## ## Model 6.1                                                         ##
-    ## #######################################################################
-    ## if(!is.null(model6.1)){
-    ##     ## print("Model 6.1")
-    ##     ## Reformulate outcome and covariates
-    ##     formula.model6.1 <- reformulate(response = outcome,
-    ##                                   termlabels = model6.1)
-    ##     ## Subset data
-    ##     sites <- c('Bishop Auckland',
-    ##                'Hartlepool',
-    ##                'Hemel Hempstead',
-    ##                'Newark',
-    ##                'Rochdale')
-    ##     df6.1 <- filter(df.lsoa, town %in% sites &
-    ##                         measure     == indicator &
-    ##                         sub.measure == sub.indicator)
-    ##     df6.1$group <- paste0('Cohort : ', df6.1$group)
-    ##     ## Add in indicator of case/control status for plotting
-    ##     case <- c('Bishop Auckland',
-    ##               'Hartlepool',
-    ##               'Hemel Hempstead',
-    ##               'Newark',
-    ##               'Rochdale')
-    ##     df6.1$status <- ifelse(df6.1$town %in% case, 'Case', 'Control')
-    ##     ## Generate time-series plot (at site/town level)
-    ##     df6.1.trust <- filter(df.trust, town %in% sites &
-    ##                         measure     == indicator &
-    ##                         sub.measure == sub.indicator)
-    ##     df6.1.trust$group <- paste0('Cohort : ', df6.1.trust$group)
-    ##     ## results$model6.1.ts.plot <- closed_ts_plot(df = df6.1.trust,
-    ##     ##                                          sites = sites,
-    ##     ##                                          indicator = indicator,
-    ##     ##                                          sub.indicator = sub.indicator,
-    ##     ##                                          steps = TRUE,
-    ##     ##                                          lines         = TRUE,
-    ##     ##                                          xaxis.steps   = FALSE,
-    ##     ##                                          facet = TRUE,
-    ##     ##                                          tidy  = TRUE,
-    ##     ##                                          join  = join.line,
-    ##     ##                                          legend = legend)
-    ##     ## Perform analysis with panelAR in each
-    ##     ##################################################
-    ##     ## Model 6.1 - Bishop Auckland                    ##
-    ##     ##################################################
-    ##     ## print("Bishop Auckland")
-    ##     t <- filter(df6.1,
-    ##                 town == 'Bishop Auckland')
-    ##     ## Getting errors with complete.case == TRUE...
-    ##     ##
-    ##     ## Error: Unable to compute correlated SEs / PCSEs because there are no time
-    ##     ## periods in common across all units. Instead, consider setting
-    ##     ## complete.case =FALSE.
-    ##     ##
-    ##     ## ...so have opted for that for ALL LSOA analyses rather than conditionally
-    ##     ## switching.
-    ##     ## complete.case.6.1 <- complete.case
-    ##     ## if(indicator == 'case fatality ratio' & sub.indicator == 'any') complete.case.6.1 <- FALSE
-    ##     complete.case <- FALSE
-    ##     if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
-    ##         ## Remove instances where there are missing observations for LSOAs
-    ##         t <- filter(t, !is.na(value))
-    ##         model6.1.panelar.bishop <- panelAR(data     = t,
-    ##                                          formula  = formula.model6.1,
-    ##                                          timeVar  = timevar,
-    ##                                          panelVar = panel.lsoa,
-    ##                                          autoCorr = autocorr,
-    ##                                          panelCorrMethod = 'pcse',
-    ##                                          complete.case = complete.case,
-    ##                                          seq.times = seq.times,
-    ##                                          rho.na.rm = rho.na.rm)
-    ##         results$model6.1.panelar.bishop.coef <- extract_coefficients(x              = model6.1.panelar.bishop,
-    ##                                                                    .site          = 'Bishop Auckland',
-    ##                                                                    .indicator     = indicator,
-    ##                                                                    .sub.indicator = sub.indicator)
-    ##         results$model6.1.panelar.bishop.r2 <- model6.1.panelar.bishop
-    ##     }
-    ##     ##################################################
-    ##     ## Model 6.1 - Hartlepool                       ##
-    ##     ##################################################
-    ##     ## print("Hartlepool")
-    ##     t <- filter(df6.1,
-    ##                 town == 'Hartlepool')
-    ##     if(town.group$n[town.group$town == 'Hartlepool'] > 0){
-    ##         ## Remove instances where there are missing observations for LSOAs
-    ##         t <- filter(t, !is.na(value))
-    ##         model6.1.panelar.hartlepool <- panelAR(data     = t,
-    ##                                              formula  = formula.model6.1,
-    ##                                              timeVar  = timevar,
-    ##                                              panelVar = panel.lsoa,
-    ##                                              autoCorr = autocorr,
-    ##                                              panelCorrMethod = 'pcse',
-    ##                                              complete.case = complete.case,
-    ##                                              seq.times = seq.times,
-    ##                                              rho.na.rm = rho.na.rm)
-    ##         results$model6.1.panelar.hartlepool.coef <- extract_coefficients(x             = model6.1.panelar.hartlepool,
-    ##                                                                        .site          = 'Hartlepool',
-    ##                                                                        .indicator     = indicator,
-    ##                                                                        .sub.indicator = sub.indicator)
-    ##         results$model6.1.panelar.hartlepool.r2 <- model6.1.panelar.hartlepool$r2
-    ##     }
-    ##     ##################################################
-    ##     ## Model 6.1 - Hemel Hempstead                  ##
-    ##     ##################################################
-    ##     ## print("Hemel Hempstead")
-    ##     t <- filter(df6.1,
-    ##                 town == 'Hemel Hempstead')
-    ##     if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0){
-    ##         ## Remove instances where there are missing observations for LSOAs
-    ##         t <- filter(t, !is.na(value))
-    ##         model6.1.panelar.hemel <- panelAR(data     = t,
-    ##                                         formula  = formula.model6.1,
-    ##                                         timeVar  = timevar,
-    ##                                         panelVar = panel.lsoa,
-    ##                                         autoCorr = autocorr,
-    ##                                         panelCorrMethod = 'pcse',
-    ##                                         complete.case = complete.case,
-    ##                                         seq.times = seq.times,
-    ##                                         rho.na.rm = rho.na.rm)
-    ##         results$model6.1.panelar.hemel.coef <- extract_coefficients(x              = model6.1.panelar.hemel,
-    ##                                                                   .site          = 'Hemel Hempstead',
-    ##                                                                   .indicator     = indicator,
-    ##                                                                   .sub.indicator = sub.indicator)
-    ##         results$model6.1.panelar.hemel.r2 <- model6.1.panelar.hemel$r2
-    ##     }
-    ##     ##################################################
-    ##     ## Model 6.1 - Newark                           ##
-    ##     ##################################################
-    ##     ## print("Newark")
-    ##     t <- filter(df6.1,
-    ##                 town == 'Newark')
-    ##     if(town.group$n[town.group$town == 'Newark'] > 0){
-    ##         ## Remove instances where there are missing observations for LSOAs
-    ##         t <- filter(t, !is.na(value))
-    ##         model6.1.panelar.newark <- panelAR(data     = t,
-    ##                                          formula  = formula.model6.1,
-    ##                                          timeVar  = timevar,
-    ##                                          panelVar = panel.lsoa,
-    ##                                          autoCorr = autocorr,
-    ##                                          panelCorrMethod = 'pcse',
-    ##                                          complete.case = complete.case,
-    ##                                          seq.times = seq.times,
-    ##                                          rho.na.rm = rho.na.rm)
-    ##         results$model6.1.panelar.newark.coef <- extract_coefficients(x              = model6.1.panelar.newark,
-    ##                                                                    .site          = 'Newark',
-    ##                                                                    .indicator     = indicator,
-    ##                                                                    .sub.indicator = sub.indicator)
-    ##         results$model6.1.panelar.newark.r2 <- model6.1.panelar.newark$r2
-    ##     }
-    ##     ##################################################
-    ##     ## Model 6.1 - Rochdale                         ##
-    ##     ##################################################
-    ##     ## print("Rochdale")
-    ##     t <- filter(df6.1,
-    ##                 town == 'Rochdale')
-    ##     if(town.group$n[town.group$town == 'Rochdale'] > 0){
-    ##         ## Remove instances where there are missing observations for LSOAs
-    ##         t <- filter(t, !is.na(value))
-    ##         model6.1.panelar.rochdale <- panelAR(data     = t,
-    ##                                            formula  = formula.model6.1,
-    ##                                            timeVar  = timevar,
-    ##                                            panelVar = panel.lsoa,
-    ##                                            autoCorr = autocorr,
-    ##                                            panelCorrMethod = 'pcse',
-    ##                                            complete.case = complete.case,
-    ##                                            seq.times = seq.times,
-    ##                                            rho.na.rm = rho.na.rm)
-    ##         results$model6.1.panelar.rochdale.coef <- extract_coefficients(x            = model6.1.panelar.rochdale,
-    ##                                                                      .site          = 'Rochdale',
-    ##                                                                      .indicator     = indicator,
-    ##                                                                      .sub.indicator = sub.indicator)
-    ##         results$model6.1.panelar.rochdale.r2 <- model6.1.panelar.rochdale$r2
-    ##     }
-    ##     ## Summary table
-    ##     if(!is.null(results$model6.1.panelar.bishop.coef) |
-    ##        !is.null(results$model6.1.panelar.hartlepool.coef) |
-    ##        !is.null(results$model6.1.panelar.hemel.coef) |
-    ##        !is.null(results$model6.1.panelar.newark.coef) |
-    ##        !is.null(results$model6.1.panelar.rochdale.coef)){
-    ##         results$model6.1.panelar.all <- combine_coefficients(bishop.coef     = results$model6.1.panelar.bishop.coef,
-    ##                                                            hartlepool.coef = results$model6.1.panelar.hartlepool.coef,
-    ##                                                            hemel.coef      = results$model6.1.panelar.hemel.coef,
-    ##                                                            newark.coef     = results$model6.1.panelar.newark.coef,
-    ##                                                            rochdale.coef   = results$model6.1.panelar.rochdale.coef)
-    ##         ## Forest plot
-    ##         results$model6.1.forest.model6.1 <- closed_forest(df.list       = list(results$model6.1.panelar.bishop.coef,
-    ##                                                                            results$model6.1.panelar.hartlepool.coef,
-    ##                                                                            results$model6.1.panelar.hemel.coef,
-    ##                                                                            results$model6.1.panelar.newark.coef,
-    ##                                                                            results$model6.1.panelar.rochdale.coef),
-    ##                                                       plot.term     = c('closure'),
-    ##                                                       facet.outcome = FALSE,
-    ##                                                       title         = paste0('Model 6.1 : ',
-    ##                                                                              indicator,
-    ##                                                                              ' (',
-    ##                                                                              sub.indicator,
-    ##                                                                              ')'),
-    ##                                                       theme         = theme_bw())
-    ##     }
-    ##     ## Return model objects if requested
-    ##     if(return.model == TRUE){
-    ##         if(exists('model6.1.panelar.bishop')){
-    ##             results$model6.1.panelar.bishop     <- model6.1.panelar.bishop
-    ##         }
-    ##         if(exists('model6.1.panelar.hartlepool')){
-    ##             results$model6.1.panelar.hartlepool <- model6.1.panelar.hartlepool
-    ##         }
-    ##         if(exists('model6.1.panelar.hemel')){
-    ##             results$model6.1.panelar.hemel      <- model6.1.panelar.hemel
-    ##         }
-    ##         if(exists('model6.1.panelar.newark')){
-    ##             results$model6.1.panelar.newark     <- model6.1.panelar.newark
-    ##         }
-    ##         if(exists('model6.1.panelar.rochdale')){
-    ##             results$model6.1.panelar.rochdale   <- model6.1.panelar.rochdale
-    ##         }
-    ##     }
-    ##     if(return.df == TRUE){
-    ##         results$model6.1.df <- df6.1
-    ##     }
-    ##     if(return.residuals == TRUE){
-    ##         if(exists('model6.1.panelar.bishop')){
-    ##             results$model6.1.panelar.residuals.bishop     <- summary(model6.1.panelar.bishop)$residuals
-    ##         }
-    ##         if(exists('model6.1.panelar.hartlepool')){
-    ##             results$model6.1.panelar.residuals.hartlepool <- summary(model6.1.panelar.hartlepool)$residuals
-    ##         }
-    ##         if(exists('model6.1.panelar.hemel')){
-    ##             results$model6.1.panelar.residuals.hemel      <- summary(model6.1.panelar.hemel)$residuals
-    ##         }
-    ##         if(exists('model6.1.panelar.newark')){
-    ##             results$model6.1.panelar.residuals.newark     <- summary(model6.1.panelar.newark)$residuals
-    ##         }
-    ##         if(exists('model6.1.panelar.rochdale')){
-    ##             results$model6.1.panelar.residuals.rochdale   <- summary(model6.1.panelar.rochdale)$residuals
-    ##         }
-    ##     }
-    ##     ## Remove clutter
-    ##     rm(df6.1)
-    ## }
-    ## #######################################################################
-    ## ## Model 6.2                                                         ##
-    ## #######################################################################
-    ## if(!is.null(model6.2)){
-    ##     ## print("Model 6.2")
-    ##     ## Reformulate outcome and covariates
-    ##     formula.model6.2 <- reformulate(response = outcome,
-    ##                                   termlabels = model6.2)
-    ##     ## Subset data
-    ##     sites <- c('Bishop Auckland', 'Whitehaven',
-    ##                'Hartlepool', 'Grimsby',
-    ##                'Hemel Hempstead', 'Warwick',
-    ##                'Newark', 'Southport',
-    ##                'Rochdale', 'Rotherham')
-    ##     df6.2 <- filter(df.lsoa, town %in% sites &
-    ##                         measure     == indicator &
-    ##                         sub.measure == sub.indicator)
-    ##     df6.2$group <- paste0('Cohort : ', df6.2$group)
-    ##     ## Add in indicator of case/control status for plotting
-    ##     case <- c('Bishop Auckland',
-    ##               'Hartlepool',
-    ##               'Hemel Hempstead',
-    ##               'Newark',
-    ##               'Rochdale')
-    ##     df6.2$status <- ifelse(df6.2$town %in% case, 'Case', 'Control')
-    ##     ## Generate time-series plot (at site/town level)
-    ##     df6.2.trust <- filter(df.trust, town %in% sites &
-    ##                         measure     == indicator &
-    ##                         sub.measure == sub.indicator)
-    ##     df6.2.trust$group <- paste0('Cohort : ', df6.2.trust$group)
-    ##     ## results$model6.2.ts.plot <- closed_ts_plot(df = df6.2.trust,
-    ##     ##                                          sites = sites,
-    ##     ##                                          indicator = indicator,
-    ##     ##                                          sub.indicator = sub.indicator,
-    ##     ##                                          steps = TRUE,
-    ##     ##                                          lines         = TRUE,
-    ##     ##                                          xaxis.steps   = FALSE,
-    ##     ##                                          facet = TRUE,
-    ##     ##                                          tidy  = TRUE,
-    ##     ##                                          join  = join.line,
-    ##     ##                                          legend = legend)
-    ##     ## Perform analysis with panelAR in each
-    ##     ##################################################
-    ##     ## Model 6.2 - Bishop Auckland                  ##
-    ##     ##################################################
-    ##     ## print("Bishop Auckland")
-    ##     t <- filter(df6.2,
-    ##                 town == 'Bishop Auckland' |
-    ##                 town == 'Whitehaven')
-    ##     ## Getting errors with complete.case == TRUE...
-    ##     ##
-    ##     ## Error: Unable to compute correlated SEs / PCSEs because there are no time
-    ##     ## periods in common across all units. Instead, consider setting
-    ##     ## complete.case =FALSE.
-    ##     ##
-    ##     ## ...so have opted for that for ALL LSOA analyses rather than conditionally
-    ##     ## switching.
-    ##     ## complete.case.6.2 <- complete.case
-    ##     ## if(indicator == 'case fatality ratio' & sub.indicator == 'any') complete.case.6.2 <- FALSE
-    ##     complete.case <- FALSE
-    ##     if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 & town.group$n[town.group$town == 'Whitehaven'] > 0 ){
-    ##         t$town <- relevel(t$town, ref = 'Whitehaven')
-    ##         ## Remove instances where there are missing observations for LSOAs
-    ##         t <- filter(t, !is.na(value))
-    ##         model6.2.panelar.bishop <- panelAR(data     = t,
-    ##                                          formula  = formula.model6.2,
-    ##                                          timeVar  = timevar,
-    ##                                          panelVar = panel.lsoa,
-    ##                                          autoCorr = autocorr,
-    ##                                          panelCorrMethod = 'pcse',
-    ##                                          complete.case = complete.case,
-    ##                                          seq.times = seq.times,
-    ##                                          rho.na.rm = rho.na.rm)
-    ##         results$model6.2.panelar.bishop.coef <- extract_coefficients(x              = model6.2.panelar.bishop,
-    ##                                                                    .site          = 'Bishop Auckland',
-    ##                                                                    .indicator     = indicator,
-    ##                                                                    .sub.indicator = sub.indicator)
-    ##         results$model6.2.panelar.bishop.r2 <- model6.2.panelar.bishop
-    ##     }
-    ##     ##################################################
-    ##     ## Model 6.2 - Hartlepool                       ##
-    ##     ##################################################
-    ##     ## print("Hartlepool")
-    ##     t <- filter(df6.2,
-    ##                 town == 'Hartlepool' |
-    ##                 town == 'Grimsby')
-    ##     if(town.group$n[town.group$town == 'Hartlepool'] > 0 & town.group$n[town.group$town == 'Grimsby'] > 0){
-    ##         t$town <- relevel(t$town, ref = 'Grimsby')
-    ##         ## Remove instances where there are missing observations for LSOAs
-    ##         t <- filter(t, !is.na(value))
-    ##         model6.2.panelar.hartlepool <- panelAR(data     = t,
-    ##                                              formula  = formula.model6.2,
-    ##                                              timeVar  = timevar,
-    ##                                              panelVar = panel.lsoa,
-    ##                                              autoCorr = autocorr,
-    ##                                              panelCorrMethod = 'pcse',
-    ##                                              complete.case = complete.case,
-    ##                                              seq.times = seq.times,
-    ##                                              rho.na.rm = rho.na.rm)
-    ##         results$model6.2.panelar.hartlepool.coef <- extract_coefficients(x             = model6.2.panelar.hartlepool,
-    ##                                                                        .site          = 'Hartlepool',
-    ##                                                                        .indicator     = indicator,
-    ##                                                                        .sub.indicator = sub.indicator)
-    ##         results$model6.2.panelar.hartlepool.r2 <- model6.2.panelar.hartlepool$r2
-    ##     }
-    ##     ##################################################
-    ##     ## Model 6.2 - Hemel Hempstead                  ##
-    ##     ##################################################
-    ##     ## print("Hemel Hempstead")
-    ##     t <- filter(df6.2,
-    ##                 town == 'Hemel Hempstead' |
-    ##                 town == 'Warwick')
-    ##     if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0 & town.group$n[town.group$town == 'Warwick'] > 0){
-    ##         t$town <- relevel(t$town, ref = 'Warwick')
-    ##         ## Remove instances where there are missing observations for LSOAs
-    ##         t <- filter(t, !is.na(value))
-    ##         model6.2.panelar.hemel <- panelAR(data     = t,
-    ##                                         formula  = formula.model6.2,
-    ##                                         timeVar  = timevar,
-    ##                                         panelVar = panel.lsoa,
-    ##                                         autoCorr = autocorr,
-    ##                                         panelCorrMethod = 'pcse',
-    ##                                         complete.case = complete.case,
-    ##                                         seq.times = seq.times,
-    ##                                         rho.na.rm = rho.na.rm)
-    ##         results$model6.2.panelar.hemel.coef <- extract_coefficients(x              = model6.2.panelar.hemel,
-    ##                                                                   .site          = 'Hemel Hempstead',
-    ##                                                                   .indicator     = indicator,
-    ##                                                                   .sub.indicator = sub.indicator)
-    ##         results$model6.2.panelar.hemel.r2 <- model6.2.panelar.hemel$r2
-    ##     }
-    ##     ##################################################
-    ##     ## Model 6.2 - Newark                           ##
-    ##     ##################################################
-    ##     ## print("Newark")
-    ##     t <- filter(df6.2,
-    ##                 town == 'Newark' |
-    ##                 town == 'Southport')
-    ##     if(town.group$n[town.group$town == 'Newark'] > 0 & town.group$n[town.group$town == 'Southport'] > 0){
-    ##         t$town <- relevel(t$town, ref = 'Southport')
-    ##         ## Remove instances where there are missing observations for LSOAs
-    ##         t <- filter(t, !is.na(value))
-    ##         model6.2.panelar.newark <- panelAR(data     = t,
-    ##                                          formula  = formula.model6.2,
-    ##                                          timeVar  = timevar,
-    ##                                          panelVar = panel.lsoa,
-    ##                                          autoCorr = autocorr,
-    ##                                          panelCorrMethod = 'pcse',
-    ##                                          complete.case = complete.case,
-    ##                                          seq.times = seq.times,
-    ##                                          rho.na.rm = rho.na.rm)
-    ##         results$model6.2.panelar.newark.coef <- extract_coefficients(x              = model6.2.panelar.newark,
-    ##                                                                    .site          = 'Newark',
-    ##                                                                    .indicator     = indicator,
-    ##                                                                    .sub.indicator = sub.indicator)
-    ##         results$model6.2.panelar.newark.r2 <- model6.2.panelar.newark$r2
-    ##     }
-    ##     ##################################################
-    ##     ## Model 6.2 - Rochdale                         ##
-    ##     ##################################################
-    ##     ## print("Rochdale")
-    ##     t <- filter(df6.2,
-    ##                 town == 'Rochdale' |
-    ##                 town == 'Rotherham')
-    ##     if(town.group$n[town.group$town == 'Rochdale'] > 0 & town.group$n[town.group$town == 'Rotherham'] > 0){
-    ##         t$town <- relevel(t$town, ref = 'Rotherham')
-    ##         ## Remove instances where there are missing observations for LSOAs
-    ##         t <- filter(t, !is.na(value))
-    ##         model6.2.panelar.rochdale <- panelAR(data     = t,
-    ##                                            formula  = formula.model6.2,
-    ##                                            timeVar  = timevar,
-    ##                                            panelVar = panel.lsoa,
-    ##                                            autoCorr = autocorr,
-    ##                                            panelCorrMethod = 'pcse',
-    ##                                            complete.case = complete.case,
-    ##                                            seq.times = seq.times,
-    ##                                            rho.na.rm = rho.na.rm)
-    ##         results$model6.2.panelar.rochdale.coef <- extract_coefficients(x            = model6.2.panelar.rochdale,
-    ##                                                                      .site          = 'Rochdale',
-    ##                                                                      .indicator     = indicator,
-    ##                                                                      .sub.indicator = sub.indicator)
-    ##         results$model6.2.panelar.rochdale.r2 <- model6.2.panelar.rochdale$r2
-    ##     }
-    ##     ## Summary table
-    ##     if(!is.null(results$model6.2.panelar.bishop.coef) |
-    ##        !is.null(results$model6.2.panelar.hartlepool.coef) |
-    ##        !is.null(results$model6.2.panelar.hemel.coef) |
-    ##        !is.null(results$model6.2.panelar.newark.coef) |
-    ##        !is.null(results$model6.2.panelar.rochdale.coef)){
-    ##         results$model6.2.panelar.all <- combine_coefficients(bishop.coef     = results$model6.2.panelar.bishop.coef,
-    ##                                                            hartlepool.coef = results$model6.2.panelar.hartlepool.coef,
-    ##                                                            hemel.coef      = results$model6.2.panelar.hemel.coef,
-    ##                                                            newark.coef     = results$model6.2.panelar.newark.coef,
-    ##                                                            rochdale.coef   = results$model6.2.panelar.rochdale.coef)
-    ##         ## Forest plot
-    ##         results$model6.2.forest.model6.2 <- closed_forest(df.list       = list(results$model6.2.panelar.bishop.coef,
-    ##                                                                            results$model6.2.panelar.hartlepool.coef,
-    ##                                                                            results$model6.2.panelar.hemel.coef,
-    ##                                                                            results$model6.2.panelar.newark.coef,
-    ##                                                                            results$model6.2.panelar.rochdale.coef),
-    ##                                                       plot.term     = c('closure'),
-    ##                                                       facet.outcome = FALSE,
-    ##                                                       title         = paste0('Model 6.2 : ',
-    ##                                                                              indicator,
-    ##                                                                              ' (',
-    ##                                                                              sub.indicator,
-    ##                                                                              ')'),
-    ##                                                       theme         = theme_bw())
-    ##     }
-    ##     ## Return model objects if requested
-    ##     if(return.model == TRUE){
-    ##         if(exists('model6.2.panelar.bishop')){
-    ##             results$model6.2.panelar.bishop     <- model6.2.panelar.bishop
-    ##         }
-    ##         if(exists('model6.2.panelar.hartlepool')){
-    ##             results$model6.2.panelar.hartlepool <- model6.2.panelar.hartlepool
-    ##         }
-    ##         if(exists('model6.2.panelar.hemel')){
-    ##             results$model6.2.panelar.hemel      <- model6.2.panelar.hemel
-    ##         }
-    ##         if(exists('model6.2.panelar.newark')){
-    ##             results$model6.2.panelar.newark     <- model6.2.panelar.newark
-    ##         }
-    ##         if(exists('model6.2.panelar.rochdale')){
-    ##             results$model6.2.panelar.rochdale   <- model6.2.panelar.rochdale
-    ##         }
-    ##     }
-    ##     if(return.df == TRUE){
-    ##         results$model6.2.df <- df6.2
-    ##     }
-    ##     if(return.residuals == TRUE){
-    ##         if(exists('model6.2.panelar.bishop')){
-    ##             results$model6.2.panelar.residuals.bishop     <- summary(model6.2.panelar.bishop)$residuals
-    ##         }
-    ##         if(exists('model6.2.panelar.hartlepool')){
-    ##             results$model6.2.panelar.residuals.hartlepool <- summary(model6.2.panelar.hartlepool)$residuals
-    ##         }
-    ##         if(exists('model6.2.panelar.hemel')){
-    ##             results$model6.2.panelar.residuals.hemel      <- summary(model6.2.panelar.hemel)$residuals
-    ##         }
-    ##         if(exists('model6.2.panelar.newark')){
-    ##             results$model6.2.panelar.residuals.newark     <- summary(model6.2.panelar.newark)$residuals
-    ##         }
-    ##         if(exists('model6.2.panelar.rochdale')){
-    ##             results$model6.2.panelar.residuals.rochdale   <- summary(model6.2.panelar.rochdale)$residuals
-    ##         }
-    ##     }
-    ##     ## Remove clutter
-    ##     rm(df6.2)
-    ## }
-    ## #######################################################################
-    ## ## Model 7                                                           ##
-    ## #######################################################################
-    ## if(!is.null(model7)){
-    ##     ## print("Model 7")
-    ##     ## Reformulate outcome and covariates
-    ##     formula.model7 <- reformulate(response = outcome,
-    ##                                   termlabels = model7)
-    ##     ## Subset data
-    ##     sites <- c('Bishop Auckland', 'Whitehaven',
-    ##                'Hartlepool', 'Grimsby',
-    ##                'Hemel Hempstead', 'Warwick',
-    ##                'Newark', 'Southport',
-    ##                'Rochdale', 'Rotherham')
-    ##     df7 <- filter(df.lsoa, town %in% sites &
-    ##                   measure     == indicator &
-    ##                   sub.measure == sub.indicator)
-    ##     ## Two LSOAs overlap two EDs so derive a new unique indicator
-    ##     ## and use that for the panels
-    ##     df7$town.lsoa <- paste0(df7$town, df7$lsoa)
-    ##     ## Add in indicator of case/control status for plotting
-    ##     case <- c('Bishop Auckland',
-    ##               'Hartlepool',
-    ##               'Hemel Hempstead',
-    ##               'Newark',
-    ##               'Rochdale')
-    ##     df7$status <- ifelse(df7$town %in% case, 'Case', 'Control')
-    ##     results$df7 <- df7
-    ##     ## Generate time-series plot (at site/town level)
-    ##     df7$group <- paste0('Cohort : ', df7$group)
-    ##     results$model7.ts.plot <- closed_ts_plot(df = df7,
-    ##                                              sites = sites,
-    ##                                              indicator = indicator,
-    ##                                              sub.indicator = sub.indicator,
-    ##                                              steps = TRUE,
-    ##                                              lines         = TRUE,
-    ##                                              xaxis.steps   = FALSE,
-    ##                                              facet = TRUE,
-    ##                                              tidy  = TRUE,
-    ##                                              join  = join.line,
-    ##                                              legend = legend)
-    ##     ## Perform analysis with panelAR in each
-    ##     ##################################################
-    ##     ## All sites                                    ##
-    ##     ##################################################
-    ##     formula.model7 <- reformulate(response = outcome,
-    ##                                    termlabels = c(model7))
-    ##     t <- filter(df7,
-    ##                 measure     == indicator &
-    ##                 sub.measure == sub.indicator)
-    ##     if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
-    ##        town.group$n[town.group$town == 'Whitehaven'] > 0 &
-    ##        town.group$n[town.group$town == 'Hartlepool'] > 0 &
-    ##        town.group$n[town.group$town == 'Grimsby'] > 0 &
-    ##        town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
-    ##        town.group$n[town.group$town == 'Warwick'] > 0 &
-    ##        town.group$n[town.group$town == 'Newark'] > 0 &
-    ##        town.group$n[town.group$town == 'Southport'] > 0 &
-    ##        town.group$n[town.group$town == 'Rochdale'] > 0 &
-    ##        town.group$n[town.group$town == 'Rotherham'] > 0){
-    ##         t$town <- relevel(t$town, ref = 'Grimsby')
-    ##         ## Getting errors with complete.case == TRUE...
-    ##         ##
-    ##         ## Error: Unable to compute correlated SEs / PCSEs because there are no time
-    ##         ## periods in common across all units. Instead, consider setting
-    ##         ## complete.case =FALSE.
-    ##         ##
-    ##         ## ...so have opted for that for ALL LSOA analyses rather than conditionally
-    ##         ## switching.
-    ##         ## if(indicator == 'length of stay')      complete.case <- FALSE
-    ##         ## if(indicator == 'case fatality ratio') complete.case <- FALSE
-    ##         complete.case <- FALSE
-    ##         model7.panelar <- panelAR(data     = t,
-    ##                                   formula  = formula.model7,
-    ##                                   timeVar  = timevar,
-    ##                                   panelVar = 'town.lsoa',
-    ##                                   autoCorr = autocorr,
-    ##                                   panelCorrMethod = 'pcse',
-    ##                                   complete.case = complete.case,
-    ##                                   seq.times = seq.times,
-    ##                                   rho.na.rm = rho.na.rm)
-    ##         results$model7.panelar.all.coef <- extract_coefficients(x              = model7.panelar,
-    ##                                                             .site          = 'All',
-    ##                                                             .indicator     = indicator,
-    ##                                                             .sub.indicator = sub.indicator)
-    ##         results$model7.panelar.r2 <- model7.panelar$r2
-    ##     }
-    ##     ## Summary table
-    ##     if(!is.null(results$model6.1.panelar.bishop.coef) |
-    ##        !is.null(results$model6.1.panelar.hartlepool.coef) |
-    ##        !is.null(results$model6.1.panelar.hemel.coef) |
-    ##        !is.null(results$model6.1.panelar.newark.coef) |
-    ##        !is.null(results$model6.1.panelar.rochdale.coef) |
-    ##        !is.null(results$model7.panelar.all.coef)){
-    ##         results$model7.panelar.all <- combine_coefficients(bishop.coef     = results$model6.1.panelar.bishop.coef,
-    ##                                                            hartlepool.coef = results$model6.1.panelar.hartlepool.coef,
-    ##                                                            hemel.coef      = results$model6.1.panelar.hemel.coef,
-    ##                                                            newark.coef     = results$model6.1.panelar.newark.coef,
-    ##                                                            rochdale.coef   = results$model6.1.panelar.rochdale.coef,
-    ##                                                            all.coef        = results$model7.panelar.all.coef)
-    ##         ## ## Forest plot
-    ##         results$model7.forest <- closed_forest(df.list       = list(results$model6.1.panelar.bishop.coef,
-    ##                                                                     results$model6.1.panelar.hartlepool.coef,
-    ##                                                                     results$model6.1.panelar.hemel.coef,
-    ##                                                                     results$model6.1.panelar.newark.coef,
-    ##                                                                     results$model6.1.panelar.rochdale.coef,
-    ##                                                                     results$model7.panelar.all.coef),
-    ##                                                plot.term     = c('closure'),
-    ##                                                facet.outcome = FALSE,
-    ##                                                title         = paste0('Model 6 & Model 7 : ',
-    ##                                                                       indicator,
-    ##                                                                       ' (',
-    ##                                                                       sub.indicator,
-    ##                                                                       ')'),
-    ##                                                theme         = theme_bw())
-    ##     }
-    ##     ## Return model objects if requested
-    ##     if(return.model == TRUE){
-    ##         if(exists('model7.panelar')){
-    ##             results$model7.panelar     <- model7.panelar
-    ##         }
-    ##     }
-    ##     if(return.df == TRUE){
-    ##         results$model7.df <- df7
-    ##     }
-    ##     if(return.residuals == TRUE){
-    ##         if(exists('model7.panelar')){
-    ##             results$model7.panelar.residuals.all     <- summary(model7.panelar)$residuals
-    ##         }
-    ##     }
-    ##     ## Remove clutter
-    ##     rm(df7)
-    ## }
+    #######################################################################
+    ## Model 4                                                           ##
+    #######################################################################
+    if(!is.null(model4)){
+        ## print("Model 4")
+        ## Subset data
+        df4 <- filter(df.trust,
+                      ## town %in% sites &
+                      measure     == indicator &
+                      sub.measure == sub.indicator)
+        ##################################################
+        ## Model 4 - Bishop Auckland                  ##
+        ##################################################
+        ## print("Bishop Auckland")
+        ts.vector  <- filter(df4,
+                             town        %in% c('Bishop Auckland', 'Whitehaven', 'Hartlepool', 'Grimsby', 'Hemel Hempstead', 'Warwick', 'Newark', 'Southport', 'Rochdale', 'Rotherham')) %>%
+            as.data.frame() %>% .[,'value']
+        df4$town_ <- relevel(df4$town, ref = 'Whitehaven')
+        town <- model.matrix(~df4$town_)
+        names(town) <-c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'wigan', 'yeovil')
+        regressors <- cbind(df4, town) %>%
+                      filter(town        %in% c('Bishop Auckland', 'Whitehaven', 'Hartlepool', 'Grimsby', 'Hemel Hempstead', 'Warwick', 'Newark', 'Southport', 'Rochdale', 'Rotherham')) %>%
+                      dplyr::select(bishop, hartlepool, grimsby, hemel, warwick, newark, southport, rochdale, rotherham, closure, season2, season3, season4, season5, season6, relative.month, nhs111)
+        ## return(t)
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
+            model4.tsglm.all <- tsglm(ts = ts.vector,
+                                         link = tsglm.link,
+                                         model = tsglm.model,
+                                         xreg  = regressors,
+                                         distr = tsglm.distr)
+            results$model4.tsglm.all.coef <- se(model4.tsglm.all)
+            results$model4.tsglm.all.coef$site          <- 'Bishop Auckland'
+            results$model4.tsglm.all.coef$indicator     <- indicator
+            results$model4.tsglm.all.coef$sub.indicator <- sub.indicator
+        }
+        ## Summary table
+        results$model4.tsglm.coefficients <- combine_coefficients(bishop.coef     = results$model4.tsglm.bishop.coef,
+                                                                  hartlepool.coef = results$model4.tsglm.hartlepool.coef,
+                                                                  hemel.coef      = results$model4.tsglm.hemel.coef,
+                                                                  newark.coef     = results$model4.tsglm.newark.coef,
+                                                                  rochdale.coef   = results$model4.tsglm.rochdale.coef,
+                                                                  .indicator      = indicator,
+                                                                  .sub.indicator  = sub.indicator)
+        ## Extract coefficients for plotting
+        ## ## Forest plot
+        results$model4.forest <- closed_forest(df.list = list(results$model4.tsglm.coefficients),
+                                               plot.term     = c('closure'),
+                                               facet.outcome = FALSE,
+                                               title         = paste0('Model 4 : ',
+                                                                      indicator,
+                                                                      ' (',
+                                                                      sub.indicator,
+                                                                      ')'),
+                                               theme         = theme_bw())
+        ## Return model objects if requested
+        if(return.model == TRUE){
+            if(exists('model4.tsglm.bishop')){
+                results$model4.tsglm.bishop     <- model4.tsglm.bishop
+            }
+            if(exists('model4.tsglm.hartlepool')){
+                results$model4.tsglm.hartlepool <- model4.tsglm.hartlepool
+            }
+            if(exists('model4.tsglm.hemel')){
+                results$model4.tsglm.hemel      <- model4.tsglm.hemel
+            }
+            if(exists('model4.tsglm.newark')){
+                results$model4.tsglm.newark     <- model4.tsglm.newark
+            }
+            if(exists('model4.tsglm.rochdale')){
+                results$model4.tsglm.rochdale   <- model4.tsglm.rochdale
+            }
+        }
+        if(return.df == TRUE){
+            results$model4.df <- df4
+        }
+        if(return.residuals == TRUE){
+            if(exists('model4.tsglm.bishop')){
+                results$model4.tsglm.residuals.bishop     <- summary(model4.tsglm.bishop)$residuals
+            }
+            if(exists('model4.tsglm.hartlepool')){
+                results$model4.tsglm.residuals.hartlepool <- summary(model4.tsglm.hartlepool)$residuals
+            }
+            if(exists('model4.tsglm.hemel')){
+                results$model4.tsglm.residuals.hemel      <- summary(model4.tsglm.hemel)$residuals
+            }
+            if(exists('model4.tsglm.newark')){
+                results$model4.tsglm.residuals.newark     <- summary(model4.tsglm.newark)$residuals
+            }
+            if(exists('model4.tsglm.rochdale')){
+                results$model4.tsglm.residuals.rochdale   <- summary(model4.tsglm.rochdale)$residuals
+            }
+        }
+        ## Remove clutter
+        rm(df4)
+    }
+
+    #######################################################################
+    ## Model 5                                                           ##
+    #######################################################################
+    #######################################################################
+    ## Model 6.1                                                         ##
+    #######################################################################
+    #######################################################################
+    ## Model 6.2                                                         ##
+    #######################################################################
+    #######################################################################
+    ## Model 7                                                           ##
+    #######################################################################
     #######################################################################
     ## Produce summary tables by center using results$summary.table.head ##
     ## and the coefficients from each model                              ##
