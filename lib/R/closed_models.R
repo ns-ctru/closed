@@ -193,7 +193,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                 town, before.after, mean.sd, median.iqr, min.max, mean)
     ## Reshape the table header
     results$summary.table.head <- melt(results$summary.table.head, id.vars = c('town', 'before.after')) %>%
-                                  dcast(town ~ before.after + variable)
+                                  dcast(town ~ before.after + variable) %>%
+                                  mutate(diff = Before_mean - After_mean) %>%
+                                  mutate(diff_perc = (Before_mean - After_mean) / Before_mean) %>%
+                                  dplyr::select(-Before_mean, -After_mean)
     ## Order the data
     results$summary.table.head$order <- 0
     results$summary.table.head$order[results$summary.table.head$town == 'Bishop Auckland'] <- 1
@@ -2679,10 +2682,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$summary.table.tail$After_mean.sd     <- NA
     results$summary.table.tail$After_median.iqr  <- NA
     results$summary.table.tail$After_min.max     <- results$summary.table.tail$estimate
+    results$summary.table.tail$diff              <- NA
+    results$summary.table.tail$diff_perc         <- NA
     results$summary.table.tail <- dplyr::select(results$summary.table.tail,
                                                 town,
                                                 Before_mean.sd, Before_median.iqr, Before_min.max,
-                                                After_mean.sd, After_median.iqr, After_min.max)
+                                                After_mean.sd, After_median.iqr, After_min.max,
+                                                diff, diff_perc)
     results$summary.table.tail$group <- results$summary.table.tail$town
     results$summary.table <- rbind(results$summary.table.head,
                                    results$summary.table.tail)
