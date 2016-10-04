@@ -142,83 +142,70 @@ tsglm.rochdale.model0 <- tsglm(ts    = ts.rochdale,
 ## interv_test(tsglm.bishop.model0, tau = 24, delta = 1)
 ## Write a Stata file for Jon to analyse
 
-## ## Model 0.5 - Site and relative month, and one step, closure
-## ##
-## ## Bishop
-## ts.bishop <- filter(ed_attendances_by_mode_site_measure_clean,
-##                      town == 'Bishop Auckland') %>% as.data.frame() %>% .[,'value']
-## regressors.bishop <- filter(ed_attendances_by_mode_site_measure_clean,
-##                             town == 'Bishop Auckland') %>%
-##                      dplyr::select(closure, relative.month)  %>% as.data.frame() %>% as.matrix()
-##                      ## dplyr::select(closure, relative.month) %>% as.data.frame()
-## tsglm.bishop.model0.5 <- tsglm(ts    = ts.bishop,
-##                                  link  = 'log',
-##                                  model = list(past_obs = 1),
-##                                  xreg = regressors.bishop,
-##                                  distr = 'nbinom')
-## ## interv_test(tsglm.bishop.model0.5, tau = 23, delta = 1)
-## ## Hartlepool
-## ts.hartlepool <- filter(ed_attendances_by_mode_site_measure_clean,
-##                      town == 'Hartlepool') %>% as.data.frame() %>% .[,'value']
-## regressors.hartlepool <- filter(ed_attendances_by_mode_site_measure_clean,
-##                             town == 'Hartlepool') %>%
-##                      dplyr::select(closure, relative.month)  %>% as.data.frame()
-## tsglm.hartlepool.model0.5 <- tsglm(ts    = ts.hartlepool,
-##                                  link  = 'log',
-##                                  model = list(past_obs = 1),
-##                                  xreg = regressors.hartlepool,
-##                                  distr = 'nbinom')
-## ## interv_test(tsglm.bishop.model0.5, tau = 24, delta = 1)
-## ## Hemel Hempstead
-## ts.hemel <- filter(ed_attendances_by_mode_site_measure_clean,
-##                      town == 'Hemel Hempstead') %>% as.data.frame() %>% .[,'value']
-## regressors.hemel <- filter(ed_attendances_by_mode_site_measure_clean,
-##                             town == 'Hemel Hempstead') %>%
-##                      dplyr::select(closure, relative.month) %>% as.data.frame()
-## tsglm.hemel.model0.5 <- tsglm(ts    = ts.hemel,
-##                                  link  = 'log',
-##                                  model = list(past_obs = 1),
-##                                  xreg = regressors.hemel,
-##                                  distr = 'nbinom')
-## ## interv_test(tsglm.bishop.model0.5, tau = 23, delta = 1)
-## ## Newark
-## ts.newark <- filter(ed_attendances_by_mode_site_measure_clean,
-##                      town == 'Newark') %>% as.data.frame() %>% .[,'value']
-## regressors.newark <- filter(ed_attendances_by_mode_site_measure_clean,
-##                             town == 'Newark') %>%
-##                      dplyr::select(closure, relative.month) %>% as.data.frame()
-## tsglm.newark.model0.5 <- tsglm(ts    = ts.newark,
-##                                  link  = 'log',
-##                                  model = list(past_obs = 1),
-##                                  xreg = regressors.newark,
-##                                  distr = 'nbinom')
-## ## interv_test(tsglm.bishop.model0.5, tau = 24, delta = 1)
-## ## Rochdale
-## ts.rochdale <- filter(ed_attendances_by_mode_site_measure_clean,
-##                      town == 'Rochdale') %>% as.data.frame() %>% .[,'value']
-## regressors.rochdale <- filter(ed_attendances_by_mode_site_measure_clean,
-##                             town == 'Rochdale') %>%
-##                      dplyr::select(closure, relative.month) %>% as.data.frame()
-## tsglm.rochdale.model0.5 <- tsglm(ts    = ts.rochdale,
-##                                  link  = 'log',
-##                                  model = list(past_obs = 1),
-##                                  xreg = regressors.rochdale,
-##                                  distr = 'nbinom')
-## ## interv_test(tsglm.bishop.model0.5, tau = 24, delta = 1)
-## ## Write a Stata file for Jon to analyse
+## Model 0.5 - Site and relative month, and one step, closure
+##
+## Bishop
+ts.bishop <- filter(ed_attendances_by_mode_site_measure_clean,
+                     town == 'Bishop Auckland') %>% as.data.frame() %>% .[,'value']
+regressors.bishop <- filter(ed_attendances_by_mode_site_measure_clean,
+                            town == 'Bishop Auckland') %>%
+                     dplyr::select(closure, relative.month)  %>% as.data.frame() %>% as.matrix()
+                     ## dplyr::select(closure, relative.month) %>% as.data.frame()
+tsglm.bishop.model0.5 <- tsglm(ts    = ts.bishop,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.bishop,
+                                 distr = 'nbinom')
+## interv_test(tsglm.bishop.model0.5, tau = 23, delta = 1)
+## Hartlepool
+ts.hartlepool <- filter(ed_attendances_by_mode_site_measure_clean,
+                     town == 'Hartlepool') %>% as.data.frame() %>% .[,'value']
+regressors.hartlepool <- filter(ed_attendances_by_mode_site_measure_clean,
+                            town == 'Hartlepool') %>%
+                     dplyr::select(closure, relative.month)  %>% as.data.frame()
+tsglm.hartlepool.model0.5 <- tsglm(ts    = ts.hartlepool,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hartlepool,
+                                 distr = 'nbinom')
+## interv_test(tsglm.bishop.model0.5, tau = 24, delta = 1)
+## Hemel Hempstead
+ts.hemel <- filter(ed_attendances_by_mode_site_measure_clean,
+                     town == 'Hemel Hempstead') %>% as.data.frame() %>% .[,'value']
+regressors.hemel <- filter(ed_attendances_by_mode_site_measure_clean,
+                            town == 'Hemel Hempstead') %>%
+                     dplyr::select(closure, relative.month) %>% as.data.frame()
+tsglm.hemel.model0.5 <- tsglm(ts    = ts.hemel,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hemel,
+                                 distr = 'nbinom')
+## interv_test(tsglm.bishop.model0.5, tau = 23, delta = 1)
+## Newark
+ts.newark <- filter(ed_attendances_by_mode_site_measure_clean,
+                     town == 'Newark') %>% as.data.frame() %>% .[,'value']
+regressors.newark <- filter(ed_attendances_by_mode_site_measure_clean,
+                            town == 'Newark') %>%
+                     dplyr::select(closure, relative.month) %>% as.data.frame()
+tsglm.newark.model0.5 <- tsglm(ts    = ts.newark,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.newark,
+                                 distr = 'nbinom')
+## interv_test(tsglm.bishop.model0.5, tau = 24, delta = 1)
+## Rochdale
+ts.rochdale <- filter(ed_attendances_by_mode_site_measure_clean,
+                     town == 'Rochdale') %>% as.data.frame() %>% .[,'value']
+regressors.rochdale <- filter(ed_attendances_by_mode_site_measure_clean,
+                            town == 'Rochdale') %>%
+                     dplyr::select(closure, relative.month) %>% as.data.frame()
+tsglm.rochdale.model0.5 <- tsglm(ts    = ts.rochdale,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.rochdale,
+                                 distr = 'nbinom')
+## interv_test(tsglm.bishop.model0.5, tau = 24, delta = 1)
 
-## Model 0.5 Prais-Winsten regression
-formula.model0.5 <- reformulate(response = 'value',
-                                termlabels = c('relative.month', 'closure'))
-model0.5.panelar.bishop <- panelAR(data      = ed_attendances_by_mode_site_measure_clean,
-                                   formula   = formula.model0.5,
-                                   timeVar   = 'relative.month',
-                                   panelVar  = 'town',
-                                   autoCorr  = 'ar1',
-                                   panelCorrMethod = 'pcse',
-                                   complete.case   = TRUE,
-                                   seq.times = FALSE,
-                                   rho.na.rm = FALSE)
 
 ## Model 1 - Start with site only, no covariates
 ##
@@ -862,6 +849,11 @@ save(tsglm.bishop.model0,
      tsglm.hemel.model0,
      tsglm.newark.model0,
      tsglm.rochdale.model0,
+     tsglm.bishop.model0.5,
+     tsglm.hartlepool.model0.5,
+     tsglm.hemel.model0.5,
+     tsglm.newark.model0.5,
+     tsglm.rochdale.model0.5,
      tsglm.bishop.model1,
      tsglm.hartlepool.model1,
      tsglm.hemel.model1,
