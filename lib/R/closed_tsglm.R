@@ -147,6 +147,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                    p25      = quantile(value, probs = 0.25, na.rm = TRUE),
                                    p50      = quantile(value, probs = 0.50, na.rm = TRUE),
                                    p75      = quantile(value, probs = 0.75, na.rm = TRUE))
+    print(results$summary.df)
     results$summary.table.head <- results$summary.df
     results$summary.table.head <- mutate(results$summary.table.head,
                                          mean.sd    = paste0(formatC(mean, digits = digits, format = 'f'),
@@ -168,7 +169,10 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                 town, before.after, mean.sd, median.iqr, min.max)
     ## Reshape the table header
     results$summary.table.head <- melt(results$summary.table.head, id.vars = c('town', 'before.after')) %>%
-                                  dcast(town ~ before.after + variable)
+                                  dcast(town ~ before.after + variable) %>%
+                                  mutate(diff = Before_mean - After_mean) %>%
+                                  mutate(diff_perc = (Before_mean - After_mean) / Before_mean) %>%
+                                  dplyr::select(-Before_mean, -After_mean)
     ## Order the data
     results$summary.table.head$order <- 0
     results$summary.table.head$order[results$summary.table.head$town == 'Bishop Auckland'] <- 1
