@@ -76,6 +76,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           timevar         = 'relative.month',
                           outcome         = 'value',
                           model0          = c('closure'),
+                          model0.5        = c('closure', 'relative.month'),
                           model1          = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
                           model2          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
                           model3.1        = c('pooled.control * closure', 'town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
@@ -163,14 +164,14 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     df.trust <- mutate(df.trust,
                        before.after = ifelse(site.type == 'intervention' & relative.month >= 25, "After", "Before"))
     results$summary.df <- group_by(df.trust, town, before.after) %>%
-                         summarise(n        = n(),
-                                   mean     = mean(value, na.rm = TRUE),
-                                   sd       = sd(value, na.rm = TRUE),
-                                   min      = min(value, na.rm = TRUE),
-                                   max      = max(value, na.rm = TRUE),
-                                   p25      = quantile(value, probs = 0.25, na.rm = TRUE),
-                                   p50      = quantile(value, probs = 0.50, na.rm = TRUE),
-                                   p75      = quantile(value, probs = 0.75, na.rm = TRUE))
+                          summarise(n        = n(),
+                                    mean     = mean(value, na.rm = TRUE),
+                                    sd       = sd(value, na.rm = TRUE),
+                                    min      = min(value, na.rm = TRUE),
+                                    max      = max(value, na.rm = TRUE),
+                                    p25      = quantile(value, probs = 0.25, na.rm = TRUE),
+                                    p50      = quantile(value, probs = 0.50, na.rm = TRUE),
+                                    p75      = quantile(value, probs = 0.75, na.rm = TRUE))
     results$summary.table.head <- results$summary.df
     results$summary.table.head <- mutate(results$summary.table.head,
                                          mean.sd    = paste0(formatC(mean, digits = digits, format = 'f'),
@@ -189,10 +190,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                              '-',
                                                              formatC(max, digits = 0, format = 'f')))
     results$summary.table.head <- dplyr::select(results$summary.table.head,
-                                                town, before.after, mean.sd, median.iqr, min.max)
+                                                town, before.after, mean.sd, median.iqr, min.max, mean)
     ## Reshape the table header
     results$summary.table.head <- melt(results$summary.table.head, id.vars = c('town', 'before.after')) %>%
-                                  dcast(town ~ before.after + variable)
+                                  dcast(town ~ before.after + variable) %>%
+                                  mutate(diff = Before_mean - After_mean) %>%
+                                  mutate(diff_perc = (Before_mean - After_mean) / Before_mean) %>%
+                                  dplyr::select(-Before_mean, -After_mean)
     ## Order the data
     results$summary.table.head$order <- 0
     results$summary.table.head$order[results$summary.table.head$town == 'Bishop Auckland'] <- 1
@@ -574,6 +578,192 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         }
         ## Remove clutter
         rm(df0)
+    }
+    #######################################################################
+    ## Model 0.5                                                           ##
+    #######################################################################
+    if(!is.null(model0.5)){
+        ## print("Model 0.5")
+        ## Reformulate outcome and covariates
+        formula.model0.5 <- reformulate(response = outcome,
+                                      termlabels = model0.5)
+        ## Subset data
+        sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
+        df0.5 <- filter(df.trust,
+                      town %in% sites &
+                      measure     == indicator &
+                      sub.measure == sub.indicator)
+        ##################################################
+        ## Model 0.5 - Bishop Auckland                    ##
+        ##################################################
+        ## print("Bishop Auckland")
+        t <- filter(df0.5,
+                    town        == 'Bishop Auckland')
+        ## return(t)
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
+            model0.5.panelar.bishop <- panelAR(data      = t,
+                                             formula   = formula.model0.5,
+                                             timeVar   = timevar,
+                                             panelVar  = panel.trust,
+                                             autoCorr  = autocorr,
+                                             panelCorrMethod = 'pcse',
+                                             complete.case = complete.case,
+                                             seq.times = seq.times,
+                                             rho.na.rm = rho.na.rm)
+            results$model0.5.panelar.bishop.coef <- extract_coefficients(x              = model0.5.panelar.bishop,
+                                                                       .site          = 'Bishop Auckland',
+                                                                       .indicator     = indicator,
+                                                                       .sub.indicator = sub.indicator)
+            results$model0.5.panelar.bishop.r2 <- model0.5.panelar.bishop$r2
+        }
+        ##################################################
+        ## Model 0.5 - Hartlepool                         ##
+        ##################################################
+        ## print("Hartlepool")
+        t <- filter(df0.5,
+                    town        == 'Hartlepool')
+        if(town.group$n[town.group$town == 'Hartlepool'] > 0){
+            model0.5.panelar.hartlepool <- panelAR(data     = t,
+                                                 formula  = formula.model0.5,
+                                                 timeVar  = timevar,
+                                                 panelVar = panel.trust,
+                                                 autoCorr = autocorr,
+                                                 panelCorrMethod = 'pcse',
+                                                 complete.case = complete.case,
+                                                 seq.times = seq.times,
+                                                 rho.na.rm = rho.na.rm)
+            results$model0.5.panelar.hartlepool.coef <- extract_coefficients(x              = model0.5.panelar.hartlepool,
+                                                                           .site          = 'Hartlepool',
+                                                                           .indicator     = indicator,
+                                                                           .sub.indicator = sub.indicator)
+            results$model0.5.panelar.hartlepool.r2 <- model0.5.panelar.hartlepool$r2
+        }
+        ##################################################
+        ## Model 0.5 - Hemel Hempstead                    ##
+        ##################################################
+        ## print("Hemel Hempstead")
+        t <- filter(df0.5,
+                    town        == 'Hemel Hempstead')
+        if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0){
+            model0.5.panelar.hemel <- panelAR(data     = t,
+                                            formula  = formula.model0.5,
+                                            timeVar  = timevar,
+                                            panelVar = panel.trust,
+                                            autoCorr = autocorr,
+                                            panelCorrMethod = 'pcse',
+                                            complete.case = complete.case,
+                                            seq.times = seq.times,
+                                            rho.na.rm = rho.na.rm)
+            results$model0.5.panelar.hemel.coef <- extract_coefficients(x              = model0.5.panelar.hemel,
+                                                                      .site          = 'Hemel Hempstead',
+                                                                      .indicator     = indicator,
+                                                                      .sub.indicator = sub.indicator)
+            results$model0.5.panelar.hemel.r2 <- model0.5.panelar.hemel$r2
+        }
+        ##################################################
+        ## Model 0.5 - Newark                             ##
+        ##################################################
+        ## print("Newark")
+        t <- filter(df0.5,
+                    town        == 'Newark')
+        if(town.group$n[town.group$town == 'Newark'] > 0){
+            model0.5.panelar.newark <- panelAR(data     = t,
+                                             formula  = formula.model0.5,
+                                             timeVar  = timevar,
+                                             panelVar = panel.trust,
+                                             autoCorr = autocorr,
+                                             panelCorrMethod = 'pcse',
+                                             complete.case = complete.case,
+                                             seq.times = seq.times,
+                                             rho.na.rm = rho.na.rm)
+            results$model0.5.panelar.newark.coef <- extract_coefficients(x              = model0.5.panelar.newark,
+                                                                       .site          = 'Newark',
+                                                                       .indicator     = indicator,
+                                                                       .sub.indicator = sub.indicator)
+            results$model0.5.panelar.newark.r2 <- model0.5.panelar.newark$r2
+        }
+        ##################################################
+        ## Model 0.5 - Rochdale                           ##
+        ##################################################
+        ## print("Rochdale")
+        t <- filter(df0.5,
+                    town        == 'Rochdale')
+        if(town.group$n[town.group$town == 'Rochdale'] > 0){
+            model0.5.panelar.rochdale <- panelAR(data     = t,
+                                               formula  = formula.model0.5,
+                                               timeVar  = timevar,
+                                               panelVar = panel.trust,
+                                               autoCorr = autocorr,
+                                               panelCorrMethod = 'pcse',
+                                               complete.case = complete.case,
+                                               seq.times = seq.times,
+                                               rho.na.rm = rho.na.rm)
+            results$model0.5.panelar.rochdale.coef <- extract_coefficients(x            = model0.5.panelar.rochdale,
+                                                                         .site          = 'Rochdale',
+                                                                         .indicator     = indicator,
+                                                                         .sub.indicator = sub.indicator)
+            results$model0.5.panelar.rochdale.r2 <- model0.5.panelar.rochdale$r2
+        }
+        ## Summary table
+        results$model0.5.panelar.all <- combine_coefficients(bishop.coef     = results$model0.5.panelar.bishop.coef,
+                                                           hartlepool.coef = results$model0.5.panelar.hartlepool.coef,
+                                                           hemel.coef      = results$model0.5.panelar.hemel.coef,
+                                                           newark.coef     = results$model0.5.panelar.newark.coef,
+                                                           rochdale.coef   = results$model0.5.panelar.rochdale.coef)
+        ## Forest plot
+        results$model0.5.forest <- closed_forest(df.list       = list(results$model0.5.panelar.bishop.coef,
+                                                                    results$model0.5.panelar.hartlepool.coef,
+                                                                    results$model0.5.panelar.hemel.coef,
+                                                                    results$model0.5.panelar.newark.coef,
+                                                                    results$model0.5.panelar.rochdale.coef),
+                                               plot.term     = c('closure'),
+                                               facet.outcome = FALSE,
+                                               title         = paste0('Model 1 : ',
+                                                                      indicator,
+                                                                      ' (',
+                                                                      sub.indicator,
+                                                                      ')'),
+                                               theme         = theme_bw())
+        ## Return model objects if requested
+        if(return.model == TRUE){
+            if(exists('model0.5.panelar.bishop')){
+                results$model0.5.panelar.bishop     <- model0.5.panelar.bishop
+            }
+            if(exists('model0.5.panelar.hartlepool')){
+                results$model0.5.panelar.hartlepool <- model0.5.panelar.hartlepool
+            }
+            if(exists('model0.5.panelar.hemel')){
+                results$model0.5.panelar.hemel      <- model0.5.panelar.hemel
+            }
+            if(exists('model0.5.panelar.newark')){
+                results$model0.5.panelar.newark     <- model0.5.panelar.newark
+            }
+            if(exists('model0.5.panelar.rochdale')){
+                results$model0.5.panelar.rochdale   <- model0.5.panelar.rochdale
+            }
+        }
+        if(return.df == TRUE){
+            results$model0.5.df <- df0.5
+        }
+        if(return.residuals == TRUE){
+            if(exists('model0.5.panelar.bishop')){
+                results$model0.5.panelar.residuals.bishop     <- summary(model0.5.panelar.bishop)$residuals
+            }
+            if(exists('model0.5.panelar.hartlepool')){
+                results$model0.5.panelar.residuals.hartlepool <- summary(model0.5.panelar.hartlepool)$residuals
+            }
+            if(exists('model0.5.panelar.hemel')){
+                results$model0.5.panelar.residuals.hemel      <- summary(model0.5.panelar.hemel)$residuals
+            }
+            if(exists('model0.5.panelar.newark')){
+                results$model0.5.panelar.residuals.newark     <- summary(model0.5.panelar.newark)$residuals
+            }
+            if(exists('model0.5.panelar.rochdale')){
+                results$model0.5.panelar.residuals.rochdale   <- summary(model0.5.panelar.rochdale)$residuals
+            }
+        }
+        ## Remove clutter
+        rm(df0.5)
     }
     #######################################################################
     ## Model 1                                                           ##
@@ -1217,7 +1407,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                       termlabels = model3.2)
         ## Pool the data
         df3.2 <- closed_pool(df             = df.trust,
-                           within.centres = TRUE)
+                             within.centres = TRUE)
         ## Define group pooling for controls (but DON'T pool the data!)
         ## df3.2 <- mutate(df3.2,
         ##               pooled.control = ifelse(site.type %in% c('matched control', 'pooled control'), 'Control', town))
@@ -2366,48 +2556,82 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## and the coefficients from each model                              ##
     #######################################################################
     ## Bind all model results together
-    model1.coef <- rbind(results$model1.panelar.bishop.coef,
-                         results$model1.panelar.hartlepool.coef,
-                         results$model1.panelar.hemel.coef,
-                         results$model1.panelar.newark.coef,
-                         results$model1.panelar.rochdale.coef)
-    model1.coef$model <- 'Model 1'
-    model2.coef <- rbind(results$model2.panelar.bishop.coef,
-                         results$model2.panelar.hartlepool.coef,
-                         results$model2.panelar.hemel.coef,
-                         results$model2.panelar.newark.coef,
-                         results$model2.panelar.rochdale.coef)
-    model2.coef$model <- 'Model 2'
-    model3.1.coef <- rbind(results$model3.1.panelar.bishop.coef,
-                           results$model3.1.panelar.hartlepool.coef,
-                           results$model3.1.panelar.hemel.coef,
-                           results$model3.1.panelar.newark.coef,
-                           results$model3.1.panelar.rochdale.coef)
-    model3.1.coef$model <- 'Model 3.1'
-    model3.2.coef <- rbind(results$model3.2.panelar.bishop.coef,
-                           results$model3.2.panelar.hartlepool.coef,
-                           results$model3.2.panelar.hemel.coef,
-                           results$model3.2.panelar.newark.coef,
-                           results$model3.2.panelar.rochdale.coef)
-    model3.2.coef$model <- 'Model 3.2'
-    model4.coef <- results$model4.panelar.all.coef
-    model4.coef$model <- 'Model 4'
-    model5.coef <- results$model5.panelar.all.coef
-    model5.coef$model <- 'Model 5'
-    model6.1.coef <- rbind(results$model6.1.panelar.bishop.coef,
-                           results$model6.1.panelar.hartlepool.coef,
-                           results$model6.1.panelar.hemel.coef,
-                           results$model6.1.panelar.newark.coef,
-                           results$model6.1.panelar.rochdale.coef)
-    model6.1.coef$model <- 'Model 6.1'
-    model6.2.coef <- rbind(results$model6.2.panelar.bishop.coef,
-                           results$model6.2.panelar.hartlepool.coef,
-                           results$model6.2.panelar.hemel.coef,
-                           results$model6.2.panelar.newark.coef,
-                           results$model6.2.panelar.rochdale.coef)
-    model6.2.coef$model <- 'Model 6.2'
-    model7.coef <- results$model7.panelar.all.coef
-    model7.coef$model <- 'Model 7'
+    if(!is.null(model0)){
+        model0.coef <- rbind(results$model0.panelar.bishop.coef,
+                             results$model0.panelar.hartlepool.coef,
+                             results$model0.panelar.hemel.coef,
+                             results$model0.panelar.newark.coef,
+                             results$model0.panelar.rochdale.coef)
+        model0.coef$model <- 'Model 1'
+    }
+    if(!is.null(model0.5)){
+        model0.5.coef <- rbind(results$model0.5.panelar.bishop.coef,
+                               results$model0.5.panelar.hartlepool.coef,
+                               results$model0.5.panelar.hemel.coef,
+                               results$model0.5.panelar.newark.coef,
+                               results$model0.5.panelar.rochdale.coef)
+        model0.5.coef$model <- 'Model 0.5'
+    }
+    if(!is.null(model1)){
+        model1.coef <- rbind(results$model1.panelar.bishop.coef,
+                             results$model1.panelar.hartlepool.coef,
+                             results$model1.panelar.hemel.coef,
+                             results$model1.panelar.newark.coef,
+                             results$model1.panelar.rochdale.coef)
+        model1.coef$model <- 'Model 1'
+    }
+    if(!is.null(model2)){
+        model2.coef <- rbind(results$model2.panelar.bishop.coef,
+                             results$model2.panelar.hartlepool.coef,
+                             results$model2.panelar.hemel.coef,
+                             results$model2.panelar.newark.coef,
+                             results$model2.panelar.rochdale.coef)
+        model2.coef$model <- 'Model 2'
+    }
+    if(!is.null(model3.1)){
+        model3.1.coef <- rbind(results$model3.1.panelar.bishop.coef,
+                               results$model3.1.panelar.hartlepool.coef,
+                               results$model3.1.panelar.hemel.coef,
+                               results$model3.1.panelar.newark.coef,
+                               results$model3.1.panelar.rochdale.coef)
+        model3.1.coef$model <- 'Model 3.1'
+    }
+    if(!is.null(model3.2)){
+        model3.2.coef <- rbind(results$model3.2.panelar.bishop.coef,
+                               results$model3.2.panelar.hartlepool.coef,
+                               results$model3.2.panelar.hemel.coef,
+                               results$model3.2.panelar.newark.coef,
+                               results$model3.2.panelar.rochdale.coef)
+        model3.2.coef$model <- 'Model 3.2'
+    }
+    if(!is.null(model4)){
+        model4.coef <- results$model4.panelar.all.coef
+        model4.coef$model <- 'Model 4'
+    }
+    if(!is.null(model5)){
+        model5.coef <- results$model5.panelar.all.coef
+        model5.coef$model <- 'Model 5'
+    }
+    if(!is.null(model6.1)){
+        model6.1.coef <- rbind(results$model6.1.panelar.bishop.coef,
+                               results$model6.1.panelar.hartlepool.coef,
+                               results$model6.1.panelar.hemel.coef,
+                               results$model6.1.panelar.newark.coef,
+                               results$model6.1.panelar.rochdale.coef)
+        model6.1.coef$model <- 'Model 6.1'
+    }
+    if(!is.null(model6.2)){
+        model6.2.coef <- rbind(results$model6.2.panelar.bishop.coef,
+                               results$model6.2.panelar.hartlepool.coef,
+                               results$model6.2.panelar.hemel.coef,
+                               results$model6.2.panelar.newark.coef,
+                               results$model6.2.panelar.rochdale.coef)
+        model6.2.coef$model <- 'Model 6.2'
+    }
+    if(!is.null(model7)){
+        model7.coef <- results$model7.panelar.all.coef
+        model7.coef$model <- 'Model 7'
+    }
     ## Some model*.coef may not have any data though as the models weren't run
     ## make those NULL so the subsequent rbind() doesn't fail
     if(length(model1.coef) == 1) model1.coef     <- NULL
@@ -2420,7 +2644,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     if(length(model6.2.coef) == 1) model6.2.coef <- NULL
     if(length(model7.coef) == 1) model7.coef     <- NULL
     ## Return all coefficients across models
-    results$all.model.all.coef <- rbind(model1.coef,
+    results$all.model.all.coef <- rbind(model0.coef,
+                                        model0.5.coef,
+                                        model1.coef,
                                         model2.coef,
                                         model3.1.coef,
                                         model3.2.coef,
@@ -2456,10 +2682,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$summary.table.tail$After_mean.sd     <- NA
     results$summary.table.tail$After_median.iqr  <- NA
     results$summary.table.tail$After_min.max     <- results$summary.table.tail$estimate
+    results$summary.table.tail$diff              <- NA
+    results$summary.table.tail$diff_perc         <- NA
     results$summary.table.tail <- dplyr::select(results$summary.table.tail,
                                                 town,
                                                 Before_mean.sd, Before_median.iqr, Before_min.max,
-                                                After_mean.sd, After_median.iqr, After_min.max)
+                                                After_mean.sd, After_median.iqr, After_min.max,
+                                                diff, diff_perc)
     results$summary.table.tail$group <- results$summary.table.tail$town
     results$summary.table <- rbind(results$summary.table.head,
                                    results$summary.table.tail)
