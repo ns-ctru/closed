@@ -1,5 +1,5 @@
 ---
-title: ClosED
+title: ClosED - Negative Binomial Time-Series v's Prais-Winsten
 output:
   html_document:
     theme: sandstone
@@ -26,6 +26,10 @@ set.seed(69027181)
 
 ## Model 0 {.tabset .tabset-fade}
 ```{r child = 'sections/negbin_model0.Rmd', eval = TRUE}
+```
+
+## Model 0.5 {.tabset .tabset-fade}
+```{r child = 'sections/negbin_model0.5.Rmd', eval = TRUE}
 ```
 
 ## Model 1 {.tabset .tabset-fade}
