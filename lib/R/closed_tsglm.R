@@ -172,7 +172,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                   dcast(town ~ before.after + variable)
     results$summary.table.head$Before_mean <- as.numeric(results$summary.table.head$Before_mean)
     results$summary.table.head$After_mean  <- as.numeric(results$summary.table.head$After_mean)
-    results$summary.table.head <- mutate(diff_abs  = Before_mean - After_mean
+    results$summary.table.head <- mutate(diff_abs  = Before_mean - After_mean,
                                          diff_perc = (100 * abs(Before_mean - After_mean)) / Before_mean) %>%
                                   dplyr::select(-Before_mean, -After_mean)
     ## Order the data
