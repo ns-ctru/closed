@@ -1876,10 +1876,13 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
     results$summary.table.tail$After_mean.sd     <- NA
     results$summary.table.tail$After_median.iqr  <- NA
     results$summary.table.tail$After_min.max     <- results$summary.table.tail$estimate
+    results$summary.table.tail$diff              <- NA
+    results$summary.table.tail$diff_perc         <- NA
     results$summary.table.tail <- dplyr::select(results$summary.table.tail,
                                                 town,
                                                 Before_mean.sd, Before_median.iqr, Before_min.max,
-                                                After_mean.sd, After_median.iqr, After_min.max)
+                                                After_mean.sd, After_median.iqr, After_min.max,
+                                                diff, diff_perc)
     results$summary.table.tail$group <- results$summary.table.tail$town
     results$summary.table <- rbind(results$summary.table.head,
                                    results$summary.table.tail)
