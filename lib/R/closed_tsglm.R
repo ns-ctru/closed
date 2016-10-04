@@ -169,9 +169,11 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                 town, before.after, mean.sd, median.iqr, min.max)
     ## Reshape the table header
     results$summary.table.head <- melt(results$summary.table.head, id.vars = c('town', 'before.after')) %>%
-                                  dcast(town ~ before.after + variable) %>%
-                                  mutate(diff = Before_mean - After_mean) %>%
-                                  mutate(diff_perc = (Before_mean - After_mean) / Before_mean) %>%
+                                  dcast(town ~ before.after + variable)
+    results$summary.table.head$Before_mean <- as.numeric(results$summary.table.head$Before_mean)
+    results$summary.table.head$After_mean  <- as.numeric(results$summary.table.head$After_mean)
+    results$summary.table.head <- mutate(diff_abs  = Before_mean - After_mean
+                                         diff_perc = (100 * abs(Before_mean - After_mean)) / Before_mean) %>%
                                   dplyr::select(-Before_mean, -After_mean)
     ## Order the data
     results$summary.table.head$order <- 0
@@ -199,7 +201,8 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
     results$summary.table.head <- dplyr::select(results$summary.table.head,
                                                 town,
                                                 Before_mean.sd, Before_median.iqr, Before_min.max,
-                                                After_mean.sd, After_median.iqr, After_min.max)
+                                                After_mean.sd, After_median.iqr, After_min.max,
+                                                diff_abs, diff_perc)
     ## Add in grouping to facilitate subsetting later
     results$summary.table.head$group <- NA
     results$summary.table.head$group[results$summary.table.head$town %in% c('Bishop Auckland', 'Whitehaven', 'Salford', 'Scarborough')] <- 'Bishop Auckland'
@@ -1876,13 +1879,13 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
     results$summary.table.tail$After_mean.sd     <- NA
     results$summary.table.tail$After_median.iqr  <- NA
     results$summary.table.tail$After_min.max     <- results$summary.table.tail$estimate
-    results$summary.table.tail$diff              <- NA
+    results$summary.table.tail$diff_abs          <- NA
     results$summary.table.tail$diff_perc         <- NA
     results$summary.table.tail <- dplyr::select(results$summary.table.tail,
                                                 town,
                                                 Before_mean.sd, Before_median.iqr, Before_min.max,
                                                 After_mean.sd, After_median.iqr, After_min.max,
-                                                diff, diff_perc)
+                                                diff_abs, diff_perc)
     results$summary.table.tail$group <- results$summary.table.tail$town
     results$summary.table <- rbind(results$summary.table.head,
                                    results$summary.table.tail)
@@ -1920,28 +1923,28 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
     ## Bishop Auckland
     results$summary.table.bishop <- filter(results$summary.table,
                                            group %in% c('Bishop Auckland', 'All')) %>%
-                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
-    names(results$summary.table.bishop) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
+                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc)
+    names(results$summary.table.bishop) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
     ## Hartlepool
     results$summary.table.hartlepool <- filter(results$summary.table,
                                                      group %in% c('Hartlepool', 'All')) %>%
-                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
-    names(results$summary.table.hartlepool) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
+                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc)
+    names(results$summary.table.hartlepool) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
     ## Hemel Hempstead
     results$summary.table.hemel <- filter(results$summary.table,
                                           group %in% c('Hemel Hempstead', 'All')) %>%
-                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
-    names(results$summary.table.hemel) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
+                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc)
+    names(results$summary.table.hemel) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
     ## Newark
     results$summary.table.newark <- filter(results$summary.table,
                                            group %in% c('Newark', 'All')) %>%
-                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
-    names(results$summary.table.newark) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
+                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc)
+    names(results$summary.table.newark) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
     ## Rochdale
     results$summary.table.rochdale <- filter(results$summary.table,
                                              group %in% c('Rochdale', 'All')) %>%
-                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max)
-    names(results$summary.table.rochdale) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range')
+                                    dplyr::select(town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc)
+    names(results$summary.table.rochdale) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
     #######################################################################
     ## Return the results                                                ##
     #######################################################################
