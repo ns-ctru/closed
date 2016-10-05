@@ -13,14 +13,16 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
                colour        = TRUE,
                lines         = FALSE,
                xaxis.steps   = TRUE)
+filter(mode.of.arrival.ambulance$summary.table.head, town == 'Bishop Auckland')
 
 ```
+
 #### Prais-Winsten Regression
 ```{r model1-bishop-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 mode.of.arrival.ambulance$model1.panelar.bishop %>% summary()
 
 ```
-#### Negative-Binomial Time-Series (INGARCH)
+#### Negative-Binomial Time-Series
 ```{r model1-bishop-negbin, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 tsglm.bishop.model1 %>% summary()
 
@@ -41,14 +43,16 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
                colour        = TRUE,
                lines         = FALSE,
                xaxis.steps   = TRUE)
+filter(mode.of.arrival.ambulance$summary.table.head, town == 'Hartlepool')
 
 ```
+
 #### Prais-Winsten Regression
 ```{r model1-hartlepool-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 mode.of.arrival.ambulance$model1.panelar.hartlepool %>% summary()
 
 ```
-#### Negative-Binomial Time-Series (INGARCH)
+#### Negative-Binomial Time-Series
 ```{r model1-hartlepool-negbin, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 tsglm.hartlepool.model1 %>% summary()
 
@@ -69,14 +73,17 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
                colour        = TRUE,
                lines         = FALSE,
                xaxis.steps   = TRUE)
+filter(mode.of.arrival.ambulance$summary.table.head, town == 'Hemel Hempstead')
+
 
 ```
+
 #### Prais-Winsten Regression
 ```{r model1-hemel-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
-mode.of.arrival.ambulance$model1.panelar.hartlepool %>% summary()
+mode.of.arrival.ambulance$model1.panelar.hemel %>% summary()
 
 ```
-#### Negative-Binomial Time-Series (INGARCH)
+#### Negative-Binomial Time-Series
 ```{r model1-hemel-negbin, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 tsglm.hemel.model1 %>% summary()
 
@@ -98,14 +105,16 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
                colour        = TRUE,
                lines         = FALSE,
                xaxis.steps   = TRUE)
+filter(mode.of.arrival.ambulance$summary.table.head, town == 'Newark')
 
 ```
+
 #### Prais-Winsten Regression
 ```{r model1-newark-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 mode.of.arrival.ambulance$model1.panelar.newark %>% summary()
 
 ```
-#### Negative-Binomial Time-Series (INGARCH)
+#### Negative-Binomial Time-Series
 ```{r model1-newark-negbin, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 tsglm.newark.model1 %>% summary()
 
@@ -126,14 +135,16 @@ closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
                colour        = TRUE,
                lines         = FALSE,
                xaxis.steps   = TRUE)
+filter(mode.of.arrival.ambulance$summary.table.head, town == 'Rochdale')
 
 ```
+
 #### Prais-Winsten Regression
 ```{r model1-rochdale-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 mode.of.arrival.ambulance$model1.panelar.rochdale %>% summary()
 
 ```
-#### Negative-Binomial Time-Series (INGARCH)
+#### Negative-Binomial Time-Series
 ```{r model1-rochdale-negbin, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 tsglm.rochdale.model1 %>% summary()
 
