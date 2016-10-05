@@ -2637,6 +2637,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     }
     ## Some model*.coef may not have any data though as the models weren't run
     ## make those NULL so the subsequent rbind() doesn't fail
+    if(length(model0.coef) == 1) model0.coef     <- NULL
+    if(length(model0.5.coef) == 1) model0.5.coef <- NULL
     if(length(model1.coef) == 1) model1.coef     <- NULL
     if(length(model2.coef) == 1) model2.coef     <- NULL
     if(length(model3.1.coef) == 1) model3.1.coef <- NULL
@@ -2647,18 +2649,59 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     if(length(model6.2.coef) == 1) model6.2.coef <- NULL
     if(length(model7.coef) == 1) model7.coef     <- NULL
     ## Return all coefficients across models
+    if(!is.null(model0.coef) & !is.null(model0.5.coef)){
     results$all.model.all.coef <- rbind(model0.coef,
-                                        model0.5.coef,
-                                        model1.coef,
-                                        model2.coef,
-                                        model3.1.coef,
-                                        model3.2.coef,
-                                        model4.coef,
-                                        model5.coef,
-                                        model6.1.coef,
-                                        model6.2.coef,
-                                        model7.coef) %>%
-                                  as.data.frame()
+                                        model0.5.coef)
+    }
+    if(!is.null(model1.coef)){
+        results$all.model.all.coef <- rbind(results$all.model.all.coef,
+                                            model1.coef)
+    }
+    if(!is.null(model2.coef)){
+        results$all.model.all.coef <- rbind(results$all.model.all.coef,
+                                            model2.coef)
+    }
+    if(!is.null(model3.1.coef)){
+        results$all.model.all.coef <- rbind(results$all.model.all.coef,
+                                            model3.1.coef)
+    }
+    if(!is.null(model3.2.coef)){
+        results$all.model.all.coef <- rbind(results$all.model.all.coef,
+                                            model3.2.coef)
+    }
+    if(!is.null(model4.coef)){
+        results$all.model.all.coef <- rbind(results$all.model.all.coef,
+                                            model4.coef)
+    }
+    if(!is.null(model5.coef)){
+        results$all.model.all.coef <- rbind(results$all.model.all.coef,
+                                            model5.coef)
+    }
+    if(!is.null(model6.1.coef)){
+        results$all.model.all.coef <- rbind(results$all.model.all.coef,
+                                            model6.1.coef)
+    }
+    if(!is.null(model6.2.coef)){
+        results$all.model.all.coef <- rbind(results$all.model.all.coef,
+                                            model6.2.coef)
+    }
+    if(!is.null(model7.coef)){
+        results$all.model.all.coef <- rbind(results$all.model.all.coef,
+                                            model7.coef)
+    }
+    ## results$all.model.all.coef <- rbind(model0.coef,
+    ##                                     model0.5.coef
+    ##                                     model1.coef,
+    ##                                     model2.coef,
+    ##                                     model3.1.coef,
+    ##                                     model3.2.coef,
+    ##                                     model4.coef,
+    ##                                     model5.coef,
+    ##                                     model6.1.coef,
+    ##                                     model6.2.coef,
+    ##                                     model7.coef) %>%
+    ##                               as.data.frame()
+    results$all.model.all.coef <- as.data.frame(results$all.model.all.coef)
     names(results$all.model.all.coef) <- gsub('site', 'town', names(results$all.model.all.coef))
 
     ## Subset out the closure coefficients and derive output variable/df to append to
