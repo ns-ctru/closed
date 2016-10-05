@@ -139,15 +139,15 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
     df.trust <- mutate(df.trust,
                        before.after = ifelse(site.type == 'intervention' & relative.month >= 25, "After", "Before"))
     results$summary.df <- group_by(df.trust, town, before.after) %>%
-                         summarise(n        = n(),
-                                   mean     = mean(value, na.rm = TRUE),
-                                   sd       = sd(value, na.rm = TRUE),
-                                   min      = min(value, na.rm = TRUE),
-                                   max      = max(value, na.rm = TRUE),
-                                   p25      = quantile(value, probs = 0.25, na.rm = TRUE),
-                                   p50      = quantile(value, probs = 0.50, na.rm = TRUE),
-                                   p75      = quantile(value, probs = 0.75, na.rm = TRUE))
-    print(results$summary.df)
+                          summarise(n        = n(),
+                                    mean     = mean(value, na.rm = TRUE),
+                                    sd       = sd(value, na.rm = TRUE),
+                                    min      = min(value, na.rm = TRUE),
+                                    max      = max(value, na.rm = TRUE),
+                                    p25      = quantile(value, probs = 0.25, na.rm = TRUE),
+                                    p50      = quantile(value, probs = 0.50, na.rm = TRUE),
+                                    p75      = quantile(value, probs = 0.75, na.rm = TRUE))
+    ## print(results$summary.df)
     results$summary.table.head <- results$summary.df
     results$summary.table.head <- mutate(results$summary.table.head,
                                          mean.sd    = paste0(formatC(mean, digits = digits, format = 'f'),
@@ -166,13 +166,14 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                              '-',
                                                              formatC(max, digits = 0, format = 'f')))
     results$summary.table.head <- dplyr::select(results$summary.table.head,
-                                                town, before.after, mean.sd, median.iqr, min.max)
+                                                town, before.after, mean.sd, median.iqr, min.max, mean)
     ## Reshape the table header
     results$summary.table.head <- melt(results$summary.table.head, id.vars = c('town', 'before.after')) %>%
                                   dcast(town ~ before.after + variable)
     results$summary.table.head$Before_mean <- as.numeric(results$summary.table.head$Before_mean)
     results$summary.table.head$After_mean  <- as.numeric(results$summary.table.head$After_mean)
-    results$summary.table.head <- mutate(diff_abs  = Before_mean - After_mean,
+    results$summary.table.head <- mutate(results$summary.table.head,
+                                         diff_abs  = Before_mean - After_mean,
                                          diff_perc = (100 * abs(Before_mean - After_mean)) / Before_mean) %>%
                                   dplyr::select(-Before_mean, -After_mean)
     ## Order the data
