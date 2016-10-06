@@ -15,6 +15,8 @@
 #' where there is only one-submeasure for a given outcome the \code{sub.measure}
 #' variable is filled in with a value the same as the \code{measure}.
 #'
+#' Further dummy variables are derived for all of the events that are to
+#' be tested.
 #'
 #' @param df Data frame to be plotted.
 #'
@@ -52,5 +54,59 @@ closed_tidy <- function(df        = ed_attendances_by_mode_site_measure,
     ## }
     ## Factor variables
     df$town <- factor(df$town)
+    #######################################################################
+    ## Derive a seasonal indicator                                       ##
+    #######################################################################
+    ## print("Debug 5")
+    ## print("LSOA")
+    ## dim(df) %>% print()
+    ## print("TRUST")
+    ## dim(df.trust) %>% print()
+    df$season <- 1
+    df <- within(df,{
+                      season[month(yearmonth) == 1  | month(yearmonth) == 2]  <- 1
+                      season[month(yearmonth) == 3  | month(yearmonth) == 4]  <- 2
+                      season[month(yearmonth) == 5  | month(yearmonth) == 6]  <- 3
+                      season[month(yearmonth) == 7  | month(yearmonth) == 8]  <- 4
+                      season[month(yearmonth) == 9  | month(yearmonth) == 10] <- 5
+                      season[month(yearmonth) == 11 | month(yearmonth) == 12] <- 6
+    })
+    df$season <- factor(df$season)
+    df$season <- relevel(df$season, ref = '1')
+    #######################################################################
+    ## Add a dummy 'step' for closure                                    ##
+    #######################################################################
+    df$closure  <- ifelse(df$relative.month  > 24 &
+                          df$town %in% c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+                          1, 0)
+    #######################################################################
+    ## Add dummy for other 'steps'                                       ##
+    ##                                                                   ##
+    ## See list from e.l.knowles@sheffield.ac.uk at...                   ##
+    ##                                                                   ##
+    ## https://goo.gl/TlhfCF                                             ##
+    ##                                                                   ##
+    #######################################################################
+    ## ## print("Debug 7")
+    df <- mutate(df,
+                 nhs111 = ifelse((town == 'Bishop Auckland' & relative.month >= 35) |
+                                 (town == 'Southport' & relative.month >= 48) |
+                                 ## ToDo - Uncomment once confirmed and revised dates available
+                                 (town == 'Rochdale' & relative.month >= 48) |
+                                 (town == 'Rotherham' & relative.month >= 48) |
+                                 (town == 'Hartlepool' & relative.month >= 45) |
+                                 (town == 'Grimsby' & relative.month >= 16),
+                                 1, 0),
+                 ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
+                 other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
+                                       (town == 'Newark' & relative.month >= 3) |
+                                       (town == 'Rochdale' & relative.month >= 11) |
+                                       (town == 'Hartlepool' & relative.month >= 22),
+                                       1, 0)
+                 )
+    #######################################################################
+    ## Clean 'spurious' data points that are >3 x SD from mean           ##
+    #######################################################################
+
     return(df)
 }
