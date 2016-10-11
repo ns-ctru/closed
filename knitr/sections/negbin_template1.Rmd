@@ -1,0 +1,301 @@
+```{r extracting_model1, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+## Model 0
+## Extract Negative Binomial Coefficients...
+tsglm_coef <- rbind(coef(tsglm.bishop.model1),
+                    coef(tsglm.hemel.model1),
+                    coef(tsglm.hartlepool.model1),
+                    coef(tsglm.newark.model1),
+                    coef(tsglm.rochdale.model1)) %>%
+              as.data.frame()
+tsglm_coef$site <- c('Bishop Auckland', 'Hemel Hempstead', 'Hartlepool', 'Newark', 'Rochdale')
+tsglm_coef <- melt(tsglm_coef, id.vars = 'site')
+names(tsglm_coef) <- c('site', 'term', 'est_negbin')
+## Extract Negative Binomial Standard Errors...
+tsglm_se <- rbind(se(tsglm.bishop.model1)$se,
+                    se(tsglm.hemel.model1)$se,
+                    se(tsglm.hartlepool.model1)$se,
+                    se(tsglm.newark.model1)$se,
+                    se(tsglm.rochdale.model1)$se) %>%
+            as.data.frame()
+tsglm_se$site <- c('Bishop Auckland', 'Hemel Hempstead', 'Hartlepool', 'Newark', 'Rochdale')
+tsglm_se <- melt(tsglm_se, id.vars = c('site'))
+names(tsglm_se) <- c('site', 'term', 'se_negbin')
+## Combine Coefficients and Standard Errors...
+tsglm_est <- merge(tsglm_coef, tsglm_se, by = c('site', 'term'))
+rm(tsglm_coef, tsglm_se)
+## Exponentiate to get percentages
+tsglm_est <- mutate(tsglm_est,
+                    est_negbin_exp     = exp(tsglm_est$est_negbin),
+                    est_negbin_percent = -(1 - exp(tsglm_est$est_negbin)) * 100)
+## Combine and extract Prais-Winsten Coefficients...
+prais_est <- rbind(mode.of.arrival.ambulance$model1.panelar.bishop.coef,
+                    mode.of.arrival.ambulance$model1.panelar.hemel.coef,
+                    mode.of.arrival.ambulance$model1.panelar.hartlepool.coef,
+                    mode.of.arrival.ambulance$model1.panelar.newark.coef,
+                    mode.of.arrival.ambulance$model1.panelar.rochdale.coef) %>%
+              as.data.frame()
+names(prais_est) <- c('est_prais', 'se_prais', 't', 'p', 'term', 'site', 'indicator', 'sub.indicator', 'r2')
+prais_est <- dplyr::select(prais_est, site, term, est_prais, se_prais)
+## Combine with Negative Binomial estimates
+compare_coef <- merge(tsglm_est,
+                      prais_est,
+                      by = c('site', 'term'),
+                      all.x = TRUE)
+## Get the Mean in each site before/after, calculate absolute & percentage changed
+mean_sd <- dplyr::filter(ed_attendances_by_mode_site_measure_clean,
+                         sub.measure == 'ambulance') %>%
+           group_by(town, closure) %>%
+           summarise(me_an  = mean(value, na.rm = TRUE),
+                     s_d   = sd(value, na.rm = TRUE))
+names(mean_sd) <- c('site', 'closure', 'me_an', 's_d')
+mean_sd
+mean_sd <- melt(mean_sd, id.vars = c('site', 'closure')) %>% as.data.frame()
+mean_sd <- dcast(mean_sd,
+                 site ~ variable + closure)
+names(mean_sd) <- c('site', 'mean_before', 'mean_after', 'sd_before', 'sd_after')
+mean_sd <- mutate(mean_sd,
+                  diff = mean_after - mean_before,
+                  diff_perc = 100 * (mean_after - mean_before) / mean_before)
+## Combine with model coefficients
+compare_coef_model1 <- merge(compare_coef,
+                             mean_sd,
+                             by = c('site'),
+                             all.x = TRUE)
+## Generate the percentage change of before that Prais-Winsten is reporting
+compare_coef_model1 <- mutate(compare_coef_model1,
+                               prais_percent = 100 * (est_prais) / mean_before)
+
+```
+
+### Bishop Auckland
+#### Time-Series Plot
+```{r model1-bishop-plot, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
+               indicator     = 'ed attendances',
+               sub.indicator = 'ambulance',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               facet         = FALSE,
+               sites         = c('Bishop Auckland', 'Salford', 'Scarborough', 'Whitehaven'),
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = TRUE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+## filter(mode.of.arrival.ambulance$summary.table.head, town == 'Bishop Auckland') %>%
+##     kable()
+
+```
+
+#### Prais-Winsten Regression
+```{r model1-bishop-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+mode.of.arrival.ambulance$model1.panelar.bishop %>% summary()
+
+```
+```{r model1-bishop-compare, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+to.table <- dplyr::filter(compare_coef_model1, term == 'closure') %>%
+dplyr::select(site, mean_before, mean_after, diff, diff_perc, est_prais, prais_percent, est_negbin_percent)
+names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (percent)', 'Negative-Binomial (exponentiated)')
+filter(to.table, Site == 'Bishop Auckland') %>%
+    kable()
+
+```
+
+#### Negative-Binomial Time-Series
+```{r model1-bishop-negbin, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+tsglm.bishop.model1 %>% summary()
+
+## Exponentiated Coefficients...
+coef(tsglm.bishop.model1) %>% exp()
+
+```
+
+### Hartlepool
+#### Time-Series Plot
+```{r model1-hartlepool-plot, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
+               indicator     = 'ed attendances',
+               sub.indicator = 'ambulance',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               facet         = FALSE,
+               sites         = c('Hartlepool', 'Blackburn', 'Grimsby', 'Wigan'),
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = TRUE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+## filter(mode.of.arrival.ambulance$summary.table.head, town == 'Hartlepool') %>%
+##     kable()
+
+```
+
+#### Prais-Winsten Regression
+```{r model1-hartlepool-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+mode.of.arrival.ambulance$model1.panelar.hartlepool %>% summary()
+
+```
+```{r model1-hartlepool-compare, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+to.table <- dplyr::filter(compare_coef_model1, term == 'closure') %>%
+dplyr::select(site, mean_before, mean_after, diff, diff_perc, est_prais, prais_percent, est_negbin_percent)
+names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (percent)', 'Negative-Binomial (exponentiated)')
+filter(to.table, Site == 'Hartlepool') %>%
+    kable()
+
+```
+
+#### Negative-Binomial Time-Series
+```{r model1-hartlepool-negbin, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+tsglm.hartlepool.model1 %>% summary()
+
+## Exponentiated Coefficients...
+coef(tsglm.bishop.model1) %>% exp()
+
+```
+
+### Hemel Hempstead
+#### Time-Series Plot
+```{r model1-hemel-plot, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
+               indicator     = 'ed attendances',
+               sub.indicator = 'ambulance',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               facet         = FALSE,
+               sites         = c('Hemel Hempstead', 'Basingstoke', 'Warwick', 'Yeovil'),
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = TRUE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+## filter(mode.of.arrival.ambulance$summary.table.head, town == 'Hemel Hempstead') %>%
+##     kable()
+
+
+```
+
+#### Prais-Winsten Regression
+```{r model1-hemel-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+mode.of.arrival.ambulance$model1.panelar.hemel %>% summary()
+
+```
+```{r model1-hemel-compare, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+to.table <- dplyr::filter(compare_coef_model1, term == 'closure') %>%
+dplyr::select(site, mean_before, mean_after, diff, diff_perc, est_prais, prais_percent, est_negbin_percent)
+names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (percent)', 'Negative-Binomial (exponentiated)')
+filter(to.table, Site == 'Hemel Hempstead') %>%
+    kable()
+
+```
+
+#### Negative-Binomial Time-Series
+```{r model1-hemel-negbin, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+tsglm.hemel.model1 %>% summary()
+
+## Exponentiated Coefficients...
+coef(tsglm.bishop.model1) %>% exp()
+
+```
+
+
+### Newark
+#### Time-Series Plot
+```{r model1-newark-plot, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
+               indicator     = 'ed attendances',
+               sub.indicator = 'ambulance',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               facet         = FALSE,
+               sites         = c('Newark', 'Carlisle', 'Salisbury', 'Southport'),
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = TRUE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+## filter(mode.of.arrival.ambulance$summary.table.head, town == 'Newark') %>%
+##     kable()
+
+
+```
+
+#### Prais-Winsten Regression
+```{r model1-newark-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+mode.of.arrival.ambulance$model1.panelar.newark %>% summary()
+
+```
+```{r model1-newark-compare, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+to.table <- dplyr::filter(compare_coef_model1, term == 'closure') %>%
+dplyr::select(site, mean_before, mean_after, diff, diff_perc, est_prais, prais_percent, est_negbin_percent)
+names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (percent)', 'Negative-Binomial (exponentiated)')
+filter(to.table, Site == 'Newark') %>%
+    kable()
+
+```
+
+#### Negative-Binomial Time-Series
+```{r model1-newark-negbin, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+tsglm.newark.model1 %>% summary()
+
+## Exponentiated Coefficients...
+coef(tsglm.bishop.model1) %>% exp()
+
+```
+
+### Rochdale
+#### Time-Series Plot
+```{r model1-rochdale-plot, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
+               indicator     = 'ed attendances',
+               sub.indicator = 'ambulance',
+               steps         = TRUE,
+               theme         = theme_bw(),
+               facet         = FALSE,
+               sites         = c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck'),
+               legend        = TRUE,
+               tidy          = TRUE,
+               colour        = TRUE,
+               lines         = FALSE,
+               xaxis.steps   = TRUE)
+## filter(mode.of.arrival.ambulance$summary.table.head, town == 'Rochdale') %>%
+##     kable()
+
+```
+
+#### Prais-Winsten Regression
+```{r model1-rochdale-prais, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+mode.of.arrival.ambulance$model1.panelar.rochdale %>% summary()
+
+```
+```{r model1-rochdale-compare, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+to.table <- dplyr::filter(compare_coef_model1, term == 'closure') %>%
+dplyr::select(site, mean_before, mean_after, diff, diff_perc, est_prais, prais_percent, est_negbin_percent)
+names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (percent)', 'Negative-Binomial (exponentiated)')
+filter(to.table, Site == 'Rochdale') %>%
+    kable()
+
+```
+
+#### Negative-Binomial Time-Series
+```{r model1-rochdale-negbin, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+tsglm.rochdale.model1 %>% summary()
+
+## Exponentiated Coefficients...
+coef(tsglm.bishop.model1) %>% exp()
+
+```
+```{r child = 'negbin_model1_interpretation.Rmd', eval = FALSE}
+```
+
+### Comparison
+#### Comparison and Interpretation
+
+
+
+```{r compare_model1, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+to.table <- dplyr::filter(compare_coef_model1, term == 'closure') %>%
+dplyr::select(site, mean_before, mean_after, diff, diff_perc, est_prais, prais_percent, est_negbin_percent)
+names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (percent)', 'Negative-Binomial (exponentiated)')
+to.table %>%
+    kable()
+```
