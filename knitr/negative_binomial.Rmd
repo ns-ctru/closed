@@ -1,5 +1,5 @@
 ---
-title: ClosED - Negative Binomial Time-Series v's Prais-Winsten
+title: ClosED - Negative Binomial Time-Series v's Prais-Winsten (Mode of Arrival - Ambulance)
 output:
   html_document:
     theme: sandstone
