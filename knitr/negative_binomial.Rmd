@@ -43,45 +43,45 @@ Model  | Case Site    | Control Site         | Panel | Covariates
 ```
 
 ## Model 0 {.tabset .tabset-fade}
-```{r child = 'sections/negbin_model0.Rmd', eval = TRUE}
+```{r child = 'sections/negbin_arrival_amb_model0.Rmd', eval = TRUE}
 ```
 
 ## Model 0.5 {.tabset .tabset-fade}
-```{r child = 'sections/> negbin_arrival_amb_model0.5.Rmd', eval = TRUE}
+```{r child = 'sections/negbin_arrival_amb_model0.5.Rmd', eval = TRUE}
 ```
 
 ## Model 1 {.tabset .tabset-fade}
-```{r child = 'sections/> negbin_arrival_amb_model1.Rmd', eval = TRUE}
+```{r child = 'sections/negbin_arrival_amb_model1.Rmd', eval = TRUE}
 ```
 
 ## Model 2 {.tabset .tabset-fade}
-```{r child = 'sections/> negbin_arrival_amb_model2.Rmd', eval = TRUE}
+```{r child = 'sections/negbin_arrival_amb_model2.Rmd', eval = TRUE}
 ```
 
 ## Model 3.1 {.tabset .tabset-fade}
-```{r child = 'sections/> negbin_arrival_amb_model3.1.Rmd', eval = TRUE}
+```{r child = 'sections/negbin_arrival_amb_model3.1.Rmd', eval = TRUE}
 ```
 
 ## Model 3.2 {.tabset .tabset-fade}
-```{r child = 'sections/> negbin_arrival_amb_model3.2.Rmd', eval = TRUE}
+```{r child = 'sections/negbin_arrival_amb_model3.2.Rmd', eval = TRUE}
 ```
 
 ## Model 4 {.tabset .tabset-fade}
-```{r child = 'sections/> negbin_arrival_amb_model4.Rmd', eval = TRUE}
+```{r child = 'sections/negbin_arrival_amb_model4.Rmd', eval = TRUE}
 ```
 
 ## Model 5 {.tabset .tabset-fade}
-```{r child = 'sections/> negbin_arrival_amb_model5.Rmd', eval = TRUE}
+```{r child = 'sections/negbin_arrival_amb_model5.Rmd', eval = TRUE}
 ```
 
 ## Model 6.1 {.tabset .tabset-fade}
-```{r child = 'sections/> negbin_arrival_amb_model6.1.Rmd', eval = TRUE}
+```{r child = 'sections/negbin_arrival_amb_model6.1.Rmd', eval = TRUE}
 ```
 
 ## Model 6.2 {.tabset .tabset-fade}
-```{r child = 'sections/> negbin_arrival_amb_model6.2.Rmd', eval = TRUE}
+```{r child = 'sections/negbin_arrival_amb_model6.2.Rmd', eval = TRUE}
 ```
 
 ## Model 7 {.tabset .tabset-fade}
-```{r child = 'sections/> negbin_arrival_amb_model7.Rmd', eval = TRUE}
+```{r child = 'sections/negbin_arrival_amb_model7.Rmd', eval = TRUE}
 ```
