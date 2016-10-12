@@ -63,7 +63,7 @@ compare_coef_model1 <- merge(compare_coef,
                              all.x = TRUE)
 ## Generate the percentage change of before that Prais-Winsten is reporting
 compare_coef_model1 <- mutate(compare_coef_model1,
-                               prais_percent = 100 * exp(est_prais) / mean_before)
+                               prais_percent = 100 * est_prais / mean_before)
 
 ```
 
@@ -95,7 +95,7 @@ mode.of.arrival.ambulance$model1.panelar.bishop %>% summary()
 ```{r model1-bishop-compare, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 to.table <- dplyr::filter(compare_coef_model1, term == 'closure') %>%
 dplyr::select(site, mean_before, mean_after, diff, diff_perc, est_prais, prais_percent, est_negbin_percent)
-names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (percent)', 'Negative-Binomial (exponentiated)')
+names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (%)', 'Negative-Binomial (%)')
 filter(to.table, Site == 'Bishop Auckland') %>%
     kable()
 
@@ -106,7 +106,7 @@ filter(to.table, Site == 'Bishop Auckland') %>%
 tsglm.bishop.model1 %>% summary()
 
 ## Exponentiated Coefficients...
-coef(tsglm.bishop.model1) %>% exp()
+## coef(tsglm.bishop.model1) %>% exp()
 
 ```
 
@@ -138,7 +138,7 @@ mode.of.arrival.ambulance$model1.panelar.hartlepool %>% summary()
 ```{r model1-hartlepool-compare, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 to.table <- dplyr::filter(compare_coef_model1, term == 'closure') %>%
 dplyr::select(site, mean_before, mean_after, diff, diff_perc, est_prais, prais_percent, est_negbin_percent)
-names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (percent)', 'Negative-Binomial (exponentiated)')
+names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (%)', 'Negative-Binomial (%)')
 filter(to.table, Site == 'Hartlepool') %>%
     kable()
 
@@ -149,7 +149,7 @@ filter(to.table, Site == 'Hartlepool') %>%
 tsglm.hartlepool.model1 %>% summary()
 
 ## Exponentiated Coefficients...
-coef(tsglm.bishop.model1) %>% exp()
+## coef(tsglm.bishop.model1) %>% exp()
 
 ```
 
@@ -182,7 +182,7 @@ mode.of.arrival.ambulance$model1.panelar.hemel %>% summary()
 ```{r model1-hemel-compare, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 to.table <- dplyr::filter(compare_coef_model1, term == 'closure') %>%
 dplyr::select(site, mean_before, mean_after, diff, diff_perc, est_prais, prais_percent, est_negbin_percent)
-names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (percent)', 'Negative-Binomial (exponentiated)')
+names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (%)', 'Negative-Binomial (%)')
 filter(to.table, Site == 'Hemel Hempstead') %>%
     kable()
 
@@ -193,7 +193,7 @@ filter(to.table, Site == 'Hemel Hempstead') %>%
 tsglm.hemel.model1 %>% summary()
 
 ## Exponentiated Coefficients...
-coef(tsglm.bishop.model1) %>% exp()
+## coef(tsglm.bishop.model1) %>% exp()
 
 ```
 
@@ -227,7 +227,7 @@ mode.of.arrival.ambulance$model1.panelar.newark %>% summary()
 ```{r model1-newark-compare, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 to.table <- dplyr::filter(compare_coef_model1, term == 'closure') %>%
 dplyr::select(site, mean_before, mean_after, diff, diff_perc, est_prais, prais_percent, est_negbin_percent)
-names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (percent)', 'Negative-Binomial (exponentiated)')
+names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (%)', 'Negative-Binomial (%)')
 filter(to.table, Site == 'Newark') %>%
     kable()
 
@@ -238,7 +238,7 @@ filter(to.table, Site == 'Newark') %>%
 tsglm.newark.model1 %>% summary()
 
 ## Exponentiated Coefficients...
-coef(tsglm.bishop.model1) %>% exp()
+## coef(tsglm.bishop.model1) %>% exp()
 
 ```
 
@@ -270,7 +270,7 @@ mode.of.arrival.ambulance$model1.panelar.rochdale %>% summary()
 ```{r model1-rochdale-compare, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 to.table <- dplyr::filter(compare_coef_model1, term == 'closure') %>%
 dplyr::select(site, mean_before, mean_after, diff, diff_perc, est_prais, prais_percent, est_negbin_percent)
-names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (percent)', 'Negative-Binomial (exponentiated)')
+names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (%)', 'Negative-Binomial (%)')
 filter(to.table, Site == 'Rochdale') %>%
     kable()
 
@@ -281,7 +281,7 @@ filter(to.table, Site == 'Rochdale') %>%
 tsglm.rochdale.model1 %>% summary()
 
 ## Exponentiated Coefficients...
-coef(tsglm.bishop.model1) %>% exp()
+## coef(tsglm.bishop.model1) %>% exp()
 
 ```
 ```{r child = 'negbin_model1_interpretation.Rmd', eval = FALSE}
@@ -295,7 +295,7 @@ coef(tsglm.bishop.model1) %>% exp()
 ```{r compare_model1, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 to.table <- dplyr::filter(compare_coef_model1, term == 'closure') %>%
 dplyr::select(site, mean_before, mean_after, diff, diff_perc, est_prais, prais_percent, est_negbin_percent)
-names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (percent)', 'Negative-Binomial (exponentiated)')
+names(to.table) <- c('Site', 'Pre-Mean', 'Post-Mean', 'Difference', 'Percent', 'Prais-Winsten', 'Prais-Winsten (%)', 'Negative-Binomial (%)')
 to.table %>%
     kable()
 ```
