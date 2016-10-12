@@ -63,7 +63,7 @@ compare_coef_model1 <- merge(compare_coef,
                              all.x = TRUE)
 ## Generate the percentage change of before that Prais-Winsten is reporting
 compare_coef_model1 <- mutate(compare_coef_model1,
-                               prais_percent = 100 * (est_prais) / mean_before)
+                               prais_percent = 100 * exp(est_prais) / mean_before)
 
 ```
 
