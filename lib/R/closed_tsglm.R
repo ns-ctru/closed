@@ -5,7 +5,7 @@
 #' @details The ClosED study uses time-series with dummy indicators to
 #' test for the impact of closing Emergency Departments on indicators of
 #' performance.  This performs
-#' Prais-Winsten time-series regression analysis to account for atuo-correlation.
+#' Negative-Binomial Time-series regression analysis to account for atuo-correlation.
 #'
 #' This function differs from \code{closed_regress} in that it runs one model on
 #' all sites, returning the results for each model along with summary data frames
