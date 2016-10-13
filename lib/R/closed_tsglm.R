@@ -1,6 +1,6 @@
 #' Perform Regression on ClosED data
 #'
-#' @description Perform Prais-Winsten Regression on ClosED data
+#' @description Perform Negative-Binomial Time-series regression on ClosED data.
 #'
 #' @details The ClosED study uses time-series with dummy indicators to
 #' test for the impact of closing Emergency Departments on indicators of
