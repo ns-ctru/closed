@@ -38,14 +38,10 @@
 #' @param weights option for \code{panelAR} weights (see \code{?panelAR} for options).
 #' @param seq.times Logical whether to use \code{panelAR} \code{seq.times} option to ignore gaps.
 #' @param rho.na.rm Logical operator passed to panelAR() for excluding panel specific autocorrelation when it can not be calculated.
-#' @param plot Generate time-series plot.
-#' @param common.y Generate all plots with a common y-axis range.
-#' @param theme GGplot2 theme to use (only relevant if \code{plot = TRUE}).
+#' @param theme GGplot2 theme to use for Forrest Plots.
 #' @param return.df Logical operator of whether to return the subsetted/summarised data frame (useful for subsequent development).
 #' @param return.model Logical operator of whether to return the fitted models (not currently working correctly).
 #' @param return.residuals Logical oeprator of whether to return the residuals of the fitted model.
-#' @param join.line Logical operator of whether to join missing data points on plots.
-#' @param legend Logical operator of whether to include legends passed to \code{closed_ts_plot()}.
 #' @param rho.na.rm Logical operator passed to panelAR() for excluding panel specific autocorrelation when it can not be calculated.
 #' @param digits Number of digits to include in summary table of means/sd.
 #'
@@ -89,14 +85,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           weights         = '',
                           seq.times       = FALSE,
                           rho.na.rm       = FALSE,
-                          plot            = TRUE,
-                          common.y        = TRUE,
                           theme           = theme_bw(),
                           return.df       = FALSE,
                           return.model    = TRUE,
                           return.residuals = FALSE,
-                          join.line        = TRUE,
-                          legend           = FALSE,
                           digits           = 3,
                           ...){
     #######################################################################
