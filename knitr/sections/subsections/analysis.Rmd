@@ -661,10 +661,10 @@ else{
 <!--- All Emergency Admissions - All --->
 ```{r all_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 if(negbin.for.counts == TRUE){
-    mode.of.arrival.any <- closed_tsglm(df.lsoa          = ed_attendances_by_mode_measure,
-                                     df.trust         = ed_attendances_by_mode_site_measure_clean,
-                                     indicator        = 'ed attendances',
-                                     sub.indicator    = 'any',
+    all.emergency.admissions.all <- closed_tsglm(df.lsoa         = emergency_admissions_measure,
+                                     df.trust         = emergency_admissions_site_measure_clean,
+                                     indicator        = 'all emergency admissions',
+                                     sub.indicator    = 'all',
                                      panel.lsoa       = model.opts$panel.lsoa,
                                      panel.trust      = model.opts$panel.trust,
                                      timevar          = model.opts$timevar,
@@ -726,9 +726,9 @@ else{
 <!--- Avoidable Emergency Admissions - Any --->
 ```{r avoidable_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 if(negbin.for.counts == TRUE){
-    mode.of.arrival.any <- closed_tsglm(df.lsoa          = ed_attendances_by_mode_measure,
-                                     df.trust         = ed_attendances_by_mode_site_measure_clean,
-                                     indicator        = 'ed attendances',
+    avoidable.emergency.admissions.any <- closed_tsglm(df.lsoa         = emergency_admissions_measure,
+                                     df.trust         = emergency_admissions_site_measure_clean,
+                                     indicator        = 'avoidable emergency admissions',
                                      sub.indicator    = 'any',
                                      panel.lsoa       = model.opts$panel.lsoa,
                                      panel.trust      = model.opts$panel.trust,
@@ -792,10 +792,10 @@ else{
 <!--- Avoidable Emergency Admissions - Chest Pain --->
 ```{r avoidable_emergency_admissions_chest_pain, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 if(negbin.for.counts == TRUE){
-    mode.of.arrival.any <- closed_tsglm(df.lsoa          = ed_attendances_by_mode_measure,
-                                     df.trust         = ed_attendances_by_mode_site_measure_clean,
-                                     indicator        = 'ed attendances',
-                                     sub.indicator    = 'any',
+    avoidable.emergency.admissions.chest.pain <- closed_tsglm(df.lsoa         = emergency_admissions_measure,
+                                     df.trust         = emergency_admissions_site_measure_clean,
+                                     indicator        = 'avoidable emergency admissions',
+                                     sub.indicator    = 'non-specific chest pain',
                                      panel.lsoa       = model.opts$panel.lsoa,
                                      panel.trust      = model.opts$panel.trust,
                                      timevar          = model.opts$timevar,
@@ -859,10 +859,10 @@ else{
 <!--- ED Attendances Admitted - All --->
 ```{r ed_attendances_admitted_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE
 if(negbin.for.counts == TRUE){
-    mode.of.arrival.any <- closed_tsglm(df.lsoa          = ed_attendances_by_mode_measure,
-                                     df.trust         = ed_attendances_by_mode_site_measure_clean,
-                                     indicator        = 'ed attendances',
-                                     sub.indicator    = 'any',
+    ed.attendances.admitted.all <- closed_tsglm(df.lsoa         = ed_attendances_admitted_measure,
+                                     df.trust         = ed_attendances_admitted_site_measure_clean,
+                                     indicator        = 'ed attendances admitted',
+                                     sub.indicator    = 'all',
                                      panel.lsoa       = model.opts$panel.lsoa,
                                      panel.trust      = model.opts$panel.trust,
                                      timevar          = model.opts$timevar,
@@ -961,10 +961,10 @@ ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_
 <!--- ED Attendances Admitted - Admitted --->
 ```{r ed_attendances_admitted_admitted, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 if(negbin.for.counts == TRUE){
-    mode.of.arrival.any <- closed_tsglm(df.lsoa          = ed_attendances_by_mode_measure,
-                                     df.trust         = ed_attendances_by_mode_site_measure_clean,
-                                     indicator        = 'ed attendances',
-                                     sub.indicator    = 'any',
+    ed.attendances.admitted.admitted <- closed_tsglm(df.lsoa         = ed_attendances_admitted_measure,
+                                     df.trust         = ed_attendances_admitted_site_measure_clean,
+                                     indicator        = 'ed attendances admitted',
+                                     sub.indicator    = 'admitted',
                                      panel.lsoa       = model.opts$panel.lsoa,
                                      panel.trust      = model.opts$panel.trust,
                                      timevar          = model.opts$timevar,
@@ -1027,10 +1027,10 @@ else{
 <!--- Critical Care - All --->
 ```{r critical_care_cips_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 if(negbin.for.counts == TRUE){
-    mode.of.arrival.any <- closed_tsglm(df.lsoa          = ed_attendances_by_mode_measure,
-                                     df.trust         = ed_attendances_by_mode_site_measure_clean,
-                                     indicator        = 'ed attendances',
-                                     sub.indicator    = 'any',
+    critical.care.cips.all <- closed_tsglm(df.lsoa         = critical_care_cips_measure,
+                                     df.trust         = critical_care_cips_site_measure_clean,
+                                     indicator        = 'critical care stays',
+                                     sub.indicator    = 'all',
                                      panel.lsoa       = model.opts$panel.lsoa,
                                      panel.trust      = model.opts$panel.trust,
                                      timevar          = model.opts$timevar,
@@ -1093,10 +1093,10 @@ else{
 <!--- Critical Care - Critical --->
 ```{r critical_care_cips_critical, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 if(negbin.for.counts == TRUE){
-    mode.of.arrival.any <- closed_tsglm(df.lsoa          = ed_attendances_by_mode_measure,
-                                     df.trust         = ed_attendances_by_mode_site_measure_clean,
-                                     indicator        = 'ed attendances',
-                                     sub.indicator    = 'any',
+    critical.care.cips.critical <- closed_tsglm(df.lsoa         = critical_care_cips_measure,
+                                     df.trust         = critical_care_cips_site_measure_clean,
+                                     indicator        = 'critical care stays',
+                                     sub.indicator    = 'critical care',
                                      panel.lsoa       = model.opts$panel.lsoa,
                                      panel.trust      = model.opts$panel.trust,
                                      timevar          = model.opts$timevar,
@@ -1555,10 +1555,10 @@ ambulance.mean.times.scene.to.dest <- closed_models(df.lsoa         = amb_mean_t
 <!--- Ambulance Non-Conveyances - Green Calls --->
 ```{r ambulance_non_conveyances_green_calls, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 if(negbin.for.counts == TRUE){
-    mode.of.arrival.any <- closed_tsglm(df.lsoa          = ed_attendances_by_mode_measure,
-                                     df.trust         = ed_attendances_by_mode_site_measure_clean,
-                                     indicator        = 'ed attendances',
-                                     sub.indicator    = 'any',
+    ambulance.non.conveyances.green.calls <- closed_tsglm(df.lsoa         = amb_non_conveyance_measure,
+                                     df.trust         = amb_non_conveyance_site_measure_clean,
+                                     indicator        = 'ambulance non-conveyance',
+                                     sub.indicator    = 'green calls',
                                      panel.lsoa       = model.opts$panel.lsoa,
                                      panel.trust      = model.opts$panel.trust,
                                      timevar          = model.opts$timevar,
@@ -1620,10 +1620,10 @@ else{
 <!--- Ambulance Non-Conveyances - Green Calls Not Conveyed--->
 ```{r ambulance_non_conveyances_green_calls_not_conveyed, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 if(negbin.for.counts == TRUE){
-    mode.of.arrival.any <- closed_tsglm(df.lsoa          = ed_attendances_by_mode_measure,
-                                     df.trust         = ed_attendances_by_mode_site_measure_clean,
-                                     indicator        = 'ed attendances',
-                                     sub.indicator    = 'any',
+    ambulance.non.conveyances.green.calls.non.conveyed <- closed_tsglm(df.lsoa         = amb_non_conveyance_measure,
+                                     df.trust         = amb_non_conveyance_site_measure_clean,
+                                     indicator        = 'ambulance non-conveyance',
+                                     sub.indicator    = 'not conveyed green calls',
                                      panel.lsoa       = model.opts$panel.lsoa,
                                      panel.trust      = model.opts$panel.trust,
                                      timevar          = model.opts$timevar,
@@ -1721,10 +1721,10 @@ ambulance.non.conveyances.fraction.not.conveyed <- closed_models(df.lsoa        
 <!--- Ambulance Red Calls - Hospital Transfers --->
 ```{r ambulance_red_calls_hospital_transfers, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 if(negbin.for.counts == TRUE){
-    mode.of.arrival.any <- closed_tsglm(df.lsoa          = ed_attendances_by_mode_measure,
-                                     df.trust         = ed_attendances_by_mode_site_measure_clean,
-                                     indicator        = 'ed attendances',
-                                     sub.indicator    = 'any',
+    ambulance.red.calls.hospital.transfers <- closed_tsglm(df.lsoa         = amb_red_calls_measure,
+                                     df.trust         = amb_red_calls_site_measure_clean,
+                                     indicator        = 'ambulance red calls',
+                                     sub.indicator    = 'hospital transfers',
                                      panel.lsoa       = model.opts$panel.lsoa,
                                      panel.trust      = model.opts$panel.trust,
                                      timevar          = model.opts$timevar,
@@ -1786,10 +1786,10 @@ else{
 <!--- Ambulance Red Calls - Total --->
 ```{r ambulance_red_calls_total, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 if(negbin.for.counts == TRUE){
-    mode.of.arrival.any <- closed_tsglm(df.lsoa          = ed_attendances_by_mode_measure,
-                                     df.trust         = ed_attendances_by_mode_site_measure_clean,
-                                     indicator        = 'ed attendances',
-                                     sub.indicator    = 'any',
+    ambulance.red.calls.total <- closed_tsglm(df.lsoa         = amb_red_calls_measure,
+                                     df.trust         = amb_red_calls_site_measure_clean,
+                                     indicator        = 'ambulance red calls',
+                                     sub.indicator    = 'total',
                                      panel.lsoa       = model.opts$panel.lsoa,
                                      panel.trust      = model.opts$panel.trust,
                                      timevar          = model.opts$timevar,
@@ -1851,10 +1851,10 @@ else{
 <!--- Hospital Transfers - All Stays --->
 ```{r hospital_transfers_all_stays, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 if(negbin.for.counts == TRUE){
-    mode.of.arrival.any <- closed_tsglm(df.lsoa          = ed_attendances_by_mode_measure,
-                                     df.trust         = ed_attendances_by_mode_site_measure_clean,
-                                     indicator        = 'ed attendances',
-                                     sub.indicator    = 'any',
+    hospital.transfers.all.stays <- closed_tsglm(df.lsoa         = hospital_transfers_measure,
+                                     df.trust         = hospital_transfers_site_measure_clean,
+                                     indicator        = 'hospital transfers',
+                                     sub.indicator    = 'all stays',
                                      panel.lsoa       = model.opts$panel.lsoa,
                                      panel.trust      = model.opts$panel.trust,
                                      timevar          = model.opts$timevar,
@@ -1916,10 +1916,10 @@ else{
 <!--- Hospital Transfers - Stays with Transfers --->
 ```{r hospital_transfers_stays_with_transfer, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 if(negbin.for.counts == TRUE){
-    mode.of.arrival.any <- closed_tsglm(df.lsoa          = ed_attendances_by_mode_measure,
-                                     df.trust         = ed_attendances_by_mode_site_measure_clean,
-                                     indicator        = 'ed attendances',
-                                     sub.indicator    = 'any',
+    hospital.transfers.stays.with.transfer <- closed_tsglm(df.lsoa         = hospital_transfers_measure,
+                                     df.trust         = hospital_transfers_site_measure_clean,
+                                     indicator        = 'hospital transfers',
+                                     sub.indicator    = 'stays with transfer',
                                      panel.lsoa       = model.opts$panel.lsoa,
                                      panel.trust      = model.opts$panel.trust,
                                      timevar          = model.opts$timevar,
