@@ -303,7 +303,118 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         rownames(.coefficients) <- NULL
         .coefficients$indicator     <- .indicator
         .coefficients$sub.indicator <- .sub.indicator
+        ## Produce a formatted table for printing, produce output and reshape
         ## print("Internal Debug 7")
+        out <- dplyr::select(.coefficients, indicator, sub.indicator, term, town, est, lower, upper)
+        out <- paste0(formatC(out$est, digits = 3, format = 'f'),
+                      ' (',
+                      formatC(out$lower, digits = 3, format = 'f'),
+                      ' - ',
+                      formatC(out$upper, digits = 3, format = 'f'),
+                      ')')
+        out <- dplyr::select(out, indicator, sub.indicator, term, town, out) %>%
+               melt(id = c('indicator', 'sub.indicator', 'site', 'term')) %>%
+               dcast(indicator + sub.indicator + term ~ site + variable)
+              ## Conditionally remove the coefficients that are not of interest
+        if(return.coef == 'closure'){
+            .coef <- dplyr::filter(.coef, grepl('closure', term))
+        }
+        else if(return.coef == 'town'){
+            .coef <- dplyr::filter(.coef, grepl('town', term))
+        }
+        else if(return.coef == 'closure.town'){
+            .coef <- dplyr::filter(.coef, grepl('closure', term) | grepl('town', term))
+        }
+        ## Not really necessary, but it makes the code clear
+        else if(return.coef == 'all.steps'){
+            .coef <- dplyr::filter(.coef, grepl('closure', term) | grepl('town', term) | grepl('nhs111', term) | grepl('ambulance.divert', term) | grepl('other.closure', term))
+        }
+        ## Not really necessary, but it makes the code clear
+        else if(return.coef == 'all'){
+            .coef <- .coef
+        }
+        ## Format the term label for interactions between site and town
+        .coef <- within(.coef, {
+                        term[term == 'townBasingstoke'] <- 'Basingstoke'
+                        term[term == 'townBasingstoke:closure'] <- 'Basingstoke x Closure'
+                        term[term == 'townBishop Auckland'] <- 'Bishop Auckland'
+                        term[term == 'townBishop Auckland:closure'] <- 'Bishop Auckland x Closure'
+                        term[term == 'pooled.controlBishop Auckland:closure'] <- 'Bishop Auckland x Closure'
+                        term[term == 'townBlackburn'] <- 'Blackburn'
+                        term[term == 'townBlackburn:closure'] <- 'Blackburn x Closure'
+                        term[term == 'townCarlisle'] <- 'Carlisle'
+                        term[term == 'townCarlisle:closure'] <- 'Carlisle x Closure'
+                        term[term == 'townGrimsby'] <- 'Grimsby'
+                        term[term == 'townGrimsby:closure'] <- 'Grimsby x Closure'
+                        term[term == 'townHartlepool'] <- 'Hartlepool'
+                        term[term == 'townHartlepool:closure'] <- 'Hartlepool x Closure'
+                        term[term == 'pooled.controlHartlepool:closure'] <- 'Hartlepool x Closure'
+                        term[term == 'townHemel Hempstead'] <- 'Hemel Hempstead'
+                        term[term == 'townHemel Hempstead:closure'] <- 'Hemel Hempstead x Closure'
+                        term[term == 'pooled.controlHemel Hempstead:closure'] <- 'Hemel Hempstead x Closure'
+                        term[term == 'townNewark']  <- 'Newark'
+                        term[term == 'townNewark:closure']  <- 'Newark x Closure'
+                        term[term == 'pooled.controlNewark:closure'] <- 'Newark x Closure'
+                        term[term == 'townRochdale']  <- 'Rochdale'
+                        term[term == 'townRochdale:closure']  <- 'Rochdale x Closure'
+                        term[term == 'pooled.controlRochdale:closure'] <- 'Rochdale x Closure'
+                        term[term == 'townRotherham'] <- 'Rotherham'
+                        term[term == 'townRotherham:closure'] <- 'Rotherham x Closure'
+                        term[term == 'townSalford'] <- 'Salford'
+                        term[term == 'townSalford:closure'] <- 'Salford x Closure'
+                        term[term == 'townSalisbury'] <- 'Salisbury'
+                        term[term == 'townSalisbury:closure'] <- 'Salisbury x Closure'
+                        term[term == 'townScarborough'] <- 'Scarborough'
+                        term[term == 'townScarborough:closure'] <- 'Scarborough x Closure'
+                        term[term == 'townScunthorpe'] <- 'Scunthorpe'
+                        term[term == 'townScunthorpe:closure'] <- 'Scunthorpe x Closure'
+                        term[term == 'townSouthport'] <- 'Southport'
+                        term[term == 'townSouthport:closure'] <- 'Southport x Closure'
+                        term[term == 'townWansbeck'] <- 'Wansbeck'
+                        term[term == 'townWansbeck:closure'] <- 'Wansbeck x Closure'
+                        term[term == 'townWarwick'] <- 'Warwick'
+                        term[term == 'townWarwick:closure'] <- 'Warwick x Closure'
+                        term[term == 'townWhitehaven'] <- 'Whitehaven'
+                        term[term == 'townWhitehaven:closure'] <- 'Whitehaven x Closure'
+                        term[term == 'townWigan'] <- 'Wigan'
+                        term[term == 'townWigan:closure'] <- 'Wigan x Closure'
+                        term[term == 'townYeovil'] <- 'Yeovil'
+                        term[term == 'townYeovil:closure'] <- 'Yeovil x Closure'
+                        term[term == 'nhs111'] <- 'NHS 111'
+                        term[term == 'ambulance.divert'] <- 'Ambulances Diverted'
+                        term[term == 'other.centre'] <- 'Other Medical Centre'
+                        term[term == 'closure'] <- 'ED Closure'
+                        term[term == 'relative.month'] <- 'Time (Month)'
+                        term[term == 'season'] <- 'Season'
+                        term[term == 'diff.time.to.ed'] <- 'Change in Time to ED'
+        })
+        ## print("Internal Debug 8")
+        ## Build the column names conditional on the non-null arguments
+        ## Bear in mind that the reshape puts everything in alphabetical order
+        ## Stub that all require
+        column.names <- c('Indicator', 'Subindicator', 'Term')
+        ## All column
+        if(!is.null(all.coef)){
+            column.names <- c(column.names, 'All')
+        }
+        if(!is.null(bishop.coef)){
+            column.names <- c(column.names, 'Bishop Auckland')
+        }
+        if(!is.null(hartlepool.coef)){
+            column.names <- c(column.names, 'Hartlepool')
+        }
+        if(!is.null(hemel.coef)){
+            column.names <- c(column.names, 'Hemel Hempstead')
+        }
+        if(!is.null(newark.coef)){
+            column.names <- c(column.names, 'Newark')
+        }
+        if(!is.null(rochdale.coef)){
+            column.names <- c(column.names, 'Rochdale')
+        }
+        names(coef$coef) <- column.names
+        ## Derive a caption for the table
+        coef$caption <- paste0('Comparison of coefficients from Prais-Winsten Regression across sites.  Each cell contains a point estimate followed by the standard error (in brackets) and the associated p-value (in scientific format due to some values being very small).')
         return(.coefficients)
     }
     #######################################################################
