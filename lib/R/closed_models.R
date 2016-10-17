@@ -1365,7 +1365,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         rm(df3)
     }
     #######################################################################
-    ## Model 3.2                                                           ##
+    ## Model 3.2                                                         ##
     #######################################################################
     if(!is.null(model3.2)){
         ## print("Model 3.2")
@@ -1392,10 +1392,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Bishop Auckland                              ##
         ##################################################
+        print(df3.2)
         ## print("Bishop Auckland")
         t <- filter(df3.2,
-                    group == 'Cohort : Bishop Auckland General Hospital') %>%
+                    group == 'Bishop Auckland General Hospital') %>%
             as.data.frame()
+        print(t)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
            town.group$n[town.group$town == 'Salford'] > 0 &
            town.group$n[town.group$town == 'Scarborough'] > 0 &
@@ -1421,7 +1423,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## print("Hartlepool")
         t <- filter(df3.2,
-                    group == 'Cohort : University Hospital of Hartlepool') %>%
+                    group == 'University Hospital of Hartlepool') %>%
             as.data.frame()
         if(town.group$n[town.group$town == 'Hartlepool'] > 0 &
            town.group$n[town.group$town == 'Blackburn'] > 0 &
@@ -1448,7 +1450,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## print("Hemel Hempstead")
         t <- filter(df3.2,
-                    group == 'Cohort : Hemel Hempstead Hospital') %>%
+                    group == 'Hemel Hempstead Hospital') %>%
              as.data.frame()
         if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
            town.group$n[town.group$town == 'Basingstoke'] > 0 &
@@ -1475,7 +1477,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## print("Newark")
         t <- filter(df3.2,
-                    group == 'Cohort : Newark Hospital') %>%
+                    group == 'Newark Hospital') %>%
              as.data.frame()
         if(town.group$n[town.group$town == 'Newark'] > 0 &
            town.group$n[town.group$town == 'Carlisle'] > 0 &
@@ -1502,7 +1504,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## print("Rochdale")
         t <- filter(df3.2,
-                    group == 'Cohort : Rochdale Infirmary') %>%
+                    group == 'Rochdale Infirmary') %>%
             as.data.frame()
         if(town.group$n[town.group$town == 'Rochdale'] > 0 &
            town.group$n[town.group$town == 'Rotherham'] > 0 &
