@@ -131,19 +131,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                 dplyr::filter(measure == indicator,
                               sub.measure == sub.indicator)
     df.trust$town <- factor(df.trust$town)
-    ## Conditionally select range for y-axis, MUST do this BEFORE subsetting
-    ## data so that it is common across all outcomes for the given indicator
-    ## ## print("Debug 4")
-    ## if(common.y == TRUE){
-    ##     ## print('Dim LSOA')
-    ##     ## dim(df.lsoa) %>% print()
-    ##     ## print('Dim Trust')
-    ##     ## dim(df.trust) %>% print()
-    ##     df.lsoa.max  <-  max(as.numeric(df.lsoa$value), na.rm = TRUE)
-    ##     df.trust.max <-  max(as.numeric(df.trust$value), na.rm = TRUE)
-    ##     y.max <- max(df.lsoa.max, df.trust.max) %>%
-    ##              round(-2)
-    ## }
     #######################################################################
     ## Derive the mean, sd, median, iqr, min and max of events before/   ##
     ## after closure for combining into a summary table with model       ##
@@ -1375,16 +1362,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## Pool the data
         df3.2 <- closed_pool(df             = df.trust,
                              within.centres = TRUE)
-        ## Define group pooling for controls (but DON'T pool the data!)
-        ## df3.2 <- mutate(df3.2,
-        ##               pooled.control = ifelse(site.type %in% c('matched control', 'pooled control'), 'Control', town))
-        ## df3.2 <- mutate(df3.2,
-        ##               pooled.control = ifelse(pooled.control == 2, 'Bishop Auckland', pooled.control),
-        ##               pooled.control = ifelse(pooled.control == 6, 'Harltepool', pooled.control),
-        ##               pooled.control = ifelse(pooled.control == 7, 'Hemel Hempstead', pooled.control),
-        ##               pooled.control = ifelse(pooled.control == 8, 'Newark', pooled.control),
-        ##               pooled.control = ifelse(pooled.control == 9, 'Rochdale', pooled.control))
-        ## df3.2$pooled.control <- factor(df3.2$pooled.control)
         ## Set reference group for pooled controls
         df3.2$pooled.control <- relevel(df3.2$pooled.control, ref = 'Control')
         ## Ensure relative.month is a numeric integer
