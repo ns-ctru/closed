@@ -970,19 +970,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         df2 <- filter(df.trust, town %in% sites &
                       measure     == indicator &
                       sub.measure == sub.indicator)
-        ## Generate time-series plot
-        df2$group <- paste0('Cohort : ', df2$group)
-        ## results$model2.ts.plot <- closed_ts_plot(df = df2,
-        ##                                          sites = sites,
-        ##                                          indicator = indicator,
-        ##                                          sub.indicator = sub.indicator,
-        ##                                          steps = TRUE,
-        ##                                          lines = TRUE,
-        ##                                          xaxis.steps = FALSE,
-        ##                                          facet = TRUE,
-        ##                                          tidy  = TRUE,
-        ##                                          join  = join.line,
-        ##                                          legend = legend)
         ## Perform analysis with panelAR in each
         ##################################################
         ## Model 2 - Bishop Auckland                    ##
