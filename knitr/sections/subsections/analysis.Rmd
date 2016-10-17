@@ -120,24 +120,27 @@ if(os != 'unix' | node != 'mcru-closed-hp.shef.ac.uk'){
 } else{
     model.opts$mod7 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
 }
-model.opts$panel.lsoa		<- 'lsoa'
-model.opts$panel.trust		<- 'town'
-model.opts$timevar		<- 'relative.month'
-model.opts$outcome		<- 'value'
-model.opts$autocorr		<- 'ar1'
-model.opts$panelcorrmethod	<- 'pcse'
-model.opts$coefficients		<- 'closure.town'
-model.opts$complete.case        <- TRUE
-model.opts$seq.times		<- FALSE
-model.opts$plot			<- TRUE
-model.opts$common.y		<- TRUE
-model.opts$theme		<- theme_bw()
-model.opts$return.df		<- FALSE
-model.opts$return.model		<- TRUE
-model.opts$return.residuals	<- FALSE
-model.opts$join.line            <- FALSE
-model.opts$legend               <- TRUE
-model.opts$rho.na.rm            <- TRUE
+model.opts$panel.lsoa	    <- 'lsoa'
+model.opts$panel.trust	    <- 'town'
+model.opts$timevar	    <- 'relative.month'
+model.opts$outcome	    <- 'value'
+model.opts$autocorr	    <- 'ar1'
+model.opts$panelcorrmethod  <- 'pcse'
+model.opts$coefficients	    <- 'closure.town'
+model.opts$complete.case    <- TRUE
+model.opts$seq.times	    <- FALSE
+model.opts$plot		    <- TRUE
+model.opts$common.y	    <- TRUE
+model.opts$theme	    <- theme_bw()
+model.opts$return.df	    <- FALSE
+model.opts$return.model	    <- TRUE
+model.opts$return.residuals <- FALSE
+model.opts$join.line        <- FALSE
+model.opts$legend           <- TRUE
+model.opts$rho.na.rm        <- TRUE
+model.opts$tsglm.link            <- 'log'
+model.opts$tsglm.model           <- list(past_obs = 1)
+model.opts$tsglm.distr           <- 'nbinom'
 ## Other Common options
 systematic.outlier <- 3
 summary.table.align <- c('l', 'r', 'r', 'r', 'r', 'r', 'r')
@@ -398,31 +401,31 @@ save(spurious,
 ```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 if(negbin.for.counts == TRUE){
     mode.of.arrival.any <- closed_tsglm(df.lsoa          = ed_attendances_by_mode_measure,
-                         df.trust         = ed_attendances_by_mode_site_measure_clean,
-                         indicator        = 'ed attendances',
-                         sub.indicator    = 'any',
-                         steps            = c('closure'),
-                         panel.lsoa       = 'lsoa',
-                         panel.trust      = 'town',
-                         timevar          = 'relative.month',
-                         outcome          = 'value',
-                         model0           = c('closure'),
-                         model1           = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-                         model2           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-                         model3.1         = c('pooled.control * closure', 'town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-                         model3.2         = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-                         model4           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-                         model5           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
-                         model6.1         = c('season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
-                         model6.2         = c('town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
-                         model7           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
-                         tsglm.link       = 'log',
-                         tsglm.model      = list(past_obs = 1),
-                         tsglm.distr      = 'nbinom',
-                         return.df        = FALSE,
-                         return.model     = TRUE,
-                         return.residuals = FALSE,
-                         digits           = 3}
+                                     df.trust         = ed_attendances_by_mode_site_measure_clean,
+                                     indicator        = 'ed attendances',
+                                     sub.indicator    = 'any',
+                                     steps            = c('closure'),
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7           = model.opts$mod7,
+                                     tsglm.link       = model.opts$tsglm.link,
+                                     tsglm.model      = model.opts$tsglm.model,
+                                     tsglm.distr      = model.opts$tsglm.distr,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     digits           = 3}
 else{
     mode.of.arrival.any <- closed_models(df.lsoa          = ed_attendances_by_mode_measure,
                                      df.trust         = ed_attendances_by_mode_site_measure_clean,
