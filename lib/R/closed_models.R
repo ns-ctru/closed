@@ -18,7 +18,6 @@
 #' @param df.trust Data frame at the Trust level to analyse ideally cleaned of spurious datasets by \code{closed_clean()}.
 #' @param indicator The performance indicator to assess.
 #' @param sub.indicator The sub-measure performance indicator to assess.
-#' @param steps List of steps (dummy variables) to include in time-series analysis.
 #' @param panel.lsoa Variable that defines panels in LSOA level data (default is \code{lsoa} and shouldn't need changing).
 #' @param panel.trust Variable that defines panels in Trust level data (default is \code{town} and shouldn't need changing).
 #' @param time Variable defining time in both data sets (default is \code{relative.month} and shouldn't need changing).
@@ -68,7 +67,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           df.trust        = ed_attendances_by_mode_site_measure_clean,
                           indicator       = 'ed attendances',
                           sub.indicator   = 'any',
-                          steps           = c('closure'),
                           panel.lsoa      = 'lsoa',
                           panel.trust     = 'town',
                           timevar         = 'relative.month',
