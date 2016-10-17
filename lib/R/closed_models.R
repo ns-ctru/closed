@@ -1392,12 +1392,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## Bishop Auckland                              ##
         ##################################################
-        print(df3.2)
         ## print("Bishop Auckland")
         t <- filter(df3.2,
                     group == 'Bishop Auckland General Hospital') %>%
             as.data.frame()
-        print(t)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
            town.group$n[town.group$town == 'Salford'] > 0 &
            town.group$n[town.group$town == 'Scarborough'] > 0 &
