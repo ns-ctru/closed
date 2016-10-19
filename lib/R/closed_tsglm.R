@@ -303,6 +303,11 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         rownames(.coefficients) <- NULL
         .coefficients$indicator     <- .indicator
         .coefficients$sub.indicator <- .sub.indicator
+        return(.coefficients)
+    }
+    tidy_coefficients <- function(df   = results$model0.tsglm.coefficients,
+                                  ...){
+        coef <- list()
         ## Produce a formatted table for printing, produce output and reshape
         ## print("Internal Debug 7")
         out <- dplyr::select(.coefficients, indicator, sub.indicator, term, town, est, lower, upper)
@@ -312,6 +317,8 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                       ' - ',
                       formatC(out$upper, digits = 3, format = 'f'),
                       ')')
+        names(out) %>% print()
+        head(out) %>% print()
         out <- dplyr::select(out, indicator, sub.indicator, term, town, out) %>%
                melt(id = c('indicator', 'sub.indicator', 'site', 'term')) %>%
                dcast(indicator + sub.indicator + term ~ site + variable)
@@ -414,8 +421,8 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         }
         names(coef$coef) <- column.names
         ## Derive a caption for the table
-        coef$caption <- paste0('Comparison of coefficients from Prais-Winsten Regression across sites.  Each cell contains a point estimate followed by the standard error (in brackets) and the associated p-value (in scientific format due to some values being very small).')
-        return(.coefficients)
+        coef$caption <- paste0('Comparison of coefficients from Negative-Binomial Time-Series Regression across sites.  Each cell contains a point estimate followed by the standard error (in brackets) and the associated p-value (in scientific format due to some values being very small).')
+        return(coef)
     }
     #######################################################################
     ## Model 0                                                           ##
