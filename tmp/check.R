@@ -1,8 +1,129 @@
+## 2016-10-19 Checking closed_tsglm() output of formatted coefficients
+testing <- closed_tsglm(df.lsoa          = ed_attendances_by_mode_measure,
+                        df.trust         = ed_attendances_by_mode_site_measure_clean,
+                        indicator        = 'ed attendances',
+                        sub.indicator    = 'any',
+                        panel.lsoa       = model.opts$panel.lsoa,
+                        panel.trust      = model.opts$panel.trust,
+                        timevar          = model.opts$timevar,
+                        outcome          = model.opts$outcome,
+                        model0           = model.opts$mod0,
+                        model1           = model.opts$mod1,
+                        model2           = model.opts$mod2,
+                        model3.1         = model.opts$mod3.1,
+                        model3.2         = model.opts$mod3.2,
+                        model4           = model.opts$mod4,
+                        model5           = model.opts$mod5,
+                        model6.1         = model.opts$mod6.1,
+                        model6.2         = model.opts$mod6.2,
+                        model7           = model.opts$mod7,
+                        tsglm.link       = model.opts$tsglm.link,
+                        tsglm.model      = model.opts$tsglm.model,
+                        tsglm.distr      = model.opts$tsglm.distr,
+                        return.df        = model.opts$return.df,
+                        return.model     = model.opts$return.model,
+                        return.residuals = model.opts$return.residuals,
+                        digits           = 3)
+
+## 2016-10-05 Code for asking on Stackexchange
+sample <- dplyr::filter(ed_attendances_by_mode_site_measure_clean, town == 'Bishop Auckland' & sub.measure == 'ambulance') %>% ungroup() %>% dplyr::select(relative.month, value, closure) %>% as.data.frame()
+names(sample) <- c('relative.month', 'value', 'step')
+sample$town <- 1
+sample$relative.month <- as.numeric(sample$relative.month) %>% as.integer()
+sample <- structure(list(relative.month = 1:48, value = c(1235, 1276, 3402,
+ 2240, 2588, 2887, 1931, 3019, 1755, 1896, 3337, 2928, 2120, 4360,
+ 2163, 2965, 2918, 1409, 1674, 2433, 2665, 2316, 3112, 3189, 1690,
+ 1193, 1517, 1582, 1080, 1547, 1431, 1867, 1599, 1425, 1403, 1279,
+ 931, 1113, 1683, 1389, 1267, 1292, 1036, 1557, 1326, 1950, 1289,
+ 1552), step = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), town = structure(c(2L,
+ 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L,
+ 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L,
+ 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L), .Label = c("Basingstoke",
+ "Bishop Auckland", "Blackburn", "Carlisle", "Grimsby", "Hartlepool",
+ "Hemel Hempstead", "Newark", "Rochdale", "Rotherham", "Salford",
+ "Salisbury", "Scarborough", "Scunthorpe", "Southport", "Wansbeck",
+ "Warwick", "Whitehaven", "Wigan", "Yeovil"), class = "factor")), row.names = c(NA,
+ -48L), .Names = c("relative.month", "value", "step", "town"
+ ), class = "data.frame")
+
+## Replace value with something random based on pre-post
+set.seed(6549876)
+sample$value <- ifelse(sample$step == 0 ,
+                       rnorm(n = 24,  mean = 2472, sd = 302),
+                       rnorm(n = 24, mean = 1488, sd = 297)) %>%
+    round()
+
+## Libraries
+library(panelAR)
+library(tscount)
+## Data
+dput(sample)
+## Quick plot
+png(file = '~/work/closed/tmp/pwr_negbin.png', width = 1024, height = 768)
+ggplot(sample, aes(x = relative.month, y = value)) +
+    geom_line() + geom_vline(xintercept = 24.5)
+dev.off()
+## Pre and post Means
+group_by(sample, step) %>%
+    summarise(mean = mean(value, na.rm = TRUE),
+              sd   = sd(value, na.rm = TRUE))
+## Simple Prais-Winsten Regression with 1-step
+model <- reformulate(response   = 'value',
+                     termlabels = c('step'))
+pwr.1step <- panelAR(formula         = model,
+                     data            = sample,
+                     panelVar        = 'town',
+                     timeVar         = 'relative.month',
+                     autoCorr        = 'ar1',
+                     panelCorrMethod = 'pcse',
+                     rho.na.rm       = TRUE,
+                     seq.times       = FALSE)
+pwr.1step %>% summary()
+## Simple Prais-Winsten Regression with 1-step and time as co-variate
+model <- reformulate(response   = 'value',
+                     termlabels = c('step', 'relative.month'))
+pwr.1step.time <- panelAR(formula         = model,
+                          data            = sample,
+                          panelVar        = 'town',
+                          timeVar         = 'relative.month',
+                          autoCorr        = 'ar1',
+                          panelCorrMethod = 'pcse',
+                          rho.na.rm       = TRUE,
+                          seq.times       = FALSE)
+pwr.1step.time %>% summary()
+## Negative Binomial Time-Series with 1-step
+outcome <- sample[,'value']
+covariates <- dplyr::select(sample, step)
+negbin.1step <- tsglm(ts    = outcome,
+                      link  = 'log',
+                      model = list(past_obs = 1),
+                      xreg  = covariates,
+                      distr = 'nbinom')
+negbin.1step %>% summary()
+negbin.1step %>% coefficients() %>% exp()
+## Negative Binomial Time-Series with 1-step and time
+outcome <- sample[,'value']
+covariates <- dplyr::select(sample, step, relative.month)
+negbin.1step.time <- tsglm(ts    = outcome,
+                           link  = 'log',
+                           model = list(past_obs = 1),
+                           xreg  = covariates,
+                           distr = 'nbinom')
+negbin.1step.time %>% summary()
+negbin.1step.time %>% coefficients() %>% exp()
+## Save for moving back
+save(sample,
+     pwr.1step, pwr.1step.time,
+     negbin.1step, negbin.1step.time,
+     file = '~/work/closed/tmp/pwr_negbin.Rdata')
+
 ## 2016-10-04 Checking closed_tsglm() after adding in code to derive the difference/percent difference
-closed_tsglm(df.lso =         = ed_attendances_by_mode_measure,
-              df.trust        = ed_attendances_by_mode_site_measure_clean,
-              indicator       = 'ed attendances',
-              sub.indicator   = 'ambulance')
+t <- closed_tsglm(df.lsoa         = emergency_admissions_measure,
+                  df.trust         = emergency_admissions_site_measure_clean,
+                  indicator        = 'all emergency admissions',
+                  sub.indicator    = 'all')
 
 ## 2016-10-03 Testing model 0.5 in closed_models() function
 closed_models(df.lsoa         = ed_attendances_by_mode_measure,
