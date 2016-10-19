@@ -76,6 +76,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                          tsglm.link       = 'log',
                          tsglm.model      = list(past_obs = 1),
                          tsglm.distr      = 'nbinom',
+                         coefficients     = c('closure.town'),
                          return.df        = FALSE,
                          return.model     = TRUE,
                          return.residuals = FALSE,
@@ -299,49 +300,57 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                    newark,
                                    rochdale)
         }
-        names(.coefficients)        <- c('est', 'se', 'lower', 'upper', 'term', 'town')
+        names(.coefficients)        <- c('est', 'se', 'lower', 'upper', 'term', 'site')
         rownames(.coefficients) <- NULL
         .coefficients$indicator     <- .indicator
         .coefficients$sub.indicator <- .sub.indicator
         return(.coefficients)
     }
-    tidy_coefficients <- function(df   = results$model0.tsglm.coefficients,
+    tidy_coefficients <- function(df    = results$model0.tsglm.coefficients,
+                                  return.coef     = coefficients,
+                                  bishop.coef     = TRUE,
+                                  hartlepool.coef = TRUE,
+                                  hemel.coef      = TRUE,
+                                  newark.coef     = TRUE,
+                                  rochdale.coef   = TRUE,
+                                  all.coef        = FALSE,
                                   ...){
         coef <- list()
         ## Produce a formatted table for printing, produce output and reshape
         ## print("Internal Debug 7")
-        out <- dplyr::select(.coefficients, indicator, sub.indicator, term, town, est, lower, upper)
-        out <- paste0(formatC(out$est, digits = 3, format = 'f'),
-                      ' (',
-                      formatC(out$lower, digits = 3, format = 'f'),
-                      ' - ',
-                      formatC(out$upper, digits = 3, format = 'f'),
-                      ')')
-        names(out) %>% print()
-        head(out) %>% print()
-        out <- dplyr::select(out, indicator, sub.indicator, term, town, out) %>%
+        out <- dplyr::select(df, indicator, sub.indicator, term, site, est, lower, upper) %>%
+            data.frame()
+        print(out)
+        out$out <- paste0(formatC(out$est, digits = 3, format = 'f'),
+                          ' (',
+                          formatC(out$lower, digits = 3, format = 'f'),
+                          ' - ',
+                          formatC(out$upper, digits = 3, format = 'f'),
+                          ')')
+        out <- dplyr::select(out, indicator, sub.indicator, term, site, out) %>%
                melt(id = c('indicator', 'sub.indicator', 'site', 'term')) %>%
-               dcast(indicator + sub.indicator + term ~ site + variable)
-              ## Conditionally remove the coefficients that are not of interest
+            dcast(indicator + sub.indicator + term ~ site + variable)
+        print(out)
+        ## Conditionally remove the coefficients that are not of interest
         if(return.coef == 'closure'){
-            .coef <- dplyr::filter(.coef, grepl('closure', term))
+            out <- dplyr::filter(out, grepl('closure', term))
         }
         else if(return.coef == 'town'){
-            .coef <- dplyr::filter(.coef, grepl('town', term))
+            out <- dplyr::filter(out, grepl('town', term))
         }
         else if(return.coef == 'closure.town'){
-            .coef <- dplyr::filter(.coef, grepl('closure', term) | grepl('town', term))
+            out <- dplyr::filter(out, grepl('closure', term) | grepl('town', term))
         }
         ## Not really necessary, but it makes the code clear
         else if(return.coef == 'all.steps'){
-            .coef <- dplyr::filter(.coef, grepl('closure', term) | grepl('town', term) | grepl('nhs111', term) | grepl('ambulance.divert', term) | grepl('other.closure', term))
+            out <- dplyr::filter(out, grepl('closure', term) | grepl('town', term) | grepl('nhs111', term) | grepl('ambulance.divert', term) | grepl('other.closure', term))
         }
         ## Not really necessary, but it makes the code clear
         else if(return.coef == 'all'){
-            .coef <- .coef
+            out <- out
         }
         ## Format the term label for interactions between site and town
-        .coef <- within(.coef, {
+        out <- within(out, {
                         term[term == 'townBasingstoke'] <- 'Basingstoke'
                         term[term == 'townBasingstoke:closure'] <- 'Basingstoke x Closure'
                         term[term == 'townBishop Auckland'] <- 'Bishop Auckland'
@@ -401,27 +410,29 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ## Stub that all require
         column.names <- c('Indicator', 'Subindicator', 'Term')
         ## All column
-        if(!is.null(all.coef)){
+        if(all.coef == TRUE){
             column.names <- c(column.names, 'All')
         }
-        if(!is.null(bishop.coef)){
+        if(bishop.coef == TRUE){
             column.names <- c(column.names, 'Bishop Auckland')
         }
-        if(!is.null(hartlepool.coef)){
+        if(hartlepool.coef == TRUE){
             column.names <- c(column.names, 'Hartlepool')
         }
-        if(!is.null(hemel.coef)){
+        if(hemel.coef == TRUE){
             column.names <- c(column.names, 'Hemel Hempstead')
         }
-        if(!is.null(newark.coef)){
+        if(newark.coef == TRUE){
             column.names <- c(column.names, 'Newark')
         }
-        if(!is.null(rochdale.coef)){
+        if(rochdale.coef == TRUE){
             column.names <- c(column.names, 'Rochdale')
         }
+        print(out)
+        coef$coef <- out
         names(coef$coef) <- column.names
         ## Derive a caption for the table
-        coef$caption <- paste0('Comparison of coefficients from Negative-Binomial Time-Series Regression across sites.  Each cell contains a point estimate followed by the standard error (in brackets) and the associated p-value (in scientific format due to some values being very small).')
+        coef$caption <- paste0('Comparison of coefficients from Negative-Binomial Time-Series Regression across sites.  Each cell contains a point estimate followed by the confidence interval (in brackets).')
         return(coef)
     }
     #######################################################################
@@ -549,6 +560,15 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                                   rochdale.coef   = results$model0.tsglm.rochdale.coef,
                                                                   .indicator      = indicator,
                                                                   .sub.indicator  = sub.indicator)
+        ## Tidy the output (matches that generated by closed_models())
+        results$model0.tsglm.coef <- tidy_coefficients(df    = results$model0.tsglm.coefficients,
+                                                       .coef = coefficients,
+                                                       bishop.coef     = TRUE,
+                                                       hartlepool.coef = TRUE,
+                                                       hemel.coef      = TRUE,
+                                                       newark.coef     = TRUE,
+                                                       rochdale.coef   = TRUE,
+                                                       all.coef        = FALSE)
         ## Extract coefficients for plotting
         ## ## Forest plot
         results$model0.forest <- closed_forest(df.list = list(results$model0.tsglm.coefficients),
@@ -726,6 +746,15 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                                   rochdale.coef   = results$model1.tsglm.rochdale.coef,
                                                                   .indicator      = indicator,
                                                                   .sub.indicator  = sub.indicator)
+        ## Tidy the output (matches that generated by closed_models())
+        results$model1.tsglm.coef <- tidy_coefficients(df    = results$model1.tsglm.coefficients,
+                                                       .coef = coefficients,
+                                                       bishop.coef     = TRUE,
+                                                       hartlepool.coef = TRUE,
+                                                       hemel.coef      = TRUE,
+                                                       newark.coef     = TRUE,
+                                                       rochdale.coef   = TRUE,
+                                                       all.coef        = FALSE)
         ## Extract coefficients for plotting
         ## ## Forest plot
         results$model1.forest <- closed_forest(df.list = list(results$model1.tsglm.coefficients),
@@ -917,6 +946,15 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                                   rochdale.coef   = results$model2.tsglm.rochdale.coef,
                                                                   .indicator      = indicator,
                                                                   .sub.indicator  = sub.indicator)
+        ## Tidy the output (matches that generated by closed_models())
+        results$model2.tsglm.coef <- tidy_coefficients(df    = results$model2.tsglm.coefficients,
+                                                       .coef = coefficients,
+                                                       bishop.coef     = TRUE,
+                                                       hartlepool.coef = TRUE,
+                                                       hemel.coef      = TRUE,
+                                                       newark.coef     = TRUE,
+                                                       rochdale.coef   = TRUE,
+                                                       all.coef        = FALSE)
         ## Extract coefficients for plotting
         ## ## Forest plot
         results$model2.forest <- closed_forest(df.list = list(results$model2.tsglm.coefficients),
@@ -1108,6 +1146,15 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                                   rochdale.coef   = results$model3.1.tsglm.rochdale.coef,
                                                                   .indicator      = indicator,
                                                                   .sub.indicator  = sub.indicator)
+        ## Tidy the output (matches that generated by closed_models())
+        results$model3.1.tsglm.coef <- tidy_coefficients(df    = results$model3.1.tsglm.coefficients,
+                                                       .coef = coefficients,
+                                                       bishop.coef     = TRUE,
+                                                       hartlepool.coef = TRUE,
+                                                       hemel.coef      = TRUE,
+                                                       newark.coef     = TRUE,
+                                                       rochdale.coef   = TRUE,
+                                                       all.coef        = FALSE)
         ## Extract coefficients for plotting
         ## ## Forest plot
         results$model3.1.forest <- closed_forest(df.list = list(results$model3.1.tsglm.coefficients),
@@ -1294,6 +1341,15 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                                   rochdale.coef   = results$model3.2.tsglm.rochdale.coef,
                                                                   .indicator      = indicator,
                                                                   .sub.indicator  = sub.indicator)
+        ## Tidy the output (matches that generated by closed_models())
+        results$model3.2.tsglm.coef <- tidy_coefficients(df    = results$model3.2.tsglm.coefficients,
+                                                       .coef = coefficients,
+                                                       bishop.coef     = TRUE,
+                                                       hartlepool.coef = TRUE,
+                                                       hemel.coef      = TRUE,
+                                                       newark.coef     = TRUE,
+                                                       rochdale.coef   = TRUE,
+                                                       all.coef        = FALSE)
         ## Extract coefficients for plotting
         ## ## Forest plot
         results$model3.2.forest <- closed_forest(df.list = list(results$model3.2.tsglm.coefficients),
@@ -1390,6 +1446,15 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                                   all.coef        = results$model4.tsglm.all.coef,
                                                                   .indicator      = indicator,
                                                                   .sub.indicator  = sub.indicator)
+        ## Tidy the output (matches that generated by closed_models())
+        results$model4.tsglm.coef <- tidy_coefficients(df    = results$model4.tsglm.coefficients,
+                                                       .coef = coefficients,
+                                                       bishop.coef     = TRUE,
+                                                       hartlepool.coef = TRUE,
+                                                       hemel.coef      = TRUE,
+                                                       newark.coef     = TRUE,
+                                                       rochdale.coef   = TRUE,
+                                                       all.coef        = TRUE)
         ## Extract coefficients for plotting
         ## ## Forest plot
         results$model4.forest <- closed_forest(df.list = list(results$model4.tsglm.coefficients),
@@ -1460,6 +1525,15 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                                   all.coef        = results$model5.tsglm.all.coef,
                                                                   .indicator      = indicator,
                                                                   .sub.indicator  = sub.indicator)
+        ## Tidy the output (matches that generated by closed_models())
+        results$model5.tsglm.coef <- tidy_coefficients(df    = results$model5.tsglm.coefficients,
+                                                       .coef = coefficients,
+                                                       bishop.coef     = TRUE,
+                                                       hartlepool.coef = TRUE,
+                                                       hemel.coef      = TRUE,
+                                                       newark.coef     = TRUE,
+                                                       rochdale.coef   = TRUE,
+                                                       all.coef        = TRUE)
         ## Extract coefficients for plotting
         ## ## Forest plot
         results$model5.forest <- closed_forest(df.list = list(results$model5.tsglm.coefficients),
@@ -1613,6 +1687,15 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                                   rochdale.coef   = results$model6.1.tsglm.rochdale.coef,
                                                                   .indicator      = indicator,
                                                                   .sub.indicator  = sub.indicator)
+        ## Tidy the output (matches that generated by closed_models())
+        results$model6.1.tsglm.coef <- tidy_coefficients(df    = results$model6.1.tsglm.coefficients,
+                                                       .coef = coefficients,
+                                                       bishop.coef     = TRUE,
+                                                       hartlepool.coef = TRUE,
+                                                       hemel.coef      = TRUE,
+                                                       newark.coef     = TRUE,
+                                                       rochdale.coef   = TRUE,
+                                                       all.coef        = FALSE)
         ## Extract coefficients for plotting
         ## ## Forest plot
         results$model6.1.forest <- closed_forest(df.list = list(results$model6.1.tsglm.coefficients),
@@ -1804,6 +1887,15 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                                   rochdale.coef   = results$model6.2.tsglm.rochdale.coef,
                                                                   .indicator      = indicator,
                                                                   .sub.indicator  = sub.indicator)
+        ## Tidy the output (matches that generated by closed_models())
+        results$model6.2.tsglm.coef <- tidy_coefficients(df    = results$model6.2.tsglm.coefficients,
+                                                       .coef = coefficients,
+                                                       bishop.coef     = TRUE,
+                                                       hartlepool.coef = TRUE,
+                                                       hemel.coef      = TRUE,
+                                                       newark.coef     = TRUE,
+                                                       rochdale.coef   = TRUE,
+                                                       all.coef        = FALSE)
         ## Extract coefficients for plotting
         ## ## Forest plot
         results$model6.2.forest <- closed_forest(df.list = list(results$model6.2.tsglm.coefficients),
@@ -1898,6 +1990,15 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                                   all.coef        = results$model7.tsglm.all.coef,
                                                                   .indicator      = indicator,
                                                                   .sub.indicator  = sub.indicator)
+        ## Tidy the output (matches that generated by closed_models())
+        results$model7.tsglm.coef <- tidy_coefficients(df    = results$model7.tsglm.coefficients,
+                                                       .coef = coefficients,
+                                                       bishop.coef     = TRUE,
+                                                       hartlepool.coef = TRUE,
+                                                       hemel.coef      = TRUE,
+                                                       newark.coef     = TRUE,
+                                                       rochdale.coef   = TRUE,
+                                                       all.coef        = TRUE)
         ## Extract coefficients for plotting
         ## ## Forest plot
         results$model7.forest <- closed_forest(df.list = list(results$model7.tsglm.coefficients),
@@ -1944,9 +2045,9 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
     results$model7.tsglm.coefficients$model   <- 'Model 7'
     ## Remove extrenuous levels from models 4, 5 and 7 which have their correpsonding
     ## center only variables included
-    model4.tsglm.coefficients <- filter(results$model4.tsglm.coefficients, town != 'All')
-    model5.tsglm.coefficients <- filter(results$model5.tsglm.coefficients, town != 'All')
-    model7.tsglm.coefficients <- filter(results$model7.tsglm.coefficients, town != 'All')
+    model4.tsglm.coefficients <- filter(results$model4.tsglm.coefficients, site != 'All')
+    model5.tsglm.coefficients <- filter(results$model5.tsglm.coefficients, site != 'All')
+    model7.tsglm.coefficients <- filter(results$model7.tsglm.coefficients, site != 'All')
     ## Some model*.coef may not have any data though as the models weren't run
     ## make those NULL so the subsequent rbind() doesn't fail
     if(length(results$model0.coefficients) == 1) results$model0.tsglm.coefficients     <- NULL
