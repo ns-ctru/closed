@@ -87,7 +87,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
     #######################################################################
     ## Initialise results list for returning everything
     results <- list()
-    ## ## print("Debug 1")
+    ## print("Debug 1")
     ## Obtain the levels of town and group and site type the number of observations
     ## within each to control subsequent analyses
     ## ToDo - Think how to loop over each of these groups testing each of the models
@@ -320,7 +320,6 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         ## print("Internal Debug 7")
         out <- dplyr::select(df, indicator, sub.indicator, term, site, est, lower, upper) %>%
             data.frame()
-        print(out)
         out$out <- paste0(formatC(out$est, digits = 3, format = 'f'),
                           ' (',
                           formatC(out$lower, digits = 3, format = 'f'),
@@ -330,7 +329,6 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         out <- dplyr::select(out, indicator, sub.indicator, term, site, out) %>%
                melt(id = c('indicator', 'sub.indicator', 'site', 'term')) %>%
             dcast(indicator + sub.indicator + term ~ site + variable)
-        print(out)
         ## Conditionally remove the coefficients that are not of interest
         if(return.coef == 'closure'){
             out <- dplyr::filter(out, grepl('closure', term))
@@ -428,7 +426,6 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
         if(rochdale.coef == TRUE){
             column.names <- c(column.names, 'Rochdale')
         }
-        print(out)
         coef$coef <- out
         names(coef$coef) <- column.names
         ## Derive a caption for the table
@@ -570,7 +567,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                        rochdale.coef   = TRUE,
                                                        all.coef        = FALSE)
         ## Extract coefficients for plotting
-        ## ## Forest plot
+        ## Forest plot
         results$model0.forest <- closed_forest(df.list = list(results$model0.tsglm.coefficients),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
@@ -756,7 +753,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                        rochdale.coef   = TRUE,
                                                        all.coef        = FALSE)
         ## Extract coefficients for plotting
-        ## ## Forest plot
+        ## Forest plot
         results$model1.forest <- closed_forest(df.list = list(results$model1.tsglm.coefficients),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
@@ -956,7 +953,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                        rochdale.coef   = TRUE,
                                                        all.coef        = FALSE)
         ## Extract coefficients for plotting
-        ## ## Forest plot
+        ## Forest plot
         results$model2.forest <- closed_forest(df.list = list(results$model2.tsglm.coefficients),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
@@ -1156,7 +1153,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                        rochdale.coef   = TRUE,
                                                        all.coef        = FALSE)
         ## Extract coefficients for plotting
-        ## ## Forest plot
+        ## Forest plot
         results$model3.1.forest <- closed_forest(df.list = list(results$model3.1.tsglm.coefficients),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
@@ -1351,7 +1348,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                        rochdale.coef   = TRUE,
                                                        all.coef        = FALSE)
         ## Extract coefficients for plotting
-        ## ## Forest plot
+        ## Forest plot
         results$model3.2.forest <- closed_forest(df.list = list(results$model3.2.tsglm.coefficients),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
@@ -1456,7 +1453,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                        rochdale.coef   = TRUE,
                                                        all.coef        = TRUE)
         ## Extract coefficients for plotting
-        ## ## Forest plot
+        ## Forest plot
         results$model4.forest <- closed_forest(df.list = list(results$model4.tsglm.coefficients),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
@@ -1535,7 +1532,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                        rochdale.coef   = TRUE,
                                                        all.coef        = TRUE)
         ## Extract coefficients for plotting
-        ## ## Forest plot
+        ## Forest plot
         results$model5.forest <- closed_forest(df.list = list(results$model5.tsglm.coefficients),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
@@ -1697,7 +1694,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                        rochdale.coef   = TRUE,
                                                        all.coef        = FALSE)
         ## Extract coefficients for plotting
-        ## ## Forest plot
+        ## Forest plot
         results$model6.1.forest <- closed_forest(df.list = list(results$model6.1.tsglm.coefficients),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
@@ -1897,7 +1894,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                        rochdale.coef   = TRUE,
                                                        all.coef        = FALSE)
         ## Extract coefficients for plotting
-        ## ## Forest plot
+        ## Forest plot
         results$model6.2.forest <- closed_forest(df.list = list(results$model6.2.tsglm.coefficients),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
@@ -2000,7 +1997,7 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                                                        rochdale.coef   = TRUE,
                                                        all.coef        = TRUE)
         ## Extract coefficients for plotting
-        ## ## Forest plot
+        ## Forest plot
         results$model7.forest <- closed_forest(df.list = list(results$model7.tsglm.coefficients),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
