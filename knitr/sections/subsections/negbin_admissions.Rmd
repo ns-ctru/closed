@@ -1,0 +1,901 @@
+```{r load_data, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+## Obtain the OS and node such that the data can be conditionally loaded
+os <- .Platform$OS.type
+node <- Sys.info()[['nodename']]
+if(os != 'unix'){
+    load('d:/Rpackages/rclosed/data/emergency admissions measure - lsoa - 2016-05-24 14.30.Rda')
+    load('d:/Rpackages/rclosed/data/emergency admissions measure - site - 2016-05-24 14.31.Rda')
+} else if(os == 'unix' & node == 'mcru-closed-hp.shef.ac.uk'){
+    load('~/work/closed/lib/data/emergency admissions measure - lsoa - 2016-05-24 14.30.Rda')
+    load('~/work/closed/lib/data/emergency admissions measure - site - 2016-05-24 14.31.Rda')
+}
+## Tidy data frames, why I didn't do this first I've no idea!
+emergency_admissions_measure          <- closed_tidy(emergency_admissions_measure)
+emergency_admissions_site_measure     <- closed_tidy(emergency_admissions_site_measure)
+## Subset out Ambulance attendances
+## Need to remove all instances where the outcome (observation in time series) is missing
+emergency_admissions_site_measure_clean <- closed_clean(df      = emergency_admissions_site_measure,
+                                                indicator     = 'all emergency admissions',
+                                                sub.indicator = 'all',
+                                                systematic    = 2,
+                                                balance       = FALSE) %>%
+                                             ungroup() %>%
+                                             filter(sub.measure == 'all') %>%
+                                             filter(!is.na(value))
+emergency_admissions_measure <- ungroup(emergency_admissions_measure) %>%
+                                  filter(sub.measure == 'all') %>%
+                                  filter(!is.na(value))
+## Generate dummy variables for categorical variable season since tsglm does not accept factor variables.
+##
+## NB - Can't do categorical variable town since that varies between centres and model so has to be done
+##      prior to each model
+season <- model.matrix(~emergency_admissions_site_measure_clean$season) %>%
+          as.data.frame()
+names(season) <- c('intercept', 'season2', 'season3', 'season4', 'season5', 'season6')
+season <- dplyr::select(season, season2, season3, season4, season5, season6)
+emergency_admissions_site_measure_clean <- cbind(emergency_admissions_site_measure_clean, season)
+## Repeat for LSOA level data
+season <- model.matrix(~emergency_admissions_measure$season) %>%
+          as.data.frame()
+names(season) <- c('intercept', 'season2', 'season3', 'season4', 'season5', 'season6')
+season <- dplyr::select(season, season2, season3, season4, season5, season6)
+emergency_admissions_measure <- cbind(emergency_admissions_measure, season)
+## Write a Stata file for Jon to analyse
+write.dta(emergency_admissions_site_measure_clean,
+          file = '~/work/closed/stata/data/admissions.dta',
+          convert.factors = )
+
+```
+
+```{r negbin-analysis, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+## Caveats...
+##
+## 1. tsglm() works with vectors/matrices, doesn't follow the same structure/syntax as other
+##    regression modelling functions.
+##
+## 2. tsglm() does not permit missing data points in the time series, therefore have to
+##    remove those observations completely
+##
+## 3. For some reason NHS111 isn't coming out in the subsetting?
+##
+## 4. The component...  model = list(past_obs = 1) ...means that autorgression is performed on
+##    observation i-1
+##
+## 5. Hit a problem...
+##
+##    Error in optim(theta.old, fun, gradient, control = control, method = method,  :
+##    initial value in 'vmmin' is not finite
+##    Timing stopped at: 0 0 0.003
+##
+##    ...this is caused by one matrix having a determinent of 0 and when logs are then taken
+##    the value is Infinity which isn't valid.
+library(tscount)
+## Model 0 - Start with site only, and one step, closure
+##
+## Bishop
+ts.bishop <- filter(emergency_admissions_site_measure_clean,
+                     town == 'Bishop Auckland') %>% as.data.frame() %>% .[,'value']
+regressors.bishop <- filter(emergency_admissions_site_measure_clean,
+                            town == 'Bishop Auckland') %>%
+                     dplyr::select(closure)  %>% as.data.frame() %>% as.matrix()
+                     ## dplyr::select(closure) %>% as.data.frame()
+tsglm.admissions.bishop.model0 <- tsglm(ts    = ts.bishop,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.bishop,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model0, tau = 23, delta = 1)
+## Quick plot to show the step
+## dput(ts.bishop)
+## dput(regressors.bishop)
+## to.plot <- cbind(c(seq(1:46)), as.data.frame(ts.bishop))
+## names(to.plot) <- c('month', 'n')
+## plot(to.plot$month, to.plot$n)
+
+## Hartlepool
+ts.hartlepool <- filter(emergency_admissions_site_measure_clean,
+                     town == 'Hartlepool') %>% as.data.frame() %>% .[,'value']
+regressors.hartlepool <- filter(emergency_admissions_site_measure_clean,
+                            town == 'Hartlepool') %>%
+                     dplyr::select(closure)  %>% as.data.frame()
+tsglm.admissions.hartlepool.model0 <- tsglm(ts    = ts.hartlepool,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hartlepool,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model0, tau = 24, delta = 1)
+## Hemel Hempstead
+ts.hemel <- filter(emergency_admissions_site_measure_clean,
+                     town == 'Hemel Hempstead') %>% as.data.frame() %>% .[,'value']
+regressors.hemel <- filter(emergency_admissions_site_measure_clean,
+                            town == 'Hemel Hempstead') %>%
+                     dplyr::select(closure) %>% as.data.frame()
+tsglm.admissions.hemel.model0 <- tsglm(ts    = ts.hemel,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hemel,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model0, tau = 23, delta = 1)
+## Newark
+ts.newark <- filter(emergency_admissions_site_measure_clean,
+                     town == 'Newark') %>% as.data.frame() %>% .[,'value']
+regressors.newark <- filter(emergency_admissions_site_measure_clean,
+                            town == 'Newark') %>%
+                     dplyr::select(closure) %>% as.data.frame()
+tsglm.admissions.newark.model0 <- tsglm(ts    = ts.newark,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.newark,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model0, tau = 24, delta = 1)
+## Rochdale
+ts.rochdale <- filter(emergency_admissions_site_measure_clean,
+                     town == 'Rochdale') %>% as.data.frame() %>% .[,'value']
+regressors.rochdale <- filter(emergency_admissions_site_measure_clean,
+                            town == 'Rochdale') %>%
+                     dplyr::select(closure) %>% as.data.frame()
+tsglm.admissions.rochdale.model0 <- tsglm(ts    = ts.rochdale,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.rochdale,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model0, tau = 24, delta = 1)
+## Write a Stata file for Jon to analyse
+
+## Model 0.5 - Site and relative month, and one step, closure
+##
+## Bishop
+ts.bishop <- filter(emergency_admissions_site_measure_clean,
+                     town == 'Bishop Auckland') %>% as.data.frame() %>% .[,'value']
+regressors.bishop <- filter(emergency_admissions_site_measure_clean,
+                            town == 'Bishop Auckland') %>%
+                     dplyr::select(closure, relative.month)  %>% as.data.frame() %>% as.matrix()
+                     ## dplyr::select(closure, relative.month) %>% as.data.frame()
+tsglm.admissions.bishop.model0.5 <- tsglm(ts    = ts.bishop,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.bishop,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model0.5, tau = 23, delta = 1)
+## Hartlepool
+ts.hartlepool <- filter(emergency_admissions_site_measure_clean,
+                     town == 'Hartlepool') %>% as.data.frame() %>% .[,'value']
+regressors.hartlepool <- filter(emergency_admissions_site_measure_clean,
+                            town == 'Hartlepool') %>%
+                     dplyr::select(closure, relative.month)  %>% as.data.frame()
+tsglm.admissions.hartlepool.model0.5 <- tsglm(ts    = ts.hartlepool,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hartlepool,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model0.5, tau = 24, delta = 1)
+## Hemel Hempstead
+ts.hemel <- filter(emergency_admissions_site_measure_clean,
+                     town == 'Hemel Hempstead') %>% as.data.frame() %>% .[,'value']
+regressors.hemel <- filter(emergency_admissions_site_measure_clean,
+                            town == 'Hemel Hempstead') %>%
+                     dplyr::select(closure, relative.month) %>% as.data.frame()
+tsglm.admissions.hemel.model0.5 <- tsglm(ts    = ts.hemel,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hemel,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model0.5, tau = 23, delta = 1)
+## Newark
+ts.newark <- filter(emergency_admissions_site_measure_clean,
+                     town == 'Newark') %>% as.data.frame() %>% .[,'value']
+regressors.newark <- filter(emergency_admissions_site_measure_clean,
+                            town == 'Newark') %>%
+                     dplyr::select(closure, relative.month) %>% as.data.frame()
+tsglm.admissions.newark.model0.5 <- tsglm(ts    = ts.newark,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.newark,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model0.5, tau = 24, delta = 1)
+## Rochdale
+ts.rochdale <- filter(emergency_admissions_site_measure_clean,
+                     town == 'Rochdale') %>% as.data.frame() %>% .[,'value']
+regressors.rochdale <- filter(emergency_admissions_site_measure_clean,
+                            town == 'Rochdale') %>%
+                     dplyr::select(closure, relative.month) %>% as.data.frame()
+tsglm.admissions.rochdale.model0.5 <- tsglm(ts    = ts.rochdale,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.rochdale,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model0.5, tau = 24, delta = 1)
+
+
+## Model 1 - Start with site only, no covariates
+##
+## Bishop
+ts.bishop <- filter(emergency_admissions_site_measure_clean,
+                     town == 'Bishop Auckland') %>% as.data.frame() %>% .[,'value']
+regressors.bishop <- filter(emergency_admissions_site_measure_clean,
+                            town == 'Bishop Auckland') %>%
+                     dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111) %>%
+                     as.data.frame()
+##                      dplyr::select(closure, season, relative.month, nhs111)  %>% as.data.frame()
+## regressors.bishop$season <- as.numeric(regressors.bishop$season)
+tsglm.admissions.bishop.model1 <- tsglm(ts    = ts.bishop,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.bishop,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model1, tau = c(23, 45), delta = c(1, 1))
+## interv_test(tsglm.admissions.bishop.model1, tau = c(23), delta = c(1))
+## Hartlepool
+ts.hartlepool <- filter(emergency_admissions_site_measure_clean,
+                     town == 'Hartlepool') %>% as.data.frame() %>% .[,'value']
+regressors.hartlepool <- filter(emergency_admissions_site_measure_clean,
+                            town == 'Hartlepool') %>%
+                         dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre)  %>%
+                         as.data.frame()
+##                      dplyr::select(closure, season, relative.month, nhs111, other.centre)  %>% as.data.frame()
+## regressors.hartlepool$season <- as.numeric(regressors.hartlepool$season)
+tsglm.admissions.hartlepool.model1 <- tsglm(ts    = ts.hartlepool,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hartlepool,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.hartlepool.model1, tau = c(22, 24, 45), delta = c(1, 1, 1))
+## interv_test(tsglm.admissions.hartlepool.model1, tau = c(24), delta = c(1))
+## Hemel Hempstead
+ts.hemel <- filter(emergency_admissions_site_measure_clean,
+                     town == 'Hemel Hempstead') %>% as.data.frame() %>% .[,'value']
+regressors.hemel <- filter(emergency_admissions_site_measure_clean,
+                           town == 'Hemel Hempstead') %>%
+                    dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, other.centre) %>%
+                    as.data.frame()
+##                      dplyr::select(closure, season, relative.month, other.centre) %>% as.data.frame()
+## regressors.hemel$season <- as.numeric(regressors.hemel$season)
+tsglm.admissions.hemel.model1 <- tsglm(ts    = ts.hemel,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hemel,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.hemel.model1, tau = c(20, 23), delta = c(1, 1))
+## interv_test(tsglm.admissions.hemel.model1, tau = c(23), delta = c(1))
+## Newark
+ts.newark <- filter(emergency_admissions_site_measure_clean,
+                     town == 'Newark') %>% as.data.frame() %>% .[,'value']
+regressors.newark <- filter(emergency_admissions_site_measure_clean,
+                            town == 'Newark') %>%
+                     dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, other.centre) %>%
+                     as.data.frame()
+##                     dplyr::select(closure, season, relative.month, other.centre) %>% as.data.frame()
+## regressors.newark$season <- as.numeric(regressors.newark$season)
+tsglm.admissions.newark.model1 <- tsglm(ts    = ts.newark,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.newark,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.newark.model1, tau = c(3, 24), delta = c(1, 1))
+## interv_test(tsglm.admissions.newark.model1, tau = c(24), delta = c(1))
+## Rochdale
+ts.rochdale <- filter(emergency_admissions_site_measure_clean,
+                     town == 'Rochdale') %>% as.data.frame() %>% .[,'value']
+regressors.rochdale <- filter(emergency_admissions_site_measure_clean,
+                            town == 'Rochdale') %>%
+                       dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert) %>%
+                       as.data.frame()
+##                     dplyr::select(closure, season, relative.month, nhs111, other.centre, ambulance.divert) %>% as.data.frame()
+## regressors.rochdale$season <- as.numeric(regressors.rochdale$season)
+tsglm.admissions.rochdale.model1 <- tsglm(ts    = ts.rochdale,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.rochdale,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.rochdale.model1, tau = c(11, 17, 24, 48), delta = c(1, 1, 1, 1))
+## interv_test(tsglm.admissions.rochdale.model1, tau = c(24), delta = c(1))
+
+## Model 2 - Case and its primary matched control
+## Bishop
+ts.bishop <- filter(emergency_admissions_site_measure_clean,
+                     town %in% c('Bishop Auckland', 'Whitehaven')) %>% as.data.frame() %>% .[,'value']
+emergency_admissions_site_measure_clean$town_ <- ifelse(emergency_admissions_site_measure_clean$town == 'Bishop Auckland', yes = 1, no = 0)
+emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+regressors.bishop <- filter(emergency_admissions_site_measure_clean,
+                            town %in% c('Bishop Auckland', 'Whitehaven')) %>%
+                     dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111) %>%
+                     as.data.frame()
+##                      dplyr::select(town_, closure, town_closure, season, relative.month, nhs111)  %>% as.data.frame()
+## regressors.bishop$season <- as.numeric(regressors.bishop$season)
+town <- model.matrix(~regressors.bishop$town_)
+regressors.bishop <- cbind()
+tsglm.admissions.bishop.model2 <- tsglm(ts    = ts.bishop,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.bishop,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model2, tau = c(23, 45), delta = c(1, 1))
+## interv_test(tsglm.admissions.bishop.model2, tau = c(23), delta = c(1))
+## Hartlepool
+ts.hartlepool <- filter(emergency_admissions_site_measure_clean,
+                     town %in% c('Hartlepool', 'Grimsby')) %>% as.data.frame() %>% .[,'value']
+emergency_admissions_site_measure_clean$town_ <- ifelse(emergency_admissions_site_measure_clean$town == 'Hartlepool', yes = 1, no = 0)
+emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+regressors.hartlepool <- filter(emergency_admissions_site_measure_clean,
+                            town %in% c('Hartlepool', 'Grimsby')) %>%
+                         dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre) %>%
+                         as.data.frame()
+##                      dplyr::select(town_, closure, town_closure, season, relative.month, nhs111, other.centre)  %>% as.data.frame()
+## regressors.hartlepool$season <- as.numeric(regressors.hartlepool$season)
+tsglm.admissions.hartlepool.model2 <- tsglm(ts    = ts.hartlepool,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hartlepool,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.hartlepool.model2, tau = c(22, 24, 45), delta = c(1, 1, 1))
+## interv_test(tsglm.admissions.hartlepool.model2, tau = c(24), delta = c(1))
+## Hemel Hempstead
+ts.hemel <- filter(emergency_admissions_site_measure_clean,
+                     town %in% c('Hemel Hempstead', 'Warwick')) %>% as.data.frame() %>% .[,'value']
+emergency_admissions_site_measure_clean$town_ <- ifelse(emergency_admissions_site_measure_clean$town == 'Hemel Hempstead', yes = 1, no = 0)
+emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+regressors.hemel <- filter(emergency_admissions_site_measure_clean,
+                            town %in% c('Hemel Hempstead', 'Warwick')) %>%
+                    dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, other.centre) %>%
+                    as.data.frame()
+##                      dplyr::select(town_, closure, town_closure, season, relative.month, other.centre) %>% as.data.frame()
+## regressors.hemel$season <- as.numeric(regressors.hemel$season)
+tsglm.admissions.hemel.model2 <- tsglm(ts    = ts.hemel,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hemel,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.hemel.model2, tau = c(20, 23), delta = c(1, 1))
+## interv_test(tsglm.admissions.hemel.model2, tau = c(23), delta = c(1))
+## Newark
+ts.newark <- filter(emergency_admissions_site_measure_clean,
+                    town %in% c('Newark', 'Southport')) %>% as.data.frame() %>% .[,'value']
+emergency_admissions_site_measure_clean$town_ <- ifelse(emergency_admissions_site_measure_clean$town == 'Newark', yes = 1, no = 0)
+emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+regressors.newark <- filter(emergency_admissions_site_measure_clean,
+                            town %in% c('Newark', 'Southport')) %>%
+                     dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre) %>%
+                     as.data.frame()
+##                      dplyr::select(town_, closure, town_closure, season, relative.month, nhs111, other.centre) %>% as.data.frame()
+## regressors.newark$season <- as.numeric(regressors.newark$season)
+tsglm.admissions.newark.model2 <- tsglm(ts    = ts.newark,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.newark,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.newark.model2, tau = c(3, 23), delta = c(1, 1))
+## interv_test(tsglm.admissions.newark.model2, tau = c(23), delta = c(1))
+## Rochdale
+ts.rochdale <- filter(emergency_admissions_site_measure_clean,
+                     town %in% c('Rochdale', 'Rotherham')) %>% as.data.frame() %>% .[,'value']
+emergency_admissions_site_measure_clean$town_ <- ifelse(emergency_admissions_site_measure_clean$town == 'Rochdale', yes = 1, no = 0)
+emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+regressors.rochdale <- filter(emergency_admissions_site_measure_clean,
+                            town %in% c('Rochdale', 'Rotherham')) %>%
+                       dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert) %>%
+                       as.data.frame()
+##                     dplyr::select(town_, closure, town_closure, season, relative.month, nhs111, other.centre, ambulance.divert) %>% as.data.frame()
+## regressors.rochdale$season <- as.numeric(regressors.rochdale$season)
+##
+tsglm.admissions.rochdale.model2 <- tsglm(ts    = ts.rochdale,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.rochdale,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.rochdale.model2, tau = c(11, 17, 24, 48), delta = c(1, 1, 1, 1))
+## interv_test(tsglm.admissions.rochdale.model2, tau = c(24), delta = c(1))
+
+## Model 3.1 - Case and all its matched controls (unpooled)
+## Bishop
+ts.bishop <- filter(emergency_admissions_site_measure_clean,
+                     town %in% c('Bishop Auckland', 'Whitehaven', 'Salford', 'Scarborough')) %>% as.data.frame() %>% .[,'value']
+## emergency_admissions_site_measure_clean$town_ <- 1
+## emergency_admissions_site_measure_clean <- within(emergency_admissions_site_measure_clean, {
+##                                                     town_[town == 'Bishop Auckland'] <- 0
+##                                                     town_[town == 'Salford']         <- 2
+##                                                     town_[town == 'Scarborough']     <- 3
+## })
+## emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+emergency_admissions_site_measure_clean$town_ <- relevel(emergency_admissions_site_measure_clean$town, ref = 'Whitehaven')
+town <- model.matrix(~emergency_admissions_site_measure_clean$town_) %>% as.data.frame()
+names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'wigan', 'yeovil')
+regressors.bishop <- cbind(emergency_admissions_site_measure_clean, town) %>%
+                      filter(town %in% c('Bishop Auckland', 'Whitehaven', 'Salford', 'Scarborough')) %>%
+                     dplyr::select(bishop, salford, scarborough, closure, season2, season3, season4, season5, season6, relative.month, nhs111) %>%
+                     as.data.frame()
+##                      dplyr::select(town_, closure, town_closure, season, relative.month, nhs111)  %>% as.data.frame()
+## regressors.bishop$season <- as.numeric(regressors.bishop$season)
+tsglm.admissions.bishop.model3.1 <- tsglm(ts    = ts.bishop,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.bishop,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model3.1, tau = c(23, 45), delta = c(1, 1))
+## interv_test(tsglm.admissions.bishop.model3.1, tau = c(23), delta = c(1))
+## Hartlepool
+ts.hartlepool <- filter(emergency_admissions_site_measure_clean,
+                     town %in% c('Hartlepool', 'Grimsby', 'Blackburn', 'Wigan')) %>% as.data.frame() %>% .[,'value']
+## emergency_admissions_site_measure_clean$town_ <- 1
+## emergency_admissions_site_measure_clean <- within(emergency_admissions_site_measure_clean, {
+##                                                     town_[town == 'Hartlepool'] <- 0
+##                                                     town_[town == 'Blackburn']  <- 2
+##                                                     town_[town == 'Wigan']      <- 3
+## })
+## emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+emergency_admissions_site_measure_clean$town_ <- relevel(emergency_admissions_site_measure_clean$town, ref = 'Grimsby')
+town <- model.matrix(~emergency_admissions_site_measure_clean$town_) %>% as.data.frame()
+names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'whitehaven', 'wigan', 'yeovil')
+regressors.hartlepool <- cbind(emergency_admissions_site_measure_clean, town) %>%
+                         filter(town %in% c('Hartlepool', 'Grimsby', 'Blackburn', 'Wigan')) %>%
+                         dplyr::select(hartlepool, blackburn, wigan, closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre) %>%
+                         as.data.frame()
+##                      dplyr::select(town_, closure, town_closure, season, relative.month, nhs111, other.centre)  %>% as.data.frame()
+## regressors.hartlepool$season <- as.numeric(regressors.hartlepool$season)
+tsglm.admissions.hartlepool.model3.1 <- tsglm(ts    = ts.hartlepool,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hartlepool,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.hartlepool.model3.1, tau = c(22, 24, 45), delta = c(1, 1, 1))
+## interv_test(tsglm.admissions.hartlepool.model3.1, tau = c(24), delta = c(1))
+## Hemel Hempstead
+ts.hemel <- filter(emergency_admissions_site_measure_clean,
+                     town %in% c('Hemel Hempstead', 'Warwick', 'Basingstoke', 'Yeovil')) %>% as.data.frame() %>% .[,'value']
+## emergency_admissions_site_measure_clean$town_ <- 1
+## emergency_admissions_site_measure_clean <- within(emergency_admissions_site_measure_clean, {
+##                                                     town_[town == 'Hemel Hempstead'] <- 0
+##                                                     town_[town == 'Basingstoke']     <- 2
+##                                                     town_[town == 'Yeovil']          <- 3
+## })
+## emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+emergency_admissions_site_measure_clean$town_ <- relevel(emergency_admissions_site_measure_clean$town, ref = 'Warwick')
+town <- model.matrix(~emergency_admissions_site_measure_clean$town_) %>% as.data.frame()
+names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'whitehaven', 'wigan', 'yeovil')
+regressors.hemel <- cbind(emergency_admissions_site_measure_clean, town) %>%
+                    filter(town %in% c('Hemel Hempstead', 'Warwick', 'Basingstoke', 'Yeovil')) %>%
+                    dplyr::select(hemel, basingstoke, yeovil, closure, season2, season3, season4, season5, season6, relative.month, other.centre) %>% as.data.frame()
+##                      dplyr::select(town_, closure, town_closure, season, relative.month, other.centre) %>% as.data.frame()
+## regressors.hemel$season <- as.numeric(regressors.hemel$season)
+tsglm.admissions.hemel.model3.1 <- tsglm(ts    = ts.hemel,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hemel,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.hemel.model3.1, tau = c(20, 23), delta = c(1, 1))
+## interv_test(tsglm.admissions.hemel.model3.1, tau = c(23), delta = c(1))
+## Newark
+ts.newark <- filter(emergency_admissions_site_measure_clean,
+                     town %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')) %>% as.data.frame() %>% .[,'value']
+## emergency_admissions_site_measure_clean$town_ <- 1
+## emergency_admissions_site_measure_clean <- within(emergency_admissions_site_measure_clean, {
+##                                                     town_[town == 'Newark']    <- 0
+##                                                     town_[town == 'Carlisle']  <- 2
+##                                                     town_[town == 'Salisbury'] <- 3
+## })
+## emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+emergency_admissions_site_measure_clean$town_ <- relevel(emergency_admissions_site_measure_clean$town, ref = 'Southport')
+town <- model.matrix(~emergency_admissions_site_measure_clean$town_) %>% as.data.frame()
+names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'wansbeck', 'warwick', 'whitehaven', 'wigan', 'yeovil')
+regressors.newark <- cbind(emergency_admissions_site_measure_clean, town) %>%
+                     filter(town %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')) %>%
+                     dplyr::select(newark, carlisle, salisbury, closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre) %>%
+                     as.data.frame()
+##                      dplyr::select(town_, closure, town_closure, season, relative.month, nhs111, other.centre) %>% as.data.frame()
+## regressors.newark$season <- as.numeric(regressors.newark$season)
+tsglm.admissions.newark.model3.1 <- tsglm(ts    = ts.newark,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.newark,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.newark.model3.1, tau = c(3, 24), delta = c(1, 1))
+## interv_test(tsglm.admissions.newark.model3.1, tau = c(24), delta = c(1))
+## Rochdale
+ts.rochdale <- filter(emergency_admissions_site_measure_clean,
+                     town %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')) %>% as.data.frame() %>% .[,'value']
+## emergency_admissions_site_measure_clean$town_ <- 1
+## emergency_admissions_site_measure_clean <- within(emergency_admissions_site_measure_clean, {
+##                                                     town_[town == 'Rochdale']   <- 0
+##                                                     town_[town == 'Scunthorpe'] <- 2
+##                                                     town_[town == 'Wansbeck']   <- 3
+## })
+## emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+emergency_admissions_site_measure_clean$town_ <- relevel(emergency_admissions_site_measure_clean$town, ref = 'Rotherham')
+town <- model.matrix(~emergency_admissions_site_measure_clean$town_) %>% as.data.frame()
+names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'whitehaven', 'wigan', 'yeovil')
+regressors.rochdale <- cbind(emergency_admissions_site_measure_clean, town) %>%
+                       filter(town %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')) %>%
+                       dplyr::select(rochdale, scunthorpe, wansbeck, closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert) %>%
+                       as.data.frame()
+##                      dplyr::select(town_, closure, town_closure, season, relative.month, nhs111, other.centre, ambulance.divert) %>% as.data.frame()
+## regressors.rochdale$season <- as.numeric(regressors.rochdale$season)
+tsglm.admissions.rochdale.model3.1 <- tsglm(ts    = ts.rochdale,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.rochdale,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.rochdale.model3.1, tau = c(11, 17, 24, 48), delta = c(1, 1, 1, 1))
+## interv_test(tsglm.admissions.rochdale.model3.1, tau = c(24), delta = c(1))
+
+## Model 3.2 - Case and all its matched controls (pooled)
+## Bishop
+ts.bishop <- filter(emergency_admissions_site_measure_clean,
+                     town %in% c('Bishop Auckland', 'Whitehaven', 'Salford', 'Scarborough')) %>% as.data.frame() %>% .[,'value']
+emergency_admissions_site_measure_clean$town_ <- ifelse(emergency_admissions_site_measure_clean$town == 'Bishop Auckland', yes = 1, no = 0)
+emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+regressors.bishop <- filter(emergency_admissions_site_measure_clean,
+                            town %in% c('Bishop Auckland', 'Whitehaven', 'Salford', 'Scarborough')) %>%
+                     dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111)  %>%
+                     as.data.frame()
+tsglm.admissions.bishop.model3.2 <- tsglm(ts    = ts.bishop,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.bishop,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model3.2, tau = c(23, 45), delta = c(1, 1))
+## interv_test(tsglm.admissions.bishop.model3.2, tau = c(23), delta = c(1))
+## Hartlepool
+ts.hartlepool <- filter(emergency_admissions_site_measure_clean,
+                     town %in% c('Hartlepool', 'Grimsby', 'Blackburn', 'Wigan')) %>% as.data.frame() %>% .[,'value']
+emergency_admissions_site_measure_clean$town_ <- ifelse(emergency_admissions_site_measure_clean$town == 'Hartlepool', yes = 1, no = 0)
+emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+regressors.hartlepool <- filter(emergency_admissions_site_measure_clean,
+                                town %in% c('Hartlepool', 'Grimsby', 'Blackburn', 'Wigan')) %>%
+                         dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre) %>%
+                         as.data.frame()
+tsglm.admissions.hartlepool.model3.2 <- tsglm(ts    = ts.hartlepool,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hartlepool,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.hartlepool.model3.2, tau = c(22, 24, 45), delta = c(1, 1, 1))
+## interv_test(tsglm.admissions.hartlepool.model3.2, tau = c(24), delta = c(1))
+## Hemel Hempstead
+ts.hemel <- filter(emergency_admissions_site_measure_clean,
+                     town %in% c('Hemel Hempstead', 'Warwick', 'Basingstoke', 'Yeovil')) %>% as.data.frame() %>% .[,'value']
+emergency_admissions_site_measure_clean$town_ <- ifelse(emergency_admissions_site_measure_clean$town == 'Hemel Hempstead', yes = 1, no = 0)
+emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+regressors.hemel <- filter(emergency_admissions_site_measure_clean,
+                           town %in% c('Hemel Hempstead', 'Warwick', 'Basingstoke', 'Yeovil')) %>%
+                         dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, other.centre) %>%
+                         as.data.frame()
+tsglm.admissions.hemel.model3.2 <- tsglm(ts    = ts.hemel,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hemel,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.hemel.model3.2, tau = c(20, 23), delta = c(1, 1))
+## interv_test(tsglm.admissions.hemel.model3.2, tau = c(23), delta = c(1))
+## Newark
+ts.newark <- filter(emergency_admissions_site_measure_clean,
+                     town %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')) %>% as.data.frame() %>% .[,'value']
+emergency_admissions_site_measure_clean$town_ <- ifelse(emergency_admissions_site_measure_clean$town == 'Newark', yes = 1, no = 0)
+emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+regressors.newark <- filter(emergency_admissions_site_measure_clean,
+                            town %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')) %>%
+                     dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre) %>%
+                     as.data.frame()
+tsglm.admissions.newark.model3.2 <- tsglm(ts    = ts.newark,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.newark,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.newark.model3.2, tau = c(3, 24), delta = c(1, 1))
+## interv_test(tsglm.admissions.newark.model3.2, tau = c(24), delta = c(1))
+## Rochdale
+ts.rochdale <- filter(emergency_admissions_site_measure_clean,
+                     town %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')) %>% as.data.frame() %>% .[,'value']
+emergency_admissions_site_measure_clean$town_ <- ifelse(emergency_admissions_site_measure_clean$town == 'Rochdale', yes = 1, no = 0)
+emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+regressors.rochdale <- filter(emergency_admissions_site_measure_clean,
+                            town %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')) %>%
+                     dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert) %>%
+                     as.data.frame()
+tsglm.admissions.rochdale.model3.2 <- tsglm(ts    = ts.rochdale,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.rochdale,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.rochdale.model3.2, tau = c(11, 17, 24, 48), delta = c(1, 1, 1, 1))
+## interv_test(tsglm.admissions.rochdale.model3.2, tau = c(24), delta = c(1))
+
+## Model 4 - All case sites and their primary matched controls
+ts.vec <- filter(emergency_admissions_site_measure_clean,
+                 town %in% c('Bishop Auckland', 'Whitehaven', 'Hartlepool', 'Grimsby', 'Hemel Hempstead', 'Warwick', 'Newark', 'Southport', 'Rochdale', 'Rotherham')) %>% as.data.frame() %>% .[,'value']
+## emergency_admissions_site_measure_clean$town_ <- 0
+## emergency_admissions_site_measure_clean <- within(emergency_admissions_site_measure_clean, {
+##                                                     town_[town == 'Bishop Auckland'] <- 1
+##                                                     town_[town == 'Hartlepool'] <- 2
+##                                                     town_[town == 'Grimsby'] <- 3
+##                                                     town_[town == 'Hemel Hempstead'] <- 4
+##                                                     town_[town == 'Warwick'] <- 5
+##                                                     town_[town == 'Newark'] <- 6
+##                                                     town_[town == 'Southport'] <- 7
+##                                                     town_[town == 'Rochdale'] <- 8
+##                                                     town_[town == 'Rotherham'] <- 9
+## })
+## emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+emergency_admissions_site_measure_clean$town_ <- relevel(emergency_admissions_site_measure_clean$town, 'Whitehaven')
+town <- model.matrix(~emergency_admissions_site_measure_clean$town_) %>% as.data.frame()
+names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'wigan', 'yeovil')
+regressors <- cbind(emergency_admissions_site_measure_clean, town) %>%
+              filter(town %in% c('Bishop Auckland', 'Whitehaven', 'Hartlepool', 'Grimsby', 'Hemel Hempstead', 'Warwick', 'Newark', 'Southport', 'Rochdale', 'Rotherham')) %>%
+                     dplyr::select(bishop, hartlepool, grimsby, hemel, warwick, newark, southport, rochdale, rotherham, closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert) %>% as.data.frame()
+## regressors$season <- as.numeric(regressors$season)
+tsglm.admissions.all.model4 <- tsglm(ts    = ts.vec,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.all.model4, tau = 24, delta = 1)
+
+## Model 5 - All Case sites and all matched controls
+ts.vec <- as.data.frame(emergency_admissions_site_measure_clean) %>% .[,'value']
+## emergency_admissions_site_measure_clean$town_ <- 0
+## emergency_admissions_site_measure_clean <- within(emergency_admissions_site_measure_clean, {
+##                                                     town_[town == 'Basingstoke']     <- 1
+##                                                     town_[town == 'Bishop Auckland'] <- 2
+##                                                     town_[town == 'Blackburn']       <- 3
+##                                                     town_[town == 'Carlisle']        <- 4
+##                                                     town_[town == 'Grimsby']         <- 5
+##                                                     town_[town == 'Hartlepool']      <- 6
+##                                                     town_[town == 'Hemel Hempstead'] <- 7
+##                                                     town_[town == 'Neawrk']          <- 8
+##                                                     town_[town == 'Rochdale']        <- 9
+##                                                     town_[town == 'Rotherham']       <- 10
+##                                                     town_[town == 'Salford']         <- 11
+##                                                     town_[town == 'Salisbury']       <- 12
+##                                                     town_[town == 'Scarborough']     <- 13
+##                                                     town_[town == 'Scunthorpe']      <- 14
+##                                                     town_[town == 'Southport']       <- 15
+##                                                     town_[town == 'Wansbeck']        <- 16
+##                                                     town_[town == 'Warwick']         <- 17
+##                                                     town_[town == 'Wigan']           <- 18
+##                                                     town_[town == 'Yeovil']          <- 19
+## })
+## emergency_admissions_site_measure_clean$town_closure <- emergency_admissions_site_measure_clean$town_ * emergency_admissions_site_measure_clean$closure
+town <- model.matrix(~emergency_admissions_site_measure_clean$town_) %>% as.data.frame()
+names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'wigan', 'yeovil')
+regressors <- cbind(emergency_admissions_site_measure_clean, town) %>%
+              dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert) %>%
+              as.data.frame()
+## Quick fudge wasn't working having all the towns listed in above select() no time
+## to work out why
+town <- dplyr::select(town, -Intercept)
+regressors <- cbind(regressors, town)
+## regressors$season <- as.numeric(regressors$season)
+tsglm.admissions.all.model5 <- tsglm(ts    = ts.vec,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.all.model5, tau = 24, delta = 1)
+
+
+## Model 6.1 - LSOA level site only
+##
+## Bishop
+ts.bishop <- filter(emergency_admissions_measure,
+                     town == 'Bishop Auckland') %>% as.data.frame() %>% .[,'value']
+regressors.bishop <- filter(emergency_admissions_measure,
+                            town == 'Bishop Auckland') %>%
+                     dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111)  %>% as.data.frame()
+                     ## dplyr::select(closure) %>% as.data.frame()
+## regressors.bishop$season <- as.numeric(regressors.bishop$season)
+tsglm.admissions.bishop.model6.1 <- tsglm(ts    = ts.bishop,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.bishop,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model6.1, tau = 23, delta = 1)
+## Hartlepool
+ts.hartlepool <- filter(emergency_admissions_measure,
+                     town == 'Hartlepool') %>% as.data.frame() %>% .[,'value']
+regressors.hartlepool <- filter(emergency_admissions_measure,
+                            town == 'Hartlepool') %>%
+                     dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre)  %>% as.data.frame()
+## regressors.hartlepool$season <- as.numeric(regressors.hartlepool$season)
+tsglm.admissions.hartlepool.model6.1 <- tsglm(ts    = ts.hartlepool,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hartlepool,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.hartlepool.model6.1, tau = 24, delta = 1)
+## Hemel Hempstead
+ts.hemel <- filter(emergency_admissions_measure,
+                     town == 'Hemel Hempstead') %>% as.data.frame() %>% .[,'value']
+regressors.hemel <- filter(emergency_admissions_measure,
+                            town == 'Hemel Hempstead') %>%
+                     dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, other.centre) %>% as.data.frame()
+## regressors.hemel$season <- as.numeric(regressors.hemel$season)
+tsglm.admissions.hemel.model6.1 <- tsglm(ts    = ts.hemel,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hemel,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.hemel.model6.1, tau = 23, delta = 1)
+## Newark
+ts.newark <- filter(emergency_admissions_measure,
+                     town == 'Newark') %>% as.data.frame() %>% .[,'value']
+regressors.newark <- filter(emergency_admissions_measure,
+                            town == 'Newark') %>%
+                     dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, other.centre) %>% as.data.frame()
+## regressors.newark$season <- as.numeric(regressors.newark$season)
+tsglm.admissions.newark.model6.1 <- tsglm(ts    = ts.newark,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.newark,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.newark.model6.1, tau = 24, delta = 1)
+## Rochdale
+ts.rochdale <- filter(emergency_admissions_measure,
+                     town == 'Rochdale') %>% as.data.frame() %>% .[,'value']
+regressors.rochdale <- filter(emergency_admissions_measure,
+                            town == 'Rochdale') %>%
+                     dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert) %>% as.data.frame()
+## regressors.rochdale$season <- as.numeric(regressors.rochdale$season)
+tsglm.admissions.rochdale.model6.1 <- tsglm(ts    = ts.rochdale,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.rochdale,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.rochdale.model6.1, tau = 23, delta = 1)
+
+
+## Model 6.2 - Case and its primary matched control
+## Derive interaction term for town/closure
+emergency_admissions_measure$town_closure <- emergency_admissions_measure$town_ * emergency_admissions_measure$closure
+## Bishop
+ts.bishop <- filter(emergency_admissions_measure,
+                     town %in% c('Bishop Auckland', 'Whitehaven')) %>% as.data.frame() %>% .[,'value']
+emergency_admissions_measure$town_ <- ifelse(emergency_admissions_measure$town == 'Bishop Auckland', yes = 1, no = 0)
+regressors.bishop <- filter(emergency_admissions_measure,
+                            town %in% c('Bishop Auckland', 'Whitehaven')) %>%
+                     dplyr::select(town_, closure, season2, season3, season4, season5, season6, relative.month, nhs111)  %>% as.data.frame()
+## regressors.bishop$season <- as.numeric(regressors.bishop$season)
+tsglm.admissions.bishop.model6.2 <- tsglm(ts    = ts.bishop,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.bishop,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model6.2, tau = 23, delta = 1)
+## Hartlepool
+ts.hartlepool <- filter(emergency_admissions_measure,
+                     town %in% c('Hartlepool', 'Grimsby')) %>% as.data.frame() %>% .[,'value']
+emergency_admissions_measure$town_ <- ifelse(emergency_admissions_measure$town == 'Hartlepool', yes = 1, no = 0)
+regressors.hartlepool <- filter(emergency_admissions_measure,
+                            town %in% c('Hartlepool', 'Grimsby')) %>%
+                     dplyr::select(town_, closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre)  %>% as.data.frame()
+## regressors.hartlepool$season <- as.numeric(regressors.hartlepool$season)
+tsglm.admissions.hartlepool.model6.2 <- tsglm(ts    = ts.hartlepool,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hartlepool,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.hartlepool.model6.2, tau = 24, delta = 1)
+## Hemel Hempstead
+ts.hemel <- filter(emergency_admissions_measure,
+                     town %in% c('Hemel Hempstead', 'Warwick')) %>% as.data.frame() %>% .[,'value']
+emergency_admissions_measure$town_ <- ifelse(emergency_admissions_measure$town == 'Hemel Hempstead', yes = 1, no = 0)
+regressors.hemel <- filter(emergency_admissions_measure,
+                            town %in% c('Hemel Hempstead', 'Warwick')) %>%
+                     dplyr::select(town_, closure, season2, season3, season4, season5, season6, relative.month, other.centre) %>% as.data.frame()
+## regressors.hemel$season <- as.numeric(regressors.hemel$season)
+tsglm.admissions.hemel.model6.2 <- tsglm(ts    = ts.hemel,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.hemel,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.hemel.model6.2, tau = 23, delta = 1)
+## Newark
+ts.newark <- filter(emergency_admissions_measure,
+                    town %in% c('Newark', 'Southport')) %>% as.data.frame() %>% .[,'value']
+emergency_admissions_measure$town_ <- ifelse(emergency_admissions_measure$town == 'Newark', yes = 1, no = 0)
+regressors.newark <- filter(emergency_admissions_measure,
+                            town %in% c('Newark', 'Southport')) %>%
+                     dplyr::select(town_, closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre) %>% as.data.frame()
+## regressors.newark$season <- as.numeric(regressors.newark$season)
+tsglm.admissions.newark.model6.2 <- tsglm(ts    = ts.newark,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.newark,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.newark.model6.2, tau = 24, delta = 1)
+## Rochdale
+ts.rochdale <- filter(emergency_admissions_measure,
+                     town %in% c('Rochdale', 'Rotherham')) %>% as.data.frame() %>% .[,'value']
+emergency_admissions_measure$town_ <- ifelse(emergency_admissions_measure$town == 'Rochdale', yes = 1, no = 0)
+regressors.rochdale <- filter(emergency_admissions_measure,
+                            town %in% c('Rochdale', 'Rotherham')) %>%
+                     dplyr::select(town_, closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert) %>% as.data.frame()
+## regressors.rochdale$season <- as.numeric(regressors.rochdale$season)
+tsglm.admissions.rochdale.model6.2 <- tsglm(ts    = ts.rochdale,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors.rochdale,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.rochdale.model6.2, tau = 23, delta = 1)
+
+## Model 7 - All Case sites and primary matched controls
+ts.vec <- filter(emergency_admissions_measure,
+                 town %in% c('Bishop Auckland', 'Whitehaven', 'Hartlepool', 'Grimsby', 'Hemel Hempstead', 'Warwick', 'Newark', 'Southport', 'Rochdale', 'Rotherham')) %>% as.data.frame() %>% .[,'value']
+## emergency_admissions_measure$town_ <- 0
+## emergency_admissions_measure <- within(emergency_admissions_measure, {
+##                                                     town_[town == 'Bishop Auckland'] <- 1
+##                                                     town_[town == 'Hartlepool'] <- 2
+##                                                     town_[town == 'Grimsby'] <- 3
+##                                                     town_[town == 'Hemel Hempstead'] <- 4
+##                                                     town_[town == 'Warwick'] <- 5
+##                                                     town_[town == 'Newark'] <- 6
+##                                                     town_[town == 'Southport'] <- 7
+##                                                     town_[town == 'Rochdale'] <- 8
+##                                                     town_[town == 'Rotherham'] <- 9
+## })
+emergency_admissions_measure$town_ <- relevel(emergency_admissions_measure$town, 'Whitehaven')
+town <- model.matrix(~emergency_admissions_measure$town_) %>% as.data.frame()
+names(town) <- c('Intercept', 'basingstoke', 'bishop', 'blackburn', 'carlisle', 'grimsby', 'hartlepool', 'hemel', 'newark', 'rochdale', 'rotherham', 'salford', 'salisbury', 'scarborough', 'scunthorpe', 'southport', 'wansbeck', 'warwick', 'wigan', 'yeovil')
+regressors <- cbind(emergency_admissions_measure, town) %>%
+              filter(town %in% c('Bishop Auckland', 'Whitehaven', 'Hartlepool', 'Grimsby', 'Hemel Hempstead', 'Warwick', 'Newark', 'Southport', 'Rochdale', 'Rotherham')) %>%
+                     dplyr::select(bishop, hartlepool, grimsby, hemel, warwick, newark, southport, rochdale, rotherham, closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert) %>% as.data.frame()
+## regressors$season <- as.numeric(regressors$season)
+tsglm.admissions.all.model7 <- tsglm(ts    = ts.vec,
+                                 link  = 'log',
+                                 model = list(past_obs = 1),
+                                 xreg = regressors,
+                                 distr = 'nbinom')
+## interv_test(tsglm.admissions.bishop.model0, tau = 23, delta = 1)
+
+save(tsglm.admissions.bishop.model0,
+     tsglm.admissions.hartlepool.model0,
+     tsglm.admissions.hemel.model0,
+     tsglm.admissions.newark.model0,
+     tsglm.admissions.rochdale.model0,
+     tsglm.admissions.bishop.model0.5,
+     tsglm.admissions.hartlepool.model0.5,
+     tsglm.admissions.hemel.model0.5,
+     tsglm.admissions.newark.model0.5,
+     tsglm.admissions.rochdale.model0.5,
+     tsglm.admissions.bishop.model1,
+     tsglm.admissions.hartlepool.model1,
+     tsglm.admissions.hemel.model1,
+     tsglm.admissions.newark.model1,
+     tsglm.admissions.rochdale.model1,
+     tsglm.admissions.bishop.model2,
+     tsglm.admissions.hartlepool.model2,
+     tsglm.admissions.hemel.model2,
+     tsglm.admissions.newark.model2,
+     tsglm.admissions.rochdale.model2,
+     tsglm.admissions.bishop.model3.1,
+     tsglm.admissions.hartlepool.model3.1,
+     tsglm.admissions.hemel.model3.1,
+     tsglm.admissions.newark.model3.1,
+     tsglm.admissions.rochdale.model3.1,
+     tsglm.admissions.bishop.model3.2,
+     tsglm.admissions.hartlepool.model3.2,
+     tsglm.admissions.hemel.model3.2,
+     tsglm.admissions.newark.model3.2,
+     tsglm.admissions.rochdale.model3.2,
+     tsglm.admissions.all.model4,
+     tsglm.admissions.all.model5,
+     tsglm.admissions.bishop.model6.1,
+     tsglm.admissions.hartlepool.model6.1,
+     tsglm.admissions.hemel.model6.1,
+     tsglm.admissions.newark.model6.1,
+     tsglm.admissions.rochdale.model6.1,
+     tsglm.admissions.bishop.model6.2,
+     tsglm.admissions.hartlepool.model6.2,
+     tsglm.admissions.hemel.model6.2,
+     tsglm.admissions.newark.model6.2,
+     tsglm.admissions.rochdale.model6.2,
+     tsglm.admissions.all.model7,
+     file = '~/work/closed/knitr/data/negbin_admissions.RData')
+
+
+
+```
+
+```{r load-results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+## Load the main results
+load('~/work/closed/knitr/data/results.RData')
+load('~/work/closed/knitr/data/negbin_admissions.RData')
+
+```
