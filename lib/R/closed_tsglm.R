@@ -111,30 +111,12 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
                        gsub("_", ".", x = .)
     names(df.trust) <- names(df.trust) %>%
                        gsub("_", ".", x = .)
-    ## Convert to data frame, selecting only the specified outcome and expand season
-    ## to a series of dummy variables for inclusion
-    ## print("Debug 3")
-    df.lsoa  <- as.data.frame(df.lsoa) %>%
-                dplyr::filter(measure == indicator,
-                              sub.measure == sub.indicator) %>%
-                dplyr::filter(!is.na(value))
-    season <- model.matrix(~df.lsoa$season) %>% as.data.frame()
-    names(season) <- c('intercept', 'season2', 'season3', 'season4', 'season5', 'season6')
-    season <- dplyr::select(season, season2, season3, season4, season5, season6)
-    df.lsoa <- cbind(df.lsoa, season)
-    df.trust <- as.data.frame(df.trust) %>%
-                dplyr::filter(measure == indicator,
-                              sub.measure == sub.indicator) %>%
-                dplyr::filter(!is.na(value))
-    season <- model.matrix(~df.trust$season) %>% as.data.frame()
-    names(season) <- c('intercept', 'season2', 'season3', 'season4', 'season5', 'season6')
-    season <- dplyr::select(season, season2, season3, season4, season5, season6)
-    df.trust <- cbind(df.trust, season)
     #######################################################################
     ## Derive the mean, sd, median, iqr, min and max of events before/   ##
     ## after closure for combining into a summary table with model       ##
     ## coefficients                                                      ##
     #######################################################################
+    ## print("Debug 3")
     df.trust <- mutate(df.trust,
                        before.after = ifelse(site.type == 'intervention' & relative.month >= 25, "After", "Before"))
     results$summary.df <- group_by(df.trust, town, before.after) %>%
@@ -213,6 +195,25 @@ closed_tsglm <- function(df.lsoa          = ed_attendances_by_mode_measure,
     ## Add indicator for primary control
     results$summary.table.head$town <- as.character(results$summary.table.head$town)
     results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')] <- paste0(results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')], ' (Primary)')
+    ## Convert to data frame, selecting only the specified outcome and expand season
+    ## to a series of dummy variables for inclusion
+    ## print("Debug 3.5")
+    df.lsoa  <- as.data.frame(df.lsoa) %>%
+                dplyr::filter(measure == indicator,
+                              sub.measure == sub.indicator) %>%
+                dplyr::filter(!is.na(value))
+    season <- model.matrix(~df.lsoa$season) %>% as.data.frame()
+    names(season) <- c('intercept', 'season2', 'season3', 'season4', 'season5', 'season6')
+    season <- dplyr::select(season, season2, season3, season4, season5, season6)
+    df.lsoa <- cbind(df.lsoa, season)
+    df.trust <- as.data.frame(df.trust) %>%
+                dplyr::filter(measure == indicator,
+                              sub.measure == sub.indicator) %>%
+                dplyr::filter(!is.na(value))
+    season <- model.matrix(~df.trust$season) %>% as.data.frame()
+    names(season) <- c('intercept', 'season2', 'season3', 'season4', 'season5', 'season6')
+    season <- dplyr::select(season, season2, season3, season4, season5, season6)
+    df.trust <- cbind(df.trust, season)
     #######################################################################
     ## Internal functions (to save typing)                               ##
     #######################################################################
