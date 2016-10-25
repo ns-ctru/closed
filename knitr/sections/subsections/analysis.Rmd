@@ -86,8 +86,10 @@ length_of_stay_measure                  <- closed_tidy(length_of_stay_measure)
 length_of_stay_site_measure             <- closed_tidy(length_of_stay_site_measure)
 amb_mean_times_measure                  <- closed_tidy(amb_mean_times_measure)
 amb_mean_times_site_measure             <- closed_tidy(amb_mean_times_site_measure)
-amb_non_conveyance_measure              <- closed_tidy(amb_non_conveyance_measure)
-amb_non_conveyance_site_measure         <- closed_tidy(amb_non_conveyance_site_measure)
+amb_green_calls_measure                 <- closed_tidy(amb_green_calls_measure)
+amb_green_calls_site_measure            <- closed_tidy(amb_green_calls_site_measure)
+## amb_non_conveyance_measure              <- closed_tidy(amb_non_conveyance_measure)
+## amb_non_conveyance_site_measure         <- closed_tidy(amb_non_conveyance_site_measure)
 amb_red_calls_measure                   <- closed_tidy(amb_red_calls_measure)
 amb_red_calls_site_measure              <- closed_tidy(amb_red_calls_site_measure)
 case_fatality_measure                   <- closed_tidy(case_fatality_measure)
@@ -266,11 +268,16 @@ amb_mean_times_site_measure_clean <- closed_clean(df      = amb_mean_times_site_
                                                 sub.indicator = 'call_to_dest',
                                                 systematic    = systematic.outlier,
                                                 balance       = FALSE)
-amb_non_conveyance_site_measure_clean <- closed_clean(df      = amb_non_conveyance_site_measure,
+amb_green_calls_site_measure_clean <- closed_clean(df      = amb_green_calls_site_measure,
                                                 indicator     = 'ambulance mean times',
                                                 sub.indicator = 'call_to_dest',
                                                 systematic    = systematic.outlier,
                                                 balance       = FALSE)
+## amb_non_conveyance_site_measure_clean <- closed_clean(df      = amb_non_conveyance_site_measure,
+##                                                 indicator     = 'ambulance mean times',
+##                                                 sub.indicator = 'call_to_dest',
+##                                                 systematic    = systematic.outlier,
+##                                                 balance       = FALSE)
 amb_red_calls_site_measure_clean <- closed_clean(df      = amb_red_calls_site_measure,
                                                 indicator     = 'ambulance mean times',
                                                 sub.indicator = 'call_to_dest',
@@ -290,7 +297,8 @@ spurious <- rbind(ed_attendances_by_mode_site_measure_clean,
                   length_of_stay_site_measure_clean,
                   #case.fatality.clean.unbalanced,
                   amb_mean_times_site_measure_clean,
-                  amb_non_conveyance_site_measure_clean,
+                  amb_green_calls_site_measure_clean,
+                  ## amb_non_conveyance_site_measure_clean,
                   amb_red_calls_site_measure_clean,
                   hospital_transfers_site_measure_clean) %>%
                   filter(is.na(value))
@@ -345,11 +353,16 @@ amb_mean_times_site_measure_clean_sd2 <- closed_clean(df      = amb_mean_times_s
                                                 sub.indicator = 'call_to_dest',
                                                 systematic    = systematic.outlier,
                                                 balance       = FALSE)
-amb_non_conveyance_site_measure_clean_sd2 <- closed_clean(df      = amb_non_conveyance_site_measure,
+amb_green_calls_site_measure_clean_sd2 <- closed_clean(df      = amb_green_calls_site_measure,
                                                 indicator     = 'ambulance mean times',
                                                 sub.indicator = 'call_to_dest',
                                                 systematic    = systematic.outlier,
                                                 balance       = FALSE)
+## amb_non_conveyance_site_measure_clean_sd2 <- closed_clean(df      = amb_non_conveyance_site_measure,
+##                                                 indicator     = 'ambulance mean times',
+##                                                 sub.indicator = 'call_to_dest',
+##                                                 systematic    = systematic.outlier,
+##                                                 balance       = FALSE)
 amb_red_calls_site_measure_clean_sd2 <- closed_clean(df      = amb_red_calls_site_measure,
                                                 indicator     = 'ambulance mean times',
                                                 sub.indicator = 'call_to_dest',
@@ -369,7 +382,8 @@ spurious2 <- rbind(ed_attendances_by_mode_site_measure_clean_sd2,
                    length_of_stay_site_measure_clean_sd2,
                    # case_fatality_site_measure_clean_sd2,
                    amb_mean_times_site_measure_clean_sd2,
-                   amb_non_conveyance_site_measure_clean_sd2,
+                   amb_green_calls_site_measure_clean_sd2,
+                   ## amb_non_conveyance_site_measure_clean_sd2,
                    amb_red_calls_site_measure_clean_sd2,
                    hospital_transfers_site_measure_clean_sd2) %>%
     filter(is.na(value))
@@ -385,7 +399,8 @@ rm(ed_attendances_by_mode_site_measure_clean_sd2,
    length_of_stay_site_measure_clean_sd2,
    ## case_fatality_site_measure_clean_sd2,
    amb_mean_times_site_measure_clean_sd2,
-   amb_non_conveyance_site_measure_clean_sd2,
+   amb_green_calls_site_measure_clean_sd2,
+   ## amb_non_conveyance_site_measure_clean_sd2,
    amb_red_calls_site_measure_clean_sd2,
    hospital_transfers_site_measure_clean_sd2)
 ## Bind spurious 2 with spurious 'systematic.outlier' (currently 3)
