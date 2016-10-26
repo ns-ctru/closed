@@ -8,7 +8,8 @@ Description: Summarises and analyses in tabular and graphical format the ClosED
     ambulance service performance.
 Depends:
     R (>= 3.2.3),
-    dplyr(>= 0.4.1),
+    dplyr (>= 0.4.1),
+    glarma (>= 1.4-0),
     ggplot2 (>= 1.0.1),
     ggrepel (>= 0.5),
     haven (>= 0.2.0),
