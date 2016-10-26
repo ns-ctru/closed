@@ -54,7 +54,7 @@ closed_model_summary <- function(df        = ed_attendances_by_mode_site_measure
     ## Dummy for before/after
     df$closure <- ifelse(df$relative.month > 24, 'After', 'Before')
     ## Filter, group and summarise
-    df.sum <- filter(df,
+    df.sum <- dplyr::filter(df,
                       town %in% sites &
                       measure     == indicator &
                       sub.measure == sub.indicator) %>%
@@ -68,8 +68,8 @@ closed_model_summary <- function(df        = ed_attendances_by_mode_site_measure
                              min        = min(value, na.rm = TRUE),
                              max        = max(value, na.rm = TRUE))
     ## Melt and Cast
-    df.sum <- melt(df.sum, id.vars = c(group))
-    df.sum <- dcast(df.sum, group + town)
+    ## gdf.sum <- gather(df.sum, key = c(group, town, closure))
+    ## df.sum <- dcast(df.sum, group + town)
     ## Append models results if any are supplied
     if(!is.null(model1.results) |
        !is.null(model2.results) |
