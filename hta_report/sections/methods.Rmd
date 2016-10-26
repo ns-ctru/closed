@@ -1,0 +1,93 @@
+### Data
+
+Data was provided by [HSCIC](https://www.gov.uk/government/organisations/health-and-social-care-information-centre) (now [NHS Digital](https://digital.nhs.uk/)), Ambulance Services (**Which?**) and [ONS](https://www.ons.gov.uk/) and were combined and summarised into either counts of events per month or for the different outcomes
+
+
+
+### Models
+
+A series of increasingly complex models were tested under each framework, these are described in the table below.  Dummy variables indicating a step when an Emergency Department closed (`closure`) were included along with dummy variables for other events identified that might impact on ED attendance, of which there were three identified across the ten sites that underwent documentary analysis.  The additional steps identified as having a possible impact on the indicators were the introduction of NHS111 (`nhs111`), the opening of additional emergency care centres within the catchment area (`other.centre`) or ambulances being diverted from an Emergency Department (`ambulance.diversion`).  For outcomes that consisted of counts of events over time analyses were performed using Negative-Binomial Time-Series, whilst outcomes that were proportions or means were tested using Prais-Winsten regression.  Both methods allow for adjusting for auto-correlation that may exist within time-series panels whilst providing point-estimates of the amount of variation explained by multiple explanatory/predictor co-variates.
+
+
+Table: Models tested in ClosED
+
+Model  | Case Site    | Control Site         | Panel | Covariates
+-------|--------------|----------------------|-------|----------------------------------------
+0      | Individual   | None                 | ED    | closure
+1      | Individual   | None                 | ED    | season + time + closure + nhs111 + other.centre + ambulance.diversion
+2      | Individual   | Primary Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+3      | All          | Primary Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+4      | Individual   | None                 | LSOA  | season + time + closure + nhs111 + other.centre + ambulance.diversion + change in ED time
+5      | All          | None                 | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
+
+The software used for all analyses were [R](https://www.r-projects.org/) and [Stata (v14.1)](https://www.stata.com/).
+
+#### Steps
+
+The closure of ED departments is modelled using a dummy variable (coded 0 for closed and 1 for open) to indicate whether the ED department is open/closed for any given month in a given hospital.  However, other factors might influence attendance and documentary analysis was undertaken at the case sites (where EDs closed) and one matched control for each case site to identify additional events that might impact on the indicators being considered.  These are detailed in full in [this spreadhsheet](https://goo.gl/TlhfCF) and  of the different steps identified they have been categorised into the introduction of the NHS111 Helpline (`nhs111`), other medical care centres opening (`other.centre`) and the diversion of ambulances (`ambulance.divert`) and are summarised in the table below for the ten hospitals.
+
+Table: Steps used in the model. Dates indicate the month of event (relative month is shown in brackets).
+
+Hospital         | ED closure      | NHS 111         | Other Centre    | Ambulance Diversion
+-----------------|-----------------|-----------------|-----------------|---------------------
+Bishop Auckland  | 2009-10-01 (25) | 2010-08-01 (35) |                 |
+Whitehaven       |                 |                 |                 |
+Hartlepool       | 2011-08-01 (25) | 2013-04-01 (45) | 2011-05-01 (22) |
+Grimsby          |                 | 2010-11-01 (16) |                 |
+Hemel Hempstead  | 2009-03-01 (25) |                 | 2008-10-01 (20) |
+Warwick          |                 |                 |                 |
+Newark           | 2011-04-01 (25) |                 |                 |
+Southport        |                 | 2013-03-01 (48) | 2009-06-01 (03) |
+Rochdale         | 2011-04-01 (25) | 2013-03-01 (48) |                 | 2010-08-01 (17)
+Rotherham        |                 | 2013-03-01 (48) | 2009-06-01 (11) |
+
+### Indicators
+
+A large number of indicators were tested for the effects of closing Emergency Departments, these are detailed in the table below.
+
+| Indicator  | Description | Data Source
+|------------|-------------|---------------
+| **Deaths** | Mortality rate for deaths occurring upto 3 days for 16 conditions (see table Avoidable Deaths | ONS / HES-ONS|
+| **Risk of Death** | Case fatality ratio (deaths / cases) for the 16 serious conditions (see table Avoidable Deaths). | ONS / HES-ONS|
+| **Emergency Attendance** | Total Type 1 ED Attendances for residents in the catchment area with any condition. | HES-AE |
+|                          | Total Type 1 ED Attendances for residents in the catchment area arriving via Ambulance | HES-AE |
+|                          | Total Type 1 ED Attendances for residents in the catchment area arriving via 'walk-in' mode. | HES-AE |
+|                          | Arrivals at ED for residents in the catchment area who are discharged without treatment/investigation that utilised hospital facilities. | HES-AE |
+|                          | Proportion of ED attendances for residents in the catchment area that resulted in admission to hospital bed. | HES-AE |
+| **Emergency Admissions** | Number of emergency hospital admissions with any condition. | HES-APC |
+|                          | Number of emergency hospital admissions for each of the 14 urgent conditions(table~\ref{avoidable-deaths}). | HES-APC |
+|                          | These will be performed for all hospital admissions and then restricted to admissions where patients are resident in the catchment area.  | |
+| **Condition Severity**   | For emergency admissions the mean length of stay. | HES-APC |
+|                          | For emergency admissions the proportion admitted to critical care. | HES-APC |
+| **Ambulance Service Performance** | Mean time from 999 call to ambulance arriving on scene. | AS |
+|                                   | Mean time from ambulance arriving on scene to arriving at hospital. | AS |
+|                                   | Mean time from 999 call to arriving at hospital. | AS |
+|                                   | Mean time from ambulance arriving at hospital to 'clear' time. | AS |
+|                                   | Total call volumes.    | AS |
+|                                   |  Non-conveyance rates. | AS |
+
+
+#### Avoidable Emergency Admissions and Avoidable Deaths
+
+Avoidable deaths and admissions will be analysed across the conditions described in the table below.  A few conditions will also be analysed individually.
+
+Table : Specific conditions for which admissions or deaths are considered avoidable.  \* Denotes condition to be considered in isolation.
+
+| Avoidable Deaths | Avoidable Admissions |
+|------------------|----------------------|
+| Acute Heart Failure\* | Acute Mental Crisis|
+| Anaphalaxis | Angina|
+| Asphyxiation | Blocked Urinary Catheter |
+| Asthma | Cellulitis |
+| Cardiac Arrest | Childhood Pyrexial |
+| Falls in those <75 | Chronic Obstructive Pulmonary Disease |
+| Fractured Neck of Femur | Deep Vein Thrombosis |
+| Meningitis | Epileptic Seizure |
+| Myocardial Infarction | Falls in those >75 |
+| Non-superficial Head Injuries | Hypoglycaemia |
+| Pregnancy and Birth Related Conditions | Non-specific Abdominal Pains |
+| Road Traffic Accidents | Non-specific Chest Pains\* |
+| Ruptured Aortic Aneurysm | Superficial Head Injuries |
+| Self-harm | Urinary Tract Infections |
+| Septic Shock | |
+| Stroke/CVA\* | |
