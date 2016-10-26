@@ -1,0 +1,37 @@
+---
+title: ClosED
+output:
+  word_document:
+    fig_width: 5
+	fig_height: 5
+	fig_caption: true
+bibliography: bibliography.bib
+---
+
+```{r setup, include=FALSE}
+##opts_chunk$set(dev = 'pdf')
+opts_chunk$set(cache.path = 'cache/',
+               width    = 200,
+               fig.height = 8,
+               fig.width  = 8)
+## Set a seed
+set.seed(69027181)
+```
+
+# {.tabset}
+
+## Methods
+```{r child = 'sections/methods.Rmd', eval = TRUE}
+```
+
+<!--- Run all analyses --->
+```{r child = 'sections/analysis.Rmd', eval = TRUE}
+```
+
+## Results {.tabset .tabset-fade}
+```{r child = 'sections/results.Rmd', eval = TRUE}
+```
+
+## References
+
+# References
