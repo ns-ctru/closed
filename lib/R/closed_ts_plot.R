@@ -218,10 +218,14 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     }
     else if(indicator == 'hospital transfers'){
         title1 <- 'Hospital Transfers'
-        if(sub.indicator == 'all stays')                   <- ' (All Stays)'
-        else if(sub.indicator == 'fraction with transfer') <- ' (Fraction of Stays with Transfers)'
-        else if(sub.indicator == 'stays with transfer')    <- ' (Stays with Transfers)'
-
+        if(sub.indicator == 'all stays')                   title2 <- ' (All Stays)'
+        else if(sub.indicator == 'fraction with transfer') title2 <- ' (Fraction of Stays with Transfers)'
+        else if(sub.indicator == 'stays with transfer')    title2 <- ' (Stays with Transfers)'
+        nudge <- 10
+        if(sub.indicator == 'all stays')                   ylabel <- 'N (Stays)'
+        else if(sub.indicator == 'fraction with transfer') ylabel <- 'Proportion of Stays with Transfers)'
+        else if(sub.indicator == 'stays with transfer')    ylabel <- 'N (Stays with Transfers)'
+        y.text.steps <- 100
     }
     #######################################################################
     ## Define vertical lines for steps                                   ##
@@ -298,7 +302,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                                           town,
                                           ")")
     df.steps$xaxis.steps.labels[df.steps$xaxis.steps.labels == 'ED Closure ()'] <- NA
-    ## df.steps <- filter(df.steps, steps.labels != 'ED Closure')
+    ## df.steps <- dplyr::filter(df.steps, steps.labels != 'ED Closure')
     df.steps$town <- factor(df.steps$town)
     df.steps$steps.labels <- factor(df.steps$steps.labels)
     df.steps$variable <- as.integer(df.steps$variable)
@@ -363,7 +367,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         }
         ## Remove data points that are now missing
         if(join == TRUE){
-            df <- filter(df, !is.na(value))
+            df <- dplyr::filter(df, !is.na(value))
         }
     }
     #######################################################################
@@ -371,7 +375,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     #######################################################################
     ## Subset data
     ## print("Debug 4")
-    df <- filter(df,
+    df <- dplyr::filter(df,
                   town %in% sites &
                   measure     == indicator &
                   sub.measure == sub.indicator)
@@ -407,7 +411,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Label lines
     if(repel == TRUE){
         if(colour == TRUE){
-            results$plot <- results$plot + geom_text_repel(data = filter(df, relative.month == 3),
+            results$plot <- results$plot + geom_text_repel(data = dplyr::filter(df, relative.month == 3),
                                                            aes(relative.month,
                                                                value,
                                                                colour = town,
@@ -417,7 +421,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                                                            nudge_y = 0)
         }
         else{
-            results$plot <- results$plot + geom_text_repel(data = filter(df, relative.month == 3),
+            results$plot <- results$plot + geom_text_repel(data = dplyr::filter(df, relative.month == 3),
                                                            aes(relative.month,
                                                                value,
                                                                label  = town),
@@ -430,7 +434,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     if(lines == TRUE){
         ## If pooled then only include the steps for Case sites
         if(exclude.control == TRUE){
-            df.steps <- filter(df.steps, town %in% c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'ED Closure'))
+            df.steps <- dplyr::filter(df.steps, town %in% c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale', 'ED Closure'))
         }
         if(colour == TRUE){
             results$plot <- results$plot + geom_vline(data = df.steps,
