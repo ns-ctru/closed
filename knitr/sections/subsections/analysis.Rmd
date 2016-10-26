@@ -96,7 +96,6 @@ case_fatality_measure                   <- closed_tidy(case_fatality_measure)
 case_fatality_site_measure              <- closed_tidy(case_fatality_site_measure)
 hospital_transfers_measure              <- closed_tidy(hospital_transfers_measure)
 hospital_transfers_site_measure         <- closed_tidy(hospital_transfers_site_measure)
-
 ## Convert ambulance times to minutes (currently function not working as expected)
 amb_mean_times_measure$value      <- amb_mean_times_measure$value / 60
 amb_mean_times_site_measure$value <- amb_mean_times_site_measure$value / 60
@@ -208,7 +207,6 @@ check.lsoa <- rbind(check.ed.attendances$check.lsoa,
               arrange(measure, sub.measure, relative.month, group, town) %>%
 	      dplyr::select(measure, sub.measure, town, relative.month, n)
 names(check.lsoa) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month', 'LSOAs')
-
 check.length.stay$check.site$sub.measure[is.na(check.length.stay$check.site$sub.measure)] <- "N/A"
 check.site <- rbind(check.ed.attendances$check.site,
                     check.ed.unnecessary$.site,
@@ -218,6 +216,7 @@ check.site <- rbind(check.ed.attendances$check.site,
               arrange(measure, sub.measure, relative.month, group, town) %>%
 	      dplyr::select(measure, sub.measure, town, relative.month)
 names(check.site) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month')
+
 ```
 
 ```{r spurious_data_points_prep, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
@@ -238,7 +237,7 @@ emergency_admissions_site_measure_clean <- closed_clean(df      = emergency_admi
                                                       systematic    = systematic.outlier,
                                                       balance       = FALSE)
 ## Remove avoidable admissions and avoidable deaths that are not of interest
-## emergency_admissions_site_measure_clean <- filter(emergency_admissions_site_measure_clean,
+## emergency_admissions_site_measure_clean <- dplyr::filter(emergency_admissions_site_measure_clean,
 ##                                                 !(sub.measure %in% exclude.avoidable))
 ed_attendances_admitted_site_measure_clean <- closed_clean(df      = ed_attendances_admitted_site_measure,
                                                          indicator     = 'ed attendances admitted',
@@ -261,7 +260,7 @@ length_of_stay_site_measure_clean <- closed_clean(df      = length_of_stay_site_
 ##                                                  systematic    = systematic.outlier,
 ##                                                  balance       = FALSE)
 ## ## Exclude avoidable deaths that are not of interest
-## case_fatality_site_measure_clean <- filter(case_fatality_site_measure_clean,
+## case_fatality_site_measure_clean <- dplyr::filter(case_fatality_site_measure_clean,
 ##                                          !(sub.measure %in% exclude.fatality))
 amb_mean_times_site_measure_clean <- closed_clean(df      = amb_mean_times_site_measure,
                                                 indicator     = 'ambulance mean times',
@@ -301,7 +300,7 @@ spurious <- rbind(ed_attendances_by_mode_site_measure_clean,
                   ## amb_non_conveyance_site_measure_clean,
                   amb_red_calls_site_measure_clean,
                   hospital_transfers_site_measure_clean) %>%
-                  filter(is.na(value))
+                  dplyr::filter(is.na(value))
 spurious <- mutate(spurious,
                    outcome  = paste(measure, sub.measure, sep = " : "),
                    sd       = systematic.outlier,
@@ -323,7 +322,7 @@ emergency_admissions_site_measure_clean_sd2 <- closed_clean(df      = emergency_
                                                       systematic    = systematic.outlier,
                                                       balance       = FALSE)
 ## Remove avoidable admissions and avoidable deaths that are not of interest
-## emergency_admissions_site_measure_clean_sd2 <- filter(emergency_admissions_site_measure_clean_sd2,
+## emergency_admissions_site_measure_clean_sd2 <- dplyr::filter(emergency_admissions_site_measure_clean_sd2,
 ##                                                 !(sub.measure %in% exclude.avoidable))
 ed_attendances_admitted_site_measure_clean_sd2 <- closed_clean(df      = ed_attendances_admitted_site_measure,
                                                          indicator     = 'ed attendances admitted',
