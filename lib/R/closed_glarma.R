@@ -456,11 +456,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
                       dplyr::select(closure)
         ## return(t)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
-            model0.glarma.bishop <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model0.glarma.bishop <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model0.glarma.bishop.coef <- se(model0.glarma.bishop)
             results$model0.glarma.bishop.coef$site          <- 'Bishop Auckland'
             results$model0.glarma.bishop.coef$indicator     <- indicator
@@ -519,11 +517,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
                              town        == 'Newark') %>%
                       dplyr::select(closure)
         if(town.group$n[town.group$town == 'Newark'] > 0){
-            model0.glarma.newark <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model0.glarma.newark <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model0.glarma.newark.coef <- se(model0.glarma.newark)
             results$model0.glarma.newark.coef$site          <- 'Newark'
             results$model0.glarma.newark.coef$indicator     <- indicator
@@ -642,11 +638,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
                       dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111)
         ## return(t)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
-            model1.glarma.bishop <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model1.glarma.bishop <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model1.glarma.bishop.coef <- se(model1.glarma.bishop)
             results$model1.glarma.bishop.coef$site          <- 'Bishop Auckland'
             results$model1.glarma.bishop.coef$indicator     <- indicator
@@ -705,11 +699,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
                              town        == 'Newark') %>%
                       dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, other.centre)
         if(town.group$n[town.group$town == 'Newark'] > 0){
-            model1.glarma.newark <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model1.glarma.newark <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model1.glarma.newark.coef <- se(model1.glarma.newark)
             results$model1.glarma.newark.coef$site          <- 'Newark'
             results$model1.glarma.newark.coef$indicator     <- indicator
@@ -834,11 +826,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
                       dplyr::select(closure, town_, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111)
         ## return(t)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
-            model2.glarma.bishop <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model2.glarma.bishop <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model2.glarma.bishop.coef <- se(model2.glarma.bishop)
             results$model2.glarma.bishop.coef$site          <- 'Bishop Auckland'
             results$model2.glarma.bishop.coef$indicator     <- indicator
@@ -903,11 +893,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
                              town        %in% c('Newark', 'Southport')) %>%
                       dplyr::select(closure, town_, town_closure, season2, season3, season4, season5, season6, relative.month, other.centre)
         if(town.group$n[town.group$town == 'Newark'] > 0){
-            model2.glarma.newark <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model2.glarma.newark <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model2.glarma.newark.coef <- se(model2.glarma.newark)
             results$model2.glarma.newark.coef$site          <- 'Newark'
             results$model2.glarma.newark.coef$indicator     <- indicator
@@ -1030,11 +1018,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
                       dplyr::select(bishop, salford, scarborough, closure, season2, season3, season4, season5, season6, relative.month, nhs111)
         ## return(t)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
-            model3.1.glarma.bishop <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model3.1.glarma.bishop <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model3.1.glarma.bishop.coef <- se(model3.1.glarma.bishop)
             results$model3.1.glarma.bishop.coef$site          <- 'Bishop Auckland'
             results$model3.1.glarma.bishop.coef$indicator     <- indicator
@@ -1102,11 +1088,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
                       dplyr::filter(town        %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')) %>%
                       dplyr::select(newark, carlisle, salisbury, closure, season2, season3, season4, season5, season6, relative.month, other.centre)
         if(town.group$n[town.group$town == 'Newark'] > 0){
-            model3.1.glarma.newark <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model3.1.glarma.newark <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model3.1.glarma.newark.coef <- se(model3.1.glarma.newark)
             results$model3.1.glarma.newark.coef$site          <- 'Newark'
             results$model3.1.glarma.newark.coef$indicator     <- indicator
@@ -1229,11 +1213,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
                       dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111)
         ## return(t)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
-            model3.2.glarma.bishop <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model3.2.glarma.bishop <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model3.2.glarma.bishop.coef <- se(model3.2.glarma.bishop)
             results$model3.2.glarma.bishop.coef$site          <- 'Bishop Auckland'
             results$model3.2.glarma.bishop.coef$indicator     <- indicator
@@ -1298,11 +1280,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
                              town        %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')) %>%
                       dplyr::select(town_, closure, town_closure, season2, season3, season4, season5, season6, relative.month, other.centre)
         if(town.group$n[town.group$town == 'Newark'] > 0){
-            model3.2.glarma.newark <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model3.2.glarma.newark <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model3.2.glarma.newark.coef <- se(model3.2.glarma.newark)
             results$model3.2.glarma.newark.coef$site          <- 'Newark'
             results$model3.2.glarma.newark.coef$indicator     <- indicator
@@ -1425,11 +1405,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
                       dplyr::select(bishop, hartlepool, grimsby, hemel, warwick, newark, southport, rochdale, rotherham, closure, season2, season3, season4, season5, season6, relative.month, nhs111, other.centre, ambulance.divert)
         ## return(t)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
-            model4.glarma.all <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model4.glarma.all <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model4.glarma.all.coef <- se(model4.glarma.all)
             results$model4.glarma.all.coef$site          <- 'All'
             results$model4.glarma.all.coef$indicator     <- indicator
@@ -1504,11 +1482,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
         regressors <- cbind(regressors, town)
         ## return(t)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
-            model5.glarma.all <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model5.glarma.all <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model5.glarma.all.coef <- se(model5.glarma.all)
             results$model5.glarma.all.coef$site          <- 'All'
             results$model5.glarma.all.coef$indicator     <- indicator
@@ -1583,11 +1559,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
                       dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, nhs111)
         ## return(t)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
-            model6.1.glarma.bishop <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model6.1.glarma.bishop <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model6.1.glarma.bishop.coef <- se(model6.1.glarma.bishop)
             results$model6.1.glarma.bishop.coef$site          <- 'Bishop Auckland'
             results$model6.1.glarma.bishop.coef$indicator     <- indicator
@@ -1646,11 +1620,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
                              town        == 'Newark') %>%
                       dplyr::select(closure, season2, season3, season4, season5, season6, relative.month, other.centre)
         if(town.group$n[town.group$town == 'Newark'] > 0){
-            model6.1.glarma.newark <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model6.1.glarma.newark <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model6.1.glarma.newark.coef <- se(model6.1.glarma.newark)
             results$model6.1.glarma.newark.coef$site          <- 'Newark'
             results$model6.1.glarma.newark.coef$indicator     <- indicator
@@ -1775,11 +1747,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
                       dplyr::select(closure, town_, town_closure, season2, season3, season4, season5, season6, relative.month, nhs111)
         ## return(t)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
-            model6.2.glarma.bishop <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model6.2.glarma.bishop <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model6.2.glarma.bishop.coef <- se(model6.2.glarma.bishop)
             results$model6.2.glarma.bishop.coef$site          <- 'Bishop Auckland'
             results$model6.2.glarma.bishop.coef$indicator     <- indicator
@@ -1844,11 +1814,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
                              town        %in% c('Newark', 'Southport')) %>%
                       dplyr::select(closure, town_, town_closure, season2, season3, season4, season5, season6, relative.month, other.centre)
         if(town.group$n[town.group$town == 'Newark'] > 0){
-            model6.2.glarma.newark <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model6.2.glarma.newark <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model6.2.glarma.newark.coef <- se(model6.2.glarma.newark)
             results$model6.2.glarma.newark.coef$site          <- 'Newark'
             results$model6.2.glarma.newark.coef$indicator     <- indicator
@@ -1969,11 +1937,9 @@ closed_glarma <- function(df.lsoa          = ed_attendances_by_mode_measure,
         regressors <- cbind(regressors, town)
         ## return(t)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
-            model7.glarma.all <- glarma(ts = ts.vector,
-                                         link = glarma.link,
-                                         model = glarma.model,
-                                         xreg  = regressors,
-                                         distr = glarma.distr)
+            model7.glarma.all <- glarma(y = ts.vector,
+                                         X = regressors,
+                                         type = 'NegBin')
             results$model7.glarma.all.coef <- se(model7.glarma.all)
             results$model7.glarma.all.coef$site          <- 'All'
             results$model7.glarma.all.coef$indicator     <- indicator
