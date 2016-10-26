@@ -1,6 +1,6 @@
 Package: closed
 Title: R functions for analysing the ClosED study
-Version: 0.0.1.1025
+Version: 0.0.1.1026
 Authors@R: person("Neil", "Shephard", email = "n.shephard@sheffield.ac.uk", role = c("aut", "cre"))
 Description: Summarises and analyses in tabular and graphical format the ClosED
     study which looks at the effect of closing Emergency Departments on survival,
