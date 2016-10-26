@@ -1,4 +1,4 @@
-```{r load_data, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r load_data, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ## Obtain the OS and node such that the data can be conditionally loaded
 os <- .Platform$OS.type
 node <- Sys.info()[['nodename']]
@@ -9,6 +9,8 @@ if(os != 'unix'){
     load('~/work/closed/lib/data/ed attendances by mode measure - lsoa - 2016-05-24 14.25.Rda')
     load('~/work/closed/lib/data/ed attendances by mode measure - site - 2016-05-24 14.26.Rda')
 }
+```
+```{r tidy_data, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ## Tidy data frames, why I didn't do this first I've no idea!
 ed_attendances_by_mode_measure          <- closed_tidy(ed_attendances_by_mode_measure)
 ed_attendances_by_mode_site_measure     <- closed_tidy(ed_attendances_by_mode_site_measure)
