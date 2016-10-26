@@ -26,11 +26,12 @@
 #' @param model1 Covariates to include in model 1.
 #' @param model2 Covariates to include in model 2.
 #' @param model3.1 Covariates to include in model 3.
-#' @param model3b Covariates to include in model 8.
+#' @param model3.2 Covariates to include in model 8.
 #' @param model4 Covariates to include in model 4.
 #' @param model5 Covariates to include in model 5.
 #' @param model6 Covariates to include in model 6.
-#' @param model7 Covariates to include in model 7.
+#' @param model7.1 Covariates to include in model 7.
+#' @param model7.2 Covariates to include in model 7.
 #' @param autocorr panelAR() option for handling auto-correlation, default is \code{ar1}.
 #' @param panelcorrmethod panelAR() option for panel correction, default is \code{pcse}.
 #' @param coefficients Determine which coefficients from the model are included in summary tables.  Setting to \code{closure} will return only terms that involve only the closure indicator (i.e. \code{closure} itself).  Other options include \code{town} for site specific terms (no interactions) and \code{closure.town} (the default) which includes all closure and town terms, both individually and from interactions.  Use \code{all} to get all terms returned or for closure, town and other steps use \code{all.steps}
@@ -77,7 +78,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           model5          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
                           model6.1        = c('season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
                           model6.2        = c('town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
-                          model7          = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                          model7.1        = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                          model7.2        = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
                           autocorr        = 'ar1',
                           panelcorrmethod = 'pcse',
                           coefficients    = 'closure.town',
@@ -2289,40 +2291,154 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         rm(df6.2)
     }
     #######################################################################
-    ## Model 7                                                           ##
+    ## Model 7.1                                                         ##
     #######################################################################
-    if(!is.null(model7)){
-        ## print("Model 7")
+    if(!is.null(model7.1)){
+        ## print("Model 7.1")
         ## Reformulate outcome and covariates
-        formula.model7 <- reformulate(response = outcome,
-                                      termlabels = model7)
+        formula.model7.1 <- reformulate(response = outcome,
+                                      termlabels = model7.1)
+        ## Subset data
+        sites <- c('Bishop Auckland',
+                   'Hartlepool',
+                   'Hemel Hempstead',
+                   'Newark',
+                   'Rochdale',)
+        df7.1 <- dplyr::filter(df.lsoa, town %in% sites &
+                      measure     == indicator &
+                      sub.measure == sub.indicator)
+        ## Two LSOAs overlap two EDs so derive a new unique indicator
+        ## and use that for the panels
+        df7.1$town.lsoa <- paste0(df7.1$town, df7.1$lsoa)
+        ## ## Add in indicator of case/control status for plotting
+        ## case <- c('Bishop Auckland',
+        ##           'Hartlepool',
+        ##           'Hemel Hempstead',
+        ##           'Newark',
+        ##           'Rochdale')
+        ## df7.1$status <- ifelse(df7.1$town %in% case, 'Case', 'Control')
+        results$df7.1 <- df7.1
+        ## Perform analysis with panelAR in each
+        ##################################################
+        ## All sites                                    ##
+        ##################################################
+        formula.model7.1 <- reformulate(response = outcome,
+                                       termlabels = c(model7.1))
+        t <- dplyr::filter(df7.1,
+                    measure     == indicator &
+                    sub.measure == sub.indicator)
+        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
+           town.group$n[town.group$town == 'Hartlepool'] > 0 &
+           town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
+           town.group$n[town.group$town == 'Newark'] > 0 &
+           town.group$n[town.group$town == 'Rochdale'] > 0){
+            ## Getting errors with complete.case == TRUE...
+            ##
+            ## Error: Unable to compute correlated SEs / PCSEs because there are no time
+            ## periods in common across all units. Instead, consider setting
+            ## complete.case =FALSE.
+            ##
+            ## ...so have opted for that for ALL LSOA analyses rather than conditionally
+            ## switching.
+            ## if(indicator == 'length of stay')      complete.case <- FALSE
+            ## if(indicator == 'case fatality ratio') complete.case <- FALSE
+            complete.case <- FALSE
+            model7.1.panelar <- panelAR(data     = t,
+                                      formula  = formula.model7.1,
+                                      timeVar  = timevar,
+                                      panelVar = 'town.lsoa',
+                                      autoCorr = autocorr,
+                                      panelCorrMethod = 'pcse',
+                                      complete.case = complete.case,
+                                      seq.times = seq.times,
+                                      rho.na.rm = rho.na.rm)
+            results$model7.1.panelar.all.coef <- extract_coefficients(x              = model7.1.panelar,
+                                                                .site          = 'All',
+                                                                .indicator     = indicator,
+                                                                .sub.indicator = sub.indicator)
+            results$model7.1.panelar.r2 <- model7.1.panelar$r2
+        }
+        ## Summary table
+        if(!is.null(results$model6.1.panelar.bishop.coef) |
+           !is.null(results$model6.1.panelar.hartlepool.coef) |
+           !is.null(results$model6.1.panelar.hemel.coef) |
+           !is.null(results$model6.1.panelar.newark.coef) |
+           !is.null(results$model6.1.panelar.rochdale.coef) |
+           !is.null(results$model7.1.panelar.all.coef)){
+            results$model7.1.panelar.all <- combine_coefficients(bishop.coef     = results$model6.1.panelar.bishop.coef,
+                                                               hartlepool.coef = results$model6.1.panelar.hartlepool.coef,
+                                                               hemel.coef      = results$model6.1.panelar.hemel.coef,
+                                                               newark.coef     = results$model6.1.panelar.newark.coef,
+                                                               rochdale.coef   = results$model6.1.panelar.rochdale.coef,
+                                                               all.coef        = results$model7.1.panelar.all.coef)
+            ## ## Forest plot
+            results$model7.1.forest <- closed_forest(df.list       = list(results$model6.1.panelar.bishop.coef,
+                                                                        results$model6.1.panelar.hartlepool.coef,
+                                                                        results$model6.1.panelar.hemel.coef,
+                                                                        results$model6.1.panelar.newark.coef,
+                                                                        results$model6.1.panelar.rochdale.coef,
+                                                                        results$model7.1.panelar.all.coef),
+                                                   plot.term     = c('closure'),
+                                                   facet.outcome = FALSE,
+                                                   title         = paste0('Model 6 & Model 7.1 : ',
+                                                                          indicator,
+                                                                          ' (',
+                                                                          sub.indicator,
+                                                                          ')'),
+                                                   theme         = theme_bw())
+        }
+        ## Return model objects if requested
+        if(return.model == TRUE){
+            if(exists('model7.1.panelar')){
+                results$model7.1.panelar     <- model7.1.panelar
+            }
+        }
+        if(return.df == TRUE){
+            results$model7.1.df <- df7.1
+        }
+        if(return.residuals == TRUE){
+            if(exists('model7.1.panelar')){
+                results$model7.1.panelar.residuals.all     <- summary(model7.1.panelar)$residuals
+            }
+        }
+        ## Remove clutter
+        rm(df7.1)
+    }
+    #######################################################################
+    ## Model 7.2                                                         ##
+    #######################################################################
+    if(!is.null(model7.2)){
+        ## print("Model 7.2")
+        ## Reformulate outcome and covariates
+        formula.model7.2 <- reformulate(response = outcome,
+                                      termlabels = model7.2)
         ## Subset data
         sites <- c('Bishop Auckland', 'Whitehaven',
                    'Hartlepool', 'Grimsby',
                    'Hemel Hempstead', 'Warwick',
                    'Newark', 'Southport',
                    'Rochdale', 'Rotherham')
-        df7 <- dplyr::filter(df.lsoa, town %in% sites &
+        df7.2 <- dplyr::filter(df.lsoa, town %in% sites &
                       measure     == indicator &
                       sub.measure == sub.indicator)
         ## Two LSOAs overlap two EDs so derive a new unique indicator
         ## and use that for the panels
-        df7$town.lsoa <- paste0(df7$town, df7$lsoa)
+        df7.2$town.lsoa <- paste0(df7.2$town, df7.2$lsoa)
         ## Add in indicator of case/control status for plotting
         case <- c('Bishop Auckland',
                   'Hartlepool',
                   'Hemel Hempstead',
                   'Newark',
                   'Rochdale')
-        df7$status <- ifelse(df7$town %in% case, 'Case', 'Control')
-        results$df7 <- df7
+        df7.2$status <- ifelse(df7.2$town %in% case, 'Case', 'Control')
+        results$df7.2 <- df7.2
         ## Perform analysis with panelAR in each
         ##################################################
         ## All sites                                    ##
         ##################################################
-        formula.model7 <- reformulate(response = outcome,
-                                       termlabels = c(model7))
-        t <- dplyr::filter(df7,
+        formula.model7.2 <- reformulate(response = outcome,
+                                       termlabels = c(model7.2))
+        t <- dplyr::filter(df7.2,
                     measure     == indicator &
                     sub.measure == sub.indicator)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
@@ -2347,8 +2463,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             ## if(indicator == 'length of stay')      complete.case <- FALSE
             ## if(indicator == 'case fatality ratio') complete.case <- FALSE
             complete.case <- FALSE
-            model7.panelar <- panelAR(data     = t,
-                                      formula  = formula.model7,
+            model7.2.panelar <- panelAR(data     = t,
+                                      formula  = formula.model7.2,
                                       timeVar  = timevar,
                                       panelVar = 'town.lsoa',
                                       autoCorr = autocorr,
@@ -2356,11 +2472,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                       complete.case = complete.case,
                                       seq.times = seq.times,
                                       rho.na.rm = rho.na.rm)
-            results$model7.panelar.all.coef <- extract_coefficients(x              = model7.panelar,
+            results$model7.2.panelar.all.coef <- extract_coefficients(x              = model7.2.panelar,
                                                                 .site          = 'All',
                                                                 .indicator     = indicator,
                                                                 .sub.indicator = sub.indicator)
-            results$model7.panelar.r2 <- model7.panelar$r2
+            results$model7.2.panelar.r2 <- model7.2.panelar$r2
         }
         ## Summary table
         if(!is.null(results$model6.1.panelar.bishop.coef) |
@@ -2368,23 +2484,23 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
            !is.null(results$model6.1.panelar.hemel.coef) |
            !is.null(results$model6.1.panelar.newark.coef) |
            !is.null(results$model6.1.panelar.rochdale.coef) |
-           !is.null(results$model7.panelar.all.coef)){
-            results$model7.panelar.all <- combine_coefficients(bishop.coef     = results$model6.1.panelar.bishop.coef,
+           !is.null(results$model7.2.panelar.all.coef)){
+            results$model7.2.panelar.all <- combine_coefficients(bishop.coef     = results$model6.1.panelar.bishop.coef,
                                                                hartlepool.coef = results$model6.1.panelar.hartlepool.coef,
                                                                hemel.coef      = results$model6.1.panelar.hemel.coef,
                                                                newark.coef     = results$model6.1.panelar.newark.coef,
                                                                rochdale.coef   = results$model6.1.panelar.rochdale.coef,
-                                                               all.coef        = results$model7.panelar.all.coef)
+                                                               all.coef        = results$model7.2.panelar.all.coef)
             ## ## Forest plot
-            results$model7.forest <- closed_forest(df.list       = list(results$model6.1.panelar.bishop.coef,
+            results$model7.2.forest <- closed_forest(df.list       = list(results$model6.1.panelar.bishop.coef,
                                                                         results$model6.1.panelar.hartlepool.coef,
                                                                         results$model6.1.panelar.hemel.coef,
                                                                         results$model6.1.panelar.newark.coef,
                                                                         results$model6.1.panelar.rochdale.coef,
-                                                                        results$model7.panelar.all.coef),
+                                                                        results$model7.2.panelar.all.coef),
                                                    plot.term     = c('closure'),
                                                    facet.outcome = FALSE,
-                                                   title         = paste0('Model 6 & Model 7 : ',
+                                                   title         = paste0('Model 6 & Model 7.2 : ',
                                                                           indicator,
                                                                           ' (',
                                                                           sub.indicator,
@@ -2393,20 +2509,20 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         }
         ## Return model objects if requested
         if(return.model == TRUE){
-            if(exists('model7.panelar')){
-                results$model7.panelar     <- model7.panelar
+            if(exists('model7.2.panelar')){
+                results$model7.2.panelar     <- model7.2.panelar
             }
         }
         if(return.df == TRUE){
-            results$model7.df <- df7
+            results$model7.2.df <- df7.2
         }
         if(return.residuals == TRUE){
-            if(exists('model7.panelar')){
-                results$model7.panelar.residuals.all     <- summary(model7.panelar)$residuals
+            if(exists('model7.2.panelar')){
+                results$model7.2.panelar.residuals.all     <- summary(model7.2.panelar)$residuals
             }
         }
         ## Remove clutter
-        rm(df7)
+        rm(df7.2)
     }
     #######################################################################
     ## Produce summary tables by center using results$summary.table.head ##
@@ -2485,9 +2601,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                results$model6.2.panelar.rochdale.coef)
         model6.2.coef$model <- 'Model 6.2'
     }
-    if(!is.null(model7)){
-        model7.coef <- results$model7.panelar.all.coef
-        model7.coef$model <- 'Model 7'
+    if(!is.null(model7.1)){
+        model7.1.coef <- results$model7.1.panelar.all.coef
+        model7.1.coef$model <- 'Model 7.1'
+    }
+    if(!is.null(model7.2)){
+        model7.2.coef <- results$model7.2.panelar.all.coef
+        model7.2.coef$model <- 'Model 7.2'
     }
     ## Some model*.coef may not have any data though as the models weren't run
     ## make those NULL so the subsequent rbind() doesn't fail
@@ -2501,7 +2621,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     if(length(model5.coef) == 1) model5.coef     <- NULL
     if(length(model6.1.coef) == 1) model6.1.coef <- NULL
     if(length(model6.2.coef) == 1) model6.2.coef <- NULL
-    if(length(model7.coef) == 1) model7.coef     <- NULL
+    if(length(model7.1.coef) == 1) model7.1.coef <- NULL
+    if(length(model7.2.coef) == 1) model7.2.coef <- NULL
     ## Return all coefficients across models
     if(!is.null(model0.coef) & !is.null(model0.5.coef)){
     results$all.model.all.coef <- rbind(model0.coef,
@@ -2539,9 +2660,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         results$all.model.all.coef <- rbind(results$all.model.all.coef,
                                             model6.2.coef)
     }
-    if(!is.null(model7.coef)){
+    if(!is.null(model7.1.coef)){
         results$all.model.all.coef <- rbind(results$all.model.all.coef,
-                                            model7.coef)
+                                            model7.1.coef)
+    }
+    if(!is.null(model7.2.coef)){
+        results$all.model.all.coef <- rbind(results$all.model.all.coef,
+                                            model7.2.coef)
     }
     ## results$all.model.all.coef <- rbind(model0.coef,
     ##                                     model0.5.coef
@@ -2553,7 +2678,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ##                                     model5.coef,
     ##                                     model6.1.coef,
     ##                                     model6.2.coef,
-    ##                                     model7.coef) %>%
+    ##                                     model7.1.coef,
+    ##                                     model7.2.coef) %>%
     ##                               as.data.frame()
     results$all.model.all.coef <- as.data.frame(results$all.model.all.coef)
     names(results$all.model.all.coef) <- gsub('site', 'town', names(results$all.model.all.coef))
