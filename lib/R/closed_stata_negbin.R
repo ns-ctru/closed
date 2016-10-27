@@ -53,7 +53,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Read the results back in
     results_site <- read_dta(file = '~/work/closed/hta_report/data/results/stata_negbin_site.dta')
     ## Write lsoa level data to Stata's .dta
-    write.dta(df.trust,
+    write.dta(df.lsoa,
               file = '~/work/closed/hta_report/data/lsoa.dta')
     ## Build a call to Stata to run the do-file with the given
     ## arguments of measure(/indicator) and sub-measure(/sub-indicator)
