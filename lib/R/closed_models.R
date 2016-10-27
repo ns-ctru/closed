@@ -2537,6 +2537,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                              results$model0.panelar.rochdale.coef)
         model0.coef$model <- 'Model 1'
     }
+    else{
+        model0.coef <- 1
+    }
     if(!is.null(model0.5)){
         model0.5.coef <- rbind(results$model0.5.panelar.bishop.coef,
                                results$model0.5.panelar.hartlepool.coef,
@@ -2544,6 +2547,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                results$model0.5.panelar.newark.coef,
                                results$model0.5.panelar.rochdale.coef)
         model0.5.coef$model <- 'Model 0.5'
+    }
+    else{
+        model0.5.coef <- 1
     }
     if(!is.null(model1)){
         model1.coef <- rbind(results$model1.panelar.bishop.coef,
@@ -2553,6 +2559,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                              results$model1.panelar.rochdale.coef)
         model1.coef$model <- 'Model 1'
     }
+    else{
+        model1.coef <- 1
+    }
     if(!is.null(model2)){
         model2.coef <- rbind(results$model2.panelar.bishop.coef,
                              results$model2.panelar.hartlepool.coef,
@@ -2560,6 +2569,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                              results$model2.panelar.newark.coef,
                              results$model2.panelar.rochdale.coef)
         model2.coef$model <- 'Model 2'
+    }
+    else{
+        model2.coef <- 1
     }
     if(!is.null(model3.1)){
         model3.1.coef <- rbind(results$model3.1.panelar.bishop.coef,
@@ -2569,6 +2581,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                results$model3.1.panelar.rochdale.coef)
         model3.1.coef$model <- 'Model 3.1'
     }
+    else{
+        model3.1.coef <- 1
+    }
     if(!is.null(model3.2)){
         model3.2.coef <- rbind(results$model3.2.panelar.bishop.coef,
                                results$model3.2.panelar.hartlepool.coef,
@@ -2577,13 +2592,22 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                results$model3.2.panelar.rochdale.coef)
         model3.2.coef$model <- 'Model 3.2'
     }
+    else{
+        model3.2.coef <- 1
+    }
     if(!is.null(model4)){
         model4.coef <- results$model4.panelar.all.coef
         model4.coef$model <- 'Model 4'
     }
+    else{
+        model4.coef <- 1
+    }
     if(!is.null(model5)){
         model5.coef <- results$model5.panelar.all.coef
         model5.coef$model <- 'Model 5'
+    }
+    else{
+        model5.coef <- 1
     }
     if(!is.null(model6.1)){
         model6.1.coef <- rbind(results$model6.1.panelar.bishop.coef,
@@ -2593,6 +2617,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                results$model6.1.panelar.rochdale.coef)
         model6.1.coef$model <- 'Model 6.1'
     }
+    else{
+        model6.1.coef <- 1
+    }
     if(!is.null(model6.2)){
         model6.2.coef <- rbind(results$model6.2.panelar.bishop.coef,
                                results$model6.2.panelar.hartlepool.coef,
@@ -2601,13 +2628,22 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                results$model6.2.panelar.rochdale.coef)
         model6.2.coef$model <- 'Model 6.2'
     }
+    else{
+        model6.2.coef <- 1
+    }
     if(!is.null(model7.1)){
         model7.1.coef <- results$model7.1.panelar.all.coef
         model7.1.coef$model <- 'Model 7.1'
     }
+    else{
+        model7.1.coef <- 1
+    }
     if(!is.null(model7.2)){
         model7.2.coef <- results$model7.2.panelar.all.coef
         model7.2.coef$model <- 'Model 7.2'
+    }
+    else{
+        model7.2.coef <- 1
     }
     ## Some model*.coef may not have any data though as the models weren't run
     ## make those NULL so the subsequent rbind() doesn't fail
