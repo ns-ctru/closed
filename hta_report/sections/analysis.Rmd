@@ -392,14 +392,15 @@ save(spurious,
 <!--- ANALYSIS --->
 
 ```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-## Write site and lsoa level data to *.dta for loading into Stata
-dplyr::filter(ed_attendances_by_mode_site_measure_clean, sub.measure == 'any') %>%
-    write.dta(file = '~/work/closed/hta_report/data/site.dta')
-dplyr::filter(ed_attendances_by_mode_measure, sub.measure == 'any') %>%
-    write.dta(file = '~/work/closed/hta_report/data/lsoa.dta')
-## Run Negative Binomial Analyses in Stata
-system('stata -b do ~/work/closed/hta_report/do/negbin.do site.dta lsoa.dta')
-## Read results back into R
+## Run Stata's -xtnbreg- on the current outcome
+closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure,
+                    df.trust        = ed_attendances_by_mode_site_measure_clean,
+                    indicator       = 'ed attendances',
+                    sub.indicator   = 'any',
+                    return.df       = FALSE,
+                    return.model    = TRUE,
+                    return.residuals = FALSE,
+                    digits           = 3)
 
 ```
 
