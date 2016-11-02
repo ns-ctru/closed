@@ -153,5 +153,36 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Add indicator for primary control
     results$summary.table.head$town <- as.character(results$summary.table.head$town)
     results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')] <- paste0(results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')], ' (Primary)')
+    ## Build the table footer from the regression results read in from Stata
+    names(results$xtnbreg) <- gsub('estimate', 'est', names(results$xtnbreg))
+    results$summary.table.tail <- dplyr::filter(results$xtnbreg, parm == '1.closure') %>%
+                          dplyr::select(estimate, stderr, z, p, min95, max95, town, measure, sub_measure, model)
+    results$summary.table.tail$estimate <- paste0(formatC(results$summary.table.tail$est, digits = digits, format = 'f'),
+                                                  ' (',
+                                                  formatC(results$summary.table.tail$min95, digits = digits, format = 'f'),
+                                                  '-',
+                                                  formatC(results$summary.table.tail$max95, digits = digits, format = 'f'),
+                                                  ' ) p = ',
+                                                  formatC(results$summary.table.tail$p, digits = digits, format = 'f'))
+    results$summary.table.tail <- dplyr::select(results$summary.table.tail,
+                                                town,
+                                                model,
+                                                estimate)
+    results$summary.table.tail$Before_mean.sd    <- NA
+    results$summary.table.tail$Before_median.iqr <- results$summary.table.tail$model
+    results$summary.table.tail$Before_min.max    <- NA
+    results$summary.table.tail$After_mean.sd     <- NA
+    results$summary.table.tail$After_median.iqr  <- NA
+    results$summary.table.tail$After_min.max     <- results$summary.table.tail$estimate
+    results$summary.table.tail$diff_abs          <- NA
+    results$summary.table.tail$diff_perc         <- NA
+    results$summary.table.tail <- dplyr::select(results$summary.table.tail,
+                                                town,
+                                                Before_mean.sd, Before_median.iqr, Before_min.max,
+                                                After_mean.sd, After_median.iqr, After_min.max,
+                                                diff_abs, diff_perc)
+    results$summary.table.tail$group <- results$summary.table.tail$town
+    results$summary.table <- rbind(results$summary.table.head,
+                                   results$summary.table.tail)
     return(results)
 }
