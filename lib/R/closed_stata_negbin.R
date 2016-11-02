@@ -156,7 +156,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Build the table footer from the regression results read in from Stata
     names(results$xtnbreg) <- gsub('estimate', 'est', names(results$xtnbreg))
     results$summary.table.tail <- dplyr::filter(results$xtnbreg, parm == '1.closure') %>%
-                          dplyr::select(estimate, stderr, z, p, min95, max95, town, measure, sub_measure, model)
+                          dplyr::select(est, stderr, z, p, min95, max95, town, measure, sub_measure, model)
     results$summary.table.tail$estimate <- paste0(formatC(results$summary.table.tail$est, digits = digits, format = 'f'),
                                                   ' (',
                                                   formatC(results$summary.table.tail$min95, digits = digits, format = 'f'),
