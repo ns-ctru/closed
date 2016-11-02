@@ -39,6 +39,8 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                                 return.residuals = FALSE,
                                 digits           = 3,
                                 ...){
+    ## Results
+    results <- list()
     ## Write site level data to Stata's .dta
     dplyr::filter(df.trust,
                   measure == indicator, sub.measure == sub.indicator) %>%
@@ -68,6 +70,88 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Read the results back in
     results_lsoa <- read_dta(file = '~/work/closed/hta_report/data/results/stata_negbin_lsoa.dta')
     ## Bind and return results
-    results <- rbind(results_site, results_lsoa)
+    results$xtnbreg <- rbind(results_site, results_lsoa)
+    ## Build summary table as per other regression wrapper functions
+        #######################################################################
+    ## Derive the mean, sd, median, iqr, min and max of events before/   ##
+    ## after closure for combining into a summary table with model       ##
+    ## coefficients                                                      ##
+    #######################################################################
+    df.trust <- mutate(df.trust,
+                       before.after = ifelse(site.type == 'intervention' & relative.month >= 25, "After", "Before"))
+    results$summary.df <- group_by(df.trust, town, before.after) %>%
+                          summarise(n        = n(),
+                                    mean     = mean(value, na.rm = TRUE),
+                                    sd       = sd(value, na.rm = TRUE),
+                                    min      = min(value, na.rm = TRUE),
+                                    max      = max(value, na.rm = TRUE),
+                                    p25      = quantile(value, probs = 0.25, na.rm = TRUE),
+                                    p50      = quantile(value, probs = 0.50, na.rm = TRUE),
+                                    p75      = quantile(value, probs = 0.75, na.rm = TRUE))
+    results$summary.table.head <- results$summary.df
+    results$summary.table.head <- mutate(results$summary.table.head,
+                                         mean.sd    = paste0(formatC(mean, digits = digits, format = 'f'),
+                                                             ' (',
+                                                             formatC(sd, digits = digits, format = 'f'),
+                                                             ')'))
+    results$summary.table.head <- mutate(results$summary.table.head,
+                                         median.iqr = paste0(formatC(p50, digits = 1, format = 'f'),
+                                                             ' (',
+                                                             formatC(p25, digits = 1, format = 'f'),
+                                                             '-',
+                                                             formatC(p75, digits = 1, format = 'f'),
+                                                             ')'))
+    results$summary.table.head <- mutate(results$summary.table.head,
+                                         min.max    = paste0(formatC(min, digits = 0, format = 'f'),
+                                                             '-',
+                                                             formatC(max, digits = 0, format = 'f')))
+    results$summary.table.head <- dplyr::select(results$summary.table.head,
+                                                town, before.after, mean.sd, median.iqr, min.max, mean)
+    ## Reshape the table header
+    results$summary.table.head <- melt(results$summary.table.head, id.vars = c('town', 'before.after')) %>%
+                                  dcast(town ~ before.after + variable)
+    results$summary.table.head$Before_mean <- as.numeric(results$summary.table.head$Before_mean)
+    results$summary.table.head$After_mean  <- as.numeric(results$summary.table.head$After_mean)
+    results$summary.table.head <- mutate(results$summary.table.head,
+                                         diff_abs = Before_mean - After_mean,
+                                         diff_perc = (100 * abs(Before_mean - After_mean)) / Before_mean)
+    ## Order the data
+    results$summary.table.head$order <- 0
+    results$summary.table.head$order[results$summary.table.head$town == 'Bishop Auckland'] <- 1
+    results$summary.table.head$order[results$summary.table.head$town == 'Whitehaven']      <- 2
+    results$summary.table.head$order[results$summary.table.head$town == 'Salford']         <- 3
+    results$summary.table.head$order[results$summary.table.head$town == 'Scarborough']     <- 4
+    results$summary.table.head$order[results$summary.table.head$town == 'Hartlepool']      <- 5
+    results$summary.table.head$order[results$summary.table.head$town == 'Grimsby']         <- 6
+    results$summary.table.head$order[results$summary.table.head$town == 'Blackburn']       <- 7
+    results$summary.table.head$order[results$summary.table.head$town == 'Wigan']           <- 8
+    results$summary.table.head$order[results$summary.table.head$town == 'Hemel Hempstead'] <- 9
+    results$summary.table.head$order[results$summary.table.head$town == 'Warwick']         <- 10
+    results$summary.table.head$order[results$summary.table.head$town == 'Basingstoke']     <- 11
+    results$summary.table.head$order[results$summary.table.head$town == 'Yeovil']          <- 12
+    results$summary.table.head$order[results$summary.table.head$town == 'Newark']          <- 13
+    results$summary.table.head$order[results$summary.table.head$town == 'Southport']       <- 14
+    results$summary.table.head$order[results$summary.table.head$town == 'Carlisle']        <- 15
+    results$summary.table.head$order[results$summary.table.head$town == 'Salisbury']       <- 16
+    results$summary.table.head$order[results$summary.table.head$town == 'Rochdale']        <- 17
+    results$summary.table.head$order[results$summary.table.head$town == 'Rotherham']       <- 18
+    results$summary.table.head$order[results$summary.table.head$town == 'Scunthorpe']      <- 19
+    results$summary.table.head$order[results$summary.table.head$town == 'Wansbeck']        <- 20
+    results$summary.table.head <- arrange(results$summary.table.head, order)
+    results$summary.table.head <- dplyr::select(results$summary.table.head,
+                                                town,
+                                                Before_mean.sd, Before_median.iqr, Before_min.max,
+                                                After_mean.sd, After_median.iqr, After_min.max,
+                                                diff_abs, diff_perc)
+    ## Add in grouping to facilitate subsetting later
+    results$summary.table.head$group <- NA
+    results$summary.table.head$group[results$summary.table.head$town %in% c('Bishop Auckland', 'Whitehaven', 'Salford', 'Scarborough')] <- 'Bishop Auckland'
+    results$summary.table.head$group[results$summary.table.head$town %in% c('Hartlepool', 'Grimsby', 'Blackburn', 'Wigan')] <- 'Hartlepool'
+    results$summary.table.head$group[results$summary.table.head$town %in% c('Hemel Hempstead', 'Warwick', 'Basingstoke', 'Yeovil')] <- 'Hemel Hempstead'
+    results$summary.table.head$group[results$summary.table.head$town %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')] <- 'Newark'
+    results$summary.table.head$group[results$summary.table.head$town %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')] <- 'Rochdale'
+    ## Add indicator for primary control
+    results$summary.table.head$town <- as.character(results$summary.table.head$town)
+    results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')] <- paste0(results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')], ' (Primary)')
     return(results)
 }
