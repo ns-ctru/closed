@@ -174,8 +174,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$summary.table.head$Before_mean <- as.numeric(results$summary.table.head$Before_mean)
     results$summary.table.head$After_mean  <- as.numeric(results$summary.table.head$After_mean)
     results$summary.table.head <- mutate(results$summary.table.head,
-                                         diff_abs = Before_mean - After_mean,
-                                         diff_perc = (100 * abs(Before_mean - After_mean)) / Before_mean)
+                                         diff_abs = formatC(Before_mean - After_mean, digits = digits, format = 'f'),
+                                         diff_perc = formatC((100 * abs(Before_mean - After_mean)) / Before_mean, digits = digits, format = 'f'))
     ## Order the data
     results$summary.table.head$order <- 0
     results$summary.table.head$order[results$summary.table.head$town == 'Bishop Auckland'] <- 1
