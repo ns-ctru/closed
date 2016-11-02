@@ -443,18 +443,53 @@ unnecessary.attendance <- closed_stata_negbin(df.lsoa =  unnecessary_ed_attendan
 ```
 
 
-```{r avoidable_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r all_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+all.emergency.admissions.all <- closed_stata_negbin(df.lsoa =  emergency_admissions_measure,
+                                           df.trust         = emergency_admissions_site_measure_clean,
+                                           indicator       = 'all emergency admissions',
+                                           sub.indicator   = 'all',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+
 ```
 
+```{r avoidable_emergency_admissions_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+avoidable.emergency.admissions.any <- closed_stata_negbin(df.lsoa =  emergency_admissions_measure,
+                                           df.trust         = emergency_admissions_site_measure_clean,
+                                           indicator       = 'avoidable emergency admissions',
+                                           sub.indicator   = 'any',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
 
+```
 
 ```{r avoidable_emergency_admissions_chest_pain, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+avoidable.emergency.admissions.chest.pain <- closed_stata_negbin(df.lsoa =  emergency_admissions_measure,
+                                           df.trust         = emergency_admissions_site_measure_clean,
+                                           indicator       = 'avoidable emergency admissions',
+                                           sub.indicator   = 'non-specific chest pain',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
 
 ```
 
 
 <!--- ED Attendances Admitted - All --->
 ```{r ed_attendances_admitted_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE
+ed.attendances.admitted.all <- closed_stata_negbin(df.lsoa =  ed_attendances_admitted_measure,
+                                           df.trust         = ed_attendances_admitted_site_measure_clean,
+                                           indicator       = 'ed attendances admitted',
+                                           sub.indicator   = 'all',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
 
 ```
 
@@ -496,16 +531,40 @@ ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_
 
 <!--- ED Attendances Admitted - Admitted --->
 ```{r ed_attendances_admitted_admitted, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+ed.attendances.admitted.admitted <- closed_stata_negbin(df.lsoa =  ed_attendances_admitted_measure,
+                                           df.trust         = ed_attendances_admitted_site_measure_clean,
+                                           indicator       = 'ed attendances admitted',
+                                           sub.indicator   = 'admitted',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
 
 ```
 
 <!--- Critical Care - All --->
 ```{r critical_care_cips_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+criticial.care.cips.all <- closed_stata_negbin(df.lsoa =  critical_care_cips_measure,
+                                           df.trust         = critical_care_cips_site_measure_clean,
+                                           indicator       = 'critical care stays',
+                                           sub.indicator   = 'all',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
 
 ```
 
 <!--- Critical Care - Critical --->
 ```{r critical_care_cips_critical, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+criticial.care.cips.critical <- closed_stata_negbin(df.lsoa =  critical_care_cips_measure,
+                                           df.trust         = critical_care_cips_site_measure_clean,
+                                           indicator       = 'critical care stays',
+                                           sub.indicator   = 'critical care',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
 
 ```
 
@@ -907,10 +966,28 @@ ambulance.mean.times.scene.to.dest <- closed_models(df.lsoa         = amb_mean_t
 
 <!--- Ambulance Non-Conveyances - Green Calls --->
 ```{r ambulance_non_conveyances_green_calls, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+ambulance.non.conveyances.green.calls <- closed_stata_negbin(df.lsoa =  amb_green_calls_measure,
+                                           df.trust         = amb_green_calls_site_measure_clean,
+                                           indicator       = 'ambulance green calls',
+                                           sub.indicator   = 'green calls',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+
 ```
 
 <!--- Ambulance Non-Conveyances - Green Calls Not Conveyed--->
 ```{r ambulance_non_conveyances_green_calls_not_conveyed, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+ambulance.non.conveyances.green.calls.non.conveyed <- closed_stata_negbin(df.lsoa =  amb_green_calls_measure,
+                                           df.trust         = amb_green_calls_site_measure_clean,
+                                           indicator       = 'ambulance green calls',
+                                           sub.indicator   = 'not conveyed green calls',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+
 ```
 
 <!--- Ambulance Non-Conveyances - Fraction not Conveyed --->
@@ -951,18 +1028,54 @@ ambulance.non.conveyances.fraction.not.conveyed <- closed_models(df.lsoa        
 
 <!--- Ambulance Red Calls - Hospital Transfers --->
 ```{r ambulance_red_calls_hospital_transfers, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+ambulance.red.calls.hospital.transfers <- closed_stata_negbin(df.lsoa =  amb_red_calls_measure,
+                                           df.trust         = amb_red_calls_site_measure_clean,
+                                           indicator       = 'ambulance red calls',
+                                           sub.indicator   = 'hospital transfers',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+
 ```
 
 <!--- Ambulance Red Calls - Total --->
 ```{r ambulance_red_calls_total, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+ambulance.red.calls.total <- closed_stata_negbin(df.lsoa =  amb_red_calls_measure,
+                                           df.trust         = amb_red_calls_site_measure_clean,
+                                           indicator       = 'ambulance red calls',
+                                           sub.indicator   = 'total',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+
 ```
 
 <!--- Hospital Transfers - All Stays --->
 ```{r hospital_transfers_all_stays, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+hospital.transfers.all.stays <- closed_stata_negbin(df.lsoa =  hospital_transfers_measure,
+                                           df.trust         = hospital_transfers_measure_clean,
+                                           indicator       = 'hospital transfers',
+                                           sub.indicator   = 'all stays',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+
 ```
 
 <!--- Hospital Transfers - Stays with Transfers --->
 ```{r hospital_transfers_stays_with_transfer, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+hospital.trasnfers.stays.with.transfer <- closed_stata_negbin(df.lsoa =  hospital_transfers_measure,
+                                           df.trust         = hospital_transfers_site_measure_clean,
+                                           indicator       = 'hospital transfers',
+                                           sub.indicator   = 'stays with transfer',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+
 ```
 
 <!--- Hospital Transfers - Proportion with Transfers --->
@@ -1035,7 +1148,7 @@ save(diff.time.to.ed,
      length.of.stay.mean,
      length.of.stay.median,
      case.fatality.ratio.any,
-     ## case.fatality.ratio.acute.heart.failure,
+     case.fatality.ratio.acute.heart.failure,
      ## case.fatality.ratio.anaphylaxis,
      ## case.fatality.ratio.asphyxiation,
      ## case.fatality.ratio.asthma,
@@ -1049,7 +1162,7 @@ save(diff.time.to.ed,
      ## case.fatality.ratio.self.harm,
      ## case.fatality.ratio.septic.shock,
      ## case.fatality.ratio.serious.head.injury,
-     ## case.fatality.ratio.stroke.cva,
+     case.fatality.ratio.stroke.cva,
      ambulance.mean.times.call.to.dest,
      ambulance.mean.times.call.to.scene.any,
      ambulance.mean.times.call.to.scene.conveying,
@@ -1066,13 +1179,13 @@ save(diff.time.to.ed,
      spurious,
      ## results,
      ## closure,
-     file = '~/work/closed/knitr/data/results.RData')
+     file = '~/work/closed/hta_report/data/results.RData')
 
 ```
 
 <!--- Load all saved objects --->
 ```{r load_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-load(file = '~/work/closed/knitr/data/results.RData')
+load(file = '~/work/closed/hta_report/data/results.RData')
 ## load(file = '~/work/closed/lib/data/summary.RData')
 ## load(file = '~/work/closed/lib/data/results.regression.RData')
 
