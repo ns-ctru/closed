@@ -393,27 +393,53 @@ save(spurious,
 
 ```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ## Run Stata's -xtnbreg- on the current outcome
-closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure,
-                    df.trust        = ed_attendances_by_mode_site_measure_clean,
-                    indicator       = 'ed attendances',
-                    sub.indicator   = 'any',
-                    return.df       = FALSE,
-                    return.model    = TRUE,
-                    return.residuals = FALSE,
-                    digits           = 3)
+mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure,
+                                           df.trust        = ed_attendances_by_mode_site_measure_clean,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'any',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
 
 ```
 
 ```{r mode_of_arrival_other, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+mode.of.arrival.other <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure,
+                                           df.trust        = ed_attendances_by_mode_site_measure_clean,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'other',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+
 ```
 
 
 ```{r mode_of_arrival_ambulance, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+mode.of.arrival.ambulance <- closed_stata_negbin(df.lsoa = ed_attendances_by_mode_measure,
+                                           df.trust        = ed_attendances_by_mode_site_measure_clean,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'ambulance',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
 
 ```
 
 
 ```{r unnecessary_ed_attendances, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+unnecessary.attendance <- closed_stata_negbin(df.lsoa =  unnecessary_ed_attendances_measure,
+                                           df.trust         = unnecessary_ed_attendances_site_measure_clean,
+                                           indicator       = 'unnecessary ed attendances',
+                                           sub.indicator   = 'all',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+
 ```
 
 
