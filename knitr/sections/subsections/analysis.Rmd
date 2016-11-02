@@ -2032,12 +2032,12 @@ save(diff.time.to.ed,
      spurious,
      ## results,
      ## closure,
-     file = '~/work/closed/knitr/data/results.RData')
+     file = '~/work/closed/hta_report/data/results.RData')
 ```
 
 <!--- Load all saved objects --->
 ```{r load_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-load(file = '~/work/closed/knitr/data/results.RData')
+load(file = '~/work/closed/hta_report/data/results.RData')
 ## load(file = '~/work/closed/lib/data/summary.RData')
 ## load(file = '~/work/closed/lib/data/results.regression.RData')
 ```
