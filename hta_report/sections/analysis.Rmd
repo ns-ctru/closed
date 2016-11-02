@@ -1055,7 +1055,7 @@ ambulance.red.calls.total <- closed_stata_negbin(df.lsoa =  amb_red_calls_measur
 <!--- Hospital Transfers - All Stays --->
 ```{r hospital_transfers_all_stays, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 hospital.transfers.all.stays <- closed_stata_negbin(df.lsoa =  hospital_transfers_measure,
-                                           df.trust         = hospital_transfers_measure_clean,
+                                           df.trust         = hospital_transfers_site_measure_clean,
                                            indicator       = 'hospital transfers',
                                            sub.indicator   = 'all stays',
                                            return.df       = FALSE,
