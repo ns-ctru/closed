@@ -30,21 +30,42 @@ save `data', replace
 /* Set the various models, can only run models 0 to 5 as LSOA level */
 /* data can not be taken off of the Virtual Machines and I don't    */
 /* have Stata available on the GNU/Linux Virtual Machine            */
-local iter       2000
+local iter       200
 local tolerance  0.01
 local nrtolerance 0.001
-local ltolerance  0.0001
+local ltolerance  0.001
 local outcome    value
 local model0     i.closure
 local model1     i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert
 local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert
 local model4     i.closure relative_month i.season i.nhs111 other_centre ambulance_divert
 
+/************************************************************************/
+/* PROBLEM!!!! Some sites do not run, build local macro conditional     */
+/*             on outcome being tested for now until this is solved.    */
+/************************************************************************/
+if(`measure' == "ed attendances" & `sub_measure' == "any")            local sites '" "Bishop Auckland" "Hartlepool"  "Newark" "Rochdale" "'
+else if(`measure' == "ed attendances" & `sub_measure' == "other")     local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead"  "Newark" "Rochdale" "'
+else if(`measure' == "ed attendances" & `sub_measure' == "ambulance") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if(`measure' == "unnecessary ed attendances" & `sub_measure' == "all") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if(`measure' == "all emergency admissions" & `sub_measure' == "all") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if(`measure' == "avoidable emergency admissions" & `sub_measure' == "any") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if(`measure' == "avoidable emergency admissions" & `sub_measure' == "non-specific chest pain") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if(`measure' == "ed attendances admitted" & `sub_measure' == "all") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if(`measure' == "ed attendances admitted" & `sub_measure' == "admitted") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if(`measure' == "critical care stays" & `sub_measure' == "all") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if(`measure' == "critical care stays" & `sub_measure' == "critical care") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if(`measure' == "ambulance green calls" & `sub_measure' == "green calls") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if(`measure' == "ambulance green calls" & `sub_measure' == "not conveyed green calls") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if(`measure' == "ambulance red calls" & `sub_measure' == "hospital transfers") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if(`measure' == "ambulance red calls" & `sub_measure' == "total") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if(`measure' == "ambulance red calls" & `sub_measure' == "all stays") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if(`measure' == "ambulance red calls" & `sub_measure' == "stays with trasnfer") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
 
 /* Run Analyses for within centres                                      */
 /* Initially these were not converging found a thread on Stata Forums   */
 /* https://goo.gl/a5wHMx                                                */
-foreach x in "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale"{
+foreach x of local sites{
     use "`data'", clear
     /* Model 0                                                          */
     di "`x' : Model 0"
