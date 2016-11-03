@@ -14,9 +14,10 @@ Model  | Case Site    | Control Site         | Panel | Covariates
 3.2    | Individual   | All Matched (Pooled) | ED  | season + time + closure * pooled.site + nhs111 + other.centre + ambulance.diversion
 4      | All          | Primary Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
 5      | All          | All Matched          | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-6.1    | Individual   | None                 | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
-6.2    | Individual   | Primary Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
-7      | All          | Primary Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
+6.1    | Individual   | None                 | LSOA  | season + time + site + nhs111 + other.centre + ambulance.diversion + change in ED time
+6.2    | Individual   | Primary Matched      | LSOA  | season + time + site + nhs111 + other.centre + ambulance.diversion + change in ED time
+7.1    | All          | None                 | LSOA  | season + time + site + nhs111 + other.centre + ambulance.diversion + change in ED time
+7.2    | All          | Primary Matched      | LSOA  | season + time + site + nhs111 + other.centre + ambulance.diversion + change in ED time
 
 
 **NB** - Model 3.2 is now included after the Project Advisoty Group Meeting held 2016-07-04 which suggested that pooling control sites could be one approach.  The advisory statistician (Alex Bottle), advised when asked if such a model would be preferable, that it could certainly be investigated, but only after careful consideration of the results of Models 3.1 and 5 where sites are considered individually.  Subsequently àt a project meeting on 2016-07-08 [Jon Nicholl](mailto:j.nicholl@sheffield.ac.uk) inidcated that Model 3 should be modified to interact the same pooled dummy variable (`pooled.site`) with the dummy variable for (`closure`).
