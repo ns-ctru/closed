@@ -37,14 +37,35 @@ save `data', replace
 local iter        200
 local tolerance   0.01
 local nrtolerance 0.001
-local ltolerance  0.0001
+local ltolerance  0.001
 local outcome     value
 local model6_1    relative_month i.season i.nhs111 other_centre ambulance_divert diff_time_to_ed
 local model7_1    relative_month i.season i.nhs111 other_centre ambulance_divert diff_time_to_ed
 
+/************************************************************************/
+/* PROBLEM!!!! Some sites do not run, build local macro conditional     */
+/*             on outcome being tested for now until this is solved.    */
+/************************************************************************/
+if("`measure'" == "ed_attendances" & "`sub_measure'" == "any")            local sites '" "Bishop Auckland" "Hartlepool"  "Newark" "Rochdale" "'
+else if("`measure'" == "ed_attendances" & "`sub_measure'" == "other")     local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead"  "Newark" "Rochdale" "'
+else if("`measure'" == "ed_attendances" & "`sub_measure'" == "ambulance") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if("`measure'" == "unnecessary_ed_attendances" & "`sub_measure'" == "all") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if("`measure'" == "all_emergency_admissions" & "`sub_measure'" == "all") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if("`measure'" == "avoidable_emergency_admissions" & "`sub_measure'" == "any") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if("`measure'" == "avoidable_emergency_admissions" & "`sub_measure'" == "non-specific_chest_pain") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if("`measure'" == "ed_attendances_admitted" & "`sub_measure'" == "all") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if("`measure'" == "ed_attendances_admitted" & "`sub_measure'" == "admitted") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if("`measure'" == "critical_care_stays" & "`sub_measure'" == "all") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if("`measure'" == "critical_care_stays" & "`sub_measure'" == "critical_care") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if("`measure'" == "ambulance_green_calls" & "`sub_measure'" == "green_calls") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if("`measure'" == "ambulance_green_calls" & "`sub_measure'" == "not_conveyed_green_calls") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if("`measure'" == "ambulance_red_calls" & "`sub_measure'" == "hospital_transfers") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if("`measure'" == "ambulance_red_calls" & "`sub_measure'" == "total") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if("`measure'" == "ambulance_red_calls" & "`sub_measure'" == "all_stays") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
+else if("`measure'" == "ambulance_red_calls" & "`sub_measure'" == "stays_with_trasnfer") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "'
 
 /* Run Analyses for within centres                                      */
-foreach x in "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale"{
+foreach x of local sites{
     use "`data'", clear
     /* Model 6.1                                                        */
     di "`x'"
