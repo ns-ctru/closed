@@ -544,7 +544,7 @@ ed.attendances.admitted.admitted <- closed_stata_negbin(df.lsoa =  ed_attendance
 
 <!--- Critical Care - All --->
 ```{r critical_care_cips_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-criticial.care.cips.all <- closed_stata_negbin(df.lsoa =  critical_care_cips_measure,
+critical.care.cips.all <- closed_stata_negbin(df.lsoa =  critical_care_cips_measure,
                                            df.trust         = critical_care_cips_site_measure_clean,
                                            indicator       = 'critical care stays',
                                            sub.indicator   = 'all',
@@ -557,7 +557,7 @@ criticial.care.cips.all <- closed_stata_negbin(df.lsoa =  critical_care_cips_mea
 
 <!--- Critical Care - Critical --->
 ```{r critical_care_cips_critical, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-criticial.care.cips.critical <- closed_stata_negbin(df.lsoa =  critical_care_cips_measure,
+critical.care.cips.critical <- closed_stata_negbin(df.lsoa =  critical_care_cips_measure,
                                            df.trust         = critical_care_cips_site_measure_clean,
                                            indicator       = 'critical care stays',
                                            sub.indicator   = 'critical care',
@@ -1067,7 +1067,7 @@ hospital.transfers.all.stays <- closed_stata_negbin(df.lsoa =  hospital_transfer
 
 <!--- Hospital Transfers - Stays with Transfers --->
 ```{r hospital_transfers_stays_with_transfer, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-hospital.trasnfers.stays.with.transfer <- closed_stata_negbin(df.lsoa =  hospital_transfers_measure,
+hospital.transfers.stays.with.transfer <- closed_stata_negbin(df.lsoa =  hospital_transfers_measure,
                                            df.trust         = hospital_transfers_site_measure_clean,
                                            indicator       = 'hospital transfers',
                                            sub.indicator   = 'stays with transfer',
