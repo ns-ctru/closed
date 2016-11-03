@@ -114,14 +114,14 @@ model.opts$mod3.2  <- c('pooled.control * closure', 'town', 'season', 'relative.
 model.opts$mod4    <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 model.opts$mod5    <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 model.opts$mod6    <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
-model.opts$mod6.1  <- c('season', 'closure', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
-model.opts$mod6.2  <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
+model.opts$mod6.1  <- c('season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
+model.opts$mod6.2  <- c('town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
 if(os != 'unix' | node != 'mcru-closed-hp.shef.ac.uk'){
     model.opts$mod7.1 = NULL
     model.opts$mod7.2 = NULL
 } else{
-    model.opts$mod7.1 <- c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
-    model.opts$mod7.2 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')}
+    model.opts$mod7.1 <- c('season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
+    model.opts$mod7.2 <- c('town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')}
 model.opts$panel.lsoa	    <- 'lsoa'
 model.opts$panel.trust	    <- 'town'
 model.opts$timevar	    <- 'relative.month'
@@ -2032,12 +2032,12 @@ save(diff.time.to.ed,
      spurious,
      ## results,
      ## closure,
-     file = '~/work/closed/hta_report/data/results.RData')
+     file = '~/work/closed/knitr/data/results.RData')
 ```
 
 <!--- Load all saved objects --->
 ```{r load_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-load(file = '~/work/closed/hta_report/data/results.RData')
+load(file = '~/work/closed/knitr/data/results.RData')
 ## load(file = '~/work/closed/lib/data/summary.RData')
 ## load(file = '~/work/closed/lib/data/results.regression.RData')
 ```
