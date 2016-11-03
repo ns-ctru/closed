@@ -44,7 +44,7 @@ local model7_2    relative_month i.season i.nhs111 other_centre ambulance_divert
 
 
 /* Run Analyses for within centres                                      */
-foreach x in "Bishop Auckland" "Hartlepool" "Hemel Hempstead" /*"Newark"*/ "Rochdale"{
+foreach x in "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale"{
     use "`data'", clear
     /* Model 6.1                                                        */
     di "`x'"
