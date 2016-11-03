@@ -2781,9 +2781,12 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.2']    <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.2']    <- 'Primary Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.2'] <- 'LSOA Panel'
-    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7']     <- 'All Case Sites'
-    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7']      <- 'All Controls'
-    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7']   <- 'LSOA Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7.1']     <- 'All Case Sites'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.1']      <- 'None'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7.1']   <- 'LSOA Panel'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7.2']     <- 'All Case Sites'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.2']      <- 'All Controls'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7.2']   <- 'LSOA Panel'
     ## Site specific tables
     ## Bishop Auckland
     results$summary.table.bishop <- dplyr::filter(results$summary.table,
