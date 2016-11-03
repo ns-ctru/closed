@@ -56,6 +56,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Read the results back in
     results_site <- read_dta(file = '~/work/closed/hta_report/data/results/stata_negbin_site.dta')
     ## Write lsoa level data to Stata's .dta
+    ## NB - NOT filtering out control sites here, that is done in the call to -xtnbreg- in Stata
     dplyr::filter(df.lsoa,
                   measure == indicator, sub.measure == sub.indicator) %>%
         write.dta(file = '~/work/closed/hta_report/data/lsoa.dta')
