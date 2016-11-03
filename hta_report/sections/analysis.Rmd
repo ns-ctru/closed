@@ -92,14 +92,14 @@ model.opts$mod3.1  <- NULL
 model.opts$mod3.2  <- NULL
 model.opts$mod4    <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 model.opts$mod5    <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
-model.opts$mod6.1  <- c('season', 'closure', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
+model.opts$mod6.1  <- c('season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')
 model.opts$mod6.2  <- NULL
 if(os != 'unix' | node != 'mcru-closed-hp.shef.ac.uk'){
     model.opts$mod7.1 = NULL
     model.opts$mod7.2 = NULL
 } else{
     model.opts$mod7.1 <- NULL
-    model.opts$mod7.2 <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')}
+    model.opts$mod7.2 <- c('town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')}
 model.opts$panel.lsoa	    <- 'lsoa'
 model.opts$panel.trust	    <- 'town'
 model.opts$timevar	    <- 'relative.month'
