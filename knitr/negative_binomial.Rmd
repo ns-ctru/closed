@@ -32,9 +32,10 @@ Model  | Case Site    | Control Site         | Panel | Covariates
 3.2    | Individual   | All Matched (Pooled) | ED  | season + time + closure * pooled.site + nhs111 + other.centre + ambulance.diversion
 4      | All          | Primary Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
 5      | All          | All Matched          | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-6.1    | Individual   | None                 | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
-6.2    | Individual   | Primary Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
-7      | All          | Primary Matched      | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
+6.1    | Individual   | None                 | LSOA  | season + time + site + nhs111 + other.centre + ambulance.diversion + change in ED time
+6.2    | Individual   | Primary Matched      | LSOA  | season + time + site + nhs111 + other.centre + ambulance.diversion + change in ED time
+7.1    | All          | None                 | LSOA  | season + time + site + nhs111 + other.centre + ambulance.diversion + change in ED time
+7.2    | All          | Primary Matched      | LSOA  | season + time + site + nhs111 + other.centre + ambulance.diversion + change in ED time
 
 # {.tabset}
 
