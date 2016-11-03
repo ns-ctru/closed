@@ -40,7 +40,7 @@ local nrtolerance 0.001
 local ltolerance  0.0001
 local outcome     value
 local model6_1    relative_month i.season i.nhs111 other_centre ambulance_divert diff_time_to_ed
-local model7_2    relative_month i.season i.nhs111 other_centre ambulance_divert diff_time_to_ed
+local model7_1    relative_month i.season i.nhs111 other_centre ambulance_divert diff_time_to_ed
 
 
 /* Run Analyses for within centres                                      */
@@ -71,10 +71,10 @@ keep if(town_string == "Bishop Auckland" | ///
         town_string == "Newark"          | ///
         town_string == "Rochdale")
     /* Model 1                                                        */
-xtnbreg `outcome' `model7_2', iterate(`iter') ltolerance(`ltolerance') nrtolerance(`nrtolerance')
-parmest, saving("`base_dir'/data/results/model7_2.dta", replace) eform label
-use "`base_dir'/data/results/model7_2.dta", clear
-gen model = "model7.2"
+xtnbreg `outcome' `model7_1', iterate(`iter') ltolerance(`ltolerance') nrtolerance(`nrtolerance')
+parmest, saving("`base_dir'/data/results/model7_1.dta", replace) eform label
+use "`base_dir'/data/results/model7_1.dta", clear
+gen model = "model7.1"
 gen town  = "All"
 append using `results'
 save `results', replace
