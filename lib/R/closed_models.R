@@ -2825,9 +2825,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7.2']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.2']      <- 'All Controls'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7.2']   <- 'LSOA Panel'
-    dplyr::filter(results$summary.table, is.na(diff_abs)) %>% print()
     results$summary.table$town[is.na(results$summary.table$diff_abs)] <- results$summary.table$group[is.na(results$summary.table$diff_abs)]
-    dplyr::filter(results$summary.table, is.na(diff_abs)) %>% print()
+    results$summary.table <- dplyr::select(results$summary.table, town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc)
+    names(results$summary.table.bishop) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
     ## Site specific tables
     ## Bishop Auckland
     results$summary.table.bishop <- dplyr::filter(results$summary.table,
