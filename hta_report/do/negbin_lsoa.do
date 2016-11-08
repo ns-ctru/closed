@@ -30,6 +30,7 @@ xtset lsoa_town relative_month
 tempfile data
 save `data', replace
 
+log using log/lsoa_`measure'_`sub_measure'.smcl, replace
 
 /* Set the various models, can only run models 0 to 5 as LSOA level */
 /* data can not be taken off of the Virtual Machines and I don't    */
@@ -127,3 +128,6 @@ replace label = "townRochdale:closure"        if(parm == "9o.town#1o.closure")
 /* Save for reading into Stata                                        */
 keep measure sub_measure town model parm label estimate stderr z p min95 max95
 save "`base_dir'/data/results/stata_negbin_lsoa.dta", replace
+
+log c
+log2html log/lsoa_`measure'_`sub_measure'.smcl, replace
