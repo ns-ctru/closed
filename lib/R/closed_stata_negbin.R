@@ -76,6 +76,8 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## print("LSOA...")
     ## print(results$lsoa)
     results$xtnbreg <- rbind(results$site, results$lsoa)
+    print('Do we have all models (1)')
+    table(results$xtnbreg$model) %>% print()
     ## Build summary table as per other regression wrapper functions
     #######################################################################
     ## Derive the mean, sd, median, iqr, min and max of events before/   ##
@@ -160,8 +162,8 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')] <- paste0(results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')], ' (Primary)')
     ## Build the table footer from the regression results read in from Stata
     names(results$xtnbreg) <- gsub('estimate', 'est', names(results$xtnbreg))
-    results$summary.table.tail <- dplyr::filter(results$xtnbreg, parm == '1.closure') %>%
-                          dplyr::select(est, stderr, z, p, min95, max95, town, measure, sub_measure, model)
+    results$summary.table.tail <- dplyr::filter(results$xtnbreg, parm == '1.closure' | parm == 'diff_time_to_ed') %>%
+                                  dplyr::select(est, stderr, z, p, min95, max95, town, measure, sub_measure, model)
     results$summary.table.tail$estimate <- paste0(formatC(results$summary.table.tail$est, digits = digits, format = 'f'),
                                                   ' (',
                                                   formatC(results$summary.table.tail$min95, digits = digits, format = 'f'),
@@ -177,7 +179,8 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Order the table
     results$summary.table.tail$order1 <- 0
     results$summary.table.tail$order2 <- 0
-    names(results$summary.table.tail) %>% print()
+
+    table(results$summary.table.tail$model) %>% print()
     results$summary.table.tail <- mutate(results$summary.table.tail,
                                          order1 = ifelse(model == 'Model 0', 1, order1),
                                          order1 = ifelse(model == 'Model 0.5', 1, order1),
@@ -247,19 +250,19 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 5']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 5']      <- 'All Controls'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 5']   <- 'ED Panel'
-    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 6.1']               <- 'Estimated closure coefficients'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 6.1']               <- 'Estimated difference in time to ED coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'None'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.1'] <- 'LSOA Panel'
-    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 6.2']               <- 'Estimated closure coefficients'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 6.2']               <- 'Estimated difference in time to ED coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.2']    <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.2']    <- 'Primary Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.2'] <- 'LSOA Panel'
-    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 7.1']               <- 'Estimated closure coefficients'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 7.1']               <- 'Estimated difference in time to ED coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7.1']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.1']      <- 'None'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7.1']   <- 'LSOA Panel'
-    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 7.2']               <- 'Estimated closure coefficients'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 7.2']               <- 'Estimated difference in time to ED coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7.2']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.2']      <- 'All Controls'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7.2']   <- 'LSOA Panel'
