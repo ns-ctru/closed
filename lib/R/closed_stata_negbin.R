@@ -174,6 +174,27 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                                                 model,
                                                 estimate) %>%
                                   mutate(model = gsub('model', 'Model ', model))
+    ## Order the table
+    results$summary.table.tail$order1 <- 0
+    results$summary.table.tail$order2 <- 0
+    names(results$summary.table.tail) %>% print()
+    results$summary.table.tail <- mutate(results$summary.table.tail,
+                                         order1 = ifelse(model == 'Model 0.5', 1, order1),
+                                         order1 = ifelse(model == 'Model 1',   2, order1),
+                                         order1 = ifelse(model == 'Model 2',   3, order1),
+                                         order1 = ifelse(model == 'Model 3',   4, order1),
+                                         order1 = ifelse(model == 'Model 4',   5, order1),
+                                         order1 = ifelse(model == 'Model 5',   6, order1),
+                                         order1 = ifelse(model == 'Model 6.1', 7, order1),
+                                         order1 = ifelse(model == 'Model 6.2', 8, order1),
+                                         order1 = ifelse(model == 'Model 7.1', 9, order1),
+                                         order1 = ifelse(model == 'Model 7.2', 10, order1),
+                                         order2 = ifelse(town == 'Bishop Auckland', 1, order2),
+                                         order2 = ifelse(town == 'Hartlepool',      2, order2),
+                                         order2 = ifelse(town == 'Hemel Hempstead', 3, order2),
+                                         order2 = ifelse(town == 'Newark',          4, order2),
+                                         order2 = ifelse(town == 'Rochdale',        5, order2)) %>%
+                                  arrange(order1, order2)
     results$summary.table.tail$Before_mean.sd    <- NA
     results$summary.table.tail$Before_median.iqr <- results$summary.table.tail$model
     results$summary.table.tail$Before_min.max    <- NA
@@ -190,25 +211,6 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$summary.table.tail$group <- results$summary.table.tail$town
     results$summary.table <- rbind(results$summary.table.head,
                                    results$summary.table.tail)
-    ## Order the table
-    results$summary.table.tail$order1 <- 0
-    results$summary.table.tail$order2 <- 0
-    results$summary.table.tail <- mutate(results$summary.table.tail,
-                                         order1 = ifelse(model == 'Model 0.5', 1, order1),
-                                         order1 = ifelse(model == 'Model 1',   2, order1),
-                                         order1 = ifelse(model == 'Model 2',   3, order1),
-                                         order1 = ifelse(model == 'Model 3',   4, order1),
-                                         order1 = ifelse(model == 'Model 4',   5, order1),
-                                         order1 = ifelse(model == 'Model 5',   6, order1),
-                                         order1 = ifelse(model == 'Model 6.1', 7, order1),
-                                         order1 = ifelse(model == 'Model 6.2', 8, order1),
-                                         order1 = ifelse(model == 'Model 7.1', 9, order1),
-                                         order1 = ifelse(model == 'Model 7.2', 10, order1),
-                                         order2 = ifelse(town == 'Bishop Auckland', 1, order2),
-                                         order2 = ifelse(town == 'Hartlepool',      2, order2),
-                                         order2 = ifelse(town == 'Hemel Hempstead', 3, order2),
-                                         order2 = ifelse(town == 'Newark',          4, order2),
-                                         order2 = ifelse(town == 'Rochdale',        5, order2))
     ## Sort out indicators
     ## results$summary.table$Before_median_iqr <- gsub('model', 'Model ', results$summary.table$Before_median_iqr)
     results$summary.table$town[grep('Model', results$summary.table$Before_median.iqr)]             <- NA
