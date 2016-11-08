@@ -19,7 +19,7 @@ opts_chunk$set(cache.path = 'cache/',
 set.seed(69027181)
 ```
 
-# {.tabset}
+# {.tabset .tabset-fade .tabset-pills}
 
 ## Methods
 
