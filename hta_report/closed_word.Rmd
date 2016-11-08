@@ -3,8 +3,8 @@ title: ClosED
 output:
   word_document:
     fig_width: 5
-	fig_height: 5
-	fig_caption: true
+    fig_height: 5
+    fig_caption: true
 bibliography: bibliography.bib
 ---
 
@@ -28,7 +28,7 @@ set.seed(69027181)
 ```{r child = 'sections/analysis.Rmd', eval = TRUE}
 ```
 
-## Results {.tabset .tabset-fade}
+## Results {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'sections/results.Rmd', eval = TRUE}
 ```
 
