@@ -179,6 +179,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$summary.table.tail$order2 <- 0
     names(results$summary.table.tail) %>% print()
     results$summary.table.tail <- mutate(results$summary.table.tail,
+                                         order1 = ifelse(model == 'Model 0', 1, order1),
                                          order1 = ifelse(model == 'Model 0.5', 1, order1),
                                          order1 = ifelse(model == 'Model 1',   2, order1),
                                          order1 = ifelse(model == 'Model 2',   3, order1),
@@ -214,6 +215,10 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Sort out indicators
     ## results$summary.table$Before_median_iqr <- gsub('model', 'Model ', results$summary.table$Before_median_iqr)
     results$summary.table$town[grep('Model', results$summary.table$Before_median.iqr)]             <- NA
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 0']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 0']     <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 0']      <- 'No Control'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 0']   <- 'ED Panel'
     results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 0.5']               <- 'Estimated closure coefficients'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 0.5']     <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 0.5']      <- 'No Control'
