@@ -30,10 +30,8 @@ set.seed(69027181)
 ```{r child = 'sections/analysis.Rmd', eval = TRUE}
 ```
 
-## Results {.tabset .tabset-fade}
+## Results {.tabset .tabset-fadec .tabset-pills}
 ```{r child = 'sections/results.Rmd', eval = TRUE}
 ```
 
 ## References
-
-# References
