@@ -54,7 +54,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Run
     system(call)
     ## Read the results back in
-    results_site <- read_dta(file = '~/work/closed/hta_report/data/results/stata_negbin_site.dta')
+    results$site <- read_dta(file = '~/work/closed/hta_report/data/results/stata_negbin_site.dta')
     ## Write lsoa level data to Stata's .dta
     ## NB - NOT filtering out control sites here, that is done in the call to -xtnbreg- in Stata
     dplyr::filter(df.lsoa,
@@ -69,13 +69,13 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Run
     system(call)
     ## Read the results back in
-    results_lsoa <- read_dta(file = '~/work/closed/hta_report/data/results/stata_negbin_lsoa.dta')
+    results$lsoa <- read_dta(file = '~/work/closed/hta_report/data/results/stata_negbin_lsoa.dta')
     ## Bind and return results
-    print("Site...")
-    print(results_site)
-    print("LSOA...")
-    print(results_lsoa)
-    results$xtnbreg <- rbind(results_site, results_lsoa)
+    ## print("Site...")
+    ## print(results$site)
+    ## print("LSOA...")
+    ## print(results$lsoa)
+    results$xtnbreg <- rbind(results$site, results$lsoa)
     ## Build summary table as per other regression wrapper functions
     #######################################################################
     ## Derive the mean, sd, median, iqr, min and max of events before/   ##
@@ -172,7 +172,8 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$summary.table.tail <- dplyr::select(results$summary.table.tail,
                                                 town,
                                                 model,
-                                                estimate)
+                                                estimate) %>%
+                                  mutate(model = gsub('model', 'Model ', model))
     results$summary.table.tail$Before_mean.sd    <- NA
     results$summary.table.tail$Before_median.iqr <- results$summary.table.tail$model
     results$summary.table.tail$Before_min.max    <- NA
@@ -189,37 +190,69 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$summary.table.tail$group <- results$summary.table.tail$town
     results$summary.table <- rbind(results$summary.table.head,
                                    results$summary.table.tail)
+    ## Order the table
+    results$summary.table.tail$order1 <- 0
+    results$summary.table.tail$order2 <- 0
+    results$summary.table.tail <- mutate(results$summary.table.tail,
+                                         order1 = ifelse(model == 'Model 0.5', 1, order1),
+                                         order1 = ifelse(model == 'Model 1',   2, order1),
+                                         order1 = ifelse(model == 'Model 2',   3, order1),
+                                         order1 = ifelse(model == 'Model 3',   4, order1),
+                                         order1 = ifelse(model == 'Model 4',   5, order1),
+                                         order1 = ifelse(model == 'Model 5',   6, order1),
+                                         order1 = ifelse(model == 'Model 6.1', 7, order1),
+                                         order1 = ifelse(model == 'Model 6.2', 8, order1),
+                                         order1 = ifelse(model == 'Model 7.1', 9, order1),
+                                         order1 = ifelse(model == 'Model 7.2', 10, order1),
+                                         order2 = ifelse(town == 'Bishop Auckland', 1, order2),
+                                         order2 = ifelse(town == 'Hartlepool',      2, order2),
+                                         order2 = ifelse(town == 'Hemel Hempstead', 3, order2),
+                                         order2 = ifelse(town == 'Newark',          4, order2),
+                                         order2 = ifelse(town == 'Rochdale',        5, order2))
     ## Sort out indicators
-    results$summary.table$Before_median_iqr <- gsub('model', 'Model ', results$summary.table$Before_median_iqr)
+    ## results$summary.table$Before_median_iqr <- gsub('model', 'Model ', results$summary.table$Before_median_iqr)
     results$summary.table$town[grep('Model', results$summary.table$Before_median.iqr)]             <- NA
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 0.5']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 0.5']     <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 0.5']      <- 'No Control'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 0.5']   <- 'ED Panel'
     results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 1']               <- 'Estimated closure coefficients'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 1']     <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 1']      <- 'No Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 1']   <- 'ED Panel'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 2']               <- 'Estimated closure coefficients'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 2']     <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 2']      <- 'Primary Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 2']   <- 'ED Panel'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 3.1']               <- 'Estimated closure coefficients'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 3.1']    <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.1']    <- 'All Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 3.1'] <- 'ED Panel'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 3.2']               <- 'Estimated closure coefficients'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 3.2']    <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.2']    <- 'All Controls Pooled'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 3.2'] <- 'ED Panel'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 4']               <- 'Estimated closure coefficients'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 4']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 4']      <- 'Primary Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 4']   <- 'ED Panel'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 5']               <- 'Estimated closure coefficients'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 5']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 5']      <- 'All Controls'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 5']   <- 'ED Panel'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 6.1']               <- 'Estimated closure coefficients'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'None'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.1'] <- 'LSOA Panel'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 6.2']               <- 'Estimated closure coefficients'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.2']    <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.2']    <- 'Primary Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.2'] <- 'LSOA Panel'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 7.1']               <- 'Estimated closure coefficients'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7.1']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.1']      <- 'None'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7.1']   <- 'LSOA Panel'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 7.2']               <- 'Estimated closure coefficients'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7.2']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.2']      <- 'All Controls'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7.2']   <- 'LSOA Panel'
