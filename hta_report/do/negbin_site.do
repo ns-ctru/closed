@@ -27,6 +27,7 @@ xtset town relative_month
 tempfile data
 save `data', replace
 
+log using log/site_`measure'_`sub_measure'.smcl, replace
 
 /* Set the various models, can only run models 0 to 5 as LSOA level */
 /* data can not be taken off of the Virtual Machines and I don't    */
@@ -40,6 +41,7 @@ local model0     i.closure
 local model1     i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert
 local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert
 local model4     i.closure relative_month i.season i.nhs111 other_centre ambulance_divert
+local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 
 /************************************************************************/
 /* PROBLEM!!!! Some sites do not run, build local macro conditional     */
@@ -295,3 +297,6 @@ replace town = subinstr(town, "_", " ", .)
 /* Save for reading into Stata                                        */
 keep measure sub_measure town model parm label estimate stderr z p min95 max95
 save "`base_dir'/data/results/stata_negbin_site.dta", replace
+
+log c
+log2html log/site_`measure'_`sub_measure'.smcl, replace
