@@ -1,0 +1,85 @@
+#### Spurious Data Points
+
+Visual inspection of time-series plots (see 'Time-Series Plots' tab under each indicator) identified a number of potentially spurious data points which were removed prior to balancing the panels (i.e. a spurious data point in one ED department resulted in the removal of that data point from all comparator sites for the given model).  Potentially spurious data points are detailed in the table below, those without '?' have *not* yet been removed.
+
+
+
+Indicator				| Sub-indicator | Site            | Relative Month
+------------------------|---------------|-----------------|--------------------------
+Attendance              | Any           | Basingstoke     | 1-9? 31-47?
+Attendance				| Any           | Bishop Auckland | 1, 6
+Attendance              | Any           | Yeovil          | 25?
+Attendance				| Ambulance     | Basingstoke     | 1-9? 31-47?
+Attendance				| Ambulance     | Bishop Auckland | 1, 6
+Attendance				| Ambulance     | Grimsby         | 1-12?
+Attendance				| Ambulance     | Scunthorpe      | 1-16?
+Attendance				| Ambulance     | Yeovil          | 1-25?
+Attendance				| Other         | Basingstoke     | 1-9? 31-47?
+Attendance				| Other         | Bishop Auckland | 1, 6
+Attendance				| Other         | Southport       | 24?
+Attendance				| Other         | Yeovil          | 1-25?
+Unnecessary Attendance	| N/A           | Bishop Auckland | 1, 6
+Unnecessary Attendance	| N/A           | Yeovil          | 25
+Emergency Admissions    | All           | Newark          | 49?
+Avoidable Emergendy Admissions | Any    | N/A             | N/A
+Avoidable Emergendy Admissions | Non-Specific Chest Pains    | Not Checked        | Not Checked
+Attendances Admitted	| All           | Basingstoke     | 1-9? 31-47?
+Attendances Admitted	| All           | Bishop Auckland | 1, 6
+Attendances Admitted	| All           | Southport       | 24?
+Attendances Admitted	| All           | Yeovil          | 25?
+Attendances Admitted	| Admitted      | Basingstoke     | 1-9? 31-47?
+Attendances Admitted	| Admitted      | Bishop Auckland | 1, 6
+Attendances Admitted	| Admitted      | Yeovil          | 25?
+Attendances Admitted	| Fraction      | Basingstoke     | 1?
+Attendances Admitted	| Fraction      | Hemel Hempstead | 1?
+Attendances Admitted	| Fraction      | Warwick         | 1?
+Attendances Admitted	| Fraction      | Yeovil          | 1?
+Critical Care			| All           | Newark          | 47?
+Critical Care           | Critical      | Newark          | 26?
+Critical Care           | Fraction      | Newark          | 26?
+Length of Stay          | Mean          | N/A             | N/A
+Length of Stay          | Median        | N/A             | N/A
+Case Fatality Ratio      | Any                         | N/A | N/A
+Case Fatality Ratio      | Acute Heart Failure         | N/A | N/A
+Case Fatality Ratio      | Stroke CVA				   | N/A | N/A
+Ambulance Mean Times    | Call to Destination       | N/A | N/A
+Ambulance Mean Times    | Call to Scene (Any)       | N/A | N/A
+Ambulance Mean Times    | Call to Scene (Conveying) | N/A | N/A
+Ambulance Mean Times    | Destination to Clear      | N/A | N/A
+Ambulance Mean Times    | Scene to Destination      | N/A | N/A
+
+
+Some are straight-forward to remove (e.g. Bishop Auckland at months 1 and 6) whilst others are less straight-forward.  For example for Attendance by Any mode removing Basingstoke months 1-9 would mean that in Models 4 and 5 (which are pooled across sites) the time-series would start at week 10 rather than week 1.  For Attendance by Any mode removing Yeovil would be problematic as it is the date of the closure step and its probably undesirable to remove this for all centers.  Similarly for Attendance by Ambulance in Scunthorpe removing the first 16 months from it and other panels when balancing them would be undesirable.  Its quite possible there are meaningful steps for these two centres but documentary analysis has not been performed on these sites.
+
+##### Systematic Removal of Spurious Data
+
+Whilst the visual inspection of data helps reveal some potentially spurious data points it is subject to bias in the readers interpretation of what constitutes a spurious data point.  To this end a systematic approach is to calculate the mean and standard deviation (SD) of all observations over time within a given trust and declare any data points that are outside the range of `mean -/+ A x SD` (where `A` is selected in advance, in this instance 2).
+
+In doing so the datapoints described in the table below are identified as being spurious and removed from each cohort.  Further when there is more than one centre being included in a given analysis the panels are balanced resulting in the removal of the observed data across all centres in the given cohort that is being analysed.
+
+
+```{r spurious_data_points, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, fig.height = 8, eval = TRUE}
+## load(file = '~/work/closed/knitr/data/spurious_cleaned.RData')
+dplyr::filter(spurious,
+       sd == 3) %>%
+       ## sub.measure %in% !c(exclude.avoidable) &
+       ## sub.measure %in% !c(exclude.fatality)) %>%
+ggplot(aes(relative.month, Town, color = Town)) +
+    ## geom_rug(size = 3) +
+    geom_point() + geom_jitter() +
+    facet_wrap(facets = ~outcome, ncol = 1) +
+    theme(axis.ticks.y = element_blank(),
+          axis.text.y = element_blank()) +
+    labs(title = paste0('SD = ', systematic.outlier))
+
+## filter(spurious, sd == 2) %>%
+## ggplot(aes(relative.month, Town, color = Town)) +
+##     ## geom_rug(size = 3) +
+##     geom_point() + geom_jitter() +
+##     facet_wrap(facets = ~outcome, ncol = 1) +
+##     theme(axis.ticks.y = element_blank(),
+##           axis.text.y = element_blank()) +
+##     labs(title = paste0('SD = ', 2))
+
+
+```
