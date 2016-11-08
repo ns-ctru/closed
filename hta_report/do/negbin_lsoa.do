@@ -40,8 +40,8 @@ local tolerance   0.01
 local nrtolerance 0.001
 local ltolerance  0.001
 local outcome     value
-local model6_1    i.closure relative_month i.season i.nhs111 other_centre ambulance_divert diff_time_to_ed
-local model7_1    i.closure relative_month i.season i.nhs111 other_centre ambulance_divert diff_time_to_ed
+local model6_1    relative_month i.season i.nhs111 other_centre ambulance_divert diff_time_to_ed
+local model7_1    relative_month i.season i.nhs111 other_centre ambulance_divert diff_time_to_ed
 local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 
 /************************************************************************/
