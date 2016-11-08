@@ -1,6 +1,6 @@
 ### Data
 
-Data was provided by [HSCIC](https://www.gov.uk/government/organisations/health-and-social-care-information-centre) (now [NHS Digital](https://digital.nhs.uk/)), Ambulance Services (**Which?**) and [ONS](https://www.ons.gov.uk/) and were combined and summarised into either counts of events per month or for the different outcomes
+Data was provided by [HSCIC](https://www.gov.uk/government/organisations/health-and-social-care-information-centre) (now [NHS Digital](https://digital.nhs.uk/)), Ambulance Services (**Which?**) and [ONS](https://www.ons.gov.uk/) and were combined and summarised into either counts of events per month, mean of events per month or the proportion of particular outcomes for observed events for the different indicators.
 
 
 
@@ -45,27 +45,30 @@ Rotherham        |                 | 2013-03-01 (48) | 2009-06-01 (11) |
 
 A large number of indicators were tested for the effects of closing Emergency Departments, these are detailed in the table below.
 
-| Indicator  | Description | Data Source
-|------------|-------------|---------------
-| **Deaths** | Mortality rate for deaths occurring upto 3 days for 16 conditions (see table Avoidable Deaths | ONS / HES-ONS|
-| **Risk of Death** | Case fatality ratio (deaths / cases) for the 16 serious conditions (see table Avoidable Deaths). | ONS / HES-ONS|
-| **Emergency Attendance** | Total Type 1 ED Attendances for residents in the catchment area with any condition. | HES-AE |
-|                          | Total Type 1 ED Attendances for residents in the catchment area arriving via Ambulance | HES-AE |
-|                          | Total Type 1 ED Attendances for residents in the catchment area arriving via 'walk-in' mode. | HES-AE |
-|                          | Arrivals at ED for residents in the catchment area who are discharged without treatment/investigation that utilised hospital facilities. | HES-AE |
-|                          | Proportion of ED attendances for residents in the catchment area that resulted in admission to hospital bed. | HES-AE |
-| **Emergency Admissions** | Number of emergency hospital admissions with any condition. | HES-APC |
-|                          | Number of emergency hospital admissions for each of the 14 urgent conditions(table~\ref{avoidable-deaths}). | HES-APC |
-|                          | These will be performed for all hospital admissions and then restricted to admissions where patients are resident in the catchment area.  | |
-| **Condition Severity**   | For emergency admissions the mean length of stay. | HES-APC |
-|                          | For emergency admissions the proportion admitted to critical care. | HES-APC |
-| **Ambulance Service Performance** | Mean time from 999 call to ambulance arriving on scene. | AS |
-|                                   | Mean time from ambulance arriving on scene to arriving at hospital. | AS |
-|                                   | Mean time from 999 call to arriving at hospital. | AS |
-|                                   | Mean time from ambulance arriving at hospital to 'clear' time. | AS |
-|                                   | Total call volumes.    | AS |
-|                                   |  Non-conveyance rates. | AS |
+| Indicator  | Description | Outcome Type | Data Source
+|------------|-------------|--------------|------------------------
+| **Deaths** | Mortality rate for deaths occurring upto 3 days for 16 conditions (see table Avoidable Deaths | Count | ONS / HES-ONS|
+| **Risk of Death** | Case fatality ratio (deaths / cases) for the 16 serious conditions (see table Avoidable Deaths). | Ratio | ONS / HES-ONS|
+| **Emergency Attendance** | Total Type 1 ED Attendances for residents in the catchment area with any condition. | Count | HES-AE |
+|                          | Total Type 1 ED Attendances for residents in the catchment area arriving via Ambulance | Count | HES-AE |
+|                          | Total Type 1 ED Attendances for residents in the catchment area arriving via 'walk-in' mode. | Count | HES-AE |
+|                          | Arrivals at ED for residents in the catchment area who are discharged without treatment/investigation that utilised hospital facilities. | Count | HES-AE |
+|                          | Proportion of ED attendances for residents in the catchment area that resulted in admission to hospital bed. | Ratio | HES-AE |
+| **Emergency Admissions** | Number of emergency hospital admissions with any condition. | Count | HES-APC |
+|                          | Number of emergency hospital admissions for each of the 14 urgent conditions(table~\ref{avoidable-deaths}). | Count | HES-APC |
+|                          | These will be performed for all hospital admissions and then restricted to admissions where patients are resident in the catchment area.  | | |
+| **Condition Severity**   | For emergency admissions the mean length of stay. | Mean | HES-APC |
+|                          | For emergency admissions the proportion admitted to critical care. | Ratio | HES-APC |
+| **Ambulance Service Performance** | Mean time from 999 call to ambulance arriving on scene. | Mean | AS |
+|                                   | Mean time from ambulance arriving on scene to arriving at hospital. | Mean | AS |
+|                                   | Mean time from 999 call to arriving at hospital. | Mean | AS |
+|                                   | Mean time from ambulance arriving at hospital to 'clear' time. | Mean | AS |
+|                                   | Total call volumes.    | Count | AS |
+|                                   |  Non-conveyance rates. | Count | AS |
 
+#### Statistical Methods
+
+For outcomes that are counts negative-binomial time-series regression is utilised, and where multiple centres are included random effects are allow for variation between the panels.  For ratios and means Prais-Winsten regression (@prais1954).  Across all models maximumisation was performed using likelihood.
 
 #### Avoidable Emergency Admissions and Avoidable Deaths
 
