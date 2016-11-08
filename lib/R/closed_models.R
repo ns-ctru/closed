@@ -2749,6 +2749,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Order the table
     results$summary.table.tail$order1 <- 0
     results$summary.table.tail$order2 <- 0
+    names(results$summary.table.tail) %>% print()
     results$summary.table.tail <- mutate(results$summary.table.tail,
                                          order1 = ifelse(model == 'Model 0.5', 1, order1),
                                          order1 = ifelse(model == 'Model 1',   2, order1),
@@ -2764,7 +2765,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                          order2 = ifelse(town == 'Hartlepool',      2, order2),
                                          order2 = ifelse(town == 'Hemel Hempstead', 3, order2),
                                          order2 = ifelse(town == 'Newark',          4, order2),
-                                         order2 = ifelse(town == 'Rochdale',        5, order2))
+                                         order2 = ifelse(town == 'Rochdale',        5, order2)) %>%
+                                   arrange(order1, order2)
     results$summary.table.tail <- dplyr::select(results$summary.table.tail,
                                                 town,
                                                 Before_mean.sd, Before_median.iqr, Before_min.max,
