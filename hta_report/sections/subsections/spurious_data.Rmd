@@ -65,7 +65,7 @@ dplyr::filter(spurious,
                                     'Hartlepool', 'Grimsby',
                                     'Hemel Hempstead', 'Warwick',
                                     'Newark', 'Southport',
-                                    'Rochdale', 'Rotherham') %>%
+                                    'Rochdale', 'Rotherham')) %>%
        ## sub.measure %in% !c(exclude.avoidable) &
        ## sub.measure %in% !c(exclude.fatality)) %>%
 ggplot(aes(relative.month, Town, color = Town)) +
