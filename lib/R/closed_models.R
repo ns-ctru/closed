@@ -2723,7 +2723,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Subset out the closure coefficients and derive output variable/df to append to
     ## table header which contains the means
     results$all.model.closure.coef <- dplyr::filter(results$all.model.all.coef,
-                                             term == 'closure')
+                                             term == 'closure' | term == 'diff.time.to.ed')
     names(results$all.model.closure.coef) <- c('est', 'se', 't', 'p', 'term', 'town', 'indicator', 'sub.indicator', 'r2', 'model')
     results$all.model.closure.coef$lci <- results$all.model.closure.coef$est - (1.96 * results$all.model.closure.coef$se)
     results$all.model.closure.coef$uci <- results$all.model.closure.coef$est + (1.96 * results$all.model.closure.coef$se)
@@ -2809,19 +2809,19 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 5']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 5']      <- 'All Controls'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 5']   <- 'ED Panel'
-    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 6.1']               <- 'Estimated closure coefficients'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 6.1']               <- 'Estimated difference in time to ED coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'None'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.1'] <- 'LSOA Panel'
-    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 6.2']               <- 'Estimated closure coefficients'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 6.2']               <- 'Estimated difference in time to ED coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.2']    <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.2']    <- 'Primary Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.2'] <- 'LSOA Panel'
-    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 7.1']               <- 'Estimated closure coefficients'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 7.1']               <- 'Estimated difference in time to ED coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7.1']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.1']      <- 'None'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7.1']   <- 'LSOA Panel'
-    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 7.2']               <- 'Estimated closure coefficients'
+    results$summary.table$town[results$summary.table$Before_median.iqr == 'Model 7.2']               <- 'Estimated difference in time to ED coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7.2']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.2']      <- 'All Controls'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7.2']   <- 'LSOA Panel'
