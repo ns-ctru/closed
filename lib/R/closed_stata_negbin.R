@@ -76,8 +76,6 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## print("LSOA...")
     ## print(results$lsoa)
     results$xtnbreg <- rbind(results$site, results$lsoa)
-    print('Do we have all models (1)')
-    table(results$xtnbreg$model) %>% print()
     ## Build summary table as per other regression wrapper functions
     #######################################################################
     ## Derive the mean, sd, median, iqr, min and max of events before/   ##
@@ -162,8 +160,17 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')] <- paste0(results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')], ' (Primary)')
     ## Build the table footer from the regression results read in from Stata
     names(results$xtnbreg) <- gsub('estimate', 'est', names(results$xtnbreg))
-    results$summary.table.tail <- dplyr::filter(results$xtnbreg, parm == '1.closure' | parm == 'diff_time_to_ed') %>%
-                                  dplyr::select(est, stderr, z, p, min95, max95, town, measure, sub_measure, model)
+    ## Standardise this output for combining with panelAR()
+    names(results$xtnbreg) <- gsub('_', '.', names(results$xtnbreg))
+    names(results$xtnbreg) <- gsub('parm', 'term', names(results$xtnbreg))
+    results$xtnbreg <- dplyr::select(results$xtnbreg,
+                                     measure, sub.measure, town, model, term, est, stderr, p, min95, max95)
+    results$xtnbreg <- mutate(results$xtnbreg,
+                              measure     = gsub("_", " ", measure),
+                              sub.measure = gsub("_", " ", sub.measure))
+    ## Subset out the coefficients of interest for the table footer
+    results$summary.table.tail <- dplyr::filter(results$xtnbreg, term == '1.closure' | term == 'diff_time_to_ed') %>%
+                                  dplyr::select(est, stderr, p, min95, max95, town, measure, sub.measure, model)
     results$summary.table.tail$estimate <- paste0(formatC(results$summary.table.tail$est, digits = digits, format = 'f'),
                                                   ' (',
                                                   formatC(results$summary.table.tail$min95, digits = digits, format = 'f'),
@@ -179,8 +186,6 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Order the table
     results$summary.table.tail$order1 <- 0
     results$summary.table.tail$order2 <- 0
-
-    table(results$summary.table.tail$model) %>% print()
     results$summary.table.tail <- mutate(results$summary.table.tail,
                                          order1 = ifelse(model == 'Model 0', 1, order1),
                                          order1 = ifelse(model == 'Model 0.5', 1, order1),
