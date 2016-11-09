@@ -208,6 +208,15 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         ylabel <- 'Mean Time (minutes)'
         y.text.steps <- 200
     }
+    else if(indicator == 'ambulance green calls'){
+        title1 <- 'Ambulance Green Calls'
+        if(sub.indicator == 'fraction not conveyed')         title2 <- ' (Fraction)'
+        else if(sub.indicator == 'green calls')              title2 <- ' (Green Calls)'
+        else if(sub.indicator == 'not conveyed green calls') title2 <- ' (Green Calls Not Conveyed)'
+        nudge <- 10
+        ylabel <- 'Mean Time (minutes)'
+        y.text.steps <- 200
+    }
     else if(indicator == 'ambulance red calls'){
         title1 <- 'Ambulance Red Calls'
         if(sub.indicator == 'hospital transfers')            title2 <- ' (Hospital Transfers)'
