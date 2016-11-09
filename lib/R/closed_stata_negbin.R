@@ -168,6 +168,23 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$xtnbreg <- mutate(results$xtnbreg,
                               measure     = gsub("_", " ", measure),
                               sub.measure = gsub("_", " ", sub.measure))
+    ## Remove baseline terms
+    results$xtnbreg <- dplyr::filter(results$xtnbreg, !is.nan(p))
+    ## Get terms to have same name
+    results$xtnbreg <- mutate(results$xtnbreg,
+                              term = gsub('_cons', 'Intercept', term),
+                              term = gsub('1b.ambulance_divert', 'ambulance.divert', term),
+                              term = gsub('1b.nhs111', 'nhs111', term),
+                              term = gsub('1.nhs111', 'nhs111', term),
+                              term = gsub('1.closure', 'closure', term),
+                              term = gsub('1b.other_centre', 'other.centre', term),
+                              term = gsub('relative_month', 'relative.month', term),
+                              term = gsub('2.season', 'season.2', term),
+                              term = gsub('3.season', 'season.3', term),
+                              term = gsub('4.season', 'season.4', term),
+                              term = gsub('5.season', 'season.5', term),
+                              term = gsub('6.season', 'season.6', term)
+                              )
     ## Subset out the coefficients of interest for the table footer
     results$summary.table.tail <- dplyr::filter(results$xtnbreg, term == '1.closure' | term == 'diff_time_to_ed') %>%
                                   dplyr::select(est, stderr, p, min95, max95, town, measure, sub.measure, model)
