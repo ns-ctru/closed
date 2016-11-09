@@ -2718,20 +2718,37 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ##                                     model7.2.coef) %>%
     ##                               as.data.frame()
     results$all.model.all.coef <- as.data.frame(results$all.model.all.coef)
+    print("Before renaming...")
+    head(results$all.model.all.coef) %>% print()
     names(results$all.model.all.coef) <- gsub('site', 'town', names(results$all.model.all.coef))
-
+    names(results$all.model.all.coef) <- gsub('Estimate', 'est', names(results$all.model.all.coef))
+    names(results$all.model.all.coef) <- gsub('Std. Error', 'stderr', names(results$all.model.all.coef))
+    names(results$all.model.all.coef) <- gsub('p(>|t|)', 'p', names(results$all.model.all.coef))
+    names(results$all.model.all.coef) <- gsub('Pr(>|t|)', 'p', names(results$all.model.all.coef))
+    names(results$all.model.all.coef) <- gsub('t value', 't', names(results$all.model.all.coef))
+    names(results$all.model.all.coef) <- gsub('indicator', 'measure', names(results$all.model.all.coef))
+    print("Before renaming...")
+    head(results$all.model.all.coef) %>% print()
+    names(results$all.model.all.coef) <- c('est', 'stderr', 't', 'p', 'term', 'town', 'measure', 'sub.measure', 'r2', 'model')
+    print("After renaming...")
+    head(results$all.model.all.coef) %>% print()
+    ## Calculate 95% CI's
+    results$all.model.all.coef$min95 <- results$all.model.all.coef$est - (1.96 * results$all.model.all.coef$stderr)
+    results$all.model.all.coef$max95 <- results$all.model.all.coef$est + (1.96 * results$all.model.all.coef$stderr)
+    ## Standardise this output for combining with -xtnbreg- results
+    results$all.model.all.coef <- dplyr::select(results$all.model.all.coef,
+                                                measure, sub.measure, town, model, term, est, stderr, p, min95, max95)
+    print("After renaming...")
+    head(results$all.model.all.coef) %>% print()
     ## Subset out the closure coefficients and derive output variable/df to append to
     ## table header which contains the means
     results$all.model.closure.coef <- dplyr::filter(results$all.model.all.coef,
                                              term == 'closure' | term == 'diff.time.to.ed')
-    names(results$all.model.closure.coef) <- c('est', 'se', 't', 'p', 'term', 'town', 'indicator', 'sub.indicator', 'r2', 'model')
-    results$all.model.closure.coef$lci <- results$all.model.closure.coef$est - (1.96 * results$all.model.closure.coef$se)
-    results$all.model.closure.coef$uci <- results$all.model.closure.coef$est + (1.96 * results$all.model.closure.coef$se)
     results$all.model.closure.coef$estimate <- paste0(formatC(results$all.model.closure.coef$est, digits = digits, format = 'f'),
                                                       ' (',
-                                                      formatC(results$all.model.closure.coef$lci, digits = digits, format = 'f'),
+                                                      formatC(results$all.model.closure.coef$min95, digits = digits, format = 'f'),
                                                       '-',
-                                                      formatC(results$all.model.closure.coef$uci, digits = digits, format = 'f'),
+                                                      formatC(results$all.model.closure.coef$max95, digits = digits, format = 'f'),
                                                       ') p = ',
                                                       formatC(results$all.model.closure.coef$p, digits = digits, format = 'f'))
     results$summary.table.tail <- dplyr::select(results$all.model.closure.coef,
