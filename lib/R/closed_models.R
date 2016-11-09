@@ -2749,7 +2749,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Order the table
     results$summary.table.tail$order1 <- 0
     results$summary.table.tail$order2 <- 0
-    names(results$summary.table.tail) %>% print()
     results$summary.table.tail <- mutate(results$summary.table.tail,
                                          order1 = ifelse(model == 'Model 0.5', 1, order1),
                                          order1 = ifelse(model == 'Model 1',   2, order1),
