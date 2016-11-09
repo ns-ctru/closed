@@ -146,6 +146,7 @@ sed -e 's/template/case.fatality.ratio.any/g' \
     -e 's/sub_measure/any/g' \
     -e 's/data_frame/case_fatality/g' \
     -e 's/DESCRIPTION/case fatality ratio (all conditions)/g' \
+    -e 's/ts\.plot\.opts$tidy/FALSE/g' \
     template.Rmd > case_fatality_ratio_any.Rmd
 
 ## Measure     : Case Fatality Ratio
@@ -155,6 +156,7 @@ sed -e 's/template/case.fatality.ratio.acute.heart.failure/g' \
     -e 's/sub_measure/acute heart failure/g' \
     -e 's/data_frame/case_fatality/g' \
     -e 's/DESCRIPTION/case fatality ratio (Acute Heart Failure)/g' \
+    -e 's/ts\.plot\.opts$tidy/FALSE/g' \
     template.Rmd > case_fatality_ratio_acute_heart_failure.Rmd
 
 ## Measure     : Case Fatality Ratio
@@ -164,6 +166,7 @@ sed -e 's/template/case.fatality.ratio.stroke.cva/g' \
     -e 's/sub_measure/stroke cva/g' \
     -e 's/data_frame/case_fatality/g' \
     -e 's/DESCRIPTION/case fatality ratio (Stroke CVA)/g' \
+    -e 's/ts\.plot\.opts$tidy/FALSE/g' \
     template.Rmd > case_fatality_ratio_stroke_cva.Rmd
 
 ## Measure     : Ambulance Mean Times
