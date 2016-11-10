@@ -86,6 +86,7 @@ options(RStata.StataVersion = 14.2)
 ## Set model options here (easier when tweaking en-mass)
 model.opts <- list()
 model.opts$mod0    <- c('closure')
+model.opts$mod0.5  <- NULL
 model.opts$mod1    <- c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 model.opts$mod2    <- c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert')
 model.opts$mod3.1  <- NULL
@@ -242,11 +243,11 @@ length_of_stay_site_measure_clean <- closed_clean(df      = length_of_stay_site_
                                                 sub.indicator = 'mean',
                                                 systematic    = systematic.outlier,
                                                 balance       = FALSE)
-## case_fatality_site_measure_clean <- closed_clean(df      = case_fatality_site_measure,
-##                                                  indicator     = 'case fatality ratio',
-##                                                  sub.indicator = 'any',
-##                                                  systematic    = systematic.outlier,
-##                                                  balance       = FALSE)
+case_fatality_site_measure_clean <- closed_clean(df      = case_fatality_site_measure,
+                                                 indicator     = 'case fatality ratio',
+                                                 sub.indicator = 'any',
+                                                 systematic    = systematic.outlier,
+                                                 balance       = FALSE)
 ## ## Exclude avoidable deaths that are not of interest
 ## case_fatality_site_measure_clean <- dplyr::filter(case_fatality_site_measure_clean,
 ##                                          !(sub.measure %in% exclude.fatality))
@@ -400,7 +401,7 @@ save(spurious,
 ```
 <!--- ANALYSIS --->
 
-```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ## Run Stata's -xtnbreg- on the current outcome
 mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure,
                                            df.trust        = ed_attendances_by_mode_site_measure_clean,
@@ -490,7 +491,7 @@ avoidable.emergency.admissions.chest.pain <- closed_stata_negbin(df.lsoa =  emer
 
 
 <!--- ED Attendances Admitted - All --->
-```{r ed_attendances_admitted_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE
+```{r ed_attendances_admitted_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ed.attendances.admitted.all <- closed_stata_negbin(df.lsoa =  ed_attendances_admitted_measure,
                                            df.trust         = ed_attendances_admitted_site_measure_clean,
                                            indicator       = 'ed attendances admitted',
@@ -513,6 +514,7 @@ ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_
                                      timevar          = model.opts$timevar,
                                      outcome          = model.opts$outcome,
                                      model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
                                      model1           = model.opts$mod1,
                                      model2           = model.opts$mod2,
                                      model3.1         = model.opts$mod3.1,
@@ -588,6 +590,7 @@ critical.care.cips.fraction <- closed_models(df.lsoa         = critical_care_cip
                                      timevar          = model.opts$timevar,
                                      outcome          = model.opts$outcome,
                                      model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
                                      model1           = model.opts$mod1,
                                      model2           = model.opts$mod2,
                                      model3.1         = model.opts$mod3.1,
@@ -624,6 +627,7 @@ length.of.stay.mean <- closed_models(df.lsoa         = length_of_stay_measure,
                                      timevar          = model.opts$timevar,
                                      outcome          = model.opts$outcome,
                                      model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
                                      model1           = model.opts$mod1,
                                      model2           = model.opts$mod2,
                                      model3.1         = model.opts$mod3.1,
@@ -661,6 +665,7 @@ length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure,
                                      timevar          = model.opts$timevar,
                                      outcome          = model.opts$outcome,
                                      model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
                                      model1           = model.opts$mod1,
                                      model2           = model.opts$mod2,
                                      model3.1         = model.opts$mod3.1,
@@ -696,6 +701,7 @@ case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_measure
                                      timevar          = model.opts$timevar,
                                      outcome          = model.opts$outcome,
                                      model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
                                      model1           = model.opts$mod1,
                                      model2           = model.opts$mod2,
                                      model3.1         = model.opts$mod3.1,
@@ -731,6 +737,7 @@ case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = case_
                                      timevar          = model.opts$timevar,
                                      outcome          = model.opts$outcome,
                                      model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
                                      model1           = model.opts$mod1,
                                      model2           = model.opts$mod2,
                                      model3.1         = model.opts$mod3.1,
@@ -1193,7 +1200,7 @@ save(diff.time.to.ed,
 ```
 
 <!--- Load all saved objects --->
-```{r load_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+```{r load_results, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 load(file = '~/work/closed/hta_report/data/results.RData')
 ## load(file = '~/work/closed/lib/data/summary.RData')
 ## load(file = '~/work/closed/lib/data/results.regression.RData')
