@@ -179,6 +179,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                               term = gsub('1.closure', 'closure', term),
                               term = gsub('1b.other_centre', 'other.centre', term),
                               term = gsub('relative_month', 'relative.month', term),
+                              term = gsub('diff_time_to_ed', 'diff.time.to.ed', term),
                               term = gsub('2.season', 'season.2', term),
                               term = gsub('3.season', 'season.3', term),
                               term = gsub('4.season', 'season.4', term),
