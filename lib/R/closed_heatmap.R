@@ -74,9 +74,7 @@ closed_heatmap <- function(df           = summary.models,
     ## Loop over all sites
     for(x in site){
         ## Filter data
-        to.plot <- dplyr::filter(df, town == x & term %in% coef)
-        ## table(to.plot$town, to.plot$term) %>% print()
-        table(to.plot$term) %>% print()
+        to.plot <- dplyr::filter(df, (town == x | town == 'All') & term %in% coef)
         ## Build graph
         if(colour.by == 'coefficient'){
             fig <- ggplot(to.plot,
