@@ -14,7 +14,7 @@
 #' @param color.by Variable used to shade tiles, default is standardised coefficient \code{standard} (which for Negative Binomial is \code{z}, whilst for Prais-Winsten it is \code{t}).  You can use \code{p} to plot the significance, but it is STRONGLY advisable not to since p-values are NOT indicative of the magnitude of effect.
 #' @param coef List of coefficients to be overlaid.  Default is \code{c(closure, diff.time.to.ed)} and should not need changing.
 #' @param include.text Whether to overlay the actual numbers. Default is \code{c('coefficient', 'se', 'p')} other options include \code{'ci'} if the 95% Confidence Interval is also required.
-#' @param color Colour scheme to use.
+#' @param colour Colour scheme to use.
 #' @param digits Number of decimal places to include in numeric overlays.
 #' @param final Logical indicator of whether results are for final output, this will renumber models if \code{TRUE}.
 #'
@@ -82,13 +82,14 @@ closed_heatmap <- function(df           = summary.models,
             fig <- ggplot(to.plot,
                           aes(x = as.factor(model),
                               y = as.factor(indicator))) +
-                   geom_tile(aes(fill = p)) +
-                   geom_text(aes(fill = p, label = overlay)) +
+                   geom_tile(aes(fill = est)) +
+                   geom_text(aes(fill = est, label = overlay)) +
                    ggtitle(x) + xlab('') + ylab('Indicator') +
                    scale_fill_gradient(low = 'white', high = colour) +
+                   scale_x_discrete(position = 'top') +
                    theme_bw()
         }
-        else if(color.by == 'p'){
+        else if(colour.by == 'p'){
             fig <- ggplot(to.plot,
                           aes(x = as.factor(model),
                               y = as.factor(indicator))) +
@@ -96,6 +97,7 @@ closed_heatmap <- function(df           = summary.models,
                    geom_text(aes(fill = p, label = overlay)) +
                    ggtitle(x) + xlab('') + ylab('Indicator') +
                    scale_fill_gradient(high = 'white', low = colour) +
+                   scale_x_discrete(position = 'top') +
                    theme_bw()
             }
         ## Build results to return
