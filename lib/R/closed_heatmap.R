@@ -38,7 +38,8 @@ closed_heatmap <- function(df           = summary.models,
     results <- list()
     ## Combine measure and sub.measure to give overall indicator name
     df <- mutate(df,
-                 indicator = paste0(measure, ' ', sub.measure))
+                 indicator = paste0(measure, ' - ', sub.measure),
+                 indicator = gsub('_', '', indicator))
     ## Renumber models if this is for final output
     if(final == TRUE){
         df <- mutate(df,
