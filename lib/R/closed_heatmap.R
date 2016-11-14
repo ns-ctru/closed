@@ -93,7 +93,7 @@ closed_heatmap <- function(df           = summary.models,
                           aes(x = as.factor(model),
                               y = as.factor(indicator))) +
                    geom_tile(aes(fill = p)) +
-                   geom_text(aes(fill = p, label = overlay)) +
+                   geom_text(aes(label = overlay)) +
                    ggtitle(x) + xlab('') + ylab('Indicator') +
                    scale_fill_gradient(high = 'white', low = colour) +
                    scale_x_discrete(position = 'top') +
