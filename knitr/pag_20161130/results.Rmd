@@ -1,0 +1,123 @@
+```{r load_data, echo = FALSE, cache = FALSE, results = 'hide' = TRUE}
+load(file = '~/work/closed/hta_report/data/results.RData')
+## Combine all coefficients from all models into one dataset
+summary.models <- rbind(mode.of.arrival.any$xtnbreg,
+                        mode.of.arrival.other$xtnbreg,
+                        mode.of.arrival.ambulance$xtnbreg,
+                        unnecessary.attendance$xtnbreg,
+                        all.emergency.admissions.all$xtnbreg,
+                        avoidable.emergency.admissions.any$xtnbreg,
+                        avoidable.emergency.admissions.chest.pain$xtnbreg,
+                        ## ed.attendances.admitted.all$xtnbreg,
+                        ed.attendances.admitted.fraction.admitted$all.model.all.coef,
+                        ed.attendances.admitted.admitted$xtnbreg,
+                        critical.care.cips.all$xtnbreg,
+                        critical.care.cips.critical$xtnbreg,
+                        critical.care.cips.fraction$all.model.all.coef,
+                        length.of.stay.mean$all.model.all.coef,
+                        length.of.stay.median$all.model.all.coef,
+                        case.fatality.ratio.any$all.model.all.coef,
+                        case.fatality.ratio.acute.heart.failure$all.model.all.coef,
+                        case.fatality.ratio.stroke.cva$all.model.all.coef,
+                        ambulance.mean.times.call.to.dest$all.model.all.coef,
+                        ambulance.mean.times.call.to.scene.any$all.model.all.coef,
+                        ambulance.mean.times.call.to.scene.conveying$all.model.all.coef,
+                        ambulance.mean.times.dest.to.clear$all.model.all.coef,
+                        ambulance.mean.times.scene.to.dest$all.model.all.coef,
+                        ambulance.non.conveyances.green.calls$xtnbreg,
+                        ambulance.non.conveyances.green.calls.non.conveyed$xtnbreg,
+                        ambulance.non.conveyances.fraction.not.conveyed$all.model.all.coef,
+                        ambulance.red.calls.hospital.transfers$xtnbreg,
+                        ambulance.red.calls.total$xtnbreg,
+                        hospital.transfers.all.stays$xtnbreg,
+                        hospital.transfers.stays.with.transfer$xtnbreg,
+                        hospital.transfers.proportion.with.transfer$all.model.all.coef) ## %>%
+## mutate(indicator = paste0(measure, ' ', sub.measure))
+heatmap.coefficients <- closed_heatmap(df           = summary.models,
+                                       site         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+                                       colour.by    = 'coefficient',
+                                       coef         = c('closure', 'diff.time.to.ed'),
+                                       include.text = c('coefficient', 'se', 'p'),
+                                       colour       = 'blue',
+                                       final        = TRUE,
+                                       digits       = 2)
+heatmap.pvalues <- closed_heatmap(df           = summary.models,
+                                  site         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+                                  colour.by    = 'p',
+                                  coef         = c('closure', 'diff.time.to.ed'),
+                                  include.text = c('coefficient', 'se', 'p'),
+                                  colour       = 'green',
+                                  final        = TRUE,
+                                  digits       = 2)
+
+```
+### Bishop Auckland  {.tabset .tabset-fade .tabset-pills}
+
+#### Coefficient
+```{r closed_heatmap_bishop_coefficient, echo = FALSE, cache = FALSE, results = 'hide' = TRUE}
+heatmap.coefficients$bishop
+
+```
+
+#### P-value
+```{r closed_heatmap_bishop_pvalue, echo = FALSE, cache = FALSE, results = 'hide' = TRUE}
+heatmap.pvalues$bishop
+
+```
+
+
+### Hartlepool {.tabset .tabset-fade .tabset-pills}
+
+#### Coefficient
+```{r closed_heatmap_hartlepool_coefficient, echo = FALSE, cache = FALSE, results = 'hide' = TRUE}
+heatmap.coefficients$hartlepool
+
+```
+
+#### P-value
+```{r closed_heatmap_hartlepool_pvalue, echo = FALSE, cache = FALSE, results = 'hide' = TRUE}
+heatmap.pvalues$hartlepool
+
+```
+
+### Hemel Hempstead {.tabset .tabset-fade .tabset-pills}
+
+#### Coefficient
+```{r closed_heatmap_hemel_coefficient, echo = FALSE, cache = FALSE, results = 'hide' = TRUE}
+heatmap.coefficients$hemel
+
+```
+
+#### P-value
+```{r closed_heatmap_hemel_pvalue, echo = FALSE, cache = FALSE, results = 'hide' = TRUE}
+heatmap.pvalues$hemel
+
+```
+
+### Newark {.tabset .tabset-fade .tabset-pills}
+
+#### Coefficient
+```{r closed_heatmap_newark_coefficient, echo = FALSE, cache = FALSE, results = 'hide' = TRUE}
+heatmap.coefficients$newark
+
+```
+
+#### P-value
+```{r closed_heatmap_newark_pvalue, echo = FALSE, cache = FALSE, results = 'hide' = TRUE}
+heatmap.pvalues$newark
+
+```
+
+### Rochdale {.tabset .tabset-fade .tabset-pills}
+
+#### Coefficient
+```{r closed_heatmap_rochdale_coefficient, echo = FALSE, cache = FALSE, results = 'hide' = TRUE}
+heatmap.coefficients$rochdale
+
+```
+
+#### P-value
+```{r closed_heatmap_rochdale_pvalue, echo = FALSE, cache = FALSE, results = 'hide' = TRUE}
+heatmap.pvalues$rochdale
+
+```
