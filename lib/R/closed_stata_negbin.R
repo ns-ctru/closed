@@ -54,7 +54,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     call <- paste0('/usr/local/stata14/stata-mp -b ~/work/closed/hta_report/do/negbin_site.do ',
                    gsub(' ', '_', indicator),
                    ' ',
-                   sub.indicator)
+                   gsub(' ', '_', sub.indicator))
     ## Run, copy file to its own unique location
     system(call)
     ## Read the results back in, copy results to their own file
@@ -77,7 +77,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     call <- paste0('/usr/local/stata14/stata-mp -b ~/work/closed/hta_report/do/negbin_lsoa.do ',
                    gsub(' ', '_', indicator),
                    ' ',
-                   sub.indicator)
+                   gsub(' ', '_', sub.indicator))
     ## Run
     system(call)
     ## Read the results back in
@@ -186,9 +186,9 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     names(results$xtnbreg) <- gsub('parm', 'term', names(results$xtnbreg))
     results$xtnbreg <- dplyr::select(results$xtnbreg,
                                      measure, sub.measure, town, model, term, est, stderr, p, min95, max95)
-    results$xtnbreg <- mutate(results$xtnbreg,
-                              measure     = gsub("_", " ", measure),
-                              sub.measure = gsub("_", " ", sub.measure))
+    ## results$xtnbreg <- mutate(results$xtnbreg,
+    ##                           measure     = gsub("_", " ", measure),
+    ##                           sub.measure = gsub("_", " ", sub.measure))
     ## Remove baseline terms
     results$xtnbreg <- dplyr::filter(results$xtnbreg, !is.nan(p))
     ## Get terms to have same name
