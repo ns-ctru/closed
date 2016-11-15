@@ -1012,6 +1012,19 @@ ambulance.non.conveyances.green.calls.non.conveyed <- closed_stata_negbin(df.lso
 
 ```
 
+<!--- Ambulance Non-Conveyances - Green Calls Hospital Transfers--->
+```{r ambulance_non_conveyances_green_calls_not_conveyed, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+ambulance.non.conveyances.green.calls.hospital.transfers <- closed_stata_negbin(df.lsoa =  amb_green_calls_measure,
+                                           df.trust         = amb_green_calls_site_measure_clean,
+                                           indicator       = 'ambulance green calls',
+                                           sub.indicator   = 'hospital transfers',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+
+```
+
 <!--- Ambulance Non-Conveyances - Fraction not Conveyed --->
 ```{r ambulance_non_conveyances_fraction_not_conveyed, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ambulance.non.conveyances.fraction.not.conveyed <- closed_models(df.lsoa         = amb_green_calls_measure,
@@ -1194,6 +1207,7 @@ save(diff.time.to.ed,
      ambulance.mean.times.scene.to.dest,
      ambulance.non.conveyances.green.calls,
      ambulance.non.conveyances.green.calls.non.conveyed,
+     ambulance.non.conveyances.green.calls.hospital.transfers,
      ambulance.non.conveyances.fraction.not.conveyed,
      ambulance.red.calls.hospital.transfers,
      ambulance.red.calls.total,
