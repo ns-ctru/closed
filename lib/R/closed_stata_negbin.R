@@ -45,9 +45,9 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     dplyr::filter(df.trust,
                   measure == indicator, sub.measure == sub.indicator) %>%
         write.dta(file = '~/work/closed/hta_report/data/site.dta')
-    call <- paste0('cp ~/work/closed/hta_report/data/site.dta ~/work/closed/hta_report/data/site_',
-                   indicator,
-                   sub.indicator)
+    call <- paste0('cp ~/work/closed/hta_report/data/site.dta ~/work/closed/hta_report/data/input_site_',
+                   gsub(' ', '_', indicator),
+                   gsub(' ', '_', sub.indicator))
     system(call)
     ## Build a call to Stata to run the do-file with the given
     ## arguments of measure(/indicator) and sub-measure(/sub-indicator)
@@ -59,18 +59,18 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     system(call)
     ## Read the results back in, copy results to their own file
     results$site <- read_dta(file = '~/work/closed/hta_report/data/results/stata_negbin_site.dta')
-    call <- paste0('cp ~/work/closed/hta_report/data/results/site.dta ~/work/closed/hta_report/data/results/negbin_site_',
-                   indicator,
-                   sub.indicator)
+    call <- paste0('cp ~/work/closed/hta_report/data/results/site.dta ~/work/closed/hta_report/data/results/results_site_',
+                   gsub(' ', '_', indicator),
+                   gsub(' ', '_', sub.indicator))
     system(call)
     ## Write lsoa level data to Stata's .dta and make a copy
     ## NB - NOT filtering out control sites here, that is done in the call to -xtnbreg- in Stata
     dplyr::filter(df.lsoa,
                   measure == indicator, sub.measure == sub.indicator) %>%
         write.dta(file = '~/work/closed/hta_report/data/lsoa.dta')
-    call <- paste0('cp ~/work/closed/hta_report/data/site.dta ~/work/closed/hta_report/data/lsoa_',
-                   indicator,
-                   sub.indicator)
+    call <- paste0('cp ~/work/closed/hta_report/data/site.dta ~/work/closed/hta_report/data/input_lsoa_',
+                   gsub(' ', '_', indicator),
+                   gsub(' ', '_', sub.indicator))
     system(call)
     ## Build a call to Stata to run the do-file with the given
     ## arguments of measure(/indicator) and sub-measure(/sub-indicator)
@@ -82,9 +82,9 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     system(call)
     ## Read the results back in
     results$lsoa <- read_dta(file = '~/work/closed/hta_report/data/results/stata_negbin_lsoa.dta')
-    call <- paste0('cp ~/work/closed/hta_report/data/results/site.dta ~/work/closed/hta_report/data/results/negbin_lsoa_',
-                   indicator,
-                   sub.indicator)
+    call <- paste0('cp ~/work/closed/hta_report/data/results/site.dta ~/work/closed/hta_report/data/results/results_lsoa_',
+                   gsub(' ', '_', indicator),
+                   gsub(' ', '_', sub.indicator))
     system(call)
     ## Bind and return results
     ## print("Site...")
