@@ -552,7 +552,7 @@ ed.attendances.admitted.admitted <- closed_stata_negbin(df.lsoa =  ed_attendance
                                            digits           = 3)
 
 ```
-
+s
 <!--- Critical Care - All --->
 ```{r critical_care_cips_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 critical.care.cips.all <- closed_stata_negbin(df.lsoa =  critical_care_cips_measure,
@@ -1013,7 +1013,7 @@ ambulance.non.conveyances.green.calls.non.conveyed <- closed_stata_negbin(df.lso
 ```
 
 <!--- Ambulance Non-Conveyances - Green Calls Hospital Transfers--->
-```{r ambulance_non_conveyances_green_calls_not_conveyed, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r ambulance_non_conveyances_green_calls_hospital_transfers, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 ambulance.non.conveyances.green.calls.hospital.transfers <- closed_stata_negbin(df.lsoa =  amb_green_calls_measure,
                                            df.trust         = amb_green_calls_site_measure_clean,
                                            indicator       = 'ambulance green calls',
