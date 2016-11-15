@@ -39,7 +39,37 @@ closed_heatmap <- function(df           = summary.models,
     ## Combine measure and sub.measure to give overall indicator name
     df <- mutate(df,
                  indicator = paste0(measure, ' - ', sub.measure),
-                 indicator = gsub('_', '', indicator))
+                 indicator = gsub('_', ' ', indicator),
+                 indicator = factor(indicator,
+                                    levels = c('ambulance green calls - green calls',
+                                               'ambulance green calls - not conveyed green calls',
+                                               'ambulance green calls - hospital transfers',
+                                               'ambulance green calls - fraction not conveyed',
+                                               'ambulance red calls - hospital transfers',
+                                               'ambulance red calls - total',
+                                               'ambulance mean times - call to dest',
+                                               'ambulance mean times - call to scene any',
+                                               'ambulance mean times - call to scene conveying',
+                                               'ambulance mean times - dest to clear',
+                                               'ambulance mean times - scene to dest',
+                                               'ed attendances - any',
+                                               'ed attendances - ambulance',
+                                               'ed attendances - other',
+                                               'unnecessary ed attendances - all',
+                                               'ed attendances admitted - all',
+                                               'ed attendances admitted - admitted',
+                                               'ed attendances admitted - fraction admitted',
+                                               'all emergency admissions - all',
+                                               'avoidable emergency admissions - any',
+                                               'avoidable emergency admissions - non-specific chest pain',
+                                               'critical care stays - all',
+                                               'critical care stays - critical care',
+                                               'critical care stays - fraction critical care',
+                                               'length of stay - mean',
+                                               'length of stay median',
+                                               'case fatality ratio - any',
+                                               'case fatality ratio - acure heart failure',
+                                               'case fatality ratio - stroke cva')))
     ## Renumber models if this is for final output
     if(final == TRUE){
         df <- mutate(df,
@@ -72,6 +102,112 @@ closed_heatmap <- function(df           = summary.models,
     else if('p' %in% include.text){
         df <- mutate(df, overlay = formatC(p, digits, format = 'f'))
     }
+    ## ToDo - Convert indicator to a factor variable and order logically
+    df <- mutate(df,
+                 order1 = 0,
+                 order1 = ifelse(measure == 'ambulance green calls',      yes = 0, no = order1),
+                 order1 = ifelse(measure == 'ambulance red calls',        yes = 1, no = order1),
+                 order1 = ifelse(measure == 'ambulance mean times',       yes = 2, no = order1),
+                 order1 = ifelse(measure == 'ed attendances',             yes = 3, no = order1),
+                 order1 = ifelse(measure == 'unnecessary ed attendances', yes = 4, no = order1),
+                 order1 = ifelse(measure == 'ed attendances admitted',    yes = 5, no = order1),
+                 order1 = ifelse(measure == 'all emergency admissions',   yes = 6, no = order1),
+                 order1 = ifelse(measure == 'avoidable emergency admissions',   yes = 7, no = order1),
+                 order1 = ifelse(measure == 'critical care stays',        yes = 8, no = order1),
+                 order1 = ifelse(measure == 'length of stay',             yes = 9, no = order1),
+                 order1 = ifelse(measure == 'case fatality ratio',        yes = 10, no = order1),
+                 order1 = ifelse(measure == 'hospital transfers',         yes = 11, no = order1),
+                 order2 = 0,
+                 order2 = ifelse(measure == 'ambulance green calls' &
+                                 sub.measure == 'green calls',
+                                 yes = 1, no = order2),
+                 order2 = ifelse(measure == 'ambulance green calls' &
+                                 sub.measure == 'not conveyed green calls',
+                                 yes = 2, no = order2),
+                 order2 = ifelse(measure == 'ambulance green calls' &
+                                 sub.measure == 'hospital transfers',
+                                 yes = 3, no = order2),
+                 order2 = ifelse(measure == 'ambulance green calls' &
+                                 sub.measure == 'fraction not conveyed',
+                                 yes = 4, no = order2),
+                 order2 = ifelse(measure == 'ambulance red calls' &
+                                 sub.measure == 'hospital transfers',
+                                 yes = 1, no = order2),
+                 order2 = ifelse(measure == 'ambulance red calls' &
+                                 sub.measure == 'total',
+                                 yes = 2, no = order2),
+                 order2 = ifelse(measure == 'ambulance mean times' &
+                                 sub.measure == 'call to dest',
+                                 yes = 1, no = order2),
+                 order2 = ifelse(measure == 'ambulance mean times' &
+                                 sub.measure == 'call to scene any',
+                                 yes = 2, no = order2),
+                 order2 = ifelse(measure == 'ambulance mean times' &
+                                 sub.measure == 'call to scene conveying',
+                                 yes = 3, no = order2),
+                 order2 = ifelse(measure == 'ambulance mean times' &
+                                 sub.measure == 'dest to clear',
+                                 yes = 4, no = order2),
+                 order2 = ifelse(measure == 'ambulance mean times' &
+                                 sub.measure == 'scene to dest',
+                                 yes = 5, no = order2),
+                 order2 = ifelse(measure == 'ed attendances' &
+                                 sub.measure == 'any',
+                                 yes = 1, no = order2),
+                 order2 = ifelse(measure == 'ed attendances' &
+                                 sub.measure == 'ambulance',
+                                 yes = 2, no = order2),
+                 order2 = ifelse(measure == 'ed attendances' &
+                                 sub.measure == 'other',
+                                 yes = 3, no = order2),
+                 order2 = ifelse(measure == 'unnecessary ed attendances' &
+                                 sub.measure == 'all',
+                                 yes = 1, no = order2),
+                 order2 = ifelse(measure == 'ed attendances admitted' &
+                                 sub.measure == 'all',
+                                 yes = 1, no = order2),
+                 order2 = ifelse(measure == 'ed attendances admitted' &
+                                 sub.measure == 'admitted',
+                                 yes = 2, no = order2),
+                 order2 = ifelse(measure == 'ed attendances admitted' &
+                                 sub.measure == 'fraction admitted',
+                                 yes = 3, no = order2),
+                 order2 = ifelse(measure == 'all emergency admissions' &
+                                 sub.measure == 'all',
+                                 yes = 1, no = order2),
+                 order2 = ifelse(measure == 'avoidable emergency admissions' &
+                                 sub.measure == 'any',
+                                 yes = 1, no = order2),
+                 order2 = ifelse(measure == 'avoidable emergency admissions' &
+                                 sub.measure == 'non-specific chest pain',
+                                 yes = 2, no = order2),
+                 order2 = ifelse(measure == 'critical care stays' &
+                                 sub.measure == 'all',
+                                 yes = 1, no = order2),
+                 order2 = ifelse(measure == 'critical care stays' &
+                                 sub.measure == 'critical care',
+                                 yes = 2, no = order2),
+                 order2 = ifelse(measure == 'critical care stays' &
+                                 sub.measure == 'fraction critical care',
+                                 yes = 3, no = order2),
+                 order2 = ifelse(measure == 'length of stay' &
+                                 sub.measure == 'mean',
+                                 yes = 1, no = order2),
+                 order2 = ifelse(measure == 'length of stay' &
+                                 sub.measure == 'median',
+                                 yes = 1, no = order2),
+                 order2 = ifelse(measure == 'case fatality ratio' &
+                                 sub.measure == 'any',
+                                 yes = 1, no = order2),
+                 order2 = ifelse(measure == 'case fatality ratio' &
+                                 sub.measure == 'acute heart failure',
+                                 yes = 2, no = order2),
+                 order2 = ifelse(measure == 'case fatality ratio' &
+                                 sub.measure == 'stroke cva',
+                                 yes = 3, no = order2))
+    ## Alternatively turn them into factors
+    df <- mutate(df,
+                 indicator = factor(indicator,))
     ## Loop over all sites
     for(x in site){
         ## Filter data
@@ -100,11 +236,26 @@ closed_heatmap <- function(df           = summary.models,
                    theme_bw()
             }
         ## Build results to return
-        if(x == 'Bishop Auckland')      results$bishop     <- fig
-        else if(x == 'Hartlepool')      results$hartlepool <- fig
-        else if(x == 'Hemel Hempstead') results$hemel      <- fig
-        else if(x == 'Newark')          results$newark     <- fig
-        else if(x == 'Rochdale')        results$rochdale   <- fig
+        if(x == 'Bishop Auckland'){
+            results$bishop      <- fig
+            results$bishop.data <- to.plot
+        }
+        else if(x == 'Hartlepool'){
+            results$hartlepool <- fig
+            results$hartlepool.data <- to.plot
+        }
+        else if(x == 'Hemel Hempstead'){
+            results$hemel      <- fig
+            results$hemel.data <- to.plot
+        }
+        else if(x == 'Newark'){
+            results$newark     <- fig
+            results$newark.data <- to.plot
+        }
+        else if(x == 'Rochdale'){
+            results$rochdale   <- fig
+            results$rochdale.data <- to.plot
+        }
     }
     return(results)
 }
