@@ -300,3 +300,4 @@ save "`base_dir'/data/results/stata_negbin_site.dta", replace
 
 log c
 log2html "`base_dir'log/site_`measure'_`sub_measure'.smcl", replace
+rm "`base_dir'log/site_`measure'_`sub_measure'.smcl"
