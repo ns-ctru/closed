@@ -41,25 +41,37 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                                 ...){
     ## Results
     results <- list()
-    ## Write site level data to Stata's .dta
+    ## Write site level data to Stata's .dta and make a copy
     dplyr::filter(df.trust,
                   measure == indicator, sub.measure == sub.indicator) %>%
         write.dta(file = '~/work/closed/hta_report/data/site.dta')
+    call <- paste0('cp ~/work/closed/hta_report/data/site.dta ~/work/closed/hta_report/data/site_',
+                   indicator,
+                   sub.indicator)
+    system(call)
     ## Build a call to Stata to run the do-file with the given
     ## arguments of measure(/indicator) and sub-measure(/sub-indicator)
     call <- paste0('/usr/local/stata14/stata-mp -b ~/work/closed/hta_report/do/negbin_site.do ',
                    gsub(' ', '_', indicator),
                    ' ',
                    sub.indicator)
-    ## Run
+    ## Run, copy file to its own unique location
     system(call)
-    ## Read the results back in
+    ## Read the results back in, copy results to their own file
     results$site <- read_dta(file = '~/work/closed/hta_report/data/results/stata_negbin_site.dta')
-    ## Write lsoa level data to Stata's .dta
+    call <- paste0('cp ~/work/closed/hta_report/data/results/site.dta ~/work/closed/hta_report/data/results/negbin_site_',
+                   indicator,
+                   sub.indicator)
+    system(call)
+    ## Write lsoa level data to Stata's .dta and make a copy
     ## NB - NOT filtering out control sites here, that is done in the call to -xtnbreg- in Stata
     dplyr::filter(df.lsoa,
                   measure == indicator, sub.measure == sub.indicator) %>%
         write.dta(file = '~/work/closed/hta_report/data/lsoa.dta')
+    call <- paste0('cp ~/work/closed/hta_report/data/site.dta ~/work/closed/hta_report/data/lsoa_',
+                   indicator,
+                   sub.indicator)
+    system(call)
     ## Build a call to Stata to run the do-file with the given
     ## arguments of measure(/indicator) and sub-measure(/sub-indicator)
     call <- paste0('/usr/local/stata14/stata-mp -b ~/work/closed/hta_report/do/negbin_lsoa.do ',
@@ -70,11 +82,15 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     system(call)
     ## Read the results back in
     results$lsoa <- read_dta(file = '~/work/closed/hta_report/data/results/stata_negbin_lsoa.dta')
+    call <- paste0('cp ~/work/closed/hta_report/data/results/site.dta ~/work/closed/hta_report/data/results/negbin_lsoa_',
+                   indicator,
+                   sub.indicator)
+    system(call)
     ## Bind and return results
     ## print("Site...")
-    ## print(results$site)
+    ## head(results$site) %>% print()
     ## print("LSOA...")
-    ## print(results$lsoa)
+    ## head(results$lsoa) %>% print()
     results$xtnbreg <- rbind(results$site, results$lsoa)
     ## Build summary table as per other regression wrapper functions
     #######################################################################
@@ -82,6 +98,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## after closure for combining into a summary table with model       ##
     ## coefficients                                                      ##
     #######################################################################
+    ## print("Debug 1")
     df.trust <- mutate(df.trust,
                        before.after = ifelse(site.type == 'intervention' & relative.month >= 25, "After", "Before"))
     results$summary.df <- group_by(df.trust, town, before.after) %>%
@@ -113,6 +130,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$summary.table.head <- dplyr::select(results$summary.table.head,
                                                 town, before.after, mean.sd, median.iqr, min.max, mean)
     ## Reshape the table header
+    ## print("Debug 2")
     results$summary.table.head <- melt(results$summary.table.head, id.vars = c('town', 'before.after')) %>%
                                   dcast(town ~ before.after + variable)
     results$summary.table.head$Before_mean <- as.numeric(results$summary.table.head$Before_mean)
@@ -121,6 +139,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                                          diff_abs = formatC(Before_mean - After_mean, digits = digits, format = 'f'),
                                          diff_perc = formatC((100 * abs(Before_mean - After_mean)) / Before_mean, digits = digits, format = 'f'))
     ## Order the data
+    ## print("Debug 3")
     results$summary.table.head$order <- 0
     results$summary.table.head$order[results$summary.table.head$town == 'Bishop Auckland'] <- 1
     results$summary.table.head$order[results$summary.table.head$town == 'Whitehaven']      <- 2
@@ -149,6 +168,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                                                 After_mean.sd, After_median.iqr, After_min.max,
                                                 diff_abs, diff_perc)
     ## Add in grouping to facilitate subsetting later
+    ## print("Debug 4")
     results$summary.table.head$group <- NA
     results$summary.table.head$group[results$summary.table.head$town %in% c('Bishop Auckland', 'Whitehaven', 'Salford', 'Scarborough')] <- 'Bishop Auckland'
     results$summary.table.head$group[results$summary.table.head$town %in% c('Hartlepool', 'Grimsby', 'Blackburn', 'Wigan')] <- 'Hartlepool'
@@ -161,6 +181,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Build the table footer from the regression results read in from Stata
     names(results$xtnbreg) <- gsub('estimate', 'est', names(results$xtnbreg))
     ## Standardise this output for combining with panelAR()
+    ## print("Debug 5")
     names(results$xtnbreg) <- gsub('_', '.', names(results$xtnbreg))
     names(results$xtnbreg) <- gsub('parm', 'term', names(results$xtnbreg))
     results$xtnbreg <- dplyr::select(results$xtnbreg,
@@ -173,11 +194,11 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Get terms to have same name
     results$xtnbreg <- mutate(results$xtnbreg,
                               term = gsub('_cons', 'Intercept', term),
-                              term = gsub('1b.ambulance_divert', 'ambulance.divert', term),
-                              term = gsub('1b.nhs111', 'nhs111', term),
+                              term = gsub('1.ambulance_divert', 'ambulance.divert', term),
+                              term = gsub('1.nhs111', 'nhs111', term),
                               term = gsub('1.nhs111', 'nhs111', term),
                               term = gsub('1.closure', 'closure', term),
-                              term = gsub('1b.other_centre', 'other.centre', term),
+                              term = gsub('1.other_centre', 'other.centre', term),
                               term = gsub('relative_month', 'relative.month', term),
                               term = gsub('diff_time_to_ed', 'diff.time.to.ed', term),
                               term = gsub('2.season', 'season.2', term),
@@ -227,8 +248,16 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                               term = gsub('20.town', 'townYeovil', term),
                               model = gsub('model', 'Model ', model))
     ## Subset out the coefficients of interest for the table footer
-    results$summary.table.tail <- dplyr::filter(results$xtnbreg, term == '1.closure' | term == 'diff_time_to_ed') %>%
+    ## print("Debug 6.1")
+    ## dim(results$xtnbreg) %>% print()
+    ## head(results$xtnbreg) %>% print()
+    ## table(results$xtnbreg$term) %>% print()
+    results$summary.table.tail <- dplyr::filter(results$xtnbreg, term == 'closure' | term == 'diff.time.to.ed') %>%
                                   dplyr::select(est, stderr, p, min95, max95, town, measure, sub.measure, model)
+    ## print("Debug 6.2")
+    ## dim(results$xtnbreg) %>% print()
+    ## head(results$xtnbreg) %>% print()
+    ## table(results$xtnbreg$term) %>% print()
     results$summary.table.tail$estimate <- paste0(formatC(results$summary.table.tail$est, digits = digits, format = 'f'),
                                                   ' (',
                                                   formatC(results$summary.table.tail$min95, digits = digits, format = 'f'),
@@ -236,12 +265,15 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                                                   formatC(results$summary.table.tail$max95, digits = digits, format = 'f'),
                                                   ' ) p = ',
                                                   formatC(results$summary.table.tail$p, digits = digits, format = 'f'))
+    ## print("Debug 6.2")
+    ## print(results$summary.table.tail)
     results$summary.table.tail <- dplyr::select(results$summary.table.tail,
                                                 town,
                                                 model,
                                                 estimate) %>%
                                   mutate(model = gsub('model', 'Model ', model))
     ## Order the table
+    ## print("Debug 7")
     results$summary.table.tail$order1 <- 0
     results$summary.table.tail$order2 <- 0
     results$summary.table.tail <- mutate(results$summary.table.tail,
@@ -280,6 +312,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                                    results$summary.table.tail)
     ## Sort out indicators
     ## results$summary.table$Before_median_iqr <- gsub('model', 'Model ', results$summary.table$Before_median_iqr)
+    ## print("Debug 8")
     results$summary.table$town[grep('Model', results$summary.table$Before_median.iqr)]             <- NA
     results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 0']               <- 'Estimated closure coefficients'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 0']     <- 'Individual Case Site'
