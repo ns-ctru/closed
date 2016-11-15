@@ -48,23 +48,6 @@ local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 /* PROBLEM!!!! Some sites do not run, build local macro conditional     */
 /*             on outcome being tested for now until this is solved.    */
 /************************************************************************/
-/* if("`measure'" == "ed_attendances" & "`sub_measure'" == "any")            local sites '" "Bishop Auckland" "Hartlepool"  "Newark" "Rochdale" "' */
-/* else if("`measure'" == "ed_attendances" & "`sub_measure'" == "other")     local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead"  "Newark" "Rochdale" "' */
-/* else if("`measure'" == "ed_attendances" & "`sub_measure'" == "ambulance") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "' */
-/* else if("`measure'" == "unnecessary_ed_attendances" & "`sub_measure'" == "all") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "' */
-/* else if("`measure'" == "all_emergency_admissions" & "`sub_measure'" == "all") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "' */
-/* else if("`measure'" == "avoidable_emergency_admissions" & "`sub_measure'" == "any") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "' */
-/* else if("`measure'" == "avoidable_emergency_admissions" & "`sub_measure'" == "non-specific_chest_pain") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "' */
-/* else if("`measure'" == "ed_attendances_admitted" & "`sub_measure'" == "all") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "' */
-/* else if("`measure'" == "ed_attendances_admitted" & "`sub_measure'" == "admitted") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "' */
-/* else if("`measure'" == "critical_care_stays" & "`sub_measure'" == "all") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "' */
-/* else if("`measure'" == "critical_care_stays" & "`sub_measure'" == "critical_care") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "' */
-/* else if("`measure'" == "ambulance_green_calls" & "`sub_measure'" == "green_calls") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "' */
-/* else if("`measure'" == "ambulance_green_calls" & "`sub_measure'" == "not_conveyed_green_calls") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "' */
-/* else if("`measure'" == "ambulance_red_calls" & "`sub_measure'" == "hospital_transfers") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "' */
-/* else if("`measure'" == "ambulance_red_calls" & "`sub_measure'" == "total") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "' */
-/* else if("`measure'" == "ambulance_red_calls" & "`sub_measure'" == "all_stays") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "' */
-/* else if("`measure'" == "ambulance_red_calls" & "`sub_measure'" == "stays_with_trasnfer") local sites '" "Bishop Auckland" "Hartlepool" "Hemel Hempstead" "Newark" "Rochdale" "' */
 
 /* Run Analyses for within centres                                      */
 foreach x of local sites{
@@ -131,3 +114,4 @@ save "`base_dir'/data/results/stata_negbin_lsoa.dta", replace
 
 log c
 log2html "`base_dir'/log/lsoa_`measure'_`sub_measure'.smcl", replace
+rm  "`base_dir'/log/lsoa_`measure'_`sub_measure'.smcl"
