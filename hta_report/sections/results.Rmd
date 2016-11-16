@@ -1,0 +1,261 @@
+### Summary {.tabset .tabset-fade .tabset-pills}
+
+```{r child = 'subsections/summary.Rmd', eval = TRUE}
+```
+
+```{r child = 'subsections/missing.Rmd', eval = FALSE}
+```
+
+```{r child = 'subsections/spurious_data.Rmd', eval = TRUE}
+```
+
+```{r dummy, eval = FALSE}
+```
+
+### Attendance {.tabset .tabset-fade .tabset-pills}
+
+#### Any {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/mode_of_arrival_any.Rmd', eval = TRUE}
+```
+
+#### Ambulance {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/mode_of_arrival_ambulance.Rmd', eval = TRUE}
+```
+
+#### Other {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/mode_of_arrival_other.Rmd', eval = TRUE}
+```
+
+#### Unnecessary  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/unnecessary_attendance.Rmd', eval = TRUE}
+```
+
+### Emergency Admissions {.tabset .tabset-fade  .tabset-pills}
+
+#### All  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/all_emergency_admissions_all.Rmd', eval = TRUE}
+```
+
+#### Avoidable - Any  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/avoidable_emergency_admissions_any.Rmd', eval = TRUE}
+```
+
+<!-- #### Avoidable - Acute Mental Health Crisis  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/avoidable_emergency_admissions_acute_mental_health_crisis.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Avoidable - Angina {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/avoidable_emergency_admissions_angina.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Avoidable - Blocked Catheter {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/avoidable_emergency_admissions_blocked_catheter.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Avoidable - Cellulitis {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/avoidable_emergency_admissions_cellulitis.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Avoidable - COPD {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/avoidable_emergency_admissions_copd.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Avoidable - DVT {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/avoidable_emergency_admissions_dvt.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Avoidable - Epileptic Fit {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/avoidable_emergency_admissions_epileptic_fit.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Avoidable - Falls (> 76yrs) {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/avoidable_emergency_admissions_falls.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Avoidable - Hypoglycaemia {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/avoidable_emergency_admissions_hypoglycaemia.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Avoidable - Minor Head Injuries {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/avoidable_emergency_admissions_minor_head_injuries.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+#### Avoidable - Non-Specific Chest Pain {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/avoidable_emergency_admissions_non_specific_chest_pain.Rmd', eval = TRUE}
+```
+
+<!-- #### Avoidable - Pyrexial Child (<6yrs) {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/avoidable_emergency_admissions_pyrexial_child.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Avoidable - Urinary Tract Infection {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/avoidable_emergency_admissions_urinary_tract_infection.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+### Attendances Admitted {.tabset .tabset-fade .tabset-pills}
+
+<!-- #### All  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/ed_attendances_admitted_all.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+#### Admitted  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ed_attendances_admitted_admitted.Rmd', eval = TRUE}
+```
+
+#### Fraction Admitted  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ed_attendances_admitted_fraction_admitted.Rmd', eval = TRUE}
+```
+
+### Critical Care {.tabset .tabset-fade .tabset-pills}
+
+#### All  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/critical_care_cips_all.Rmd', eval = TRUE}
+```
+
+#### Critical  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/critical_care_cips_critical.Rmd', eval = TRUE}
+```
+
+#### Fraction  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/critical_care_cips_fraction.Rmd', eval = TRUE}
+```
+
+### Length of Stay {.tabset .tabset-fade .tabset-pills}
+#### Mean  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/length_of_stay_mean.Rmd', eval = TRUE}
+```
+
+#### Median  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/length_of_stay_median.Rmd', eval = TRUE}
+```
+
+### Case Fatality Ratio {.tabset .tabset-fade .tabset-pills}
+
+#### Any {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/case_fatality_ratio_any.Rmd', eval = TRUE}
+```
+
+#### Acute Heart Failure  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/case_fatality_ratio_acute_heart_failure.Rmd', eval = TRUE}
+```
+
+<!-- #### Anaphylaxis  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_anaphylaxis.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Asphyxiation  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_asphyxiation.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Asthma  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_asthma.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Cardiac Arrest  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_cardiac_arrest.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Falls  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_falls.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Fractured Neck of Femur  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_fractured_neck_of_femur.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Meningitis  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_meningitis.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Myocardial Infarction  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_myocardial_infarction.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Pregnancy and Birth Related  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_pregnancy_and_birth_related.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Road Traffic Accident  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_road_traffic_accident.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Self Harm  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_self_harm.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Septic Shock  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_septic_shock.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+<!-- #### Serious Head Injury  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_serious_head_injury.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+#### Stroke CVA  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/case_fatality_ratio_stroke_cva.Rmd', eval = TRUE}
+```
+
+### Ambulance Mean Times  {.tabset .tabset-fade}
+
+#### Call to Destianation  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_mean_times_call_to_dest.Rmd', eval = TRUE}
+```
+
+#### Call to Scene (Any)  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_mean_times_call_to_scene_any.Rmd', eval = TRUE}
+```
+
+#### Call to Scene (Conveying)  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_mean_times_call_to_scene_conveying.Rmd', eval = TRUE}
+```
+
+#### Scene to Destination  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_mean_times_scene_to_dest.Rmd', eval = TRUE}
+```
+
+#### Destination to Clear  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_mean_times_dest_to_clear.Rmd', eval = TRUE}
+```
+
+### Ambulance Non-Conveyance  {.tabset .tabset-fade .tabset-pills}
+
+#### Green Calls  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_non_conveyances_green_calls.Rmd', eval = TRUE}
+```
+
+#### Green Calls Not Conveyed  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_non_conveyances_green_calls_non_conveyed.Rmd', eval = TRUE}
+```
+
+#### Fraction Not Conveyed  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_non_conveyances_fraction_not_conveyed.Rmd', eval = TRUE}
+```
+
+### Ambulance Red Calls  {.tabset .tabset-fade .tabset-pills}
+
+#### Hospital Transfers  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_red_calls_hospital_transfers.Rmd', eval = TRUE}
+```
+
+#### Total  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_red_calls_total.Rmd', eval = TRUE}
+```
+
+### Hospital Transfers  {.tabset .tabset-fade .tabset-pills}
+
+#### All Stays  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/hospital_transfers_all_stays.Rmd', eval = TRUE}
+```
+
+#### Stays With Transfers  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/hospital_transfers_stays_with_transfers.Rmd', eval = TRUE}
+```
+
+#### Proportion With Transfers  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/hospital_transfers_proportion_with_transfer.Rmd', eval = TRUE}
+```
+
+
+### Regression Summary
+```{r child = 'subsections/regression_summary.Rmd', eval = TRUE}
+```
