@@ -2537,7 +2537,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                              results$model0.panelar.hemel.coef,
                              results$model0.panelar.newark.coef,
                              results$model0.panelar.rochdale.coef)
-        model0.coef$model <- 'Model 1'
+        model0.coef$model <- 'Model 0'
     }
     else{
         model0.coef <- 1
