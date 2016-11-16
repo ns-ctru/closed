@@ -1,4 +1,4 @@
-```{r load_data, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r load_data_again, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
 load(file = '~/work/closed/hta_report/data/results.RData')
 ## Combine all coefficients from all models into one dataset
 summary.models <- rbind(mode.of.arrival.any$xtnbreg,
