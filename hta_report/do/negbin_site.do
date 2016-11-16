@@ -50,7 +50,7 @@ local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 if("`measure'" == "ed attendances" & "`sub_measure'" == "any")            local sites "Bishop_Auckland Hartlepool Newark Rochdale"
 else if("`measure'" == "ed attendances" & "`sub_measure'" == "other")     local sites "Hartlepool Hemel_Hempstead Newark Rochdale"
 else if("`measure'" == "ed attendances" & "`sub_measure'" == "ambulance") local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
-else if("`measure'" == "unnecessary ed attendances" & "`sub_measure'" == "all") local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
+else if("`measure'" == "unnecessary ed attendances" & "`sub_measure'" == "all") local sites "Bishop_Auckland Hemel_Hempstead Newark Rochdale"
 else if("`measure'" == "all emergency admissions" & "`sub_measure'" == "all") local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 else if("`measure'" == "avoidable emergency admissions" & "`sub_measure'" == "any") local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 else if("`measure'" == "avoidable emergency admissions" & "`sub_measure'" == "non-specific chest pain") local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
@@ -297,7 +297,7 @@ replace town = subinstr(town, "_", " ", .)
 /* Save for reading into Stata                                        */
 keep measure sub_measure town model parm label estimate stderr z p min95 max95
 save "`base_dir'/data/results/stata_negbin_site.dta", replace
-save "`base_dir'/data/results/results_site_`measure'_`sub_measure'.dta", replace
+save "`base_dir'/data/results/stata_negbin_site_`measure'_`sub_measure'.dta", replace
 
 log c
 log2html "`base_dir'log/site_`measure'_`sub_measure'.smcl", replace
