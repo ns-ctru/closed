@@ -1,0 +1,51 @@
+---
+title: ClosED - Project Advisory Group Meeting 2016-11-30
+output:
+  html_document:
+    theme: sandstone
+    toc: false
+    toc_float: false
+    toc_depth: 5
+bibliography: bibliography.bib
+---
+
+```{r setup, include=FALSE}
+##opts_chunk$set(dev = 'pdf')
+opts_chunk$set(cache.path = 'cache/',
+               width    = 200,
+               fig.height = 18,
+               fig.width  = 10)
+## Set a seed
+set.seed(69027181)
+```
+# {.tabset}
+
+Model  | Case Site    | Control Site         | Panel | Covariates
+-------|--------------|----------------------|-------|----------------------------------------
+0      | Individual   | None                 | ED    | `closure`
+1      | Individual   | None                 | ED    | `season + time + closure + nhs111 + other.centre + ambulance.diversion`
+2      | Individual   | Primary Matched      | ED    | `season + time + closure * site + nhs111 + other.centre + ambulance.diversion`
+3      | All          | Primary Matched      | ED    | `season + time + closure * site + nhs111 + other.centre + ambulance.diversion`
+4      | Individual   | None                 | LSOA  | `season + time + site + nhs111 + other.centre + ambulance.diversion + change in ED time`
+5      | All          | None                 | LSOA  | `season + time + site + nhs111 + other.centre + ambulance.diversion + change in ED time`
+
+## Methods
+
+```{r child = '../hta_report/sections/methods.Rmd', eval = TRUE}
+```
+
+## Results {.tabset .tabset-fade}
+```{r child = 'results/results.Rmd', eval = TRUE}
+```
+
+<!-- ## Validation {.tabset .tabset-fade .tabset-pills} -->
+```{r child = 'pag_20161130/validation.Rmd', eval = FALSE}
+```
+<!-- ## Investigations {.tabset .tabset-fade .tabset-pills} -->
+```{r child = 'pag_20161130/investigations.Rmd', eval = FALSE}
+```
+
+<!-- ## ToDo {.tabset .tabset-fade .tabset-pills} -->
+```{r child = 'pag_20161130/todo.Rmd', eval = FALSE}
+```
+## References
