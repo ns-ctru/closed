@@ -54,13 +54,13 @@ heatmap.pvalues <- closed_heatmap(df           = summary.models,
 #### Bishop Auckland  {.tabset .tabset-fade .tabset-pills}
 
 ##### Coefficient
-```{r closed_heatmap_bishop_coefficient, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r closed_heatmap_bishop_coefficient, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 16, fig.width = 10,  eval = TRUE}
 heatmap.coefficients$bishop
 
 ```
 
 ##### P-value
-```{r closed_heatmap_bishop_pvalue, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r closed_heatmap_bishop_pvalue, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 16, fig.width = 10,  eval = TRUE}
 heatmap.pvalues$bishop
 
 ```
@@ -69,13 +69,13 @@ heatmap.pvalues$bishop
 #### Hartlepool {.tabset .tabset-fade .tabset-pills}
 
 ##### Coefficient
-```{r closed_heatmap_hartlepool_coefficient, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r closed_heatmap_hartlepool_coefficient, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 16, fig.width = 10,  eval = TRUE}
 heatmap.coefficients$hartlepool
 
 ```
 
 ##### P-value
-```{r closed_heatmap_hartlepool_pvalue, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r closed_heatmap_hartlepool_pvalue, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 16, fig.width = 10,  eval = TRUE}
 heatmap.pvalues$hartlepool
 
 ```
@@ -83,13 +83,13 @@ heatmap.pvalues$hartlepool
 #### Hemel Hempstead {.tabset .tabset-fade .tabset-pills}
 
 ##### Coefficient
-```{r closed_heatmap_hemel_coefficient, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r closed_heatmap_hemel_coefficient, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 16, fig.width = 10,  eval = TRUE}
 heatmap.coefficients$hemel
 
 ```
 
 ##### P-value
-```{r closed_heatmap_hemel_pvalue, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r closed_heatmap_hemel_pvalue, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 16, fig.width = 10,  eval = TRUE}
 heatmap.pvalues$hemel
 
 ```
@@ -97,13 +97,13 @@ heatmap.pvalues$hemel
 #### Newark {.tabset .tabset-fade .tabset-pills}
 
 ##### Coefficient
-```{r closed_heatmap_newark_coefficient, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r closed_heatmap_newark_coefficient, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 16, fig.width = 10,  eval = TRUE}
 heatmap.coefficients$newark
 
 ```
 
 ##### P-value
-```{r closed_heatmap_newark_pvalue, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r closed_heatmap_newark_pvalue, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 16, fig.width = 10,  eval = TRUE}
 heatmap.pvalues$newark
 
 ```
@@ -111,13 +111,13 @@ heatmap.pvalues$newark
 #### Rochdale {.tabset .tabset-fade .tabset-pills}
 
 ##### Coefficient
-```{r closed_heatmap_rochdale_coefficient, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r closed_heatmap_rochdale_coefficient, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 16, fig.width = 10,  eval = TRUE}
 heatmap.coefficients$rochdale
 
 ```
 
 ##### P-value
-```{r closed_heatmap_rochdale_pvalue, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
+```{r closed_heatmap_rochdale_pvalue, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 16, fig.width = 10,  eval = TRUE}
 heatmap.pvalues$rochdale
 
 ```
