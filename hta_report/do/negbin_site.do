@@ -273,8 +273,8 @@ di "Append done!"
 
 /* Add in meaningful terms for the parameters which are now all       */
 /* obfuscated                                                         */
-gen measure     = "`1'"
-gen sub_measure = "`2'"
+gen measure     = "`measure'"
+gen sub_measure = "`sub_measure'"
 replace label = "(Intercept)"                 if(parm == "Constant")
 replace label = "closure"                     if(parm == "1.closure")
 replace label = "season2"                     if(parm == "2.season")
@@ -297,6 +297,7 @@ replace town = subinstr(town, "_", " ", .)
 /* Save for reading into Stata                                        */
 keep measure sub_measure town model parm label estimate stderr z p min95 max95
 save "`base_dir'/data/results/stata_negbin_site.dta", replace
+save "`base_dir'/data/results/results_site_`measure'_`sub_measure'.dta", replace
 
 log c
 log2html "`base_dir'log/site_`measure'_`sub_measure'.smcl", replace
