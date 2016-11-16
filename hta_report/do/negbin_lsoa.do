@@ -111,7 +111,7 @@ replace label = "townRochdale:closure"        if(parm == "9o.town#1o.closure")
 /* Save for reading into Stata                                        */
 keep measure sub_measure town model parm label estimate stderr z p min95 max95
 save "`base_dir'/data/results/stata_negbin_lsoa.dta", replace
-save "`base_dir'/data/results/stata_negbin_lsoa_`measure'_`sub_measure'.dta", replace
+save "`base_dir'/data/results/results_lsoa_`measure'_`sub_measure'.dta", replace
 
 log c
 log2html "`base_dir'/log/lsoa_`measure'_`sub_measure'.smcl", replace
