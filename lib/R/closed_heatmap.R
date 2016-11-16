@@ -66,10 +66,13 @@ closed_heatmap <- function(df           = summary.models,
                                                'critical care stays - critical care',
                                                'critical care stays - fraction critical care',
                                                'length of stay - mean',
-                                               'length of stay median',
+                                               'length of stay - median',
                                                'case fatality ratio - any',
-                                               'case fatality ratio - acure heart failure',
-                                               'case fatality ratio - stroke cva')))
+                                               'case fatality ratio - acute heart failure',
+                                               'case fatality ratio - stroke cva',
+                                               'hospital transfers - all stays',
+                                               'hospital transfers - stays with transfer',
+                                               'hospital transfers - fraction with transfer')))
     ## Renumber models if this is for final output
     if(final == TRUE){
         df <- mutate(df,
@@ -218,7 +221,7 @@ closed_heatmap <- function(df           = summary.models,
                           aes(x = as.factor(model),
                               y = as.factor(indicator))) +
                    geom_tile(aes(fill = est)) +
-                   geom_text(aes(fill = est, label = overlay)) +
+                   geom_text(aes(label = overlay)) +
                    ggtitle(x) + xlab('') + ylab('Indicator') +
                    scale_fill_gradient(low = 'white', high = colour) +
                    scale_x_discrete(position = 'top') +
