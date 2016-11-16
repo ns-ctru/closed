@@ -23,15 +23,17 @@
 #' @param time Variable defining time in both data sets (default is \code{relative.month} and shouldn't need changing).
 #' @param outcome Outcome variable containing the counts (default is \code{value} and shouldn't need changing).
 #' @param model0 Covariates to include in model 0.
+#' @param model0.5 Covariates to include in model 0.5.
 #' @param model1 Covariates to include in model 1.
 #' @param model2 Covariates to include in model 2.
 #' @param model3.1 Covariates to include in model 3.
 #' @param model3.2 Covariates to include in model 8.
 #' @param model4 Covariates to include in model 4.
 #' @param model5 Covariates to include in model 5.
-#' @param model6 Covariates to include in model 6.
-#' @param model7.1 Covariates to include in model 7.
-#' @param model7.2 Covariates to include in model 7.
+#' @param model6.1 Covariates to include in model 6.1.
+#' @param model6.2 Covariates to include in model 6.2.
+#' @param model7.1 Covariates to include in model 7.1.
+#' @param model7.2 Covariates to include in model 7.2.
 #' @param autocorr panelAR() option for handling auto-correlation, default is \code{ar1}.
 #' @param panelcorrmethod panelAR() option for panel correction, default is \code{pcse}.
 #' @param coefficients Determine which coefficients from the model are included in summary tables.  Setting to \code{closure} will return only terms that involve only the closure indicator (i.e. \code{closure} itself).  Other options include \code{town} for site specific terms (no interactions) and \code{closure.town} (the default) which includes all closure and town terms, both individually and from interactions.  Use \code{all} to get all terms returned or for closure, town and other steps use \code{all.steps}
@@ -2660,8 +2662,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     if(length(model7.1.coef) == 1) model7.1.coef <- NULL
     if(length(model7.2.coef) == 1) model7.2.coef <- NULL
     ## Return all coefficients across models
-    if(!is.null(model0.coef) & !is.null(model0.5.coef)){
-    results$all.model.all.coef <- rbind(model0.coef,
+    if(!is.null(model0.coef)){
+        results$all.model.all.coef <- model0.coef
+    }
+    if(!is.null(model0.5.coef)){
+    results$all.model.all.coef <- rbind(results$all.model.all.coef,
                                         model0.5.coef)
     }
     if(!is.null(model1.coef)){
