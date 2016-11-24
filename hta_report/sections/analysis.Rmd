@@ -1172,7 +1172,33 @@ case.fatality.ratio.7days.any.sec <- closed_models(df.lsoa         = sec_case_fa
 ```{r sec_deaths_all_7days_any_sec, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 sec.deaths.all.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_all_7days_measure,
                                            df.trust         = sec_deaths_all_7days_site_measure_clean,
-                                           indicator       = 'sec_deaths_all_7days',
+                                           indicator       = 'sec deaths all 7days',
+                                           sub.indicator   = 'any sec',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+
+```
+
+<!--- Sec Deaths in CIPS (7 days) - Any sec --->
+```{r sec_deaths_in_cips_7days_any_sec, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+sec.deaths.in.cips.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_in_cips_7days_measure,
+                                           df.trust         = sec_deaths_in_cips_7days_site_measure_clean,
+                                           indicator       = 'sec deaths in cips 7days',
+                                           sub.indicator   = 'any sec',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+
+```
+
+<!--- Sec Deaths in CIPS (7 days) - Any sec --->
+```{r sec_deaths_not_in_cips_7days_any_sec, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+sec.deaths.not.in.cips.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_not_in_cips_7days_measure,
+                                           df.trust         = sec_deaths_not_in_cips_7days_site_measure_clean,
+                                           indicator       = 'sec deaths not in cips 7days',
                                            sub.indicator   = 'any sec',
                                            return.df       = FALSE,
                                            return.model    = TRUE,
