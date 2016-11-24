@@ -307,22 +307,22 @@ length_of_stay_site_measure_clean <- closed_clean(df      = length_of_stay_site_
                                                 systematic    = systematic.outlier,
                                                 balance       = FALSE)
 sec_case_fatality_7days_site_measure_clean <- closed_clean(df      = sec_case_fatality_7days_site_measure,
-                                                 indicator     = 'case fatality ratio',
+                                                 indicator     = 'sec case fatality 7 days',
                                                  sub.indicator = 'any',
                                                  systematic    = systematic.outlier,
                                                  balance       = FALSE)
 sec_deaths_all_7days_site_measure_clean <- closed_clean(df      = sec_deaths_all_7days_site_measure,
-                                                 indicator     = 'case fatality ratio',
+                                                 indicator     = 'sec_deaths_all_7days',
                                                  sub.indicator = 'any',
                                                  systematic    = systematic.outlier,
                                                  balance       = FALSE)
 sec_deaths_in_cips_7days_site_measure_clean <- closed_clean(df      = sec_deaths_in_cips_7days_site_measure,
-                                                 indicator     = 'case fatality ratio',
+                                                 indicator     = 'sec_deaths_in_cips_7days',
                                                  sub.indicator = 'any',
                                                  systematic    = systematic.outlier,
                                                  balance       = FALSE)
 sec_deaths_not_in_cips_7days_site_measure_clean <- closed_clean(df      = sec_deaths_not_in_cips_7days_site_measure,
-                                                 indicator     = 'case fatality ratio',
+                                                 indicator     = 'sec_deaths_not_in_cips_7days',
                                                  sub.indicator = 'any',
                                                  systematic    = systematic.outlier,
                                                  balance       = FALSE)
@@ -908,6 +908,43 @@ case.fatality.ratio.myocardial.infarction <- closed_models(df.lsoa         = cas
 
 ```
 
+<!--- Case Fatality Ratio - Trauma --->
+```{r case_fatality_ratio_trauma, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+case.fatality.ratio.trauma <- closed_models(df.lsoa         = case_fatality_measure,
+                                     df.trust         = case_fatality_site_measure,
+                                     indicator        = 'case fatality ratio',
+                                     sub.indicator    = 'trauma',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7.1         = model.opts$mod7.1,
+                                     model7.2         = model.opts$mod7.2,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = TRUE,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+
+```
+
 <!--- Case Fatality Ratio - Serious Head Injury --->
 <!-- ```{r case_fatality_ratio_serious_head_injury, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE} -->
 <!-- case.fatality.ratio.serious.head.injury <- closed_models(df.lsoa         = case_fatality_measure, -->
@@ -1129,6 +1166,21 @@ case.fatality.ratio.7days.any.sec <- closed_models(df.lsoa         = sec_case_fa
                                      legend           = model.opts$legend)
 
 ```
+
+
+<!--- Sec Deaths All (7 days) - Any sec --->
+```{r sec_deaths_all_7days_any_sec, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+sec.deaths.all.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_all_7days_measure,
+                                           df.trust         = sec_deaths_all_7days_site_measure_clean,
+                                           indicator       = 'sec_deaths_all_7days',
+                                           sub.indicator   = 'any sec',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+
+```
+
 
 <!--- Ambulance Mean Times - Call to Destination --->
 ```{r ambulance_mean_times_call_to_dest, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
