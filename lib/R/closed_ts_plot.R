@@ -236,6 +236,110 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'stays with transfer')    ylabel <- 'N (Stays with Transfers)'
         y.text.steps <- 100
     }
+    else if(indicator == 'sec case fatality 7 days'){
+        title1 <- 'Case Fatality @ 7 Days'
+        if(sub.indicator == 'any sec')                          title2 <- ' (Any Sec)'
+        else if(sub.indicator == 'any sec')                     title2 <- ' (Any Single Sec)'
+        else if(sub.indicator == 'acute heart failure')         title2 <- ' (Acute Heart Failure)'
+        else if(sub.indicator == 'anaphylaxis')                 title2 <- ' (Anaphylaxis)'
+        else if(sub.indicator == 'any')                         title2 <- ' (Any)'
+        else if(sub.indicator == 'asphyxiation')                title2 <- ' (Asphyxiation)'
+        else if(sub.indicator == 'asthma')                      title2 <- ' (Asthma)'
+        else if(sub.indicator == 'cardiac arrest')              title2 <- ' (Cardiac Arrest)'
+        else if(sub.indicator == 'falls')                       title2 <- ' (Falls)'
+        else if(sub.indicator == 'fractured neck of femur')     title2 <- ' (Fractured Neck of Femur)'
+        else if(sub.indicator == 'meningitis')                  title2 <- ' (Meningitis)'
+        else if(sub.indicator == 'myocardial infarction')       title2 <- ' (Myocardial Infarction)'
+        else if(sub.indicator == 'pregnancy and birth related') title2 <- ' (Pregnancy and Birth Related)'
+        else if(sub.indicator == 'road traffic accident')       title2 <- ' (Road Traffic Accident)'
+        else if(sub.indicator == 'ruptured aortic aneurysm')    title2 <- ' (Ruptured Aortic Aneurysm)'
+        else if(sub.indicator == 'self harm')                   title2 <- ' (Self Harm)'
+        else if(sub.indicator == 'septic shock')                title2 <- ' (Septic Shock)'
+        else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
+        else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
+        nudge <- 0.5
+        ylabel <- 'Case Fatality Ratio @ 7 Days'
+        y.text <- -0.05
+        y.text.steps <- 0.05
+    }
+    else if(indicator == 'sec_deaths_all_7_days'){
+        title1 <- 'Deaths @ 7 Days'
+        if(sub.indicator == 'any sec')                          title2 <- ' (Any Sec)'
+        else if(sub.indicator == 'any sec')                     title2 <- ' (Any Single Sec)'
+        else if(sub.indicator == 'acute heart failure')         title2 <- ' (Acute Heart Failure)'
+        else if(sub.indicator == 'anaphylaxis')                 title2 <- ' (Anaphylaxis)'
+        else if(sub.indicator == 'any')                         title2 <- ' (Any)'
+        else if(sub.indicator == 'asphyxiation')                title2 <- ' (Asphyxiation)'
+        else if(sub.indicator == 'asthma')                      title2 <- ' (Asthma)'
+        else if(sub.indicator == 'cardiac arrest')              title2 <- ' (Cardiac Arrest)'
+        else if(sub.indicator == 'falls')                       title2 <- ' (Falls)'
+        else if(sub.indicator == 'fractured neck of femur')     title2 <- ' (Fractured Neck of Femur)'
+        else if(sub.indicator == 'meningitis')                  title2 <- ' (Meningitis)'
+        else if(sub.indicator == 'myocardial infarction')       title2 <- ' (Myocardial Infarction)'
+        else if(sub.indicator == 'pregnancy and birth related') title2 <- ' (Pregnancy and Birth Related)'
+        else if(sub.indicator == 'road traffic accident')       title2 <- ' (Road Traffic Accident)'
+        else if(sub.indicator == 'ruptured aortic aneurysm')    title2 <- ' (Ruptured Aortic Aneurysm)'
+        else if(sub.indicator == 'self harm')                   title2 <- ' (Self Harm)'
+        else if(sub.indicator == 'septic shock')                title2 <- ' (Septic Shock)'
+        else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
+        else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
+        nudge <- 0.5
+        ylabel <- 'Deaths @ 7 Days'
+        y.text <- -0.05
+        y.text.steps <- 0.05
+    }
+    else if(indicator == 'sec_deaths_in_cips_7_days'){
+        title1 <- 'Deaths in CIPS @ 7 Days'
+        if(sub.indicator == 'any sec')                          title2 <- ' (Any Sec)'
+        else if(sub.indicator == 'any single sec')              title2 <- ' (Any Single Sec)'
+        else if(sub.indicator == 'acute heart failure')         title2 <- ' (Acute Heart Failure)'
+        else if(sub.indicator == 'anaphylaxis')                 title2 <- ' (Anaphylaxis)'
+        else if(sub.indicator == 'any')                         title2 <- ' (Any)'
+        else if(sub.indicator == 'asphyxiation')                title2 <- ' (Asphyxiation)'
+        else if(sub.indicator == 'asthma')                      title2 <- ' (Asthma)'
+        else if(sub.indicator == 'cardiac arrest')              title2 <- ' (Cardiac Arrest)'
+        else if(sub.indicator == 'falls')                       title2 <- ' (Falls)'
+        else if(sub.indicator == 'fractured neck of femur')     title2 <- ' (Fractured Neck of Femur)'
+        else if(sub.indicator == 'meningitis')                  title2 <- ' (Meningitis)'
+        else if(sub.indicator == 'myocardial infarction')       title2 <- ' (Myocardial Infarction)'
+        else if(sub.indicator == 'pregnancy and birth related') title2 <- ' (Pregnancy and Birth Related)'
+        else if(sub.indicator == 'road traffic accident')       title2 <- ' (Road Traffic Accident)'
+        else if(sub.indicator == 'ruptured aortic aneurysm')    title2 <- ' (Ruptured Aortic Aneurysm)'
+        else if(sub.indicator == 'self harm')                   title2 <- ' (Self Harm)'
+        else if(sub.indicator == 'septic shock')                title2 <- ' (Septic Shock)'
+        else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
+        else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
+        nudge <- 0.5
+        ylabel <- 'Deaths in CIPS @ 7 Days'
+        y.text <- -0.05
+        y.text.steps <- 0.05
+    }
+    else if(indicator == 'sec_deaths_not_in_cips_7_days'){
+        title1 <- 'Deaths not in CIPS @ 7 Days'
+        if(sub.indicator == 'any sec')                          title2 <- ' (Any Sec)'
+        else if(sub.indicator == 'any single sec')              title2 <- ' (Any Single Sec)'
+        else if(sub.indicator == 'acute heart failure')         title2 <- ' (Acute Heart Failure)'
+        else if(sub.indicator == 'anaphylaxis')                 title2 <- ' (Anaphylaxis)'
+        else if(sub.indicator == 'any')                         title2 <- ' (Any)'
+        else if(sub.indicator == 'asphyxiation')                title2 <- ' (Asphyxiation)'
+        else if(sub.indicator == 'asthma')                      title2 <- ' (Asthma)'
+        else if(sub.indicator == 'cardiac arrest')              title2 <- ' (Cardiac Arrest)'
+        else if(sub.indicator == 'falls')                       title2 <- ' (Falls)'
+        else if(sub.indicator == 'fractured neck of femur')     title2 <- ' (Fractured Neck of Femur)'
+        else if(sub.indicator == 'meningitis')                  title2 <- ' (Meningitis)'
+        else if(sub.indicator == 'myocardial infarction')       title2 <- ' (Myocardial Infarction)'
+        else if(sub.indicator == 'pregnancy and birth related') title2 <- ' (Pregnancy and Birth Related)'
+        else if(sub.indicator == 'road traffic accident')       title2 <- ' (Road Traffic Accident)'
+        else if(sub.indicator == 'ruptured aortic aneurysm')    title2 <- ' (Ruptured Aortic Aneurysm)'
+        else if(sub.indicator == 'self harm')                   title2 <- ' (Self Harm)'
+        else if(sub.indicator == 'septic shock')                title2 <- ' (Septic Shock)'
+        else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
+        else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
+        nudge <- 0.5
+        ylabel <- 'Deaths not in CIPS @ 7 Days'
+        y.text <- -0.05
+        y.text.steps <- 0.05
+    }
     #######################################################################
     ## Define vertical lines for steps                                   ##
     #######################################################################
