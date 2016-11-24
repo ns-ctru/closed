@@ -394,7 +394,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ##################################################
         ## print("Bishop Auckland")
         t <- dplyr::filter(df0,
-                    town        == 'Bishop Auckland')
+                           town        == 'Bishop Auckland')
+        ## dim(t) %>% print()
         ## return(t)
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
             model0.panelar.bishop <- panelAR(data      = t,
