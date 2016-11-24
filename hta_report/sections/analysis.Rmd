@@ -205,23 +205,48 @@ diff.time.to.ed <- closed_summary(df          = ed_attendances_by_mode_measure,
                              latex       = FALSE,
                              html        = FALSE)
 ## Simple summary of the missing data across datasets
-check.ed.attendances <- closed_missing_summary(df.lsoa = ed_attendances_by_mode_measure,
-                                               df.site = ed_attendances_by_mode_site_measure)
-check.ed.unnecessary <- closed_missing_summary(df.lsoa = unnecessary_ed_attendances_measure,
-                                               df.site = unnecessary_ed_attendances_site_measure)
-check.ed.admitted    <- closed_missing_summary(df.lsoa = ed_attendances_admitted_measure,
-                                               df.site = ed_attendances_admitted_site_measure)
-check.critical.care  <- closed_missing_summary(df.lsoa = critical_care_cips_measure,
-                                               df.site = critical_care_cips_site_measure)
-check.length.stay    <- closed_missing_summary(df.lsoa = length_of_stay_measure,
-                                               df.site = length_of_stay_site_measure)
+check.ed.attendances               <- closed_missing_summary(df.lsoa = ed_attendances_by_mode_measure,
+                                                             df.site = ed_attendances_by_mode_site_measure)
+check.ed.unnecessary               <- closed_missing_summary(df.lsoa = unnecessary_ed_attendances_measure,
+                                                             df.site = unnecessary_ed_attendances_site_measure)
+check.ed.admitted                  <- closed_missing_summary(df.lsoa = ed_attendances_admitted_measure,
+                                                             df.site = ed_attendances_admitted_site_measure)
+check.critical.care                <- closed_missing_summary(df.lsoa = critical_care_cips_measure,
+                                                             df.site = critical_care_cips_site_measure)
+check.length.stay                  <- closed_missing_summary(df.lsoa = length_of_stay_measure,
+                                                             df.site = length_of_stay_site_measure)
+check.green.calls                  <- closed_missing_summary(df.lsoa = amb_green_calls_measure,
+                                                             df.site = amb_green_calls_site_measure)
+check.red.calls                    <- closed_missing_summary(df.lsoa = amb_red_calls_measure,
+                                                             df.site = amb_red_calls_site_measure)
+check.mean.times                   <- closed_missing_summary(df.lsoa = amb_mean_times_measure,
+                                                             df.site = amb_mean_times_site_measure)
+check.case.fatality                <- closed_missing_summary(df.lsoa = case_fatality_measure,
+                                                             df.site = case_fatality_site_measure)
+check.sec.case.fatality.7days      <- closed_missing_summary(df.lsoa = sec_case_fatality_7days_measure,
+                                                             df.site = sec_case_fatality_7days_site_measure)
+check.sec.deaths.all.7days         <- closed_missing_summary(df.lsoa = sec_deaths_all_7days_measure,
+                                                             df.site = sec_deaths_all_7days_site_measure)
+check.sec.deaths.in.cips.7days     <- closed_missing_summary(df.lsoa = sec_deaths_in_cips_7days_measure,
+                                                             df.site = sec_deaths_in_cips_7days_site_measure)
+check.sec.deaths.not.in.cips.7days <- closed_missing_summary(df.lsoa = sec_deaths_not_in_cips_7days_measure,
+                                                             df.site = sec_deaths_not_in_cips_7days_site_measure)
+
 ## Bind into two data frames for tabulating
 check.length.stay$check.lsoa$sub.measure[is.na(check.length.stay$check.lsoa$sub.measure)] <- "N/A"
 check.lsoa <- rbind(check.ed.attendances$check.lsoa,
                     check.ed.unnecessary$.lsoa,
                     check.ed.admitted$check.lsoa,
                     check.critical.care$check.lsoa,
-                    check.length.stay$check.lsoa) %>%
+                    check.length.stay$check.lsoa,
+                    check.green.calls$check.lsoa,
+                    check.red.calls$check.lsoa,
+                    check.mean.times$check.lsoa,
+                    check.case.fatality$check.lsoa,
+                    check.sec.case.fatality.7days$check.lsoa,
+                    check.sec.deaths.all.7days$check.lsoa,
+                    check.sec.deaths.in.cips.7days$check.lsoa,
+                    check.sec.deaths.not.in.cips.7days$check.lsoa) %>%
               ungroup() %>%
               arrange(measure, sub.measure, relative.month, group, town) %>%
 	      dplyr::select(measure, sub.measure, town, relative.month, n)
@@ -231,7 +256,15 @@ check.site <- rbind(check.ed.attendances$check.site,
                     check.ed.unnecessary$.site,
                     check.ed.admitted$check.site,
                     check.critical.care$check.site,
-                    check.length.stay$check.site) %>%
+                    check.length.stay$check.site,
+                    check.green.calls$check.site,
+                    check.red.calls$check.site,
+                    check.mean.times$check.site,
+                    check.case.fatality$check.site,
+                    check.sec.case.fatality.7days$check.site,
+                    check.sec.deaths.all.7days$check.site,
+                    check.sec.deaths.in.cips.7days$check.site,
+                    check.sec.deaths.not.in.cips.7days$check.site) %>%
               arrange(measure, sub.measure, relative.month, group, town) %>%
 	      dplyr::select(measure, sub.measure, town, relative.month)
 names(check.site) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month')
