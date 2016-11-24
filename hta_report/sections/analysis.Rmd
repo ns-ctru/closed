@@ -874,6 +874,43 @@ case.fatality.ratio.road.traffic.accident <- closed_models(df.lsoa         = cas
 
 ```
 
+<!--- Case Fatality Ratio - Falls --->
+```{r case_fatality_ratio_falls, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+case.fatality.ratio.falls <- closed_models(df.lsoa         = case_fatality_measure,
+                                     df.trust         = case_fatality_site_measure,
+                                     indicator        = 'case fatality ratio',
+                                     sub.indicator    = 'falls',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7.1         = model.opts$mod7.1,
+                                     model7.2         = model.opts$mod7.2,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = TRUE,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+
+```
+
 <!--- Case Fatality Ratio - Stroke Cva --->
 ```{r case_fatality_ratio_stroke_cva, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 case.fatality.ratio.stroke.cva <- closed_models(df.lsoa         = case_fatality_measure,
