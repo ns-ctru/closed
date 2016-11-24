@@ -135,9 +135,9 @@
 ```{r child = 'subsections/case_fatality_ratio_any.Rmd', eval = TRUE}
 ```
 
-#### Acute Heart Failure  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/case_fatality_ratio_acute_heart_failure.Rmd', eval = TRUE}
-```
+<!-- #### Acute Heart Failure  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_acute_heart_failure.Rmd', eval = TRUE} -->
+<!-- ``` -->
 
 <!-- #### Anaphylaxis  {.tabset .tabset-fade .tabset-pills} -->
 <!-- ```{r child = 'subsections/case_fatality_ratio_anaphylaxis.Rmd', eval = FALSE} -->
@@ -155,9 +155,9 @@
 <!-- ```{r child = 'subsections/case_fatality_ratio_cardiac_arrest.Rmd', eval = FALSE} -->
 <!-- ``` -->
 
-<!-- #### Falls  {.tabset .tabset-fade .tabset-pills} -->
-<!-- ```{r child = 'subsections/case_fatality_ratio_falls.Rmd', eval = FALSE} -->
-<!-- ``` -->
+#### Falls  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/case_fatality_ratio_falls.Rmd', eval = FALSE}
+```
 
 <!-- #### Fractured Neck of Femur  {.tabset .tabset-fade .tabset-pills} -->
 <!-- ```{r child = 'subsections/case_fatality_ratio_fractured_neck_of_femur.Rmd', eval = FALSE} -->
@@ -167,17 +167,17 @@
 <!-- ```{r child = 'subsections/case_fatality_ratio_meningitis.Rmd', eval = FALSE} -->
 <!-- ``` -->
 
-<!-- #### Myocardial Infarction  {.tabset .tabset-fade .tabset-pills} -->
-<!-- ```{r child = 'subsections/case_fatality_ratio_myocardial_infarction.Rmd', eval = FALSE} -->
-<!-- ``` -->
+#### Myocardial Infarction  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/case_fatality_ratio_myocardial_infarction.Rmd', eval = FALSE}
+```
 
 <!-- #### Pregnancy and Birth Related  {.tabset .tabset-fade .tabset-pills} -->
 <!-- ```{r child = 'subsections/case_fatality_ratio_pregnancy_and_birth_related.Rmd', eval = FALSE} -->
 <!-- ``` -->
 
-<!-- #### Road Traffic Accident  {.tabset .tabset-fade .tabset-pills} -->
-<!-- ```{r child = 'subsections/case_fatality_ratio_road_traffic_accident.Rmd', eval = FALSE} -->
-<!-- ``` -->
+#### Road Traffic Accident  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/case_fatality_ratio_road_traffic_accident.Rmd', eval = FALSE}
+```
 
 <!-- #### Self Harm  {.tabset .tabset-fade .tabset-pills} -->
 <!-- ```{r child = 'subsections/case_fatality_ratio_self_harm.Rmd', eval = FALSE} -->
@@ -187,9 +187,9 @@
 <!-- ```{r child = 'subsections/case_fatality_ratio_septic_shock.Rmd', eval = FALSE} -->
 <!-- ``` -->
 
-<!-- #### Serious Head Injury  {.tabset .tabset-fade .tabset-pills} -->
-<!-- ```{r child = 'subsections/case_fatality_ratio_serious_head_injury.Rmd', eval = FALSE} -->
-<!-- ``` -->
+#### Serious Head Injury  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/case_fatality_ratio_serious_head_injury.Rmd', eval = FALSE}
+```
 
 #### Stroke CVA  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/case_fatality_ratio_stroke_cva.Rmd', eval = TRUE}
