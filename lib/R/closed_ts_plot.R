@@ -176,23 +176,23 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     }
     else if(indicator == 'ambulance mean times'){
         title1 <- 'Ambulance Mean Times'
-        if(sub.indicator == 'call_to_dest'){
+        if(sub.indicator == 'call to dest' | sub.indicator == 'call_to_dest'){
             title2 <- ' (Call to Destination)'
             y.text.steps <- 30
         }
-        else if(sub.indicator == 'call_to_scene_any'){
+        else if(sub.indicator == 'call to scene any' | sub.indicator == 'call_to_scene_any'){
             title2 <- ' (Call to Scene, Any)'
             y.text.steps <- 5
         }
-        else if(sub.indicator == 'call_to_scene_conveying'){
+        else if(sub.indicator == 'call to scene conveying' | sub.indicator == 'call_to_scene_conveying'){
             title2 <- ' (Call to Scene, Conveying)'
             y.text.steps <- 5
         }
-        else if(sub.indicator == 'dest_to_clear'){
+        else if(sub.indicator == 'dest to clear' | sub.indicator == 'dest_to_clear'){
             title2 <- ' (Destination to Clear)'
             y.text.steps <- 10
         }
-        else if(sub.indicator == 'scene_to_dest'){
+        else if(sub.indicator == 'scene to dest' | sub.indicator == 'scene_to_dest'){
             title2 <- ' (Scene to Destination)'
             y.text.steps <- 15
         }
@@ -262,7 +262,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         y.text <- -0.05
         y.text.steps <- 0.05
     }
-    else if(indicator == 'sec_deaths_all_7_days'){
+    else if(indicator == 'sec deaths all 7 days' | indicator == 'sec_deaths_all_7_days'){
         title1 <- 'Deaths @ 7 Days'
         if(sub.indicator == 'any sec')                          title2 <- ' (Any Sec)'
         else if(sub.indicator == 'any sec')                     title2 <- ' (Any Single Sec)'
@@ -288,7 +288,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         y.text <- -0.05
         y.text.steps <- 0.05
     }
-    else if(indicator == 'sec_deaths_in_cips_7_days'){
+    else if(indicator == 'sec deaths in cips 7 days' | indicator == 'sec_deaths_in_cips_7_days'){
         title1 <- 'Deaths in CIPS @ 7 Days'
         if(sub.indicator == 'any sec')                          title2 <- ' (Any Sec)'
         else if(sub.indicator == 'any single sec')              title2 <- ' (Any Single Sec)'
@@ -314,7 +314,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         y.text <- -0.05
         y.text.steps <- 0.05
     }
-    else if(indicator == 'sec_deaths_not_in_cips_7_days'){
+    else if(indicator == 'sec deaths not in cips 7 days' | indicator == 'sec_deaths_not_in_cips_7_days'){
         title1 <- 'Deaths not in CIPS @ 7 Days'
         if(sub.indicator == 'any sec')                          title2 <- ' (Any Sec)'
         else if(sub.indicator == 'any single sec')              title2 <- ' (Any Single Sec)'
