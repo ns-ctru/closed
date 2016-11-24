@@ -52,6 +52,9 @@ closed_tidy <- function(df        = ed_attendances_by_mode_site_measure,
     ##                   'amb_mean_time_site_measure')){
     ##     df$value <- (df$value / 60) %>% as.numeric()
     ## }
+    ## Remove underscores from measure and sub.measure
+    df$measure     <- gsub('_', ' ', df$measure)
+    df$sub.measure <- gsub('_', ' ', df$sub.measure)
     ## Factor variables
     df$town <- factor(df$town)
     #######################################################################
@@ -76,8 +79,8 @@ closed_tidy <- function(df        = ed_attendances_by_mode_site_measure,
     #######################################################################
     ## Add a dummy 'step' for closure                                    ##
     #######################################################################
-    df$closure  <- ifelse(df$relative.month  > 24 &
-                          df$town %in% c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+    df$closure  <- ifelse(df$relative.month  > 24,
+                          ##  & df$town %in% c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
                           1, 0)
     #######################################################################
     ## Add dummy for other 'steps'                                       ##
