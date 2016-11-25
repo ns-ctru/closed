@@ -236,10 +236,10 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'stays with transfer')    ylabel <- 'N (Stays with Transfers)'
         y.text.steps <- 100
     }
-    else if(indicator == 'sec case fatality 7 days'){
+    else if(indicator == 'case fatality 7 days'){
         title1 <- 'Case Fatality @ 7 Days'
         if(sub.indicator == 'any sec')                          title2 <- ' (Any Sec)'
-        else if(sub.indicator == 'any sec')                     title2 <- ' (Any Single Sec)'
+        else if(sub.indicator == 'any single sec')              title2 <- ' (Any Single Sec)'
         else if(sub.indicator == 'acute heart failure')         title2 <- ' (Acute Heart Failure)'
         else if(sub.indicator == 'anaphylaxis')                 title2 <- ' (Anaphylaxis)'
         else if(sub.indicator == 'any')                         title2 <- ' (Any)'
