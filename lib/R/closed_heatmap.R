@@ -50,7 +50,7 @@ closed_heatmap <- function(df           = summary.models,
                                                'case fatality ratio - acute heart failure',
                                                'case fatality ratio - any',
                                                'case fatality ratio - any trauma sec',
-                                               'sec case fatality 7 days - any sec'
+                                               'sec case fatality 7 days - any sec',
                                                'length of stay - median',
                                                'length of stay - mean',
                                                'critical care stays - fraction critical care',
