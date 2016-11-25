@@ -5,7 +5,7 @@ Data was provided by [HSCIC](https://www.gov.uk/government/organisations/health-
 
 
 
-#### Steps
+### Steps
 
 The closure of ED departments is modelled via time-series analyses using a dummy variable (coded 0 for open and 1 for closed) to indicate whether the ED department is open/closed for any given month in a given hospital.  However, other factors might influence attendance and the afforementioned documentary analysis was undertaken at the case sites (where EDs closed) and one matched control for each case site to identify additional events that might impact on the indicators being considered.  These are detailed in full in [this spreadhsheet](https://goo.gl/TlhfCF) and  of the different steps identified they have been categorised into the introduction of the NHS111 Helpline (`nhs111`), other medical care centres opening (`other.centre`) and the diversion of ambulances (`ambulance.divert`) and are summarised in the table below for the ten hospitals.  Dummy variables were generated to indicate the occurrence of a step as described for closure.
 
