@@ -4,27 +4,10 @@ Data was provided by [HSCIC](https://www.gov.uk/government/organisations/health-
 
 
 
-### Models
-
-A series of increasingly complex models were tested under each framework, these are described in the table below.  Dummy variables indicating a step when an Emergency Department closed (`closure`) were included along with dummy variables for other events identified that might impact on ED attendance, of which there were three identified across the ten sites that underwent documentary analysis.  The additional steps identified as having a possible impact on the indicators were the introduction of NHS111 (`nhs111`), the opening of additional emergency care centres within the catchment area (`other.centre`) or ambulances being diverted from an Emergency Department (`ambulance.diversion`).  For outcomes that consisted of counts of events over time analyses were performed using Negative-Binomial Time-Series, whilst outcomes that were proportions or means were tested using Prais-Winsten regression.  Both methods allow for adjusting for auto-correlation that may exist within time-series panels whilst providing point-estimates of the amount of variation explained by multiple explanatory/predictor co-variates.
-
-
-Table: Models tested in ClosED
-
-Model  | Case Site    | Control Site         | Panel | Covariates
--------|--------------|----------------------|-------|----------------------------------------
-0      | Individual   | None                 | ED    | closure
-1      | Individual   | None                 | ED    | season + time + closure + nhs111 + other.centre + ambulance.diversion
-2      | Individual   | Primary Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-3      | All          | Primary Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-4      | Individual   | None                 | LSOA  | season + time + closure + nhs111 + other.centre + ambulance.diversion + change in ED time
-5      | All          | None                 | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
-
-The software used for all analyses were [R](https://www.r-projects.org/) and [Stata (v14.1)](https://www.stata.com/).
 
 #### Steps
 
-The closure of ED departments is modelled using a dummy variable (coded 0 for closed and 1 for open) to indicate whether the ED department is open/closed for any given month in a given hospital.  However, other factors might influence attendance and documentary analysis was undertaken at the case sites (where EDs closed) and one matched control for each case site to identify additional events that might impact on the indicators being considered.  These are detailed in full in [this spreadhsheet](https://goo.gl/TlhfCF) and  of the different steps identified they have been categorised into the introduction of the NHS111 Helpline (`nhs111`), other medical care centres opening (`other.centre`) and the diversion of ambulances (`ambulance.divert`) and are summarised in the table below for the ten hospitals.
+The closure of ED departments is modelled via time-series analyses using a dummy variable (coded 0 for open and 1 for closed) to indicate whether the ED department is open/closed for any given month in a given hospital.  However, other factors might influence attendance and the afforementioned documentary analysis was undertaken at the case sites (where EDs closed) and one matched control for each case site to identify additional events that might impact on the indicators being considered.  These are detailed in full in [this spreadhsheet](https://goo.gl/TlhfCF) and  of the different steps identified they have been categorised into the introduction of the NHS111 Helpline (`nhs111`), other medical care centres opening (`other.centre`) and the diversion of ambulances (`ambulance.divert`) and are summarised in the table below for the ten hospitals.  Dummy variables were generated to indicate the occurrence of a step as described for closure.
 
 Table: Steps used in the model. Dates indicate the month of event (relative month is shown in brackets).
 
@@ -41,55 +24,124 @@ Southport        |                 | 2013-03-01 (48) | 2009-06-01 (03) |
 Rochdale         | 2011-04-01 (25) | 2013-03-01 (48) |                 | 2010-08-01 (17)
 Rotherham        |                 | 2013-03-01 (48) | 2009-06-01 (11) |
 
+
+### Data Tidying
+
+On visual inspection of the time-series it was apparent that there were a number of months that had spurious data points as the observed values were considerably different from those flanking either side or across the whole time-series.  To deal with this it was decided that the mean and standard deviation across time-series would be calculated for each site and that observations that were greater than two standard deviations from the overall mean would be considered spurious and converted to missing observations.  When case sites with closed Emergency Departments were analysed with their matched Controls, or pooled analyses were performed, the panels were balanced (i.e. if there was one spurious observation at a given time point that was removed for one site, it was also removed from all other sites being analysed).
+
+### Statistical Methods
+
+The software used for all analyses were [R (3.3.0)](https://www.r-projects.org/) and [Stata (v14.1)](https://www.stata.com/).  For outcomes that are counts negative-binomial time-series regression is utilised, and where multiple centres are included random effects are utilised to allow for variation between the panels. For outcomes that are ratios and means by monthm Prais-Winsten regression (Prais and Winsten (1954)). Across all models maximisation was performed using likelihood.
+
+### Models
+
+A series of increasingly complex models were tested under each framework, initially there were a total of 12 models which included the case sites compared to all matched sites either at Site or LSOA level, however because documentary analysis of additional 'steps' that might influence attendance has only been performed for one control per site these additional models are not presented (since account can not be taken of unknown factors) and the models presented are  described in the table below.  Dummy variables indicating a step when an Emergency Department closed (`closure`) were included along with dummy variables for other events identified during documentary analysis that might impact on ED attendance, of which there were three identified across the ten sites that underwent documentary analysis.  The additional steps identified as having a possible impact on the indicators were the introduction of NHS111 (`nhs111`), the opening of additional emergency care centres within the catchment area (`other.centre`) or ambulances being diverted from an Emergency Department (`ambulance.diversion`).
+
+
+Table: Models tested in ClosED
+
+Model  | Case Site    | Control Site         | Panel | Covariates
+-------|--------------|----------------------|-------|----------------------------------------
+0      | Individual   | None                 | ED    | closure
+1      | Individual   | None                 | ED    | season + time + closure + nhs111 + other.centre + ambulance.diversion
+2      | Individual   | Primary Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+3      | All          | Primary Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+4      | Individual   | None                 | LSOA  | season + time + closure + nhs111 + other.centre + ambulance.diversion + change in ED time
+5      | All          | None                 | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
+
+
 ### Indicators
 
-A large number of indicators were tested for the effects of closing Emergency Departments, these are detailed in the table below.
+A range of indicators covering different aspects of service performance were tested for the effects of closing Emergency Departments, these are detailed in the table below.
 
-| Indicator  | Description | Outcome Type | Data Source
-|------------|-------------|--------------|------------------------
-| **Deaths** | Mortality rate for deaths occurring upto 3 days for 16 conditions (see table Avoidable Deaths | Count | ONS / HES-ONS|
-| **Risk of Death** | Case fatality ratio (deaths / cases) for the 16 serious conditions (see table Avoidable Deaths). | Ratio | ONS / HES-ONS|
-| **Emergency Attendance** | Total Type 1 ED Attendances for residents in the catchment area with any condition. | Count | HES-AE |
-|                          | Total Type 1 ED Attendances for residents in the catchment area arriving via Ambulance | Count | HES-AE |
-|                          | Total Type 1 ED Attendances for residents in the catchment area arriving via 'walk-in' mode. | Count | HES-AE |
-|                          | Arrivals at ED for residents in the catchment area who are discharged without treatment/investigation that utilised hospital facilities. | Count | HES-AE |
-|                          | Proportion of ED attendances for residents in the catchment area that resulted in admission to hospital bed. | Ratio | HES-AE |
-| **Emergency Admissions** | Number of emergency hospital admissions with any condition. | Count | HES-APC |
-|                          | Number of emergency hospital admissions for each of the 14 urgent conditions(table~\ref{avoidable-deaths}). | Count | HES-APC |
-|                          | These will be performed for all hospital admissions and then restricted to admissions where patients are resident in the catchment area.  | | |
-| **Condition Severity**   | For emergency admissions the mean length of stay. | Mean | HES-APC |
-|                          | For emergency admissions the proportion admitted to critical care. | Ratio | HES-APC |
-| **Ambulance Service Performance** | Mean time from 999 call to ambulance arriving on scene. | Mean | AS |
-|                                   | Mean time from ambulance arriving on scene to arriving at hospital. | Mean | AS |
-|                                   | Mean time from 999 call to arriving at hospital. | Mean | AS |
-|                                   | Mean time from ambulance arriving at hospital to 'clear' time. | Mean | AS |
-|                                   | Total call volumes.    | Count | AS |
-|                                   |  Non-conveyance rates. | Count | AS |
+<!-- -->
+<!-- | Indicator  | Description | Outcome Type | Data Source -->
+<!-- |------------|-------------|--------------|------------------------ -->
+<!-- | **Deaths** | Mortality rate for deaths occurring upto 7 days for 16 conditions (see table Avoidable Deaths | Count | ONS / HES-ONS| -->
+<!-- | **Risk of Death** | Case fatality ratio (deaths / cases) for the 16 serious conditions (see table Avoidable Deaths). | Ratio | ONS / HES-ONS| -->
+<!-- | **Emergency Attendance** | Total Type 1 ED Attendances for residents in the catchment area with any condition. | Count | HES-AE | -->
+<!-- |                          | Total Type 1 ED Attendances for residents in the catchment area arriving via Ambulance | Count | HES-AE | -->
+<!-- |                          | Total Type 1 ED Attendances for residents in the catchment area arriving via 'walk-in' mode. | Count | HES-AE | -->
+<!-- |                          | Arrivals at ED for residents in the catchment area who are discharged without treatment/investigation that utilised hospital facilities. | Count | HES-AE | -->
+<!-- |                          | Proportion of ED attendances for residents in the catchment area that resulted in admission to hospital bed. | Ratio | HES-AE | -->
+<!-- | **Emergency Admissions** | Number of emergency hospital admissions with any condition. | Count | HES-APC | -->
+<!-- |                          | Number of emergency hospital admissions for each of the 14 urgent conditions(table~\ref{avoidable-deaths}). | Count | HES-APC | -->
+<!-- |                          | These will be performed for all hospital admissions and then restricted to admissions where patients are resident in the catchment area.  | | | -->
+<!-- | **Condition Severity**   | For emergency admissions the mean length of stay. | Mean | HES-APC | -->
+<!-- |                          | For emergency admissions the proportion admitted to critical care. | Ratio | HES-APC | -->
+<!-- | **Ambulance Service Performance** | Mean time from 999 call to ambulance arriving on scene. | Mean | AS | -->
+<!-- |                                   | Mean time from ambulance arriving on scene to arriving at hospital. | Mean | AS | -->
+<!-- |                                   | Mean time from 999 call to arriving at hospital. | Mean | AS | -->
+<!-- |                                   | Mean time from ambulance arriving at hospital to 'clear' time. | Mean | AS | -->
+<!-- |                                   | Total call volumes.    | Count | AS | -->
+<!-- |                                   |  Non-conveyance rates. | Count | AS | -->
 
-#### Statistical Methods
 
-For outcomes that are counts negative-binomial time-series regression is utilised, and where multiple centres are included random effects are allow for variation between the panels.  For ratios and means Prais-Winsten regression (@prais1954).  Across all models maximumisation was performed using likelihood.
+Table: Indicators of Ambulance, ED and Hospital performance tested.
+
+|Indicator                         | Source    | Measure                          | Sub Measure            | Type         | Description
+|----------------------------------|-----------|----------------------------------|------------------------|--------------|--------------------------------
+| **Ambulance Service Performance** | AS       | `ambulance mean times`           | `call_to_dest`           | `mean`     | Mean time from 999 call to destination (ED).
+|                                   |          | `ambulance mean times`           | `call_to_scene_any`      | `mean`     | Mean time from 999 call to scene for all calls.
+|                                   |          | `ambulance mean times`           | `call_to_scene_conveying`| `mean`     | Mean time from 999 call to scene for calls that resulted in conveynace.
+|                                   |          | `ambulance mean times`           | `scene_to_dest`          | `mean`     | Mean time from scene to destination (ED).
+|                                   |          | `ambulance mean times`           | `dest_to_clear`          | `mean`     | Mean time from destination (ED) to being clear.
+| **Emergency Attendance**          | HES-AE   | `ed attendances`                 | `all`                  | `count`      | All ED attendances by any mode.
+|                                   |          | `ed attendances`                 | `ambulance`            | `count`      | All ED attendances by any mode.
+|                                   |          | `ed attendances`                 | `other`                | `count`      | All ED attendances by any mode.
+|                                   |          | `unnecessary ed attendances`     | `all`                  | `count`      | All ED attendances considered unnecessary
+|                                   |          | `ed attendances admitted`        | `admitted`             | `count`      | ED attendances that were admitted.
+|                                   |          | `ed attendances admitted`        | `fraction admitted`    | `count`      | ED attendances that were admitted.
+| **Emergency Admissions**          | HES-APC  | `all emergency admissions`       | `all`                  | `count`      | All emergency admissions (regardless of ED attendance)
+|                                   |          | `avoidable emergency admissions` | `any`                     | `count`   | Emergency admissions considered avoidable (see below)
+|                                   |          | `avoidable emergency admissions` | `non-specific chest pains`| `count`   | Emergency admissions for non-specific chest pain
+| **Condition Severity**            | HES-APC  | `critical care stays`            | `fraction admitted`    | `proportion` | Proportion of ED attendances that were admitted.
+|                                   |          | `length of stay`                 | `mean`                 | `mean`       | Mean length of stay of admissions (**all emergency or ed attendances?**)
+|                                   |          | `length of stay`                 | `median`               | `median`     | Mean length of stay of admissions (**all emergency or ed attendances?**)
+| **Risk of Death**                 | ONS/HES-ONS | `case fatality ratio`            | `any`                  | `proportion` | Proportion of cases for avoidable deaths (see below) that resulted in death. (**Are these of admissions or ED attendances or both?**)
+|                                   |             | `case fatality ratio`            | `myocardial infarction`| `proportion` | Proportion of MIs that resulted in death. (**Are these of admissions or ED attendances or both?**)
+|                                   |             | `case fatality ratio`            | `stokre cva`           | `proportion` | Proportion of Stroke/CVA's that resulted in death. (**Are these of admissions or ED attendances or both?**)
+|                                   |             | `case fatality ratio`            | `any trauma sec`       | `proportion` | Proportion of trauma (RTA, Falls in those < 75, Non-superficial head injuries **Have I got these right?**) that resulted in death. (**Are these of admissions or ED attendances or both?**)
+|                                   |             | `sec case fatality 7 days`       | `any sec`              | `proportion` | Proportion of cases for avoidable deaths at 7 days (see below) that resultsed in deaths.
+| **??** | **??**       | `ambulance green calls`          | `green calls`            | `count`    | Number of green calls (**Should this be included?**)
+| **??** | **??**       | `ambulance green calls`          | `green calls`            | `count`    | Number of green calls (**Should this be included?**)
+| **??** | **??**       | `ambulance green calls`          | `not conveyed green calls`| `count`    | Number of green calls that weren't conveyed (**Should this be included?**)
+| **??** | **??**       | `ambulance green calls`          | `fraction not conveyed`  | `proportion` | Proportion of green calls that weren't conveyed (**Should this be included?**)
+| **??** | **??**       | `ambulance red calls`            | `hospital transfers`     | `count`    | Number of red calls that were for hospital transfers.
+| **??** | **??**       | `ambulance red calls`            | `total`                  | `count`    | Number of red calls.
+| **??** | **??**       | `hospital transfers`             | `ambulance`              | `count`    |
+| **??** | **??**       | `hospital transfers`             | `stays with transfer`    | `count`    |
+| **??** | **??**       | `hospital transfers`             | `fraction with transfer` | `proportion` |
+| **Risk of Death**                 | ONS/HES-ONS | `sec deaths all 7days`           | `any sec`                | `count`    | All deaths at 7 days for conditions listed below seen in hospital, regardless of where death occurred.
+|                                   |             | `sec deaths in cips 7days`       | `any sec`                | `count`    | All deaths in hospital at 7 days for conditions listed below (**Is this correct?**)
+|                                   |             | `sec deaths not in cips 7days	`  | `any sec`                | `count`    | All deaths not in hospital at 7 days for conditions listed below who had contact with ED/hospital. (**Is this correct?**)
+
+
+
+
+
+
 
 #### Avoidable Emergency Admissions and Avoidable Deaths
 
-Avoidable deaths and admissions will be analysed across the conditions described in the table below.  A few conditions will also be analysed individually.
+Avoidable deaths and admissions will be analysed across the conditions described in the table below.  A few conditions will also be analysed individually.  The condition specific case fatality ratios are calculated by determining if someone is both admitted and dies from the stated condition.
 
 Table : Specific conditions for which admissions or deaths are considered avoidable.  \* Denotes condition to be considered in isolation.
 
 | Avoidable Deaths | Avoidable Admissions |
 |------------------|----------------------|
-| Acute Heart Failure\* | Acute Mental Crisis|
+| Acute Heart Failure | Acute Mental Crisis|
 | Anaphalaxis | Angina|
 | Asphyxiation | Blocked Urinary Catheter |
 | Asthma | Cellulitis |
 | Cardiac Arrest | Childhood Pyrexial |
-| Falls in those <75 | Chronic Obstructive Pulmonary Disease |
+| Falls in those <75\* (trauma) | Chronic Obstructive Pulmonary Disease |
 | Fractured Neck of Femur | Deep Vein Thrombosis |
 | Meningitis | Epileptic Seizure |
-| Myocardial Infarction | Falls in those >75 |
-| Non-superficial Head Injuries | Hypoglycaemia |
+| Myocardial Infarction\* | Falls in those >75 |
+| Non-superficial Head Injuries\* | Hypoglycaemia |
 | Pregnancy and Birth Related Conditions | Non-specific Abdominal Pains |
-| Road Traffic Accidents | Non-specific Chest Pains\* |
+| Road Traffic Accidents\* | Non-specific Chest Pains\* |
 | Ruptured Aortic Aneurysm | Superficial Head Injuries |
 | Self-harm | Urinary Tract Infections |
 | Septic Shock | |
