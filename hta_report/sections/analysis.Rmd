@@ -908,12 +908,12 @@ case.fatality.ratio.myocardial.infarction <- closed_models(df.lsoa         = cas
 
 ```
 
-<!--- Case Fatality Ratio - Trauma --->
-```{r case_fatality_ratio_trauma, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-case.fatality.ratio.trauma <- closed_models(df.lsoa         = case_fatality_measure,
+<!--- Case Fatality Ratio - Trauma any sec--->
+```{r case_fatality_ratio_any_trauma_sec, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
+case.fatality.ratio.any.trauma.sec <- closed_models(df.lsoa         = case_fatality_measure,
                                      df.trust         = case_fatality_site_measure,
                                      indicator        = 'case fatality ratio',
-                                     sub.indicator    = 'trauma',
+                                     sub.indicator    = 'any trauma sec',
                                      panel.lsoa       = model.opts$panel.lsoa,
                                      panel.trust      = model.opts$panel.trust,
                                      timevar          = model.opts$timevar,
@@ -1209,7 +1209,7 @@ sec.deaths.not.in.cips.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_death
 
 
 <!--- Ambulance Mean Times - Call to Destination --->
-```{r ambulance_mean_times_call_to_dest, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r ambulance_mean_times_call_to_dest, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ambulance.mean.times.call.to.dest <- closed_models(df.lsoa         = amb_mean_times_measure,
                                      df.trust         = amb_mean_times_site_measure_clean,
                                      indicator        = 'ambulance mean times',
@@ -1246,7 +1246,7 @@ ambulance.mean.times.call.to.dest <- closed_models(df.lsoa         = amb_mean_ti
 ```
 
 <!--- Ambulance Mean Times - Call to Scene Any --->
-```{r ambulance_mean_times_call_to_scene_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r ambulance_mean_times_call_to_scene_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ambulance.mean.times.call.to.scene.any <- closed_models(df.lsoa         = amb_mean_times_measure,
                                      df.trust         = amb_mean_times_site_measure_clean,
                                      indicator        = 'ambulance mean times',
@@ -1283,7 +1283,7 @@ ambulance.mean.times.call.to.scene.any <- closed_models(df.lsoa         = amb_me
 ```
 
 <!--- Ambulance Mean Times - Call to Scene Conveying --->
-```{r ambulance_mean_times_call_to_destination, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r ambulance_mean_times_call_to_destination, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ambulance.mean.times.call.to.scene.conveying <- closed_models(df.lsoa         = amb_mean_times_measure,
                                      df.trust         = amb_mean_times_site_measure_clean,
                                      indicator        = 'ambulance mean times',
@@ -1320,7 +1320,7 @@ ambulance.mean.times.call.to.scene.conveying <- closed_models(df.lsoa         = 
 ```
 
 <!--- Ambulance Mean Times - Destination to Clear --->
-```{r ambulance_mean_times_dest_to_clear, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r ambulance_mean_times_dest_to_clear, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ambulance.mean.times.dest.to.clear <- closed_models(df.lsoa         = amb_mean_times_measure,
                                      df.trust         = amb_mean_times_site_measure_clean,
                                      indicator        = 'ambulance mean times',
@@ -1357,7 +1357,7 @@ ambulance.mean.times.dest.to.clear <- closed_models(df.lsoa         = amb_mean_t
 ```
 
 <!--- Ambulance Mean Times - Scene to Destination --->
-```{r ambulance_mean_times_scene_to_dest, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r ambulance_mean_times_scene_to_dest, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ambulance.mean.times.scene.to.dest <- closed_models(df.lsoa         = amb_mean_times_measure,
                                      df.trust         = amb_mean_times_site_measure_clean,
                                      indicator        = 'ambulance mean times',
@@ -1608,11 +1608,11 @@ save(diff.time.to.ed,
      ## case.fatality.ratio.serious.head.injury,
      ## case.fatality.ratio.trauma,
      case.fatality.ratio.stroke.cva,
-     ambulance.mean.times.call.to.dest,
-     ambulance.mean.times.call.to.scene.any,
-     ambulance.mean.times.call.to.scene.conveying,
-     ambulance.mean.times.dest.to.clear,
-     ambulance.mean.times.scene.to.dest,
+     ## ambulance.mean.times.call.to.dest,
+     ## ambulance.mean.times.call.to.scene.any,
+     ## ambulance.mean.times.call.to.scene.conveying,
+     ## ambulance.mean.times.dest.to.clear,
+     ## ambulance.mean.times.scene.to.dest,
      ambulance.non.conveyances.green.calls,
      ambulance.non.conveyances.green.calls.non.conveyed,
      ambulance.non.conveyances.green.calls.hospital.transfers,
@@ -1624,7 +1624,7 @@ save(diff.time.to.ed,
      hospital.transfers.proportion.with.transfer,
      case.fatality.ratio.7days.any.sec,
      case.fatality.ratio.7days.any.single.sec,
-     sec.deaths.all.cips.7days.any.sec,
+     sec.deaths.all.7days.any.sec,
      sec.deaths.in.cips.7days.any.sec,
      sec.deaths.not.in.cips.7days.any.sec,
      spurious,
