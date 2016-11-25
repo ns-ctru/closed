@@ -155,9 +155,9 @@
 <!-- ```{r child = 'subsections/case_fatality_ratio_cardiac_arrest.Rmd', eval = FALSE} -->
 <!-- ``` -->
 
-#### Falls  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/case_fatality_ratio_falls.Rmd', eval = FALSE}
-```
+<!-- #### Falls  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_falls.Rmd', eval = FALSE} -->
+<!-- ``` -->
 
 <!-- #### Fractured Neck of Femur  {.tabset .tabset-fade .tabset-pills} -->
 <!-- ```{r child = 'subsections/case_fatality_ratio_fractured_neck_of_femur.Rmd', eval = FALSE} -->
@@ -175,9 +175,9 @@
 <!-- ```{r child = 'subsections/case_fatality_ratio_pregnancy_and_birth_related.Rmd', eval = FALSE} -->
 <!-- ``` -->
 
-#### Road Traffic Accident  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/case_fatality_ratio_road_traffic_accident.Rmd', eval = FALSE}
-```
+<!-- #### Road Traffic Accident  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_road_traffic_accident.Rmd', eval = FALSE} -->
+<!-- ``` -->
 
 <!-- #### Self Harm  {.tabset .tabset-fade .tabset-pills} -->
 <!-- ```{r child = 'subsections/case_fatality_ratio_self_harm.Rmd', eval = FALSE} -->
@@ -187,12 +187,20 @@
 <!-- ```{r child = 'subsections/case_fatality_ratio_septic_shock.Rmd', eval = FALSE} -->
 <!-- ``` -->
 
-#### Serious Head Injury  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/case_fatality_ratio_serious_head_injury.Rmd', eval = FALSE}
+<!-- #### Serious Head Injury  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_serious_head_injury.Rmd', eval = FALSE} -->
+<!-- ``` -->
+
+#### Any Trauma  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/case_fatality_ratio_any_trauma_sec.Rmd', eval = TRUE}
 ```
 
 #### Stroke CVA  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/case_fatality_ratio_stroke_cva.Rmd', eval = TRUE}
+```
+
+#### 7 Days {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/case_fatality_ratio_7days_any_sec.Rmd', eval = TRUE}
 ```
 
 ### Ambulance Mean Times  {.tabset .tabset-fade}
@@ -231,9 +239,9 @@
 ```{r child = 'subsections/ambulance_non_conveyances_fraction_not_conveyed.Rmd', eval = TRUE}
 ```
 
-### Ambulance Red Calls  {.tabset .tabset-fade .tabset-pills}
+### Ambulance Red Calls {.tabset .tabset-fade .tabset-pills}
 
-#### Hospital Transfers  {.tabset .tabset-fade .tabset-pills}
+#### Hospital Transfers {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/ambulance_red_calls_hospital_transfers.Rmd', eval = TRUE}
 ```
 
@@ -241,7 +249,7 @@
 ```{r child = 'subsections/ambulance_red_calls_total.Rmd', eval = TRUE}
 ```
 
-### Hospital Transfers  {.tabset .tabset-fade .tabset-pills}
+### Hospital Transfers {.tabset .tabset-fade .tabset-pills}
 
 #### All Stays  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/hospital_transfers_all_stays.Rmd', eval = TRUE}
@@ -255,6 +263,18 @@
 ```{r child = 'subsections/hospital_transfers_proportion_with_transfer.Rmd', eval = TRUE}
 ```
 
+### 7-Day Deaths {.tabset .tabset-fade .tabset-pills}
+#### All
+```{r child = 'subsections/sec_deaths_all_7days_any_sec.Rmd', eval = TRUE}
+```
+
+#### In CIPS
+```{r child = 'subsections/sec_deaths_in_cips_7days_any_sec.Rmd', eval = TRUE}
+```
+
+#### Not In CIPS
+```{r child = 'subsections/sec_deaths_not_in_cips_7days_any_sec.Rmd', eval = TRUE}
+```
 
 ### Regression Summary  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/regression_summary.Rmd', eval = TRUE}
