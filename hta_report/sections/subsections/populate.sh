@@ -349,11 +349,11 @@ sed -e 's/template/case.fatality.ratio.7days.any.sec/g' \
 ## Measure     : Case Fatality 7 days
 ## Sub-Measure : any single sec
 sed -e 's/template/case.fatality.ratio.7days.any.single.sec/g' \
-    -e 's/Measure/sec case fatality 7days/g' \
+    -e 's/Measure/sec case fatality 7 days/g' \
     -e 's/sub_measure/any single sec/g' \
     -e 's/data_frame/sec_case_fatality_7days/g' \
     -e 's/DESCRIPTION/Case Fatality at 7 days (any sec)/g' \
-    template.Rmd > case_fatality_ratio_7days_any_sec.Rmd
+    template.Rmd > case_fatality_ratio_7days_any_single_sec.Rmd
 
 ## Measure     : All Deaths 7 days
 ## Sub-Measure : any sec
