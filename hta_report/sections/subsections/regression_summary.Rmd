@@ -38,7 +38,7 @@ summary.models <- rbind(mode.of.arrival.any$xtnbreg,
                         hospital.transfers.stays.with.transfer$xtnbreg,
                         hospital.transfers.proportion.with.transfer$all.model.all.coef,
                         ## case.fatality.ratio.7days.any.single.sec$all.model.all.coef,
-                        case.fatality.ratio.7days.single.sec$all.model.all.coef,
+                        case.fatality.ratio.7days.any.sec$all.model.all.coef,
                         sec.deaths.all.7days.any.sec$xtnbreg,
                         sec.deaths.in.cips.7days.any.sec$xtnbreg,
                         sec.deaths.not.in.cips.7days.any.sec$xtnbreg) ## %>%
