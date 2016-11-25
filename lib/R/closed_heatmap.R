@@ -41,12 +41,16 @@ closed_heatmap <- function(df           = summary.models,
                  indicator = paste0(measure, ' - ', sub.measure),
                  indicator = gsub('_', ' ', indicator),
                  indicator = factor(indicator,
+                                    ## ToDo - Order these and (hopefully) do away with order1/order2
                                     levels = c('hospital transfers - fraction with transfer',
                                                'hospital transfers - stays with transfer',
                                                'hospital transfers - all stays',
                                                'case fatality ratio - stroke cva',
+                                               'case fatality ratio - myocardial infarction',
                                                'case fatality ratio - acute heart failure',
                                                'case fatality ratio - any',
+                                               'case fatality ratio - any trauma sec',
+                                               'sec case fatality 7 days - any sec'
                                                'length of stay - median',
                                                'length of stay - mean',
                                                'critical care stays - fraction critical care',
@@ -72,7 +76,10 @@ closed_heatmap <- function(df           = summary.models,
                                                'ambulance green calls - fraction not conveyed',
                                                'ambulance green calls - hospital transfers',
                                                'ambulance green calls - not conveyed green calls',
-                                               'ambulance green calls - green calls')))
+                                               'ambulance green calls - green calls',
+                                               'sec deaths all 7days - any sec',
+                                               'sec deaths in cips 7days - any sec',
+                                               'sec deaths not in cips 7days - any sec')))
     ## Renumber models if this is for final output
     if(final == TRUE){
         df <- mutate(df,
@@ -120,6 +127,10 @@ closed_heatmap <- function(df           = summary.models,
                  order1 = ifelse(measure == 'length of stay',             yes = 9, no = order1),
                  order1 = ifelse(measure == 'case fatality ratio',        yes = 10, no = order1),
                  order1 = ifelse(measure == 'hospital transfers',         yes = 11, no = order1),
+                 order1 = ifelse(measure == 'sec case fatality 7 days',   yes = 12, no = order1),
+                 order1 = ifelse(measure == 'sec deaths all 7 days',      yes = 13, no = order1),
+                 order1 = ifelse(measure == 'sec deaths in cips 7 days',  yes = 14, no = order1),
+                 order1 = ifelse(measure == 'sec deaths not in cips 7 days',  yes = 15, no = order1),
                  order2 = 0,
                  order2 = ifelse(measure == 'ambulance green calls' &
                                  sub.measure == 'green calls',
@@ -206,8 +217,29 @@ closed_heatmap <- function(df           = summary.models,
                                  sub.measure == 'acute heart failure',
                                  yes = 2, no = order2),
                  order2 = ifelse(measure == 'case fatality ratio' &
+                                 sub.measure == 'myocardial infarction',
+                                 yes = 3, no = order2),
+                 order2 = ifelse(measure == 'case fatality ratio' &
+                                 sub.measure == 'trauma',
+                                 yes = 4, no = order2),
+                 order2 = ifelse(measure == 'case fatality ratio' &
                                  sub.measure == 'stroke cva',
-                                 yes = 3, no = order2))
+                                 yes = 5, no = order2),
+                 order2 = ifelse(measure == 'sec case fatality 7 days' &
+                                 sub.measure == 'any sec',
+                                 yes = 1, no = order2),
+                 order2 = ifelse(measure == 'sec case fatality 7 days' &
+                                 sub.measure == 'any single sec',
+                                 yes = 1, no = order2),
+                 order2 = ifelse(measure == 'sec deaths all 7 days' &
+                                 sub.measure == 'any sec',
+                                 yes = 2, no = order2),
+                 order2 = ifelse(measure == 'sec deaths in cips 7 days' &
+                                 sub.measure == 'any sec',
+                                 yes = 1, no = order2),
+                 order2 = ifelse(measure == 'sec deaths not in cips 7 days' &
+                                 sub.measure == 'any sec',
+                                 yes = 1, no = order2))
     ## Alternatively turn them into factors
     df <- mutate(df,
                  indicator = factor(indicator,))
