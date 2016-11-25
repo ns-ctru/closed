@@ -14,7 +14,10 @@ bibliography: bibliography.bib
 opts_chunk$set(cache.path = 'cache/',
                width    = 200,
                fig.height = 8,
-               fig.width  = 8)
+               fig.width  = 8,
+               knitr.kable.NA = '')
+options(knitr.kable.NA = '')
+
 ## Set a seed
 set.seed(69027181)
 ```
