@@ -171,7 +171,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$summary.table.head <- dplyr::select(results$summary.table.head,
                                                 town, before.after, mean.sd, median.iqr, min.max, mean)
     ## Reshape the table header
-    results$summary.table.head %>% print()
     results$summary.table.head <- melt(results$summary.table.head, id.vars = c('town', 'before.after')) %>%
                                   dcast(town ~ before.after + variable)
     results$summary.table.head$Before_mean <- as.numeric(results$summary.table.head$Before_mean)
