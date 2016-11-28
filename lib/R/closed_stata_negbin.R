@@ -47,6 +47,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
         write.dta(file = '~/work/closed/hta_report/data/site.dta')
     call <- paste0('cp ~/work/closed/hta_report/data/site.dta ~/work/closed/hta_report/data/input_site_',
                    gsub(' ', '_', indicator),
+                   '_',
                    gsub(' ', '_', sub.indicator),
                    '.dta')
     system(call)
@@ -62,6 +63,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$site <- read_dta(file = '~/work/closed/hta_report/data/results/stata_negbin_site.dta')
     call <- paste0('cp ~/work/closed/hta_report/data/results/stata_negbin_site.dta ~/work/closed/hta_report/data/results/results_site_',
                    gsub(' ', '_', indicator),
+                   '_',
                    gsub(' ', '_', sub.indicator),
                    '.dta')
     system(call)
@@ -72,6 +74,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
         write.dta(file = '~/work/closed/hta_report/data/lsoa.dta')
     call <- paste0('cp ~/work/closed/hta_report/data/site.dta ~/work/closed/hta_report/data/input_lsoa_',
                    gsub(' ', '_', indicator),
+                   '_',
                    gsub(' ', '_', sub.indicator),
                    '.dta')
     system(call)
@@ -87,9 +90,12 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$lsoa <- read_dta(file = '~/work/closed/hta_report/data/results/stata_negbin_lsoa.dta')
     call <- paste0('cp ~/work/closed/hta_report/data/results/stata_negbin_lsoa.dta ~/work/closed/hta_report/data/results/results_lsoa_',
                    gsub(' ', '_', indicator),
+                   '_',
                    gsub(' ', '_', sub.indicator),
                    '.dta')
     system(call)
+    ## Remove the input files
+    system('rm ~/work/closed/hta_report/data/results/site.dta ~/work/closed/hta_report/data/results/lsoa.dta')
     ## Bind and return results
     ## print("Site...")
     ## head(results$site) %>% print()
@@ -188,8 +194,9 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## print("Debug 5")
     names(results$xtnbreg) <- gsub('_', '.', names(results$xtnbreg))
     names(results$xtnbreg) <- gsub('parm', 'term', names(results$xtnbreg))
+    names(results$xtnbreg) %>% print()
     results$xtnbreg <- dplyr::select(results$xtnbreg,
-                                     measure, sub.measure, town, model, term, est, stderr, p, min95, max95)
+                                     measure, sub.measure, town, model, term, est, stderr, p, min95, max95, z)
     ## results$xtnbreg <- mutate(results$xtnbreg,
     ##                           measure     = gsub("_", " ", measure),
     ##                           sub.measure = gsub("_", " ", sub.measure))
