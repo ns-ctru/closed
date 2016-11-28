@@ -40,7 +40,7 @@
 ```{r child = 'subsections/avoidable_emergency_admissions_any.Rmd', eval = TRUE}
 ```
 
-<!-- #### Avoidable - Acute Mnetal Health Crisis  {.tabset .tabset-fade .tabset-pills} -->
+<!-- #### Avoidable - Acute Mental Health Crisis  {.tabset .tabset-fade .tabset-pills} -->
 <!-- ```{r child = 'subsections/avoidable_emergency_admissions_acute_mental_health_crisis.Rmd', eval = FALSE} -->
 <!-- ``` -->
 
@@ -120,7 +120,6 @@
 ```
 
 ### Length of Stay {.tabset .tabset-fade}
-
 #### Mean  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/length_of_stay_mean.Rmd', eval = TRUE}
 ```
@@ -217,21 +216,25 @@
 ```{r child = 'subsections/ambulance_mean_times_dest_to_clear.Rmd', eval = TRUE}
 ```
 
-### Ambulance Non-Conveyance
+### Green Calls  {.tabset .tabset-fade}
 
 #### Green Calls  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/ambulance_non_conveyances_green_calls.Rmd', eval = TRUE}
 ```
 
 #### Green Calls Not Conveyed  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/ambulance_non_conveyances_green_calls_not_conveyed.Rmd', eval = TRUE}
+```{r child = 'subsections/ambulance_non_conveyances_green_calls_non_conveyed.Rmd', eval = TRUE}
+```
+
+#### Green Calls Hospital Transfers  {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/ambulance_non_conveyances_green_calls_hospital_transfers.Rmd', eval = TRUE}
 ```
 
 #### Fraction Not Conveyed  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/ambulance_non_conveyances_fraction_non_conveyed.Rmd', eval = TRUE}
+```{r child = 'subsections/ambulance_non_conveyances_fraction_not_conveyed.Rmd', eval = TRUE}
 ```
 
-### Ambulance Red Calls
+### Ambulance Red Calls  {.tabset .tabset-fade}
 
 #### Hospital Transfers  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/ambulance_red_calls_hospital_transfers.Rmd', eval = TRUE}
