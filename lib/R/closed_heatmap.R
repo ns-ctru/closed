@@ -106,11 +106,16 @@ closed_heatmap <- function(df           = summary.models,
         df <- mutate(df, overlay = paste0(formatC(est, digits = digits, format = 'f'),
                                           '\n SE = ',
                                           formatC(stderr, digits = digits, format = 'f'),
-                                          '\n p =',
+                                          '\n p = ',
                                           formatC(p, digits = digits, format = 'f')))
     }
     else if('p' %in% include.text){
         df <- mutate(df, overlay = formatC(p, digits, format = 'f'))
+    }
+    else if('standard' %in% include.text){
+        df <- mutate(df, overlay = paste0(formatC(standard,, digits = digits, format = 'f'),
+                                          '\n p = ',
+                                          formatC(p, digits = digits, format = 'f')))
     }
     ## ToDo - Convert indicator to a factor variable and order logically
     df <- mutate(df,
@@ -231,18 +236,18 @@ closed_heatmap <- function(df           = summary.models,
                  order2 = ifelse(measure == 'sec case fatality 7 days' &
                                  sub.measure == 'any single sec',
                                  yes = 1, no = order2),
-                 order2 = ifelse(measure == 'sec deaths all 7 days' &
+                 order2 = ifelse(measure == 'sec deaths all 7days' &
                                  sub.measure == 'any sec',
                                  yes = 2, no = order2),
-                 order2 = ifelse(measure == 'sec deaths in cips 7 days' &
+                 order2 = ifelse(measure == 'sec deaths in cips 7days' &
                                  sub.measure == 'any sec',
                                  yes = 1, no = order2),
-                 order2 = ifelse(measure == 'sec deaths not in cips 7 days' &
+                 order2 = ifelse(measure == 'sec deaths not in cips 7days' &
                                  sub.measure == 'any sec',
                                  yes = 1, no = order2))
     ## Alternatively turn them into factors
     df <- mutate(df,
-                 indicator = factor(indicator,))
+                 indicator = factor(indicator))
     ## Loop over all sites
     for(x in site){
         ## Filter data
@@ -269,7 +274,18 @@ closed_heatmap <- function(df           = summary.models,
                    scale_fill_gradient(high = 'white', low = colour) +
                    scale_x_discrete(position = 'top') +
                    theme_bw()
-            }
+        }
+        else if(colour.by == 'standard'){
+            fig <- ggplot(to.plot,
+                          aes(x = as.factor(model),
+                              y = as.factor(indicator))) +
+                   geom_tile(aes(fill = standard)) +
+                   geom_text(aes(label = overlay), size = 1) +
+                   ggtitle(x) + xlab('') + ylab('Indicator') +
+                   scale_fill_gradient(high = 'white', low = colour) +
+                   scale_x_discrete(position = 'top') +
+                   theme_bw()
+        }
         ## Build results to return
         if(x == 'Bishop Auckland'){
             results$bishop      <- fig
