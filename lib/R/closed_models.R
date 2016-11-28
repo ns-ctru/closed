@@ -2730,7 +2730,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     names(results$all.model.all.coef) <- gsub('Std. Error', 'stderr', names(results$all.model.all.coef))
     names(results$all.model.all.coef) <- gsub('p(>|t|)', 'p', names(results$all.model.all.coef))
     names(results$all.model.all.coef) <- gsub('Pr(>|t|)', 'p', names(results$all.model.all.coef))
-    names(results$all.model.all.coef) <- gsub('t value', 't', names(results$all.model.all.coef))
+    names(results$all.model.all.coef) <- gsub('t value', 'standard', names(results$all.model.all.coef))
     names(results$all.model.all.coef) <- gsub('indicator', 'measure', names(results$all.model.all.coef))
     names(results$all.model.all.coef) <- c('est', 'stderr', 't', 'p', 'term', 'town', 'measure', 'sub.measure', 'r2', 'model')
     ## Calculate 95% CI's
@@ -2738,7 +2738,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$all.model.all.coef$max95 <- results$all.model.all.coef$est + (1.96 * results$all.model.all.coef$stderr)
     ## Standardise this output for combining with -xtnbreg- results
     results$all.model.all.coef <- dplyr::select(results$all.model.all.coef,
-                                                measure, sub.measure, town, model, term, est, stderr, p, min95, max95, t)
+                                                measure, sub.measure, town, model, term, est, stderr, p, min95, max95, standard)
     ## Subset out the closure coefficients and derive output variable/df to append to
     ## table header which contains the means
     results$all.model.closure.coef <- dplyr::filter(results$all.model.all.coef,
