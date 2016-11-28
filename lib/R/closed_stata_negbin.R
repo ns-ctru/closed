@@ -194,9 +194,9 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## print("Debug 5")
     names(results$xtnbreg) <- gsub('_', '.', names(results$xtnbreg))
     names(results$xtnbreg) <- gsub('parm', 'term', names(results$xtnbreg))
-    names(results$xtnbreg) %>% print()
+    names(results$xtnbreg) <- gsub('z', 'standard', names(results$xtnbreg))
     results$xtnbreg <- dplyr::select(results$xtnbreg,
-                                     measure, sub.measure, town, model, term, est, stderr, p, min95, max95, z)
+                                     measure, sub.measure, town, model, term, est, stderr, p, min95, max95, standard)
     ## results$xtnbreg <- mutate(results$xtnbreg,
     ##                           measure     = gsub("_", " ", measure),
     ##                           sub.measure = gsub("_", " ", sub.measure))
