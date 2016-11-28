@@ -171,6 +171,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$summary.table.head <- dplyr::select(results$summary.table.head,
                                                 town, before.after, mean.sd, median.iqr, min.max, mean)
     ## Reshape the table header
+    results$summary.table.head %>% print()
     results$summary.table.head <- melt(results$summary.table.head, id.vars = c('town', 'before.after')) %>%
                                   dcast(town ~ before.after + variable)
     results$summary.table.head$Before_mean <- as.numeric(results$summary.table.head$Before_mean)
@@ -2737,7 +2738,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$all.model.all.coef$max95 <- results$all.model.all.coef$est + (1.96 * results$all.model.all.coef$stderr)
     ## Standardise this output for combining with -xtnbreg- results
     results$all.model.all.coef <- dplyr::select(results$all.model.all.coef,
-                                                measure, sub.measure, town, model, term, est, stderr, p, min95, max95)
+                                                measure, sub.measure, town, model, term, est, stderr, p, min95, max95, t)
     ## Subset out the closure coefficients and derive output variable/df to append to
     ## table header which contains the means
     results$all.model.closure.coef <- dplyr::filter(results$all.model.all.coef,
