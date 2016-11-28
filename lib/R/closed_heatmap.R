@@ -30,6 +30,7 @@ closed_heatmap <- function(df           = summary.models,
                            colour.by    = 'coefficient',
                            coef         = c('closure', 'diff.time.to.ed'),
                            include.text = c('coefficient', 'se', 'p'),
+                           text.size    = 3,
                            colour       = 'red',
                            final        = TRUE,
                            digits       = 2,
@@ -258,7 +259,7 @@ closed_heatmap <- function(df           = summary.models,
                           aes(x = as.factor(model),
                               y = as.factor(indicator))) +
                    geom_tile(aes(fill = est)) +
-                   geom_text(aes(label = overlay), size = 1) +
+                   geom_text(aes(label = overlay), size = text.size) +
                    ggtitle(x) + xlab('') + ylab('Indicator') +
                    scale_fill_gradient(low = 'white', high = colour) +
                    scale_x_discrete(position = 'top') +
@@ -269,7 +270,7 @@ closed_heatmap <- function(df           = summary.models,
                           aes(x = as.factor(model),
                               y = as.factor(indicator))) +
                    geom_tile(aes(fill = p)) +
-                   geom_text(aes(label = overlay), size = 1) +
+                   geom_text(aes(label = overlay), size = text.size) +
                    ggtitle(x) + xlab('') + ylab('Indicator') +
                    scale_fill_gradient(high = 'white', low = colour) +
                    scale_x_discrete(position = 'top') +
@@ -280,7 +281,7 @@ closed_heatmap <- function(df           = summary.models,
                           aes(x = as.factor(model),
                               y = as.factor(indicator))) +
                    geom_tile(aes(fill = standard)) +
-                   geom_text(aes(label = overlay), size = 1) +
+                   geom_text(aes(label = overlay), size = text.size) +
                    ggtitle(x) + xlab('') + ylab('Indicator') +
                    scale_fill_gradient(high = 'white', low = colour) +
                    scale_x_discrete(position = 'top') +
