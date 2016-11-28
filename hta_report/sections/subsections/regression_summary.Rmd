@@ -48,6 +48,7 @@ heatmap.coefficients <- closed_heatmap(df           = summary.models,
                                        colour.by    = 'coefficient',
                                        coef         = c('closure', 'diff.time.to.ed'),
                                        include.text = c('coefficient', 'se', 'p'),
+                                       text.size    = 3,
                                        colour       = 'blue',
                                        final        = TRUE,
                                        digits       = 3)
@@ -56,6 +57,7 @@ heatmap.pvalues <- closed_heatmap(df           = summary.models,
                                   colour.by    = 'p',
                                   coef         = c('closure', 'diff.time.to.ed'),
                                   include.text = c('coefficient', 'se', 'p'),
+                                  text.size    = 3,
                                   colour       = 'green',
                                   final        = TRUE,
                                   digits       = 3)
@@ -64,6 +66,7 @@ heatmap.standard <- closed_heatmap(df           = summary.models,
                                   colour.by    = 'standard',
                                   coef         = c('closure', 'diff.time.to.ed'),
                                   include.text = c('standard'),
+                                  text.size    = 3,
                                   colour       = 'red',
                                   final        = TRUE,
                                   digits       = 3)
@@ -169,4 +172,3 @@ heatmap.pvalues$rochdale
 heatmap.standard$rochdale
 
 ```
-
