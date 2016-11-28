@@ -212,6 +212,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         title1 <- 'Ambulance Green Calls'
         if(sub.indicator == 'fraction not conveyed')         title2 <- ' (Fraction)'
         else if(sub.indicator == 'green calls')              title2 <- ' (Green Calls)'
+        else if(sub.indicator == 'hospital transfers')       title2 <- ' (Hospital Transfers)'
         else if(sub.indicator == 'not conveyed green calls') title2 <- ' (Green Calls Not Conveyed)'
         nudge <- 10
         ylabel <- 'Mean Time (minutes)'
@@ -236,7 +237,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'stays with transfer')    ylabel <- 'N (Stays with Transfers)'
         y.text.steps <- 100
     }
-    else if(indicator == 'case fatality 7 days'){
+    else if(indicator == 'sec case fatality 7 days'){
         title1 <- 'Case Fatality @ 7 Days'
         if(sub.indicator == 'any sec')                          title2 <- ' (Any Sec)'
         else if(sub.indicator == 'any single sec')              title2 <- ' (Any Single Sec)'
