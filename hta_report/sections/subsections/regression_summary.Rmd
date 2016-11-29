@@ -74,9 +74,9 @@ heatmap.standard <- closed_heatmap(df           = summary.models,
 ```
 #### Bishop Auckland  {.tabset .tabset-fade .tabset-pills}
 
-##### Coefficient
-```{r closed_heatmap_bishop_coefficient, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16, eval = TRUE}
-heatmap.coefficients$bishop
+##### Standardised
+```{r closed_heatmap_bishop_standard, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+heatmap.standard$bishop
 
 ```
 
@@ -86,18 +86,19 @@ heatmap.pvalues$bishop
 
 ```
 
-##### Standardised
-```{r closed_heatmap_bishop_standard, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
-heatmap.standard$bishop
+##### Coefficient
+```{r closed_heatmap_bishop_coefficient, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16, eval = TRUE}
+heatmap.coefficients$bishop
 
 ```
 
 
 #### Hartlepool {.tabset .tabset-fade .tabset-pills}
 
-##### Coefficient
-```{r closed_heatmap_hartlepool_coefficient, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
-heatmap.coefficients$hartlepool
+
+##### Standardised
+```{r closed_heatmap_hartlepool_standard, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+heatmap.standard$hartlepool
 
 ```
 
@@ -107,17 +108,17 @@ heatmap.pvalues$hartlepool
 
 ```
 
-##### Standardised
-```{r closed_heatmap_hartlepool_standard, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
-heatmap.standard$hartlepool
+##### Coefficient
+```{r closed_heatmap_hartlepool_coefficient, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+heatmap.coefficients$hartlepool
 
 ```
 
 #### Hemel Hempstead {.tabset .tabset-fade .tabset-pills}
 
-##### Coefficient
-```{r closed_heatmap_hemel_coefficient, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
-heatmap.coefficients$hemel
+##### Standardised
+```{r closed_heatmap_hemel_standard, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+heatmap.standard$hemel
 
 ```
 
@@ -127,17 +128,17 @@ heatmap.pvalues$hemel
 
 ```
 
-##### Standardised
-```{r closed_heatmap_hemel_standard, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
-heatmap.standard$hemel
+##### Coefficient
+```{r closed_heatmap_hemel_coefficient, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+heatmap.coefficients$hemel
 
 ```
 
 #### Newark {.tabset .tabset-fade .tabset-pills}
 
-##### Coefficient
-```{r closed_heatmap_newark_coefficient, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
-heatmap.coefficients$newark
+##### Standardised
+```{r closed_heatmap_newark_standard, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+heatmap.standard$newark
 
 ```
 
@@ -147,17 +148,18 @@ heatmap.pvalues$newark
 
 ```
 
-##### Standardised
-```{r closed_heatmap_newark_standard, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
-heatmap.standard$newark
+##### Coefficient
+```{r closed_heatmap_newark_coefficient, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+heatmap.coefficients$newark
 
 ```
 
 #### Rochdale {.tabset .tabset-fade .tabset-pills}
 
-##### Coefficient
-```{r closed_heatmap_rochdale_coefficient, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
-heatmap.coefficients$rochdale
+
+##### Standardised
+```{r closed_heatmap_rochdale_standard, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+heatmap.standard$rochdale
 
 ```
 
@@ -167,8 +169,8 @@ heatmap.pvalues$rochdale
 
 ```
 
-##### Standardised
-```{r closed_heatmap_rochdale_standard, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
-heatmap.standard$rochdale
+##### Coefficient
+```{r closed_heatmap_rochdale_coefficient, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+heatmap.coefficients$rochdale
 
 ```
