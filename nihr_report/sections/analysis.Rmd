@@ -108,8 +108,8 @@ sec_deaths_in_cips_7days_measure          <- closed_tidy(sec_deaths_in_cips_7day
 sec_deaths_in_cips_7days_site_measure     <- closed_tidy(sec_deaths_in_cips_7days_site_measure)
 sec_deaths_not_in_cips_7days_measure      <- closed_tidy(sec_deaths_not_in_cips_7days_measure)
 sec_deaths_not_in_cips_7days_site_measure <- closed_tidy(sec_deaths_not_in_cips_7days_site_measure)
-case_fatality_measure                     <- closed_tidy(case_fatality_measure)
-case_fatality_site_measure                <- closed_tidy(case_fatality_site_measure)
+## case_fatality_measure                     <- closed_tidy(case_fatality_measure)
+## case_fatality_site_measure                <- closed_tidy(case_fatality_site_measure)
 hospital_transfers_measure                <- closed_tidy(hospital_transfers_measure)
 hospital_transfers_site_measure           <- closed_tidy(hospital_transfers_site_measure)
 ## Convert ambulance times to minutes (currently function not working as expected)
@@ -230,7 +230,7 @@ check.red.calls                    <- closed_missing_summary(df.lsoa = amb_red_c
                                                              df.site = amb_red_calls_site_measure)
 check.mean.times                   <- closed_missing_summary(df.lsoa = amb_mean_times_measure,
                                                              df.site = amb_mean_times_site_measure)
-check.case.fatality                <- closed_missing_summary(df.lsoa = case_fatality_measure,
+## check.case.fatality                <- closed_missing_summary(df.lsoa = case_fatality_measure,
                                                              df.site = case_fatality_site_measure)
 check.sec.case.fatality.7days      <- closed_missing_summary(df.lsoa = sec_case_fatality_7days_measure,
                                                              df.site = sec_case_fatality_7days_site_measure)
@@ -335,11 +335,11 @@ sec_deaths_not_in_cips_7days_site_measure_clean <- closed_clean(df      = sec_de
                                                  sub.indicator = 'any',
                                                  systematic    = systematic.outlier,
                                                  balance       = FALSE)
-case_fatality_site_measure_clean <- closed_clean(df      = case_fatality_site_measure,
-                                                 indicator     = 'case fatality ratio',
-                                                 sub.indicator = 'any',
-                                                 systematic    = systematic.outlier,
-                                                 balance       = FALSE)
+## case_fatality_site_measure_clean <- closed_clean(df      = case_fatality_site_measure,
+##                                                  indicator     = 'case fatality ratio',
+##                                                  sub.indicator = 'any',
+##                                                  systematic    = systematic.outlier,
+##                                                  balance       = FALSE)
 ## ## Exclude avoidable deaths that are not of interest
 ## case_fatality_site_measure_clean <- dplyr::filter(case_fatality_site_measure_clean,
 ##                                          !(sub.measure %in% exclude.fatality))
@@ -445,11 +445,11 @@ sec_deaths_not_in_cips_7days_site_measure_clean <- closed_clean(df      = sec_de
                                                  sub.indicator = 'any',
                                                  systematic    = systematic.outlier,
                                                  balance       = FALSE)
-case_fatality_site_measure_clean_sd2 <- closed_clean(df      = case_fatality_site_measure,
-                                                 indicator     = 'case fatality ratio',
-                                                 sub.indicator = 'any',
-                                                 systematic    = systematic.outlier,
-                                                 balance       = FALSE)
+## case_fatality_site_measure_clean_sd2 <- closed_clean(df      = case_fatality_site_measure,
+##                                                  indicator     = 'case fatality ratio',
+##                                                  sub.indicator = 'any',
+##                                                  systematic    = systematic.outlier,
+##                                                  balance       = FALSE)
 ## ## Exclude avoidable deaths that are not of interest
 ## case_fatality_site_measure_clean_sd2 <- filter(case_fatality_site_measure_clean_sd2,
 ##                                          !(sub.measure %in% exclude.fatality))
