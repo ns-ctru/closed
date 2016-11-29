@@ -809,10 +809,10 @@ length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure,
 ```
 <!--- Case Fatality Ratio - Any --->
 ```{r case_fatality_ratio_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_measure,
-                                     df.trust         = case_fatality_site_measure,
+case.fatality.ratio.any <- closed_models(df.lsoa         = sec_case_fatality_7days_measure,
+                                     df.trust         = sec_case_fatality_7days_site_measure,
                                      indicator        = 'case fatality ratio',
-                                     sub.indicator    = 'any',
+                                     sub.indicator    = 'any sec',
                                      panel.lsoa       = model.opts$panel.lsoa,
                                      panel.trust      = model.opts$panel.trust,
                                      timevar          = model.opts$timevar,
@@ -845,8 +845,8 @@ case.fatality.ratio.any <- closed_models(df.lsoa         = case_fatality_measure
 ```
 <!--- Case Fatality Ratio - Acute Heart Failure --->
 ```{r case_fatality_ratio_acute_heart_failure, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = case_fatality_measure,
-                                     df.trust         = case_fatality_site_measure,
+case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = sec_case_fatality_7days_measure,
+                                     df.trust         = sec_case_fatality_7days_site_measure,
                                      indicator        = 'case fatality ratio',
                                      sub.indicator    = 'acute heart failure',
                                      panel.lsoa       = model.opts$panel.lsoa,
@@ -882,8 +882,8 @@ case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = case_
 
 <!--- Case Fatality Ratio - Myocardial Infarction --->
 ```{r case_fatality_ratio_myocardial_infarction, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-case.fatality.ratio.myocardial.infarction <- closed_models(df.lsoa         = case_fatality_measure,
-                                     df.trust         = case_fatality_site_measure,
+case.fatality.ratio.myocardial.infarction <- closed_models(df.lsoa         = sec_case_fatality_7days_measure,
+                                     df.trust         = sec_case_fatality_7days_site_measure,
                                      indicator        = 'case fatality ratio',
                                      sub.indicator    = 'myocardial infarction',
                                      panel.lsoa       = model.opts$panel.lsoa,
@@ -955,8 +955,8 @@ case.fatality.ratio.any.trauma.sec <- closed_models(df.lsoa         = case_fatal
 ```
 <!--- Case Fatality Ratio - Serious Head Injury --->
 <!-- ```{r case_fatality_ratio_serious_head_injury, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE} -->
-<!-- case.fatality.ratio.serious.head.injury <- closed_models(df.lsoa         = case_fatality_measure, -->
-<!--                                      df.trust         = case_fatality_site_measure, -->
+<!-- case.fatality.ratio.serious.head.injury <- closed_models(df.lsoa         = sec_case_fatality_7days_measure, -->
+<!--                                      df.trust         = sec_case_fatality_7days_site_measure, -->
 <!--                                      indicator        = 'case fatality ratio', -->
 <!--                                      sub.indicator    = 'serious head injury', -->
 <!--                                      panel.lsoa       = model.opts$panel.lsoa, -->
@@ -992,8 +992,8 @@ case.fatality.ratio.any.trauma.sec <- closed_models(df.lsoa         = case_fatal
 
 <!--- Case Fatality Ratio - Road Traffic Accident --->
 <!-- ```{r case_fatality_ratio_road_traffic_accident, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE} -->
-<!-- case.fatality.ratio.road.traffic.accident <- closed_models(df.lsoa         = case_fatality_measure, -->
-<!--                                      df.trust         = case_fatality_site_measure, -->
+<!-- case.fatality.ratio.road.traffic.accident <- closed_models(df.lsoa         = sec_case_fatality_7days_measure, -->
+<!--                                      df.trust         = sec_case_fatality_7days_site_measure, -->
 <!--                                      indicator        = 'case fatality ratio', -->
 <!--                                      sub.indicator    = 'road traffic accident', -->
 <!--                                      panel.lsoa       = model.opts$panel.lsoa, -->
@@ -1028,9 +1028,9 @@ case.fatality.ratio.any.trauma.sec <- closed_models(df.lsoa         = case_fatal
 <!-- ``` -->
 
 <!--- Case Fatality Ratio - Falls --->
-<!-- ```{r case_fatality_ratio_falls, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE} -->
-<!-- case.fatality.ratio.falls <- closed_models(df.lsoa         = case_fatality_measure, -->
-<!--                                      df.trust         = case_fatality_site_measure, -->
+<!-- ```{r sec_case_fatality_7days_ratio_falls, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE} -->
+<!-- case.fatality.ratio.falls <- closed_models(df.lsoa         = sec_case_fatality_7days_measure, -->
+<!--                                      df.trust         = sec_case_fatality_7days_site_measure, -->
 <!--                                      indicator        = 'case fatality ratio', -->
 <!--                                      sub.indicator    = 'falls', -->
 <!--                                      panel.lsoa       = model.opts$panel.lsoa, -->
@@ -1066,8 +1066,8 @@ case.fatality.ratio.any.trauma.sec <- closed_models(df.lsoa         = case_fatal
 
 <!--- Case Fatality Ratio - Stroke Cva --->
 ```{r case_fatality_ratio_stroke_cva, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-case.fatality.ratio.stroke.cva <- closed_models(df.lsoa         = case_fatality_measure,
-                                     df.trust         = case_fatality_site_measure,
+case.fatality.ratio.stroke.cva <- closed_models(df.lsoa         = sec_case_fatality_7days_measure,
+                                     df.trust         = sec_case_fatality_7days_site_measure,
                                      indicator        = 'case fatality ratio',
                                      sub.indicator    = 'stroke cva',
                                      panel.lsoa       = model.opts$panel.lsoa,
