@@ -226,7 +226,7 @@ closed_heatmap <- function(df           = summary.models,
                                  sub.measure == 'myocardial infarction',
                                  yes = 3, no = order2),
                  order2 = ifelse(measure == 'case fatality ratio' &
-                                 sub.measure == 'trauma',
+                                 sub.measure == 'any trauma sec',
                                  yes = 4, no = order2),
                  order2 = ifelse(measure == 'case fatality ratio' &
                                  sub.measure == 'stroke cva',
