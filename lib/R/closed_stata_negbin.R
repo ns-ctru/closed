@@ -72,7 +72,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     dplyr::filter(df.lsoa,
                   measure == indicator, sub.measure == sub.indicator) %>%
         write.dta(file = '~/work/closed/hta_report/data/lsoa.dta')
-    call <- paste0('cp ~/work/closed/hta_report/data/site.dta ~/work/closed/hta_report/data/input_lsoa_',
+    call <- paste0('cp ~/work/closed/hta_report/data/lsoa.dta ~/work/closed/hta_report/data/input_lsoa_',
                    gsub(' ', '_', indicator),
                    '_',
                    gsub(' ', '_', sub.indicator),
