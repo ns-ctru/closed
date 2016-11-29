@@ -150,11 +150,12 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
             y.text.steps <- 0.1
         }
     }
-    else if(indicator == 'case fatality ratio'){
+    else if(indicator == 'case fatality ratio' | indicator == 'sec case fatality 7 days'){
         title1 <- 'Case Fatality Ratio'
         if(sub.indicator == 'acute heart failure')              title2 <- ' (Acute Heart Failure)'
         else if(sub.indicator == 'anaphylaxis')                 title2 <- ' (Anaphylaxis)'
         else if(sub.indicator == 'any')                         title2 <- ' (Any)'
+        else if(sub.indicator == 'any sec')                     title2 <- ' (Any SEC)'
         else if(sub.indicator == 'asphyxiation')                title2 <- ' (Asphyxiation)'
         else if(sub.indicator == 'asthma')                      title2 <- ' (Asthma)'
         else if(sub.indicator == 'cardiac arrest')              title2 <- ' (Cardiac Arrest)'
@@ -169,6 +170,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'septic shock')                title2 <- ' (Septic Shock)'
         else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
         else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
+        else if(sub.indicator == 'any trauma sec')                         title2 <- ' (Any Trauma)'
         nudge <- 0.5
         ylabel <- 'Case Fatality Ratio'
         y.text <- -0.05
