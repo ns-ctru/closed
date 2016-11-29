@@ -919,8 +919,8 @@ case.fatality.ratio.myocardial.infarction <- closed_models(df.lsoa         = sec
 
 <!--- Case Fatality Ratio - Trauma any sec--->
 ```{r case_fatality_ratio_any_trauma_sec, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-case.fatality.ratio.any.trauma.sec <- closed_models(df.lsoa         = case_fatality_measure,
-                                     df.trust         = case_fatality_site_measure,
+case.fatality.ratio.any.trauma.sec <- closed_models(df.lsoa         = sec_case_fatality_7days_measure,
+                                     df.trust         = sec_case_fatality_7days_site_measure,
                                      indicator        = 'sec case fatality 7 days',
                                      sub.indicator    = 'any trauma sec',
                                      panel.lsoa       = model.opts$panel.lsoa,
