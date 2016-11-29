@@ -283,6 +283,15 @@ sed -e 's/template/ambulance.non.conveyances.green.calls.non.conveyed/g' \
     template.Rmd > ambulance_non_conveyances_green_calls_non_conveyed.Rmd
 
 ## Measure     : Ambulance Non Conveyances (green calls)
+## Sub-Measure : hospital transfers
+sed -e 's/template/ambulance.non.conveyances.green.calls/g' \
+    -e 's/Measure/ambulance green calls/g' \
+    -e 's/sub_measure/hospital transfers/g' \
+    -e 's/data_frame/amb_green_calls/g' \
+    -e 's/DESCRIPTION/ambulance green calls hospital transfers/g' \
+    template.Rmd > ambulance_non_conveyances_green_calls_hospital_transfers.Rmd
+
+## Measure     : Ambulance Non Conveyances (green calls)
 ## Sub-Measure : fraction not conveyed
 sed -e 's/template/ambulance.non.conveyances.fraction.not.conveyed/g' \
     -e 's/Measure/ambulance green calls/g' \

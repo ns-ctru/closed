@@ -1,0 +1,10 @@
+### Comparison and Interpretation
+
+```{r extracting_coefficients, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
+rbind(coef(tsglm.bishop.model0),
+      coef(tsglm.hemel.model0),
+      coef(tsglm.hartlepool.model0),
+      coef(tsglm.newark.model0),
+      coef(tsglm.rochdale.model0))
+
+```

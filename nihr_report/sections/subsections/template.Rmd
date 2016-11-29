@@ -1,0 +1,192 @@
+Time-series plots show the trends over time after the removal of spurious data points from panels.
+
+<!-- ###### Case Sites -->
+
+<!-- ```{r template.time.series.plot.case, echo = FALSE, cache = FALSE, results = 'hide' eval = TRUE} -->
+<!-- closed_ts_plot(df            = df_site_measure_clean, -->
+<!--                indicator     = 'measure', -->
+<!--                sub.indicator = 'submeasure', -->
+<!--                steps         = TRUE, -->
+<!--                theme         = theme_bw(), -->
+<!--                tidy          = FALSE, -->
+<!--                facet         = FALSE, -->
+<!--                sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'), -->
+<!--                legend        = TRUE) -->
+<!-- ``` -->
+
+<!-- ###### Control Sites -->
+
+<!-- ```{r template.time.series.plot.control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE} -->
+<!-- closed_ts_plot(df            = df_site_measure_clean, -->
+<!--                indicator     = 'measure', -->
+<!--                sub.indicator = 'submeasure', -->
+<!--                steps         = TRUE, -->
+<!--                theme         = theme_bw(), -->
+<!--                tidy          = FALSE, -->
+<!--                facet         = FALSE, -->
+<!--                sites         = c('Salford', 'Scarborough', 'Whitehaven', -->
+<!--                                  'Blackburn', 'Grimsby', 'Wigan', -->
+<!--                                  'Basingstoke', 'Warwick', 'Yeovil', -->
+<!--                                  'Carlisle', 'Salisbury', 'Southport', -->
+<!--                                  'Rotherham', 'Scunthorpe', 'Wansbeck'), -->
+<!--                legend        = TRUE) -->
+<!-- ``` -->
+
+###### Bishop Auckland
+```{r template.bishop.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = data_frame_site_measure_clean,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+## kable(template$summary.table.bishop,
+##       align   = summary.table.align,
+##       format   = 'pandoc',
+##       caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the models tested in the Bishop Auckland cohort.')
+## print('Pre and Post closure statistics and adjusted differences in DESCRIPTION from the models tested in the Bishop Auckland cohort.')
+## pander(template$summary.table.bishop)
+
+```
+
+
+###### Hartlepool
+```{r template.hartlepool.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = data_frame_site_measure_clean,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hartlepool', 'Grimsby'),
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+## kable(template$summary.table.hartlepool,
+##       align   = summary.table.align,
+##       format   = 'pandoc',
+##       caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the models tested in the Hartlepool cohort.')
+## print('Pre and Post closure statistics and adjusted differences in DESCRIPTION from the models tested in the Hartlepool cohort.')
+## pander(template$summary.table.hartlepool)
+
+```
+
+###### Hemel Hempstead
+```{r template.hemel.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = data_frame_site_measure_clean,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hemel Hempstead', 'Warwick'),
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+## kable(template$summary.table.hemel,
+##       align   = summary.table.align,
+##       format   = 'pandoc',
+##       caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the models tested in the Hemel Hempstead cohort.')
+## print('Pre and Post closure statistics and adjusted differences in DESCRIPTION from the models tested in the Hemel Hempstead cohort.')
+## pander(template$summary.table.hemel)
+
+```
+
+###### Newark
+```{r template.newark.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = data_frame_site_measure_clean,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Newark', 'Southport'),
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+## kable(template$summary.table.newark,
+##       align   = summary.table.align,
+##       format   = 'pandoc',
+##       caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the models tested in the Newark cohort.')
+## print('Pre and Post closure statistics and adjusted differences in DESCRIPTION from the models tested in the Newark cohort.')
+## pander(template$summary.table.newark)
+
+```
+
+###### Rochdale
+```{r template.rochdale.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = data_frame_site_measure_clean,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Rochdale', 'Rotherham'),
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+## kable(template$summary.table.rochdale,
+##       align   = summary.table.align,
+##       format   = 'pandoc',
+##       caption = 'Pre and Post closure statistics and adjusted differences in DESCRIPTION from the models tested in the Rochdale cohort.')
+## print('Pre and Post closure statistics and adjusted differences in DESCRIPTION from the models tested in the Rochdale cohort.')
+## pander(template$summary.table.rochdale)
+
+```
+
+```{r template.all.control.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+## template$model0.ts.plot
+## Set variables
+measure <- 'Measure'
+sub.measure <- 'sub_measure'
+## Set sites to plot
+sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
+## Filter
+to.plot <- dplyr::filter(data_frame_site_measure_clean,
+                  town %in% sites &
+                  measure == measure,
+                  sub.measure == sub.measure)
+## Plot
+closed_ts_plot(df            = to.plot,
+               sites         = sites,
+               indicator     = measure,
+               sub.indicator = sub.measure,
+               steps         = ts.plot.opts$steps,
+               lines         = ts.plot.opts$lines,
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               join.line     = TRUE,
+               colour        = ts.plot.opts$colour,
+               legend        = ts.plot.opts$legend,
+               facet         = ts.plot.opts$facet)
+
+```
+
+```{r template.summary.table, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+to.table <- dplyr::select(template$summary.table, town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc) %>%
+             mutate(Before_median.iqr = ifelse(Before_median.iqr == 'Model 4',
+                                      yes = 'Model 3',
+                                      no  = Before_median.iqr),
+           Before_median.iqr = ifelse(Before_median.iqr == 'Model 6.1',
+                                      yes = 'Model 4',
+                                      no  = Before_median.iqr),
+           Before_median.iqr = ifelse(Before_median.iqr == 'Model 7.1',
+                                      yes = 'Model 5',
+                                      no  = Before_median.iqr))
+names(to.table) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
+kable(to.table, caption = 'Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)')
+
+```

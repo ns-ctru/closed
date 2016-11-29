@@ -1,10 +1,11 @@
 ---
-title: ClosED
+title: ClosED - Project Advisory Meeting (2016-11-30)
 output:
-  word_document:
-    fig_width: 5
-    fig_height: 5
-    fig_caption: true
+  html_document:
+    theme: sandstone
+    toc: false
+    toc_float: false
+    toc_depth: 5
 bibliography: bibliography.bib
 ---
 
@@ -20,17 +21,17 @@ set.seed(69027181)
 
 # {.tabset}
 
-## Methods
+## Methods0
+
 ```{r child = 'sections/methods.Rmd', eval = TRUE}
 ```
 
-<!--- Run all analyses --->
-```{r child = 'sections/analysis.Rmd', eval = TRUE}
-```
 
 ## Results {.tabset .tabset-fade .tabset-pills}
-```{r child = 'sections/results.Rmd', eval = TRUE}
+```{r child = 'sections/results_pmg_20161130.Rmd', eval = TRUE}
 ```
+
+
 
 ## References
 

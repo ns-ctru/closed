@@ -1,6 +1,6 @@
 ### Data
 
-Data was provided by [HSCIC](https://www.gov.uk/government/organisations/health-and-social-care-information-centre) (now [NHS Digital](https://digital.nhs.uk/)), Ambulance Services (**Which?**) and [ONS](https://www.ons.gov.uk/) and were combined and summarised into either counts of events per month, mean of events per month or the proportion of particular outcomes for observed events for the different indicators.
+Data was provided by [HSCIC](https://www.gov.uk/government/organisations/health-and-social-care-information-centre) (now [NHS Digital](https://digital.nhs.uk/)), Ambulance Services ([East Midlands AS](http://www.emas.nhs.uk/), [East of England AS](http://www.eastamb.nhs.uk/), [North East AS](https://www.neas.nhs.uk), [North West AS](https://www.nwas.nhs.uk/), [South Central AS](http://www.scas.nhs.uk/), [South West AS](http://www.swast.nhs.uk/), [West Midlands AS](http://www.wmas.nhs.uk/) and [Yorkshire AS](http://www.yas.nhs.uk/)) and [ONS](https://www.ons.gov.uk/) and were combined and summarised into either counts of events per month, mean of events per month or the proportion of particular outcomes for observed events for the different indicators.
 
 
 
@@ -31,11 +31,15 @@ On visual inspection of the time-series it was apparent that there were a number
 
 ### Statistical Methods
 
-The software used for all analyses were [R (3.3.0)](https://www.r-projects.org/) and [Stata (v14.1)](https://www.stata.com/).  For outcomes that are counts negative-binomial time-series regression is utilised, and where multiple centres are included random effects are utilised to allow for variation between the panels. For outcomes that are ratios and means by monthm Prais-Winsten regression (Prais and Winsten (1954)). Across all models maximisation was performed using likelihood.
+The software used for all analyses were [R (3.3.0)](https://www.r-projects.org/)(@R) and [Stata (v14.1)](https://www.stata.com/)(@stata14).  For outcomes that are counts negative-binomial time-series regression is utilised, and where multiple centres are included random effects are utilised to allow for variation between the panels. For outcomes that are ratios and means by monthm Prais-Winsten regression (@prais1954)). Across all models maximisation was performed using likelihood.
 
 ### Models
 
 A series of increasingly complex models were tested under each framework, initially there were a total of 12 models which included the case sites compared to all matched sites either at Site or LSOA level, however because documentary analysis of additional 'steps' that might influence attendance has only been performed for one control per site these additional models are not presented (since account can not be taken of unknown factors) and the models presented are  described in the table below.  Dummy variables indicating a step when an Emergency Department closed (`closure`) were included along with dummy variables for other events identified during documentary analysis that might impact on ED attendance, of which there were three identified across the ten sites that underwent documentary analysis.  The additional steps identified as having a possible impact on the indicators were the introduction of NHS111 (`nhs111`), the opening of additional emergency care centres within the catchment area (`other.centre`) or ambulances being diverted from an Emergency Department (`ambulance.diversion`).
+
+#### Dose Response Models
+
+When the unit for a panel is at the LSOA level a dummy variable for the difference in mean time to the Emergency Department was included.  This was calculated by the time taken to travel from the centroid of an LSOA to the ED.  Prior to closure this value was always zero (since the attending ambulances were taking patients to the nearest ED), but after closure this reflected the increase, or decrease in time taken to get to the next nearest ED.  Because LSOAs were in effect acting as their own controls prior to closure no models analysed at the LSOA level include comparison to control sites in the work presented here (although they were originally investigated, but subsequently discarded because of their redundancy).
 
 
 Table: Models tested in ClosED
@@ -96,25 +100,25 @@ Table: Indicators of Ambulance, ED and Hospital performance tested.
 |                                   |          | `avoidable emergency admissions` | `any`                     | `count`   | Emergency admissions considered avoidable (see below)
 |                                   |          | `avoidable emergency admissions` | `non-specific chest pains`| `count`   | Emergency admissions for non-specific chest pain
 | **Condition Severity**            | HES-APC  | `critical care stays`            | `fraction admitted`    | `proportion` | Proportion of ED attendances that were admitted.
-|                                   |          | `length of stay`                 | `mean`                 | `mean`       | Mean length of stay of admissions (**all emergency or ed attendances?**)
-|                                   |          | `length of stay`                 | `median`               | `median`     | Mean length of stay of admissions (**all emergency or ed attendances?**)
-| **Risk of Death**                 | ONS/HES-ONS | `case fatality ratio`            | `any`                  | `proportion` | Proportion of cases for avoidable deaths (see below) that resulted in death. (**Are these of admissions or ED attendances or both?**)
-|                                   |             | `case fatality ratio`            | `myocardial infarction`| `proportion` | Proportion of MIs that resulted in death. (**Are these of admissions or ED attendances or both?**)
-|                                   |             | `case fatality ratio`            | `stokre cva`           | `proportion` | Proportion of Stroke/CVA's that resulted in death. (**Are these of admissions or ED attendances or both?**)
-|                                   |             | `case fatality ratio`            | `any trauma sec`       | `proportion` | Proportion of trauma (RTA, Falls in those < 75, Non-superficial head injuries **Have I got these right?**) that resulted in death. (**Are these of admissions or ED attendances or both?**)
+|                                   |          | `length of stay`                 | `mean`                 | `mean`       | Mean length of stay of emergency admissions
+|                                   |          | `length of stay`                 | `median`               | `median`     | Mean length of stay of emergency admissions
+| **Risk of Death**                 | ONS/HES-ONS | `case fatality ratio`            | `any`                  | `proportion` | Proportion of emergency admissions cases for avoidable deaths (see below) that resulted in death.
+|                                   |             | `case fatality ratio`            | `myocardial infarction`| `proportion` | Proportion of emergency admission MIs that resulted in death.
+|                                   |             | `case fatality ratio`            | `stokre cva`           | `proportion` | Proportion of emergency admission Stroke/CVA's that resulted in death.
+|                                   |             | `case fatality ratio`            | `any trauma sec`       | `proportion` | Proportion of emergency admissions traumas (RTA, Falls in those < 75, Non-superficial head injuries that resulted in death.
 |                                   |             | `sec case fatality 7 days`       | `any sec`              | `proportion` | Proportion of cases for avoidable deaths at 7 days (see below) that resultsed in deaths.
-| **??** | **??**       | `ambulance green calls`          | `green calls`            | `count`    | Number of green calls (**Should this be included?**)
-| **??** | **??**       | `ambulance green calls`          | `green calls`            | `count`    | Number of green calls (**Should this be included?**)
-| **??** | **??**       | `ambulance green calls`          | `not conveyed green calls`| `count`    | Number of green calls that weren't conveyed (**Should this be included?**)
-| **??** | **??**       | `ambulance green calls`          | `fraction not conveyed`  | `proportion` | Proportion of green calls that weren't conveyed (**Should this be included?**)
-| **??** | **??**       | `ambulance red calls`            | `hospital transfers`     | `count`    | Number of red calls that were for hospital transfers.
-| **??** | **??**       | `ambulance red calls`            | `total`                  | `count`    | Number of red calls.
-| **??** | **??**       | `hospital transfers`             | `ambulance`              | `count`    |
-| **??** | **??**       | `hospital transfers`             | `stays with transfer`    | `count`    |
-| **??** | **??**       | `hospital transfers`             | `fraction with transfer` | `proportion` |
-| **Risk of Death**                 | ONS/HES-ONS | `sec deaths all 7days`           | `any sec`                | `count`    | All deaths at 7 days for conditions listed below seen in hospital, regardless of where death occurred.
-|                                   |             | `sec deaths in cips 7days`       | `any sec`                | `count`    | All deaths in hospital at 7 days for conditions listed below (**Is this correct?**)
-|                                   |             | `sec deaths not in cips 7days	`  | `any sec`                | `count`    | All deaths not in hospital at 7 days for conditions listed below who had contact with ED/hospital. (**Is this correct?**)
+| **Ambulance Green Calls** | **AS**       | `ambulance green calls`          | `green calls`             | `count`    | Number of green calls
+|        |              | `ambulance green calls`          | `hospital transfers`      | `count`    | Number of green calls
+|        |              | `ambulance green calls`          | `not conveyed green calls`| `count`    | Number of green calls that weren't conveyed
+|        |              | `ambulance green calls`          | `fraction not conveyed`   | `proportion` | Proportion of green calls that weren't conveyed
+| **Ambulance Red Calls** | **AS** | `ambulance red calls`            | `hospital transfers`     | `count`    | Number of red calls that were for hospital transfers.
+|                         |        | `ambulance red calls`            | `total`                  | `count`    | Number of red calls.
+| **Hopsital Transfers** | **HES APC**  | `hospital transfers`             | `ambulance`              | `count`    | All finished CIPS with an emergency admission.
+|                        |              | `hospital transfers`             | `stays with transfer`    | `count`    | All finished CIPS with more than one site code.
+|                        |              | `hospital transfers`             | `fraction with transfer` | `proportion` | Ratio of the above measures.
+| **Counts of Death**                 | ONS/HES-ONS | `sec deaths all 7days`           | `any sec`                | `count`    | All deaths at 7 days for conditions listed below seen in hospital that, regardless of where death occurred.
+|                                   |             | `sec deaths in cips 7days`       | `any sec`                | `count`    | All deaths in hospital at 7 days for conditions listed below
+|                                   |             | `sec deaths not in cips 7days	`  | `any sec`                | `count`    | All deaths not in hospital at 7 days for conditions listed below who had contact with ED/hospital.
 
 
 
