@@ -192,7 +192,7 @@
 <!-- ``` -->
 
 #### Any Trauma  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/case_fatality_ratio_any_trauma_sec.Rmd', eval = FALSE}
+```{r child = 'subsections/case_fatality_ratio_any_trauma_sec.Rmd', eval = TRUE}
 ```
 
 #### Stroke CVA  {.tabset .tabset-fade .tabset-pills}
