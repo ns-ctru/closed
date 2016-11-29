@@ -8,7 +8,7 @@ capture log c
 version 14.1
 /* Conditionally set the base directory                             */
 if("`c(os)'" == "Unix"){
-    local base_dir "~/work/closed/hta_report/"
+    local base_dir "~/work/closed/nihr_report/"
 }
 else{
     di "This scripts will only run on the mcru-closed-hp Virtual Machine due to restrictions on data security."
@@ -20,6 +20,10 @@ use "`base_dir'/data/site.dta", clear
 /* Sort out measure                                                 */
 local measure     = subinstr("`1'", "_", " ", .)
 local sub_measure = subinstr("`2'", "_", " ", .)
+tab measure
+tab sub_measure
+di "Measure     : `measure'"
+di "Sub-Measure : `sub_measure'"
 keep if(measure == "`measure'" & sub_measure == "`sub_measure'")
 decode town, generate(town_string)
 /* replace town_string = subinstr(town_string, " ", "_", .) */
@@ -250,6 +254,35 @@ else if("`measure'" == "hospital transfers" & "`sub_measure'" == "stays with tra
     append using "`base_dir'/data/results/Newark.dta"
     append using "`base_dir'/data/results/Rochdale.dta"
 }
+else if("`measure'" == "sec deaths all 7 days" & "`sub_measure'" == "any sec"){
+    use "`base_dir'/data/results/Bishop_Auckland.dta", clear
+    append using "`base_dir'/data/results/Hartlepool.dta"
+    append using "`base_dir'/data/results/Hemel_Hempstead.dta"
+    append using "`base_dir'/data/results/Newark.dta"
+    append using "`base_dir'/data/results/Rochdale.dta"
+}
+else if("`measure'" == "sec deaths in cips 7 days" & "`sub_measure'" == "any sec"){
+    use "`base_dir'/data/results/Bishop_Auckland.dta", clear
+    append using "`base_dir'/data/results/Hartlepool.dta"
+    append using "`base_dir'/data/results/Hemel_Hempstead.dta"
+    append using "`base_dir'/data/results/Newark.dta"
+    append using "`base_dir'/data/results/Rochdale.dta"
+}
+else if("`measure'" == "sec deaths not in cips 7 days" & "`sub_measure'" == "any sec"){
+    use "`base_dir'/data/results/Bishop_Auckland.dta", clear
+    append using "`base_dir'/data/results/Hartlepool.dta"
+    append using "`base_dir'/data/results/Hemel_Hempstead.dta"
+    append using "`base_dir'/data/results/Newark.dta"
+    append using "`base_dir'/data/results/Rochdale.dta"
+}
+else if("`measure'" == "sec case fatality 7 days" & "`sub_measure'" == "any sec"){
+    use "`base_dir'/data/results/Bishop_Auckland.dta", clear
+    append using "`base_dir'/data/results/Hartlepool.dta"
+    append using "`base_dir'/data/results/Hemel_Hempstead.dta"
+    append using "`base_dir'/data/results/Newark.dta"
+    append using "`base_dir'/data/results/Rochdale.dta"
+}
+
 
 
 /* Run Analyses for pooled centres at both Site level (model 4)       */
