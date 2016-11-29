@@ -44,8 +44,8 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Write site level data to Stata's .dta and make a copy
     dplyr::filter(df.trust,
                   measure == indicator, sub.measure == sub.indicator) %>%
-        write.dta(file = '~/work/closed/hta_report/data/site.dta')
-    call <- paste0('cp ~/work/closed/hta_report/data/site.dta ~/work/closed/hta_report/data/input_site_',
+        write.dta(file = '~/work/closed/nihr_report/data/site.dta')
+    call <- paste0('cp ~/work/closed/nihr_report/data/site.dta ~/work/closed/nihr_report/data/input_site_',
                    gsub(' ', '_', indicator),
                    '_',
                    gsub(' ', '_', sub.indicator),
@@ -53,15 +53,15 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     system(call)
     ## Build a call to Stata to run the do-file with the given
     ## arguments of measure(/indicator) and sub-measure(/sub-indicator)
-    call <- paste0('/usr/local/stata14/stata-mp -b ~/work/closed/hta_report/do/negbin_site.do ',
+    call <- paste0('/usr/local/stata14/stata-mp -b ~/work/closed/nihr_report/do/negbin_site.do ',
                    gsub(' ', '_', indicator),
                    ' ',
                    gsub(' ', '_', sub.indicator))
     ## Run, copy file to its own unique location
     system(call)
     ## Read the results back in, copy results to their own file
-    results$site <- read_dta(file = '~/work/closed/hta_report/data/results/stata_negbin_site.dta')
-    call <- paste0('cp ~/work/closed/hta_report/data/results/stata_negbin_site.dta ~/work/closed/hta_report/data/results/results_site_',
+    results$site <- read_dta(file = '~/work/closed/nihr_report/data/results/stata_negbin_site.dta')
+    call <- paste0('cp ~/work/closed/nihr_report/data/results/stata_negbin_site.dta ~/work/closed/nihr_report/data/results/results_site_',
                    gsub(' ', '_', indicator),
                    '_',
                    gsub(' ', '_', sub.indicator),
@@ -71,8 +71,8 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## NB - NOT filtering out control sites here, that is done in the call to -xtnbreg- in Stata
     dplyr::filter(df.lsoa,
                   measure == indicator, sub.measure == sub.indicator) %>%
-        write.dta(file = '~/work/closed/hta_report/data/lsoa.dta')
-    call <- paste0('cp ~/work/closed/hta_report/data/lsoa.dta ~/work/closed/hta_report/data/input_lsoa_',
+        write.dta(file = '~/work/closed/nihr_report/data/lsoa.dta')
+    call <- paste0('cp ~/work/closed/nihr_report/data/lsoa.dta ~/work/closed/nihr_report/data/input_lsoa_',
                    gsub(' ', '_', indicator),
                    '_',
                    gsub(' ', '_', sub.indicator),
@@ -80,22 +80,22 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     system(call)
     ## Build a call to Stata to run the do-file with the given
     ## arguments of measure(/indicator) and sub-measure(/sub-indicator)
-    call <- paste0('/usr/local/stata14/stata-mp -b ~/work/closed/hta_report/do/negbin_lsoa.do ',
+    call <- paste0('/usr/local/stata14/stata-mp -b ~/work/closed/nihr_report/do/negbin_lsoa.do ',
                    gsub(' ', '_', indicator),
                    ' ',
                    gsub(' ', '_', sub.indicator))
     ## Run
     system(call)
     ## Read the results back in
-    results$lsoa <- read_dta(file = '~/work/closed/hta_report/data/results/stata_negbin_lsoa.dta')
-    call <- paste0('cp ~/work/closed/hta_report/data/results/stata_negbin_lsoa.dta ~/work/closed/hta_report/data/results/results_lsoa_',
+    results$lsoa <- read_dta(file = '~/work/closed/nihr_report/data/results/stata_negbin_lsoa.dta')
+    call <- paste0('cp ~/work/closed/nihr_report/data/results/stata_negbin_lsoa.dta ~/work/closed/nihr_report/data/results/results_lsoa_',
                    gsub(' ', '_', indicator),
                    '_',
                    gsub(' ', '_', sub.indicator),
                    '.dta')
     system(call)
     ## Remove the input files
-    system('rm ~/work/closed/hta_report/data/results/site.dta ~/work/closed/hta_report/data/results/lsoa.dta')
+    system('rm ~/work/closed/nihr_report/data/results/site.dta ~/work/closed/nihr_report/data/results/lsoa.dta')
     ## Bind and return results
     ## print("Site...")
     ## head(results$site) %>% print()
