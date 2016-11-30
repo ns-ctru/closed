@@ -26,8 +26,8 @@
 #' @param model0.5 Covariates to include in model 0.5.
 #' @param model1 Covariates to include in model 1.
 #' @param model2 Covariates to include in model 2.
-#' @param model3.1 Covariates to include in model 3.
-#' @param model3.2 Covariates to include in model 8.
+#' @param model3.1 Covariates to include in model 3.1.
+#' @param model3.2 Covariates to include in model 3.2.
 #' @param model4 Covariates to include in model 4.
 #' @param model5 Covariates to include in model 5.
 #' @param model6.1 Covariates to include in model 6.1.
@@ -141,7 +141,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## coefficients                                                      ##
     #######################################################################
     df.trust <- mutate(df.trust,
-                       before.after = ifelse(site.type == 'intervention' & relative.month >= 25, "After", "Before"))
+                       before.after = ifelse(relative.month >= 25, "After", "Before"))
+    results$tmp <- df.trust
     results$summary.df <- group_by(df.trust, town, before.after) %>%
                           summarise(n        = n(),
                                     mean     = mean(value, na.rm = TRUE),
