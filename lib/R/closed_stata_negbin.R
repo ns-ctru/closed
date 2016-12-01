@@ -109,8 +109,9 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## coefficients                                                      ##
     #######################################################################
     ## print("Debug 1")
-    df.trust <- mutate(df.trust,
-                       before.after = ifelse(relative.month >= 25, "After", "Before"))
+    df.trust <- dplyr::filter(df.trust,
+                              measure == indicator, sub.measure == sub.indicator) %>%
+                mutate(before.after = ifelse(relative.month >= 25, "After", "Before"))
     results$tmp <-  df.trust
     results$summary.df <- group_by(df.trust, town, before.after) %>%
                           summarise(n        = n(),
