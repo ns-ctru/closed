@@ -244,14 +244,14 @@ check.sec.deaths.not.in.cips.7days <- closed_missing_summary(df.lsoa = sec_death
 ## Bind into two data frames for tabulating
 check.length.stay$check.lsoa$sub.measure[is.na(check.length.stay$check.lsoa$sub.measure)] <- "N/A"
 check.lsoa <- rbind(check.ed.attendances$check.lsoa,
-                    check.ed.unnecessary$.lsoa,
+                    check.ed.unnecessary$check.lsoa,
                     check.ed.admitted$check.lsoa,
                     check.critical.care$check.lsoa,
                     check.length.stay$check.lsoa,
                     check.green.calls$check.lsoa,
                     check.red.calls$check.lsoa,
                     check.mean.times$check.lsoa,
-                    check.case.fatality$check.lsoa,
+                    ## check.case.fatality$check.lsoa,
                     check.sec.case.fatality.7days$check.lsoa,
                     check.sec.deaths.all.7days$check.lsoa,
                     check.sec.deaths.in.cips.7days$check.lsoa,
@@ -262,14 +262,14 @@ check.lsoa <- rbind(check.ed.attendances$check.lsoa,
 names(check.lsoa) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month', 'LSOAs')
 check.length.stay$check.site$sub.measure[is.na(check.length.stay$check.site$sub.measure)] <- "N/A"
 check.site <- rbind(check.ed.attendances$check.site,
-                    check.ed.unnecessary$.site,
+                    check.ed.unnecessary$check.site,
                     check.ed.admitted$check.site,
                     check.critical.care$check.site,
                     check.length.stay$check.site,
                     check.green.calls$check.site,
                     check.red.calls$check.site,
                     check.mean.times$check.site,
-                    check.case.fatality$check.site,
+                    ## check.case.fatality$check.site,
                     check.sec.case.fatality.7days$check.site,
                     check.sec.deaths.all.7days$check.site,
                     check.sec.deaths.in.cips.7days$check.site,
@@ -425,22 +425,22 @@ length_of_stay_site_measure_clean_sd2 <- closed_clean(df      = length_of_stay_s
                                                 sub.indicator = 'mean',
                                                 systematic    = systematic.outlier,
                                                 balance       = FALSE)
-sec_case_fatality_7days_site_measure_clean <- closed_clean(df      = sec_case_fatality_7days_site_measure,
+sec_case_fatality_7days_site_measure_clean_sd2 <- closed_clean(df      = sec_case_fatality_7days_site_measure,
                                                  indicator     = 'case fatality ratio',
                                                  sub.indicator = 'any',
                                                  systematic    = systematic.outlier,
                                                  balance       = FALSE)
-sec_deaths_all_7days_site_measure_clean <- closed_clean(df      = sec_deaths_all_7days_site_measure,
+sec_deaths_all_7days_site_measure_clean_sd2 <- closed_clean(df      = sec_deaths_all_7days_site_measure,
                                                  indicator     = 'case fatality ratio',
                                                  sub.indicator = 'any',
                                                  systematic    = systematic.outlier,
                                                  balance       = FALSE)
-sec_deaths_in_cips_7days_site_measure_clean <- closed_clean(df      = sec_deaths_in_cips_7days_site_measure,
+sec_deaths_in_cips_7days_site_measure_clean_sd2 <- closed_clean(df      = sec_deaths_in_cips_7days_site_measure,
                                                  indicator     = 'case fatality ratio',
                                                  sub.indicator = 'any',
                                                  systematic    = systematic.outlier,
                                                  balance       = FALSE)
-sec_deaths_not_in_cips_7days_site_measure_clean <- closed_clean(df      = sec_deaths_not_in_cips_7days_site_measure,
+sec_deaths_not_in_cips_7days_site_measure_clean_sd2 <- closed_clean(df      = sec_deaths_not_in_cips_7days_site_measure,
                                                  indicator     = 'case fatality ratio',
                                                  sub.indicator = 'any',
                                                  systematic    = systematic.outlier,
@@ -490,7 +490,11 @@ spurious2 <- rbind(ed_attendances_by_mode_site_measure_clean_sd2,
                    amb_green_calls_site_measure_clean_sd2,
                    ## amb_non_conveyance_site_measure_clean_sd2,
                    amb_red_calls_site_measure_clean_sd2,
-                   hospital_transfers_site_measure_clean_sd2) %>%
+                   hospital_transfers_site_measure_clean_sd2
+                   sec_case_fatality_7days_site_measure_clean_sd2,
+                  sec_deaths_all_7days_site_measure_clean_sd2,
+                  sec_deaths_in_cips_7days_site_measure_clean_sd2,
+                  sec_deaths_not_in_cips_7days_site_measure_clean_sd2) %>%
              dplyr::filter(is.na(value))
 spurious2 <- mutate(spurious2,
                     outcome  = paste(measure, sub.measure, sep = " : "),
