@@ -1,5 +1,5 @@
 ```{r load_data_again, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-load(file = '~/work/closed/hta_report/data/results.RData')
+load(file = '~/work/closed/nihr_report/data/results.RData')
 ## Combine all coefficients from all models into one dataset
 summary.models <- rbind(mode.of.arrival.any$xtnbreg,
                         mode.of.arrival.other$xtnbreg,
@@ -8,7 +8,7 @@ summary.models <- rbind(mode.of.arrival.any$xtnbreg,
                         all.emergency.admissions.all$xtnbreg,
                         avoidable.emergency.admissions.any$xtnbreg,
                         avoidable.emergency.admissions.chest.pain$xtnbreg,
-                        ed.attendances.admitted.all$xtnbreg,
+                        ## ed.attendances.admitted.all$xtnbreg,
                         ed.attendances.admitted.fraction.admitted$all.model.all.coef,
                         ed.attendances.admitted.admitted$xtnbreg,
                         critical.care.cips.all$xtnbreg,
@@ -22,7 +22,7 @@ summary.models <- rbind(mode.of.arrival.any$xtnbreg,
                         ## case.fatality.ratio.serious.head.injury$all.model.all.coef,
                         ## case.fatality.ratio.road.traffic.accident$all.model.all.coef,
                         ## case.fatality.ratio.falls$all.model.all.coef,
-                        ## case.fatality.ratio.any.trauma.sec$all.model.all.coef,
+                        case.fatality.ratio.any.trauma.sec$all.model.all.coef,
                         case.fatality.ratio.stroke.cva$all.model.all.coef,
                         ambulance.mean.times.call.to.dest$all.model.all.coef,
                         ambulance.mean.times.call.to.scene.any$all.model.all.coef,
@@ -72,6 +72,9 @@ heatmap.standard <- closed_heatmap(df           = summary.models,
                                   digits       = 3)
 
 ```
+
+A lot of models and a lot of outcomes have been tested, to ease comprehension heatmaps showing the strength of association are shown below for the `closure` term in Site level models or the `difference in time to ED` for LSOA level models.  Three statistics have been used, the raw estimated coefficient (poor choice as outcomes vary, means, proportions or numbers), p-values (not the metric by which to initially judge effects) and standardised coefficients (`t` or `z` statistics depending on the model, these are preferred).  Its is to be expected that as you move across a given row there are similarities in the coefficients and as many of the indicators are themselves related they too will be correlated.
+
 #### Bishop Auckland  {.tabset .tabset-fade .tabset-pills}
 
 ##### Standardised
