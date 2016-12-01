@@ -131,9 +131,13 @@
 
 ### Case Fatality Ratio {.tabset .tabset-fade .tabset-pills}
 
-#### Any {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/case_fatality_ratio_any.Rmd', eval = TRUE}
+#### Any SEC {.tabset .tabset-fade .tabset-pills}
+```{r child = 'subsections/case_fatality_ratio_7days_any_sec.Rmd', eval = TRUE}
 ```
+
+<!-- #### Any {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/case_fatality_ratio_any.Rmd', eval = TRUE} -->
+<!-- ``` -->
 
 <!-- #### Acute Heart Failure  {.tabset .tabset-fade .tabset-pills} -->
 <!-- ```{r child = 'subsections/case_fatality_ratio_acute_heart_failure.Rmd', eval = TRUE} -->
@@ -168,7 +172,7 @@
 <!-- ``` -->
 
 #### Myocardial Infarction  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/case_fatality_ratio_myocardial_infarction.Rmd', eval = FALSE}
+```{r child = 'subsections/case_fatality_ratio_myocardial_infarction.Rmd', eval = TRUE}
 ```
 
 <!-- #### Pregnancy and Birth Related  {.tabset .tabset-fade .tabset-pills} -->
@@ -197,10 +201,6 @@
 
 #### Stroke CVA  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/case_fatality_ratio_stroke_cva.Rmd', eval = TRUE}
-```
-
-#### 7 Days {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/case_fatality_ratio_7days_any_sec.Rmd', eval = TRUE}
 ```
 
 ### Ambulance Mean Times  {.tabset .tabset-fade}
