@@ -490,11 +490,11 @@ spurious2 <- rbind(ed_attendances_by_mode_site_measure_clean_sd2,
                    amb_green_calls_site_measure_clean_sd2,
                    ## amb_non_conveyance_site_measure_clean_sd2,
                    amb_red_calls_site_measure_clean_sd2,
-                   hospital_transfers_site_measure_clean_sd2
+                   hospital_transfers_site_measure_clean_sd2,
                    sec_case_fatality_7days_site_measure_clean_sd2,
-                  sec_deaths_all_7days_site_measure_clean_sd2,
-                  sec_deaths_in_cips_7days_site_measure_clean_sd2,
-                  sec_deaths_not_in_cips_7days_site_measure_clean_sd2) %>%
+                   sec_deaths_all_7days_site_measure_clean_sd2,
+                   sec_deaths_in_cips_7days_site_measure_clean_sd2,
+                   sec_deaths_not_in_cips_7days_site_measure_clean_sd2) %>%
              dplyr::filter(is.na(value))
 spurious2 <- mutate(spurious2,
                     outcome  = paste(measure, sub.measure, sep = " : "),
@@ -511,7 +511,11 @@ rm(ed_attendances_by_mode_site_measure_clean_sd2,
    amb_green_calls_site_measure_clean_sd2,
    ## amb_non_conveyance_site_measure_clean_sd2,
    amb_red_calls_site_measure_clean_sd2,
-   hospital_transfers_site_measure_clean_sd2)
+   hospital_transfers_site_measure_clean_sd2,
+   sec_case_fatality_7days_site_measure_clean_sd2,
+   sec_deaths_all_7days_site_measure_clean_sd2,
+   sec_deaths_in_cips_7days_site_measure_clean_sd2,
+   sec_deaths_not_in_cips_7days_site_measure_clean_sd2)
 ## Bind spurious 2 with spurious 'systematic.outlier' (currently 3)
 spurious <- rbind(spurious,
                   spurious2)
