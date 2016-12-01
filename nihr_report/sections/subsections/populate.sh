@@ -19,7 +19,7 @@ sed -e 's/template/mode.of.arrival.ambulance/g' \
     -e 's/Measure/ed attendances/g' \
     -e 's/sub_measure/ambulance/g' \
     -e 's/data_frame/ed_attendances_by_mode/g' \
-    -e 's/DESCRIPTION/mode of attendance by any means/g' \
+    -e 's/DESCRIPTION/mode of attendance by ambulance means/g' \
     template.Rmd > mode_of_arrival_ambulance.Rmd
 
 ## Measure     : Mode of Arrival
@@ -28,7 +28,7 @@ sed -e 's/template/mode.of.arrival.other/g' \
     -e 's/Measure/ed attendances/g' \
     -e 's/sub_measure/other/g' \
     -e 's/data_frame/ed_attendances_by_mode/g' \
-    -e 's/DESCRIPTION/mode of attendance by any means/g' \
+    -e 's/DESCRIPTION/mode of attendance by other means/g' \
     template.Rmd > mode_of_arrival_other.Rmd
 
 ## Measure     : Unnecssary ED Attendances
@@ -142,9 +142,9 @@ sed -e 's/template/length.of.stay.median/g' \
 ## Measure     : Case Fatality Ratio
 ## Sub-Measure : Any
 sed -e 's/template/case.fatality.ratio.any/g' \
-    -e 's/Measure/case fatality ratio/g' \
+    -e 's/Measure/sec case fatality 7 days/g' \
     -e 's/sub_measure/any/g' \
-    -e 's/data_frame/case_fatality/g' \
+    -e 's/data_frame/sec_case_fatality_7days/g' \
     -e 's/DESCRIPTION/case fatality ratio (all conditions)/g' \
     -e 's/ts\.plot\.opts$tidy/FALSE/g' \
     template.Rmd > case_fatality_ratio_any.Rmd
@@ -152,9 +152,9 @@ sed -e 's/template/case.fatality.ratio.any/g' \
 ## Measure     : Case Fatality Ratio
 ## Sub-Measure : Acute Heart Failure
 sed -e 's/template/case.fatality.ratio.acute.heart.failure/g' \
-    -e 's/Measure/case fatality ratio/g' \
+    -e 's/Measure/sec case fatality 7 days/g' \
     -e 's/sub_measure/acute heart failure/g' \
-    -e 's/data_frame/case_fatality/g' \
+    -e 's/data_frame/sec_case_fatality_7days/g' \
     -e 's/DESCRIPTION/case fatality ratio (Acute Heart Failure)/g' \
     -e 's/ts\.plot\.opts$tidy/FALSE/g' \
     template.Rmd > case_fatality_ratio_acute_heart_failure.Rmd
@@ -162,9 +162,9 @@ sed -e 's/template/case.fatality.ratio.acute.heart.failure/g' \
 ## Measure     : Case Fatality Ratio
 ## Sub-Measure : Falls
 sed -e 's/template/case.fatality.ratio./g' \
-    -e 's/Measure/case fatality ratio/g' \
+    -e 's/Measure/sec case fatality 7 days/g' \
     -e 's/sub_measure/falls/g' \
-    -e 's/data_frame/case_fatality/g' \
+    -e 's/data_frame/sec_case_fatality_7days/g' \
     -e 's/DESCRIPTION/case fatality ratio (Falls < 75)/g' \
     -e 's/ts\.plot\.opts$tidy/FALSE/g' \
     template.Rmd > case_fatality_ratio_falls.Rmd
@@ -172,9 +172,9 @@ sed -e 's/template/case.fatality.ratio./g' \
 ## Measure     : Case Fatality Ratio
 ## Sub-Measure : Myocardial Infarction
 sed -e 's/template/case.fatality.ratio.myocardial.infarction/g' \
-    -e 's/Measure/case fatality ratio/g' \
+    -e 's/Measure/sec case fatality 7 days/g' \
     -e 's/sub_measure/myocardial infarction/g' \
-    -e 's/data_frame/case_fatality/g' \
+    -e 's/data_frame/sec_case_fatality_7days/g' \
     -e 's/DESCRIPTION/case fatality ratio (Myocardial Infarction)/g' \
     -e 's/ts\.plot\.opts$tidy/FALSE/g' \
     template.Rmd > case_fatality_ratio_myocardial_infarction.Rmd
@@ -182,9 +182,9 @@ sed -e 's/template/case.fatality.ratio.myocardial.infarction/g' \
 ## Measure     : Case Fatality Ratio
 ## Sub-Measure : Any Trauma Sec
 sed -e 's/template/case.fatality.ratio.any.trauma.sec/g' \
-    -e 's/Measure/case fatality ratio/g' \
+    -e 's/Measure/sec case fatality 7 days/g' \
     -e 's/sub_measure/any trauma sec/g' \
-    -e 's/data_frame/case_fatality/g' \
+    -e 's/data_frame/sec_case_fatality_7days/g' \
     -e 's/DESCRIPTION/case fatality ratio (Any Trauma)/g' \
     -e 's/ts\.plot\.opts$tidy/FALSE/g' \
     template.Rmd > case_fatality_ratio_any_trauma_sec.Rmd
@@ -192,7 +192,7 @@ sed -e 's/template/case.fatality.ratio.any.trauma.sec/g' \
 ## Measure     : Case Fatality Ratio
 ## Sub-Measure : Serious Head Injury
 # sed -e 's/template/case.fatality.ratio.serious.head.injury/g' \
-#     -e 's/Measure/case fatality ratio/g' \
+#     -e 's/Measure/sec case fatality 7 days/g' \
 #     -e 's/sub_measure/serious head injury/g' \
 #     -e 's/data_frame/case_fatality/g' \
 #     -e 's/DESCRIPTION/case fatality ratio (Serious Head Injury)/g' \
@@ -202,9 +202,9 @@ sed -e 's/template/case.fatality.ratio.any.trauma.sec/g' \
 ## Measure     : Case Fatality Ratio
 ## Sub-Measure : Road Traffic Accient
 sed -e 's/template/case.fatality.ratio.road.traffic.accident/g' \
-    -e 's/Measure/case fatality ratio/g' \
+    -e 's/Measure/sec case fatality 7 days/g' \
     -e 's/sub_measure/road traffic accident/g' \
-    -e 's/data_frame/case_fatality/g' \
+    -e 's/data_frame/sec_case_fatality_7days/g' \
     -e 's/DESCRIPTION/case fatality ratio (Road Traffic Accident)/g' \
     -e 's/ts\.plot\.opts$tidy/FALSE/g' \
     template.Rmd > case_fatality_ratio_road_traffic_accident.Rmd
@@ -212,9 +212,9 @@ sed -e 's/template/case.fatality.ratio.road.traffic.accident/g' \
 ## Measure     : Case Fatality Ratio
 ## Sub-Measure : Stroke CVA
 sed -e 's/template/case.fatality.ratio.stroke.cva/g' \
-    -e 's/Measure/case fatality ratio/g' \
+    -e 's/Measure/sec case fatality 7 days/g' \
     -e 's/sub_measure/stroke cva/g' \
-    -e 's/data_frame/case_fatality/g' \
+    -e 's/data_frame/sec_case_fatality_7days/g' \
     -e 's/DESCRIPTION/case fatality ratio (Stroke CVA)/g' \
     -e 's/ts\.plot\.opts$tidy/FALSE/g' \
     template.Rmd > case_fatality_ratio_stroke_cva.Rmd
@@ -223,7 +223,7 @@ sed -e 's/template/case.fatality.ratio.stroke.cva/g' \
 ## Sub-Measure : call to destination
 sed -e 's/template/ambulance.mean.times.call.to.dest/g' \
     -e 's/Measure/ambulance mean times/g' \
-    -e 's/sub_measure/call_to_dest/g' \
+    -e 's/sub_measure/call to dest/g' \
     -e 's/data_frame/amb_mean_times/g' \
     -e 's/DESCRIPTION/mean time from call to destination/g' \
     template.Rmd > ambulance_mean_times_call_to_dest.Rmd
@@ -232,7 +232,7 @@ sed -e 's/template/ambulance.mean.times.call.to.dest/g' \
 ## Sub-Measure : call to scene (any)
 sed -e 's/template/ambulance.mean.times.call.to.scene.any/g' \
     -e 's/Measure/ambulance mean times/g' \
-    -e 's/sub_measure/call_to_scene_any/g' \
+    -e 's/sub_measure/call to scene any/g' \
     -e 's/data_frame/amb_mean_times/g' \
     -e 's/DESCRIPTION/mean time from call to scene (any)/g' \
     template.Rmd > ambulance_mean_times_call_to_scene_any.Rmd
@@ -241,7 +241,7 @@ sed -e 's/template/ambulance.mean.times.call.to.scene.any/g' \
 ## Sub-Measure : call to scene (conveying)
 sed -e 's/template/ambulance.mean.times.call.to.scene.conveying/g' \
     -e 's/Measure/ambulance mean times/g' \
-    -e 's/sub_measure/call_to_scene_conveying/g' \
+    -e 's/sub_measure/call to scene conveying/g' \
     -e 's/data_frame/amb_mean_times/g' \
     -e 's/DESCRIPTION/mean time from call to scene (conveying)/g' \
     template.Rmd > ambulance_mean_times_call_to_scene_conveying.Rmd
@@ -250,7 +250,7 @@ sed -e 's/template/ambulance.mean.times.call.to.scene.conveying/g' \
 ## Sub-Measure : destination to clear
 sed -e 's/template/ambulance.mean.times.dest.to.clear/g' \
     -e 's/Measure/ambulance mean times/g' \
-    -e 's/sub_measure/dest_to_clear/g' \
+    -e 's/sub_measure/dest to clear/g' \
     -e 's/data_frame/amb_mean_times/g' \
     -e 's/DESCRIPTION/mean time from destination to clear/g' \
     template.Rmd > ambulance_mean_times_dest_to_clear.Rmd
@@ -259,7 +259,7 @@ sed -e 's/template/ambulance.mean.times.dest.to.clear/g' \
 ## Sub-Measure : scene to destination
 sed -e 's/template/ambulance.mean.times.scene.to.dest/g' \
     -e 's/Measure/ambulance mean times/g' \
-    -e 's/sub_measure/scene_to_dest/g' \
+    -e 's/sub_measure/scene to dest/g' \
     -e 's/data_frame/amb_mean_times/g' \
     -e 's/DESCRIPTION/mean time from scene to destination/g' \
     template.Rmd > ambulance_mean_times_scene_to_dest.Rmd
