@@ -14,6 +14,7 @@
 #' @param indicator The performance indicator to assess.
 #' @param sub.indicator The sub-measure performance indicator to assess.
 #' @param steps Logical indicator of whether to plot vertical lines for each step.
+#' @param smooth Logical indicator of whether to overlay smoothed lines (\code{geom_smooth()})
 #' @param common.y Generate all plots with a common y-axis range.
 #' @param theme GGplot2 theme to use.
 #' @param tidy Logical indicator of whether to remove spurious data points when plotting
@@ -515,15 +516,22 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                                              y     = value,
                                              linetype = town))
     }
+    ## Add smoothed line
+    if(smooth == TRUE){
+        results$plot <- results$plot + geom_point() + geom_smooth(method = 'loess')
+    }
     ## Basic line plot
     ## results$plot <- results$plot + geom_line(linetype = linetype) +
-    results$plot <- results$plot + geom_line() +
-                    ## Graph and axis labels
-                    labs(list(title  = paste0(fig, title1, title2),
-                              x      = 'Month (Aligned)',
-                              y      = ylabel,
-                              colour = 'Hospital Catchment Area',
-                              linetype = 'Hospital Catchment Area'))
+    else{
+        results$plot <- results$plot + geom_line()
+        ## Graph and axis labels
+    }
+    ## Add graph and axis labels
+    results$plot <- results$plot + labs(list(title  = paste0(fig, title1, title2),
+                                             x      = 'Month (Aligned)',
+                                             y      = ylabel,
+                                             colour = 'Hospital Catchment Area',
+                                             linetype = 'Hospital Catchment Area'))
     ## Label lines
     if(repel == TRUE){
         if(colour == TRUE){
