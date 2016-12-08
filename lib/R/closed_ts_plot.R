@@ -356,8 +356,6 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         y.text <- -0.05
         y.text.steps <- 0.05
     }
-    ## Add the date/time into the graphs title
-    title1 <- paste0(title1, ' (', Sys,time(), ')')
     #######################################################################
     ## Define vertical lines for steps                                   ##
     #######################################################################
@@ -543,7 +541,12 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         ## Graph and axis labels
     }
     ## Add graph and axis labels
-    results$plot <- results$plot + labs(list(title  = paste0(fig, title1, title2),
+    results$plot <- results$plot + labs(list(title  = paste0(fig,
+                                                             title1,
+                                                             title2,
+                                                             ' (',
+                                                             Sys.time(),
+                                                             ')'),
                                              x      = 'Month (Aligned)',
                                              y      = ylabel,
                                              colour = 'Hospital Catchment Area',
