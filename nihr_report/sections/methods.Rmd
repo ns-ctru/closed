@@ -48,10 +48,10 @@ Model  | Case Site    | Control Site         | Panel | Covariates
 -------|--------------|----------------------|-------|----------------------------------------
 0      | Individual   | None                 | ED    | closure
 1      | Individual   | None                 | ED    | season + time + closure + nhs111 + other.centre + ambulance.diversion
-2      | Individual   | Primary Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
-3      | All          | Primary Matched      | ED    | season + time + closure * site + nhs111 + other.centre + ambulance.diversion
+2      | Individual   | Primary Matched      | ED    | season + time + closure + site +  closure * site + nhs111 + other.centre + ambulance.diversion
+3      | All          | Primary Matched      | ED    | season + time + closure + site type + closure * site + nhs111 + other.centre + ambulance.diversion
 4      | Individual   | None                 | LSOA  | season + time + closure + nhs111 + other.centre + ambulance.diversion + change in ED time
-5      | All          | None                 | LSOA  | season + time + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
+5      | All          | None                 | LSOA  | season + time + closure + site + closure * site + nhs111 + other.centre + ambulance.diversion + change in ED time
 
 
 ### Indicators
