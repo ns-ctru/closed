@@ -525,8 +525,8 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     else{
         results$plot <- ggplot(data = df,
                                mapping = aes(x     = relative.month,
-                                             y     = value))## ,
-                                             ## linetype = town))
+                                             y     = value,
+                                             linetype = town))
     }
     ## Add smoothed line
     if(smooth.plot == TRUE){
@@ -544,7 +544,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     results$plot <- results$plot + labs(list(title  = paste0(fig,
                                                              title1,
                                                              title2),
-                                             caption = Sys.time(),
+                                             caption = paste0('Generated : ', Sys.time()),
                                              x      = 'Month (Aligned)',
                                              y      = ylabel,
                                              colour = 'Hospital Catchment Area',
