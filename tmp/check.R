@@ -1,3 +1,645 @@
+## 2016-12-08 Developing possibility of geom_point() and geom_smooth() in the closed_ts_plot() function
+load('~/work/closed/tmp/ed_attendances_clean.RData')
+ts.plot.opts <- list()
+ts.plot.opts$steps       <- TRUE
+ts.plot.opts$facet       <- FALSE
+ts.plot.opts$legend      <- TRUE
+ts.plot.opts$tidy        <- TRUE
+ts.plot.opts$colour      <- FALSE
+ts.plot.opts$lines       <- FALSE
+ts.plot.opts$xaxis.steps <- TRUE
+check.ts <- closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
+               indicator     = 'ed attendances',
+               sub.indicator = 'any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               smooth        = TRUE)
+save(check.ts, file = '~/work/closed/tmp/check.ts')
+
+## 2016-12-01 Checking removal of spurious data points
+## 2016-12-01 Checking another outcome
+mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure,
+                                           df.trust        = ed_attendances_by_mode_site_measure_clean,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'any',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+mode.of.arrival.any$summary.table
+
+## 2016-11-30 Post meeting why the hell are means not correct???
+## Deaths (closed_stata_negbin())
+deaths.dirty <- dplyr::filter(sec_deaths_all_7days_site_measure, sub.measure == 'any sec') %>%
+                mutate(before.after = ifelse(relative.month >= 25, 'After', 'Before')) %>%
+                group_by(town, before.after) %>%
+                summarise(mean = mean(value, na.rm = TRUE)) %>%
+                as.data.frame()
+deaths.clearn <- dplyr::filter(sec_deaths_all_7days_site_measure_clean, sub.measure == 'any sec') %>%
+                 mutate(before.after = ifelse(relative.month >= 25, 'After', 'Before')) %>%
+                 group_by(town, before.after) %>%
+                 summarise(mean = mean(value, na.rm = TRUE)) %>%
+                 as.data.frame()
+sec.deaths.all.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_all_7days_measure,
+                                           df.trust         = sec_deaths_all_7days_site_measure_clean,
+                                           indicator       = 'sec deaths all 7days',
+                                           sub.indicator   = 'any sec',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+sec.deaths.all.7days.any.sec$summary.table
+## Check the data frame...
+group_by(sec.deaths.all.7days.any.sec$tmp, town, before.after) %>%
+    summarise(mean = mean(value, na.rm = TRUE)) %>%
+    as.data.frame()
+## Look at the data
+t <- dplyr::filter(sec.deaths.all.7days.any.sec$tmp, town == 'Bishop Auckland' & sub.measure == 'any sec') %>%
+     dplyr::select(before.after, value) %>%
+     ungroup() %>%
+     as.data.frame()
+summary(t)
+mean(t$value, na.rm = TRUE)
+group_by(t, before.after) %>% summarise(mean = mean(value, na.rm = TRUE))
+
+
+## Case Fatality (closed_models())
+fatality.dirty <- filter(case_fatality_site_measure, sub.measure == 'any sec') %>%
+                  mutate(before.after = ifelse(relative.month >= 25, 'After', 'Before')) %>%
+                  group_by(to.check.fatality, town, before.after) %>%
+                  summarise(mean = mean(value, na.rm = TRUE)) %>%
+                  as.data.frame()
+fatality.clean <- filter(case_fatality_site_measure_clean, sub.measure == 'any sec') %>%
+                  mutate(before.after = ifelse(relative.month >= 25, 'After', 'Before')) %>%
+                  group_by(to.check.fatality, town, before.after) %>%
+                  summarise(mean = mean(value, na.rm = TRUE)) %>%
+                  as.data.frame()
+case.fatality.ratio.7days.any.sec <- closed_models(df.lsoa         = sec_case_fatality_7days_measure,
+                                     df.trust         = sec_case_fatality_7days_site_measure,
+                                     indicator        = 'sec case fatality 7 days',
+                                     sub.indicator    = 'any sec',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7.1         = model.opts$mod7.1,
+                                     model7.2         = model.opts$mod7.2,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = TRUE,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+case.fatality.ratio.7days.any.sec$summary.table
+
+## 2016-11-30 Back to why Model 3 isn't running for all centres
+check.call.to.dest <- closed_models(df.lsoa         = amb_mean_times_measure,
+                                     df.trust         = amb_mean_times_site_measure_clean,
+                                     indicator        = 'ambulance mean times',
+                                     sub.indicator    = 'call to dest',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7.1         = model.opts$mod7.1,
+                                     model7.2         = model.opts$mod7.2,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+names(check.call.to.dest)
+
+## 2016-11-30 Spurious data points in ambulance mean times call to dest?
+amb_mean_times_site_measure_clean %>%
+    dplyr::filter(town %in% c('Hemel Hempstead'), sub.measure == 'call to dest') %>%
+    dplyr::select(yearmonth, relative.month, value, season, nhs111, closure, ambulance.divert, other.centre) %>%
+    as.data.frame()
+## Check the data as read in (in case I've done something dumb)
+load('~/work/closed/lib/data/ambulance mean times measure - site - 2016-11-21 20.31.Rda')
+amb_mean_times_site_measure %>%
+    dplyr::filter(town %in% c('Hemel Hempstead') & sub.measure %in% c('call_to_dest', 'call_to_scene_any', 'call_to_scene_conveying')) %>%
+    arrange(sub_measure, yearmonth) %>%
+    dplyr::select(yearmonth, sub_measure, value) %>%
+    as.data.frame()
+
+
+
+## 2016-11-30 Why aren't ambulance mean times working?
+amb_mean_times_site_measure_clean %>%
+    dplyr::filter(town %in% c('Bishop Auckland', 'Whitehaven'), sub.measure == 'call to dest') %>%
+    dplyr::select(yearmonth, relative.month, value, season, nhs111, closure, ambulance.divert, other.centre) %>%
+    as.data.frame()
+check.ts <- closed_ts_plot(df            = amb_mean_times_site_measure_clean,
+                           indicator     = 'ambulance mean times',
+                           sub.indicator = 'call to dest',
+                           steps         = ts.plot.opts$steps,
+                           theme         = theme_bw(),
+                           facet         = ts.plot.opts$facet,
+                           sites         = c('Bishop Auckland', 'Whitehaven'),
+                           legend        = ts.plot.opts$legend,
+                           tidy          = ts.plot.opts$tidy,
+                           colour        = ts.plot.opts$colour,
+                           lines         = ts.plot.opts$lines,
+                           xaxis.steps   = ts.plot.opts$xaxis.steps)
+check.call.to.dest <- closed_models(df.lsoa         = amb_mean_times_measure,
+                                     df.trust         = amb_mean_times_site_measure_clean,
+                                     indicator        = 'ambulance mean times',
+                                     sub.indicator    = 'call to dest',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7.1         = model.opts$mod7.1,
+                                     model7.2         = model.opts$mod7.2,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+save(check.ts, check.call.to.dest, file = '~/work/closed/tmp/check.call.to.dest.RData')
+
+
+## 2016-11-28 Checking include t and z in model summary
+critical.care.cips.critical <- closed_stata_negbin(df.lsoa =  critical_care_cips_measure,
+                                           df.trust         = critical_care_cips_site_measure_clean,
+                                           indicator       = 'critical care stays',
+                                           sub.indicator   = 'critical care',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+critical.care.cips.fraction <- closed_models(df.lsoa         = critical_care_cips_measure,
+                                     df.trust         = critical_care_cips_site_measure_clean,
+                                     indicator        = 'critical care stays',
+                                     sub.indicator    = 'fraction critical care',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7.1         = model.opts$mod7.1,
+                                     model7.2         = model.opts$mod7.2,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+summary.models <- rbind(critical.care.cips.critical$xtnbreg,
+                        critical.care.cips.fraction$all.model.all.coefs)
+heatmap.standard <- closed_heatmap(df           = summary.models,
+                                  site         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+                                  colour.by    = 'standard',
+                                  coef         = c('closure', 'diff.time.to.ed'),
+                                  include.text = c('standard'),
+                                  colour       = 'green',
+                                  final        = TRUE,
+                                  digits       = 3)
+
+
+## 2016-11-16 Working out missing heatmaps
+load(file = '~/work/closed/hta_report/data/results.RData')
+## Combine all coefficients from all models into one dataset
+summary.models <- rbind(mode.of.arrival.any$xtnbreg,
+                        mode.of.arrival.other$xtnbreg,
+                        mode.of.arrival.ambulance$xtnbreg,
+                        unnecessary.attendance$xtnbreg,
+                        all.emergency.admissions.all$xtnbreg,
+                        avoidable.emergency.admissions.any$xtnbreg,
+                        avoidable.emergency.admissions.chest.pain$xtnbreg,
+                        ed.attendances.admitted.all$xtnbreg,
+                        ed.attendances.admitted.fraction.admitted$all.model.all.coef,
+                        ed.attendances.admitted.admitted$xtnbreg,
+                        critical.care.cips.all$xtnbreg,
+                        critical.care.cips.critical$xtnbreg,
+                        critical.care.cips.fraction$all.model.all.coef,
+                        length.of.stay.mean$all.model.all.coef,
+                        length.of.stay.median$all.model.all.coef,
+                        case.fatality.ratio.any$all.model.all.coef,
+                        case.fatality.ratio.acute.heart.failure$all.model.all.coef,
+                        case.fatality.ratio.stroke.cva$all.model.all.coef,
+                        ambulance.mean.times.call.to.dest$all.model.all.coef,
+                        ambulance.mean.times.call.to.scene.any$all.model.all.coef,
+                        ambulance.mean.times.call.to.scene.conveying$all.model.all.coef,
+                        ambulance.mean.times.dest.to.clear$all.model.all.coef,
+                        ambulance.mean.times.scene.to.dest$all.model.all.coef,
+                        ambulance.non.conveyances.green.calls$xtnbreg,
+                        ambulance.non.conveyances.green.calls.non.conveyed$xtnbreg,
+                        ambulance.non.conveyances.fraction.not.conveyed$all.model.all.coef,
+                        ambulance.red.calls.hospital.transfers$xtnbreg,
+                        ambulance.red.calls.total$xtnbreg,
+                        hospital.transfers.all.stays$xtnbreg,
+                        hospital.transfers.stays.with.transfer$xtnbreg,
+                        hospital.transfers.proportion.with.transfer$all.model.all.coef)
+summary.models <- mutate(summary.models,
+                 indicator = paste0(measure, ' - ', sub.measure),
+                 indicator = gsub('_', ' ', indicator),
+                 indicator = factor(indicator,
+                                    levels = c('hospital transfers - fraction with transfer',
+                                               'hospital transfers - stays with transfer',
+                                               'hospital transfers - all stays',
+                                               'case fatality ratio - stroke cva',
+                                               'case fatality ratio - acute heart failure',
+                                               'case fatality ratio - any',
+                                               'length of stay - median',
+                                               'length of stay - mean',
+                                               'critical care stays - fraction critical care',
+                                               'critical care stays - critical care',
+                                               'critical care stays - all',
+                                               'avoidable emergency admissions - non-specific chest pain',
+                                               'avoidable emergency admissions - any',
+                                               'all emergency admissions - all',
+                                               'ed attendances admitted - fraction admitted',
+                                               'ed attendances admitted - admitted',
+                                               'ed attendances admitted - all',
+                                               'unnecessary ed attendances - all',
+                                               'ed attendances - other',
+                                               'ed attendances - ambulance',
+                                               'ed attendances - any',
+                                               'ambulance mean times - scene to dest',
+                                               'ambulance mean times - dest to clear',
+                                               'ambulance mean times - call to scene conveying',
+                                               'ambulance mean times - call to scene any',
+                                               'ambulance mean times - call to dest',
+                                               'ambulance red calls - total',
+                                               'ambulance red calls - hospital transfers',
+                                               'ambulance green calls - fraction not conveyed',
+                                               'ambulance green calls - hospital transfers',
+                                               'ambulance green calls - not conveyed green calls',
+                                               'ambulance green calls - green calls')))
+
+## 2016-11-15 Ordering tables
+load(file = '~/work/closed/tmp/closed.heatmap.RData')
+summary.models <- mutate(summary.models,
+                         indicator = paste0(measure, ' - ', sub.measure))
+## Convert to factor
+summary.models <-  mutate(summary.models,
+                          indicator = factor(indicator,
+                                             levels = c('ambulance green calls - green calls',
+                                                        'ambulance green calls - not conveyed green calls',
+                                                        'ambulance green calls - hospital transfers',
+                                                        'ambulance green calls - fraction not conveyed',
+                                                        'ambulance red calls - hospital transfers',
+                                                        'ambulance red calls - total',
+                                                        'ambulance mean times - call to dest',
+                                                        'ambulance mean times - call to scene any',
+                                                        'ambulance mean times - call to scene conveying',
+                                                        'ambulance mean times - dest to clear',
+                                                        'ambulance mean times - scene to dest',
+                                                        'ed attendances - any',
+                                                        'ed attendances - ambulance',
+                                                        'ed attendances - other',
+                                                        'unnecessary ed attendances - all',
+                                                        'ed attendances admitted - all',
+                                                        'ed attendances admitted - admitted',
+                                                        'ed attendances admitted - fraction admitted',
+                                                        'all emergency admissions - all',
+                                                        'avoidable emergency admissions - any',
+                                                        'avoidable emergency admissions - non-specific chest pain',
+                                                        'critical care stays - all',
+                                                        'critical care stays - critical care',
+                                                        'critical care stays - fraction critical care',
+                                                        'length of stay - mean',
+                                                        'length of stay median',
+                                                        'case fatality ratio - any',
+                                                        'case fatality ratio - acure heart failure',
+                                                        'case fatality ratio - stroke cva')))
+
+## Now recode
+summary.models <- mutate(summary.models,
+                         indicator = recode_factor())
+
+## 2016-11-14 Working on Heatmaps again, ggplot acll constructed 2016-11-10 works but
+##            something in the preping of data within closed_heatmap() doesn't leave
+##            unique data as overlaid text appears to have multiple layers.
+load(file = '~/work/closed/tmp/closed.heatmap.RData')
+
+## Working on the ggplot2 call...
+dplyr::filter(summary.models, town == 'Bishop Auckland' & term == 'closure') %>%
+    mutate(indicator = paste0(measure, ' ', sub.measure),
+           overlay   = paste0(formatC(est, digits = 2, format = 'f'),
+                              '\nSE =',
+                              formatC(stderr, digits = 2, format = 'f'),
+                              '\np = ',
+                              formatC(p, digits = 3, format = 'f'))) %>%
+    mutate(model = ifelse(model == 'Model 4',
+                          yes = 'Model 3',
+                          no  = model),
+           model = ifelse(model == 'Model 6.1',
+                          yes = 'Model 4',
+                          no  = model),
+           model = ifelse(model == 'Model 7.1',
+                          yes = 'Model 5',
+                          no  = model)) %>%
+            ggplot(aes(x = as.factor(model),
+                       y = as.factor(indicator))) +
+            geom_tile(aes(fill = p)) +
+            geom_text(aes(fill = p, label = overlay)) +
+            scale_fill_gradient(high = 'white', low = 'red') +
+            theme_bw() +
+            ggtitle('Bishop Auckland') + xlab('Model') + ylab('Indicator') +
+            scale_x_discrete(position = 'top')
+
+## Call to closed_heatmap()
+closed_heatmap(df           = summary.models,
+               site         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+               colour.by    = 'coefficient',
+               coef         = c('closure', 'diff.time.to.ed'),
+               include.text = c('coefficient', 'se', 'p'),
+               colour       = 'red',
+               final        = TRUE,
+               digits       = 2)
+
+## 2016-11-10 Heatmap/table of results
+mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure,
+                                           df.trust        = ed_attendances_by_mode_site_measure_clean,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'any',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+mode.of.arrival.other <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure,
+                                           df.trust        = ed_attendances_by_mode_site_measure_clean,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'other',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+mode.of.arrival.ambulance <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure,
+                                           df.trust        = ed_attendances_by_mode_site_measure_clean,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'ambulance',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
+                                     df.trust         = ed_attendances_admitted_site_measure_clean,
+                                     indicator        = 'ed attendances admitted',
+                                     sub.indicator    = 'fraction admitted',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7.1         = model.opts$mod7.1,
+                                     model7.2         = model.opts$mod7.2,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+summary.models <- rbind(mode.of.arrival.any$xtnbreg,
+                        mode.of.arrival.other$xtnbreg,
+                        mode.of.arrival.ambulance$xtnbreg,
+                        ed.attendances.admitted.fraction.admitted$all.model.all.coef) %>%
+                  mutate(indicator = paste0(measure, ' ', sub.measure))
+summary.models <- mutate(summary.models, indicator = paste0(measure, ' ', sub.measure))
+closed.heatmap <- closed_heatmap(df           = summary.models,
+                                 site         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+                                 coef         = c('closure', 'diff_time_to_ed'),
+                                 include.text = c('coefficient', 'se', 'p'),
+                                 color        = 'red',
+                                 final        = TRUE,
+                                 digits       = 2)
+## Working on the ggplot2 call...
+dplyr::filter(summary.models, town == 'Bishop Auckland' & term == 'closure') %>%
+    mutate(indicator = paste0(measure, ' ', sub.measure),
+           overlay   = paste0(formatC(est, digits = 2, format = 'f'),
+                              '\nSE =',
+                              formatC(stderr, digits = 2, format = 'f'),
+                              '\np = ',
+                              formatC(p, digits = 3, format = 'f'))) %>%
+    mutate(model = ifelse(model == 'Model 4',
+                          yes = 'Model 3',
+                          no  = model),
+           model = ifelse(model == 'Model 6.1',
+                          yes = 'Model 4',
+                          no  = model),
+           model = ifelse(model == 'Model 7.1',
+                          yes = 'Model 5',
+                          no  = model)) %>%
+            ggplot(aes(x = as.factor(model),
+                       y = as.factor(indicator))) +
+            geom_tile(aes(fill = p)) +
+            geom_text(aes(fill = p, label = overlay)) +
+            scale_fill_gradient(high = 'white', low = 'red') +
+            theme_bw() +
+            ggtitle('Bishop Auckland') + xlab('Model') + ylab('Indicator') ## +
+    ## scale_x_discrete(position = 'top')
+save(summary.models, closed.heatmap, file = '~/work/closed/tmp/closed.heatmap.RData')
+
+## 2016-11-10 Aligning output from closed_models() and closed_stata_negbin()
+mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure,
+                                           df.trust        = ed_attendances_by_mode_site_measure_clean,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'any',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           digits           = 3)
+ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
+                                     df.trust         = ed_attendances_admitted_site_measure_clean,
+                                     indicator        = 'ed attendances admitted',
+                                     sub.indicator    = 'fraction admitted',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7.1         = model.opts$mod7.1,
+                                     model7.2         = model.opts$mod7.2,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     legend           = model.opts$legend)
+rbind(mode.of.arrival.any$xtnbreg,
+      ed.attendances.admitted.fraction.admitted$all.model.all.coef)
+
+## 2016-10-27 Developing closed_stata_negbin() function
+library(Rstata)
+options(RStata.StataPath = '/usr/local/stata/stata-mp')
+load('~/work/closed/tmp/ed_attendances_clean.RData')
+indicator <- 'ed attendances'
+sub.indicator <- 'any'
+stata(data.in = ed_attendances_by_mode_site_measure_clean,
+      data.out = TRUE,
+      stata.version = 14.2,
+      src      = paste0("~/work/closed/hta_report/do/negbin_lsoa.do '",
+                        indicator,
+                        "' '",
+                        sub.indicator,
+                        "'"))
+foreign::write.dta(ed_attendances_by_mode_site_measure_clean,
+                   file = '~/work/closed/hta_report/data/site.dta')
+foreign::write.dta(ed_attendances_by_mode_measure,
+                   file = '~/work/closed/hta_report/data/lsoa.dta')
+
+system("/usr/local/stata14/stata-mp -b ~/work/closed/hta_report/do/negbin_site.do 'ed_attendances' 'any'")
+system("/usr/local/stata14/stata-mp -b ~/work/closed/hta_report/do/negbin_lsoa.do 'ed_attendances' 'any'")
+
+## 2016-10-26 Testing glarma
+closed_glarma(df.lsoa          = ed_attendances_by_mode_measure,
+              df.trust         = ed_attendances_by_mode_site_measure_clean,
+              indicator        = 'ed attendances',
+              sub.indicator    = 'any',
+              steps            = c('closure'),
+              panel.lsoa       = 'lsoa',
+              panel.trust      = 'town',
+              timevar          = 'relative.month',
+              outcome          = 'value',
+              model0           = NULL,
+              model1           = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+              model2           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+              model3.1         = c('pooled.control * closure', 'town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+              model3.2         = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+              model4           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+              model5           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert'),
+              model6.1         = c('season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+              model6.2         = c('town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+              model7           = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+              glarma.link       = 'log',
+              glarma.model      = list(past_obs = 1),
+              glarma.distr      = 'nbinom',
+              coefficients     = c('closure.town'),
+              return.df        = FALSE,
+              return.model     = TRUE,
+              return.residuals = FALSE,
+              digits           = 3)
+
+## 2016-10-19 Developing glarma
+load('~/work/closed/tmp/ed_attendances_clean.RData')
+## testing <- ungroup(ed_attendances_by_mode_site_measure_clean) %>%
+##            filter(sub.measure == 'ambulance') %>%
+##            filter(!is.na(value))
+## Model 0 - Start with site only, no covariates
+##
+## Bishop
+## ts.bishop <- filter(testing,
+ts.bishop <- filter(ed_attendances_by_mode_site_measure_clean,
+                    town == 'Bishop Auckland' & sub.measure == 'ambulance') %>%
+             as.data.frame() %>% .[,'value']
+regressors.bishop <- filter(ed_attendances_by_mode_site_measure_clean,
+                            town == 'Bishop Auckland' & sub.measure == 'ambulance') %>%
+                     ungroup() %>%
+                     ## dplyr::select(closure) %>%
+                     dplyr::select(closure, season, relative.month, nhs111) %>%
+                     as.data.frame()
+regressors.bishop$season <- as.numeric(regressors.bishop$season)
+regressors.bishop <- as.matrix(regressors.bishop)
+## regressors.bishop <- as.vector(regressors.bishop)
+glarma.bishop.model1 <- glarma(y    = ts.bishop,
+                              X  = regressors.bishop,
+                              type = 'NegBin')
+
 ## 2016-10-19 Checking closed_tsglm() output of formatted coefficients
 testing <- closed_tsglm(df.lsoa          = ed_attendances_by_mode_measure,
                         df.trust         = ed_attendances_by_mode_site_measure_clean,
