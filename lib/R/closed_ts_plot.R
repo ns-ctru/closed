@@ -14,7 +14,7 @@
 #' @param indicator The performance indicator to assess.
 #' @param sub.indicator The sub-measure performance indicator to assess.
 #' @param steps Logical indicator of whether to plot vertical lines for each step.
-#' @param smooth Logical indicator of whether to overlay smoothed lines (\code{geom_smooth()})
+#' @param smooth.plot Logical indicator of whether to overlay smoothed lines (\code{geom_smooth()})
 #' @param common.y Generate all plots with a common y-axis range.
 #' @param theme GGplot2 theme to use.
 #' @param tidy Logical indicator of whether to remove spurious data points when plotting
@@ -40,6 +40,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            indicator       = 'ed attendances',
                            sub.indicator   = 'any',
                            steps           = TRUE,
+                           smooth.plot    = TRUE,
                            common.y        = TRUE,
                            theme           = theme_bw(),
                            facet           = FALSE,
@@ -208,17 +209,28 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         else if(sub.indicator == 'green calls')             title2 <- ' (Green Calls)'
         else if(sub.indicator == 'not conveyed green calls') title2 <- ' (Green Calls Not Conveyed)'
         nudge <- 10
-        ylabel <- 'Mean Time (minutes)'
+        ylabel <- 'N'
         y.text.steps <- 200
     }
     else if(indicator == 'ambulance green calls'){
         title1 <- 'Ambulance Green Calls'
-        if(sub.indicator == 'fraction not conveyed')         title2 <- ' (Fraction)'
-        else if(sub.indicator == 'green calls')              title2 <- ' (Green Calls)'
-        else if(sub.indicator == 'hospital transfers')       title2 <- ' (Hospital Transfers)'
-        else if(sub.indicator == 'not conveyed green calls') title2 <- ' (Green Calls Not Conveyed)'
+        if(sub.indicator == 'fraction not conveyed'){
+            title2 <- ' (Fraction)'
+            ylabel <- 'Proportion'
+        }
+        else if(sub.indicator == 'green calls'){
+            title2 <- ' (Green Calls)'
+            ylabel <- 'N'
+        }
+        else if(sub.indicator == 'hospital transfers'){
+            title2 <- ' (Hospital Transfers)'
+            ylabel <- 'N'
+        }
+        else if(sub.indicator == 'not conveyed green calls')
+            title2 <- ' (Green Calls Not Conveyed)'
+            ylabel <- 'N'
+        }
         nudge <- 10
-        ylabel <- 'Mean Time (minutes)'
         y.text.steps <- 200
     }
     else if(indicator == 'ambulance red calls'){
@@ -226,7 +238,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         if(sub.indicator == 'hospital transfers')            title2 <- ' (Hospital Transfers)'
         else if(sub.indicator == 'total')                    title2 <- ' (Total)'
         nudge <- 10
-        ylabel <- 'Mean Time (minutes)'
+        ylabel <- 'N'
         y.text.steps <- 20
     }
     else if(indicator == 'hospital transfers'){
@@ -344,6 +356,8 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         y.text <- -0.05
         y.text.steps <- 0.05
     }
+    ## Add the date/time into the graphs title
+    title1 <- paste0(title1, ' (', Sys,time(), ')')
     #######################################################################
     ## Define vertical lines for steps                                   ##
     #######################################################################
@@ -513,16 +527,18 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     else{
         results$plot <- ggplot(data = df,
                                mapping = aes(x     = relative.month,
-                                             y     = value,
-                                             linetype = town))
+                                             y     = value))## ,
+                                             ## linetype = town))
     }
     ## Add smoothed line
-    if(smooth == TRUE){
-        results$plot <- results$plot + geom_point() + geom_smooth(method = 'loess')
+    if(smooth.plot == TRUE){
+        ## print('Are we smoothing?')
+        results$plot <- results$plot + geom_point(aes(shape = town)) + geom_smooth(aes(linetype = town), method = 'loess')
     }
     ## Basic line plot
     ## results$plot <- results$plot + geom_line(linetype = linetype) +
     else{
+        ## print('Are we drawing a line graph?')
         results$plot <- results$plot + geom_line()
         ## Graph and axis labels
     }
@@ -535,6 +551,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Label lines
     if(repel == TRUE){
         if(colour == TRUE){
+            print('Adding colour?')
             results$plot <- results$plot + geom_text_repel(data = dplyr::filter(df, relative.month == 3),
                                                            aes(relative.month,
                                                                value,
@@ -545,6 +562,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                                                            nudge_y = 0)
         }
         else{
+            print('No colour?')
             results$plot <- results$plot + geom_text_repel(data = dplyr::filter(df, relative.month == 3),
                                                            aes(relative.month,
                                                                value,
