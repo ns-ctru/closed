@@ -226,7 +226,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
             title2 <- ' (Hospital Transfers)'
             ylabel <- 'N'
         }
-        else if(sub.indicator == 'not conveyed green calls')
+        else if(sub.indicator == 'not conveyed green calls'){
             title2 <- ' (Green Calls Not Conveyed)'
             ylabel <- 'N'
         }
@@ -543,10 +543,8 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Add graph and axis labels
     results$plot <- results$plot + labs(list(title  = paste0(fig,
                                                              title1,
-                                                             title2,
-                                                             ' (',
-                                                             Sys.time(),
-                                                             ')'),
+                                                             title2),
+                                             caption = Sys.time(),
                                              x      = 'Month (Aligned)',
                                              y      = ylabel,
                                              colour = 'Hospital Catchment Area',
