@@ -260,7 +260,7 @@
 ```
 
 #### Proportion With Transfers  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/hospital_transfers_proportion_with_transfer.Rmd', eval = TRUE}
+```{r child = 'subsections/hospital_transfers_proportion_with_transfers.Rmd', eval = TRUE}
 ```
 
 ### 7-Day Deaths {.tabset .tabset-fade .tabset-pills}
