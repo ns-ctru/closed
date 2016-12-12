@@ -17,7 +17,6 @@
 #' @param smooth.plot Logical indicator of whether to overlay smoothed lines (\code{geom_smooth()})
 #' @param common.y Generate all plots with a common y-axis range.
 #' @param theme GGplot2 theme to use.
-#' @param tidy Logical indicator of whether to remove spurious data points when plotting
 #' @param join Logical indicator of whether to completely remove time points with spurious data so that lines are continuous
 #' @param legend Logical indicator of whether to include a legend
 #' @param lines Logical indicator of whether to include a vertical line for steps.
@@ -44,7 +43,6 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            common.y        = TRUE,
                            theme           = theme_bw(),
                            facet           = FALSE,
-                           tidy            = FALSE,
                            join            = FALSE,
                            legend          = FALSE,
                            lines           = FALSE,
@@ -438,68 +436,8 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     df.steps$variable <- factor(df.steps$variable,
                                 levels = c(1:4),
                                 labels = c('ED Closure', 'NHS 111', 'Other Centre', 'Ambulance Diversion'))
-
+    df.steps$variable %>% print()
     ## results$df.steps <- df.steps
-    #######################################################################
-    ## Identify and remove spurious data points                          ##
-    #######################################################################
-    ## TODO - Convert to calls to closed_clean()
-    ## print("Debug 3")
-    if(tidy == TRUE){
-        ## Condition on the indicator and sub indicator
-        if(indicator == 'ed attendances' & sub.indicator == 'any'){
-            if('Bishop Auckland' %in% sites){
-                df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6) & town == 'Bishop Auckland', yes = NA, no = value))
-            }
-        }
-        else if(indicator == 'ed attendances' & sub.indicator == 'ambulance'){
-            if('Bishop Auckland' %in% sites){
-                df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6) & town == 'Bishop Auckland', yes = NA, no = value))
-            }
-        }
-        else if(indicator == 'ed attendances' & sub.indicator == 'other'){
-            if('Bishop Auckland' %in% sites){
-                df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6) & town == 'Bishop Auckland', yes = NA, no = value))
-            }
-        }
-        else if(indicator == 'unnecessary ed attendances' & is.na(sub.indicator)){
-            if('Bishop Auckland' %in% sites){
-                df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6) & town == 'Bishop Auckland', yes = NA, no = value))
-            }
-        }
-        else if(indicator == 'ed attendances admitted' & sub.indicator == 'all'){
-            if('Bishop Auckland' %in% sites){
-                df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6) & town == 'Bishop Auckland', yes = NA, no = value))
-            }
-        }
-        else if(indicator == 'ed attendances admitted' & sub.indicator == 'admitted'){
-            if('Bishop Auckland' %in% sites){
-                df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1, 6) & town == 'Bishop Auckland', yes = NA, no = value))
-            }
-        }
-        else if(indicator == 'ed attendances admitted' & sub.indicator == 'fraction'){
-            if('Hemel Hempstead' %in% sites){
-                df <- mutate(df,
-                             value = ifelse(relative.month %in% c(1) & town == 'Hemel Hempstead', yes = NA, no = value))
-            }
-        }
-        else if(indicator == 'critical care stays' & sub.indicator == 'all'){
-            if('Newark' %in% sites){
-                df <- mutate(df,
-                             value = ifelse(relative.month %in% c(47) & town == 'Newark', yes = NA, no = value))
-            }
-        }
-        ## Remove data points that are now missing
-        if(join == TRUE){
-            df <- dplyr::filter(df, !is.na(value))
-        }
-    }
     #######################################################################
     ## Plot!                                                             ##
     #######################################################################
