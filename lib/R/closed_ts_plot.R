@@ -438,6 +438,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     df.steps$variable <- factor(df.steps$variable,
                                 levels = c(1:4),
                                 labels = c('ED Closure', 'NHS 111', 'Other Centre', 'Ambulance Diversion'))
+
     ## results$df.steps <- df.steps
     #######################################################################
     ## Identify and remove spurious data points                          ##
@@ -532,9 +533,9 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     if(smooth.plot == TRUE){
         ## print('Are we smoothing?')
         results$plot <- results$plot +
-                        geom_point(aes(shape = town)) +
+                        geom_point(aes(shape = town), size = 2) +
                         geom_smooth(aes(linetype = town), method = 'loess') +
-                        scale_shape_manual(values = c(1, 19), size = 2)
+                        scale_shape_manual(values = c(1, 19))
     }
     ## Basic line plot
     ## results$plot <- results$plot + geom_line(linetype = linetype) +
