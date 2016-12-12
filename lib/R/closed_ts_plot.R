@@ -531,7 +531,10 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Add smoothed line
     if(smooth.plot == TRUE){
         ## print('Are we smoothing?')
-        results$plot <- results$plot + geom_point(aes(shape = town)) + geom_smooth(aes(linetype = town), method = 'loess')
+        results$plot <- results$plot +
+                        geom_point(aes(shape = town)) +
+                        geom_smooth(aes(linetype = town), method = 'loess') +
+                        scale_shape_manual(values = c(1, 19), size = 2)
     }
     ## Basic line plot
     ## results$plot <- results$plot + geom_line(linetype = linetype) +
