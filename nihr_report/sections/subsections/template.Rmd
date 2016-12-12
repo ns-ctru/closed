@@ -3,7 +3,7 @@ Time-series plots show the trends over time after the removal of spurious data p
 <!-- ###### Case Sites -->
 
 <!-- ```{r template.time.series.plot.case, echo = FALSE, cache = FALSE, results = 'hide' eval = TRUE} -->
-<!-- closed_ts_plot(df            = df_site_measure_clean, -->
+<!-- closed_ts_plot(df            = df_site_measure, -->
 <!--                indicator     = 'measure', -->
 <!--                sub.indicator = 'submeasure', -->
 <!--                steps         = TRUE, -->
@@ -17,7 +17,7 @@ Time-series plots show the trends over time after the removal of spurious data p
 <!-- ###### Control Sites -->
 
 <!-- ```{r template.time.series.plot.control, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE} -->
-<!-- closed_ts_plot(df            = df_site_measure_clean, -->
+<!-- closed_ts_plot(df            = df_site_measure, -->
 <!--                indicator     = 'measure', -->
 <!--                sub.indicator = 'submeasure', -->
 <!--                steps         = TRUE, -->
@@ -34,13 +34,14 @@ Time-series plots show the trends over time after the removal of spurious data p
 
 ###### Bishop Auckland
 ```{r template.bishop.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = data_frame_site_measure_clean,
+closed_ts_plot(df            = data_frame_site_measure,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = ts.plot.opts$steps,
                theme         = theme_bw(),
                facet         = ts.plot.opts$facet,
                sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
                legend        = ts.plot.opts$legend,
                tidy          = ts.plot.opts$tidy,
                colour        = ts.plot.opts$colour,
@@ -58,13 +59,14 @@ closed_ts_plot(df            = data_frame_site_measure_clean,
 
 ###### Hartlepool
 ```{r template.hartlepool.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = data_frame_site_measure_clean,
+closed_ts_plot(df            = data_frame_site_measure,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = ts.plot.opts$steps,
                theme         = theme_bw(),
                facet         = ts.plot.opts$facet,
                sites         = c('Hartlepool', 'Grimsby'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
                legend        = ts.plot.opts$legend,
                tidy          = ts.plot.opts$tidy,
                colour        = ts.plot.opts$colour,
@@ -81,13 +83,14 @@ closed_ts_plot(df            = data_frame_site_measure_clean,
 
 ###### Hemel Hempstead
 ```{r template.hemel.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = data_frame_site_measure_clean,
+closed_ts_plot(df            = data_frame_site_measure,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = ts.plot.opts$steps,
                theme         = theme_bw(),
                facet         = ts.plot.opts$facet,
                sites         = c('Hemel Hempstead', 'Warwick'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
                legend        = ts.plot.opts$legend,
                tidy          = ts.plot.opts$tidy,
                colour        = ts.plot.opts$colour,
@@ -104,13 +107,14 @@ closed_ts_plot(df            = data_frame_site_measure_clean,
 
 ###### Newark
 ```{r template.newark.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = data_frame_site_measure_clean,
+closed_ts_plot(df            = data_frame_site_measure,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = ts.plot.opts$steps,
                theme         = theme_bw(),
                facet         = ts.plot.opts$facet,
                sites         = c('Newark', 'Southport'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
                legend        = ts.plot.opts$legend,
                tidy          = ts.plot.opts$tidy,
                colour        = ts.plot.opts$colour,
@@ -127,13 +131,14 @@ closed_ts_plot(df            = data_frame_site_measure_clean,
 
 ###### Rochdale
 ```{r template.rochdale.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = data_frame_site_measure_clean,
+closed_ts_plot(df            = data_frame_site_measure,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = ts.plot.opts$steps,
                theme         = theme_bw(),
                facet         = ts.plot.opts$facet,
                sites         = c('Rochdale', 'Rotherham'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
                legend        = ts.plot.opts$legend,
                tidy          = ts.plot.opts$tidy,
                colour        = ts.plot.opts$colour,
@@ -156,7 +161,7 @@ sub.measure <- 'sub_measure'
 ## Set sites to plot
 sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
 ## Filter
-to.plot <- dplyr::filter(data_frame_site_measure_clean,
+to.plot <- dplyr::filter(data_frame_site_measure,
                   town %in% sites &
                   measure == measure,
                   sub.measure == sub.measure)
@@ -170,6 +175,7 @@ closed_ts_plot(df            = to.plot,
                xaxis.steps   = ts.plot.opts$xaxis.steps,
                join.line     = TRUE,
                colour        = ts.plot.opts$colour,
+               smooth.plot   = ts.plot.opts$smooth.plot,
                legend        = ts.plot.opts$legend,
                facet         = ts.plot.opts$facet)
 
