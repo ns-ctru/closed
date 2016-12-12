@@ -8,6 +8,8 @@ los <- dplyr::filter(length_of_stay_site_measure,
               peak_trough   = ifelse(value >= mean, 'Peak', 'Trough'),
               month         = month(yearmonth),
               days_in_month = days_in_month(yearmonth))
+table(los$month, los$peak_trough)
+table(los$days_in_month, los$peak_trough)
 write.table(los,
             file      = '~/work/closed/tmp/length_of_stay.csv',
             sep       = ',',
