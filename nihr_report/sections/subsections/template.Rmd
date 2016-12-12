@@ -153,7 +153,7 @@ closed_ts_plot(df            = data_frame_site_measure,
 
 ```
 
-```{r template.all.control.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+```{r template.all.control.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE}
 ## template$model0.ts.plot
 ## Set variables
 measure <- 'Measure'
@@ -193,6 +193,6 @@ to.table <- dplyr::select(template$summary.table, town, Before_mean.sd, Before_m
                                       yes = 'Model 5',
                                       no  = Before_median.iqr))
 names(to.table) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
-kable(to.table, caption = 'Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)')
+kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time())
 
 ```
