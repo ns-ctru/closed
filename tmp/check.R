@@ -1,7 +1,7 @@
 ## 2016-12-12 Peaks/spikes for Bishop Auckland/Whitehaven  Length of Stay (Mean)
 los <- dplyr::filter(length_of_stay_site_measure,
                      town %in% c('Bishop Auckland', 'Whitehaven') &
-                     sub.measure == 'Mean') %>%
+                     sub.measure == 'mean') %>%
        dplyr::select(yearmonth, town, value) %>%
        group_by(town) %>%
        mutate(mean = mean(value, na.rm = TRUE),
