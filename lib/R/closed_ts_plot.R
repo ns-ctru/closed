@@ -428,7 +428,8 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                                           " (",
                                           town,
                                           ")")
-    df.steps$xaxis.steps.labels[df.steps$xaxis.steps.labels == 'ED Closure ()'] <- NA
+    df.steps$xaxis.steps.labels[df.steps$xaxis.steps.labels == 'ED Closure ()'] <- 'ED Closure'
+    df.steps$xaxis.steps.labels <- gsub(' (Primary)', '', df.steps$xaxis.steps.labels)
     ## df.steps <- dplyr::filter(df.steps, steps.labels != 'ED Closure')
     df.steps$town <- factor(df.steps$town)
     df.steps$steps.labels <- factor(df.steps$steps.labels)
@@ -436,7 +437,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     df.steps$variable <- factor(df.steps$variable,
                                 levels = c(1:4),
                                 labels = c('ED Closure', 'NHS 111', 'Other Centre', 'Ambulance Diversion'))
-    df.steps$variable %>% print()
+    ## df.steps %>% print()
     ## results$df.steps <- df.steps
     #######################################################################
     ## Plot!                                                             ##
@@ -471,9 +472,10 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     if(smooth.plot == TRUE){
         ## print('Are we smoothing?')
         results$plot <- results$plot +
-                        geom_point(aes(shape = town), size = 2) +
+                        geom_point(aes(shape = town), size = 4) +
                         geom_smooth(aes(linetype = town), method = 'loess') +
-                        scale_shape_manual(values = c(1, 19))
+            scale_shape_manual(values = c(1, 19)) +
+            scale_fill_manual(values = c('black', 'black'))
     }
     ## Basic line plot
     ## results$plot <- results$plot + geom_line(linetype = linetype) +
@@ -494,7 +496,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Label lines
     if(repel == TRUE){
         if(colour == TRUE){
-            print('Adding colour?')
+            ## print('Adding colour?')
             results$plot <- results$plot + geom_text_repel(data = dplyr::filter(df, relative.month == 3),
                                                            aes(relative.month,
                                                                value,
@@ -505,7 +507,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                                                            nudge_y = 0)
         }
         else{
-            print('No colour?')
+            ## print('No colour?')
             results$plot <- results$plot + geom_text_repel(data = dplyr::filter(df, relative.month == 3),
                                                            aes(relative.month,
                                                                value,
@@ -546,12 +548,21 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## }
     ## X-axis labels for events
     if(xaxis.steps == TRUE){
+        ## Set the y-value for text
+        ## results$plot <- results$plot +
+        ##                 annotate(geom   = 'text',
+        ##                          x      = df.steps$steps,
+        ##                          y      = y.text.steps,
+        ##                          label  = df.steps$xaxis.steps.labels, angle = 90) +
+        ##                 geom_vline(xintercept = 24.5)
         results$plot <- results$plot +
-                        annotate(geom   = 'text',
-                                 x      = df.steps$steps,
-                                 y      = y.text.steps,
-                                 label  = df.steps$xaxis.steps.labels, angle = 90) +
-                        geom_vline(xintercept = 24.5)
+                        scale_x_continuous(name  = 'Relative Month',
+                                           sec.axis = sec_axis(trans = ~ .,
+                                                               name = 'Steps',
+                                                               breaks = df.steps$steps,
+                                                               label  = df.steps$xaxis.steps.labels)) +
+                        theme(axis.text.x = element_text(angle = 45)) +
+                        geom_vline(xintercept = df.steps$steps)
     }
     ## Facet
     if(facet == TRUE){
