@@ -367,6 +367,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         steps.labels <- c(steps.labels, 'NHS111')
         town <- c(town, 'Bishop Auckland')
         variable <- c(variable, 2)
+        steps.labels <- gsub('ED Closure', 'ED Closure (2009-10)', steps.labels)
     }
     if('Grimsby' %in% sites){
         steps <- c(steps, 16)
@@ -379,24 +380,28 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         steps.labels <- c(steps.labels, 'NHS111', 'Other Centre')
         town <- c(town, 'Hartlepool', 'Hartlepool')
         variable <- c(variable, 2, 3)
+        steps.labels <- gsub('ED Closure', 'ED Closure (2011-08)', steps.labels)
     }
     if('Hemel Hempstead' %in% sites){
         steps <- c(steps, 20)
         steps.labels <- c(steps.labels, 'Other Centre')
         town <- c(town, 'Hemel Hempstead')
         variable <- c(variable, 3)
+        steps.labels <- gsub('ED Closure', 'ED Closure (2009-03)', steps.labels)
     }
     if('Newark' %in% sites){
         steps <- c(steps, 3)
         steps.labels <- c(steps.labels, 'Other Centre')
         town <- c(town, 'Newark')
         variable <- c(variable, 3)
+        steps.labels <- gsub('ED Closure', 'ED Closure (2011-04)', steps.labels)
     }
     if('Rochdale' %in% sites){
         steps <- c(steps, 48, 11, 17)
         steps.labels <- c(steps.labels, 'NHS111', 'Other Centre', 'Ambulance Diversion')
         town <- c(town, 'Rochdale', 'Rochdale', 'Rochdale')
         variable <- c(variable, 2, 3, 4)
+        steps.labels <- gsub('ED Closure', 'ED Closure (2011-04)', steps.labels)
     }
     if('Rotherham' %in% sites){
         steps <- c(steps, 48)
