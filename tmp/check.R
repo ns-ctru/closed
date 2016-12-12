@@ -4,8 +4,10 @@ los <- dplyr::filter(length_of_stay_site_measure,
                      sub.measure == 'mean') %>%
        dplyr::select(yearmonth, town, value) %>%
        group_by(town) %>%
-       mutate(mean = mean(value, na.rm = TRUE),
-              peak_trough = ifelse(value >= mean, 'Peak', 'Trough'))
+       mutate(mean          = mean(value, na.rm = TRUE),
+              peak_trough   = ifelse(value >= mean, 'Peak', 'Trough'),
+              month         = month(yearmonth),
+              days_in_month = days_in_month(yearmonth))
 write.table(los,
             file      = '~/work/closed/tmp/length_of_stay.csv',
             sep       = ',',
