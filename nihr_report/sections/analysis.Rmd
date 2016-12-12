@@ -170,6 +170,7 @@ ts.plot.opts$tidy        <- TRUE
 ts.plot.opts$colour      <- FALSE
 ts.plot.opts$lines       <- FALSE
 ts.plot.opts$xaxis.steps <- TRUE
+ts.plot.opts$smooth.plot <- TRUE
 ## Other Common options
 systematic.outlier <- 3
 summary.table.align <- c('l', 'r', 'r', 'r', 'r', 'r', 'r')
