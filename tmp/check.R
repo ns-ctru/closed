@@ -1,3 +1,64 @@
+## 2016-12-12 Peaks/spikes for Bishop Auckland/Whitehaven  Length of Stay (Mean)
+los <- dplyr::filter(length_of_stay_site_measure,
+                     town %in% c('Bishop Auckland', 'Whitehaven') &
+                     sub.measure == 'Mean') %>%
+       dplyr::select(yearmonth, town, value) %>%
+       group_by(town) %>%
+       mutate(mean = mean(value, na.rm = TRUE),
+              peak_trough = ifelse(value >= mean, 'Peak', 'Trough'))
+write.table(los,
+            file      = '~/work/closed/tmp/length_of_stay.csv',
+            sep       = ',',
+            col.names = TRUE)
+
+## 2016-12-12 Sample plots for meeting
+png(filename = '~/work/closed/tmp/case_fatality_all.png', width = 1024, heigh = 768)
+closed_ts_plot(df            = sec_case_fatality_7days_site_measure,
+               indicator     = 'sec case fatality 7 days',
+               sub.indicator = 'any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = TRUE,
+               legend        = ts.plot.opts$legend,
+               tidy          = FALSE,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+png(filename = '~/work/closed/tmp/sec_deaths_all_7days.png', width = 1024, heigh = 768)
+closed_ts_plot(df            = sec_deaths_all_7days_site_measure,
+               indicator     = 'sec deaths all 7days',
+               sub.indicator = 'any sec',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Rochdale', 'Rotherham'),
+               smooth.plot   = TRUE,
+               legend        = ts.plot.opts$legend,
+               tidy          = FALSE,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+png(filename = '~/work/closed/tmp/sec_deaths_all_in_cips_7days.png', width = 1024, heigh = 768)
+closed_ts_plot(df            = sec_deaths_in_cips_7days_site_measure_clean,
+               indicator     = 'sec deaths in cips 7days',
+               sub.indicator = 'any sec',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Newark', 'Southport'),
+               smooth.plot   = TRUE,
+               legend        = ts.plot.opts$legend,
+               tidy          = FALSE,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+
+
 ## 2016-12-08 Developing possibility of geom_point() and geom_smooth() in the closed_ts_plot() function
 load('~/work/closed/tmp/ed_attendances_clean.RData')
 ts.plot.opts <- list()
@@ -8,7 +69,8 @@ ts.plot.opts$tidy        <- TRUE
 ts.plot.opts$colour      <- FALSE
 ts.plot.opts$lines       <- FALSE
 ts.plot.opts$xaxis.steps <- TRUE
-check.ts <- closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
+png(filename = 'mode_of_arrival_any_bishop_smooth.png', width = 1024, height = 768)
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
                indicator     = 'ed attendances',
                sub.indicator = 'any',
                steps         = ts.plot.opts$steps,
@@ -20,7 +82,24 @@ check.ts <- closed_ts_plot(df            = ed_attendances_by_mode_site_measure_c
                colour        = ts.plot.opts$colour,
                lines         = ts.plot.opts$lines,
                xaxis.steps   = ts.plot.opts$xaxis.steps,
-               smooth        = TRUE)
+               smooth.plot   = TRUE)
+dev.off()
+png(filename = 'mode_of_arrival_any_bishop.png', width = 1024, height = 768)
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure_clean,
+               indicator     = 'ed attendances',
+               sub.indicator = 'any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               smooth.plot   = FALSE)
+dev.off()
+## Normal plot
 save(check.ts, file = '~/work/closed/tmp/check.ts')
 
 ## 2016-12-01 Checking removal of spurious data points
