@@ -13,8 +13,11 @@ bibliography: bibliography.bib
 ##opts_chunk$set(dev = 'pdf')
 opts_chunk$set(cache.path = 'cache/',
                width    = 200,
+               fig.path = 'figures/',
                fig.height = 8,
                fig.width  = 8,
+               warning     = FALSE,
+               message     = FALSE,
                knitr.kable.NA = '')
 options(knitr.kable.NA = '')
 
