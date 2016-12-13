@@ -369,11 +369,11 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         variable <- c(variable, 2)
         steps.labels <- gsub('ED Closure', 'ED Closure (2009-10)', steps.labels)
     }
-    if('Grimsby' %in% sites){
-        steps <- c(steps, 16)
-        steps.labels <- c(steps.labels, 'NHS111')
-        town <- c(town, 'Grimsby')
-        variable <- c(variable, 2)
+    if('Whitehaven' %in% sites){
+        steps <- c(steps)
+        steps.labels <- c(steps.labels)
+        town <- c(town)
+        variable <- c(variable)
     }
     if('Hartlepool' %in% sites){
         steps <- c(steps, 45, 22)
@@ -382,12 +382,24 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         variable <- c(variable, 2, 3)
         steps.labels <- gsub('ED Closure', 'ED Closure (2011-08)', steps.labels)
     }
+    if('Grimsby' %in% sites){
+        steps <- c(steps, 16)
+        steps.labels <- c(steps.labels, 'NHS111')
+        town <- c(town, 'Grimsby')
+        variable <- c(variable, 2)
+    }
     if('Hemel Hempstead' %in% sites){
         steps <- c(steps, 20)
         steps.labels <- c(steps.labels, 'Other Centre')
         town <- c(town, 'Hemel Hempstead')
         variable <- c(variable, 3)
         steps.labels <- gsub('ED Closure', 'ED Closure (2009-03)', steps.labels)
+    }
+    if('Warwick' %in% sites){
+        steps <- c(steps)
+        steps.labels <- c(steps.labels)
+        town <- c(town)
+        variable <- c(variable)
     }
     if('Newark' %in% sites){
         steps <- c(steps, 3)
@@ -396,36 +408,25 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         variable <- c(variable, 3)
         steps.labels <- gsub('ED Closure', 'ED Closure (2011-04)', steps.labels)
     }
-    if('Rochdale' %in% sites){
+    if(c('Rochdale', 'Rotherham') %in% sites){
+        steps <- c(steps, 48, 11, 17)
+        steps.labels <- c(steps.labels, 'NHS111', 'Other Centre', 'Ambulance Diversion')
+        town <- c(town, 'Rochdale + Rotherham', 'Rochdale', 'Rochdale')
+        variable <- c(variable, 2, 3, 4)
+        steps.labels <- gsub('ED Closure', 'ED Closure (2011-04)', steps.labels)
+    }
+    else if('Rochdale' %in% sites){
         steps <- c(steps, 48, 11, 17)
         steps.labels <- c(steps.labels, 'NHS111', 'Other Centre', 'Ambulance Diversion')
         town <- c(town, 'Rochdale', 'Rochdale', 'Rochdale')
         variable <- c(variable, 2, 3, 4)
         steps.labels <- gsub('ED Closure', 'ED Closure (2011-04)', steps.labels)
     }
-    if('Rotherham' %in% sites){
+    else if('Rotherham' %in% sites){
         steps <- c(steps, 48)
         steps.labels <- c(steps.labels, 'NHS111')
         town <- c(town, 'Rotherham')
         variable <- c(variable, 2)
-    }
-    if('Southport' %in% sites){
-        steps <- c(steps, 48)
-        steps.labels <- c(steps.labels, 'NHS111')
-        town <- c(town, 'Southport')
-        variable <- c(variable, 2)
-    }
-    if('Warwick' %in% sites){
-        steps <- c(steps)
-        steps.labels <- c(steps.labels)
-        town <- c(town)
-        variable <- c(variable)
-    }
-    if('Whitehaven' %in% sites){
-        steps <- c(steps)
-        steps.labels <- c(steps.labels)
-        town <- c(town)
-        variable <- c(variable)
     }
     ## Bind into a dataframe
     df.steps <- data.frame(steps, steps.labels, town, variable)
@@ -443,7 +444,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                                 levels = c(1:4),
                                 labels = c('ED Closure', 'NHS 111', 'Other Centre', 'Ambulance Diversion'))
     ## df.steps %>% print()
-    ## results$df.steps <- df.steps
+    df.steps$xaxis.steps.labels <- gsub(' ()', '', df.steps$xaxis.steps.labels)
     #######################################################################
     ## Plot!                                                             ##
     #######################################################################
@@ -551,6 +552,10 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## else{
     ##     results$plot <- results$plot + scale_y_continuous(limits = c(0, max(df$value)))
     ## }
+    ## Apply user specified theme to all graphs
+    if(!is.null(theme)){
+        results$plot <- results$plot + theme
+    }
     ## X-axis labels for events
     if(xaxis.steps == TRUE){
         ## Set the y-value for text
@@ -560,27 +565,26 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         ##                          y      = y.text.steps,
         ##                          label  = df.steps$xaxis.steps.labels, angle = 90) +
         ##                 geom_vline(xintercept = 24.5)
+        ## print('Is it here?')
         results$plot <- results$plot +
                         scale_x_continuous(name  = 'Relative Month',
                                            sec.axis = sec_axis(trans = ~ .,
                                                                name = 'Steps',
                                                                breaks = df.steps$steps,
                                                                label  = df.steps$xaxis.steps.labels)) +
-                        theme(axis.text.x.top = element_text(angle = 45)) +
-                        geom_vline(xintercept = df.steps$steps)
+                        geom_vline(xintercept = df.steps$steps) +
+                        theme(axis.text.x.top = element_text(angle = 45, hjust = 0))
+        ## print('Is it here?')
     }
     ## Facet
     if(facet == TRUE){
         results$plot <- results$plot + facet_wrap(~ group, ncol = 1)
-    }
-    ## Apply user specified theme to all graphs
-    if(!is.null(theme)){
-        results$plot <- results$plot + theme
     }
     if(legend == FALSE){
         results$plot <- results$plot +
                         theme(legend.position = 'none')
     }
     ## Return results
+    ## results$plot <- results$plot + theme(axis.text.x.top = element_text(angle = 45, hjust = 0))
     return(results$plot)
 }
