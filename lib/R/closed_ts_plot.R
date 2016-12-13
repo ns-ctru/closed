@@ -25,6 +25,7 @@
 #' @param fig String of the figure number to apply to the title.
 #' @param repel Add repelled labels to graph (deafult \code{FALSE}).
 #' @param colour Produce colour plots or not.
+#' @param hide.control Logical indicator of whether to obfuscate the control centers names
 #'
 #' @return A list of ggplot2 objects.
 #'
@@ -444,7 +445,17 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                                 levels = c(1:4),
                                 labels = c('ED Closure', 'NHS 111', 'Other Centre', 'Ambulance Diversion'))
     ## df.steps %>% print()
+    ## Tidy up lables, really I'd like to re-write the above but don't have time so
+    ## instead doing this messy hack
     df.steps$xaxis.steps.labels <- gsub(' ()', '', df.steps$xaxis.steps.labels)
+    df.steps$xaxis.steps.labels <- gsub('()', '', df.steps$xaxis.steps.labels)
+    if(hide.control == TRUE){
+        df.steps$xaxis.steps.labels <- gsub('Whitehaven', 'Control', df.steps$xaxis.steps.labels)
+        df.steps$xaxis.steps.labels <- gsub('Grimsby',    'Control', df.steps$xaxis.steps.labels)
+        df.steps$xaxis.steps.labels <- gsub('Warwick', 'Control', df.steps$xaxis.steps.labels)
+        df.steps$xaxis.steps.labels <- gsub('Southport', 'Control', df.steps$xaxis.steps.labels)
+        df.steps$xaxis.steps.labels <- gsub('Rotherham', 'Control', df.steps$xaxis.steps.labels)
+    }
     #######################################################################
     ## Plot!                                                             ##
     #######################################################################
@@ -456,6 +467,15 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                   sub.measure == sub.indicator)
     ## Add indicator of primary matched control
     df$town <- as.character(df$town)
+    ## Replace control names with control
+    if(hide.control == TRUE){
+        df <- mutate(df,
+                     town = gsub('Whitehaven', 'Control', town),
+                     town = gsub('Grimsby',    'Control', town),
+                     town = gsub('Warwick',    'Control', town),
+                     town = gsub('Southport',  'Control', town),
+                     town = gsub('Rotherham',  'Control', town))
+    }
     ## df$town <- ifelse(df$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham'), paste0(df$town, ' (Primary)'), df$town)
     df$town <- factor(df$town)
     ## Add linetype based on the remaining centers that are being plotted
