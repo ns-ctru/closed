@@ -372,7 +372,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     if('Grimsby' %in% sites){
         steps <- c(steps, 16)
         steps.labels <- c(steps.labels, 'NHS111')
-        town <- c(town, 'Grimsby (Primary)')
+        town <- c(town, 'Grimsby')
         variable <- c(variable, 2)
     }
     if('Hartlepool' %in% sites){
@@ -406,13 +406,13 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     if('Rotherham' %in% sites){
         steps <- c(steps, 48)
         steps.labels <- c(steps.labels, 'NHS111')
-        town <- c(town, 'Rotherham (Primary)')
+        town <- c(town, 'Rotherham')
         variable <- c(variable, 2)
     }
     if('Southport' %in% sites){
         steps <- c(steps, 48)
         steps.labels <- c(steps.labels, 'NHS111')
-        town <- c(town, 'Southport (Primary)')
+        town <- c(town, 'Southport')
         variable <- c(variable, 2)
     }
     if('Warwick' %in% sites){
@@ -455,7 +455,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                   sub.measure == sub.indicator)
     ## Add indicator of primary matched control
     df$town <- as.character(df$town)
-    df$town <- ifelse(df$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham'), paste0(df$town, ' (Primary)'), df$town)
+    ## df$town <- ifelse(df$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham'), paste0(df$town, ' (Primary)'), df$town)
     df$town <- factor(df$town)
     ## Add linetype based on the remaining centers that are being plotted
     ## print("Debug 5")
@@ -566,7 +566,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                                                                name = 'Steps',
                                                                breaks = df.steps$steps,
                                                                label  = df.steps$xaxis.steps.labels)) +
-                        theme(axis.text.x = element_text(angle = 45)) +
+                        theme(axis.text.x.top = element_text(angle = 45)) +
                         geom_vline(xintercept = df.steps$steps)
     }
     ## Facet
