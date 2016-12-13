@@ -46,6 +46,7 @@ closed_ts_plot(df            = data_frame_site_measure,
                tidy          = ts.plot.opts$tidy,
                colour        = ts.plot.opts$colour,
                lines         = ts.plot.opts$lines,
+               hide.control         = ts.plot.opts$hide.control,
                xaxis.steps   = ts.plot.opts$xaxis.steps)
 ## kable(template$summary.table.bishop,
 ##       align   = summary.table.align,
@@ -71,6 +72,7 @@ closed_ts_plot(df            = data_frame_site_measure,
                tidy          = ts.plot.opts$tidy,
                colour        = ts.plot.opts$colour,
                lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
                xaxis.steps   = ts.plot.opts$xaxis.steps)
 ## kable(template$summary.table.hartlepool,
 ##       align   = summary.table.align,
@@ -95,6 +97,7 @@ closed_ts_plot(df            = data_frame_site_measure,
                tidy          = ts.plot.opts$tidy,
                colour        = ts.plot.opts$colour,
                lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
                xaxis.steps   = ts.plot.opts$xaxis.steps)
 ## kable(template$summary.table.hemel,
 ##       align   = summary.table.align,
@@ -119,6 +122,7 @@ closed_ts_plot(df            = data_frame_site_measure,
                tidy          = ts.plot.opts$tidy,
                colour        = ts.plot.opts$colour,
                lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
                xaxis.steps   = ts.plot.opts$xaxis.steps)
 ## kable(template$summary.table.newark,
 ##       align   = summary.table.align,
@@ -143,6 +147,7 @@ closed_ts_plot(df            = data_frame_site_measure,
                tidy          = ts.plot.opts$tidy,
                colour        = ts.plot.opts$colour,
                lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
                xaxis.steps   = ts.plot.opts$xaxis.steps)
 ## kable(template$summary.table.rochdale,
 ##       align   = summary.table.align,
@@ -172,6 +177,7 @@ closed_ts_plot(df            = to.plot,
                sub.indicator = sub.measure,
                steps         = ts.plot.opts$steps,
                lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
                xaxis.steps   = ts.plot.opts$xaxis.steps,
                join.line     = TRUE,
                colour        = ts.plot.opts$colour,
@@ -193,6 +199,6 @@ to.table <- dplyr::select(template$summary.table, town, Before_mean.sd, Before_m
                                       yes = 'Model 5',
                                       no  = Before_median.iqr))
 names(to.table) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
-kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time())
+kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time()))
 
 ```
