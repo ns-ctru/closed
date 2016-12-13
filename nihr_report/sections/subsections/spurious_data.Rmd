@@ -3,390 +3,398 @@
 Visual inspection of time-series plots (see 'Time-Series Plots' tab under each indicator) identified a number of potentially spurious data points which were removed prior to balancing the panels (i.e. a spurious data point in one ED department resulted in the removal of that data point from all comparator sites for the given model).  To deal with the majority of these problems a generic rule of excluding data points that exceeded mean -/+ 3 x SD was applied, however it was felt that this did not remove all potentially spurious data points, so visual inspection by a team member identified the following points that were also removed.
 
 
-Indicator				| Sub-indicator | Site            | Week(s)         | Problem                  | Action)
-------------------------|---------------|-----------------|-----------------|--------------------------|-----------
+```{r spurious-data-table, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, fig.height = 16, eval = TRUE}
+spurious.data <- read.csv('~/work/closed/nihr_report/data/spurious_data.txt', sep = '|', header = TRUE)
+kable(spurious.data,
+      caption = paste0('Spurious Data Points identified based on visual inspection.\n', 'Generated : ', Sys.time()))
+
+
+```
+
+: Indicator            :|: Sub-indicator :|: Site          :|: Week(s)       :|: Problem                :|: (Action)    :
+------------------------|-----------------|-----------------|-----------------|--------------------------|---------------
 Attendance              | Any           | Bishop Auckland | 1, 6            | Large decrease           | Remove
                         |               | White Haven     | -               | -                        | -
                         |               | Hartlepool      | -               | -                        | -
                         |               | Grimsby         | 1-12            | Very low (in ambulance)  | Exclude from Models >= 2
-                        |               | Hemel Hempstead | 38-48           | Large increase           | New Centre, additional step
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | 11, 23          | Large decrease           | Remove
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-                        | Ambulance     | Bishop Auckland | 1, 6            | Large decrease           | Remove
-						                |                 | 40-48           | Large decrease           | **Additional step?**
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | 1-12            | Very low (in ambulance)  | Exclude from Models >= 2
-                        |               | Hemel Hempstead | 38-48           | Large increase           | New centre, additional step
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | 11, 23          | Large decrease           | Remove
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-                        | Other         | Bishop Auckland | 1, 6            | Large decrease           | Remove
-						|               |                 | 40-48           | Large increase           | **Additional step?**
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | 31              | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | 38-48           | Large increase           | New centre, additional step
-                        |               | Warwick         |                 |
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | 11, 23          | Large decrease           | Remove
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-                        | Unnecessary   | Bishop Auckland | 1, 6            | Large decrease           | Remove
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | 31-48           | Large increase           | Exclude
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | 38-48           | Large increase                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | 11, 23          | Large decrease           | Remove
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-Emergency Admissions    | All           | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-                        | Avoidable (Any) | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-                        | Avoidable (Chest Pain) | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-Attendances Admitted    | Admitted      | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | 25              | Increase                 | **??**
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | 36              | Increase                 | **??**
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-                        | Fraction      | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | 31-48           | Large decrease           | **??**
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-Critical Care           | All           | Bishop Auckland | -               | Large fluctations (although tracking White Haven)        | **??**
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-                        | Critical      | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-                        | Fraction      | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | 24-48           | High                     | **??**
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-Length of Stay          | Mean          | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | Increasing               | **??**
-                        |               | Warwick         | 23              | Increase of 3-days (NS thinks 2)                        | **??**
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-                        | Median        | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-Case Fatality Ratio     | Any SEC       | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-                        | Any Trauma    | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-                        | Myocardial Infarction | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-                        | Stroke CVA    | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-Ambulance Mean Times    | Call to Destination | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | 1-18            | Missing data             | Exclude from models 2-5
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | 26-28, 38-45    | Clearly wrong            | Exclude from models 2-5
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | 8-9, 15         | Large increase           | Remove
-                        |               | Rotherham       | -               | -                        | -
-                        | Call to Scene (Any) | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | 1-18            | Missing data             | Exclude from models 2-5
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | 1-10            | Missing data             | Exclude from models 2-5
-                        |               | Hemel Hempstead | 26-28, 38-45    | Clearly wrong            | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | 1-12            | Missing data             | **??**
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | 8-9, 15         | Large increase           | Remove
-                        |               | Rotherham       | 1-48            | No Data                  | Exclude from models 2-5
-                        | Call to Scene (Conveying) | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | 1-18            | Missing data             | Exclude from models 2-5
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | 1-10            | Missing data             | Exclude from models 2-5
-                        |               | Hemel Hempstead | 26-28, 38-45    | Clearly wrong            | Exclude from models 2-5
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | 1-12            | Missing data]=           | **??**
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | 1-48            | No Data                  | Exclude from models 2-5
-                        | Scene to Destination | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | 1-24, 42-48     | Missing data             | Exclude from models 2-5
-                        |               | Hartlepool      | 1-4, 11, 15, 21-32, 34-39, 45-48 | Missing Data                        | **??**
-                        |               | Grimsby         | 1-10            | Missing data             | Exclude from models 2-5
-                        |               | Hemel Hempstead | 26-28, 38-45    | Clearly wrong            | Exclude from models 2-5
-                        |               | Warwick         | 1-25            | Missing data             | Exclude from models 2-5
-                        |               | Newark          | 1-12            | Missing data             | **??**
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | 1-48            | No Data                  | Exclude from models 2-5
-                        | Destination to Clear | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | 1-18            | Missing data             | Exclude from models 2-5
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | 26-28, 38-45    | Clearly wrong            | Exclude models 2-5
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | 1-12            | Missing data             | **??**
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-Green Calls             | Green Calls   | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | 1-10            | Missing data             | **??**
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | 1-24            | Missing data             | Exclude from models 2-5
-                        |               | Newark          | 1-12            | Missing data             | Exclude from models 2-5
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | 13-15, 48       | Large increase           | **??**
-                        | Green Calls Not Conveyed | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | 1-10            | Missing data             | **??**
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | 1-24            | Missing data             | Exclude from models 2-5
-                        |               | Newark          | 1-12            | Missing data             | Exclude from models 2-5
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | 13-15, 48       | Large increase                        | **??**
-                        | Fraction Not Conveyed | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-Ambulance Red Calls     | Hospital Transfers | Bishop Auckland | 1-6        | Missing data             | **??**
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | 1-10            | Missing data             | **??**
-                        |               | Hemel Hempstead | 26-27, 38-45    | Large decrease           | **??**
-                        |               | Warwick         | 1-48            | Missing data             | Exclude from models 2-5
-                        |               | Newark          | 1-12            | Missing data             | Exclude from models 2-5
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | 1-48            | Missing data             | Exclude from models 2-5
-                        | Total         | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-Hospital Transfers      | All Stays     | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-                        | Stays with Transfers | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-                        | Proportion with Transfers | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-7-day Deaths            | All           | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-                        | In CIPS       | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | 11              | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
-                        | Not in CIPS   | Bishop Auckland | -               | -                        | -
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | -               | -                        | -
-                        |               | Hemel Hempstead | -               | -                        | -
-                        |               | Warwick         | -               | -                        | -
-                        |               | Newark          | -               | -                        | -
-                        |               | Southport       | -               | -                        | -
-                        |               | Rochdale        | -               | -                        | -
-                        |               | Rotherham       | -               | -                        | -
+<!--                         |               | Hemel Hempstead | 38-48           | Large increase           | New Centre, additional step -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | 11, 23          | Large decrease           | Remove -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | Ambulance     | Bishop Auckland | 1, 6            | Large decrease           | Remove -->
+<!--                         |               |                 | 40-48           | Large decrease           | **Additional step?** -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | 1-12            | Very low (in ambulance)  | Exclude from Models >= 2 -->
+<!--                         |               | Hemel Hempstead | 38-48           | Large increase           | New centre, additional step -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | 11, 23          | Large decrease           | Remove -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | Other         | Bishop Auckland | 1, 6            | Large decrease           | Remove -->
+<!--                         |               |                 | 40-48           | Large increase           | **Additional step?** -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | 31              | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | 38-48           | Large increase           | New centre, additional step -->
+<!--                         |               | Warwick         |                 |                          | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | 11, 23          | Large decrease           | Remove -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | Unnecessary   | Bishop Auckland | 1, 6            | Large decrease           | Remove -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | 31-48           | Large increase           | Exclude -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | 38-48           | Large increase           | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | 11, 23          | Large decrease           | Remove -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!-- Emergency Admissions    | All           | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | Avoidable (Any) | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | Avoidable (Chest Pain) | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!-- Attendances Admitted    | Admitted      | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | 25              | Increase                 | **??** -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | 36              | Increase                 | **??** -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | Fraction      | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | 31-48           | Large decrease           | **??** -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!-- Critical Care           | All           | Bishop Auckland | -               | Large fluctations (although tracking White Haven)        | **??** -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | Critical      | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | Fraction      | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | 24-48           | High                     | **??** -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!-- Length of Stay          | Mean          | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | Increasing               | **??** -->
+<!--                         |               | Warwick         | 23              | Increase of 3-days (NS thinks 2)                        | **??** -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | Median        | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!-- Case Fatality Ratio     | Any SEC       | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | Any Trauma    | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | Myocardial Infarction | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | Stroke CVA    | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!-- Ambulance Mean Times    | Call to Destination | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | 1-18            | Missing data             | Exclude from models 2-5 -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | 26-28, 38-45    | Clearly wrong            | Exclude from models 2-5 -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | 8-9, 15         | Large increase           | Remove -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | Call to Scene (Any) | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | 1-18            | Missing data             | Exclude from models 2-5 -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | 1-10            | Missing data             | Exclude from models 2-5 -->
+<!--                         |               | Hemel Hempstead | 26-28, 38-45    | Clearly wrong            | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | 1-12            | Missing data             | **??** -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | 8-9, 15         | Large increase           | Remove -->
+<!--                         |               | Rotherham       | 1-48            | No Data                  | Exclude from models 2-5 -->
+<!--                         | Call to Scene (Conveying) | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | 1-18            | Missing data             | Exclude from models 2-5 -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | 1-10            | Missing data             | Exclude from models 2-5 -->
+<!--                         |               | Hemel Hempstead | 26-28, 38-45    | Clearly wrong            | Exclude from models 2-5 -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | 1-12            | Missing data]=           | **??** -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | 1-48            | No Data                  | Exclude from models 2-5 -->
+<!--                         | Scene to Destination | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | 1-24, 42-48     | Missing data             | Exclude from models 2-5 -->
+<!--                         |               | Hartlepool      | 1-4, 11, 15, 21-32, 34-39, 45-48 | Missing Data                        | **??** -->
+<!--                         |               | Grimsby         | 1-10            | Missing data             | Exclude from models 2-5 -->
+<!--                         |               | Hemel Hempstead | 26-28, 38-45    | Clearly wrong            | Exclude from models 2-5 -->
+<!--                         |               | Warwick         | 1-25            | Missing data             | Exclude from models 2-5 -->
+<!--                         |               | Newark          | 1-12            | Missing data             | **??** -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | 1-48            | No Data                  | Exclude from models 2-5 -->
+<!--                         | Destination to Clear | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | 1-18            | Missing data             | Exclude from models 2-5 -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | 26-28, 38-45    | Clearly wrong            | Exclude models 2-5 -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | 1-12            | Missing data             | **??** -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!-- Green Calls             | Green Calls   | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | 1-10            | Missing data             | **??** -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | 1-24            | Missing data             | Exclude from models 2-5 -->
+<!--                         |               | Newark          | 1-12            | Missing data             | Exclude from models 2-5 -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | 13-15, 48       | Large increase           | **??** -->
+<!--                         | Green Calls Not Conveyed | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | 1-10            | Missing data             | **??** -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | 1-24            | Missing data             | Exclude from models 2-5 -->
+<!--                         |               | Newark          | 1-12            | Missing data             | Exclude from models 2-5 -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | 13-15, 48       | Large increase                        | **??** -->
+<!--                         | Fraction Not Conveyed | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!-- Ambulance Red Calls     | Hospital Transfers | Bishop Auckland | 1-6        | Missing data             | **??** -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | 1-10            | Missing data             | **??** -->
+<!--                         |               | Hemel Hempstead | 26-27, 38-45    | Large decrease           | **??** -->
+<!--                         |               | Warwick         | 1-48            | Missing data             | Exclude from models 2-5 -->
+<!--                         |               | Newark          | 1-12            | Missing data             | Exclude from models 2-5 -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | 1-48            | Missing data             | Exclude from models 2-5 -->
+<!--                         | Total         | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!-- Hospital Transfers      | All Stays     | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | Stays with Transfers | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | Proportion with Transfers | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!-- 7-day Deaths            | All           | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | In CIPS       | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | 11              | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
+<!--                         | Not in CIPS   | Bishop Auckland | -               | -                        | - -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | -               | -                        | - -->
+<!--                         |               | Hemel Hempstead | -               | -                        | - -->
+<!--                         |               | Warwick         | -               | -                        | - -->
+<!--                         |               | Newark          | -               | -                        | - -->
+<!--                         |               | Southport       | -               | -                        | - -->
+<!--                         |               | Rochdale        | -               | -                        | - -->
+<!--                         |               | Rotherham       | -               | -                        | - -->
 
 
-<!-- Indicator				| Sub-indicator | Site            | Relative Month -->
+<!-- Indicator                                | Sub-indicator | Site            | Relative Month -->
 <!-- ------------------------|---------------|-----------------|-------------------------- -->
 <!-- Attendance              | Any           | Basingstoke     | 1-9? 31-47? -->
-<!-- Attendance				| Any           | Bishop Auckland | 1, 6 -->
+<!-- Attendance                                | Any           | Bishop Auckland | 1, 6 -->
 <!-- Attendance              | Any           | Yeovil          | 25? -->
-<!-- Attendance				| Ambulance     | Basingstoke     | 1-9? 31-47? -->
-<!-- Attendance				| Ambulance     | Bishop Auckland | 1, 6 -->
-<!-- Attendance				| Ambulance     | Grimsby         | 1-12? -->
-<!-- Attendance				| Ambulance     | Scunthorpe      | 1-16? -->
-<!-- Attendance				| Ambulance     | Yeovil          | 1-25? -->
-<!-- Attendance				| Other         | Basingstoke     | 1-9? 31-47? -->
-<!-- Attendance				| Other         | Bishop Auckland | 1, 6 -->
-<!-- Attendance				| Other         | Southport       | 24? -->
-<!-- Attendance				| Other         | Yeovil          | 1-25? -->
-<!-- Unnecessary Attendance	| N/A           | Bishop Auckland | 1, 6 -->
-<!-- Unnecessary Attendance	| N/A           | Yeovil          | 25 -->
+<!-- Attendance                                | Ambulance     | Basingstoke     | 1-9? 31-47? -->
+<!-- Attendance                                | Ambulance     | Bishop Auckland | 1, 6 -->
+<!-- Attendance                                | Ambulance     | Grimsby         | 1-12? -->
+<!-- Attendance                                | Ambulance     | Scunthorpe      | 1-16? -->
+<!-- Attendance                                | Ambulance     | Yeovil          | 1-25? -->
+<!-- Attendance                                | Other         | Basingstoke     | 1-9? 31-47? -->
+<!-- Attendance                                | Other         | Bishop Auckland | 1, 6 -->
+<!-- Attendance                                | Other         | Southport       | 24? -->
+<!-- Attendance                                | Other         | Yeovil          | 1-25? -->
+<!-- Unnecessary Attendance        | N/A           | Bishop Auckland | 1, 6 -->
+<!-- Unnecessary Attendance        | N/A           | Yeovil          | 25 -->
 <!-- Emergency Admissions    | All           | Newark          | 49? -->
 <!-- Avoidable Emergendy Admissions | Any    | N/A             | N/A -->
 <!-- Avoidable Emergendy Admissions | Non-Specific Chest Pains    | Not Checked        | Not Checked -->
-<!-- Attendances Admitted	| All           | Basingstoke     | 1-9? 31-47? -->
-<!-- Attendances Admitted	| All           | Bishop Auckland | 1, 6 -->
-<!-- Attendances Admitted	| All           | Southport       | 24? -->
-<!-- Attendances Admitted	| All           | Yeovil          | 25? -->
-<!-- Attendances Admitted	| Admitted      | Basingstoke     | 1-9? 31-47? -->
-<!-- Attendances Admitted	| Admitted      | Bishop Auckland | 1, 6 -->
-<!-- Attendances Admitted	| Admitted      | Yeovil          | 25? -->
-<!-- Attendances Admitted	| Fraction      | Basingstoke     | 1? -->
-<!-- Attendances Admitted	| Fraction      | Hemel Hempstead | 1? -->
-<!-- Attendances Admitted	| Fraction      | Warwick         | 1? -->
-<!-- Attendances Admitted	| Fraction      | Yeovil          | 1? -->
-<!-- Critical Care			| All           | Newark          | 47? -->
+<!-- Attendances Admitted        | All           | Basingstoke     | 1-9? 31-47? -->
+<!-- Attendances Admitted        | All           | Bishop Auckland | 1, 6 -->
+<!-- Attendances Admitted        | All           | Southport       | 24? -->
+<!-- Attendances Admitted        | All           | Yeovil          | 25? -->
+<!-- Attendances Admitted        | Admitted      | Basingstoke     | 1-9? 31-47? -->
+<!-- Attendances Admitted        | Admitted      | Bishop Auckland | 1, 6 -->
+<!-- Attendances Admitted        | Admitted      | Yeovil          | 25? -->
+<!-- Attendances Admitted        | Fraction      | Basingstoke     | 1? -->
+<!-- Attendances Admitted        | Fraction      | Hemel Hempstead | 1? -->
+<!-- Attendances Admitted        | Fraction      | Warwick         | 1? -->
+<!-- Attendances Admitted        | Fraction      | Yeovil          | 1? -->
+<!-- Critical Care                        | All           | Newark          | 47? -->
 <!-- Critical Care           | Critical      | Newark          | 26? -->
 <!-- Critical Care           | Fraction      | Newark          | 26? -->
 <!-- Length of Stay          | Mean          | N/A             | N/A -->
 <!-- Length of Stay          | Median        | N/A             | N/A -->
 <!-- Case Fatality Ratio      | Any                         | N/A | N/A -->
 <!-- Case Fatality Ratio      | Acute Heart Failure         | N/A | N/A -->
-<!-- Case Fatality Ratio      | Stroke CVA				   | N/A | N/A -->
+<!-- Case Fatality Ratio      | Stroke CVA                                   | N/A | N/A -->
 <!-- Ambulance Mean Times    | Call to Destination       | N/A | N/A -->
 <!-- Ambulance Mean Times    | Call to Scene (Any)       | N/A | N/A -->
 <!-- Ambulance Mean Times    | Call to Scene (Conveying) | N/A | N/A -->
