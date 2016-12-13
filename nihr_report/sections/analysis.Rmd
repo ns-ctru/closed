@@ -166,11 +166,12 @@ ts.plot.opts <- list()
 ts.plot.opts$steps       <- TRUE
 ts.plot.opts$facet       <- FALSE
 ts.plot.opts$legend      <- TRUE
-ts.plot.opts$tidy        <- TRUE
+ts.plot.opts$tidy        <- FALSE
 ts.plot.opts$colour      <- FALSE
 ts.plot.opts$lines       <- FALSE
 ts.plot.opts$xaxis.steps <- TRUE
 ts.plot.opts$smooth.plot <- TRUE
+ts.plot.opts$hide.control <- TRUE
 ## Other Common options
 systematic.outlier <- 3
 summary.table.align <- c('l', 'r', 'r', 'r', 'r', 'r', 'r')
