@@ -15,6 +15,7 @@
 #' @param return.residuals Logical oeprator of whether to return the residuals of the fitted model.
 #' @param rho.na.rm Logical operator passed to panelAR() for excluding panel specific autocorrelation when it can not be calculated.
 #' @param digits Number of digits to include in summary table of means/sd.
+#' @param rm.unused.control Remove controls that are not being used.
 #'
 #' @return A list of results depending on the options specified.
 #'
@@ -38,6 +39,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                                 return.model    = TRUE,
                                 return.residuals = FALSE,
                                 digits           = 3,
+                                rm.unused.control = TRUE,
                                 ...){
     ## Results
     results <- list()
@@ -187,9 +189,20 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$summary.table.head$group[results$summary.table.head$town %in% c('Hemel Hempstead', 'Warwick', 'Basingstoke', 'Yeovil')] <- 'Hemel Hempstead'
     results$summary.table.head$group[results$summary.table.head$town %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')] <- 'Newark'
     results$summary.table.head$group[results$summary.table.head$town %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')] <- 'Rochdale'
-    ## Add indicator for primary control
-    results$summary.table.head$town <- as.character(results$summary.table.head$town)
-    results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')] <- paste0(results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')], ' (Primary)')
+    ## Add indicator for primary control...
+    if(rm.unused.control == TRUE){
+        results$summary.table.head <- filter(results$summary.table.head,
+                                             town %in% c('Bishop Auckland', 'Whitehaven',
+                                                         'Hartlepool', 'Grimsby',
+                                                         'Hemel Hempstead', 'Warwick',
+                                                         'Newark', 'Southport',
+                                                         'Rochdale', 'Rotherham'))
+    }
+    ## ...if not then we add an indicator of ' (Primary)'
+    else if(rm.unused.control == FALSE){
+        results$summary.table.head$town <- as.character(results$summary.table.head$town)
+        results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')] <- paste0(results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')], ' (Primary)')
+    }
     ## Build the table footer from the regression results read in from Stata
     names(results$xtnbreg) <- gsub('estimate', 'est', names(results$xtnbreg))
     ## Standardise this output for combining with panelAR()
