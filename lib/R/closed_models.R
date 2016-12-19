@@ -47,6 +47,7 @@
 #' @param return.residuals Logical oeprator of whether to return the residuals of the fitted model.
 #' @param rho.na.rm Logical operator passed to panelAR() for excluding panel specific autocorrelation when it can not be calculated.
 #' @param digits Number of digits to include in summary table of means/sd.
+#' @param rm.unused.control Remove controls that are not being used.
 #'
 #' @return A list of results depending on the options specified.
 #'
