@@ -52,6 +52,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            fig             = '',
                            repel           = FALSE,
                            colour          = TRUE,
+                           hide.control    = FALSE,
                            ...){
     ## Initialise results for returning
     results <- list()
@@ -130,9 +131,14 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     }
     else if(indicator == 'length of stay'){
         title1 <- 'Length of Stay'
-        if(sub.indicator == 'mean')        title2 <- ' (Mean)'
-        else if(sub.indicator == 'median') title2 <- ' (Median)'
-        ylabel <- 'Length of Stay (Days)'
+        if(sub.indicator == 'mean'){
+            title2 <- ' (Mean)'
+            ylabel <- 'Mean Length of Stay (Days)'
+        }
+        else if(sub.indicator == 'median'){
+            title2 <- ' (Median)'
+            ylabel <- 'Median Length of Stay (Days)'
+        }
         y.text.steps <- 5
     }
     else if(indicator == 'critical care stays'){
@@ -444,11 +450,10 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     df.steps$variable <- factor(df.steps$variable,
                                 levels = c(1:4),
                                 labels = c('ED Closure', 'NHS 111', 'Other Centre', 'Ambulance Diversion'))
-    ## df.steps %>% print()
     ## Tidy up lables, really I'd like to re-write the above but don't have time so
     ## instead doing this messy hack
-    df.steps$xaxis.steps.labels <- gsub(' ()', '', df.steps$xaxis.steps.labels)
-    df.steps$xaxis.steps.labels <- gsub('()', '', df.steps$xaxis.steps.labels)
+    ## df.steps$xaxis.steps.labels <- gsub(' ()', '', df.steps$xaxis.steps.labels)
+    df.steps$xaxis.steps.labels <- gsub('\\(\\)', '', df.steps$xaxis.steps.labels)
     if(hide.control == TRUE){
         df.steps$xaxis.steps.labels <- gsub('Whitehaven', 'Control', df.steps$xaxis.steps.labels)
         df.steps$xaxis.steps.labels <- gsub('Grimsby',    'Control', df.steps$xaxis.steps.labels)
