@@ -94,6 +94,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           return.model    = TRUE,
                           return.residuals = FALSE,
                           digits           = 3,
+                          rm.unused.control = TRUE,
                           ...){
     #######################################################################
     ## Set up (results, formula, renaming variables)                     ##
@@ -214,9 +215,20 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$summary.table.head$group[results$summary.table.head$town %in% c('Hemel Hempstead', 'Warwick', 'Basingstoke', 'Yeovil')] <- 'Hemel Hempstead'
     results$summary.table.head$group[results$summary.table.head$town %in% c('Newark', 'Southport', 'Carlisle', 'Salisbury')] <- 'Newark'
     results$summary.table.head$group[results$summary.table.head$town %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')] <- 'Rochdale'
-    ## Add indicator for primary control
-    results$summary.table.head$town <- as.character(results$summary.table.head$town)
-    results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')] <- paste0(results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')], ' (Primary)')
+    ## Add indicator for primary control...
+    if(rm.unused.control == TRUE){
+        results$summary.table.head <- filter(results$summary.table.head,
+                                             town %in% c('Bishop Auckland', 'Whitehaven',
+                                                         'Hartlepool', 'Grimsby',
+                                                         'Hemel Hempstead', 'Warwick',
+                                                         'Newark', 'Southport',
+                                                         'Rochdale', 'Rotherham'))
+    }
+    ## ...if not then we add an indicator of ' (Primary)'
+    else if(rm.unused.control == FALSE){
+        results$summary.table.head$town <- as.character(results$summary.table.head$town)
+        results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')] <- paste0(results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')], ' (Primary)')
+    }
     #######################################################################
     ## Internal functions (to save typing)                               ##
     #######################################################################
@@ -1685,11 +1697,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model4.panelar.r2 <- model4.panelar$r2
         }
         ## Summary table
-        if(!is.null(results$model2.panelar.bishop.coef) |
+        if(!is.null(results$model2.panelar.bishop.coef)     |
            !is.null(results$model2.panelar.hartlepool.coef) |
-           !is.null(results$model2.panelar.hemel.coef) |
-           !is.null(results$model2.panelar.newark.coef) |
-           !is.null(results$model2.panelar.rochdale.coef) |
+           !is.null(results$model2.panelar.hemel.coef)      |
+           !is.null(results$model2.panelar.newark.coef)     |
+           !is.null(results$model2.panelar.rochdale.coef)   |
            !is.null(results$model4.panelar.all.coef)){
             results$model4.panelar.all <- combine_coefficients(bishop.coef     = results$model2.panelar.bishop.coef,
                                                                hartlepool.coef = results$model2.panelar.hartlepool.coef,
