@@ -373,58 +373,58 @@ names(check.site) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month')
 ##                                                 balance       = FALSE)
 ## 2016-12-19 Revised cleaning programme
 systematic.outlier <- 3
-ed_attendances_by_mode_site_measure_clean <- closed_clean(df      = ed_attendances_by_mode_site_measure,
+ed_attendances_by_mode_site_measure_clean <- closed_clean_revised(df      = ed_attendances_by_mode_site_measure,
                                                           indicator     = 'ed attendances',
                                                           systematic    = systematic.outlier)
-unnecessary_ed_attendances_site_measure_clean <- closed_clean(df      = unnecessary_ed_attendances_site_measure,
+unnecessary_ed_attendances_site_measure_clean <- closed_clean_revised(df      = unnecessary_ed_attendances_site_measure,
                                                           indicator     = 'unnecessary ed attendances',
                                                           systematic    = systematic.outlier)
-emergency_admissions_site_measure_clean <- closed_clean(df      = emergency_admissions_site_measure,
+emergency_admissions_site_measure_clean <- closed_clean_revised(df      = emergency_admissions_site_measure,
                                                           indicator     = 'avoidable emergency admissions',
                                                           systematic    = systematic.outlier)
 ## Remove avoidable admissions and avoidable deaths that are not of interest
 ## emergency_admissions_site_measure_clean <- dplyr::filter(emergency_admissions_site_measure_clean,
 ##                                                 !(sub.measure %in% exclude.avoidable))
-ed_attendances_admitted_site_measure_clean <- closed_clean(df      = ed_attendances_admitted_site_measure,
+ed_attendances_admitted_site_measure_clean <- closed_clean_revised(df      = ed_attendances_admitted_site_measure,
                                                           indicator     = 'ed attendances admitted',
                                                           systematic    = systematic.outlier)
-critical_care_cips_site_measure_clean <- closed_clean(df      = critical_care_cips_site_measure,
+critical_care_cips_site_measure_clean <- closed_clean_revised(df      = critical_care_cips_site_measure,
                                                           indicator     = 'critical care stays',
                                                           systematic    = systematic.outlier)
-length_of_stay_site_measure_clean <- closed_clean(df      = length_of_stay_site_measure,
+length_of_stay_site_measure_clean <- closed_clean_revised(df      = length_of_stay_site_measure,
                                                           indicator     = 'length of stay',
                                                           systematic    = systematic.outlier)
-sec_case_fatality_7days_site_measure_clean <- closed_clean(df      = sec_case_fatality_7days_site_measure,
+sec_case_fatality_7days_site_measure_clean <- closed_clean_revised(df      = sec_case_fatality_7days_site_measure,
                                                           indicator     = 'sec case fatality 7 days',
                                                           systematic    = systematic.outlier)
-sec_deaths_all_7days_site_measure_clean <- closed_clean(df      = sec_deaths_all_7days_site_measure,
-                                                          indicator     = 'sec_deaths_all_7days',
+sec_deaths_all_7days_site_measure_clean <- closed_clean_revised(df      = sec_deaths_all_7days_site_measure,
+                                                          indicator     = 'sec deaths all 7days',
                                                           systematic    = systematic.outlier)
-sec_deaths_in_cips_7days_site_measure_clean <- closed_clean(df      = sec_deaths_in_cips_7days_site_measure,
-                                                          indicator     = 'sec_deaths_in_cips_7days',
+sec_deaths_in_cips_7days_site_measure_clean <- closed_clean_revised(df      = sec_deaths_in_cips_7days_site_measure,
+                                                          indicator     = 'sec deaths in cips 7days',
                                                           systematic    = systematic.outlier)
-sec_deaths_not_in_cips_7days_site_measure_clean <- closed_clean(df      = sec_deaths_not_in_cips_7days_site_measure,
-                                                 indicator     = 'sec_deaths_not_in_cips_7days',
+sec_deaths_not_in_cips_7days_site_measure_clean <- closed_clean_revised(df      = sec_deaths_not_in_cips_7days_site_measure,
+                                                 indicator     = 'sec deaths not in cips 7days',
                                                  systematic    = systematic.outlier)
-case_fatality_site_measure_clean <- closed_clean(df      = case_fatality_site_measure,
+case_fatality_site_measure_clean <- closed_clean_revised(df      = case_fatality_site_measure,
                                                  indicator     = 'case fatality ratio',
                                                  systematic    = systematic.outlier)
 ## ## Exclude avoidable deaths that are not of interest
 ## case_fatality_site_measure_clean <- dplyr::filter(case_fatality_site_measure_clean,
 ##                                          !(sub.measure %in% exclude.fatality))
-amb_mean_times_site_measure_clean <- closed_clean(df      = amb_mean_times_site_measure,
+amb_mean_times_site_measure_clean <- closed_clean_revised(df      = amb_mean_times_site_measure,
                                                 indicator     = 'ambulance mean times',
                                                 systematic    = systematic.outlier)
-amb_green_calls_site_measure_clean <- closed_clean(df      = amb_green_calls_site_measure,
+amb_green_calls_site_measure_clean <- closed_clean_revised(df      = amb_green_calls_site_measure,
                                                 indicator     = 'ambulance mean times',
                                                 systematic    = systematic.outlier)
-## amb_non_conveyance_site_measure_clean <- closed_clean(df      = amb_non_conveyance_site_measure,
+## amb_non_conveyance_site_measure_clean <- closed_clean_revised(df      = amb_non_conveyance_site_measure,
 ##                                                 indicator     = 'ambulance mean times',
 ##                                                 systematic    = systematic.outlier)
-amb_red_calls_site_measure_clean <- closed_clean(df      = amb_red_calls_site_measure,
+amb_red_calls_site_measure_clean <- closed_clean_revised(df      = amb_red_calls_site_measure,
                                                 indicator     = 'ambulance mean times',
                                                 systematic    = systematic.outlier)
-hospital_transfers_site_measure_clean <- closed_clean(df = hospital_transfers_site_measure,
+hospital_transfers_site_measure_clean <- closed_clean_revised(df = hospital_transfers_site_measure,
                                                 indicator     = 'hospital transfers',
                                                 systematic    = systematic.outlier)
 ## Combine all cleaned (and now missing) data points into one data frame
