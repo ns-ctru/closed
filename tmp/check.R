@@ -24,7 +24,11 @@ clean <- mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attenda
                                            return.residuals = FALSE,
                                            rm.unused.control = model.opts$rm.unused.control,
                                            digits           = 3)
-
+## Combine the two to check
+check <- merge(dplyr::filter(unclean, model %in% c('Model 6.1', 'Model 7.1')),
+               dplyr::filter(clean, model %in% c('Model 6.1', 'Model 7.1')),
+               by       = c('measure', 'sub.measure', 'town', 'model', 'term'),
+               suffixes = c('.unclean', '.clean'))
 
 
 ## 2016-12-13 Generic example of dual axis for asking on Stackoverflow how to angle top
