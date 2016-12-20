@@ -1,10 +1,72 @@
+## 2016-12-20 - Excluding months from LSOA level data
+ed_attendances_by_mode_measure_clean <- closed_clean_revised(df      = ed_attendances_by_mode_measure,
+                                                          indicator     = 'ed attendances',
+                                                          systematic    = systematic.outlier)
+ed_attendances_by_mode_site_measure_clean <- closed_clean_revised(df      = ed_attendances_by_mode_site_measure,
+                                                          indicator     = 'ed attendances',
+                                                          systematic    = systematic.outlier)
+## Analyse using uncleaned data
+unclean <- mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure,
+                                           df.trust        = ed_attendances_by_mode_site_measure,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'any',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+clean <- mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure_clean,
+                                           df.trust        = ed_attendances_by_mode_site_measure_clean,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'any',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+
+
+
+## 2016-12-13 Generic example of dual axis for asking on Stackoverflow how to angle top
+png('~/work/closed/tmp/dual_axis_eg.png', width = 768, height = 768)
+ggplot(mtcars, aes(x = wt, y = mpg, colour = mpg)) +
+    geom_point() +
+    scale_x_continuous(name = 'Bottom Axis',
+                       sec.axis = sec_axis(trans = ~ .,
+                                           name  = 'Top Axis',
+                                           breaks = c(2:5),
+                                           labels = c('Two Two', 'Three Three Three', 'Four Four Four Four', 'Five Five Five Five Five'))) +
+    theme(axis.text.x.top = element_text(angle = 90))
+dev.off()
+png(filename = '~/work/closed/tmp/sec_deaths_all_7days.png', width = 1024, heigh = 768)
+example <- closed_ts_plot(df            = sec_deaths_all_7days_site_measure,
+               indicator     = 'sec deaths all 7days',
+               sub.indicator = 'any sec',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Rochdale', 'Rotherham'),
+               smooth.plot   = TRUE,
+               legend        = ts.plot.opts$legend,
+               tidy          = FALSE,
+               colour        = ts.plot.opts$colour,
+               lines         = FALSE,
+               hide.control  = TRUE,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+example
+dev.off()
+save(example, file = '~/work/closed/tmp/example.Rdata')
+
 ## 2016-12-12 Peaks/spikes for Bishop Auckland/Whitehaven  Length of Stay (Mean)
 los <- dplyr::filter(length_of_stay_site_measure,
                      town %in% c('Bishop Auckland', 'Whitehaven') &
                      sub.measure == 'mean') %>%
-       dplyr::select(yearmonth, town, value) %>%
+       dplyr::select(relative.month, yearmonth, town, value) %>%
        group_by(town) %>%
        mutate(mean          = mean(value, na.rm = TRUE),
+              sd            = sd(value, na.rm = TRUE),
+              lower         = mean - sd,
+              upper         = mean + sd,
               peak_trough   = ifelse(value >= mean, 'Peak', 'Trough'),
               month         = month(yearmonth),
               days_in_month = days_in_month(yearmonth))
@@ -14,6 +76,14 @@ write.table(los,
             file      = '~/work/closed/tmp/length_of_stay.csv',
             sep       = ',',
             col.names = TRUE)
+dplyr::filter(length_of_stay_site_measure,
+              town == 'Bishop Auckland' &
+              sub.measure == 'mean',
+              relative.month %in% c(16, 17, 37, 43)) %>%
+       dplyr::select(relative.month, yearmonth, town, value) %>%
+       group_by(town) %>%
+       mutate(month         = month(yearmonth),
+              days_in_month = days_in_month(yearmonth))
 
 ## 2016-12-12 Sample plots for meeting
 png(filename = '~/work/closed/tmp/case_fatality_all.png', width = 1024, heigh = 768)
@@ -28,7 +98,7 @@ closed_ts_plot(df            = sec_case_fatality_7days_site_measure,
                legend        = ts.plot.opts$legend,
                tidy          = FALSE,
                colour        = ts.plot.opts$colour,
-               lines         = ts.plot.opts$lines,
+               lines         = FALSE,
                xaxis.steps   = ts.plot.opts$xaxis.steps)
 dev.off()
 png(filename = '~/work/closed/tmp/sec_deaths_all_7days.png', width = 1024, heigh = 768)
@@ -43,7 +113,7 @@ closed_ts_plot(df            = sec_deaths_all_7days_site_measure,
                legend        = ts.plot.opts$legend,
                tidy          = FALSE,
                colour        = ts.plot.opts$colour,
-               lines         = ts.plot.opts$lines,
+               lines         = FALSE,
                xaxis.steps   = ts.plot.opts$xaxis.steps)
 dev.off()
 png(filename = '~/work/closed/tmp/sec_deaths_all_in_cips_7days.png', width = 1024, heigh = 768)
@@ -58,7 +128,7 @@ closed_ts_plot(df            = sec_deaths_in_cips_7days_site_measure_clean,
                legend        = ts.plot.opts$legend,
                tidy          = FALSE,
                colour        = ts.plot.opts$colour,
-               lines         = ts.plot.opts$lines,
+               lines         = FALSE,
                xaxis.steps   = ts.plot.opts$xaxis.steps)
 dev.off()
 
