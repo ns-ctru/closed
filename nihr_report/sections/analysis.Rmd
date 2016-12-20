@@ -543,7 +543,7 @@ save(spurious,
 
 ```{r mode_of_arrival_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ## Run Stata's -xtnbreg- on the current outcome
-mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure,
+mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure_clean,
                                            df.trust        = ed_attendances_by_mode_site_measure_clean,
                                            indicator       = 'ed attendances',
                                            sub.indicator   = 'any',
@@ -556,7 +556,7 @@ mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attendances_by_m
 ```
 
 ```{r mode_of_arrival_other, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-mode.of.arrival.other <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure,
+mode.of.arrival.other <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure_clean,
                                            df.trust        = ed_attendances_by_mode_site_measure_clean,
                                            indicator       = 'ed attendances',
                                            sub.indicator   = 'other',
@@ -570,7 +570,7 @@ mode.of.arrival.other <- closed_stata_negbin(df.lsoa         = ed_attendances_by
 
 
 ```{r mode_of_arrival_ambulance, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-mode.of.arrival.ambulance <- closed_stata_negbin(df.lsoa = ed_attendances_by_mode_measure,
+mode.of.arrival.ambulance <- closed_stata_negbin(df.lsoa = ed_attendances_by_mode_measure_clean,
                                            df.trust        = ed_attendances_by_mode_site_measure_clean,
                                            indicator       = 'ed attendances',
                                            sub.indicator   = 'ambulance',
@@ -584,7 +584,7 @@ mode.of.arrival.ambulance <- closed_stata_negbin(df.lsoa = ed_attendances_by_mod
 
 
 ```{r unnecessary_ed_attendances, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-unnecessary.attendance <- closed_stata_negbin(df.lsoa =  unnecessary_ed_attendances_measure,
+unnecessary.attendance <- closed_stata_negbin(df.lsoa =  unnecessary_ed_attendances_measure_clean,
                                            df.trust         = unnecessary_ed_attendances_site_measure_clean,
                                            indicator       = 'unnecessary ed attendances',
                                            sub.indicator   = 'all',
@@ -598,7 +598,7 @@ unnecessary.attendance <- closed_stata_negbin(df.lsoa =  unnecessary_ed_attendan
 
 
 ```{r all_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-all.emergency.admissions.all <- closed_stata_negbin(df.lsoa =  emergency_admissions_measure,
+all.emergency.admissions.all <- closed_stata_negbin(df.lsoa =  emergency_admissions_measure_clean,
                                            df.trust         = emergency_admissions_site_measure_clean,
                                            indicator       = 'all emergency admissions',
                                            sub.indicator   = 'all',
@@ -611,7 +611,7 @@ all.emergency.admissions.all <- closed_stata_negbin(df.lsoa =  emergency_admissi
 ```
 
 ```{r avoidable_emergency_admissions_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-avoidable.emergency.admissions.any <- closed_stata_negbin(df.lsoa =  emergency_admissions_measure,
+avoidable.emergency.admissions.any <- closed_stata_negbin(df.lsoa =  emergency_admissions_measure_clean,
                                            df.trust         = emergency_admissions_site_measure_clean,
                                            indicator       = 'avoidable emergency admissions',
                                            sub.indicator   = 'any',
@@ -624,7 +624,7 @@ avoidable.emergency.admissions.any <- closed_stata_negbin(df.lsoa =  emergency_a
 ```
 
 ```{r avoidable_emergency_admissions_chest_pain, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-avoidable.emergency.admissions.chest.pain <- closed_stata_negbin(df.lsoa =  emergency_admissions_measure,
+avoidable.emergency.admissions.chest.pain <- closed_stata_negbin(df.lsoa =  emergency_admissions_measure_clean,
                                            df.trust         = emergency_admissions_site_measure_clean,
                                            indicator       = 'avoidable emergency admissions',
                                            sub.indicator   = 'non-specific chest pain',
@@ -639,7 +639,7 @@ avoidable.emergency.admissions.chest.pain <- closed_stata_negbin(df.lsoa =  emer
 
 <!--- ED Attendances Admitted - All --->
 ```{r ed_attendances_admitted_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-ed.attendances.admitted.all <- closed_stata_negbin(df.lsoa =  ed_attendances_admitted_measure,
+ed.attendances.admitted.all <- closed_stata_negbin(df.lsoa =  ed_attendances_admitted_measure_clean,
                                            df.trust         = ed_attendances_admitted_site_measure_clean,
                                            indicator       = 'ed attendances admitted',
                                            sub.indicator   = 'all',
@@ -653,7 +653,7 @@ ed.attendances.admitted.all <- closed_stata_negbin(df.lsoa =  ed_attendances_adm
 
 <!--- ED Attendances Admitted - Fraction Admitted --->
 ```{r ed_attendances_admitted_fraction_admitted, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_attendances_admitted_measure,
+ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_attendances_admitted_measure_clean,
                                      df.trust         = ed_attendances_admitted_site_measure_clean,
                                      indicator        = 'ed attendances admitted',
                                      sub.indicator    = 'fraction admitted',
@@ -691,7 +691,7 @@ ed.attendances.admitted.fraction.admitted <- closed_models(df.lsoa         = ed_
 
 <!--- ED Attendances Admitted - Admitted --->
 ```{r ed_attendances_admitted_admitted, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-ed.attendances.admitted.admitted <- closed_stata_negbin(df.lsoa =  ed_attendances_admitted_measure,
+ed.attendances.admitted.admitted <- closed_stata_negbin(df.lsoa =  ed_attendances_admitted_measure_clean,
                                            df.trust         = ed_attendances_admitted_site_measure_clean,
                                            indicator       = 'ed attendances admitted',
                                            sub.indicator   = 'admitted',
@@ -705,7 +705,7 @@ ed.attendances.admitted.admitted <- closed_stata_negbin(df.lsoa =  ed_attendance
 s
 <!--- Critical Care - All --->
 ```{r critical_care_cips_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-critical.care.cips.all <- closed_stata_negbin(df.lsoa =  critical_care_cips_measure,
+critical.care.cips.all <- closed_stata_negbin(df.lsoa =  critical_care_cips_measure_clean,
                                            df.trust         = critical_care_cips_site_measure_clean,
                                            indicator       = 'critical care stays',
                                            sub.indicator   = 'all',
@@ -719,7 +719,7 @@ critical.care.cips.all <- closed_stata_negbin(df.lsoa =  critical_care_cips_meas
 
 <!--- Critical Care - Critical --->
 ```{r critical_care_cips_critical, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-critical.care.cips.critical <- closed_stata_negbin(df.lsoa =  critical_care_cips_measure,
+critical.care.cips.critical <- closed_stata_negbin(df.lsoa =  critical_care_cips_measure_clean,
                                            df.trust         = critical_care_cips_site_measure_clean,
                                            indicator       = 'critical care stays',
                                            sub.indicator   = 'critical care',
@@ -733,7 +733,7 @@ critical.care.cips.critical <- closed_stata_negbin(df.lsoa =  critical_care_cips
 
 <!--- Critical Care - Fraction --->
 ```{r critical_care_cips_fraction, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-critical.care.cips.fraction <- closed_models(df.lsoa         = critical_care_cips_measure,
+critical.care.cips.fraction <- closed_models(df.lsoa         = critical_care_cips_measure_clean,
                                      df.trust         = critical_care_cips_site_measure_clean,
                                      indicator        = 'critical care stays',
                                      sub.indicator    = 'fraction critical care',
@@ -771,7 +771,7 @@ critical.care.cips.fraction <- closed_models(df.lsoa         = critical_care_cip
 
 <!--- Length of Stay - Mean --->
 ```{r length_of_stay_mean, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-length.of.stay.mean <- closed_models(df.lsoa         = length_of_stay_measure,
+length.of.stay.mean <- closed_models(df.lsoa         = length_of_stay_measure_clean,
                                      df.trust         = length_of_stay_site_measure_clean,
                                      indicator        = 'length of stay',
                                      sub.indicator    = 'mean',
@@ -810,7 +810,7 @@ length.of.stay.mean <- closed_models(df.lsoa         = length_of_stay_measure,
 
 <!--- Length of Stay - Median --->
 ```{r length_of_stay_median, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure,
+length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure_clean,
                                      df.trust         = length_of_stay_site_measure_clean,
                                      indicator        = 'length of stay',
                                      sub.indicator    = 'median',
@@ -847,8 +847,8 @@ length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure,
 ```
 <!--- Case Fatality Ratio - Any --->
 ```{r case_fatality_ratio_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-case.fatality.ratio.any <- closed_models(df.lsoa         = sec_case_fatality_7days_measure,
-                                     df.trust         = sec_case_fatality_7days_site_measure,
+case.fatality.ratio.any <- closed_models(df.lsoa         = sec_case_fatality_7days_measure_clean,
+                                     df.trust         = sec_case_fatality_7days_site_measure_clean,
                                      indicator        = 'sec case fatality 7 days',
                                      sub.indicator    = 'any sec',
                                      panel.lsoa       = model.opts$panel.lsoa,
@@ -884,8 +884,8 @@ case.fatality.ratio.any <- closed_models(df.lsoa         = sec_case_fatality_7da
 ```
 <!--- Case Fatality Ratio - Acute Heart Failure --->
 ```{r case_fatality_ratio_acute_heart_failure, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = sec_case_fatality_7days_measure,
-                                     df.trust         = sec_case_fatality_7days_site_measure,
+case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = sec_case_fatality_7days_measure_clean,
+                                     df.trust         = sec_case_fatality_7days_site_measure_clean,
                                      indicator        = 'sec case fatality 7 days',
                                      sub.indicator    = 'acute heart failure',
                                      panel.lsoa       = model.opts$panel.lsoa,
@@ -922,8 +922,8 @@ case.fatality.ratio.acute.heart.failure <- closed_models(df.lsoa         = sec_c
 
 <!--- Case Fatality Ratio - Myocardial Infarction --->
 ```{r case_fatality_ratio_myocardial_infarction, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-case.fatality.ratio.myocardial.infarction <- closed_models(df.lsoa         = sec_case_fatality_7days_measure,
-                                     df.trust         = sec_case_fatality_7days_site_measure,
+case.fatality.ratio.myocardial.infarction <- closed_models(df.lsoa         = sec_case_fatality_7days_measure_clean,
+                                     df.trust         = sec_case_fatality_7days_site_measure_clean,
                                      indicator        = 'sec case fatality 7 days',
                                      sub.indicator    = 'myocardial infarction',
                                      panel.lsoa       = model.opts$panel.lsoa,
@@ -960,8 +960,8 @@ case.fatality.ratio.myocardial.infarction <- closed_models(df.lsoa         = sec
 
 <!--- Case Fatality Ratio - Trauma any sec--->
 ```{r case_fatality_ratio_any_trauma_sec, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-case.fatality.ratio.any.trauma.sec <- closed_models(df.lsoa         = sec_case_fatality_7days_measure,
-                                     df.trust         = sec_case_fatality_7days_site_measure,
+case.fatality.ratio.any.trauma.sec <- closed_models(df.lsoa         = sec_case_fatality_7days_measure_clean,
+                                     df.trust         = sec_case_fatality_7days_site_measure_clean,
                                      indicator        = 'sec case fatality 7 days',
                                      sub.indicator    = 'any trauma sec',
                                      panel.lsoa       = model.opts$panel.lsoa,
@@ -997,8 +997,8 @@ case.fatality.ratio.any.trauma.sec <- closed_models(df.lsoa         = sec_case_f
 ```
 <!--- Case Fatality Ratio - Serious Head Injury --->
 <!-- ```{r case_fatality_ratio_serious_head_injury, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE} -->
-<!-- case.fatality.ratio.serious.head.injury <- closed_models(df.lsoa         = sec_case_fatality_7days_measure, -->
-<!--                                      df.trust         = sec_case_fatality_7days_site_measure, -->
+<!-- case.fatality.ratio.serious.head.injury <- closed_models(df.lsoa         = sec_case_fatality_7days_measure_clean, -->
+<!--                                      df.trust         = sec_case_fatality_7days_site_measure_clean, -->
 <!--                                      indicator        = 'sec case fatality 7 days', -->
 <!--                                      sub.indicator    = 'serious head injury', -->
 <!--                                      panel.lsoa       = model.opts$panel.lsoa, -->
@@ -1034,8 +1034,8 @@ case.fatality.ratio.any.trauma.sec <- closed_models(df.lsoa         = sec_case_f
 
 <!--- Case Fatality Ratio - Road Traffic Accident --->
 <!-- ```{r case_fatality_ratio_road_traffic_accident, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE} -->
-<!-- case.fatality.ratio.road.traffic.accident <- closed_models(df.lsoa         = sec_case_fatality_7days_measure, -->
-<!--                                      df.trust         = sec_case_fatality_7days_site_measure, -->
+<!-- case.fatality.ratio.road.traffic.accident <- closed_models(df.lsoa         = sec_case_fatality_7days_measure_clean, -->
+<!--                                      df.trust         = sec_case_fatality_7days_site_measure_clean, -->
 <!--                                      indicator        = 'sec case fatality 7 days', -->
 <!--                                      sub.indicator    = 'road traffic accident', -->
 <!--                                      panel.lsoa       = model.opts$panel.lsoa, -->
@@ -1071,8 +1071,8 @@ case.fatality.ratio.any.trauma.sec <- closed_models(df.lsoa         = sec_case_f
 
 <!--- Case Fatality Ratio - Falls --->
 <!-- ```{r sec_case_fatality_7days_ratio_falls, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE} -->
-<!-- case.fatality.ratio.falls <- closed_models(df.lsoa         = sec_case_fatality_7days_measure, -->
-<!--                                      df.trust         = sec_case_fatality_7days_site_measure, -->
+<!-- case.fatality.ratio.falls <- closed_models(df.lsoa         = sec_case_fatality_7days_measure_clean, -->
+<!--                                      df.trust         = sec_case_fatality_7days_site_measure_clean, -->
 <!--                                      indicator        = 'sec case fatality 7 days', -->
 <!--                                      sub.indicator    = 'falls', -->
 <!--                                      panel.lsoa       = model.opts$panel.lsoa, -->
@@ -1108,8 +1108,8 @@ case.fatality.ratio.any.trauma.sec <- closed_models(df.lsoa         = sec_case_f
 
 <!--- Case Fatality Ratio - Stroke Cva --->
 ```{r case_fatality_ratio_stroke_cva, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-case.fatality.ratio.stroke.cva <- closed_models(df.lsoa         = sec_case_fatality_7days_measure,
-                                     df.trust         = sec_case_fatality_7days_site_measure,
+case.fatality.ratio.stroke.cva <- closed_models(df.lsoa         = sec_case_fatality_7days_measure_clean,
+                                     df.trust         = sec_case_fatality_7days_site_measure_clean,
                                      indicator        = 'sec case fatality 7 days',
                                      sub.indicator    = 'stroke cva',
                                      panel.lsoa       = model.opts$panel.lsoa,
@@ -1146,8 +1146,8 @@ case.fatality.ratio.stroke.cva <- closed_models(df.lsoa         = sec_case_fatal
 
 <!--- Case Fatality Ratio (7 days) - Any single sec --->
 <!-- ```{r case_fatality_ratio_7days_any_single_sec, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE} -->
-<!-- case.fatality.ratio.7days.any.single.sec <- closed_models(df.lsoa         = sec_case_fatality_7days_measure, -->
-<!--                                      df.trust         = sec_case_fatality_7days_site_measure, -->
+<!-- case.fatality.ratio.7days.any.single.sec <- closed_models(df.lsoa         = sec_case_fatality_7days_measure_clean, -->
+<!--                                      df.trust         = sec_case_fatality_7days_site_measure_clean, -->
 <!--                                      indicator        = 'sec case fatality 7 days', -->
 <!--                                      sub.indicator    = 'any single sec', -->
 <!--                                      panel.lsoa       = model.opts$panel.lsoa, -->
@@ -1183,8 +1183,8 @@ case.fatality.ratio.stroke.cva <- closed_models(df.lsoa         = sec_case_fatal
 
 <!--- Case Fatality Ratio (7 days) - Any sec --->
 ```{r case_fatality_ratio_7days_any_sec, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-case.fatality.ratio.7days.any.sec <- closed_models(df.lsoa         = sec_case_fatality_7days_measure,
-                                     df.trust         = sec_case_fatality_7days_site_measure,
+case.fatality.ratio.7days.any.sec <- closed_models(df.lsoa         = sec_case_fatality_7days_measure_clean,
+                                     df.trust         = sec_case_fatality_7days_site_measure_clean,
                                      indicator        = 'sec case fatality 7 days',
                                      sub.indicator    = 'any sec',
                                      panel.lsoa       = model.opts$panel.lsoa,
@@ -1222,7 +1222,7 @@ case.fatality.ratio.7days.any.sec <- closed_models(df.lsoa         = sec_case_fa
 
 <!--- Sec Deaths All (7 days) - Any sec --->
 ```{r sec_deaths_all_7days_any_sec, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-sec.deaths.all.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_all_7days_measure,
+sec.deaths.all.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_all_7days_measure_clean,
                                            df.trust         = sec_deaths_all_7days_site_measure_clean,
                                            indicator       = 'sec deaths all 7days',
                                            sub.indicator   = 'any sec',
@@ -1236,7 +1236,7 @@ sec.deaths.all.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_all_7d
 
 <!--- Sec Deaths in CIPS (7 days) - Any sec --->
 ```{r sec_deaths_in_cips_7days_any_sec, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-sec.deaths.in.cips.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_in_cips_7days_measure,
+sec.deaths.in.cips.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_in_cips_7days_measure_clean,
                                            df.trust         = sec_deaths_in_cips_7days_site_measure_clean,
                                            indicator       = 'sec deaths in cips 7days',
                                            sub.indicator   = 'any sec',
@@ -1250,7 +1250,7 @@ sec.deaths.in.cips.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_in
 
 <!--- Sec Deaths in CIPS (7 days) - Any sec --->
 ```{r sec_deaths_not_in_cips_7days_any_sec, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-sec.deaths.not.in.cips.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_not_in_cips_7days_measure,
+sec.deaths.not.in.cips.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_not_in_cips_7days_measure_clean,
                                            df.trust         = sec_deaths_not_in_cips_7days_site_measure_clean,
                                            indicator       = 'sec deaths not in cips 7days',
                                            sub.indicator   = 'any sec',
@@ -1265,7 +1265,7 @@ sec.deaths.not.in.cips.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_death
 
 <!--- Ambulance Mean Times - Call to Destination --->
 ```{r ambulance_mean_times_call_to_dest, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-ambulance.mean.times.call.to.dest <- closed_models(df.lsoa         = amb_mean_times_measure,
+ambulance.mean.times.call.to.dest <- closed_models(df.lsoa         = amb_mean_times_measure_clean,
                                      df.trust         = amb_mean_times_site_measure_clean,
                                      indicator        = 'ambulance mean times',
                                      sub.indicator    = 'call to dest',
@@ -1303,7 +1303,7 @@ ambulance.mean.times.call.to.dest <- closed_models(df.lsoa         = amb_mean_ti
 
 <!--- Ambulance Mean Times - Call to Scene Any --->
 ```{r ambulance_mean_times_call_to_scene_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-ambulance.mean.times.call.to.scene.any <- closed_models(df.lsoa         = amb_mean_times_measure,
+ambulance.mean.times.call.to.scene.any <- closed_models(df.lsoa         = amb_mean_times_measure_clean,
                                      df.trust         = amb_mean_times_site_measure_clean,
                                      indicator        = 'ambulance mean times',
                                      sub.indicator    = 'call to scene any',
@@ -1341,7 +1341,7 @@ ambulance.mean.times.call.to.scene.any <- closed_models(df.lsoa         = amb_me
 
 <!--- Ambulance Mean Times - Call to Scene Conveying --->
 ```{r ambulance_mean_times_call_to_destination, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-ambulance.mean.times.call.to.scene.conveying <- closed_models(df.lsoa         = amb_mean_times_measure,
+ambulance.mean.times.call.to.scene.conveying <- closed_models(df.lsoa         = amb_mean_times_measure_clean,
                                      df.trust         = amb_mean_times_site_measure_clean,
                                      indicator        = 'ambulance mean times',
                                      sub.indicator    = 'call to scene conveying',
@@ -1379,7 +1379,7 @@ ambulance.mean.times.call.to.scene.conveying <- closed_models(df.lsoa         = 
 
 <!--- Ambulance Mean Times - Destination to Clear --->
 ```{r ambulance_mean_times_dest_to_clear, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
-ambulance.mean.times.dest.to.clear <- closed_models(df.lsoa         = amb_mean_times_measure,
+ambulance.mean.times.dest.to.clear <- closed_models(df.lsoa         = amb_mean_times_measure_clean,
                                      df.trust         = amb_mean_times_site_measure_clean,
                                      indicator        = 'ambulance mean times',
                                      sub.indicator    = 'dest to clear',
