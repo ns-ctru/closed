@@ -406,9 +406,9 @@ sec_deaths_in_cips_7days_site_measure_clean <- closed_clean_revised(df      = se
 sec_deaths_not_in_cips_7days_site_measure_clean <- closed_clean_revised(df      = sec_deaths_not_in_cips_7days_site_measure,
                                                  indicator     = 'sec deaths not in cips 7days',
                                                  systematic    = systematic.outlier)
-case_fatality_site_measure_clean <- closed_clean_revised(df      = case_fatality_site_measure,
-                                                 indicator     = 'case fatality ratio',
-                                                 systematic    = systematic.outlier)
+## case_fatality_site_measure_clean <- closed_clean_revised(df      = case_fatality_site_measure,
+##                                                  indicator     = 'case fatality ratio',
+##                                                  systematic    = systematic.outlier)
 ## ## Exclude avoidable deaths that are not of interest
 ## case_fatality_site_measure_clean <- dplyr::filter(case_fatality_site_measure_clean,
 ##                                          !(sub.measure %in% exclude.fatality))
