@@ -191,7 +191,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$summary.table.head$group[results$summary.table.head$town %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')] <- 'Rochdale'
     ## Add indicator for primary control...
     if(rm.unused.control == TRUE){
-        results$summary.table.head <- filter(results$summary.table.head,
+        results$summary.table.head <- dplyr::filter(results$summary.table.head,
                                              town %in% c('Bishop Auckland', 'Whitehaven',
                                                          'Hartlepool', 'Grimsby',
                                                          'Hemel Hempstead', 'Warwick',
