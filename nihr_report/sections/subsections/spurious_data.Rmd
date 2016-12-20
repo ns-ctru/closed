@@ -5,18 +5,19 @@ Visual inspection of time-series plots (see 'Time-Series Plots' tab under each i
 
 ```{r spurious-data-table, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, fig.height = 16, eval = TRUE}
 spurious.data <- read.csv('~/work/closed/nihr_report/data/spurious_data.txt', sep = '|', header = TRUE)
-kable(spurious.data,
-      caption = paste0('Spurious Data Points identified based on visual inspection.\n', 'Generated : ', Sys.time()))
+dplyr::filter(spurious.data,
+       Problem != ' -' & Action != ' -') %>%
+kable(caption = paste0('Spurious Data Points identified based on visual inspection.\n', 'Generated : ', Sys.time()))
 
 
 ```
 
-: Indicator            :|: Sub-indicator :|: Site          :|: Week(s)       :|: Problem                :|: (Action)    :
-------------------------|-----------------|-----------------|-----------------|--------------------------|---------------
-Attendance              | Any           | Bishop Auckland | 1, 6            | Large decrease           | Remove
-                        |               | White Haven     | -               | -                        | -
-                        |               | Hartlepool      | -               | -                        | -
-                        |               | Grimsby         | 1-12            | Very low (in ambulance)  | Exclude from Models >= 2
+<!-- : Indicator            :|: Sub-indicator :|: Site          :|: Week(s)       :|: Problem                :|: (Action)    : -->
+<!-- ------------------------|-----------------|-----------------|-----------------|--------------------------|--------------- -->
+<!-- Attendance              | Any           | Bishop Auckland | 1, 6            | Large decrease           | Remove -->
+<!--                         |               | White Haven     | -               | -                        | - -->
+<!--                         |               | Hartlepool      | -               | -                        | - -->
+<!--                         |               | Grimsby         | 1-12            | Very low (in ambulance)  | Exclude from Models >= 2 -->
 <!--                         |               | Hemel Hempstead | 38-48           | Large increase           | New Centre, additional step -->
 <!--                         |               | Warwick         | -               | -                        | - -->
 <!--                         |               | Newark          | -               | -                        | - -->
@@ -411,7 +412,7 @@ Whilst the visual inspection of data helps reveal some potentially spurious data
 In doing so the datapoints described in the table below are identified as being spurious and removed from each cohort.  Further when there is more than one centre being included in a given analysis the panels are balanced resulting in the removal of the observed data across all centres in the given cohort that is being analysed.
 
 
-```{r spurious_data_points, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, fig.height = 16, eval = TRUE}
+```{r spurious_data_points, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, fig.height = 32, eval = TRUE}
 ## load(file = '~/work/closed/knitr/data/spurious_cleaned.RData')
 dplyr::filter(spurious,
               sd == 3 & town %in% c('Bishop Auckland', 'Whitehaven',
