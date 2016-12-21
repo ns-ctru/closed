@@ -8,7 +8,7 @@ capture log c
 version 14.1
 /* Conditionally set the base directory                             */
 if("`c(os)'" == "Unix"){
-    local base_dir "~/work/closed/hta_report/"
+    local base_dir "~/work/closed/nihr_report/"
 }
 else{
     di "This scripts will only run on the mcru-closed-hp Virtual Machine due to restrictions on data security."
@@ -77,7 +77,119 @@ keep if(town_string == "Bishop Auckland" | ///
         town_string == "Hemel Hempstead" | ///
         town_string == "Newark"          | ///
         town_string == "Rochdale")
-    /* Model 1                                                        */
+/* 2016-12-21 Quite a few sites need excluding from models >= 2 do so here   */
+if("`measure'" != "ed attendances" & "`sub_measure'" != "any"){
+    drop if(town_string == "Grimsby")
+}
+if("`measure'" != "ed attendances" & "`sub_measure'" != "ambulance"){
+    drop if(town_string == "Grimsby")
+}
+if("`measure'" != "unnecessary ed attendances" & "`sub_measure'" != "all"){
+    drop if(town_string == "Hartlepool")
+}
+if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to dest"){
+    drop if(town_string == "White Haven")
+}
+if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to dest"){
+    drop if(town_string == "Grimsby")
+}
+if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to dest"){
+    drop if(town_string == "Hemel Hempstead")
+}
+if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene any"){
+    drop if(town_string == "White Haven")
+}
+if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene any"){
+    drop if(town_string == "Grimsby")
+    }
+if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "call to scene any"){
+    drop if(town_string == "Hemel Hempstead")
+}
+if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "call to scene any"){
+    drop if(town_string == "Newark")
+}
+if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "call to scene any"){
+    drop if(town_string == "Hemel Hempstead")
+}
+if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene conveying"){
+    drop if(town_string == "White Haven")
+}
+if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene conveying"){
+    drop if(town_string == "Grimsby")
+}
+if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene conveying"){
+    drop if(town_string == "Hemel Hempstead")
+}
+if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene conveying"){
+    drop if(town_string == "Newark")
+}
+if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "call to scene conveying"){
+    drop if(town_string == "Rochdale")
+}
+if("`measure'" != "ambulance mean times" & "`sub_measure'" != "scene to dest"){
+    drop if(town_string == "Grimsby")
+}
+if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "scene to dest"){
+    drop if(town_string == "Hemel Hempstead")
+}
+if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "scene to dest"){
+    drop if(town_string == "Newark")
+}
+if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "scene to dest"){
+    drop if(town_string == "Rochdale")
+}
+if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "dest to clear"){
+    drop if(town_string == "White Haven")
+}
+if("`measure'" != "ambulance mean times" & "`sub_measure'" != "dest to clear"){
+    drop if(town_string == "Grimsby")
+}
+if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "dest to clear"){
+    drop if(town_string == "Hemel Hempstead")
+}
+if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "dest to clear"){
+    drop if(town_string == "Newark")
+}
+if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "dest to clear"){
+    drop if(town_string == "Rochdale")
+}
+if("`measure'" != "ambulance green calls" & "`sub_measure'" != "green calls"){
+    drop if(town_string == "Grimsby")
+}
+if("`measure'" != "ambulance green calls" & "`sub_measure'" != "green calls"){
+    drop if(town_string == "Warwick")
+}
+if("`measure'" != "ambulance green calls" & "`sub_measure'" != "green calls"){
+    drop if(town_string == "Newark")
+}
+if("`measure'" != "ambulance green calls" & "`sub_measure'" != "fraction not conveyed"){
+    drop if(town_string == "Grimsby")
+}
+if("`measure'" != "ambulance green calls" & "`sub_measure'" != "fraction not conveyed"){
+    drop if(town_string == "Warwick")
+}
+if("`measure'" != "ambulance green calls" & "`sub_measure'" != "fraction not conveyed"){
+    drop if(town_string == "Newark")
+}
+if("`measure'" != "ambulance red calls" & "`sub_measure'" != "hospital transfers"){
+    drop if(town_string == "Grimsby")
+}
+if("`measure'" != "ambulance red calls" & "`sub_measure'" != "hospital transfers"){
+    drop if(town_string == "Warwick")
+}
+if("`measure'" != "ambulance red calls" & "`sub_measure'" != "hospital transfers"){
+    drop if(town_string == "Newark")
+}
+if("`measure'" != "ambulance red calls" & "`sub_measure'" != "total"){
+    drop if(town_string == "Grimsby")
+}
+if("`measure'" != "ambulance red calls" & "`sub_measure'" != "total"){
+    drop if(town_string == "Warwick")
+}
+if("`measure'" != "ambulance red calls" & "`sub_measure'" != "total"){
+    drop if(town_string == "Newark")
+}
+/* Model 1                                                        */
 xtnbreg `outcome' `model7_1', iterate(`iter') ltolerance(`ltolerance') nrtolerance(`nrtolerance')
 parmest, saving("`base_dir'/data/results/model7_1.dta", replace) eform label
 use "`base_dir'/data/results/model7_1.dta", clear
