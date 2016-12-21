@@ -85,11 +85,11 @@ Table: Indicators of Ambulance, ED and Hospital performance tested.
 
 |Indicator                         | Source    | Measure                          | Sub Measure            | Type         | Description
 |----------------------------------|-----------|----------------------------------|------------------------|--------------|--------------------------------
-| **Ambulance Service Performance** | AS       | `ambulance mean times`           | `call_to_dest`           | `mean`     | Mean time from 999 call to destination (ED).
-|                                   |          | `ambulance mean times`           | `call_to_scene_any`      | `mean`     | Mean time from 999 call to scene for all calls.
-|                                   |          | `ambulance mean times`           | `call_to_scene_conveying`| `mean`     | Mean time from 999 call to scene for calls that resulted in conveynace.
-|                                   |          | `ambulance mean times`           | `scene_to_dest`          | `mean`     | Mean time from scene to destination (ED).
-|                                   |          | `ambulance mean times`           | `dest_to_clear`          | `mean`     | Mean time from destination (ED) to being clear.
+| **Ambulance Service Performance** | AS       | `ambulance mean times`           | `call to dest`           | `mean`     | Mean time from 999 call to destination (ED).
+|                                   |          | `ambulance mean times`           | `call to scene any`      | `mean`     | Mean time from 999 call to scene for all calls.
+|                                   |          | `ambulance mean times`           | `call to scene conveying`| `mean`     | Mean time from 999 call to scene for calls that resulted in conveynace.
+|                                   |          | `ambulance mean times`           | `scene to dest`          | `mean`     | Mean time from scene to destination (ED).
+|                                   |          | `ambulance mean times`           | `dest to clear`          | `mean`     | Mean time from destination (ED) to being clear.
 | **Emergency Attendance**          | HES-AE   | `ed attendances`                 | `all`                  | `count`      | All ED attendances by any mode.
 |                                   |          | `ed attendances`                 | `ambulance`            | `count`      | All ED attendances by any mode.
 |                                   |          | `ed attendances`                 | `other`                | `count`      | All ED attendances by any mode.
