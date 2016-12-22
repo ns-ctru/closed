@@ -1673,32 +1673,37 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## All                                          ##
         ##################################################
         t <- df4
-        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
-           town.group$n[town.group$town == 'Whitehaven'] > 0 &
-           town.group$n[town.group$town == 'Hartlepool'] > 0 &
-           town.group$n[town.group$town == 'Grimsby'] > 0 &
-           town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
-           town.group$n[town.group$town == 'Warwick'] > 0 &
-           town.group$n[town.group$town == 'Newark'] > 0 &
-           town.group$n[town.group$town == 'Southport'] > 0 &
-           town.group$n[town.group$town == 'Rochdale'] > 0 &
-           town.group$n[town.group$town == 'Rotherham'] > 0){
-            t$town <- relevel(t$town, ref = 'Grimsby')
-            model4.panelar <- panelAR(data     = t,
-                                      formula  = formula.model4,
-                                      timeVar  = timevar,
-                                      panelVar = panel.trust,
-                                      autoCorr = autocorr,
-                                      panelCorrMethod = 'pcse',
-                                      complete.case = complete.case,
-                                      seq.times = seq.times,
-                                      rho.na.rm = rho.na.rm)
-            results$model4.panelar.all.coef <- extract_coefficients(x              = model4.panelar,
+        ## if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
+        ##    town.group$n[town.group$town == 'Whitehaven'] > 0 &
+        ##    town.group$n[town.group$town == 'Hartlepool'] > 0 &
+        ##    town.group$n[town.group$town == 'Grimsby'] > 0 &
+        ##    town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
+        ##    town.group$n[town.group$town == 'Warwick'] > 0 &
+        ##    town.group$n[town.group$town == 'Newark'] > 0 &
+        ##    town.group$n[town.group$town == 'Southport'] > 0 &
+        ##    town.group$n[town.group$town == 'Rochdale'] > 0 &
+        ##    town.group$n[town.group$town == 'Rotherham'] > 0){
+        t$town <- relevel(t$town, ref = 'Rotherham')
+        if(remove.spurious == TRUE){
+            df4 <- drop_spurious(df             = df4,
+                                 .indicator     = indicator,
+                                 .sub.indicator = sub.indicator)
+        }
+        model4.panelar <- panelAR(data     = t,
+                                  formula  = formula.model4,
+                                  timeVar  = timevar,
+                                  panelVar = panel.trust,
+                                  autoCorr = autocorr,
+                                  panelCorrMethod = 'pcse',
+                                  complete.case = complete.case,
+                                  seq.times = seq.times,
+                                  rho.na.rm = rho.na.rm)
+        results$model4.panelar.all.coef <- extract_coefficients(x              = model4.panelar,
                                                                 .site          = 'All',
                                                                 .indicator     = indicator,
                                                                 .sub.indicator = sub.indicator)
-            results$model4.panelar.r2 <- model4.panelar$r2
-        }
+        results$model4.panelar.r2 <- model4.panelar$r2
+        ## }
         ## Summary table
         if(!is.null(results$model2.panelar.bishop.coef)     |
            !is.null(results$model2.panelar.hartlepool.coef) |
@@ -1769,42 +1774,47 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## All sites                                    ##
         ##################################################
         t <- df5
-        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
-           town.group$n[town.group$town == 'Salford'] > 0 &
-           town.group$n[town.group$town == 'Scarborough'] > 0 &
-           town.group$n[town.group$town == 'Whitehaven'] > 0 &
-           town.group$n[town.group$town == 'Hartlepool'] > 0 &
-           town.group$n[town.group$town == 'Blackburn'] > 0 &
-           town.group$n[town.group$town == 'Grimsby'] > 0 &
-           town.group$n[town.group$town == 'Wigan'] > 0 &
-           town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
-           town.group$n[town.group$town == 'Basingstoke'] > 0 &
-           town.group$n[town.group$town == 'Warwick'] > 0 &
-           town.group$n[town.group$town == 'Yeovil'] > 0 &
-           town.group$n[town.group$town == 'Newark'] > 0 &
-           town.group$n[town.group$town == 'Carlisle'] > 0 &
-           town.group$n[town.group$town == 'Salisbury'] > 0 &
-           town.group$n[town.group$town == 'Southport'] > 0 &
-           town.group$n[town.group$town == 'Rochdale'] > 0 &
-           town.group$n[town.group$town == 'Rotherham'] > 0 &
-           town.group$n[town.group$town == 'Scunthorpe'] > 0 &
-           town.group$n[town.group$town == 'Wansbeck'] > 0){
-            t$town <- relevel(t$town, ref = 'Grimsby')
-            model5.panelar <- panelAR(data     = t,
-                                      formula  = formula.model5,
-                                      timeVar  = timevar,
-                                      panelVar = panel.trust,
-                                      autoCorr = autocorr,
-                                      panelCorrMethod = 'pcse',
-                                      complete.case = complete.case,
-                                      seq.times = seq.times,
-                                      rho.na.rm = rho.na.rm)
-            results$model5.panelar.all.coef <- extract_coefficients(x              = model5.panelar,
-                                                                    .site          = 'All',
-                                                                    .indicator     = indicator,
-                                                                    .sub.indicator = sub.indicator)
-            results$model5.panelar.r2 <- model5.panelar$r2
+        ## if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
+        ##    town.group$n[town.group$town == 'Salford'] > 0 &
+        ##    town.group$n[town.group$town == 'Scarborough'] > 0 &
+        ##    town.group$n[town.group$town == 'Whitehaven'] > 0 &
+        ##    town.group$n[town.group$town == 'Hartlepool'] > 0 &
+        ##    town.group$n[town.group$town == 'Blackburn'] > 0 &
+        ##    town.group$n[town.group$town == 'Grimsby'] > 0 &
+        ##    town.group$n[town.group$town == 'Wigan'] > 0 &
+        ##    town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
+        ##    town.group$n[town.group$town == 'Basingstoke'] > 0 &
+        ##    town.group$n[town.group$town == 'Warwick'] > 0 &
+        ##    town.group$n[town.group$town == 'Yeovil'] > 0 &
+        ##    town.group$n[town.group$town == 'Newark'] > 0 &
+        ##    town.group$n[town.group$town == 'Carlisle'] > 0 &
+        ##    town.group$n[town.group$town == 'Salisbury'] > 0 &
+        ##    town.group$n[town.group$town == 'Southport'] > 0 &
+        ##    town.group$n[town.group$town == 'Rochdale'] > 0 &
+        ##    town.group$n[town.group$town == 'Rotherham'] > 0 &
+        ##    town.group$n[town.group$town == 'Scunthorpe'] > 0 &
+        ##    town.group$n[town.group$town == 'Wansbeck'] > 0){
+        t$town <- relevel(t$town, ref = 'Rotherham')
+        if(remove.spurious == TRUE){
+            df5 <- drop_spurious(df             = df5,
+                                 .indicator     = indicator,
+                                 .sub.indicator = sub.indicator)
         }
+        model5.panelar <- panelAR(data     = t,
+                                  formula  = formula.model5,
+                                  timeVar  = timevar,
+                                  panelVar = panel.trust,
+                                  autoCorr = autocorr,
+                                  panelCorrMethod = 'pcse',
+                                  complete.case = complete.case,
+                                  seq.times = seq.times,
+                                  rho.na.rm = rho.na.rm)
+        results$model5.panelar.all.coef <- extract_coefficients(x              = model5.panelar,
+                                                                .site          = 'All',
+                                                                .indicator     = indicator,
+                                                                .sub.indicator = sub.indicator)
+        results$model5.panelar.r2 <- model5.panelar$r2
+        ## }
         ## Summary table
         if(!is.null(results$model3.1.panelar.bishop.coef) |
            !is.null(results$model3.1.panelar.hartlepool.coef) |
@@ -2346,11 +2356,16 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         t <- dplyr::filter(df7.1,
                     measure     == indicator &
                     sub.measure == sub.indicator)
-        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
-           town.group$n[town.group$town == 'Hartlepool'] > 0 &
-           town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
-           town.group$n[town.group$town == 'Newark'] > 0 &
-           town.group$n[town.group$town == 'Rochdale'] > 0){
+        ## if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
+        ##    town.group$n[town.group$town == 'Hartlepool'] > 0 &
+        ##    town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
+        ##    town.group$n[town.group$town == 'Newark'] > 0 &
+        ##    town.group$n[town.group$town == 'Rochdale'] > 0){
+        if(remove.spurious == TRUE){
+            t <- drop_spurious(df             = t,
+                               .indicator     = indicator,
+                               .sub.indicator = sub.indicator)
+        }
             ## Getting errors with complete.case == TRUE...
             ##
             ## Error: Unable to compute correlated SEs / PCSEs because there are no time
@@ -2361,22 +2376,22 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             ## switching.
             ## if(indicator == 'length of stay')      complete.case <- FALSE
             ## if(indicator == 'case fatality ratio') complete.case <- FALSE
-            complete.case <- FALSE
-            model7.1.panelar <- panelAR(data     = t,
-                                      formula  = formula.model7.1,
-                                      timeVar  = timevar,
-                                      panelVar = 'town.lsoa',
-                                      autoCorr = autocorr,
-                                      panelCorrMethod = 'pcse',
-                                      complete.case = complete.case,
-                                      seq.times = seq.times,
-                                      rho.na.rm = rho.na.rm)
-            results$model7.1.panelar.all.coef <- extract_coefficients(x              = model7.1.panelar,
-                                                                .site          = 'All',
-                                                                .indicator     = indicator,
-                                                                .sub.indicator = sub.indicator)
-            results$model7.1.panelar.r2 <- model7.1.panelar$r2
-        }
+        complete.case <- FALSE
+        model7.1.panelar <- panelAR(data     = t,
+                                    formula  = formula.model7.1,
+                                    timeVar  = timevar,
+                                    panelVar = 'town.lsoa',
+                                    autoCorr = autocorr,
+                                    panelCorrMethod = 'pcse',
+                                    complete.case = complete.case,
+                                    seq.times = seq.times,
+                                    rho.na.rm = rho.na.rm)
+        results$model7.1.panelar.all.coef <- extract_coefficients(x              = model7.1.panelar,
+                                                                  .site          = 'All',
+                                                                  .indicator     = indicator,
+                                                                  .sub.indicator = sub.indicator)
+        results$model7.1.panelar.r2 <- model7.1.panelar$r2
+        ## }
         ## Summary table
         if(!is.null(results$model6.1.panelar.bishop.coef) |
            !is.null(results$model6.1.panelar.hartlepool.coef) |
@@ -2460,43 +2475,48 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         t <- dplyr::filter(df7.2,
                     measure     == indicator &
                     sub.measure == sub.indicator)
-        if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
-           town.group$n[town.group$town == 'Whitehaven'] > 0 &
-           town.group$n[town.group$town == 'Hartlepool'] > 0 &
-           town.group$n[town.group$town == 'Grimsby'] > 0 &
-           town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
-           town.group$n[town.group$town == 'Warwick'] > 0 &
-           town.group$n[town.group$town == 'Newark'] > 0 &
-           town.group$n[town.group$town == 'Southport'] > 0 &
-           town.group$n[town.group$town == 'Rochdale'] > 0 &
-           town.group$n[town.group$town == 'Rotherham'] > 0){
-            t$town <- relevel(t$town, ref = 'Grimsby')
-            ## Getting errors with complete.case == TRUE...
-            ##
-            ## Error: Unable to compute correlated SEs / PCSEs because there are no time
-            ## periods in common across all units. Instead, consider setting
-            ## complete.case =FALSE.
-            ##
-            ## ...so have opted for that for ALL LSOA analyses rather than conditionally
-            ## switching.
-            ## if(indicator == 'length of stay')      complete.case <- FALSE
-            ## if(indicator == 'case fatality ratio') complete.case <- FALSE
-            complete.case <- FALSE
-            model7.2.panelar <- panelAR(data     = t,
-                                      formula  = formula.model7.2,
-                                      timeVar  = timevar,
-                                      panelVar = 'town.lsoa',
-                                      autoCorr = autocorr,
-                                      panelCorrMethod = 'pcse',
-                                      complete.case = complete.case,
-                                      seq.times = seq.times,
-                                      rho.na.rm = rho.na.rm)
-            results$model7.2.panelar.all.coef <- extract_coefficients(x              = model7.2.panelar,
-                                                                .site          = 'All',
-                                                                .indicator     = indicator,
-                                                                .sub.indicator = sub.indicator)
-            results$model7.2.panelar.r2 <- model7.2.panelar$r2
+        ## if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 &
+        ##    town.group$n[town.group$town == 'Whitehaven'] > 0 &
+        ##    town.group$n[town.group$town == 'Hartlepool'] > 0 &
+        ##    town.group$n[town.group$town == 'Grimsby'] > 0 &
+        ##    town.group$n[town.group$town == 'Hemel Hempstead'] > 0 &
+        ##    town.group$n[town.group$town == 'Warwick'] > 0 &
+        ##    town.group$n[town.group$town == 'Newark'] > 0 &
+        ##    town.group$n[town.group$town == 'Southport'] > 0 &
+        ##    town.group$n[town.group$town == 'Rochdale'] > 0 &
+        ##    town.group$n[town.group$town == 'Rotherham'] > 0){
+        t$town <- relevel(t$town, ref = 'Grimsby')
+        if(remove.spurious == TRUE){
+            t <- drop_spurious(df             = t,
+                               .indicator     = indicator,
+                               .sub.indicator = sub.indicator)
         }
+        ## Getting errors with complete.case == TRUE...
+        ##
+        ## Error: Unable to compute correlated SEs / PCSEs because there are no time
+        ## periods in common across all units. Instead, consider setting
+        ## complete.case =FALSE.
+        ##
+        ## ...so have opted for that for ALL LSOA analyses rather than conditionally
+        ## switching.
+        ## if(indicator == 'length of stay')      complete.case <- FALSE
+        ## if(indicator == 'case fatality ratio') complete.case <- FALSE
+        complete.case <- FALSE
+        model7.2.panelar <- panelAR(data     = t,
+                                    formula  = formula.model7.2,
+                                    timeVar  = timevar,
+                                    panelVar = 'town.lsoa',
+                                    autoCorr = autocorr,
+                                    panelCorrMethod = 'pcse',
+                                    complete.case = complete.case,
+                                    seq.times = seq.times,
+                                    rho.na.rm = rho.na.rm)
+        results$model7.2.panelar.all.coef <- extract_coefficients(x              = model7.2.panelar,
+                                                                  .site          = 'All',
+                                                                  .indicator     = indicator,
+                                                                  .sub.indicator = sub.indicator)
+        results$model7.2.panelar.r2 <- model7.2.panelar$r2
+        ## }
         ## Summary table
         if(!is.null(results$model6.1.panelar.bishop.coef) |
            !is.null(results$model6.1.panelar.hartlepool.coef) |
