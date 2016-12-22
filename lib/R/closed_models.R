@@ -2791,117 +2791,78 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                 estimate)
     ## 2016-12-22 - Conditionally remove the models which are not to be run due to spurious data
     if(remove.spurious == TRUE){
-        to.remove <- c('Model 2', 'Model 3.1', 'Model 3.2', 'Model 4', 'Model 5', 'Model 6.1', 'Model 6.2', 'Model 7.1', 'Model 7.2')
+        to.remove <- c('Model 2', 'Model 3.1', 'Model 3.2', 'Model 6.1', 'Model 6.2')
         if(indicator == 'ed attendances' & sub.indicator == 'any'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hartlepool' & !(model %in% to.remove))
+            results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
+                                                        !(town == 'Hartlepool' & model %in% to.remove))
         }
         if(indicator == 'ed attendances' & sub.indicator == 'ambulance'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hartlepool' & !(model %in% to.remove))
+            results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
+                                                        !(town == 'Hartlepool' & model %in% to.remove))
         }
         if(indicator == 'unnecessary ed attendances' & sub.indicator == 'all'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hartlepool' & !(model %in% to.remove))
+            results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
+                                                        !(town == 'Hartlepool' & model %in% to.remove))
         }
         if(indicator == 'ambulance mean times' & sub.indicator == 'call to dest'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Bishop Auckland' & !(model %in% to.remove))
-        }
-        if(indicator == 'ambulance mean times' & sub.indicator == 'call to dest'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hartlepool' & !(model %in% to.remove))
-        }
-        if(indicator == 'ambulance mean times' & sub.indicator == 'call to dest'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hemel Hempstead' & !(model %in% to.remove))
+            results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
+                                                        !(town == 'Bishop Auckland' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Hartlepool' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Hemel Hempstead' & model %in% to.remove))
         }
         if(indicator == 'ambulance mean times' & sub.indicator == 'call to scene any'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Bishop Auckland' & !(model %in% to.remove))
-        }
-        if(indicator == 'ambulance mean times' & sub.indicator == 'call to scene any'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hartlepool' & !(model %in% to.remove))
-        }
-        if(indicator== 'ambulance mean times' & sub.indicator == 'call to scene any'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hemel Hempstead' & !(model %in% to.remove))
-        }
-        if(indicator== 'ambulance mean times' & sub.indicator == 'call to scene any'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Newark' & !(model %in% to.remove))
-        }
-        if(indicator== 'ambulance mean times' & sub.indicator == 'call to scene any'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hemel Hempstead' & !(model %in% to.remove))
+            results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
+                                                        !(town == 'Bishop Auckland' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Hartlepool' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Hemel Hempstead' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Newark' & model %in% to.remove))
         }
         if(indicator == 'ambulance mean times' & sub.indicator == 'call to scene conveying'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Bishop Auckland' & !(model %in% to.remove))
-        }
-        if(indicator == 'ambulance mean times' & sub.indicator == 'call to scene conveying'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hartlepool' & !(model %in% to.remove))
-        }
-        if(indicator == 'ambulance mean times' & sub.indicator == 'call to scene conveying'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hemel Hempstead' & !(model %in% to.remove))
-        }
-        if(indicator == 'ambulance mean times' & sub.indicator == 'call to scene conveying'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Newark' & !(model %in% to.remove))
-        }
-        if(indicator== 'ambulance mean times' & sub.indicator == 'call to scene conveying'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Rochdale' & !(model %in% to.remove))
+            results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
+                                                        !(town == 'Bishop Auckland' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Hartlepool' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Hemel Hempstead' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Newark' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Rochdale' & model %in% to.remove))
         }
         if(indicator == 'ambulance mean times' & sub.indicator == 'scene to dest'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hartlepool' & !(model %in% to.remove))
-        }
-        if(indicator== 'ambulance mean times' & sub.indicator == 'scene to dest'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hemel Hempstead' & !(model %in% to.remove))
-        }
-        if(indicator== 'ambulance mean times' & sub.indicator == 'scene to dest'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Newark' & !(model %in% to.remove))
-        }
-        if(indicator== 'ambulance mean times' & sub.indicator == 'scene to dest'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Rochdale' & !(model %in% to.remove))
+            results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
+                                                        !(town == 'Hartlepool' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Hemel Hempstead' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Newark' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Rochdale' & model %in% to.remove))
         }
         if(indicator== 'ambulance mean times' & sub.indicator == 'dest to clear'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Bishop Auckland' & !(model %in% to.remove))
-        }
-        if(indicator == 'ambulance mean times' & sub.indicator == 'dest to clear'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hartlepool' & !(model %in% to.remove))
-        }
-        if(indicator== 'ambulance mean times' & sub.indicator == 'dest to clear'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hemel Hempstead' & !(model %in% to.remove))
-        }
-        if(indicator== 'ambulance mean times' & sub.indicator == 'dest to clear'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Newark' & !(model %in% to.remove))
-        }
-        if(indicator== 'ambulance mean times' & sub.indicator == 'dest to clear'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Rochdale' & !(model %in% to.remove))
+            results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
+                                                        !(town == 'Bishop Auckland' & model %in% to.remove))%>%
+                                          dplyr::filter(!(town == 'Hartlepool' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Hemel Hempstead' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Newark' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Rochdale' & model %in% to.remove))
         }
         if(indicator == 'ambulance green calls' & sub.indicator == 'green calls'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hartlepool' & !(model %in% to.remove))
-        }
-        if(indicator == 'ambulance green calls' & sub.indicator == 'green calls'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hemel Hempstead' & !(model %in% to.remove))
-        }
-        if(indicator == 'ambulance green calls' & sub.indicator == 'green calls'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Newark' & !(model %in% to.remove))
+            results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
+                                                        !(town == 'Hartlepool' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Hemel Hempstead' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Newark' & model %in% to.remove))
         }
         if(indicator == 'ambulance green calls' & sub.indicator == 'fraction not conveyed'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hartlepool' & !(model %in% to.remove))
-        }
-        if(indicator == 'ambulance green calls' & sub.indicator == 'fraction not conveyed'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hemel Hempstead' & !(model %in% to.remove))
-        }
-        if(indicator == 'ambulance green calls' & sub.indicator == 'fraction not conveyed'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Newark' & !(model %in% to.remove))
+            results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
+                                                        !(town == 'Hartlepool' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Hemel Hempstead' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Newark' & model %in% to.remove))
         }
         if(indicator == 'ambulance red calls' & sub.indicator == 'hospital transfers'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hartlepool' & !(model %in% to.remove))
-        }
-        if(indicator == 'ambulance red calls' & sub.indicator == 'hospital transfers'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hemel Hempstead' & !(model %in% to.remove))
-        }
-        if(indicator == 'ambulance red calls' & sub.indicator == 'hospital transfers'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Newark' & !(model %in% to.remove))
+            results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
+                                                        !(town == 'Hartlepool' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Hemel Hempstead' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Newark' & model %in% to.remove))
         }
         if(indicator == 'ambulance red calls' & sub.indicator == 'total'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hartlepool' & !(model %in% to.remove))
-        }
-        if(indicator == 'ambulance red calls' & sub.indicator == 'total'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Hemel Hempstead' & !(model %in% to.remove))
-        }
-        if(indicator == 'ambulance red calls' & sub.indicator == 'total'){
-            results$summary.table.tail <- dplyr::filter(results$summary.table.tail, town == 'Newark' & !(model %in% to.remove))
+            results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
+                                                        !(town == 'Hartlepool' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Hemel Hempstead' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Newark' & model %in% to.remove))
         }
     }
     results$summary.table.tail$Before_mean.sd    <- NA
