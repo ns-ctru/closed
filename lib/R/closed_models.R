@@ -218,7 +218,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$summary.table.head$group[results$summary.table.head$town %in% c('Rochdale', 'Rotherham', 'Scunthorpe', 'Wansbeck')] <- 'Rochdale'
     ## Add indicator for primary control...
     if(rm.unused.control == TRUE){
-        results$summary.table.head <- filter(results$summary.table.head,
+        results$summary.table.head <- dplyr::filter(results$summary.table.head,
                                              town %in% c('Bishop Auckland', 'Whitehaven',
                                                          'Hartlepool', 'Grimsby',
                                                          'Hemel Hempstead', 'Warwick',
@@ -2767,6 +2767,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                 town,
                                                 model,
                                                 estimate)
+    ## 2016-12-22 - Conditionally remove the models which are not to be run due to spurious data
+    if('indicator')
     results$summary.table.tail$Before_mean.sd    <- NA
     results$summary.table.tail$Before_median.iqr <- results$summary.table.tail$model
     results$summary.table.tail$Before_min.max    <- NA
@@ -2782,13 +2784,14 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                          order1 = ifelse(model == 'Model 0.5', 1, order1),
                                          order1 = ifelse(model == 'Model 1',   2, order1),
                                          order1 = ifelse(model == 'Model 2',   3, order1),
-                                         order1 = ifelse(model == 'Model 3',   4, order1),
-                                         order1 = ifelse(model == 'Model 4',   5, order1),
-                                         order1 = ifelse(model == 'Model 5',   6, order1),
-                                         order1 = ifelse(model == 'Model 6.1', 7, order1),
-                                         order1 = ifelse(model == 'Model 6.2', 8, order1),
-                                         order1 = ifelse(model == 'Model 7.1', 9, order1),
-                                         order1 = ifelse(model == 'Model 7.2', 10, order1),
+                                         order1 = ifelse(model == 'Model 3.1', 4, order1),
+                                         order1 = ifelse(model == 'Model 3.2', 5, order1),
+                                         order1 = ifelse(model == 'Model 4',   6, order1),
+                                         order1 = ifelse(model == 'Model 5',   7, order1),
+                                         order1 = ifelse(model == 'Model 6.1', 8, order1),
+                                         order1 = ifelse(model == 'Model 6.2', 9, order1),
+                                         order1 = ifelse(model == 'Model 7.1', 10, order1),
+                                         order1 = ifelse(model == 'Model 7.2', 11, order1),
                                          order2 = ifelse(town == 'Bishop Auckland', 1, order2),
                                          order2 = ifelse(town == 'Hartlepool',      2, order2),
                                          order2 = ifelse(town == 'Hemel Hempstead', 3, order2),
