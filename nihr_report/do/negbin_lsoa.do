@@ -52,161 +52,161 @@ local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 /* Run Analyses for within centres                                      */
 foreach x of local sites{
     use "`data'", clear
+    local y = subinstr("`x'", "_", " ", .)
     /* Model 6.1                                                        */
     di ""
-    di "`x' : Model 6.1"
+    di "`y' : Model 6.1"
     di ""
     /* 2016-12-21 Quite a few sites need excluding from models >= 2 do so here   */
-    if("`y'" == "Hartlepool" & "`measure'" != "ed attendances" & "`sub_measure'" != "any"){
+    if("`y'" == "Hartlepool" & "`measure'" == "ed attendances" & "`sub_measure'" == "any"){
         local remove_results = "true"
         di "We have set remove_results to : `remove_results'"
         /* drop if(town_string == "Grimsby") */
     }
-    if("`y'" == "Hartlepool" & "`measure'" != "ed attendances" & "`sub_measure'" != "ambulance"){
+    if("`y'" == "Hartlepool" & "`measure'" == "ed attendances" & "`sub_measure'" == "ambulance"){
         local remove_results = "true"
         /* drop if(town_string == "Grimsby") */
     }
-    if("`y'" == "Hartlepool" & "`measure'" != "unnecessary ed attendances" & "`sub_measure'" != "all"){
+    if("`y'" == "Hartlepool" & "`measure'" == "unnecessary ed attendances" & "`sub_measure'" == "all"){
         local remove_results = "true"
         /* drop if(town_string == "Hartlepool") */
     }
-    if("`y'" == "Bishop Auckland" & "`measure'" != "ambulance mean times" & "`sub_measure'" != "call to dest"){
+    if("`y'" == "Bishop Auckland" & "`measure'" == "ambulance mean times" & "`sub_measure'" == "call to dest"){
         local remove_results = "true"
         /* drop if(town_string == "Whitehaven") */
     }
-    if("`y'" == "Hartlepool" & "`measure'" != "ambulance mean times" & "`sub_measure'" != "call to dest"){
+    if("`y'" == "Hartlepool" & "`measure'" == "ambulance mean times" & "`sub_measure'" == "call to dest"){
         local remove_results = "true"
         /* drop if(town_string == "Grimsby") */
     }
-    if("`y'" == "Hemel Hempstead" & "`measure'" != "ambulance mean times" & "`sub_measure'" != "call to dest"){
+    if("`y'" == "Hemel Hempstead" & "`measure'" == "ambulance mean times" & "`sub_measure'" == "call to dest"){
         local remove_results = "true"
         /* drop if(town_string == "Hemel Hempstead") */
     }
-    if("`y'" == "Bishop Auckland" & "`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene any"){
+    if("`y'" == "Bishop Auckland" & "`measure'" == "ambulance mean times" & "`sub_measure'" == "call to scene any"){
         local remove_results = "true"
         /* drop if(town_string == "Whitehaven") */
     }
-    if("`y'" == "Hartlepool" & "`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene any"){
+    if("`y'" == "Hartlepool" & "`measure'" == "ambulance mean times" & "`sub_measure'" == "call to scene any"){
         local remove_results = "true"
         /* drop if(town_string == "Grimsby") */
     }
-    if("`y'" == "Hemel Hempstead" & "`measure'"!= "ambulance mean times" & "`sub_measure'" != "call to scene any"){
+    if("`y'" == "Hemel Hempstead" & "`measure'"== "ambulance mean times" & "`sub_measure'" == "call to scene any"){
         local remove_results = "true"
         /* drop if(town_string == "Hemel Hempstead") */
     }
-    if("`y'" == "Newark" & "`measure'"!= "ambulance mean times" & "`sub_measure'" != "call to scene any"){
+    if("`y'" == "Newark" & "`measure'"== "ambulance mean times" & "`sub_measure'" == "call to scene any"){
         local remove_results = "true"
         /* drop if(town_string == "Newark") */
     }
-    if("`y'" == "Hemel Hempstead" & "`measure'"!= "ambulance mean times" & "`sub_measure'" != "call to scene any"){
+    if("`y'" == "Hemel Hempstead" & "`measure'"== "ambulance mean times" & "`sub_measure'" == "call to scene any"){
         local remove_results = "true"
         /* drop if(town_string == "Hemel Hempstead") */
     }
-    if("`y'" == "Bishop Auckland" & "`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene conveying"){
+    if("`y'" == "Bishop Auckland" & "`measure'" == "ambulance mean times" & "`sub_measure'" == "call to scene conveying"){
         local remove_results = "true"
         /* drop if(town_string == "Whitehaven") */
     }
-    if("`y'" == "Hartlepool" & "`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene conveying"){
+    if("`y'" == "Hartlepool" & "`measure'" == "ambulance mean times" & "`sub_measure'" == "call to scene conveying"){
         local remove_results = "true"
         /* drop if(town_string == "Grimsby") */
     }
-    if("`y'" == "Hemel Hempstead" & "`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene conveying"){
+    if("`y'" == "Hemel Hempstead" & "`measure'" == "ambulance mean times" & "`sub_measure'" == "call to scene conveying"){
         local remove_results = "true"
         /* drop if(town_string == "Hemel Hempstead") */
     }
-    if("`y'" == "Newark" & "`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene conveying"){
+    if("`y'" == "Newark" & "`measure'" == "ambulance mean times" & "`sub_measure'" == "call to scene conveying"){
         local remove_results = "true"
         /* drop if(town_string == "Newark") */
     }
-    if("`y'" == "Rochdale" & "`measure'"!= "ambulance mean times" & "`sub_measure'" != "call to scene conveying"){
+    if("`y'" == "Rochdale" & "`measure'"== "ambulance mean times" & "`sub_measure'" == "call to scene conveying"){
         local remove_results = "true"
         /* drop if(town_string == "Rochdale") */
     }
-    if("`y'" == "Hartlepool" & "`measure'" != "ambulance mean times" & "`sub_measure'" != "scene to dest"){
+    if("`y'" == "Hartlepool" & "`measure'" == "ambulance mean times" & "`sub_measure'" == "scene to dest"){
         local remove_results = "true"
         /* drop if(town_string == "Grimsby") */
     }
-    if("`y'" == "Hemel Hempstead" & "`measure'"!= "ambulance mean times" & "`sub_measure'" != "scene to dest"){
+    if("`y'" == "Hemel Hempstead" & "`measure'"== "ambulance mean times" & "`sub_measure'" == "scene to dest"){
         local remove_results = "true"
         /* drop if(town_string == "Hemel Hempstead") */
     }
-    if("`y'" == "Newark" & "`measure'"!= "ambulance mean times" & "`sub_measure'" != "scene to dest"){
+    if("`y'" == "Newark" & "`measure'"== "ambulance mean times" & "`sub_measure'" == "scene to dest"){
         local remove_results = "true"
         /* drop if(town_string == "Newark") */
     }
-    if("`y'" == "Rochdale" & "`measure'"!= "ambulance mean times" & "`sub_measure'" != "scene to dest"){
+    if("`y'" == "Rochdale" & "`measure'"== "ambulance mean times" & "`sub_measure'" == "scene to dest"){
         local remove_results = "true"
         /* drop if(town_string == "Rochdale") */
     }
-    if("`y'" == "Whitehaven" & "`measure'"!= "ambulance mean times" & "`sub_measure'" != "dest to clear"){
+    if("`y'" == "Bishop Auckland" & "`measure'"== "ambulance mean times" & "`sub_measure'" == "dest to clear"){
         local remove_results = "true"
         /* drop if(town_string == "Whitehaven") */
     }
-    if("`y'" == "Hartlepool" & "`measure'" != "ambulance mean times" & "`sub_measure'" != "dest to clear"){
+    if("`y'" == "Hartlepool" & "`measure'" == "ambulance mean times" & "`sub_measure'" == "dest to clear"){
         local remove_results = "true"
         /* drop if(town_string == "Grimsby") */
     }
-    if("`y'" == "Hemel Hempstead" & "`measure'"!= "ambulance mean times" & "`sub_measure'" != "dest to clear"){
+    if("`y'" == "Hemel Hempstead" & "`measure'"== "ambulance mean times" & "`sub_measure'" == "dest to clear"){
         local remove_results = "true"
         /* drop if(town_string == "Hemel Hempstead") */
     }
-    if("`y'" == "Newark" & "`measure'"!= "ambulance mean times" & "`sub_measure'" != "dest to clear"){
+    if("`y'" == "Newark" & "`measure'"== "ambulance mean times" & "`sub_measure'" == "dest to clear"){
         local remove_results = "true"
         /* drop if(town_string == "Newark") */
     }
-    if("`y'" == "Rochdale" & "`measure'"!= "ambulance mean times" & "`sub_measure'" != "dest to clear"){
+    if("`y'" == "Rochdale" & "`measure'"== "ambulance mean times" & "`sub_measure'" == "dest to clear"){
         local remove_results = "true"
         /* drop if(town_string == "Rochdale") */
     }
-    if("`y'" == "Hartlepool" & "`measure'" != "ambulance green calls" & "`sub_measure'" != "green calls"){
+    if("`y'" == "Hartlepool" & "`measure'" == "ambulance green calls" & "`sub_measure'" == "green calls"){
         local remove_results = "true"
         /* drop if(town_string == "Grimsby") */
     }
-    if("`y'" == "Hemel Hempstead" & "`measure'" != "ambulance green calls" & "`sub_measure'" != "green calls"){
+    if("`y'" == "Hemel Hempstead" & "`measure'" == "ambulance green calls" & "`sub_measure'" == "green calls"){
         local remove_results = "true"
         /* drop if(town_string == "Warwick") */
     }
-    if("`y'" == "Newark" & "`measure'" != "ambulance green calls" & "`sub_measure'" != "green calls"){
+    if("`y'" == "Newark" & "`measure'" == "ambulance green calls" & "`sub_measure'" == "green calls"){
         local remove_results = "true"
         /* drop if(town_string == "Newark") */
     }
-    if("`y'" == "Hartlepool" & "`measure'" != "ambulance green calls" & "`sub_measure'" != "fraction not conveyed"){
+    if("`y'" == "Hartlepool" & "`measure'" == "ambulance green calls" & "`sub_measure'" == "fraction not conveyed"){
         local remove_results = "true"
         /* drop if(town_string == "Grimsby") */
     }
-    if("`y'" == "Hemel Hempstead" & "`measure'" != "ambulance green calls" & "`sub_measure'" != "fraction not conveyed"){
+    if("`y'" == "Hemel Hempstead" & "`measure'" == "ambulance green calls" & "`sub_measure'" == "fraction not conveyed"){
         local remove_results = "true"
         /* drop if(town_string == "Warwick") */
     }
-    if("`y'" == "Newark" & "`measure'" != "ambulance green calls" & "`sub_measure'" != "fraction not conveyed"){
+    if("`y'" == "Newark" & "`measure'" == "ambulance green calls" & "`sub_measure'" == "fraction not conveyed"){
         local remove_results = "true"
         /* drop if(town_string == "Newark") */
     }
-    if("`y'" == "Hartlepool" & "`measure'" != "ambulance red calls" & "`sub_measure'" != "hospital transfers"){
+    if("`y'" == "Hartlepool" & "`measure'" == "ambulance red calls" & "`sub_measure'" == "hospital transfers"){
         local remove_results = "true"
         /* drop if(town_string == "Grimsby") */
     }
-    if("`y'" == "Hemel Hempstead" & "`measure'" != "ambulance red calls" & "`sub_measure'" != "hospital transfers"){
+    if("`y'" == "Hemel Hempstead" & "`measure'" == "ambulance red calls" & "`sub_measure'" == "hospital transfers"){
         local remove_results = "true"
         /* drop if(town_string == "Warwick") */
     }
-    if("`y'" == "Newark" & "`measure'" != "ambulance red calls" & "`sub_measure'" != "hospital transfers"){
+    if("`y'" == "Newark" & "`measure'" == "ambulance red calls" & "`sub_measure'" == "hospital transfers"){
         local remove_results = "true"
         /* drop if(town_string == "Newark") */
     }
-    if("`y'" == "Hartlepool" & "`measure'" != "ambulance red calls" & "`sub_measure'" != "total"){
+    if("`y'" == "Hartlepool" & "`measure'" == "ambulance red calls" & "`sub_measure'" == "total"){
         local remove_results = "true"
         /* drop if(town_string == "Grimsby") */
     }
-    if("`y'" == "Hemel Hempstead" & "`measure'" != "ambulance red calls" & "`sub_measure'" != "total"){
+    if("`y'" == "Hemel Hempstead" & "`measure'" == "ambulance red calls" & "`sub_measure'" == "total"){
         local remove_results = "true"
         /* drop if(town_string == "Warwick") */
     }
-    if("`y'" == "Newark" & "`measure'" != "ambulance red calls" & "`sub_measure'" != "total"){
+    if("`y'" == "Newark" & "`measure'" == "ambulance red calls" & "`sub_measure'" == "total"){
         local remove_results = "true"
         /* drop if(town_string == "Newark") */
     }
-    local y = subinstr("`x'", "_", " ", .)
     xtnbreg `outcome' `model6_1' if(town_string == "`y'"), iterate(`iter') ltolerance(`ltolerance') nrtolerance(`nrtolerance')
     parmest, saving("`base_dir'/data/results/model6_1.dta", replace) eform label
     use "`base_dir'/data/results/model6_1.dta", clear
@@ -221,7 +221,7 @@ foreach x of local sites{
         if("`remove_results'" == "true"){
             di "We are now removing the results"
             drop if(town == "`y'")
-            local remove_results == "false"
+            local remove_results = "false"
         }
         save `results', replace
     }
@@ -235,115 +235,115 @@ keep if(town_string == "Bishop Auckland" | ///
         town_string == "Newark"          | ///
         town_string == "Rochdale")
 /* 2016-12-21 Quite a few sites need excluding from models >= 2 do so here   */
-if("`measure'" != "ed attendances" & "`sub_measure'" != "any"){
+if("`measure'" == "ed attendances" & "`sub_measure'" == "any"){
     drop if(town_string == "Grimsby")
 }
-if("`measure'" != "ed attendances" & "`sub_measure'" != "ambulance"){
+if("`measure'" == "ed attendances" & "`sub_measure'" == "ambulance"){
     drop if(town_string == "Grimsby")
 }
-if("`measure'" != "unnecessary ed attendances" & "`sub_measure'" != "all"){
+if("`measure'" == "unnecessary ed attendances" & "`sub_measure'" == "all"){
     drop if(town_string == "Hartlepool")
 }
-if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to dest"){
+if("`measure'" == "ambulance mean times" & "`sub_measure'" == "call to dest"){
     drop if(town_string == "White Haven")
 }
-if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to dest"){
+if("`measure'" == "ambulance mean times" & "`sub_measure'" == "call to dest"){
     drop if(town_string == "Grimsby")
 }
-if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to dest"){
+if("`measure'" == "ambulance mean times" & "`sub_measure'" == "call to dest"){
     drop if(town_string == "Hemel Hempstead")
 }
-if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene any"){
+if("`measure'" == "ambulance mean times" & "`sub_measure'" == "call to scene any"){
     drop if(town_string == "White Haven")
 }
-if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene any"){
+if("`measure'" == "ambulance mean times" & "`sub_measure'" == "call to scene any"){
     drop if(town_string == "Grimsby")
     }
-if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "call to scene any"){
+if("`measure'"== "ambulance mean times" & "`sub_measure'" == "call to scene any"){
     drop if(town_string == "Hemel Hempstead")
 }
-if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "call to scene any"){
+if("`measure'"== "ambulance mean times" & "`sub_measure'" == "call to scene any"){
     drop if(town_string == "Newark")
 }
-if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "call to scene any"){
+if("`measure'"== "ambulance mean times" & "`sub_measure'" == "call to scene any"){
     drop if(town_string == "Hemel Hempstead")
 }
-if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene conveying"){
+if("`measure'" == "ambulance mean times" & "`sub_measure'" == "call to scene conveying"){
     drop if(town_string == "White Haven")
 }
-if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene conveying"){
+if("`measure'" == "ambulance mean times" & "`sub_measure'" == "call to scene conveying"){
     drop if(town_string == "Grimsby")
 }
-if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene conveying"){
+if("`measure'" == "ambulance mean times" & "`sub_measure'" == "call to scene conveying"){
     drop if(town_string == "Hemel Hempstead")
 }
-if("`measure'" != "ambulance mean times" & "`sub_measure'" != "call to scene conveying"){
+if("`measure'" == "ambulance mean times" & "`sub_measure'" == "call to scene conveying"){
     drop if(town_string == "Newark")
 }
-if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "call to scene conveying"){
+if("`measure'"== "ambulance mean times" & "`sub_measure'" == "call to scene conveying"){
     drop if(town_string == "Rochdale")
 }
-if("`measure'" != "ambulance mean times" & "`sub_measure'" != "scene to dest"){
+if("`measure'" == "ambulance mean times" & "`sub_measure'" == "scene to dest"){
     drop if(town_string == "Grimsby")
 }
-if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "scene to dest"){
+if("`measure'"== "ambulance mean times" & "`sub_measure'" == "scene to dest"){
     drop if(town_string == "Hemel Hempstead")
 }
-if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "scene to dest"){
+if("`measure'"== "ambulance mean times" & "`sub_measure'" == "scene to dest"){
     drop if(town_string == "Newark")
 }
-if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "scene to dest"){
+if("`measure'"== "ambulance mean times" & "`sub_measure'" == "scene to dest"){
     drop if(town_string == "Rochdale")
 }
-if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "dest to clear"){
+if("`measure'"== "ambulance mean times" & "`sub_measure'" == "dest to clear"){
     drop if(town_string == "White Haven")
 }
-if("`measure'" != "ambulance mean times" & "`sub_measure'" != "dest to clear"){
+if("`measure'" == "ambulance mean times" & "`sub_measure'" == "dest to clear"){
     drop if(town_string == "Grimsby")
 }
-if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "dest to clear"){
+if("`measure'"== "ambulance mean times" & "`sub_measure'" == "dest to clear"){
     drop if(town_string == "Hemel Hempstead")
 }
-if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "dest to clear"){
+if("`measure'"== "ambulance mean times" & "`sub_measure'" == "dest to clear"){
     drop if(town_string == "Newark")
 }
-if("`measure'"!= "ambulance mean times" & "`sub_measure'" != "dest to clear"){
+if("`measure'"== "ambulance mean times" & "`sub_measure'" == "dest to clear"){
     drop if(town_string == "Rochdale")
 }
-if("`measure'" != "ambulance green calls" & "`sub_measure'" != "green calls"){
+if("`measure'" == "ambulance green calls" & "`sub_measure'" == "green calls"){
     drop if(town_string == "Grimsby")
 }
-if("`measure'" != "ambulance green calls" & "`sub_measure'" != "green calls"){
+if("`measure'" == "ambulance green calls" & "`sub_measure'" == "green calls"){
     drop if(town_string == "Warwick")
 }
-if("`measure'" != "ambulance green calls" & "`sub_measure'" != "green calls"){
+if("`measure'" == "ambulance green calls" & "`sub_measure'" == "green calls"){
     drop if(town_string == "Newark")
 }
-if("`measure'" != "ambulance green calls" & "`sub_measure'" != "fraction not conveyed"){
+if("`measure'" == "ambulance green calls" & "`sub_measure'" == "fraction not conveyed"){
     drop if(town_string == "Grimsby")
 }
-if("`measure'" != "ambulance green calls" & "`sub_measure'" != "fraction not conveyed"){
+if("`measure'" == "ambulance green calls" & "`sub_measure'" == "fraction not conveyed"){
     drop if(town_string == "Warwick")
 }
-if("`measure'" != "ambulance green calls" & "`sub_measure'" != "fraction not conveyed"){
+if("`measure'" == "ambulance green calls" & "`sub_measure'" == "fraction not conveyed"){
     drop if(town_string == "Newark")
 }
-if("`measure'" != "ambulance red calls" & "`sub_measure'" != "hospital transfers"){
+if("`measure'" == "ambulance red calls" & "`sub_measure'" == "hospital transfers"){
     drop if(town_string == "Grimsby")
 }
-if("`measure'" != "ambulance red calls" & "`sub_measure'" != "hospital transfers"){
+if("`measure'" == "ambulance red calls" & "`sub_measure'" == "hospital transfers"){
     drop if(town_string == "Warwick")
 }
-if("`measure'" != "ambulance red calls" & "`sub_measure'" != "hospital transfers"){
+if("`measure'" == "ambulance red calls" & "`sub_measure'" == "hospital transfers"){
     drop if(town_string == "Newark")
 }
-if("`measure'" != "ambulance red calls" & "`sub_measure'" != "total"){
+if("`measure'" == "ambulance red calls" & "`sub_measure'" == "total"){
     drop if(town_string == "Grimsby")
 }
-if("`measure'" != "ambulance red calls" & "`sub_measure'" != "total"){
+if("`measure'" == "ambulance red calls" & "`sub_measure'" == "total"){
     drop if(town_string == "Warwick")
 }
-if("`measure'" != "ambulance red calls" & "`sub_measure'" != "total"){
+if("`measure'" == "ambulance red calls" & "`sub_measure'" == "total"){
     drop if(town_string == "Newark")
 }
 /* Model 1                                                        */
