@@ -279,3 +279,7 @@
 ### Regression Summary  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/regression_summary.Rmd', eval = TRUE}
 ```
+
+### Problems
+```{r child = 'subsections/problems.Rmd', eval = TRUE}
+```
