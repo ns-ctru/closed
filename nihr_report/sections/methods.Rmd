@@ -42,16 +42,16 @@ A series of increasingly complex models were tested under each framework, initia
 When the unit for a panel is at the LSOA level a dummy variable for the difference in mean time to the Emergency Department was included.  This was calculated by the time taken to travel from the centroid of an LSOA to the ED.  Prior to closure this value was always zero (since the attending ambulances were taking patients to the nearest ED), but after closure this reflected the increase, or decrease in time taken to get to the next nearest ED.  Because LSOAs were in effect acting as their own controls prior to closure no models analysed at the LSOA level include comparison to control sites in the work presented here (although they were originally investigated, but subsequently discarded because of their redundancy).
 
 
-Table: Models tested in ClosED
+Table: Models tested in ClosED.  Season 1-6; Time 1-48; Closure 0/1; nhs111 0/1; other.centre 0/1; ambulance.diversion 0/1; site 1-10
 
 Model  | Case Site    | Control Site         | Panel | Covariates
 -------|--------------|----------------------|-------|----------------------------------------
 0      | Individual   | None                 | ED    | closure
-1      | Individual   | None                 | ED    | season (1-6) + time (1-48) + closure + nhs111 + other.centre + ambulance.diversion
-2      | Individual   | Primary Matched      | ED    | season (1-6) + time (1-48) + closure + site (1-10) +  closure * site + nhs111 + other.centre + ambulance.diversion
-3      | All          | Primary Matched      | ED    | season (1-6) + time (1-48) + closure + site (1-10)
-4      | Individual   | None                 | LSOA  | season (1-6) + time (1-48) + change in ED time + nhs111 + other.centre + ambulance.diversion +
-5      | All          | None                 | LSOA  | season (1-6) + time (1-48) + change in ED time + site (1-10)
+1      | Individual   | None                 | ED    | season + time + closure + nhs111 + other.centre + ambulance.diversion
+2      | Individual   | Primary Matched      | ED    | season + time + closure + site +  closure * site + nhs111 + other.centre + ambulance.diversion
+3      | All          | Primary Matched      | ED    | season + time + closure + site
+4      | Individual   | None                 | LSOA  | season + time + change in ED time + nhs111 + other.centre + ambulance.diversion
+5      | All          | None                 | LSOA  | season + time + change in ED time + site
 
 <!-- Original pooled models -->
 <!-- 3      | All          | Primary Matched      | ED    | season + time + closure + site type + closure * site + nhs111 + other.centre + ambulance.diversion -->
