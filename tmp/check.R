@@ -1,3 +1,225 @@
+## 2017-01-05 - Changing pooled models (Negative Binomial)
+mode.of.arrival.any.alt.pooled <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure_clean,
+                                           df.trust        = ed_attendances_by_mode_site_measure_clean,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'any',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+dplyr::filter(mode.of.arrival.any.alt.pooled, model == 'Model 4')
+
+## 2017-01-04 - Changing pooled models (Prais-Winston)
+model.opts$mod4    <- c('town', 'closure', 'season', 'relative.month')
+model.opts$mod7.1 <- c('town', 'season', 'relative.month', 'diff.time.to.ed')
+ambulance.mean.times.call.to.dest <- closed_models(df.lsoa         = amb_mean_times_measure_clean,
+                                     df.trust         = amb_mean_times_site_measure_clean,
+                                     indicator        = 'ambulance mean times',
+                                     sub.indicator    = 'call to dest',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7.1         = model.opts$mod7.1,
+                                     model7.2         = model.opts$mod7.2,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     remove.spurious = model.opts$remove.spurious,
+                                     join.line        = model.opts$join.line,
+                                     rm.unused.control = model.opts$rm.unused.control,
+                                     legend           = model.opts$legend)
+ambulance.mean.times.call.to.dest$model4.panelar.all.coef
+
+## 2017-01-03 - Checking black lines on geom_smooth()
+png(file = '~/work/closed/tmp/check_geom_smooth.png', width = 1024, height = 768)
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control         = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+
+## 2017-01-03 - Checking model 4 from Stata negative binomial
+mode.of.arrival.check <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure_clean,
+                                           df.trust        = ed_attendances_by_mode_site_measure_clean,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'any',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+table(mode.of.arrival.check$xtnbreg$term, mode.of.arrival.check$xtnbreg$model)
+table(mode.of.arrival.any$xtnbreg$term, mode.of.arrival.any$xtnbreg$model)
+
+## 2016-12-22 - Checking exclusion of models with spurious data (cont.)
+ambulance.mean.times.call.to.dest <- closed_models(df.lsoa         = amb_mean_times_measure_clean,
+                                     df.trust         = amb_mean_times_site_measure_clean,
+                                     indicator        = 'ambulance mean times',
+                                     sub.indicator    = 'call to dest',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7.1         = model.opts$mod7.1,
+                                     model7.2         = model.opts$mod7.2,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     remove.spurious = model.opts$remove.spurious,
+                                     join.line        = model.opts$join.line,
+                                     rm.unused.control = model.opts$rm.unused.control,
+                                     legend           = model.opts$legend)
+t <- dplyr::filter(ambulance.mean.times.call.to.dest$all.model.all.coef, term %in% c('closure', 'diff.time.to.ed'))
+table(t$town, t$model)
+ambulance.mean.times.call.to.dest$summary.table
+
+## Check another outcome
+ambulance.non.conveyances.fraction.not.conveyed <- closed_models(df.lsoa         = amb_green_calls_measure,
+                                     df.trust         = amb_green_calls_site_measure_clean,
+                                     indicator        = 'ambulance green calls',
+                                     sub.indicator    = 'fraction not conveyed',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7.1         = model.opts$mod7.1,
+                                     model7.2         = model.opts$mod7.2,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     remove.spurious = model.opts$remove.spurious,
+                                     join.line        = model.opts$join.line,
+                                     rm.unused.control = model.opts$rm.unused.control,
+                                     legend           = model.opts$legend)
+t <- dplyr::filter(ambulance.non.conveyances.fraction.not.conveyed$all.model.all.coef, term %in% c('closure', 'diff.time.to.ed'))
+table(t$town, t$model)
+ambulance.non.conveyances.fraction.not.conveyed$summary.table
+
+
+## 2016-12-21 - Checking exclusion of models with spurious data
+mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure_clean,
+                                           df.trust        = ed_attendances_by_mode_site_measure_clean,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'any',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+t <- dplyr::filter(mode.of.arrival.any$xtnbreg, term %in% c('closure', 'diff.time.to.ed'))
+table(t$town, t$model)
+mode.of.arrival.any$summary.table
+
+## 2016-12-20 - Investigating problematic site
+dplyr::filter(amb_mean_times_measure_clean, is.na(value) & town == 'Bishop Auckland') %>% dim()
+dplyr::filter(amb_mean_times_measure_clean, is.na(value) & town == 'Hartlepool') %>% dim()
+dplyr::filter(amb_mean_times_measure_clean, is.na(value) & town == 'Hemel Hempstead') %>% dim()
+dplyr::filter(amb_mean_times_measure_clean, is.na(value) & town == 'Newark') %>% dim()
+dplyr::filter(amb_mean_times_measure_clean, is.na(value) & town == 'Rochdale') %>% dim()
+## Lets try first removing all NA's from the LSOA level data
+test <- dplyr::filter(amb_mean_times_measure_clean, !is.na(value))
+check <- dplyr::filter(amb_mean_times_measure_clean,
+                       sub.measure == 'dest to clear' &
+                       town == 'Hemel Hempstead'      &
+                       is.na(value))
+ambulance.mean.times.dest.to.clear <- closed_models(df.lsoa         = test,
+                                     df.trust         = amb_mean_times_site_measure_clean,
+                                     indicator        = 'ambulance mean times',
+                                     sub.indicator    = 'dest to clear',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7.1         = model.opts$mod7.1,
+                                     model7.2         = model.opts$mod7.2,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     join.line        = model.opts$join.line,
+                                     rm.unused.control = model.opts$rm.unused.control,
+                                     legend           = model.opts$legend)
+
+
 ## 2016-12-20 - Excluding months from LSOA level data
 ed_attendances_by_mode_measure_clean <- closed_clean_revised(df      = ed_attendances_by_mode_measure,
                                                           indicator     = 'ed attendances',
@@ -25,10 +247,22 @@ clean <- mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attenda
                                            rm.unused.control = model.opts$rm.unused.control,
                                            digits           = 3)
 ## Combine the two to check
-check <- merge(dplyr::filter(unclean, model %in% c('Model 6.1', 'Model 7.1')),
-               dplyr::filter(clean, model %in% c('Model 6.1', 'Model 7.1')),
+check <- merge(unclean$xtnbreg,
+               clean$xtnbreg,
                by       = c('measure', 'sub.measure', 'town', 'model', 'term'),
                suffixes = c('.unclean', '.clean'))
+## Look at some subsets
+dplyr::filter(check, term %in% c('closure', 'diff.time.to.ed')) %>%
+    dplyr::select(model, town, term, est.unclean, est.clean, standard.clean, standard.unclean) %>%
+        dplyr::arrange(model, town)
+## Beyond the systematic removal of data points two sites had data points cleaned...
+##
+## Bishop Auckland/Whitehaven (due to large erroneous data points in Bishop Auckland)
+## Newark/Southport (due to slightly low data points in Southport)
+##
+## ...unsurprisingly the biggest difference between clean and unclean analyses is observed
+## in the Bishop Auckland/Whitehaven analyses at both Site and LSOA level, thus LSOA does
+## need cleaning.
 
 
 ## 2016-12-13 Generic example of dual axis for asking on Stackoverflow how to angle top
