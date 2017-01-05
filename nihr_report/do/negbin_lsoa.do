@@ -41,7 +41,10 @@ local nrtolerance 0.001
 local ltolerance  0.001
 local outcome     value
 local model6_1    relative_month i.season i.nhs111 other_centre ambulance_divert diff_time_to_ed
-local model7_1    relative_month i.season i.nhs111 other_centre ambulance_divert diff_time_to_ed
+/* 2016-01-05 - Modify pooled model as requested by Jon Nicholl in  */
+/*              meeting 2016-01-04                                  */
+/* local model7_1    relative_month i.season i.nhs111 other_centre ambulance_divert diff_time_to_ed */
+local model7_1     i.town relative_month i.season diff_time_to_ed
 local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 
 /************************************************************************/
