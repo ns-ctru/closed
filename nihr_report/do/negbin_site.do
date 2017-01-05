@@ -44,7 +44,10 @@ local outcome    value
 local model0     i.closure
 local model1     i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert
 local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert
-local model4     i.town##i.closure relative_month i.season i.nhs111 other_centre ambulance_divert
+/* 2016-01-05 - Modify pooled model as requested by Jon Nicholl in  */
+/*              meeting 2016-01-04                                  */
+/* local model4     i.town##i.closure relative_month i.season i.nhs111 other_centre ambulance_divert */
+local model4     i.town i.closure relative_month i.season
 local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 
 /************************************************************************/
