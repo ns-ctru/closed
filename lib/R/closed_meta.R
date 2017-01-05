@@ -29,7 +29,8 @@
 closed_meta <- function(df             = mode.of.arrival.any,
                         ma.model       = 'Model 2',
                         ma.method      = 'FE',
-                        title          = NULL,
+                        indicator      = '',
+                        sub.indicator  = '',
                         digits         = 3,
                         plot.ci        = TRUE,
                         plot.null.line = FALSE,
@@ -260,6 +261,9 @@ closed_meta <- function(df             = mode.of.arrival.any,
         else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
         else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
     }
+    else{
+        title1 <- NULL
+    }
     ## Extract Point Estimate and SE from data frame for the specificed model and
     ## given outcome.
     df <- dplyr::filter(df, model == ma.model) %>%
@@ -272,6 +276,11 @@ closed_meta <- function(df             = mode.of.arrival.any,
                             yi     = est,
                             sei    = stderr,
                             method = ma.method)
+    ## Use the metafor function for producing forest plots for comparison
+    ## ToDo - Doesn't seem to work
+    results$meta.forest <- forest.rma(results$meta.est)
+    ## Obtain the list of sites used and return these so that plots can be generated
+    results$meta.sites <- dplry::select(df, town)
     ## Create a matrix for summary meta-statistics
     meta.row <- matrix(c(NA, NA, 'Summary', NA, NA, results$meta.est$b[1], results$meta.est$se[1]), nrow = 1) %>%
                  as.data.frame()
@@ -310,8 +319,12 @@ closed_meta <- function(df             = mode.of.arrival.any,
                                  xmin = lci,
                                  xmax = uci)) +
                       geom_point() +
-                      ylab('Emergency Department') +
-                      labs(list(title = paste0(title1, title2)))
+                      ylab('Emergency Department')
+    ## Add a title
+    if(!is.null(title1)){
+        results$forest <- results$forest +
+                          labs(list(title = paste0(title1, title2)))
+    }
     ## Optionally and CI's
     if(plot.ci == TRUE){
         results$forest <- results$forest +
