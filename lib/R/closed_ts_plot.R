@@ -504,9 +504,9 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         ## print('Are we smoothing?')
         results$plot <- results$plot +
                         geom_point(aes(shape = town), size = 4) +
-                        geom_smooth(aes(linetype = town), method = 'loess') +
-            scale_shape_manual(values = c(1, 19)) +
-            scale_fill_manual(values = c('black', 'black'))
+                        geom_smooth(aes(linetype = town), method = 'loess', color = 'black') +
+            scale_shape_manual(values = c(1, 19)) ## +
+            ## scale_fill_manual(values = c('black', 'black'))
     }
     ## Basic line plot
     ## results$plot <- results$plot + geom_line(linetype = linetype) +
@@ -519,7 +519,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     results$plot <- results$plot + labs(list(title  = paste0(fig,
                                                              title1,
                                                              title2),
-                                             caption = paste0('Generated : ', Sys.time()),
+                                             ## caption = paste0('Generated : ', Sys.time()),
                                              x      = 'Month (Aligned)',
                                              y      = ylabel,
                                              colour = 'Hospital Catchment Area',
