@@ -26,13 +26,14 @@
 ## Main >> https://sakaluk.wordpress.com/2016/02/16/7-make-it-pretty-plots-for-meta-analysis/ ##
 ## http://chetvericov.ru/analiz-dannyx/grouped-forest-plots-using-ggplot2/                    ##
 ################################################################################################
-closed_meta <- function(df         = mode.of.arrival.any,
-                        ma.model   = 'Model 2',
-                        ma.method  = 'FE',
-                        title      = 'ED Attendance (Any)',
-                        digits     = 3,
-                        plot.ci    = TRUE,
-                        theme      = theme_bw(),
+closed_meta <- function(df             = mode.of.arrival.any,
+                        ma.model       = 'Model 2',
+                        ma.method      = 'FE',
+                        title          = 'ED Attendance (Any)',
+                        digits         = 3,
+                        plot.ci        = TRUE,
+                        plot.null.line = FALSE,
+                        theme          = theme_bw(),
                         ...){
     ## Inititiate list for returning results
     results <- list()
@@ -74,6 +75,11 @@ closed_meta <- function(df         = mode.of.arrival.any,
                                 ' - ',
                                 formatC(results$df$uci, format = 'f', digits = digits),
                                 ')')
+    ## Reverse the order of y.axis labels ('Summary' the meta needs to be
+    ## at the bottom, always will be since alphabetically its last)
+    results$df <- mutate(results$df,
+                         y.axis = factor(y.axis),
+                         y.axis = factor(y.axis, levels = rev(levels(y.axis))))
     ## Generate ggplot
     results$forest <- ggplot(results$df,
                              aes(x = est,
@@ -81,7 +87,8 @@ closed_meta <- function(df         = mode.of.arrival.any,
                                  xmin = lci,
                                  xmax = uci)) +
                       geom_point() +
-        ylab('Emergency Department')
+                      ## scale_y_continuous(trans = 'reverse') +
+                      ylab('Emergency Department')
     ## Optionally and CI's
     if(plot.ci == TRUE){
         results$forest <- results$forest +
