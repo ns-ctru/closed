@@ -2823,7 +2823,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                           dplyr::filter(!(town == 'Hartlepool' & model %in% to.remove)) %>%
                                           dplyr::filter(!(town == 'Hemel Hempstead' & model %in% to.remove)) %>%
                                           dplyr::filter(!(town == 'Newark' & model %in% to.remove)) %>%
-                                          dplyr::filter(!(town == 'Rochdale' & model %in% to.remove))
+                                          dplyr::filter(!(town == 'Rochdale' & model %in% c('Model 2', 'Model 3.1', 'Model 3.2')))
         }
         if(indicator == 'ambulance mean times' & sub.indicator == 'scene to dest'){
             results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
