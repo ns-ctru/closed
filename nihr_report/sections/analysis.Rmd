@@ -144,6 +144,7 @@ if(os != 'unix' | node != 'mcru-closed-hp.shef.ac.uk'){
     ## model.opts$mod7.1 <- c('town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed')}
     model.opts$mod7.1 <- c('town', 'season', 'relative.month', 'diff.time.to.ed')
     model.opts$mod7.2 <- NULL
+}
 model.opts$panel.lsoa	     <- 'lsoa'
 model.opts$panel.trust	     <- 'town'
 model.opts$timevar	     <- 'relative.month'
