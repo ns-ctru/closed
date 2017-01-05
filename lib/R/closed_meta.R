@@ -280,7 +280,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
     ## ToDo - Doesn't seem to work
     results$meta.forest <- forest.rma(results$meta.est)
     ## Obtain the list of sites used and return these so that plots can be generated
-    results$meta.sites <- dplry::select(df, town)
+    results$meta.sites <- dplyr::select(df, town)
     ## Create a matrix for summary meta-statistics
     meta.row <- matrix(c(NA, NA, 'Summary', NA, NA, results$meta.est$b[1], results$meta.est$se[1]), nrow = 1) %>%
                  as.data.frame()
