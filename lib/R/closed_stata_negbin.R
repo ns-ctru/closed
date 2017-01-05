@@ -103,7 +103,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## head(results$site) %>% print()
     ## print("LSOA...")
     ## head(results$lsoa) %>% print()
-    results$xtnbreg <- rbind(results$site, results$lsoa)
+    results$all.model.all.coef <- rbind(results$site, results$lsoa)
     ## Build summary table as per other regression wrapper functions
     #######################################################################
     ## Derive the mean, sd, median, iqr, min and max of events before/   ##
@@ -204,21 +204,21 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
         results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')] <- paste0(results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')], ' (Primary)')
     }
     ## Build the table footer from the regression results read in from Stata
-    names(results$xtnbreg) <- gsub('estimate', 'est', names(results$xtnbreg))
+    names(results$all.model.all.coef) <- gsub('estimate', 'est', names(results$all.model.all.coef))
     ## Standardise this output for combining with panelAR()
     ## print("Debug 5")
-    names(results$xtnbreg) <- gsub('_', '.', names(results$xtnbreg))
-    names(results$xtnbreg) <- gsub('parm', 'term', names(results$xtnbreg))
-    names(results$xtnbreg) <- gsub('z', 'standard', names(results$xtnbreg))
-    results$xtnbreg <- dplyr::select(results$xtnbreg,
+    names(results$all.model.all.coef) <- gsub('_', '.', names(results$all.model.all.coef))
+    names(results$all.model.all.coef) <- gsub('parm', 'term', names(results$all.model.all.coef))
+    names(results$all.model.all.coef) <- gsub('z', 'standard', names(results$all.model.all.coef))
+    results$all.model.all.coef <- dplyr::select(results$all.model.all.coef,
                                      measure, sub.measure, town, model, term, est, stderr, p, min95, max95, standard)
-    ## results$xtnbreg <- mutate(results$xtnbreg,
+    ## results$all.model.all.coef <- mutate(results$all.model.all.coef,
     ##                           measure     = gsub("_", " ", measure),
     ##                           sub.measure = gsub("_", " ", sub.measure))
     ## Remove baseline terms
-    results$xtnbreg <- dplyr::filter(results$xtnbreg, !is.nan(p))
+    results$all.model.all.coef <- dplyr::filter(results$all.model.all.coef, !is.nan(p))
     ## Get terms to have same name
-    results$xtnbreg <- mutate(results$xtnbreg,
+    results$all.model.all.coef <- mutate(results$all.model.all.coef,
                               term = gsub('_cons', 'Intercept', term),
                               term = gsub('1.ambulance_divert', 'ambulance.divert', term),
                               term = gsub('1.nhs111', 'nhs111', term),
@@ -275,15 +275,15 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                               model = gsub('model', 'Model ', model))
     ## Subset out the coefficients of interest for the table footer
     ## print("Debug 6.1")
-    ## dim(results$xtnbreg) %>% print()
-    ## head(results$xtnbreg) %>% print()
-    ## table(results$xtnbreg$term) %>% print()
-    results$summary.table.tail <- dplyr::filter(results$xtnbreg, term == 'closure' | term == 'diff.time.to.ed') %>%
+    ## dim(results$all.model.all.coef) %>% print()
+    ## head(results$all.model.all.coef) %>% print()
+    ## table(results$all.model.all.coef$term) %>% print()
+    results$summary.table.tail <- dplyr::filter(results$all.model.all.coef, term == 'closure' | term == 'diff.time.to.ed') %>%
                                   dplyr::select(est, stderr, p, min95, max95, town, measure, sub.measure, model)
     ## print("Debug 6.2")
-    ## dim(results$xtnbreg) %>% print()
-    ## head(results$xtnbreg) %>% print()
-    ## table(results$xtnbreg$term) %>% print()
+    ## dim(results$all.model.all.coef) %>% print()
+    ## head(results$all.model.all.coef) %>% print()
+    ## table(results$all.model.all.coef$term) %>% print()
     results$summary.table.tail$estimate <- paste0(formatC(results$summary.table.tail$est, digits = digits, format = 'f'),
                                                   ' (',
                                                   formatC(results$summary.table.tail$min95, digits = digits, format = 'f'),
