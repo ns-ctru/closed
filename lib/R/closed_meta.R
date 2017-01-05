@@ -29,7 +29,7 @@
 closed_meta <- function(df             = mode.of.arrival.any,
                         ma.model       = 'Model 2',
                         ma.method      = 'FE',
-                        title          = 'ED Attendance (Any)',
+                        title          = NULL,
                         digits         = 3,
                         plot.ci        = TRUE,
                         plot.null.line = FALSE,
@@ -37,6 +37,229 @@ closed_meta <- function(df             = mode.of.arrival.any,
                         ...){
     ## Inititiate list for returning results
     results <- list()
+    #######################################################################
+    ## Labels and captions conditional on outcome                        ##
+    #######################################################################
+    ## ToDo - Switch to parsing the data frames name, slightly easier/greater
+    ##        internal consistency
+    ## indicator <- substitute(df) %>% evaulate()
+    ## print("Debug 1")
+    if(indicator == 'ed attendances'){
+        title1 <- 'Total ED Attendance'
+        if(sub.indicator == 'any')            title2 <- ' (Any)'
+        else if(sub.indicator == 'other')     title2 <- ' (Other)'
+        else if(sub.indicator == 'ambulance') title2 <- ' (Ambulance)'
+    }
+    else if(indicator == 'unnecessary ed attendances'){
+        title1 <- 'Unnecessary ED Attendances'
+        title2 <- ''
+    }
+    else if(indicator == 'ed attendances admitted'){
+        title1 <- 'ED Attendances Admitted'
+        if(sub.indicator == 'all')                    title2 <- ' (All)'
+        else if(sub.indicator == 'fraction admitted') title2 <- ' (Fraction)'
+        else if(sub.indicator == 'admitted')          title2 <- ' (Absolute)'
+    }
+    else if(indicator == 'all emergency admissions'){
+        title1 <- 'All Emergency Admissions'
+        title2 <- ''
+    }
+    else if(indicator == 'avoidable emergency admissions'){
+        title1 <- 'Avoidable Emergency Admissions'
+        if(sub.indicator == 'any')                             title2 <- ' (Any)'
+        else if(sub.indicator == 'acute mental health crisis') title2 <- ' (Acute Mental Health Crisis)'
+        else if(sub.indicator == 'angina')                     title2 <- ' (Angina)'
+        else if(sub.indicator == 'blocked catheter')           title2 <- ' (Blocked Catheter)'
+        else if(sub.indicator == 'cellulitis')                 title2 <- ' (Cellulitis)'
+        else if(sub.indicator == 'copd')                       title2 <- ' (COPD)'
+        else if(sub.indicator == 'dvt')                        title2 <- ' (DVT)'
+        else if(sub.indicator == 'epileptic fit')              title2 <- ' (Epileptic Fit)'
+        else if(sub.indicator == 'falls (75+ years)')          title2 <- ' (Falls >76yrs)'
+        else if(sub.indicator == 'hypoglycaemia')              title2 <- ' (Hypoglycaemia)'
+        else if(sub.indicator == 'minor head injuries')        title2 <- ' (Minor Head Injuries)'
+        else if(sub.indicator == 'non-specific chest pain')    title2 <- ' (Non-Specific Chest Pain)'
+        else if(sub.indicator == 'pyrexial child (<6 years)')  title2 <- ' (Pyrexial Child <6yrs)'
+        else if(sub.indicator == 'urinary tract infection')    title2 <- ' (Urinary Tract Infection)'
+    }
+    else if(indicator == 'all emergency admissions'){
+        title1 <- 'All Emergency Admissions'
+        title2 <- ' (All)'
+    }
+    else if(indicator == 'length of stay'){
+        title1 <- 'Length of Stay'
+        if(sub.indicator == 'mean'){
+            title2 <- ' (Mean)'
+        }
+        else if(sub.indicator == 'median'){
+            title2 <- ' (Median)'
+        }
+    }
+    else if(indicator == 'critical care stays'){
+        title1 <- 'Critical Care Stays'
+        if(sub.indicator == 'all')                           title2 <- ' (All)'
+        else if(sub.indicator == 'critical care')            title2 <- ' (Critical Care)'
+        else if(sub.indicator == 'fraction critical care') title2 <- ' (Fractional Critical Care)'
+    }
+    else if(indicator == 'case fatality ratio' | indicator == 'sec case fatality 7 days'){
+        title1 <- 'Case Fatality Ratio'
+        if(sub.indicator == 'acute heart failure')              title2 <- ' (Acute Heart Failure)'
+        else if(sub.indicator == 'anaphylaxis')                 title2 <- ' (Anaphylaxis)'
+        else if(sub.indicator == 'any')                         title2 <- ' (Any)'
+        else if(sub.indicator == 'any sec')                     title2 <- ' (Any SEC)'
+        else if(sub.indicator == 'asphyxiation')                title2 <- ' (Asphyxiation)'
+        else if(sub.indicator == 'asthma')                      title2 <- ' (Asthma)'
+        else if(sub.indicator == 'cardiac arrest')              title2 <- ' (Cardiac Arrest)'
+        else if(sub.indicator == 'falls')                       title2 <- ' (Falls)'
+        else if(sub.indicator == 'fractured neck of femur')     title2 <- ' (Fractured Neck of Femur)'
+        else if(sub.indicator == 'meningitis')                  title2 <- ' (Meningitis)'
+        else if(sub.indicator == 'myocardial infarction')       title2 <- ' (Myocardial Infarction)'
+        else if(sub.indicator == 'pregnancy and birth related') title2 <- ' (Pregnancy and Birth Related)'
+        else if(sub.indicator == 'road traffic accident')       title2 <- ' (Road Traffic Accident)'
+        else if(sub.indicator == 'ruptured aortic aneurysm')    title2 <- ' (Ruptured Aortic Aneurysm)'
+        else if(sub.indicator == 'self harm')                   title2 <- ' (Self Harm)'
+        else if(sub.indicator == 'septic shock')                title2 <- ' (Septic Shock)'
+        else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
+        else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
+        else if(sub.indicator == 'any trauma sec')                         title2 <- ' (Any Trauma)'
+    }
+    else if(indicator == 'ambulance mean times'){
+        title1 <- 'Ambulance Mean Times'
+        if(sub.indicator == 'call to dest' | sub.indicator == 'call_to_dest'){
+            title2 <- ' (Call to Destination)'
+        }
+        else if(sub.indicator == 'call to scene any' | sub.indicator == 'call_to_scene_any'){
+            title2 <- ' (Call to Scene, Any)'
+        }
+        else if(sub.indicator == 'call to scene conveying' | sub.indicator == 'call_to_scene_conveying'){
+            title2 <- ' (Call to Scene, Conveying)'
+        }
+        else if(sub.indicator == 'dest to clear' | sub.indicator == 'dest_to_clear'){
+            title2 <- ' (Destination to Clear)'
+        }
+        else if(sub.indicator == 'scene to dest' | sub.indicator == 'scene_to_dest'){
+            title2 <- ' (Scene to Destination)'
+        }
+    }
+    else if(indicator == 'ambulance non-conveyance'){
+        title1 <- 'Ambulance Non-Conveyance'
+        if(sub.indicator == 'fraction not conveyed')                 title2 <- ' (Fraction)'
+        else if(sub.indicator == 'green calls')             title2 <- ' (Green Calls)'
+        else if(sub.indicator == 'not conveyed green calls') title2 <- ' (Green Calls Not Conveyed)'
+    }
+    else if(indicator == 'ambulance green calls'){
+        title1 <- 'Ambulance Green Calls'
+        if(sub.indicator == 'fraction not conveyed'){
+            title2 <- ' (Fraction)'
+        }
+        else if(sub.indicator == 'green calls'){
+            title2 <- ' (Green Calls)'
+        }
+        else if(sub.indicator == 'hospital transfers'){
+            title2 <- ' (Hospital Transfers)'
+        }
+        else if(sub.indicator == 'not conveyed green calls'){
+            title2 <- ' (Green Calls Not Conveyed)'
+        }
+    }
+    else if(indicator == 'ambulance red calls'){
+        title1 <- 'Ambulance Red Calls'
+        if(sub.indicator == 'hospital transfers')            title2 <- ' (Hospital Transfers)'
+        else if(sub.indicator == 'total')                    title2 <- ' (Total)'
+    }
+    else if(indicator == 'hospital transfers'){
+        title1 <- 'Hospital Transfers'
+        if(sub.indicator == 'all stays')                   title2 <- ' (All Stays)'
+        else if(sub.indicator == 'fraction with transfer') title2 <- ' (Fraction of Stays with Transfers)'
+        else if(sub.indicator == 'stays with transfer')    title2 <- ' (Stays with Transfers)'
+    }
+    else if(indicator == 'sec case fatality 7 days'){
+        title1 <- 'Case Fatality @ 7 Days'
+        if(sub.indicator == 'any sec')                          title2 <- ' (Any Sec)'
+        else if(sub.indicator == 'any single sec')              title2 <- ' (Any Single Sec)'
+        else if(sub.indicator == 'acute heart failure')         title2 <- ' (Acute Heart Failure)'
+        else if(sub.indicator == 'anaphylaxis')                 title2 <- ' (Anaphylaxis)'
+        else if(sub.indicator == 'any')                         title2 <- ' (Any)'
+        else if(sub.indicator == 'asphyxiation')                title2 <- ' (Asphyxiation)'
+        else if(sub.indicator == 'asthma')                      title2 <- ' (Asthma)'
+        else if(sub.indicator == 'cardiac arrest')              title2 <- ' (Cardiac Arrest)'
+        else if(sub.indicator == 'falls')                       title2 <- ' (Falls)'
+        else if(sub.indicator == 'fractured neck of femur')     title2 <- ' (Fractured Neck of Femur)'
+        else if(sub.indicator == 'meningitis')                  title2 <- ' (Meningitis)'
+        else if(sub.indicator == 'myocardial infarction')       title2 <- ' (Myocardial Infarction)'
+        else if(sub.indicator == 'pregnancy and birth related') title2 <- ' (Pregnancy and Birth Related)'
+        else if(sub.indicator == 'road traffic accident')       title2 <- ' (Road Traffic Accident)'
+        else if(sub.indicator == 'ruptured aortic aneurysm')    title2 <- ' (Ruptured Aortic Aneurysm)'
+        else if(sub.indicator == 'self harm')                   title2 <- ' (Self Harm)'
+        else if(sub.indicator == 'septic shock')                title2 <- ' (Septic Shock)'
+        else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
+        else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
+    }
+    else if(indicator == 'sec deaths all 7days' | indicator == 'sec_deaths_all_7_days'){
+        title1 <- 'Deaths @ 7 Days'
+        if(sub.indicator == 'any sec')                          title2 <- ' (Any Sec)'
+        else if(sub.indicator == 'any sec')                     title2 <- ' (Any Single Sec)'
+        else if(sub.indicator == 'acute heart failure')         title2 <- ' (Acute Heart Failure)'
+        else if(sub.indicator == 'anaphylaxis')                 title2 <- ' (Anaphylaxis)'
+        else if(sub.indicator == 'any')                         title2 <- ' (Any)'
+        else if(sub.indicator == 'asphyxiation')                title2 <- ' (Asphyxiation)'
+        else if(sub.indicator == 'asthma')                      title2 <- ' (Asthma)'
+        else if(sub.indicator == 'cardiac arrest')              title2 <- ' (Cardiac Arrest)'
+        else if(sub.indicator == 'falls')                       title2 <- ' (Falls)'
+        else if(sub.indicator == 'fractured neck of femur')     title2 <- ' (Fractured Neck of Femur)'
+        else if(sub.indicator == 'meningitis')                  title2 <- ' (Meningitis)'
+        else if(sub.indicator == 'myocardial infarction')       title2 <- ' (Myocardial Infarction)'
+        else if(sub.indicator == 'pregnancy and birth related') title2 <- ' (Pregnancy and Birth Related)'
+        else if(sub.indicator == 'road traffic accident')       title2 <- ' (Road Traffic Accident)'
+        else if(sub.indicator == 'ruptured aortic aneurysm')    title2 <- ' (Ruptured Aortic Aneurysm)'
+        else if(sub.indicator == 'self harm')                   title2 <- ' (Self Harm)'
+        else if(sub.indicator == 'septic shock')                title2 <- ' (Septic Shock)'
+        else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
+        else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
+    }
+    else if(indicator == 'sec deaths in cips 7days' | indicator == 'sec_deaths_in_cips_7_days'){
+        title1 <- 'Deaths in CIPS @ 7 Days'
+        if(sub.indicator == 'any sec')                          title2 <- ' (Any Sec)'
+        else if(sub.indicator == 'any single sec')              title2 <- ' (Any Single Sec)'
+        else if(sub.indicator == 'acute heart failure')         title2 <- ' (Acute Heart Failure)'
+        else if(sub.indicator == 'anaphylaxis')                 title2 <- ' (Anaphylaxis)'
+        else if(sub.indicator == 'any')                         title2 <- ' (Any)'
+        else if(sub.indicator == 'asphyxiation')                title2 <- ' (Asphyxiation)'
+        else if(sub.indicator == 'asthma')                      title2 <- ' (Asthma)'
+        else if(sub.indicator == 'cardiac arrest')              title2 <- ' (Cardiac Arrest)'
+        else if(sub.indicator == 'falls')                       title2 <- ' (Falls)'
+        else if(sub.indicator == 'fractured neck of femur')     title2 <- ' (Fractured Neck of Femur)'
+        else if(sub.indicator == 'meningitis')                  title2 <- ' (Meningitis)'
+        else if(sub.indicator == 'myocardial infarction')       title2 <- ' (Myocardial Infarction)'
+        else if(sub.indicator == 'pregnancy and birth related') title2 <- ' (Pregnancy and Birth Related)'
+        else if(sub.indicator == 'road traffic accident')       title2 <- ' (Road Traffic Accident)'
+        else if(sub.indicator == 'ruptured aortic aneurysm')    title2 <- ' (Ruptured Aortic Aneurysm)'
+        else if(sub.indicator == 'self harm')                   title2 <- ' (Self Harm)'
+        else if(sub.indicator == 'septic shock')                title2 <- ' (Septic Shock)'
+        else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
+        else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
+    }
+    else if(indicator == 'sec deaths not in cips 7days' | indicator == 'sec_deaths_not_in_cips_7_days'){
+        title1 <- 'Deaths not in CIPS @ 7 Days'
+        if(sub.indicator == 'any sec')                          title2 <- ' (Any Sec)'
+        else if(sub.indicator == 'any single sec')              title2 <- ' (Any Single Sec)'
+        else if(sub.indicator == 'acute heart failure')         title2 <- ' (Acute Heart Failure)'
+        else if(sub.indicator == 'anaphylaxis')                 title2 <- ' (Anaphylaxis)'
+        else if(sub.indicator == 'any')                         title2 <- ' (Any)'
+        else if(sub.indicator == 'asphyxiation')                title2 <- ' (Asphyxiation)'
+        else if(sub.indicator == 'asthma')                      title2 <- ' (Asthma)'
+        else if(sub.indicator == 'cardiac arrest')              title2 <- ' (Cardiac Arrest)'
+        else if(sub.indicator == 'falls')                       title2 <- ' (Falls)'
+        else if(sub.indicator == 'fractured neck of femur')     title2 <- ' (Fractured Neck of Femur)'
+        else if(sub.indicator == 'meningitis')                  title2 <- ' (Meningitis)'
+        else if(sub.indicator == 'myocardial infarction')       title2 <- ' (Myocardial Infarction)'
+        else if(sub.indicator == 'pregnancy and birth related') title2 <- ' (Pregnancy and Birth Related)'
+        else if(sub.indicator == 'road traffic accident')       title2 <- ' (Road Traffic Accident)'
+        else if(sub.indicator == 'ruptured aortic aneurysm')    title2 <- ' (Ruptured Aortic Aneurysm)'
+        else if(sub.indicator == 'self harm')                   title2 <- ' (Self Harm)'
+        else if(sub.indicator == 'septic shock')                title2 <- ' (Septic Shock)'
+        else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
+        else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
+    }
     ## Extract Point Estimate and SE from data frame for the specificed model and
     ## given outcome.
     df <- dplyr::filter(df, model == ma.model) %>%
@@ -87,8 +310,8 @@ closed_meta <- function(df             = mode.of.arrival.any,
                                  xmin = lci,
                                  xmax = uci)) +
                       geom_point() +
-                      ## scale_y_continuous(trans = 'reverse') +
-                      ylab('Emergency Department')
+                      ylab('Emergency Department') +
+                      labs(list(title = paste0(title1, title2)))
     ## Optionally and CI's
     if(plot.ci == TRUE){
         results$forest <- results$forest +
@@ -111,7 +334,8 @@ closed_meta <- function(df             = mode.of.arrival.any,
                           xlab('Estimated Coefficient for Difference in Time to ED')
     }
     ## Apply users theme
-    if(!is.null(theme))
+    if(!is.null(theme)){
         results$forest <- results$forest + theme
+    }
     return(results)
 }
