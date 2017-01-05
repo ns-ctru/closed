@@ -594,7 +594,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         results$plot <- results$plot +
                         scale_x_continuous(name  = 'Relative Month',
                                            sec.axis = sec_axis(trans = ~ .,
-                                                               name = 'Steps',
+                                                               ## name = 'Steps',
                                                                breaks = df.steps$steps,
                                                                label  = df.steps$xaxis.steps.labels)) +
                         geom_vline(xintercept = df.steps$steps) +
