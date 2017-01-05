@@ -818,43 +818,43 @@ length.of.stay.mean <- closed_models(df.lsoa         = length_of_stay_measure_cl
 ```
 
 <!--- Length of Stay - Median --->
-```{r length_of_stay_median, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure_clean,
-                                     df.trust         = length_of_stay_site_measure_clean,
-                                     indicator        = 'length of stay',
-                                     sub.indicator    = 'median',
-                                     panel.lsoa       = model.opts$panel.lsoa,
-                                     panel.trust      = model.opts$panel.trust,
-                                     timevar          = model.opts$timevar,
-                                     outcome          = model.opts$outcome,
-                                     model0           = model.opts$mod0,
-                                     model0.5         = model.opts$mod0.5,
-                                     model1           = model.opts$mod1,
-                                     model2           = model.opts$mod2,
-                                     model3.1         = model.opts$mod3.1,
-                                     model3.2         = model.opts$mod3.2,
-                                     model4           = model.opts$mod4,
-                                     model5           = model.opts$mod5,
-                                     model6.1         = model.opts$mod6.1,
-                                     model6.2         = model.opts$mod6.2,
-                                     model7.1         = model.opts$mod7.1,
-                                     model7.2         = model.opts$mod7.2,
-                                     autocorr         = model.opts$autocorr,
-                                     panelcorrmethod  = model.opts$panelcorrmethod,
-                                     coefficients     = model.opts$coefficients,
-                                     seq.times        = model.opts$seq.times,
-                                     complete.case    = model.opts$complete.case,
-                                     rho.na.rm        = model.opts$rho.na.rm,
-                                     theme            = model.opts$theme,
-                                     return.df        = model.opts$return.df,
-                                     return.model     = model.opts$return.model,
-                                     return.residuals = model.opts$return.residuals,
-                                     remove.spurious = model.opts$remove.spurious,
-                                     join.line        = model.opts$join.line,
-                                     rm.unused.control = model.opts$rm.unused.control,
-                                     legend           = model.opts$legend)
+<!-- ```{r length_of_stay_median, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE} -->
+<!-- length.of.stay.median <- closed_models(df.lsoa         = length_of_stay_measure_clean, -->
+<!--                                      df.trust         = length_of_stay_site_measure_clean, -->
+<!--                                      indicator        = 'length of stay', -->
+<!--                                      sub.indicator    = 'median', -->
+<!--                                      panel.lsoa       = model.opts$panel.lsoa, -->
+<!--                                      panel.trust      = model.opts$panel.trust, -->
+<!--                                      timevar          = model.opts$timevar, -->
+<!--                                      outcome          = model.opts$outcome, -->
+<!--                                      model0           = model.opts$mod0, -->
+<!--                                      model0.5         = model.opts$mod0.5, -->
+<!--                                      model1           = model.opts$mod1, -->
+<!--                                      model2           = model.opts$mod2, -->
+<!--                                      model3.1         = model.opts$mod3.1, -->
+<!--                                      model3.2         = model.opts$mod3.2, -->
+<!--                                      model4           = model.opts$mod4, -->
+<!--                                      model5           = model.opts$mod5, -->
+<!--                                      model6.1         = model.opts$mod6.1, -->
+<!--                                      model6.2         = model.opts$mod6.2, -->
+<!--                                      model7.1         = model.opts$mod7.1, -->
+<!--                                      model7.2         = model.opts$mod7.2, -->
+<!--                                      autocorr         = model.opts$autocorr, -->
+<!--                                      panelcorrmethod  = model.opts$panelcorrmethod, -->
+<!--                                      coefficients     = model.opts$coefficients, -->
+<!--                                      seq.times        = model.opts$seq.times, -->
+<!--                                      complete.case    = model.opts$complete.case, -->
+<!--                                      rho.na.rm        = model.opts$rho.na.rm, -->
+<!--                                      theme            = model.opts$theme, -->
+<!--                                      return.df        = model.opts$return.df, -->
+<!--                                      return.model     = model.opts$return.model, -->
+<!--                                      return.residuals = model.opts$return.residuals, -->
+<!--                                      remove.spurious = model.opts$remove.spurious, -->
+<!--                                      join.line        = model.opts$join.line, -->
+<!--                                      rm.unused.control = model.opts$rm.unused.control, -->
+<!--                                      legend           = model.opts$legend) -->
 
-```
+<!-- ``` -->
 <!--- Case Fatality Ratio - Any --->
 ```{r case_fatality_ratio_any, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
 case.fatality.ratio.any <- closed_models(df.lsoa         = sec_case_fatality_7days_measure_clean,
@@ -1682,7 +1682,7 @@ save(diff.time.to.ed,
      critical.care.cips.critical,
      critical.care.cips.fraction,
      length.of.stay.mean,
-     length.of.stay.median,
+     ## length.of.stay.median,
      case.fatality.ratio.any,
      case.fatality.ratio.acute.heart.failure,
      ## case.fatality.ratio.anaphylaxis,
