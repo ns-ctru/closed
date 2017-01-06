@@ -67,27 +67,27 @@ A lot of models and a lot of outcomes have been tested, to ease comprehension he
 heatmap.center.standard$site
 
 ```
-```{r closed_heatmap_center_standard_site, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+```{r closed_heatmap_center_standard_lsoa, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
 heatmap.center.standard$lsoa
 
 ```
 
 ##### P-value
-```{r closed_heatmap_center_standard_site, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+```{r closed_heatmap_center_p_site, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
 heatmap.center.p$site
 
 ```
-```{r closed_heatmap_center_standard_site, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+```{r closed_heatmap_center_p_lsoa, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
 heatmap.center.p$lsoa
 
 ```
 
 ##### Coefficient
-```{r closed_heatmap_center_standard_site, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+```{r closed_heatmap_center_coefficient_site, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
 heatmap.center.coefficient$site
 
 ```
-```{r closed_heatmap_center_standard_site, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+```{r closed_heatmap_center_coefficient_lsoa, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
 heatmap.center.coefficient$lsoa
 
 ```
