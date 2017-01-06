@@ -264,6 +264,8 @@ closed_meta <- function(df             = mode.of.arrival.any,
     else{
         title1 <- NULL
     }
+    if(ma.model == 'Model 2')        title1 <- paste0('Site : ', title1)
+    else if(ma.model == 'Model 6.1') title1 <- paste0('LSOA : ', title1)
     ## Extract Point Estimate and SE from data frame for the specificed model and
     ## given outcome.
     df <- dplyr::filter(df, model == ma.model) %>%
@@ -278,11 +280,11 @@ closed_meta <- function(df             = mode.of.arrival.any,
                             method = ma.method)
     ## Use the metafor function for producing forest plots for comparison
     ## ToDo - Doesn't seem to work
-    results$meta.forest <- forest.rma(results$meta.est)
+    ## results$meta.forest <- forest.rma(results$meta.est)
     ## Obtain the list of sites used and return these so that plots can be generated
-    results$meta.sites <- dplyr::select(df, town)
+    results$meta.sites <- df[['town']]
     ## Create a matrix for summary meta-statistics
-    meta.row <- matrix(c(NA, NA, 'Summary', NA, NA, results$meta.est$b[1], results$meta.est$se[1]), nrow = 1) %>%
+    meta.row <- matrix(c(NA, NA, 'Overall', NA, NA, results$meta.est$b[1], results$meta.est$se[1]), nrow = 1) %>%
                  as.data.frame()
     names(meta.row) <- names(df)
     ## print('Debug 2')
