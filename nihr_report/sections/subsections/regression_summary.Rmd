@@ -28,10 +28,69 @@ heatmap.standard <- closed_heatmap(df           = summary.models,
                                   colour       = 'red',
                                   final        = TRUE,
                                   digits       = 3)
+heatmap.center.coefficients <- closed_heatmap2(df           = summary.models,
+                                               site         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+                                               colour.by    = 'coefficient',
+                                               coef         = c('closure', 'diff.time.to.ed'),
+                                               include.text = c('coefficient', 'p'),
+                                               text.size    = 3,
+                                               colour       = 'blue',
+                                               final        = TRUE,
+                                               digits       = 3)
+heatmap.center.p <- closed_heatmap2(df           = summary.models,
+                	            site         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+                                    colour.by    = 'p',
+                                    coef         = c('closure', 'diff.time.to.ed'),
+                                    include.text = c('p'),
+                                    text.size    = 3,
+                                    colour       = 'blue',
+                                    final        = TRUE,
+                                    digits       = 3)
+heatmap.center.standard <- closed_heatmap2(df           = summary.models,
+                	                   site         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+                                           colour.by    = 'standard',
+                                           coef         = c('closure', 'diff.time.to.ed'),
+                                           include.text = c('standard', 'p'),
+                                           text.size    = 3,
+                                           colour       = 'blue',
+                                           final        = TRUE,
+                                           digits       = 3)
+
 
 ```
 
 A lot of models and a lot of outcomes have been tested, to ease comprehension heatmaps showing the strength of association are shown below for the `closure` term in Site level models or the `difference in time to ED` for LSOA level models.  Three statistics have been used, the raw estimated coefficient (poor choice as outcomes vary, means, proportions or numbers), p-values (not the metric by which to initially judge effects) and standardised coefficients (`t` or `z` statistics depending on the model, these are preferred).  Its is to be expected that as you move across a given row there are similarities in the coefficients and as many of the indicators are themselves related they too will be correlated.
+
+#### Outcome by Center  {.tabset .tabset-fade .tabset-pills}
+##### Standardised
+```{r closed_heatmap_center_standard_site, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+heatmap.center.standard$site
+
+```
+```{r closed_heatmap_center_standard_site, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+heatmap.center.standard$lsoa
+
+```
+
+##### P-value
+```{r closed_heatmap_center_standard_site, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+heatmap.center.p$site
+
+```
+```{r closed_heatmap_center_standard_site, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+heatmap.center.p$lsoa
+
+```
+
+##### Coefficient
+```{r closed_heatmap_center_standard_site, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+heatmap.center.coefficient$site
+
+```
+```{r closed_heatmap_center_standard_site, echo = FALSE, cache = FALSE, results = 'hide', fig.height = 20, fig.width = 16,  eval = TRUE}
+heatmap.center.coefficient$lsoa
+
+```
 
 #### Bishop Auckland  {.tabset .tabset-fade .tabset-pills}
 
