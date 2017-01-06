@@ -202,3 +202,31 @@ names(to.table) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', '
 kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time()))
 
 ```
+
+```{r template.forest.model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+forest.model2 <- closed_meta(df             = template$all.model.all.coef,
+                             ma.model       = 'Model 2',
+                             ma.method      = 'FE',
+                             indicator      = 'Measure',
+                             sub.indicator  = 'sub_measure',
+                             plot.ci        = TRUE,
+                             plot.null.line = TRUE,
+                             theme          = theme_bw())
+forest.model2$forest
+## forest.rma(forest.model2$meta.est, slab = forest.model2$meta.sites[1:length(forest.model2$meta.sites)])
+
+```
+
+```{r template.forest.model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+forest.model4 <- closed_meta(df             = template$all.model.all.coef,
+                             ma.model       = 'Model 6.1',
+                             ma.method      = 'FE',
+                             indicator      = 'Measure',
+                             sub.indicator  = 'sub_measure',
+                             plot.ci        = TRUE,
+                             plot.null.line = TRUE,
+                             theme          = theme_bw())
+forest.model4$forest
+## forest.rma(forest.model4$meta.est, slab = forest.model4$meta.sites[1:length(forest.model4$meta.sites)])
+
+```
