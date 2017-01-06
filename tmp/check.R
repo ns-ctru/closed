@@ -1,3 +1,34 @@
+## 2017-01-05 - Developing new forest plot to include meta-analysis rather than the
+##              estimate from the pooled analysis as originally done (not sure what
+##              the value of performing a meta-analysis is given the data can
+##              just be pooled and analysed appropriately, but hey ho)
+load('~/work/closed/nihr_report/data/results.RData')
+
+## Negative Binomial
+t1 <- closed_meta(df = mode.of.arrival.any$xtnbreg,
+                  ma.model = 'Model 2',
+                  ma.method = 'FE')
+t1$forest
+t1$meta.forest
+t1$meta.sites[1:length(t1$meta.sites)]
+
+forest.rma(t1$meta.est, slab = t1$meta.sites[1:length(t1$meta.sites)])
+
+t2 <- closed_meta(df = mode.of.arrival.any$xtnbreg,
+                  ma.model = 'Model 6.1',
+                  ma.method = 'FE')
+t2$forest
+
+## Prais-Winsten
+t3 <- closed_meta(df = ambulance.mean.times.call.to.dest$all.model.all.coef,
+                  ma.model = 'Model 2',
+                  ma.method = 'FE')
+t3$forest
+t4 <- closed_meta(df = ambulance.mean.times.call.to.dest$all.model.all.coef,
+                  ma.model = 'Model 6.1',
+                  ma.method = 'FE')
+t4$forest
+
 ## 2017-01-05 - Changing pooled models (Negative Binomial)
 mode.of.arrival.any.alt.pooled <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure_clean,
                                            df.trust        = ed_attendances_by_mode_site_measure_clean,
@@ -8,7 +39,7 @@ mode.of.arrival.any.alt.pooled <- closed_stata_negbin(df.lsoa         = ed_atten
                                            return.residuals = FALSE,
                                            rm.unused.control = model.opts$rm.unused.control,
                                            digits           = 3)
-dplyr::filter(mode.of.arrival.any.alt.pooled, model == 'Model 4')
+dplyr::filter(mode.of.arrival.any.alt.pooled$xtnbreg, model == 'Model 4')
 
 ## 2017-01-04 - Changing pooled models (Prais-Winston)
 model.opts$mod4    <- c('town', 'closure', 'season', 'relative.month')
