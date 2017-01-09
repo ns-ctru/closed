@@ -107,7 +107,7 @@ Table: Indicators of Ambulance, ED and Hospital performance tested.
 |                                   |          | `length of stay`                 | `median`               | `median`     | Mean length of stay of emergency admissions
 | **Risk of Death**                 | ONS/HES-ONS | `case fatality ratio`            | `any`                  | `proportion` | Proportion of emergency admissions cases for avoidable deaths (see below) that resulted in death.
 |                                   |             | `case fatality ratio`            | `myocardial infarction`| `proportion` | Proportion of emergency admission MIs that resulted in death.
-|                                   |             | `case fatality ratio`            | `stokre cva`           | `proportion` | Proportion of emergency admission Stroke/CVA's that resulted in death.
+|                                   |             | `case fatality ratio`            | `stroke cva`           | `proportion` | Proportion of emergency admission Stroke/CVA's that resulted in death.
 |                                   |             | `case fatality ratio`            | `any trauma sec`       | `proportion` | Proportion of emergency admissions traumas (RTA, Falls in those < 75, Non-superficial head injuries that resulted in death.
 |                                   |             | `sec case fatality 7 days`       | `any sec`              | `proportion` | Proportion of cases for avoidable deaths at 7 days (see below) that resultsed in deaths.
 | **Ambulance Green Calls** | **AS**       | `ambulance green calls`          | `green calls`             | `count`    | Number of green calls
