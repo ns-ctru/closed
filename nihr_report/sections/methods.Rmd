@@ -93,7 +93,7 @@ Table: Indicators of Ambulance, ED and Hospital performance tested.
 |                                   |          | `ambulance mean times`           | `call to scene conveying`| `mean`     | Mean time from 999 call to scene for calls that resulted in conveynace.
 |                                   |          | `ambulance mean times`           | `scene to dest`          | `mean`     | Mean time from scene to destination (ED).
 |                                   |          | `ambulance mean times`           | `dest to clear`          | `mean`     | Mean time from destination (ED) to being clear.
-| **Emergency Attendance**          | HES-AE   | `ed attendances`                 | `all`                  | `count`      | All ED attendances by any mode.
+| **Emergency Attendance**          | HES-AE   | `ed attendances`                 | `any`                  | `count`      | All ED attendances by any mode.
 |                                   |          | `ed attendances`                 | `ambulance`            | `count`      | All ED attendances by any mode.
 |                                   |          | `ed attendances`                 | `other`                | `count`      | All ED attendances by any mode.
 |                                   |          | `unnecessary ed attendances`     | `all`                  | `count`      | All ED attendances considered unnecessary
