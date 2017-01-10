@@ -214,7 +214,7 @@ Compared to the control site, after allowing for seasonal effects, any long term
 ```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 closed_ts_plot(df            = emergency_admissions_site_measure,
                indicator     = 'all emergency admissions',
-               sub.indicator = 'all',
+               sub.indicator = 'any',
                steps         = ts.plot.opts$steps,
                theme         = theme_bw(),
                facet         = ts.plot.opts$facet,
