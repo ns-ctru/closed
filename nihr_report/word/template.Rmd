@@ -113,7 +113,7 @@ Compared to the control site, after allowing for seasonal effects, any long term
 Figure QQ.4 shows the mean time from scene to hospital by ambulance for each month over the two years prior to the closure of the SITE Emergency Department and the two years after.
 
 ```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = ed_attendances_by_site_measure,
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
                indicator     = 'ed attendances',
                sub.indicator = 'any',
                steps         = ts.plot.opts$steps,
@@ -145,7 +145,7 @@ Compared to the control site, after allowing for seasonal effects, any long term
 ###### Plot of Monthly Activity
 
 ```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = ed_attendances_by_site_measure,
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
                indicator     = 'ed attendances',
                sub.indicator = 'ambulance',
                steps         = ts.plot.opts$steps,
@@ -177,7 +177,7 @@ Compared to the control site, after allowing for seasonal effects, any long term
 ###### Plot of Monthly Activity
 
 ```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot(df            = ed_attendances_by_site_measure,
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
                indicator     = 'ed attendances',
                sub.indicator = 'other',
                steps         = ts.plot.opts$steps,
