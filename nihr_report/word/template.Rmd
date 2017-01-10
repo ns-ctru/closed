@@ -1,0 +1,404 @@
+### SITE
+
+The Emergency Department at SITE was SHUT in MONTH-YEAR
+#### Ambulance Service Performance Times
+
+##### Mean Time from 999 Call to Arrival at Hospital
+
+###### Plot of Monthly Activity
+
+Figure QQ.1 shows the mean time from 999 call to hospital by ambulance for each month over the two years prior to the closure of the SITE Emergency Department and the two years after.
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call to dest',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('SITE', 'CONTROL'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average OUTCOME1 for residents in the catchment area of SITE was XXX.
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of OUTCOME1 in the catchment area of SITE was XXX.
+
+###### Dose Model
+
+##### Mean Time from 999 Call to Arrival at Scene
+
+###### Plot of Monthly Activity
+
+Figure QQ.2 shows the mean time from 999 call to scene by ambulance for each month over the two years prior to the closure of the SITE Emergency Department and the two years after.
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call to scene any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('SITE', 'CONTROL'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average OUTCOME2 for residents in the catchment area of SITE was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of OUTCOME2 in the catchment area of SITE was XXX.
+
+###### Dose Model
+
+##### Mean Time from Scene to Hospital
+
+###### Plot of Monthly Activity
+
+Figure QQ.3 shows the mean time from scene to hospital by ambulance for each month over the two years prior to the closure of the SITE Emergency Department and the two years after.
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'scene to dest',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('SITE', 'CONTROL'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average OUTCOME3 for residents in the catchment area of SITE was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of OUTCOME3 in the catchment area of SITE was XXX.
+
+###### Dose Model
+
+#### ED Attendances
+
+##### Any
+
+###### Plot of Monthly Activity
+
+Figure QQ.4 shows the mean time from scene to hospital by ambulance for each month over the two years prior to the closure of the SITE Emergency Department and the two years after.
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('SITE', 'CONTROL'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average OUTCOME4 for residents in the catchment area of SITE was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of OUTCOME4 in the catchment area of SITE was XXX.
+
+###### Dose Model
+
+##### Ambulance
+
+###### Plot of Monthly Activity
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'ambulance',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('SITE', 'CONTROL'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average OUTCOME5 for residents in the catchment area of SITE was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of OUTCOME5 in the catchment area of SITE was XXX.
+
+###### Dose Model
+
+##### Other
+
+###### Plot of Monthly Activity
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'other',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('SITE', 'CONTROL'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average OUTCOME6 for residents in the catchment area of SITE was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of OUTCOME6 in the catchment area of SITE was XXX.
+
+###### Dose Model
+
+
+#### Admissions
+
+##### All Emergency Admissions
+
+###### Plot of Monthly Activity
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'all emergency admissions',
+               sub.indicator = 'all',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('SITE', 'CONTROL'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average OUTCOME7 for residents in the catchment area of SITE was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of OUTCOME7 in the catchment area of SITE was XXX.
+
+###### Dose Model
+
+##### Potentially Avoidable Emergency Admissions - Any
+
+###### Plot of Monthly Activity
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'avoidable emergency admissions',
+               sub.indicator = 'any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('SITE', 'CONTROL'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average OUTCOME8 for residents in the catchment area of SITE was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of OUTCOME8 in the catchment area of SITE was XXX.
+
+###### Dose Model
+
+##### Potentially Avoidable Emergency Admissions - Non-Specific Chest Pain
+
+###### Plot of Monthly Activity
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'avoidable emergency admissions',
+               sub.indicator = 'non-specific chest pains',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('SITE', 'CONTROL'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average OUTCOME9 for residents in the catchment area of SITE was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of OUTCOME9 in the catchment area of SITE was XXX.
+
+###### Dose Model
+
+
+#### Deaths
+
+##### All Avoidable Deaths
+
+###### Plot of Monthly Activity
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = sec_deaths_all_7days_site_measure,
+               indicator     = 'sec deaths all 7days',
+               sub.indicator = 'any sec',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('SITE', 'CONTROL'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average OUTCOME10 for residents in the catchment area of SITE was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of OUTCOME10 in the catchment area of SITE was XXX.
+
+###### Dose Model
+
+##### All Pre-Hospital Avoidable Deaths
+
+###### Plot of Monthly Activity
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = sec_deaths_not_in_cips_7days_site_measure,
+               indicator     = 'sec deaths not in cips 7days',
+               sub.indicator = 'any sec',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('SITE', 'CONTROL'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average OUTCOME11 for residents in the catchment area of SITE was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of OUTCOME11 in the catchment area of SITE was XXX.
+
+###### Dose Model
+
+
+##### Case Fatality Ratio for Avoidable Deaths
+
+###### Plot of Monthly Activity
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = sec_case_fatality_7days_site_measure,
+               indicator     = 'sec case fatality 7 days',
+               sub.indicator = 'any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('SITE', 'CONTROL'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average OUTCOME12 for residents in the catchment area of SITE was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of OUTCOME12 in the catchment area of SITE was XXX.
+
+###### Dose Model
