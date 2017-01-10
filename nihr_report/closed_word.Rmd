@@ -18,18 +18,28 @@ opts_chunk$set(cache.path = 'cache/',
 set.seed(69027181)
 ```
 
-# {.tabset}
+#
 
-## Methods
-```{r child = 'sections/methods.Rmd', eval = TRUE}
+## Results
+```{r child = 'word/results_hemel.Rmd', eval = FALSE}
 ```
 
-<!--- Run all analyses --->
-```{r child = 'sections/analysis.Rmd', eval = FALSE}
+```{r child = 'word/results_hartlepool.Rmd', eval = FALSE}
 ```
 
-## Results {.tabset .tabset-fade .tabset-pills}
-```{r child = 'sections/results.Rmd', eval = FALSE}
+```{r child = 'word/results_bishop.Rmd', eval = TRUE}
+```
+
+```{r child = 'word/results_newark.Rmd', eval = FALSE}
+```
+
+```{r child = 'word/results_rochdale.Rmd', eval = FALSE}
+```
+
+```{r child = 'word/results_pooled_site.Rmd', eval = FALSE}
+```
+
+```{r child = 'word/results_pooled_dose.Rmd', eval = FALSE}
 ```
 
 ## References
