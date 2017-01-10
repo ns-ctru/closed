@@ -1,0 +1,404 @@
+### Bishop Auckland
+
+The Emergency Department at Bishop Auckland was SHUT in MONTH-YEAR
+#### Ambulance Service Performance Times
+
+##### Mean Time from 999 Call to Arrival at Hospital
+
+###### Plot of Monthly Activity
+
+Figure QQ.1 shows the mean time from 999 call to hospital by ambulance for each month over the two years prior to the closure of the Bishop Auckland Emergency Department and the two years after.
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call to dest',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average mean time from 999 call to hospital Emergency Department for residents in the catchment area of Bishop Auckland was XXX.
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of mean time from 999 call to hospital Emergency Department in the catchment area of Bishop Auckland was XXX.
+
+###### Dose Model
+
+##### Mean Time from 999 Call to Arrival at Scene
+
+###### Plot of Monthly Activity
+
+Figure QQ.2 shows the mean time from 999 call to scene by ambulance for each month over the two years prior to the closure of the Bishop Auckland Emergency Department and the two years after.
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = amb_mean_times_frame_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call to scene any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average mean time from 999 call to arrival at scene for residents in the catchment area of Bishop Auckland was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of mean time from 999 call to arrival at scene in the catchment area of Bishop Auckland was XXX.
+
+###### Dose Model
+
+##### Mean Time from Scene to Hospital
+
+###### Plot of Monthly Activity
+
+Figure QQ.3 shows the mean time from scene to hospital by ambulance for each month over the two years prior to the closure of the Bishop Auckland Emergency Department and the two years after.
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'scene to dest',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average mean time from scene to hospital Emergency Department for residents in the catchment area of Bishop Auckland was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of mean time from scene to hospital Emergency Department in the catchment area of Bishop Auckland was XXX.
+
+###### Dose Model
+
+#### ED Attendances
+
+##### Any
+
+###### Plot of Monthly Activity
+
+Figure QQ.4 shows the mean time from scene to hospital by ambulance for each month over the two years prior to the closure of the Bishop Auckland Emergency Department and the two years after.
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average total Emergency Department Attendances for residents in the catchment area of Bishop Auckland was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of total Emergency Department Attendances in the catchment area of Bishop Auckland was XXX.
+
+###### Dose Model
+
+##### Ambulance
+
+###### Plot of Monthly Activity
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'ambulance',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average Emergency Department attendances by ambulance for residents in the catchment area of Bishop Auckland was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of Emergency Department attendances by ambulance in the catchment area of Bishop Auckland was XXX.
+
+###### Dose Model
+
+##### Other
+
+###### Plot of Monthly Activity
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = ed_attendances_by_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'other',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average Emergency Department attendances by other modes for residents in the catchment area of Bishop Auckland was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of Emergency Department attendances by other modes in the catchment area of Bishop Auckland was XXX.
+
+###### Dose Model
+
+
+#### Admissions
+
+##### All Emergency Admissions
+
+###### Plot of Monthly Activity
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'all emergency admissions',
+               sub.indicator = 'all',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average Emergency Admissions for residents in the catchment area of Bishop Auckland was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of Emergency Admissions in the catchment area of Bishop Auckland was XXX.
+
+###### Dose Model
+
+##### Potentially Avoidable Emergency Admissions - Any
+
+###### Plot of Monthly Activity
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'avoidable emergency admissions',
+               sub.indicator = 'any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average all avoidable Emergency Admissions for residents in the catchment area of Bishop Auckland was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of all avoidable Emergency Admissions in the catchment area of Bishop Auckland was XXX.
+
+###### Dose Model
+
+##### Potentially Avoidable Emergency Admissions - Non-Specific Chest Pain
+
+###### Plot of Monthly Activity
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = emergency_admissions_site_measure,
+               indicator     = 'avoidable emergency admissions',
+               sub.indicator = 'non-specific chest pains',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average all avoidable non-sepcific chest pain Emergency Admissions for residents in the catchment area of Bishop Auckland was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of all avoidable non-sepcific chest pain Emergency Admissions in the catchment area of Bishop Auckland was XXX.
+
+###### Dose Model
+
+
+#### Deaths
+
+##### All Avoidable Deaths
+
+###### Plot of Monthly Activity
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = sec_deaths_all_7days_site_measure,
+               indicator     = 'sec deaths all 7days',
+               sub.indicator = 'any sec',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average mean time from 999 call to hospital Emergency Department0 for residents in the catchment area of Bishop Auckland was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of mean time from 999 call to hospital Emergency Department0 in the catchment area of Bishop Auckland was XXX.
+
+###### Dose Model
+
+##### All Pre-Hospital Avoidable Deaths
+
+###### Plot of Monthly Activity
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = sec_deaths_not_in_cips_7days_site_measure,
+               indicator     = 'sec deaths not in cips 7days',
+               sub.indicator = 'any sec',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average mean time from 999 call to hospital Emergency Department1 for residents in the catchment area of Bishop Auckland was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of mean time from 999 call to hospital Emergency Department1 in the catchment area of Bishop Auckland was XXX.
+
+###### Dose Model
+
+
+##### Case Fatality Ratio for Avoidable Deaths
+
+###### Plot of Monthly Activity
+
+```{r echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot(df            = sec_case_fatality_7days_site_measure,
+               indicator     = 'sec case fatality 7 days',
+               sub.indicator = 'any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+```
+
+###### ED Closure Area Model
+
+After allowing for seasonal effects, any long term trend, and other known changes in the ED catchment area the estimated change at the time of closure in the monthly average mean time from 999 call to hospital Emergency Department2 for residents in the catchment area of Bishop Auckland was XXX.
+
+
+###### ED Closure and Control Area Model
+
+Compared to the control site, after allowing for seasonal effects, any long term trend, and other kown changes in the two catchment areas, the estimated change in the monthly average number of mean time from 999 call to hospital Emergency Department2 in the catchment area of Bishop Auckland was XXX.
+
+###### Dose Model
