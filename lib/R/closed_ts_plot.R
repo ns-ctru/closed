@@ -36,6 +36,7 @@
 #'
 #' @export
 closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
+                           ## clean     = ed_attendances_by_mode_site_measure_clean,
                            sites           = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
                            indicator       = 'ed attendances',
                            sub.indicator   = 'any',
@@ -53,6 +54,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            repel           = FALSE,
                            colour          = TRUE,
                            hide.control    = FALSE,
+                           systematic.outlier = 3,
                            ...){
     ## Initialise results for returning
     results <- list()
@@ -462,6 +464,32 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         df.steps$xaxis.steps.labels <- gsub('Rotherham', 'Control', df.steps$xaxis.steps.labels)
     }
     #######################################################################
+    ## Flag data points for exclusion from LOWESS fitted curve           ##
+    #######################################################################
+    ## This is a complete fudge but can't think of any other quick and   ##
+    ## easy way of achieving it, c'est la vie.                           ##
+    #######################################################################
+    ## Clean the data using the threshold specified (default is x3 SD)   ##
+    clean <- closed_clean_revised(df = df,
+                                  indicator = indicator,
+                                  systematic = systematic.outlier)
+    ## Rename value (don't want conflicts), subset out those where missing
+    names(clean) <- gsub('value', 'missing', names(clean))
+    clean <- dplyr::filter(clean, is.na(missing)) %>%
+             dplyr::select(town, relative.month, measure, sub.measure, missing) %>%
+             mutate(missing = 1)
+    print(clean)
+    ## Merge into the main df, retaining all observations from that, and therefore
+    ## introducing _just_ the missing
+    names(df) %>% print()
+    df <- merge(df,
+                clean,
+                by    = c('town', 'measure', 'sub.measure', 'relative.month'),
+                all.x = TRUE) %>%
+          mutate(missing = ifelse(is.na(missing), 0, missing))
+    dplyr::filter(df, town == 'Bishop Auckland') %>% head() %>% print()
+    dplyr::filter(df, missing != 1) %>% head() %>% print()
+    #######################################################################
     ## Plot!                                                             ##
     #######################################################################
     ## Subset data
@@ -487,6 +515,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## print("Debug 5")
     ## df$linetype <- as.numeric(levels(df$town))
     ## print("Debug 6")
+    ## 2016-01-11 -
     if(colour == TRUE){
         results$plot <- ggplot(data = df,
                                mapping = aes(x     = relative.month,
@@ -504,7 +533,12 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         ## print('Are we smoothing?')
         results$plot <- results$plot +
                         geom_point(aes(shape = town), size = 4) +
-                        geom_smooth(aes(linetype = town), method = 'loess', color = 'black') +
+                        ## 2016-01-11 - Removing spurious data points from smoothing
+                        geom_smooth(data = dplyr::filter(df, missing != 1),
+                                    aes(x = relative.month,
+                                        y = value,
+                                        linetype = town), method = 'loess', color = 'black') +
+            ## geom_smooth(aes(linetype = town), method = 'loess', color = 'black') +
             scale_shape_manual(values = c(1, 19)) ## +
             ## scale_fill_manual(values = c('black', 'black'))
     }
