@@ -515,7 +515,13 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## print("Debug 5")
     ## df$linetype <- as.numeric(levels(df$town))
     ## print("Debug 6")
-    ## 2016-01-11 -
+    ## 2016-01-11 - Switch the order of Bishop/Whitehaven so symbols are
+    ##              consistent
+    if('Bishop Auckland' %in% sites){
+        print('Going to relevel')
+        df <- mutate(df,
+                     town = factor(town, rev(levels(town))))
+    }
     if(colour == TRUE){
         results$plot <- ggplot(data = df,
                                mapping = aes(x     = relative.month,
