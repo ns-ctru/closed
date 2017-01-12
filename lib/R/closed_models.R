@@ -2781,7 +2781,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$all.model.closure.coef$estimate <- paste0(formatC(results$all.model.closure.coef$est, digits = digits, format = 'f'),
                                                       ' (',
                                                       formatC(results$all.model.closure.coef$min95, digits = digits, format = 'f'),
-                                                      '-',
+                                                      ',',
                                                       formatC(results$all.model.closure.coef$max95, digits = digits, format = 'f'),
                                                       ') p = ',
                                                       formatC(results$all.model.closure.coef$p, digits = digits, format = 'f'))
