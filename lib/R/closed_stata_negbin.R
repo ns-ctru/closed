@@ -287,7 +287,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$summary.table.tail$estimate <- paste0(formatC(results$summary.table.tail$est, digits = digits, format = 'f'),
                                                   ' (',
                                                   formatC(results$summary.table.tail$min95, digits = digits, format = 'f'),
-                                                  '-',
+                                                  ',',
                                                   formatC(results$summary.table.tail$max95, digits = digits, format = 'f'),
                                                   ' ) p = ',
                                                   formatC(results$summary.table.tail$p, digits = digits, format = 'f'))
