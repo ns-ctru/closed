@@ -284,7 +284,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
     ## Obtain the list of sites used and return these so that plots can be generated
     results$meta.sites <- df[['town']]
     ## Create a matrix for summary meta-statistics
-    meta.row <- matrix(c(NA, NA, 'Overall', NA, NA, results$meta.est$b[1], results$meta.est$se[1]), nrow = 1) %>%
+    meta.row <- matrix(c(NA, NA, ' Overall', NA, NA, results$meta.est$b[1], results$meta.est$se[1]), nrow = 1) %>%
                  as.data.frame()
     names(meta.row) <- names(df)
     ## print('Debug 2')
@@ -301,6 +301,8 @@ closed_meta <- function(df             = mode.of.arrival.any,
     results$df$lci <- results$df$est - (1.96 * results$df$stderr)
     results$df$uci <- results$df$est + (1.96 * results$df$stderr)
     ## Combine Site, point estimate and CI for plotting on y-axis
+    results$df <- mutate(results$df,
+                         town = factor(town))
     results$df$y.axis <- paste0(results$df$town,
                                 ' ',
                                 formatC(results$df$est, format = 'f', digits = digits),
@@ -314,6 +316,13 @@ closed_meta <- function(df             = mode.of.arrival.any,
     results$df <- mutate(results$df,
                          y.axis = factor(y.axis),
                          y.axis = factor(y.axis, levels = rev(levels(y.axis))))
+    ## Generate y.axis conditional on the town/overall indicator
+    ## results$df <- results$df %>% mutate(y.axis = case_when(.$town == 'Bishop Auckland' ~ 6,
+    ##                                                        .$town == 'Hartlepool' ~ 5,
+    ##                                                        .$town == 'Hemel Hempstead' ~ 4,
+    ##                                                        .$town == 'Newark' ~ 3,
+    ##                                                        .$town == 'Rochdale' ~ 2,
+    ##                                                        .$town == 'Overall' ~ 1))
     ## Generate ggplot
     results$forest <- ggplot(results$df,
                              aes(x = est,
@@ -352,5 +361,14 @@ closed_meta <- function(df             = mode.of.arrival.any,
     if(!is.null(theme)){
         results$forest <- results$forest + theme
     }
+    ## Add meaningful y-axis labels
+    ## y.axis.label <- dplyr::select(results$df, )
+    ## results$forest <- results$forest + scale_y_continuous(breaks = c(seq(1:6)),
+    ##                                                       labels = c(1 = 'Overall',
+    ##                                                                  2 = 'Rochdale',
+    ##                                                                  3 = 'Newark',
+    ##                                                                  4 = 'Hemel Hempstead'
+    ##                                                                  5 = 'Hartlepool'
+    ##                                                                  6 = 'Bishop Auckland'))
     return(results)
 }
