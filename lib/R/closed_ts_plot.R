@@ -186,6 +186,9 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         y.text.steps <- 0.05
     }
     else if(indicator == 'ambulance mean times'){
+        ## Remove Hemel Hempsteads spurios data points...
+        df <- mutate(df,
+                     value = ifelse(value > 1000, NA, value))
         title1 <- 'Ambulance Mean Times'
         if(sub.indicator == 'call to dest' | sub.indicator == 'call_to_dest'){
             title2 <- ' (Call to Destination)'
@@ -478,17 +481,14 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     clean <- dplyr::filter(clean, is.na(missing)) %>%
              dplyr::select(town, relative.month, measure, sub.measure, missing) %>%
              mutate(missing = 1)
-    print(clean)
     ## Merge into the main df, retaining all observations from that, and therefore
     ## introducing _just_ the missing
-    names(df) %>% print()
     df <- merge(df,
                 clean,
                 by    = c('town', 'measure', 'sub.measure', 'relative.month'),
                 all.x = TRUE) %>%
-          mutate(missing = ifelse(is.na(missing), 0, missing))
-    dplyr::filter(df, town == 'Bishop Auckland') %>% head() %>% print()
-    dplyr::filter(df, missing != 1) %>% head() %>% print()
+        mutate(missing = ifelse(is.na(missing), 0, missing),
+               missing = ifelse(value == 0, 1, 0))
     #######################################################################
     ## Plot!                                                             ##
     #######################################################################
@@ -518,7 +518,6 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## 2016-01-11 - Switch the order of Bishop/Whitehaven so symbols are
     ##              consistent
     if('Bishop Auckland' %in% sites){
-        print('Going to relevel')
         df <- mutate(df,
                      town = factor(town, rev(levels(town))))
     }
