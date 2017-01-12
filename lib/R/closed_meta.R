@@ -414,14 +414,5 @@ closed_meta <- function(df             = mode.of.arrival.any,
     if(!is.null(theme)){
         results$forest <- results$forest + theme
     }
-    ## Add meaningful y-axis labels
-    ## y.axis.label <- dplyr::select(results$df, )
-    ## results$forest <- results$forest + scale_y_continuous(breaks = c(seq(1:6)),
-    ##                                                       labels = c(1 = 'Overall',
-    ##                                                                  2 = 'Rochdale',
-    ##                                                                  3 = 'Newark',
-    ##                                                                  4 = 'Hemel Hempstead'
-    ##                                                                  5 = 'Hartlepool'
-    ##                                                                  6 = 'Bishop Auckland'))
     return(results)
 }
