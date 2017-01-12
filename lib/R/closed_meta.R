@@ -50,20 +50,24 @@ closed_meta <- function(df             = mode.of.arrival.any,
         if(sub.indicator == 'any')            title2 <- ' (Any)'
         else if(sub.indicator == 'other')     title2 <- ' (Other)'
         else if(sub.indicator == 'ambulance') title2 <- ' (Ambulance)'
+        null.line <- 1
     }
     else if(indicator == 'unnecessary ed attendances'){
         title1 <- 'Unnecessary ED Attendances'
         title2 <- ''
+        null.line <- 1
     }
     else if(indicator == 'ed attendances admitted'){
         title1 <- 'ED Attendances Admitted'
         if(sub.indicator == 'all')                    title2 <- ' (All)'
         else if(sub.indicator == 'fraction admitted') title2 <- ' (Fraction)'
         else if(sub.indicator == 'admitted')          title2 <- ' (Absolute)'
+        null.line <- 1
     }
     else if(indicator == 'all emergency admissions'){
         title1 <- 'All Emergency Admissions'
         title2 <- ''
+        null.line <- 1
     }
     else if(indicator == 'avoidable emergency admissions'){
         title1 <- 'Avoidable Emergency Admissions'
@@ -81,10 +85,12 @@ closed_meta <- function(df             = mode.of.arrival.any,
         else if(sub.indicator == 'non-specific chest pain')    title2 <- ' (Non-Specific Chest Pain)'
         else if(sub.indicator == 'pyrexial child (<6 years)')  title2 <- ' (Pyrexial Child <6yrs)'
         else if(sub.indicator == 'urinary tract infection')    title2 <- ' (Urinary Tract Infection)'
+        null.line <- 1
     }
     else if(indicator == 'all emergency admissions'){
         title1 <- 'All Emergency Admissions'
         title2 <- ' (All)'
+        null.line <- 1
     }
     else if(indicator == 'length of stay'){
         title1 <- 'Length of Stay'
@@ -94,12 +100,14 @@ closed_meta <- function(df             = mode.of.arrival.any,
         else if(sub.indicator == 'median'){
             title2 <- ' (Median)'
         }
+        null.line <- 0
     }
     else if(indicator == 'critical care stays'){
         title1 <- 'Critical Care Stays'
         if(sub.indicator == 'all')                           title2 <- ' (All)'
         else if(sub.indicator == 'critical care')            title2 <- ' (Critical Care)'
         else if(sub.indicator == 'fraction critical care') title2 <- ' (Fractional Critical Care)'
+        null.line <- 1
     }
     else if(indicator == 'case fatality ratio' | indicator == 'sec case fatality 7 days'){
         title1 <- 'Case Fatality Ratio'
@@ -122,6 +130,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
         else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
         else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
         else if(sub.indicator == 'any trauma sec')                         title2 <- ' (Any Trauma)'
+        null.line <- 1
     }
     else if(indicator == 'ambulance mean times'){
         title1 <- 'Ambulance Mean Times'
@@ -140,38 +149,54 @@ closed_meta <- function(df             = mode.of.arrival.any,
         else if(sub.indicator == 'scene to dest' | sub.indicator == 'scene_to_dest'){
             title2 <- ' (Scene to Destination)'
         }
+        null.line <- 0
     }
     else if(indicator == 'ambulance non-conveyance'){
         title1 <- 'Ambulance Non-Conveyance'
-        if(sub.indicator == 'fraction not conveyed')                 title2 <- ' (Fraction)'
-        else if(sub.indicator == 'green calls')             title2 <- ' (Green Calls)'
-        else if(sub.indicator == 'not conveyed green calls') title2 <- ' (Green Calls Not Conveyed)'
+        if(sub.indicator == 'fraction not conveyed'){
+            title2 <- ' (Fraction)'
+            null.line <- 0
+        }
+        else if(sub.indicator == 'green calls'){
+            title2 <- ' (Green Calls)'
+            null.line <- 1
+        }
+        else if(sub.indicator == 'not conveyed green calls'){
+            title2 <- ' (Green Calls Not Conveyed)'
+            null.line <- 1
+        }
     }
     else if(indicator == 'ambulance green calls'){
         title1 <- 'Ambulance Green Calls'
         if(sub.indicator == 'fraction not conveyed'){
             title2 <- ' (Fraction)'
+            null.line <- 0
         }
         else if(sub.indicator == 'green calls'){
             title2 <- ' (Green Calls)'
+            null.line <- 1
         }
         else if(sub.indicator == 'hospital transfers'){
             title2 <- ' (Hospital Transfers)'
+            null.line <- 1
         }
         else if(sub.indicator == 'not conveyed green calls'){
             title2 <- ' (Green Calls Not Conveyed)'
+            null.line <- 1
         }
     }
     else if(indicator == 'ambulance red calls'){
         title1 <- 'Ambulance Red Calls'
         if(sub.indicator == 'hospital transfers')            title2 <- ' (Hospital Transfers)'
         else if(sub.indicator == 'total')                    title2 <- ' (Total)'
+        null.line <- 1
     }
     else if(indicator == 'hospital transfers'){
         title1 <- 'Hospital Transfers'
         if(sub.indicator == 'all stays')                   title2 <- ' (All Stays)'
         else if(sub.indicator == 'fraction with transfer') title2 <- ' (Fraction of Stays with Transfers)'
         else if(sub.indicator == 'stays with transfer')    title2 <- ' (Stays with Transfers)'
+        null.line <- 1
     }
     else if(indicator == 'sec case fatality 7 days'){
         title1 <- 'Case Fatality @ 7 Days'
@@ -194,6 +219,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
         else if(sub.indicator == 'septic shock')                title2 <- ' (Septic Shock)'
         else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
         else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
+        null.line <- 1
     }
     else if(indicator == 'sec deaths all 7days' | indicator == 'sec_deaths_all_7_days'){
         title1 <- 'Deaths @ 7 Days'
@@ -216,6 +242,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
         else if(sub.indicator == 'septic shock')                title2 <- ' (Septic Shock)'
         else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
         else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
+        null.line <- 1
     }
     else if(indicator == 'sec deaths in cips 7days' | indicator == 'sec_deaths_in_cips_7_days'){
         title1 <- 'Deaths in CIPS @ 7 Days'
@@ -238,6 +265,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
         else if(sub.indicator == 'septic shock')                title2 <- ' (Septic Shock)'
         else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
         else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
+        null.line <- 1
     }
     else if(indicator == 'sec deaths not in cips 7days' | indicator == 'sec_deaths_not_in_cips_7_days'){
         title1 <- 'Deaths not in CIPS @ 7 Days'
@@ -260,6 +288,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
         else if(sub.indicator == 'septic shock')                title2 <- ' (Septic Shock)'
         else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
         else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
+        null.line <- 1
     }
     else{
         title1 <- NULL
@@ -345,8 +374,10 @@ closed_meta <- function(df             = mode.of.arrival.any,
     }
     ## Optionally add null effect line
     if(plot.null.line == TRUE){
+        ## Conditionally set the intercept based on the measure/sub.measure
+        if(indicator == 'mode')
         results$forest <- results$forest +
-                          geom_vline(xintercept = 0, linetype = 'dashed')
+                          geom_vline(xintercept = null.line, linetype = 'dashed')
     }
     ## Conditionally label the x-axis
     if(ma.model == 'Model 2'){
