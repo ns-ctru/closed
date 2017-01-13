@@ -97,7 +97,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                    '.dta')
     system(call)
     ## Remove the input files
-    system('rm ~/work/closed/nihr_report/data/results/site.dta ~/work/closed/nihr_report/data/results/lsoa.dta')
+    system('rm ~/work/closed/nihr_report/data/site.dta ~/work/closed/nihr_report/data/lsoa.dta')
     ## Bind and return results
     ## print("Site...")
     ## head(results$site) %>% print()
@@ -115,7 +115,9 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                               measure == indicator, sub.measure == sub.indicator) %>%
                 mutate(before.after = ifelse(relative.month >= 25, "After", "Before"))
     results$tmp <-  df.trust
-    results$summary.df <- group_by(df.trust, town, before.after) %>%
+    results$summary.df <- mutate(df.trust,
+                                 value = ifelse(value == 0, NA, value)) %>%
+                          group_by(town, before.after) %>%
                           summarise(n        = n(),
                                     mean     = mean(value, na.rm = TRUE),
                                     sd       = sd(value, na.rm = TRUE),
