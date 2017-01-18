@@ -59,7 +59,9 @@ local model6_1    relative_month i.season i.nhs111 i.other_centre i.ambulance_di
 /*              meeting 2016-01-04                                  */
 /* local model7_1    relative_month i.season i.nhs111 other_centre ambulance_divert diff_time_to_ed */
 local model7_1     i.town relative_month i.season diff_time_to_ed
-local model8       relative_month i.season i.nhs11 i.other_centre i.ambulance.divert  i.diff_time_to_ed##i.closure
+/* 2016-01-17 - NB diff_time_to_ed is a BINARY Low/High variable in lsoa_pooled.dta have            */
+/*                 purposefully retained same variable name for ease of subsequent processing       */
+local model8       relative_month i.season i.nhs111 i.other_centre i.ambulance.divert  i.diff_time_to_ed##i.closure
 local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 
 /************************************************************************/
