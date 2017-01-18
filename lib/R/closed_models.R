@@ -84,6 +84,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                           model6.2        = c('town', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
                           model7.1        = c('closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
                           model7.2        = c('town * closure', 'season', 'relative.month', 'nhs111', 'other.centre', 'ambulance.divert', 'diff.time.to.ed'),
+                          model8          = c('diff.time.to.ed * closure', 'nhs111', 'other.centre', 'ambulance.divert', 'relative.month', 'season'),
                           autocorr        = 'ar1',
                           panelcorrmethod = 'pcse',
                           coefficients    = 'closure.town',
@@ -147,7 +148,9 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     df.trust <- mutate(df.trust,
                        before.after = ifelse(relative.month >= 25, "After", "Before"))
     results$tmp <- df.trust
-    results$summary.df <- group_by(df.trust, town, before.after) %>%
+    results$summary.df <- mutate(df.trust,
+                                 value = ifelse(value == 0, NA, value)) %>%
+                          group_by(town, before.after) %>%
                           summarise(n        = n(),
                                     mean     = mean(value, na.rm = TRUE),
                                     sd       = sd(value, na.rm = TRUE),
@@ -1596,7 +1599,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                          results$model3.2.panelar.all.coef),
                                                     plot.term     = c('closure'),
                                                     facet.outcome = FALSE,
-                                                    title         = paste0('Model 8 : ',
+                                                    title         = paste0('Model 3.2 : ',
                                                                            indicator,
                                                                            ' (',
                                                                            sub.indicator,
@@ -2564,6 +2567,271 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         rm(df7.2)
     }
     #######################################################################
+    ## Model 8                                                         ##
+    #######################################################################
+    if(!is.null(model8)){
+        ## print("Model 8")
+        ## Reformulate outcome and covariates
+        formula.model8 <- reformulate(response = outcome,
+                                      termlabels = model8)
+        ## Subset data
+        sites <- c('Bishop Auckland',
+                   'Hartlepool',
+                   'Hemel Hempstead',
+                   'Newark',
+                   'Rochdale')
+        df8 <- dplyr::filter(df.lsoa, town %in% sites &
+                            measure     == indicator &
+                            sub.measure == sub.indicator)
+        binary <- dplyr::select(df8, town, lsoa, diff.time.to.ed)
+        df8$group <- paste0('Cohort : ', df8$group)
+        ## Add in indicator of case/control status for plotting
+        case <- c('Bishop Auckland',
+                  'Hartlepool',
+                  'Hemel Hempstead',
+                  'Newark',
+                  'Rochdale')
+        df8$status <- ifelse(df8$town %in% case, 'Case', 'Control')
+        ######################################################################
+        ## Derive summary pooled data classifying each LSOA as 'High' or    ##
+        ## 'Low' in terms of being above or below the median travel times   ##
+        ## and summing the events across LSOAs (due to low counts, although ##
+        ## thats really only applicable for the deaths and red calls -      ##
+        ## hospital transfers                                               ##
+        ######################################################################
+        ## Derive binary indicator of High/Low _within_ each case site
+        ## df8 <- ungroup(df8)
+        binary <- dplyr::select(df8, town, lsoa, diff.time.to.ed) %>%
+                  dplyr::filter(diff.time.to.ed != 0) %>%
+                  unique() %>%
+                  group_by(town) %>%
+                  mutate(median      = quantile(diff.time.to.ed, probs = c(0.5)),
+                         binary.diff = ifelse(diff.time.to.ed < median, 'Low', 'High')) %>%
+                  dplyr::select(lsoa, town, binary.diff)
+        ## Bind to the main data frame
+        df8 <- merge(dplyr::select(df8, -diff.time.to.ed),
+                     binary,
+                     by = c('town', 'lsoa')) %>%
+               group_by(town, relative.month, measure, sub.measure, binary.diff) %>%
+               summarise(value            = sum(value),
+                         closure          = mean(closure),
+                         nhs111           = mean(nhs111),
+                         ambulance.divert = mean(ambulance.divert),
+                         other.centre     = mean(other.centre),
+                         season           = mean(as.numeric(season))) %>%
+               ungroup() %>%
+               mutate(season = as.factor(season),
+                      relative.month = as.integer(relative.month))
+        typeof(df8$relative.month) %>% print()
+        is.integer(df8$relative.month) %>% print()
+        names(df8) %>% print()
+        ## HERE
+        ## Perform analysis with panelAR in each
+        ##################################################
+        ## Model 8 - Bishop Auckland                  ##
+        ##################################################
+        ## print("Bishop Auckland")
+        t <- dplyr::filter(df8,
+                           town == 'Bishop Auckland')
+        ## Getting errors with complete.case == TRUE...
+        ##
+        ## Error: Unable to compute correlated SEs / PCSEs because there are no time
+        ## periods in common across all units. Instead, consider setting
+        ## complete.case =FALSE.
+        ##
+        ## ...so have opted for that for ALL LSOA analyses rather than conditionally
+        ## switching.
+        ## complete.case.8 <- complete.case
+        ## if(indicator == 'case fatality ratio' & sub.indicator == 'any') complete.case.8 <- FALSE
+        complete.case <- FALSE
+        if(town.group$n[town.group$town == 'Bishop Auckland']){
+            ## Remove instances where there are missing observations for LSOAs
+            t <- dplyr::filter(t, !is.na(value))
+            typeof(t$relative.month) %>% print()
+            is.integer(t$relative.month) %>% print()
+            head(t) %>% print()
+            dim(t) %>% print()
+            df8[, 'relative.month'] %>% typeof() %>% print()
+            model8.panelar.bishop <- panelAR(data     = t,
+                                             formula  = formula.model8,
+                                             timeVar  = timevar,
+                                             panelVar = panel.lsoa,
+                                             autoCorr = autocorr,
+                                             panelCorrMethod = 'pcse',
+                                             complete.case = complete.case,
+                                             seq.times = seq.times,
+                                             rho.na.rm = rho.na.rm)
+            results$model8.panelar.bishop.coef <- extract_coefficients(x              = model8.panelar.bishop,
+                                                                       .site          = 'Bishop Auckland',
+                                                                       .indicator     = indicator,
+                                                                       .sub.indicator = sub.indicator)
+            results$model8.panelar.bishop.r2 <- model8.panelar.bishop
+
+        }
+        ##################################################
+        ## Model 8 - Hartlepool                       ##
+        ##################################################
+        ## print("Hartlepool")
+        t <- dplyr::filter(df8,
+                    town == 'Hartlepool')
+        if(town.group$n[town.group$town == 'Hartlepool'] > 0){
+            ## Remove instances where there are missing observations for LSOAs
+            t <- dplyr::filter(t, !is.na(value))
+            model8.panelar.hartlepool <- panelAR(data     = t,
+                                                 formula  = formula.model8,
+                                                 timeVar  = timevar,
+                                                 panelVar = panel.lsoa,
+                                                 autoCorr = autocorr,
+                                                 panelCorrMethod = 'pcse',
+                                                 complete.case = complete.case,
+                                                 seq.times = seq.times,
+                                                 rho.na.rm = rho.na.rm)
+            results$model8.panelar.hartlepool.coef <- extract_coefficients(x             = model8.panelar.hartlepool,
+                                                                           .site          = 'Hartlepool',
+                                                                           .indicator     = indicator,
+                                                                           .sub.indicator = sub.indicator)
+            results$model8.panelar.hartlepool.r2 <- model8.panelar.hartlepool$r2
+        }
+        ##################################################
+        ## Model 8 - Hemel Hempstead                  ##
+        ##################################################
+        ## print("Hemel Hempstead")
+        t <- dplyr::filter(df8,
+                    town == 'Hemel Hempstead')
+        if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0){
+            ## Remove instances where there are missing observations for LSOAs
+            t <- dplyr::filter(t, !is.na(value))
+            model8.panelar.hemel <- panelAR(data     = t,
+                                            formula  = formula.model8,
+                                            timeVar  = timevar,
+                                            panelVar = panel.lsoa,
+                                            autoCorr = autocorr,
+                                            panelCorrMethod = 'pcse',
+                                            complete.case = complete.case,
+                                            seq.times = seq.times,
+                                            rho.na.rm = rho.na.rm)
+            results$model8.panelar.hemel.coef <- extract_coefficients(x              = model8.panelar.hemel,
+                                                                      .site          = 'Hemel Hempstead',
+                                                                      .indicator     = indicator,
+                                                                      .sub.indicator = sub.indicator)
+            results$model8.panelar.hemel.r2 <- model8.panelar.hemel$r2
+        }
+        ##################################################
+        ## Model 8 - Newark                           ##
+        ##################################################
+        ## print("Newark")
+        t <- dplyr::filter(df8,
+                    town == 'Newark')
+        if(town.group$n[town.group$town == 'Newark'] > 0){
+            ## Remove instances where there are missing observations for LSOAs
+            t <- dplyr::filter(t, !is.na(value))
+            model8.panelar.newark <- panelAR(data     = t,
+                                             formula  = formula.model8,
+                                             timeVar  = timevar,
+                                             panelVar = panel.lsoa,
+                                             autoCorr = autocorr,
+                                             panelCorrMethod = 'pcse',
+                                             complete.case = complete.case,
+                                             seq.times = seq.times,
+                                             rho.na.rm = rho.na.rm)
+            results$model8.panelar.newark.coef <- extract_coefficients(x              = model8.panelar.newark,
+                                                                       .site          = 'Newark',
+                                                                       .indicator     = indicator,
+                                                                       .sub.indicator = sub.indicator)
+            results$model8.panelar.newark.r2 <- model8.panelar.newark$r2
+        }
+        ##################################################
+        ## Model 8 - Rochdale                         ##
+        ##################################################
+        ## print("Rochdale")
+        t <- dplyr::filter(df8,
+                    town == 'Rochdale')
+        if(town.group$n[town.group$town == 'Rochdale'] > 0){
+            ## Remove instances where there are missing observations for LSOAs
+            t <- dplyr::filter(t, !is.na(value))
+            model8.panelar.rochdale <- panelAR(data     = t,
+                                               formula  = formula.model8,
+                                               timeVar  = timevar,
+                                               panelVar = panel.lsoa,
+                                               autoCorr = autocorr,
+                                               panelCorrMethod = 'pcse',
+                                               complete.case = complete.case,
+                                               seq.times = seq.times,
+                                               rho.na.rm = rho.na.rm)
+            results$model8.panelar.rochdale.coef <- extract_coefficients(x            = model8.panelar.rochdale,
+                                                                         .site          = 'Rochdale',
+                                                                         .indicator     = indicator,
+                                                                         .sub.indicator = sub.indicator)
+            results$model8.panelar.rochdale.r2 <- model8.panelar.rochdale$r2
+        }
+        ## Summary table
+        if(!is.null(results$model8.panelar.bishop.coef) |
+           !is.null(results$model8.panelar.hartlepool.coef) |
+           !is.null(results$model8.panelar.hemel.coef) |
+           !is.null(results$model8.panelar.newark.coef) |
+           !is.null(results$model8.panelar.rochdale.coef)){
+            results$model8.panelar.all <- combine_coefficients(bishop.coef     = results$model8.panelar.bishop.coef,
+                                                               hartlepool.coef = results$model8.panelar.hartlepool.coef,
+                                                               hemel.coef      = results$model8.panelar.hemel.coef,
+                                                               newark.coef     = results$model8.panelar.newark.coef,
+                                                               rochdale.coef   = results$model8.panelar.rochdale.coef)
+            ## Forest plot
+            results$model8.forest.model8 <- closed_forest(df.list       = list(results$model8.panelar.bishop.coef,
+                                                                               results$model8.panelar.hartlepool.coef,
+                                                                               results$model8.panelar.hemel.coef,
+                                                                               results$model8.panelar.newark.coef,
+                                                                               results$model8.panelar.rochdale.coef),
+                                                          plot.term     = c('closure'),
+                                                          facet.outcome = FALSE,
+                                                          title         = paste0('Model 8 : ',
+                                                                                 indicator,
+                                                                                 ' (',
+                                                                                 sub.indicator,
+                                                                                 ')'),
+                                                          theme         = theme_bw())
+        }
+        ## Return model objects if requested
+        if(return.model == TRUE){
+            if(exists('model8.panelar.bishop')){
+                results$model8.panelar.bishop     <- model8.panelar.bishop
+            }
+            if(exists('model8.panelar.hartlepool')){
+                results$model8.panelar.hartlepool <- model8.panelar.hartlepool
+            }
+            if(exists('model8.panelar.hemel')){
+                results$model8.panelar.hemel      <- model8.panelar.hemel
+            }
+            if(exists('model8.panelar.newark')){
+                results$model8.panelar.newark     <- model8.panelar.newark
+            }
+            if(exists('model8.panelar.rochdale')){
+                results$model8.panelar.rochdale   <- model8.panelar.rochdale
+            }
+        }
+        if(return.df == TRUE){
+            results$model8.df <- df8
+        }
+        if(return.residuals == TRUE){
+            if(exists('model8.panelar.bishop')){
+                results$model8.panelar.residuals.bishop     <- summary(model8.panelar.bishop)$residuals
+            }
+            if(exists('model8.panelar.hartlepool')){
+                results$model8.panelar.residuals.hartlepool <- summary(model8.panelar.hartlepool)$residuals
+            }
+            if(exists('model8.panelar.hemel')){
+                results$model8.panelar.residuals.hemel      <- summary(model8.panelar.hemel)$residuals
+            }
+            if(exists('model8.panelar.newark')){
+                results$model8.panelar.residuals.newark     <- summary(model8.panelar.newark)$residuals
+            }
+            if(exists('model8.panelar.rochdale')){
+                results$model8.panelar.residuals.rochdale   <- summary(model8.panelar.rochdale)$residuals
+            }
+        }
+        ## Remove clutter
+        rm(df8)
+    }
+    #######################################################################
     ## Produce summary tables by center using results$summary.table.head ##
     ## and the coefficients from each model                              ##
     #######################################################################
@@ -2684,20 +2952,28 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     else{
         model7.2.coef <- 1
     }
+    if(!is.null(model8)){
+        model8.coef <- results$model8.panelar.all.coef
+        model8.coef$model <- 'Model 8'
+    }
+    else{
+        model8.coef <- 1
+    }
     ## Some model*.coef may not have any data though as the models weren't run
     ## make those NULL so the subsequent rbind() doesn't fail
-    if(length(model0.coef) == 1) model0.coef     <- NULL
+    if(length(model0.coef) == 1)   model0.coef   <- NULL
     if(length(model0.5.coef) == 1) model0.5.coef <- NULL
-    if(length(model1.coef) == 1) model1.coef     <- NULL
-    if(length(model2.coef) == 1) model2.coef     <- NULL
+    if(length(model1.coef) == 1)   model1.coef   <- NULL
+    if(length(model2.coef) == 1)   model2.coef   <- NULL
     if(length(model3.1.coef) == 1) model3.1.coef <- NULL
     if(length(model3.2.coef) == 1) model3.2.coef <- NULL
-    if(length(model4.coef) == 1) model4.coef     <- NULL
-    if(length(model5.coef) == 1) model5.coef     <- NULL
+    if(length(model4.coef) == 1)   model4.coef   <- NULL
+    if(length(model5.coef) == 1)   model5.coef   <- NULL
     if(length(model6.1.coef) == 1) model6.1.coef <- NULL
     if(length(model6.2.coef) == 1) model6.2.coef <- NULL
     if(length(model7.1.coef) == 1) model7.1.coef <- NULL
     if(length(model7.2.coef) == 1) model7.2.coef <- NULL
+    if(length(model8.coef) == 1)   model8.coef   <- NULL
     ## Return all coefficients across models
     if(!is.null(model0.coef)){
         results$all.model.all.coef <- model0.coef
@@ -2745,6 +3021,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     if(!is.null(model7.2.coef)){
         results$all.model.all.coef <- rbind(results$all.model.all.coef,
                                             model7.2.coef)
+    }
+    if(!is.null(model8.coef)){
+        results$all.model.all.coef <- rbind(results$all.model.all.coef,
+                                            model8.coef)
     }
     ## results$all.model.all.coef <- rbind(model0.coef,
     ##                                     model0.5.coef
@@ -2888,6 +3168,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                          order1 = ifelse(model == 'Model 6.2', 9, order1),
                                          order1 = ifelse(model == 'Model 7.1', 10, order1),
                                          order1 = ifelse(model == 'Model 7.2', 11, order1),
+                                         order1 = ifelse(model == 'Model 8',   12, order1),
                                          order2 = ifelse(town == 'Bishop Auckland', 1, order2),
                                          order2 = ifelse(town == 'Hartlepool',      2, order2),
                                          order2 = ifelse(town == 'Hemel Hempstead', 3, order2),
@@ -2953,6 +3234,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.2']      <- 'All Controls'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7.2']   <- 'LSOA Panel'
     results$summary.table$town[is.na(results$summary.table$diff_abs)] <- results$summary.table$group[is.na(results$summary.table$diff_abs)]
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.1']   <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'None'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.1'] <- 'LSOA Panel'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.2']   <- 'Estimated difference coefficient for High change in time to ED'
     ## Site specific tables
     ## Bishop Auckland
     results$summary.table.bishop <- dplyr::filter(results$summary.table,
