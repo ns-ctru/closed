@@ -36,10 +36,10 @@ di "`measure'"
 tab measure sub_measure
 keep if(measure == "`measure'" & sub_measure == "`sub_measure'")
 decode town, generate(town_string)
-egen _lsoa_town = concat(town lsoa)
-encode _lsoa_town, generate(lsoa_town)
-drop _lsoa_town
-xtset lsoa_town relative_month
+egen _diff_time_to_ed_town = concat(town diff_time_to_ed)
+encode _diff_time_to_ed_town, generate(diff_time_to_ed_town)
+drop _diff_time_to_ed_town
+xtset diff_time_to_ed_town relative_month
 tempfile data_pooled
 save `data_pooled', replace
 
@@ -61,7 +61,7 @@ local model6_1    relative_month i.season i.nhs111 i.other_centre i.ambulance_di
 local model7_1     i.town relative_month i.season diff_time_to_ed
 /* 2016-01-17 - NB diff_time_to_ed is a BINARY Low/High variable in lsoa_pooled.dta have            */
 /*                 purposefully retained same variable name for ease of subsequent processing       */
-local model8       relative_month i.season i.nhs111 i.other_centre i.ambulance.divert  i.diff_time_to_ed##i.closure
+local model8       relative_month i.season i.nhs111 i.other_centre i.ambulance_divert  i.diff_time_to_ed##i.closure
 local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 
 /************************************************************************/
@@ -549,7 +549,7 @@ if("`measure'" == "ambulance red calls" & "`sub_measure'" == "total"){
 if("`measure'" == "ambulance red calls" & "`sub_measure'" == "total"){
     drop if(town_string == "Newark")
 }
-/* Model 1                                                        */
+/* Model 7.1                                                       */
 xtnbreg `outcome' `model7_1', iterate(`iter') ltolerance(`ltolerance') nrtolerance(`nrtolerance')
 parmest, saving("`base_dir'/data/results/model7_1.dta", replace) eform label
 use "`base_dir'/data/results/model7_1.dta", clear
