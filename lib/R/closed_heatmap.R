@@ -55,6 +55,11 @@ closed_heatmap <- function(df           = summary.models,
                                                'case fatality ratio - any',
                                                'case fatality ratio - any trauma sec',
                                                'sec case fatality 7 days - any sec',
+                                               'sec case fatality 7 days - stroke cva',
+                                               'sec case fatality 7 days - myocardial infarction',
+                                               'sec case fatality 7 days - acute heart failure',
+                                               'sec case fatality 7 days - any',
+                                               'sec case fatality 7 days - any trauma sec',
                                                'length of stay - median',
                                                'length of stay - mean',
                                                'critical care stays - fraction critical care',
@@ -92,6 +97,9 @@ closed_heatmap <- function(df           = summary.models,
                                     no  = model),
                      model = ifelse(model == 'Model 7.1',
                                     yes = 'Model 5',
+                                    no  = model))
+                     model = ifelse(model == 'Model 8',
+                                    yes = 'Model 6',
                                     no  = model))
     }
     ## Build the text that is to be overlaid
