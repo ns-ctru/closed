@@ -90,6 +90,9 @@ closed_heatmap2 <- function(df           = summary.models,
                                     no  = model),
                      model = ifelse(model == 'Model 7.1',
                                     yes = 'Model 5',
+                                    no  = model),
+                     model = ifelse(model == 'Model 8',
+                                    yes = 'Model 6',
                                     no  = model))
     }
     ## Build the text that is to be overlaid
