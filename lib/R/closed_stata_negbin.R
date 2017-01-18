@@ -74,6 +74,34 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     dplyr::filter(df.lsoa,
                   measure == indicator, sub.measure == sub.indicator) %>%
         write.dta(file = '~/work/closed/nihr_report/data/lsoa.dta')
+    #######################################################################
+    ## Collapse LSOA data for 'model 8' testing                          ##
+    #######################################################################
+    ## Derive binary indicator of High/Low _within_ each case site
+    binary <- ungroup(lsoa) %>%
+              dplyr::select(town, lsoa, diff.time.to.ed) %>%
+              dplyr::filter(diff.time.to.ed != 0) %>%
+              unique() %>%
+              group_by(town) %>%
+              mutate(median      = quantile(diff.time.to.ed, probs = c(0.5)),
+                     binary.diff = ifelse(diff.time.to.ed < median, 'Low', 'High')) %>%
+              dplyr::select(lsoa, binary.diff)
+        ## Bind to the main data frame
+    lsoa.pooled <- merge(lsoa,
+                         binary,
+                         by = c('town', 'lsoa')) %>%
+                   group_by(town, relative.month, measure, sub.measure, binary.diff) %>%
+                   summarise(value            = sum(value),
+                             closure          = mean(closure),
+                             nhs111           = mean(nhs111),
+                             ambulance.divert = mean(ambulance.divert),
+                             other.centre     = mean(other.centre),
+                             season           = mean(as.numeric(season)))  %>%
+                   ungroup() %>%
+                   mutate(season = as.factor(season),
+                          relative.month = as.numeric(relative.month))
+    write.dta(lsoa.pooled,
+              file = '~/work/closed/nihr_report/data/lsoa_pooled.dta')
     call <- paste0('cp ~/work/closed/nihr_report/data/lsoa.dta ~/work/closed/nihr_report/data/input_lsoa_',
                    gsub(' ', '_', indicator),
                    '_',
