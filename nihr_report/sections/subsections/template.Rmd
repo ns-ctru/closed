@@ -197,6 +197,9 @@ to.table <- dplyr::select(template$summary.table, town, Before_mean.sd, Before_m
                                       no  = Before_median.iqr),
            Before_median.iqr = ifelse(Before_median.iqr == 'Model 7.1',
                                       yes = 'Model 5',
+                                      no  = Before_median.iqr),
+           Before_median.iqr = ifelse(Before_median.iqr == 'Model 8',
+                                      yes = 'Model 6',
                                       no  = Before_median.iqr))
 names(to.table) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
 kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time()))
@@ -228,5 +231,100 @@ forest.model4 <- closed_meta(df             = template$all.model.all.coef,
                              theme          = theme_bw())
 forest.model4$forest
 ## forest.rma(forest.model4$meta.est, slab = forest.model4$meta.sites[1:length(forest.model4$meta.sites)])
+
+```
+
+###### Bishop
+```{r template.lsoa.pooled.bishop.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot_lsoa_binary(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control         = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+
+```
+
+###### Hartlepool
+```{r template.lsoa.pooled.hartlepool.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot_lsoa_binary(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hartlepool'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+
+```
+
+###### Hemel Hempstead
+```{r template.lsoa.pooled.hartlepool.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot_lsoa_binary(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hemel Hempstead'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+
+```
+
+###### Newark
+```{r template.lsoa.pooled.hartlepool.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot_lsoa_binary(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Newark'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+
+```
+
+###### Rochdale
+```{r template.lsoa.pooled.hartlepool.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot_lsoa_binary(df            = data_frame_site_measure,
+               indicator     = 'Measure',
+               sub.indicator = 'sub_measure',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Rochdale'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
 
 ```
