@@ -262,6 +262,7 @@ sed -e 's/template/ambulance.mean.times.scene.to.dest/g' \
     -e 's/sub_measure/scene to dest/g' \
     -e 's/data_frame/amb_mean_times/g' \
     -e 's/DESCRIPTION/mean time from scene to destination/g' \
+    -e "s/r ambulance.mean.times.scene.to.dest.forest.model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE/r ambulance.mean.times.scene.to.dest.forest.model4, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE/g" \
     template.Rmd > ambulance_mean_times_scene_to_dest.Rmd
 
 ## Measure     : Ambulance Non Conveyances (green calls)
