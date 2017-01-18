@@ -304,6 +304,8 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                               term = gsub('19.town', 'townWigan', term),
                               term = gsub('20.town#closure', 'townYeovil:closure ', term),
                               term = gsub('20.town', 'townYeovil', term),
+                              term = gsub('1.diff.time.to.ed', 'diff.time.to.ed', term),
+                              term = gsub('1.diff.time.to.ed#closure', 'diff.time.to.ed:closure', term),
                               model = gsub('model', 'Model ', model))
     ## Subset out the coefficients of interest for the table footer
     ## print("Debug 6.1")
@@ -346,6 +348,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                                          order1 = ifelse(model == 'Model 6.2', 8, order1),
                                          order1 = ifelse(model == 'Model 7.1', 9, order1),
                                          order1 = ifelse(model == 'Model 7.2', 10, order1),
+                                         order1 = ifelse(model == 'Model 8',   11, order1),
                                          order2 = ifelse(town == 'Bishop Auckland', 1, order2),
                                          order2 = ifelse(town == 'Hartlepool',      2, order2),
                                          order2 = ifelse(town == 'Hemel Hempstead', 3, order2),
@@ -420,6 +423,11 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7.2']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.2']      <- 'All Controls'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7.2']   <- 'LSOA Panel'
+
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 8']       <- 'Dichtomisation of Difference in Time to ED'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 8']     <- 'Individual Case Sites'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 8']      <- 'None'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 8']   <- 'LSOA Panel'
     results$summary.table$town[is.na(results$summary.table$diff_abs)] <- results$summary.table$group[is.na(results$summary.table$diff_abs)]
     ## Site specific tables
     ## Bishop Auckland
