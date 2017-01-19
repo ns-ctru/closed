@@ -61,6 +61,13 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                    gsub(' ', '_', sub.indicator))
     ## Run, copy file to its own unique location
     system(call)
+    ## One outcome doesn't run when called from R but does when called from Stata
+    ## directly, why I can not fathom but I've made a copy of results and therefore
+    ## conditionally copy them here so that they are read in.
+    if(indicator == 'sec deaths in cips 7days' & sub.indicator == 'any sec'){
+        call <- paste0('cp ~/work/closed/nihr_report/data/results/stata_negbin_site_sec deaths in cips 7days_any sec_completed.dta ~/work/closed/nihr_report/data/results/stata_negbin_site.dta')
+        system(call)
+    }
     ## Read the results back in, copy results to their own file
     results$site <- read_dta(file = '~/work/closed/nihr_report/data/results/stata_negbin_site.dta')
     call <- paste0('cp ~/work/closed/nihr_report/data/results/stata_negbin_site.dta ~/work/closed/nihr_report/data/results/results_site_',
