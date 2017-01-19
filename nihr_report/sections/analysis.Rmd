@@ -733,7 +733,7 @@ critical.care.cips.all <- closed_stata_negbin(df.lsoa =  critical_care_cips_meas
 
 <!--- Critical Care - Critical --->
 ```{r critical_care_cips_critical, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-critical.care.cips.critical <- closed_stata_negbin(df.lsoa =  critical_care_cips_measure_clean,
+critical.care.cips.critical <- closed_stata_negbin(df.lsoa =  critical_care_cips_measure,
                                            df.trust         = critical_care_cips_site_measure_clean,
                                            indicator       = 'critical care stays',
                                            sub.indicator   = 'critical care',
