@@ -63,7 +63,7 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
     if(grepl('_site_', deparse(substitute(df)))){
         stop('Error : You have passed a site-level file to this plotting function, you should probably be using closed_ts_plot() instead.')
     }
-    else if(length(site) > 1){
+    else if(length(sites) > 1){
         stop('Error : You can only specify one (case) site to summarise')
     }
     ## If we have LSOA level data we now summarise and plot
@@ -596,8 +596,8 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
                                              ## caption = paste0('Generated : ', Sys.time()),
                                              x      = 'Month (Aligned)',
                                              y      = ylabel,
-                                             colour = 'Hospital Catchment Area',
-                                             linetype = 'Hospital Catchment Area'))
+                                             colour = 'Difference in Time to ED',
+                                             linetype = 'Difference in Time to ED'))
     ## Label lines
     if(repel == TRUE){
         if(colour == TRUE){
