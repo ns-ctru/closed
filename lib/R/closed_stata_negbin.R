@@ -119,7 +119,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     system(call)
     ## Read the results back in
     results$lsoa <- read_dta(file = '~/work/closed/nihr_report/data/results/stata_negbin_lsoa.dta')
-    table(results$lsoa$model) %>% print()
+    ## table(results$lsoa$model) %>% print()
     call <- paste0('cp ~/work/closed/nihr_report/data/results/stata_negbin_lsoa.dta ~/work/closed/nihr_report/data/results/results_lsoa_',
                    gsub(' ', '_', indicator),
                    '_',
