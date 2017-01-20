@@ -40,6 +40,12 @@ egen _diff_time_to_ed_town = concat(town diff_time_to_ed)
 encode _diff_time_to_ed_town, generate(diff_time_to_ed_town)
 drop _diff_time_to_ed_town
 xtset diff_time_to_ed_town relative_month
+/* Need to also encode and set the reference group for binary       */
+/* diff_time_to_ed which takes 'Low' v's 'High' values              */
+encode diff_time_to_ed, gen(_diff_time_to_ed)
+drop diff_time_to_ed
+rename _diff_time_to_ed diff_time_to_ed
+fvset base 2 diff_time_to_ed
 tempfile data_pooled
 save `data_pooled', replace
 
@@ -240,11 +246,11 @@ foreach x of local sites{
     }
     else{
         append using `results'
-        if("`remove_results'" == "true"){
-            di "We are now removing the results"
-            drop if(town == "`y'")
-            local remove_results = "false"
-        }
+        /* if("`remove_results'" == "true"){ */
+        /*     di "We are now removing the results" */
+        /*     drop if(town == "`y'") */
+        /*     local remove_results = "false" */
+        /* } */
         save `results', replace
     }
 }
@@ -417,15 +423,15 @@ foreach x of local sites{
     gen town = "`y'"
     if("`y'" == "Bishop Auckland"){
         tempfile results_pooled
-        save `results', replace
+        save `results_pooled', replace
     }
     else{
         append using `results_pooled'
-        if("`remove_results'" == "true"){
-            di "We are now removing the results"
-            drop if(town == "`y'")
-            local remove_results = "false"
-        }
+        /* if("`remove_results'" == "true"){ */
+        /*     di "We are now removing the results" */
+        /*     drop if(town == "`y'") */
+        /*     local remove_results = "false" */
+        /* } */
         save `results_pooled', replace
     }
 }
