@@ -319,7 +319,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## dim(results$all.model.all.coef) %>% print()
     ## head(results$all.model.all.coef) %>% print()
     ## table(results$all.model.all.coef$term) %>% print()
-    res.model8 <- dplyr::filter(results$all.model.all.coef, model == 'Model 8' & term == 'diff.time.to.ed') %>%
+    res.model8 <- dplyr::filter(results$all.model.all.coef, model == 'Model 8' & term == 'closure') %>%
                   dplyr::select(est, stderr, p, min95, max95, town, measure, sub.measure, model)
     results$summary.table.tail <- dplyr::filter(results$all.model.all.coef, model != 'Model 8') %>%
                                   dplyr::filter(term == 'closure' | term == 'diff.time.to.ed') %>%
