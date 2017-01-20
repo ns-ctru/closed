@@ -2599,34 +2599,45 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## thats really only applicable for the deaths and red calls -      ##
         ## hospital transfers                                               ##
         ######################################################################
-        ## Derive binary indicator of High/Low _within_ each case site
-        ## df8 <- ungroup(df8)
-        binary <- dplyr::select(df8, town, lsoa, diff.time.to.ed) %>%
-                  dplyr::filter(diff.time.to.ed != 0) %>%
-                  unique() %>%
-                  group_by(town) %>%
-                  mutate(median      = quantile(diff.time.to.ed, probs = c(0.5)),
-                         binary.diff = ifelse(diff.time.to.ed < median, 'Low', 'High')) %>%
-                  dplyr::select(lsoa, town, binary.diff)
-        ## Bind to the main data frame
-        df8 <- merge(dplyr::select(df8, -diff.time.to.ed),
-                     binary,
+        ## 2016-01-20 Alternative method of dichotomising without summarise
+        ## Extract steps
+        steps <- dplyr::select(df8, town, relative.month, season, closure, nhs111, ambulance.divert, other.centre) %>%
+            unique()
+        ## print('steps dimensions (should match df8 after merging with high/low)')
+        ## dim(steps) %>% print()
+        ## Extract LSOA and diff.time.to.ed to classify them as High/Low
+        high.low <- dplyr::select(df8, town, lsoa, diff.time.to.ed) %>%
+                    dplyr::filter(diff.time.to.ed != 0) %>%
+                    unique() %>%
+                    mutate(binary.diff = ifelse(diff.time.to.ed < quantile(diff.time.to.ed, probs = c(0.5)),
+                                                yes = 'Low',
+                                                no  = 'High'),
+                           binary.diff = factor(binary.diff,
+                                                levels = c('Low', 'High'))) %>%
+                    dplyr::select(-diff.time.to.ed)
+        ## print('High/Low DF')
+        ## table(high.low$town, high.low$binary.diff) %>% print()
+        ## Merge High/low into DF8, removing original diff.time.to.ed and then grouping by
+        ## town relative.month and low/high to sum the value
+        df8 <- merge(df8,
+                     high.low,
                      by = c('town', 'lsoa')) %>%
-               group_by(town, relative.month, measure, sub.measure, binary.diff) %>%
-               summarise(value            = sum(value),
-                         closure          = mean(closure),
-                         nhs111           = mean(nhs111),
-                         ambulance.divert = mean(ambulance.divert),
-                         other.centre     = mean(other.centre),
-                         season           = mean(as.numeric(season))) %>%
-               ungroup() %>%
-               mutate(season = as.factor(season),
-                      relative.month = as.integer(relative.month))
-        typeof(df8$relative.month) %>% print()
-        is.integer(df8$relative.month) %>% print()
-        names(df8) %>% print()
-        ## HERE
-        ## Perform analysis with panelAR in each
+               dplyr::select(town, relative.month, binary.diff, value) %>%
+               group_by(town, relative.month, binary.diff) %>%
+               mutate(summed = sum(value, na.rm = TRUE)) %>%
+               dplyr::select(-value) %>%
+               unique()
+        ## print('After summing across town/relative.month/low/high')
+        ## dim(df8) %>% print()
+        ## table(df8$town, df8$binary.diff) %>% print()
+
+        ## Merge the averaged across low/high within town by month with the
+        ## other indicators
+        df8 <- merge(df8,
+                     steps,
+                     by = c('town', 'relative.month'))
+        names(df8) <- gsub('binary.diff', 'diff.time.to.ed', names(df8))
+        names(df8) <- gsub('summed', 'value', names(df8))
         ##################################################
         ## Model 8 - Bishop Auckland                  ##
         ##################################################
@@ -2647,15 +2658,15 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         if(town.group$n[town.group$town == 'Bishop Auckland']){
             ## Remove instances where there are missing observations for LSOAs
             t <- dplyr::filter(t, !is.na(value))
-            typeof(t$relative.month) %>% print()
-            is.integer(t$relative.month) %>% print()
-            head(t) %>% print()
-            dim(t) %>% print()
-            df8[, 'relative.month'] %>% typeof() %>% print()
+            ## typeof(t$relative.month) %>% print()
+            ## is.integer(t$relative.month) %>% print()
+            ## head(t) %>% print()
+            ## dim(t) %>% print()
+            ## df8[, 'relative.month'] %>% typeof() %>% print()
             model8.panelar.bishop <- panelAR(data     = t,
                                              formula  = formula.model8,
                                              timeVar  = timevar,
-                                             panelVar = panel.lsoa,
+                                             panelVar = 'diff.time.to.ed',
                                              autoCorr = autocorr,
                                              panelCorrMethod = 'pcse',
                                              complete.case = complete.case,
@@ -2680,7 +2691,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             model8.panelar.hartlepool <- panelAR(data     = t,
                                                  formula  = formula.model8,
                                                  timeVar  = timevar,
-                                                 panelVar = panel.lsoa,
+                                                 panelVar = 'diff.time.to.ed',
                                                  autoCorr = autocorr,
                                                  panelCorrMethod = 'pcse',
                                                  complete.case = complete.case,
@@ -2704,7 +2715,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             model8.panelar.hemel <- panelAR(data     = t,
                                             formula  = formula.model8,
                                             timeVar  = timevar,
-                                            panelVar = panel.lsoa,
+                                            panelVar = 'diff.time.to.ed',
                                             autoCorr = autocorr,
                                             panelCorrMethod = 'pcse',
                                             complete.case = complete.case,
@@ -2728,7 +2739,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             model8.panelar.newark <- panelAR(data     = t,
                                              formula  = formula.model8,
                                              timeVar  = timevar,
-                                             panelVar = panel.lsoa,
+                                             panelVar = 'diff.time.to.ed',
                                              autoCorr = autocorr,
                                              panelCorrMethod = 'pcse',
                                              complete.case = complete.case,
@@ -2752,7 +2763,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             model8.panelar.rochdale <- panelAR(data     = t,
                                                formula  = formula.model8,
                                                timeVar  = timevar,
-                                               panelVar = panel.lsoa,
+                                               panelVar = 'diff.time.to.ed',
                                                autoCorr = autocorr,
                                                panelCorrMethod = 'pcse',
                                                complete.case = complete.case,
@@ -2953,8 +2964,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         model7.2.coef <- 1
     }
     if(!is.null(model8)){
-        model8.coef <- results$model8.panelar.all.coef
+        model8.coef <- rbind(results$model8.panelar.bishop.coef,
+                             results$model8.panelar.hartlepool.coef,
+                             results$model8.panelar.hemel.coef,
+                             results$model8.panelar.newark.coef,
+                             results$model8.panelar.rochdale.coef)
         model8.coef$model <- 'Model 8'
+        model8.coef$term <- gsub('diff.time.to.edHigh', 'diff.time.to.ed', model8.coef$term)
     }
     else{
         model8.coef <- 1
@@ -3026,19 +3042,6 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         results$all.model.all.coef <- rbind(results$all.model.all.coef,
                                             model8.coef)
     }
-    ## results$all.model.all.coef <- rbind(model0.coef,
-    ##                                     model0.5.coef
-    ##                                     model1.coef,
-    ##                                     model2.coef,
-    ##                                     model3.1.coef,
-    ##                                     model3.2.coef,
-    ##                                     model4.coef,
-    ##                                     model5.coef,
-    ##                                     model6.1.coef,
-    ##                                     model6.2.coef,
-    ##                                     model7.1.coef,
-    ##                                     model7.2.coef) %>%
-    ##                               as.data.frame()
     results$all.model.all.coef <- as.data.frame(results$all.model.all.coef)
     names(results$all.model.all.coef) <- gsub('site', 'town', names(results$all.model.all.coef))
     names(results$all.model.all.coef) <- gsub('Estimate', 'est', names(results$all.model.all.coef))
@@ -3057,7 +3060,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     ## Subset out the closure coefficients and derive output variable/df to append to
     ## table header which contains the means
     results$all.model.closure.coef <- dplyr::filter(results$all.model.all.coef,
-                                             term == 'closure' | term == 'diff.time.to.ed')
+                                                    term == 'closure' | term == 'diff.time.to.ed') %>%
+                                      ## Remove the Model 8 coefficient for diff.time.to.ed (which is acutally)
+                                      ## binary
+                                      dplyr::filter(model != ' Model 8' & term != 'diff.time.to.ed')
     results$all.model.closure.coef$estimate <- paste0(formatC(results$all.model.closure.coef$est, digits = digits, format = 'f'),
                                                       ' (',
                                                       formatC(results$all.model.closure.coef$min95, digits = digits, format = 'f'),
