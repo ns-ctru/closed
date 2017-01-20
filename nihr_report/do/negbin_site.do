@@ -263,11 +263,11 @@ foreach x of local sites{
     gen model = "model2"
     append using `t'
     gen town = "`y'"
-    if("`remove_results'" == "true"){
-        di "We are now removing the results"
-        drop if(model == "model2")
-        local remove_results = "false"
-    }
+    /* if("`remove_results'" == "true"){ */
+    /*     di "We are now removing the results" */
+    /*     drop if(model == "model2") */
+    /*     local remove_results = "false" */
+    /* } */
     /* if("`measure'" == "ed attendances" & "`sub_measure'" == "any"){ */
     /*     if("`y'" == "Bishop Auckland"){ */
     /*         tempfile results */
@@ -448,6 +448,9 @@ use `data', clear
 /* 2016-12-21 Quite a few sites need excluding from models >= 2 do so here   */
 if("`measure'" == "ed attendances" & "`sub_measure'" == "any"){
     drop if(town_string == "Grimsby")
+}
+if("`measure'" == "ed attendances" & "`sub_measure'" == "other"){
+    local iter 2
 }
 if("`measure'" == "ed attendances" & "`sub_measure'" == "ambulance"){
     drop if(town_string == "Grimsby")
