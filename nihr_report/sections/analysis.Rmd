@@ -145,8 +145,8 @@ if(os != 'unix' | node != 'mcru-closed-hp.shef.ac.uk'){
     model.opts$mod7.1 <- c('town', 'season', 'relative.month', 'diff.time.to.ed')
     model.opts$mod7.2 <- NULL
 }
-## model.opts$mod8       <- c('diff.time.to.ed * closure', 'nhs111', 'other.centre', 'ambulance.divert', 'relative.month', 'season')
-model.opts$mod8 <- NULL
+model.opts$mod8       <- c('diff.time.to.ed * closure', 'nhs111', 'other.centre', 'ambulance.divert', 'relative.month', 'season')
+## model.opts$mod8 <- NULL
 model.opts$panel.lsoa	     <- 'lsoa'
 model.opts$panel.trust	     <- 'town'
 model.opts$timevar	     <- 'relative.month'
@@ -1267,15 +1267,16 @@ sec.deaths.all.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_all_7d
 
 <!--- Sec Deaths in CIPS (7 days) - Any sec --->
 ```{r sec_deaths_in_cips_7days_any_sec, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-sec.deaths.in.cips.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_in_cips_7days_measure,
-                                           df.trust         = sec_deaths_in_cips_7days_site_measure_clean,
-                                           indicator       = 'sec deaths in cips 7days',
-                                           sub.indicator   = 'any sec',
-                                           return.df       = FALSE,
-                                           return.model    = TRUE,
-                                           return.residuals = FALSE,
-                                           rm.unused.control = model.opts$rm.unused.control,
-                                           digits           = 3)
+## sec.deaths.in.cips.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_in_cips_7days_measure,
+##                                            df.trust         = sec_deaths_in_cips_7days_site_measure_clean,
+##                                            indicator       = 'sec deaths in cips 7days',
+##                                            sub.indicator   = 'any sec',
+##                                            return.df       = FALSE,
+##                                            return.model    = TRUE,
+##                                            return.residuals = FALSE,
+##                                            rm.unused.control = model.opts$rm.unused.control,
+##                                            digits           = 3)
+load('~/work/closed/nihr_report/data/sec_deaths_in_cips_7days_any_sec')
 
 ```
 
