@@ -35,7 +35,8 @@ Model  | Case Site    | Control Site         | Panel | Covariates
 3      | All          | Primary Matched      | ED    | season + time + closure + site
 4      | Individual   | None                 | LSOA  | season + time + change in ED time + nhs111 + other.centre + ambulance.diversion
 5      | All          | None                 | LSOA  | season + time + change in ED time + site
-6      | All          | None                 | LSOA  | season + time + change in ED time (Binary High/Low) + nhs111 + other.centre + ambulance.diversion
+6      | All          | None                 | LSOA  | season + time + closure + Binary change in ED time + closure * Binary change in ED time + nhs111 + other.centre + ambulance.diversion
+
 
 ## Methods
 
