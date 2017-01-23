@@ -3093,29 +3093,29 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         if(indicator == 'ambulance mean times' & sub.indicator == 'call to dest'){
             results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
                                                         !(town == 'Bishop Auckland' & model %in% to.remove)) %>%
-                                          dplyr::filter(!(town == 'Hartlepool' & model %in% to.remove)) %>%
+                                          ## dplyr::filter(!(town == 'Hartlepool' & model %in% to.remove)) %>%
                                           dplyr::filter(!(town == 'Hemel Hempstead' & model %in% to.remove))
         }
         if(indicator == 'ambulance mean times' & sub.indicator == 'call to scene any'){
             results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
                                                         !(town == 'Bishop Auckland' & model %in% to.remove)) %>%
-                                          dplyr::filter(!(town == 'Hartlepool' & model %in% to.remove)) %>%
-                                          dplyr::filter(!(town == 'Hemel Hempstead' & model %in% to.remove)) %>%
-                                          dplyr::filter(!(town == 'Newark' & model %in% to.remove))
+                                          ## dplyr::filter(!(town == 'Hartlepool' & model %in% to.remove)) %>%
+                                          dplyr::filter(!(town == 'Hemel Hempstead' & model %in% to.remove)) ## %>%
+                                          ## dplyr::filter(!(town == 'Newark' & model %in% to.remove))
         }
         if(indicator == 'ambulance mean times' & sub.indicator == 'call to scene conveying'){
             results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
                                                         !(town == 'Bishop Auckland' & model %in% to.remove)) %>%
-                                          dplyr::filter(!(town == 'Hartlepool' & model %in% to.remove)) %>%
+                                          ## dplyr::filter(!(town == 'Hartlepool' & model %in% to.remove)) %>%
                                           dplyr::filter(!(town == 'Hemel Hempstead' & model %in% to.remove)) %>%
-                                          dplyr::filter(!(town == 'Newark' & model %in% to.remove)) %>%
+                                          ## dplyr::filter(!(town == 'Newark' & model %in% to.remove)) %>%
                                           dplyr::filter(!(town == 'Rochdale' & model %in% c('Model 2', 'Model 3.1', 'Model 3.2')))
         }
         if(indicator == 'ambulance mean times' & sub.indicator == 'scene to dest'){
             results$summary.table.tail <- dplyr::filter(results$summary.table.tail,
-                                                        !(town == 'Hartlepool' & model %in% to.remove)) %>%
-                                          dplyr::filter(!(town == 'Hemel Hempstead' & model %in% to.remove)) %>%
-                                          dplyr::filter(!(town == 'Newark' & model %in% to.remove)) %>%
+                                                        !(town == 'Hemel Hempstead' & model %in% to.remove)) %>%
+                                          ## dplyr::filter(!(town == 'Hartlepool' & model %in% to.remove)) %>%
+                                          ## dplyr::filter(!(town == 'Newark' & model %in% to.remove)) %>%
                                           dplyr::filter(!(town == 'Rochdale' & model %in% to.remove))
         }
         if(indicator== 'ambulance mean times' & sub.indicator == 'dest to clear'){
@@ -3123,7 +3123,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                         !(town == 'Bishop Auckland' & model %in% to.remove))%>%
                                           dplyr::filter(!(town == 'Hartlepool' & model %in% to.remove)) %>%
                                           dplyr::filter(!(town == 'Hemel Hempstead' & model %in% to.remove)) %>%
-                                          dplyr::filter(!(town == 'Newark' & model %in% to.remove)) %>%
+                                          ## dplyr::filter(!(town == 'Newark' & model %in% to.remove)) %>%
                                           dplyr::filter(!(town == 'Rochdale' & model %in% to.remove))
         }
         if(indicator == 'ambulance green calls' & sub.indicator == 'green calls'){
@@ -3191,35 +3191,35 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                    results$summary.table.tail)
     ## Sort out indicators
     results$summary.table$town[grep('Model', results$summary.table$Before_median.iqr)]             <- NA
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 0']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 0']               <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 0']     <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 0']      <- 'No Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 0']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 0.5']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 0.5']               <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 0.5']     <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 0.5']      <- 'No Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 0.5']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 1']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 1']               <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 1']     <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 1']      <- 'No Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 1']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 2']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 2']               <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 2']     <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 2']      <- 'Primary Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 2']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.1']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.1']               <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 3.1']    <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.1']    <- 'All Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 3.1'] <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.2']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.2']               <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 3.2']    <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.2']    <- 'All Controls Pooled'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 3.2'] <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 4']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 4']               <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 4']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 4']      <- 'Primary Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 4']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 5']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 5']               <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 5']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 5']      <- 'All Controls'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 5']   <- 'ED Panel'
@@ -3244,6 +3244,10 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'None'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.1'] <- 'LSOA Panel'
     results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.2']   <- 'Estimated difference coefficient for High change in time to ED'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 8']              <- 'Estimated closure coefficient'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 8']    <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 8']    <- 'None'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 8'] <- 'LSOA Panel'
     ## Site specific tables
     ## Bishop Auckland
     results$summary.table.bishop <- dplyr::filter(results$summary.table,
