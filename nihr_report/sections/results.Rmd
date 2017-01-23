@@ -1,5 +1,9 @@
 ### Summary {.tabset .tabset-fade .tabset-pills}
 
+```{r eval = TRUE, echo = FALSE}
+load(file = '~/work/closed/nihr_report/data/results.RData')
+```
+
 ```{r child = 'subsections/summary.Rmd', eval = TRUE}
 ```
 
@@ -125,9 +129,9 @@
 ```{r child = 'subsections/length_of_stay_mean.Rmd', eval = TRUE}
 ```
 
-#### Median  {.tabset .tabset-fade .tabset-pills}
-```{r child = 'subsections/length_of_stay_median.Rmd', eval = TRUE}
-```
+<!-- #### Median  {.tabset .tabset-fade .tabset-pills} -->
+<!-- ```{r child = 'subsections/length_of_stay_median.Rmd', eval = FALSE} -->
+<!-- ``` -->
 
 ### Case Fatality Ratio {.tabset .tabset-fade .tabset-pills}
 
@@ -278,6 +282,10 @@
 
 ### Regression Summary  {.tabset .tabset-fade .tabset-pills}
 ```{r child = 'subsections/regression_summary.Rmd', eval = TRUE}
+```
+
+### Problematic Step
+```{r child = 'subsections/problematic_step.Rmd', eval = TRUE}
 ```
 
 ### Problems
