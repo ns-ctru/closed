@@ -19,9 +19,43 @@ no.nhs.all.emergency.admissions.all <- closed_stata_negbin(df.lsoa =  emergency_
 system('cp ~/work/closed/nihr_report/do/negbin_site_orig.do  ~/work/closed/nihr_report/do/negbin_site.do')
 system('cp ~/work/closed/nihr_report/do/negbin_lsoa_orig.do  ~/work/closed/nihr_report/do/negbin_lsoa.do')
 
+to.table <- dplyr::select(no.nhs.all.emergency.admissions.all$summary.table, town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc) %>%
+             mutate(Before_median.iqr = ifelse(Before_median.iqr == 'Model 4',
+                                      yes = 'Model 3',
+                                      no  = Before_median.iqr),
+           Before_median.iqr = ifelse(Before_median.iqr == 'Model 6.1',
+                                      yes = 'Model 4',
+                                      no  = Before_median.iqr),
+           Before_median.iqr = ifelse(Before_median.iqr == 'Model 7.1',
+                                      yes = 'Model 5',
+                                      no  = Before_median.iqr),
+           Before_median.iqr = ifelse(Before_median.iqr == 'Model 8',
+                                      yes = 'Model 6',
+                                      no  = Before_median.iqr))
+names(to.table) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
+kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time()))
+
 ```
 
 #### Emergency Admissions - NHS111 step @ 48 weeks
+
+```{r echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+to.table <- dplyr::select(all.emergency.admissions.all$summary.table, town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc) %>%
+             mutate(Before_median.iqr = ifelse(Before_median.iqr == 'Model 4',
+                                      yes = 'Model 3',
+                                      no  = Before_median.iqr),
+           Before_median.iqr = ifelse(Before_median.iqr == 'Model 6.1',
+                                      yes = 'Model 4',
+                                      no  = Before_median.iqr),
+           Before_median.iqr = ifelse(Before_median.iqr == 'Model 7.1',
+                                      yes = 'Model 5',
+                                      no  = Before_median.iqr),
+           Before_median.iqr = ifelse(Before_median.iqr == 'Model 8',
+                                      yes = 'Model 6',
+                                      no  = Before_median.iqr))
+names(to.table) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
+kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time()))
+```
 
 #### All 7 day Deaths - No NHS111 step @ 48 Weeks
 
@@ -42,6 +76,41 @@ no.nhs.sec.deaths.all.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths
 system('cp ~/work/closed/nihr_report/do/negbin_site_orig.do  ~/work/closed/nihr_report/do/negbin_site.do')
 system('cp ~/work/closed/nihr_report/do/negbin_lsoa_orig.do  ~/work/closed/nihr_report/do/negbin_lsoa.do')
 
+to.table <- dplyr::select(no.nhs.sec.deaths.all.7days.any.sec$summary.table, town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc) %>%
+             mutate(Before_median.iqr = ifelse(Before_median.iqr == 'Model 4',
+                                      yes = 'Model 3',
+                                      no  = Before_median.iqr),
+           Before_median.iqr = ifelse(Before_median.iqr == 'Model 6.1',
+                                      yes = 'Model 4',
+                                      no  = Before_median.iqr),
+           Before_median.iqr = ifelse(Before_median.iqr == 'Model 7.1',
+                                      yes = 'Model 5',
+                                      no  = Before_median.iqr),
+           Before_median.iqr = ifelse(Before_median.iqr == 'Model 8',
+                                      yes = 'Model 6',
+                                      no  = Before_median.iqr))
+names(to.table) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
+kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time()))
+
 ```
 
 #### All 7 day Deaths - NHS111 step @ 48 Weeks
+
+```{r echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+to.table <- dplyr::select(sec.deaths.all.7days.any.sec$summary.table, town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc) %>%
+             mutate(Before_median.iqr = ifelse(Before_median.iqr == 'Model 4',
+                                      yes = 'Model 3',
+                                      no  = Before_median.iqr),
+           Before_median.iqr = ifelse(Before_median.iqr == 'Model 6.1',
+                                      yes = 'Model 4',
+                                      no  = Before_median.iqr),
+           Before_median.iqr = ifelse(Before_median.iqr == 'Model 7.1',
+                                      yes = 'Model 5',
+                                      no  = Before_median.iqr),
+           Before_median.iqr = ifelse(Before_median.iqr == 'Model 8',
+                                      yes = 'Model 6',
+                                      no  = Before_median.iqr))
+names(to.table) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
+kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time()))
+
+```
