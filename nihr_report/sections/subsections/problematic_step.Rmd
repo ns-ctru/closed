@@ -1,0 +1,47 @@
+A step at week 48 in the Rochdale/Rotherham site may have undesirable effects on estimates by virtue of being at the very end of the time series.  The analysis of admissions and deaths is now repeated excluding that step and compared to the results from including the step.
+
+#### Emergency Admissions - No NHS111 step @ 48 weeks
+
+```{r problematic_step_all_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+system('cp ~/work/closed/nihr_report/do/negbin_site.do ~/work/closed/nihr_report/do/negbin_site_orig.do')
+system('cp ~/work/closed/nihr_report/do/negbin_site_no_nhs111.do ~/work/closed/nihr_report/do/negbin_site.do')
+system('cp ~/work/closed/nihr_report/do/negbin_lsoa.do ~/work/closed/nihr_report/do/negbin_lsoa_orig.do')
+system('cp ~/work/closed/nihr_report/do/negbin_lsoa_no_nhs111.do ~/work/closed/nihr_report/do/negbin_lsoa.do')
+no.nhs.all.emergency.admissions.all <- closed_stata_negbin(df.lsoa =  emergency_admissions_measure_clean,
+                                           df.trust         = emergency_admissions_site_measure_clean,
+                                           indicator       = 'all emergency admissions',
+                                           sub.indicator   = 'all',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+system('cp ~/work/closed/nihr_report/do/negbin_site_orig.do  ~/work/closed/nihr_report/do/negbin_site.do')
+system('cp ~/work/closed/nihr_report/do/negbin_lsoa_orig.do  ~/work/closed/nihr_report/do/negbin_lsoa.do')
+
+```
+
+#### Emergency Admissions - NHS111 step @ 48 weeks
+
+#### All 7 day Deaths - No NHS111 step @ 48 Weeks
+
+```{r problematic_step_sec_deaths_all_7days_any_sec, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+system('cp ~/work/closed/nihr_report/do/negbin_site.do ~/work/closed/nihr_report/do/negbin_site_orig.do')
+system('cp ~/work/closed/nihr_report/do/negbin_site_no_nhs111.do ~/work/closed/nihr_report/do/negbin_site.do')
+system('cp ~/work/closed/nihr_report/do/negbin_lsoa.do ~/work/closed/nihr_report/do/negbin_lsoa_orig.do')
+system('cp ~/work/closed/nihr_report/do/negbin_lsoa_no_nhs111.do ~/work/closed/nihr_report/do/negbin_lsoa.do')
+no.nhs.sec.deaths.all.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_all_7days_measure_clean,
+                                           df.trust         = sec_deaths_all_7days_site_measure_clean,
+                                           indicator       = 'sec deaths all 7days',
+                                           sub.indicator   = 'any sec',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+system('cp ~/work/closed/nihr_report/do/negbin_site_orig.do  ~/work/closed/nihr_report/do/negbin_site.do')
+system('cp ~/work/closed/nihr_report/do/negbin_lsoa_orig.do  ~/work/closed/nihr_report/do/negbin_lsoa.do')
+
+```
+
+#### All 7 day Deaths - NHS111 step @ 48 Weeks
