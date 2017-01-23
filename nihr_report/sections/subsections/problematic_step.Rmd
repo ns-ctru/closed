@@ -2,7 +2,7 @@ A step at week 48 in the Rochdale/Rotherham site may have undesirable effects on
 
 #### Emergency Admissions - No NHS111 step @ 48 weeks
 
-```{r problematic_step_all_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r problematic_step_all_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 system('cp ~/work/closed/nihr_report/do/negbin_site.do ~/work/closed/nihr_report/do/negbin_site_orig.do')
 system('cp ~/work/closed/nihr_report/do/negbin_site_no_nhs111.do ~/work/closed/nihr_report/do/negbin_site.do')
 system('cp ~/work/closed/nihr_report/do/negbin_lsoa.do ~/work/closed/nihr_report/do/negbin_lsoa_orig.do')
@@ -39,7 +39,7 @@ kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estima
 
 #### Emergency Admissions - NHS111 step @ 48 weeks
 
-```{r echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 to.table <- dplyr::select(all.emergency.admissions.all$summary.table, town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc) %>%
              mutate(Before_median.iqr = ifelse(Before_median.iqr == 'Model 4',
                                       yes = 'Model 3',
@@ -59,7 +59,7 @@ kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estima
 
 #### All 7 day Deaths - No NHS111 step @ 48 Weeks
 
-```{r problematic_step_sec_deaths_all_7days_any_sec, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r problematic_step_sec_deaths_all_7days_any_sec, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 system('cp ~/work/closed/nihr_report/do/negbin_site.do ~/work/closed/nihr_report/do/negbin_site_orig.do')
 system('cp ~/work/closed/nihr_report/do/negbin_site_no_nhs111.do ~/work/closed/nihr_report/do/negbin_site.do')
 system('cp ~/work/closed/nihr_report/do/negbin_lsoa.do ~/work/closed/nihr_report/do/negbin_lsoa_orig.do')
@@ -96,7 +96,7 @@ kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estima
 
 #### All 7 day Deaths - NHS111 step @ 48 Weeks
 
-```{r echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 to.table <- dplyr::select(sec.deaths.all.7days.any.sec$summary.table, town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc) %>%
              mutate(Before_median.iqr = ifelse(Before_median.iqr == 'Model 4',
                                       yes = 'Model 3',
