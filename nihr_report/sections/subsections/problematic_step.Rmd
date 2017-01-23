@@ -19,7 +19,7 @@ no.nhs.all.emergency.admissions.all <- closed_stata_negbin(df.lsoa =  emergency_
 system('cp ~/work/closed/nihr_report/do/negbin_site_orig.do  ~/work/closed/nihr_report/do/negbin_site.do')
 system('cp ~/work/closed/nihr_report/do/negbin_lsoa_orig.do  ~/work/closed/nihr_report/do/negbin_lsoa.do')
 
-to.table <- dplyr::select(no.nhs.all.emergency.admissions.all$summary.table, town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc) %>%
+to.table <- dplyr::select(no.nhs.all.emergency.admissions.all$summary.table.rochdale, town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc) %>%
              mutate(Before_median.iqr = ifelse(Before_median.iqr == 'Model 4',
                                       yes = 'Model 3',
                                       no  = Before_median.iqr),
@@ -40,7 +40,7 @@ kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estima
 #### Emergency Admissions - NHS111 step @ 48 weeks
 
 ```{r echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
-to.table <- dplyr::select(all.emergency.admissions.all$summary.table, town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc) %>%
+to.table <- dplyr::select(all.emergency.admissions.all$summary.table.rochdale, town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc) %>%
              mutate(Before_median.iqr = ifelse(Before_median.iqr == 'Model 4',
                                       yes = 'Model 3',
                                       no  = Before_median.iqr),
