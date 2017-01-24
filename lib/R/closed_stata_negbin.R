@@ -242,6 +242,88 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
         results$summary.table.head$town <- as.character(results$summary.table.head$town)
         results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')] <- paste0(results$summary.table.head$town[results$summary.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')], ' (Primary)')
     }
+
+    ## START
+    lsoa.pooled <- mutate(lsoa.pooled,
+                          before.after = ifelse(relative.month >= 25, "After", "Before"))
+    results$summary.df.high.low <- mutate(lsoa.pooled,
+                                          value = ifelse(value == 0, NA, value)) %>%
+                                   group_by(town, diff.time.to.ed, before.after) %>%
+                                   summarise(n        = n(),
+                                             mean     = mean(value, na.rm = TRUE),
+                                             sd       = sd(value, na.rm = TRUE),
+                                             min      = min(value, na.rm = TRUE),
+                                             max      = max(value, na.rm = TRUE),
+                                             p25      = quantile(value, probs = 0.25, na.rm = TRUE),
+                                             p50      = quantile(value, probs = 0.50, na.rm = TRUE),
+                                             p75      = quantile(value, probs = 0.75, na.rm = TRUE))
+    results$summary.df.high.low <- ungroup(results$summary.df.high.low) %>%
+                                   mutate(town = paste0(town, ' (', diff.time.to.ed, ')')) %>%
+                                   dplyr::select(-diff.time.to.ed)
+    results$summary.high.low.table.head <- results$summary.df.high.low
+    results$summary.high.low.table.head <- mutate(results$summary.high.low.table.head,
+                                                  mean.sd    = paste0(formatC(mean, digits = digits, format = 'f'),
+                                                                      ' (',
+                                                                      formatC(sd, digits = digits, format = 'f'),
+                                                                      ')'))
+    results$summary.high.low.table.head <- mutate(results$summary.high.low.table.head,
+                                                  median.iqr = paste0(formatC(p50, digits = 1, format = 'f'),
+                                                                 ' (',
+                                                                 formatC(p25, digits = 1, format = 'f'),
+                                                                 '-',
+                                                                 formatC(p75, digits = 1, format = 'f'),
+                                                                 ')'))
+    results$summary.high.low.table.head <- mutate(results$summary.high.low.table.head,
+                                                  min.max    = paste0(formatC(min, digits = 0, format = 'f'),
+                                                                      '-',
+                                                                      formatC(max, digits = 0, format = 'f')))
+    results$summary.high.low.table.head <- dplyr::select(results$summary.high.low.table.head,
+                                                         town, before.after, mean.sd, median.iqr, min.max, mean)
+    ## Reshape the table header
+    results$summary.high.low.table.head <- melt(results$summary.high.low.table.head, id.vars = c('town', 'before.after')) %>%
+                                           dcast(town ~ before.after + variable)
+    results$summary.high.low.table.head$Before_mean <- as.numeric(results$summary.high.low.table.head$Before_mean)
+    results$summary.high.low.table.head$After_mean  <- as.numeric(results$summary.high.low.table.head$After_mean)
+    results$summary.high.low.table.head <- mutate(results$summary.high.low.table.head,
+                                                  diff_abs = formatC(Before_mean - After_mean, digits = digits, format = 'f'),
+                                                  diff_perc = formatC((100 * abs(Before_mean - After_mean)) / Before_mean, digits = digits, format = 'f'))
+    ## Order the data
+    results$summary.high.low.table.head$order <- 0
+    results$summary.high.low.table.head$order[results$summary.high.low.table.head$town == 'Bishop Auckland (Low)']  <- 21
+    results$summary.high.low.table.head$order[results$summary.high.low.table.head$town == 'Bishop Auckland (High)'] <- 22
+    results$summary.high.low.table.head$order[results$summary.high.low.table.head$town == 'Hartlepool (Low)']       <- 23
+    results$summary.high.low.table.head$order[results$summary.high.low.table.head$town == 'Hartlepool (High)']      <- 24
+    results$summary.high.low.table.head$order[results$summary.high.low.table.head$town == 'Hemel Hempstead (Low)']  <- 25
+    results$summary.high.low.table.head$order[results$summary.high.low.table.head$town == 'Hemel Hempstead (High)'] <- 26
+    results$summary.high.low.table.head$order[results$summary.high.low.table.head$town == 'Newark (Low)']           <- 27
+    results$summary.high.low.table.head$order[results$summary.high.low.table.head$town == 'Newark (High)']          <- 28
+    results$summary.high.low.table.head$order[results$summary.high.low.table.head$town == 'Rochdale (Low)']         <- 29
+    results$summary.high.low.table.head$order[results$summary.high.low.table.head$town == 'Rochdale (High)']        <- 30
+    results$summary.high.low.table.head <- arrange(results$summary.high.low.table.head, order)
+    results$summary.high.low.table.head <- dplyr::select(results$summary.high.low.table.head,
+                                                         town,
+                                                         Before_mean.sd, Before_median.iqr, Before_min.max,
+                                                         After_mean.sd, After_median.iqr, After_min.max,
+                                                         diff_abs, diff_perc)
+    ## Add in grouping to facilitate subsetting later
+    results$summary.high.low.table.head <- results$summary.high.low.table.head %>%
+        mutate(group = case_when(.$town == 'Bishop Auckland (Low)' ~ 'Bishop Auckland',
+                                 .$town == 'Bishop Auckland (High)' ~ 'Bishop Auckland',
+                                 .$town == 'Hartlepool (Low)' ~ 'Hartlepool',
+                                 .$town == 'Hartlepool (High)' ~ 'Hartlepool',
+                                 .$town == 'Hemel Hempstead (Low)' ~ 'Hemel Hempstead',
+                                 .$town == 'Hemel Hempstead (High)' ~ 'Hemel Hempstead',
+                                 .$town == 'Newark (Low)' ~ 'Newark',
+                                 .$town == 'Newark (High)' ~ 'Newark',
+                                 .$town == 'Rochdale (Low)' ~ 'Rochdale',
+                                 .$town == 'Rochdale (High)' ~ 'Rochdale'))
+    results$summary.high.low.table.head$group <- NA
+    results$summary.high.low.table.head$group[results$summary.high.low.table.head$town %in% c('Bishop Auckland (High)', 'Bishop Auckland (Low)')] <- 'Bishop Auckland'
+    results$summary.high.low.table.head$group[results$summary.high.low.table.head$town %in% c('Hartlepool (High)', 'Hartlepool (Low)')] <- 'Hartlepool'
+    results$summary.high.low.table.head$group[results$summary.high.low.table.head$town %in% c('Hemel Hempstead (High)', 'Hartlepool (Low)')] <- 'Hemel Hempstead'
+    results$summary.high.low.table.head$group[results$summary.high.low.table.head$town %in% c('Newark (High)', 'Newark (Low)')] <- 'Newark'
+    results$summary.high.low.table.head$group[results$summary.high.low.table.head$town %in% c('Rochdale (High)', 'Rochdale (Low)')] <- 'Rochdale'
+    ## FINISH
     ## Build the table footer from the regression results read in from Stata
     names(results$all.model.all.coef) <- gsub('estimate', 'est', names(results$all.model.all.coef))
     ## Standardise this output for combining with panelAR()
@@ -383,40 +465,41 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                                                 diff_abs, diff_perc)
     results$summary.table.tail$group <- results$summary.table.tail$town
     results$summary.table <- rbind(results$summary.table.head,
+                                   results$summary.high.low.table.head,
                                    results$summary.table.tail)
     ## Sort out indicators
     ## results$summary.table$Before_median_iqr <- gsub('model', 'Model ', results$summary.table$Before_median_iqr)
     ## print("Debug 8")
     results$summary.table$town[grep('Model', results$summary.table$Before_median.iqr)]             <- NA
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 0']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 0']               <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 0']     <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 0']      <- 'No Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 0']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 0.5']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 0.5']               <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 0.5']     <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 0.5']      <- 'No Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 0.5']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 1']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 1']               <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 1']     <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 1']      <- 'No Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 1']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 2']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 2']               <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 2']     <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 2']      <- 'Primary Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 2']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.1']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.1']               <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 3.1']    <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.1']    <- 'All Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 3.1'] <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.2']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.2']               <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 3.2']    <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.2']    <- 'All Controls Pooled'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 3.2'] <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 4']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 4']               <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 4']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 4']      <- 'Primary Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 4']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 5']               <- 'Estimated closure coefficients'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 5']               <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 5']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 5']      <- 'All Controls'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 5']   <- 'ED Panel'
@@ -437,7 +520,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.2']      <- 'All Controls'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7.2']   <- 'LSOA Panel'
 
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 8']       <- 'Dichtomisation of Difference in Time to ED'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 8']       <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 8']     <- 'Individual Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 8']      <- 'None'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 8']   <- 'LSOA Panel'
