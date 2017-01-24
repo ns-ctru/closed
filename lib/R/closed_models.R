@@ -2654,8 +2654,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                  p25      = quantile(value, probs = 0.25, na.rm = TRUE),
                                                  p50      = quantile(value, probs = 0.50, na.rm = TRUE),
                                                  p75      = quantile(value, probs = 0.75, na.rm = TRUE))
-        resuilts$summary.df.high.low <- mutate(resuilts$summary.df.high.low,
-                                               town = paste0(town, ' (', diff.time.to.ed, ')')) %>%
+        results$summary.df.high.low <- ungroup(results$summary.df.high.low) %>%
+                                        mutate(town = paste0(town, ' (', diff.time.to.ed, ')')) %>%
                                         dplyr::select(-diff.time.to.ed)
         results$summary.high.low.table.head <- results$summary.df.high.low
         results$summary.high.low.table.head <- mutate(results$summary.high.low.table.head,
@@ -2704,36 +2704,22 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                     diff_abs, diff_perc)
         ## Add in grouping to facilitate subsetting later
         results$summary.high.low.table.head <- results$summary.high.low.table.head %>%
-            mutate(case_when(
-
-            ))
+            mutate(group = case_when(.$town == 'Bishop Auckland (Low)' ~ 'Bishop Auckland',
+                                     .$town == 'Bishop Auckland (High)' ~ 'Bishop Auckland',
+                                     .$town == 'Hartlepool (Low)' ~ 'Hartlepool',
+                                     .$town == 'Hartlepool (High)' ~ 'Hartlepool',
+                                     .$town == 'Hemel Hempstead (Low)' ~ 'Hemel Hempstead',
+                                     .$town == 'Hemel Hempstead (High)' ~ 'Hemel Hempstead',
+                                     .$town == 'Newark (Low)' ~ 'Newark',
+                                     .$town == 'Newark (High)' ~ 'Newark',
+                                     .$town == 'Rochdale (Low)' ~ 'Rochdale',
+                                     .$town == 'Rochdale (High)' ~ 'Rochdale'))
         results$summary.high.low.table.head$group <- NA
         results$summary.high.low.table.head$group[results$summary.high.low.table.head$town %in% c('Bishop Auckland (High)', 'Bishop Auckland (Low)')] <- 'Bishop Auckland'
         results$summary.high.low.table.head$group[results$summary.high.low.table.head$town %in% c('Hartlepool (High)', 'Hartlepool (Low)')] <- 'Hartlepool'
         results$summary.high.low.table.head$group[results$summary.high.low.table.head$town %in% c('Hemel Hempstead (High)', 'Hartlepool (Low)')] <- 'Hemel Hempstead'
         results$summary.high.low.table.head$group[results$summary.high.low.table.head$town %in% c('Newark (High)', 'Newark (Low)')] <- 'Newark'
         results$summary.high.low.table.head$group[results$summary.high.low.table.head$town %in% c('Rochdale (High)', 'Rochdale (Low)')] <- 'Rochdale'
-        ## Add indicator for primary control...
-        if(rm.unused.control == TRUE){
-            results$summary.high.low.table.head <- dplyr::filter(results$summary.high.low.table.head,
-                                                        town %in% c('Bishop Auckland', 'Whitehaven',
-                                                                    'Hartlepool', 'Grimsby',
-                                                                    'Hemel Hempstead', 'Warwick',
-                                                                    'Newark', 'Southport',
-                                                                    'Rochdale', 'Rotherham'))
-        }
-        ## ...if not then we add an indicator of ' (Primary)'
-        else if(rm.unused.control == FALSE){
-            results$summary.high.low.table.head$town <- as.character(results$summary.high.low.table.head$town)
-            results$summary.high.low.table.head$town[results$summary.high.low.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')] <- paste0(results$summary.high.low.table.head$town[results$summary.high.low.table.head$town %in% c('Whitehaven', 'Grimsby', 'Warwick', 'Southport', 'Rotherham')], ' (Primary)')
-        }
-
-
-        ## FINISH
-
-
-
-
         ##################################################
         ## Model 8 - Bishop Auckland                  ##
         ##################################################
