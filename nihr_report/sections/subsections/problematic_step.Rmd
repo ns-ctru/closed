@@ -1,6 +1,6 @@
-A step at week 48 in the Rochdale/Rotherham site may have undesirable effects on estimates by virtue of being at the very end of the time series.  The analysis of admissions and deaths is now repeated excluding that step and compared to the results from including the step.
+A step at week 48 in the Rochdale/Rotherham site may have undesirable effects on estimates by virtue of being at the very end of the time series.  The analysis of admissions and deaths is now repeated excluding that step and compared to the results from including the step for Model 2 (comparing the case site to its matched control).
 
-#### Emergency Admissions - No NHS111 step @ 48 weeks
+#### Emergency Admissions - No NHS111 step @ 48 weeks (Model 2)
 
 ```{r problematic_step_all_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 system('cp ~/work/closed/nihr_report/do/negbin_site.do ~/work/closed/nihr_report/do/negbin_site_orig.do')
@@ -19,45 +19,71 @@ no.nhs.all.emergency.admissions.all <- closed_stata_negbin(df.lsoa =  emergency_
 system('cp ~/work/closed/nihr_report/do/negbin_site_orig.do  ~/work/closed/nihr_report/do/negbin_site.do')
 system('cp ~/work/closed/nihr_report/do/negbin_lsoa_orig.do  ~/work/closed/nihr_report/do/negbin_lsoa.do')
 
-to.table <- dplyr::select(no.nhs.all.emergency.admissions.all$summary.table.rochdale, town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc) %>%
-             mutate(Before_median.iqr = ifelse(Before_median.iqr == 'Model 4',
-                                      yes = 'Model 3',
-                                      no  = Before_median.iqr),
-           Before_median.iqr = ifelse(Before_median.iqr == 'Model 6.1',
-                                      yes = 'Model 4',
-                                      no  = Before_median.iqr),
-           Before_median.iqr = ifelse(Before_median.iqr == 'Model 7.1',
-                                      yes = 'Model 5',
-                                      no  = Before_median.iqr),
-           Before_median.iqr = ifelse(Before_median.iqr == 'Model 8',
-                                      yes = 'Model 6',
-                                      no  = Before_median.iqr))
-names(to.table) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
-kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time()))
+
+no.nhs.all.emergency.admissions.all$all.model.all.coef %>%
+    dplyr::filter(model == 'Model 2' & town == 'Rochdale' & term != 'Intercept') %>%
+    dplyr::select(model, term, est, stderr, p, min95, max95)
+## to.table <- no.nhs.all.emergency.admissions.all$summary.table.rochdale
+## names(to.table) <- gsub('Pre Median \\(IQR\\)', 'to.change', names(to.table))
+## to.table <-  mutate(to.table,
+##                     to.change = ifelse(to.change == 'Model 4',
+##                                        yes = 'Model 3',
+##                                        no  = to.change),
+##                     to.change = ifelse(to.change == 'Model 6.1',
+##                                        yes = 'Model 4',
+##                                        no  = to.change),
+##                     to.change = ifelse(to.change == 'Model 7.1',
+##                                        yes = 'Model 5',
+##                                        no  = to.change),
+##                     to.change = ifelse(to.change == 'Model 8',
+##                                        yes = 'Model 6',
+##                                        no  = to.change))
+## names(to.table) <- gsub('to.change', 'Pre Median (IQR)', names(to.table))
+## kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time()))
 
 ```
 
-#### Emergency Admissions - NHS111 step @ 48 weeks
+```{r echo = FALSE, cache = FALSE, results = 'asis', message = FALSE, eval = TRUE}
+
+```
+
+#### Emergency Admissions - NHS111 step @ 48 weeks (Model 2)
 
 ```{r echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
-to.table <- dplyr::select(all.emergency.admissions.all$summary.table.rochdale, town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc) %>%
-             mutate(Before_median.iqr = ifelse(Before_median.iqr == 'Model 4',
-                                      yes = 'Model 3',
-                                      no  = Before_median.iqr),
-           Before_median.iqr = ifelse(Before_median.iqr == 'Model 6.1',
-                                      yes = 'Model 4',
-                                      no  = Before_median.iqr),
-           Before_median.iqr = ifelse(Before_median.iqr == 'Model 7.1',
-                                      yes = 'Model 5',
-                                      no  = Before_median.iqr),
-           Before_median.iqr = ifelse(Before_median.iqr == 'Model 8',
-                                      yes = 'Model 6',
-                                      no  = Before_median.iqr))
-names(to.table) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
-kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time()))
+## all.emergency.admissions.all <- closed_stata_negbin(df.lsoa =  emergency_admissions_measure_clean,
+##                                            df.trust         = emergency_admissions_site_measure_clean,
+##                                            indicator       = 'all emergency admissions',
+##                                            sub.indicator   = 'all',
+##                                            return.df       = FALSE,
+##                                            return.model    = TRUE,
+##                                            return.residuals = FALSE,
+##                                            rm.unused.control = model.opts$rm.unused.control,
+##                                            digits           = 3)
+
+all.emergency.admissions.all$all.model.all.coef %>%
+    dplyr::filter(model == 'Model 2' & town == 'Rochdale' & term != 'Intercept') %>%
+    dplyr::select(model, term, est, stderr, p, min95, max95)
+## to.table <- all.emergency.admissions.all$summary.table.rochdale
+## names(to.table) <- gsub('Pre Median \\(IQR\\)', 'to.change', names(to.table))
+## to.table <-  mutate(to.table,
+##                     to.change = ifelse(to.change == 'Model 4',
+##                                        yes = 'Model 3',
+##                                        no  = to.change),
+##                     to.change = ifelse(to.change == 'Model 6.1',
+##                                        yes = 'Model 4',
+##                                        no  = to.change),
+##                     to.change = ifelse(to.change == 'Model 7.1',
+##                                        yes = 'Model 5',
+##                                        no  = to.change),
+##                     to.change = ifelse(to.change == 'Model 8',
+##                                        yes = 'Model 6',
+##                                        no  = to.change))
+## names(to.table) <- gsub('to.change', 'Pre Median (IQR)', names(to.table))
+## kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time()))
+
 ```
 
-#### All 7 day Deaths - No NHS111 step @ 48 Weeks
+#### All 7 day Deaths - No NHS111 step @ 48 Weeks (Model 2)
 
 ```{r problematic_step_sec_deaths_all_7days_any_sec, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
 system('cp ~/work/closed/nihr_report/do/negbin_site.do ~/work/closed/nihr_report/do/negbin_site_orig.do')
@@ -76,41 +102,61 @@ no.nhs.sec.deaths.all.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths
 system('cp ~/work/closed/nihr_report/do/negbin_site_orig.do  ~/work/closed/nihr_report/do/negbin_site.do')
 system('cp ~/work/closed/nihr_report/do/negbin_lsoa_orig.do  ~/work/closed/nihr_report/do/negbin_lsoa.do')
 
-to.table <- dplyr::select(no.nhs.sec.deaths.all.7days.any.sec$summary.table, town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc) %>%
-             mutate(Before_median.iqr = ifelse(Before_median.iqr == 'Model 4',
-                                      yes = 'Model 3',
-                                      no  = Before_median.iqr),
-           Before_median.iqr = ifelse(Before_median.iqr == 'Model 6.1',
-                                      yes = 'Model 4',
-                                      no  = Before_median.iqr),
-           Before_median.iqr = ifelse(Before_median.iqr == 'Model 7.1',
-                                      yes = 'Model 5',
-                                      no  = Before_median.iqr),
-           Before_median.iqr = ifelse(Before_median.iqr == 'Model 8',
-                                      yes = 'Model 6',
-                                      no  = Before_median.iqr))
-names(to.table) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
-kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time()))
+no.nhs.sec.deaths.all.7days.any.sec$all.model.all.coef %>%
+    dplyr::filter(model == 'Model 2' & town == 'Rochdale' & term != 'Intercept') %>%
+    dplyr::select(model, term, est, stderr, p, min95, max95)
+## to.table <- no.nhs.sec.deaths.all.7days.any.sec$summary.table.rochdale
+## names(to.table) <- gsub('Pre Median \\(IQR\\)', 'to.change', names(to.table))
+## to.table <-  mutate(to.table,
+##                     to.change = ifelse(to.change == 'Model 4',
+##                                        yes = 'Model 3',
+##                                        no  = to.change),
+##                     to.change = ifelse(to.change == 'Model 6.1',
+##                                        yes = 'Model 4',
+##                                        no  = to.change),
+##                     to.change = ifelse(to.change == 'Model 7.1',
+##                                        yes = 'Model 5',
+##                                        no  = to.change),
+##                     to.change = ifelse(to.change == 'Model 8',
+##                                        yes = 'Model 6',
+##                                        no  = to.change))
+## names(to.table) <- gsub('to.change', 'Pre Median (IQR)', names(to.table))
+## kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time()))
 
 ```
 
 #### All 7 day Deaths - NHS111 step @ 48 Weeks
 
 ```{r echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
-to.table <- dplyr::select(sec.deaths.all.7days.any.sec$summary.table, town, Before_mean.sd, Before_median.iqr, Before_min.max, After_mean.sd, After_median.iqr, After_min.max, diff_abs, diff_perc) %>%
-             mutate(Before_median.iqr = ifelse(Before_median.iqr == 'Model 4',
-                                      yes = 'Model 3',
-                                      no  = Before_median.iqr),
-           Before_median.iqr = ifelse(Before_median.iqr == 'Model 6.1',
-                                      yes = 'Model 4',
-                                      no  = Before_median.iqr),
-           Before_median.iqr = ifelse(Before_median.iqr == 'Model 7.1',
-                                      yes = 'Model 5',
-                                      no  = Before_median.iqr),
-           Before_median.iqr = ifelse(Before_median.iqr == 'Model 8',
-                                      yes = 'Model 6',
-                                      no  = Before_median.iqr))
-names(to.table) <- c('Town', 'Pre Mean (SD)', 'Pre Median (IQR)', 'Pre Range', 'Post Mean (SD)', 'Post Median (IQR)', 'Post Range', 'Difference', 'Percentage')
-kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time()))
+## sec.deaths.all.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_all_7days_measure_clean,
+##                                            df.trust         = sec_deaths_all_7days_site_measure_clean,
+##                                            indicator       = 'sec deaths all 7days',
+##                                            sub.indicator   = 'any sec',
+##                                            return.df       = FALSE,
+##                                            return.model    = TRUE,
+##                                            return.residuals = FALSE,
+##                                            rm.unused.control = model.opts$rm.unused.control,
+##                                            digits           = 3)
+
+no.nhs.sec.deaths.all.7days.any.sec$all.model.all.coef %>%
+    dplyr::filter(model == 'Model 2' & town == 'Rochdale' & term != 'Intercept') %>%
+    dplyr::select(model, term, est, stderr, p, min95, max95)
+## to.table <- sec.deaths.all.7days.any.sec$summary.table.rochdale
+## names(to.table) <- gsub('Pre Median \\(IQR\\)', 'to.change', names(to.table))
+## to.table <-  mutate(to.table,
+##                     to.change = ifelse(to.change == 'Model 4',
+##                                        yes = 'Model 3',
+##                                        no  = to.change),
+##                     to.change = ifelse(to.change == 'Model 6.1',
+##                                        yes = 'Model 4',
+##                                        no  = to.change),
+##                     to.change = ifelse(to.change == 'Model 7.1',
+##                                        yes = 'Model 5',
+##                                        no  = to.change),
+##                     to.change = ifelse(to.change == 'Model 8',
+##                                        yes = 'Model 6',
+##                                        no  = to.change))
+## names(to.table) <- gsub('to.change', 'Pre Median (IQR)', names(to.table))
+## kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estimated coefficients for the closure or difference in time to ED (depending on the outcome)\n', 'Generated : ', Sys.time()))
 
 ```
