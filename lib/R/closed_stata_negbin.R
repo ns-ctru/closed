@@ -94,7 +94,8 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                      binary.diff = ifelse(diff.time.to.ed < median, 'Low', 'High')) %>%
               dplyr::select(lsoa, binary.diff)
     ## Bind to the main data frame
-    lsoa.pooled <- merge(df.lsoa,
+    lsoa.pooled <- merge(dplyr::filter(df.lsoa,
+                                       measure == indicator, sub.measure == sub.indicator),
                          binary,
                          by = c('town', 'lsoa')) %>%
                    group_by(town, relative.month, measure, sub.measure, binary.diff) %>%
@@ -108,10 +109,11 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                    mutate(season = as.factor(season),
                           relative.month = as.numeric(relative.month))
     names(lsoa.pooled) <- gsub('binary.diff', 'diff.time.to.ed', names(lsoa.pooled))
+    table(lsoa.pooled$sub.measure) %>% print()
     ## Clean 'spurious' data points
     lsoa.pooled <- closed_clean_revised(df = lsoa.pooled,
                                         indicator = indicator,
-                                        systematic.outlier = 3)
+                                        systematic.outlier = NA)
     results$lsoa.pooled <-  lsoa.pooled
     write.dta(lsoa.pooled,
               file = '~/work/closed/nihr_report/data/lsoa_pooled.dta')
@@ -250,6 +252,8 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## START
     lsoa.pooled <- mutate(lsoa.pooled,
                           before.after = ifelse(relative.month >= 25, "After", "Before"))
+    table(lsoa.pooled$diff.time.to.ed, lsoa.pooled$before.after) %>% print()
+    table(lsoa.pooled$measure, lsoa.pooled$sub.measure) %>% print()
     results$summary.df.high.low <- mutate(lsoa.pooled,
                                           value = ifelse(value == 0, NA, value)) %>%
                                    group_by(town, diff.time.to.ed, before.after) %>%
