@@ -236,7 +236,7 @@ forest.model4$forest
 
 ###### Bishop
 ```{r template.lsoa.pooled.bishop.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot_lsoa_binary(df            = data_frame_site_measure,
+closed_ts_plot_lsoa_binary(df            = data_frame_measure,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = ts.plot.opts$steps,
@@ -248,14 +248,15 @@ closed_ts_plot_lsoa_binary(df            = data_frame_site_measure,
                tidy          = ts.plot.opts$tidy,
                colour        = ts.plot.opts$colour,
                lines         = ts.plot.opts$lines,
-               hide.control         = ts.plot.opts$hide.control,
-               xaxis.steps   = ts.plot.opts$xaxis.steps)
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               pooled        = 'count')
 
 ```
 
 ###### Hartlepool
 ```{r template.lsoa.pooled.hartlepool.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot_lsoa_binary(df            = data_frame_site_measure,
+closed_ts_plot_lsoa_binary(df            = data_frame_measure,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = ts.plot.opts$steps,
@@ -268,13 +269,14 @@ closed_ts_plot_lsoa_binary(df            = data_frame_site_measure,
                colour        = ts.plot.opts$colour,
                lines         = ts.plot.opts$lines,
                hide.control  = ts.plot.opts$hide.control,
-               xaxis.steps   = ts.plot.opts$xaxis.steps)
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               pooled        = 'count')
 
 ```
 
 ###### Hemel Hempstead
-```{r template.lsoa.pooled.hartlepool.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot_lsoa_binary(df            = data_frame_site_measure,
+```{r template.lsoa.pooled.hemel.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot_lsoa_binary(df            = data_frame_measure,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = ts.plot.opts$steps,
@@ -287,13 +289,14 @@ closed_ts_plot_lsoa_binary(df            = data_frame_site_measure,
                colour        = ts.plot.opts$colour,
                lines         = ts.plot.opts$lines,
                hide.control  = ts.plot.opts$hide.control,
-               xaxis.steps   = ts.plot.opts$xaxis.steps)
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               pooled        = 'count')
 
 ```
 
 ###### Newark
-```{r template.lsoa.pooled.hartlepool.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot_lsoa_binary(df            = data_frame_site_measure,
+```{r template.lsoa.pooled.newark.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot_lsoa_binary(df            = data_frame_measure,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = ts.plot.opts$steps,
@@ -306,13 +309,14 @@ closed_ts_plot_lsoa_binary(df            = data_frame_site_measure,
                colour        = ts.plot.opts$colour,
                lines         = ts.plot.opts$lines,
                hide.control  = ts.plot.opts$hide.control,
-               xaxis.steps   = ts.plot.opts$xaxis.steps)
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               pooled        = 'count')
 
 ```
 
 ###### Rochdale
-```{r template.lsoa.pooled.hartlepool.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
-closed_ts_plot_lsoa_binary(df            = data_frame_site_measure,
+```{r template.lsoa.pooled.rochdale.plot, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
+closed_ts_plot_lsoa_binary(df            = data_frame_measure,
                indicator     = 'Measure',
                sub.indicator = 'sub_measure',
                steps         = ts.plot.opts$steps,
@@ -325,6 +329,7 @@ closed_ts_plot_lsoa_binary(df            = data_frame_site_measure,
                colour        = ts.plot.opts$colour,
                lines         = ts.plot.opts$lines,
                hide.control  = ts.plot.opts$hide.control,
-               xaxis.steps   = ts.plot.opts$xaxis.steps)
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               pooled        = 'count')
 
 ```
