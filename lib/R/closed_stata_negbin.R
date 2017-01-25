@@ -93,7 +93,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
               mutate(median      = quantile(diff.time.to.ed, probs = c(0.5)),
                      binary.diff = ifelse(diff.time.to.ed < median, 'Low', 'High')) %>%
               dplyr::select(lsoa, binary.diff)
-        ## Bind to the main data frame
+    ## Bind to the main data frame
     lsoa.pooled <- merge(df.lsoa,
                          binary,
                          by = c('town', 'lsoa')) %>%
@@ -108,6 +108,11 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                    mutate(season = as.factor(season),
                           relative.month = as.numeric(relative.month))
     names(lsoa.pooled) <- gsub('binary.diff', 'diff.time.to.ed', names(lsoa.pooled))
+    ## Clean 'spurious' data points
+    lsoa.pooled <- closed_clean_revised(df = lsoa.pooled,
+                                        indicator = indicator,
+                                        systematic.outlier = 3)
+    results$lsoa.pooled <-  lsoa.pooled
     write.dta(lsoa.pooled,
               file = '~/work/closed/nihr_report/data/lsoa_pooled.dta')
     call <- paste0('cp ~/work/closed/nihr_report/data/lsoa.dta ~/work/closed/nihr_report/data/input_lsoa_',
@@ -151,7 +156,6 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     df.trust <- dplyr::filter(df.trust,
                               measure == indicator, sub.measure == sub.indicator) %>%
                 mutate(before.after = ifelse(relative.month >= 25, "After", "Before"))
-    results$tmp <-  df.trust
     results$summary.df <- mutate(df.trust,
                                  value = ifelse(value == 0, NA, value)) %>%
                           group_by(town, before.after) %>%
@@ -558,4 +562,5 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Return the results                                                ##
     #######################################################################
     return(results)
+
 }
