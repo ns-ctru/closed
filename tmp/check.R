@@ -1,3 +1,455 @@
+## 2017-01-26 - Sorting problematic graphs...
+## Case Fatality
+png(file = '~/work/closed/tmp/high_low_case_fatality.png', width = 1024, height = 768)
+closed_ts_plot_lsoa_binary(df            = sec_case_fatality_7days_measure,
+               indicator     = 'sec case fatality 7 days',
+               sub.indicator = 'any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Newark'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = FALSE,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               pooled        = 'proportion')
+dev.off()
+
+## Ambulance Mean Times
+png(file = '~/work/closed/tmp/high_low_amb_mean.png', width = 1024, height = 768)
+closed_ts_plot_lsoa_binary(df            = amb_mean_times_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call to dest',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Rochdale'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               pooled        = 'proportion')
+dev.off()
+
+## Ambulance Green Calls
+png(file = '~/work/closed/tmp/high_low_amb_green.png', width = 1024, height = 768)
+closed_ts_plot_lsoa_binary(df            = amb_green_calls_measure,
+               indicator     = 'ambulance green calls',
+               sub.indicator = 'green calls',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hemel Hempstead'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               pooled        = 'count')
+dev.off()
+
+## Ambulance Red Calls
+png(file = '~/work/closed/tmp/high_low_amb_red.png', width = 1024, height = 768)
+closed_ts_plot_lsoa_binary(df            = amb_red_calls_measure,
+               indicator     = 'ambulance red calls',
+               sub.indicator = 'total',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hartlepool'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               pooled        = 'count')
+dev.off()
+
+## 2017-01-25 - Checking summary statistics in High/Low LSOA summary plots
+admissions.fraction.testing <- closed_models(df.lsoa         = ed_attendances_admitted_measure_clean,
+                                     df.trust         = ed_attendances_admitted_site_measure_clean,
+                                     indicator        = 'ed attendances admitted',
+                                     sub.indicator    = 'fraction admitted',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7.1         = model.opts$mod7.1,
+                                     model7.2         = model.opts$mod7.2,
+                                     model8           = model.opts$mod8,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     remove.spurious = model.opts$remove.spurious,
+                                     join.line        = model.opts$join.line,
+                                     rm.unused.control = model.opts$rm.unused.control,
+                                     legend           = model.opts$legend)
+png(file = '~/work/closed/tmp/admission_fraction_high_low.png')
+closed_ts_plot_lsoa_binary(df            = ed_attendances_admitted_measure,
+               indicator     = 'ed attendances admitted',
+               sub.indicator = 'fraction admitted',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control         = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               pooled        = 'proportion')
+dev.off()
+admissions.admitted.testing  <- closed_stata_negbin(df.lsoa =  ed_attendances_admitted_measure_clean,
+                                           df.trust         = ed_attendances_admitted_site_measure_clean,
+                                           indicator       = 'ed attendances admitted',
+                                           sub.indicator   = 'admitted',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+png(file = '~/work/closed/tmp/admission_admitted_high_low.png')
+closed_ts_plot_lsoa_binary(df            = ed_attendances_admitted_measure,
+               indicator     = 'ed attendances admitted',
+               sub.indicator = 'admitted',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control         = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               pooled        = 'count')
+dev.off()
+save(admissions.admitted.testing,
+     admissions.fraction.testing,
+     file = '~/work/closed/tmp/check_high_low.RData')
+## Do some checks...
+admissions.admitted.testing$summary.table %>%
+    dplyr::filter(town %in% c('Bishop Auckland (Low)', 'Bishop Auckland (High)'))
+## Pre/Post mean/SD in before/after...
+admissions.admitted.testing$lsoa.pooled %>%
+    dplyr::filter(sub.measure == 'admitted') %>%
+    mutate(before.after = ifelse(relative.month < 25, 'Before', 'After')) %>%
+    group_by(town, diff.time.to.ed, before.after) %>%
+    summarise(n    = n(),
+              mean = mean(value, na.rm = TRUE),
+              sd = sd(value, na.rm = TRUE))
+## Actual data in Bishop Auckland for admitted...
+admissions.admitted.testing$lsoa.pooled %>%
+    dplyr::filter(sub.measure == 'admitted' & town == 'Bishop Auckland')
+## Week 25 which in the above comes out as NA after cleaning, but there
+## are valid data points on the plot...
+ed_attendances_admitted_measure %>%
+    dplyr::filter(sub.measure == 'admitted' & town == 'Bishop Auckland' & relative.month == 25) %>%
+    dplyr::select(town, lsoa, relative.month, value)
+
+
+## 2017-01-18 - Plotting pooled and dichtomosied LSOA level data
+png(file = '~/work/closed/tmp/averaged_lsoa.png', width = 1024, height = 768)
+closed_ts_plot_lsoa_binary(df            = amb_red_calls_measure,
+               indicator     = 'ambulance red calls',
+               sub.indicator = 'total',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hartlepool'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+
+
+## 2017-01-18 - Developing new 'model' with aggregated counts across LSOAs classified as High/Low
+##              difference in time to ED (Stata Negbin version, still have errors with panelAR()
+##              not liking the numeric format of the time-variable, despite it being forced to
+##              be numeric prior to calling)
+testing.stata <- closed_stata_negbin(df.lsoa =  sec_deaths_all_7days_measure_clean,
+                                           df.trust         = sec_deaths_all_7days_site_measure_clean,
+                                           indicator       = 'sec deaths all 7days',
+                                           sub.indicator   = 'any sec',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+
+## 2017-01-13 - Developing new 'model' with aggregated counts across LSOAs classified as High/Low
+##              difference in time to ED
+source('~/work/closed/tmp/setup.R')
+
+testing <- closed_models(df.lsoa         = ed_attendances_admitted_measure_clean,
+                                     df.trust         = ed_attendances_admitted_site_measure_clean,
+                                     indicator        = 'ed attendances admitted',
+                                     sub.indicator    = 'fraction admitted',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = NULL,
+                                     model0.5         = NULL,
+                                     model1           = NULL,
+                                     model2           = NULL,
+                                     model3.1         = NULL,
+                                     model3.2         = NULL,
+                                     model4           = NULL,
+                                     model5           = NULL,
+                                     model6.1         = NULL,
+                                     model6.2         = NULL,
+                                     model7.1         = NULL,
+                                     model7.2         = NULL,
+                                     model8           = model.opts$mod8,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     remove.spurious = model.opts$remove.spurious,
+                                     join.line        = model.opts$join.line,
+                                     rm.unused.control = model.opts$rm.unused.control,
+                                     legend           = model.opts$legend)
+
+
+## 2017-01-12 - Remove Hemel Hempstead spurious data points in time-series plot
+png('~/work/closed/tmp/amb_mean_times_hartlepool.png', width = 1024, height = 768)
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call to dest',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hemel Hempstead', 'Warwick'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+
+## 2017-01-12 - Checking Newark red ambulance identified by Jon (see email 2017-01-12 @ 13:53)
+png('~/work/closed/tmp/amb_red_check_hartlepool.png', width = 1024, height = 768)
+closed_ts_plot(df            = amb_red_calls_site_measure,
+               indicator     = 'ambulance red calls',
+               sub.indicator = 'total',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hartlepool', 'Grimsby'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+ambulance.red.calls.hospital.transfers.check <- closed_stata_negbin(df.lsoa =  amb_red_calls_measure,
+                                           df.trust         = amb_red_calls_site_measure_clean,
+                                           indicator       = 'ambulance red calls',
+                                           sub.indicator   = 'hospital transfers',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+
+
+## 2017-01-11 - Correcting order of forest plots
+load('~/work/closed/nihr_report/data/results.RData')
+forest.model2 <- closed_meta(df             = mode.of.arrival.any$all.model.all.coef,
+                             ma.model       = 'Model 2',
+                             ma.method      = 'FE',
+                             indicator      = 'ed attendances',
+                             sub.indicator  = 'any',
+                             plot.ci        = TRUE,
+                             plot.null.line = TRUE,
+                             theme          = theme_bw())
+forest.model2$forest + scale_y_continuous(breaks = c(seq(1:6)),
+                                                          labels = c('Overall',
+                                                                     'Rochdale',
+                                                                     'Newark',
+                                                                     'Hemel Hempstead',
+                                                                     'Hartlepool',
+                                                                     'Bishop Auckland'))
+
+
+## 2017-01-11 - Removing spurious data points from Lowess curves and reversing order of
+##              Bishop/Whitehaven so that when plotted all controls ALWAYS have hollow
+##              circles and solid lines
+load('~/work/closed/tmp/ed attendances by mode measure - site - 2016-11-21 19.54.Rda')
+ed_attendances_by_mode_site_measure       <- closed_tidy(ed_attendances_by_mode_site_measure)
+ts.plot.opts <- list()
+ts.plot.opts$steps        <- TRUE
+ts.plot.opts$facet        <- FALSE
+ts.plot.opts$legend       <- TRUE
+ts.plot.opts$tidy         <- FALSE
+ts.plot.opts$colour       <- FALSE
+ts.plot.opts$lines        <- FALSE
+ts.plot.opts$xaxis.steps  <- TRUE
+ts.plot.opts$smooth.plot  <- TRUE
+ts.plot.opts$hide.control <- TRUE
+
+png('~/work/closed/tmp/attendance_bishop.png', width = 1024, height = 768)
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control         = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+png('~/work/closed/tmp/attendance_hartlepool.png', width = 1024, height = 768)
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hartlepool', 'Grimsby'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control         = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+
+dev.off()
+
+## 2017-01-09 - Checking emergency admissions
+png('~/work/closed/tmp/ed_attendances.png', width = 1024, height = 768)
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control         = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+png('~/work/closed/tmp/ed_admissions_all.png', width = 1024, height = 768)
+closed_ts_plot(df            = ed_attendances_admitted_site_measure,
+               indicator     = 'ed attendances admitted',
+               sub.indicator = 'all',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control         = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+png('~/work/closed/tmp/ed_admissions_admissions.png', width = 1024, height = 768)
+closed_ts_plot(df            = ed_attendances_admitted_site_measure,
+               indicator     = 'ed attendances admitted',
+               sub.indicator = 'admitted',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Bishop Auckland', 'Whitehaven'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control         = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+
+## 2017-01-06 - Possible plot for difference in time to ed
+to.plot <- dplyr::filter(ed_attendances_by_mode_measure, town == 'Bishop Auckland' & sub.measure == 'any' & diff.time.to.ed != 0)
+png('~/work/closed/tmp/diff_time_v_outcome.png', width = 1024, height = 768)
+ggplot(to.plot, aes(x = diff.time.to.ed,
+                    y = value,
+                    colour = lsoa,
+                    shape  = as.factor(relative.month))) +
+    geom_jitter() +
+    scale_shape_manual(values = 1:nlevels(as.factor(to.plot$relative.month))) +
+    theme_bw()
+dev.off()
+png('~/work/closed/tmp/diff_time_v_outcome_facet.png', width = 1024, height = 768)
+ggplot(to.plot, aes(x = diff.time.to.ed,
+                    y = value,
+                    colour = lsoa)) +
+    geom_jitter() +
+    theme_bw() +
+    facet_wrap(~relative.month)
+dev.off()
+
+## 2017-01-06 - Alternative heatmps
+load('~/work/closed/nihr_report/data/results.RData')
+t <- closed_heatmap2(df           = summary.models,
+                     site         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+                     colour.by    = 'p',
+                     coef         = c('closure', 'diff.time.to.ed'),
+                     include.text = c('standard', 'p'),
+                     text.size    = 3,
+                     colour       = 'blue',
+                     final        = TRUE,
+                     digits       = 3)
+t$site
+
 ## 2017-01-05 - Developing new forest plot to include meta-analysis rather than the
 ##              estimate from the pooled analysis as originally done (not sure what
 ##              the value of performing a meta-analysis is given the data can
