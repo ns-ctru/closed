@@ -55,6 +55,7 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
                            colour          = TRUE,
                            hide.control    = FALSE,
                            systematic.outlier = 3,
+                           pooled          = 'count',
                            ...){
     ## Initialise results for returning
     results <- list()
@@ -72,6 +73,8 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
         ## more notice had been given this would be its own function, making
         ## maintainability easier, but c'est la vie.
         ## Derive binary indicator of High/Low _within_ each case site
+        df <- dplyr::filter(df, town %in% sites)
+        ## table(df$relative.month, df$value) %>% print()
         binary <- dplyr::select(df, town, lsoa, diff.time.to.ed) %>%
                   dplyr::filter(diff.time.to.ed != 0) %>%
                   unique() %>%
@@ -80,19 +83,36 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
                          binary.diff = ifelse(diff.time.to.ed < median, 'Low', 'High')) %>%
                   dplyr::select(lsoa, town, binary.diff)
         ## Bind to the main data frame
-        df <- merge(dplyr::select(df, -diff.time.to.ed),
-                     binary,
-                     by = c('town', 'lsoa')) %>%
-               group_by(town, relative.month, measure, sub.measure, binary.diff) %>%
-               summarise(value            = sum(value),
-                         closure          = mean(closure),
-                         nhs111           = mean(nhs111),
-                         ambulance.divert = mean(ambulance.divert),
-                         other.centre     = mean(other.centre),
-                         season           = mean(as.numeric(season))) %>%
-               ungroup() %>%
-               mutate(season = as.factor(season),
-                      relative.month = as.integer(relative.month))
+        if(pooled == 'proportion'){
+            df <- merge(dplyr::select(df, -diff.time.to.ed),
+                        binary,
+                        by = c('town', 'lsoa')) %>%
+                  group_by(town, relative.month, measure, sub.measure, binary.diff) %>%
+                  summarise(value            = mean(value, na.rm = TRUE),
+                            closure          = mean(closure),
+                            nhs111           = mean(nhs111),
+                            ambulance.divert = mean(ambulance.divert),
+                            other.centre     = mean(other.centre),
+                            season           = mean(as.numeric(season))) %>%
+                  ungroup() %>%
+                  mutate(season = as.factor(season),
+                         relative.month = as.integer(relative.month))
+        }
+        else if(pooled == 'count'){
+            df <- merge(dplyr::select(df, -diff.time.to.ed),
+                        binary,
+                        by = c('town', 'lsoa')) %>%
+                  group_by(town, relative.month, measure, sub.measure, binary.diff) %>%
+                  summarise(value            = sum(value),
+                            closure          = mean(closure),
+                            nhs111           = mean(nhs111),
+                            ambulance.divert = mean(ambulance.divert),
+                            other.centre     = mean(other.centre),
+                            season           = mean(as.numeric(season))) %>%
+                  ungroup() %>%
+                  mutate(season = as.factor(season),
+                         relative.month = as.integer(relative.month))
+        }
     }
     ## Conditionally select range for y-axis, MUST do this BEFORE subsetting
     ## data so that it is common across all outcomes for the given indicator
@@ -509,9 +529,8 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
     ## easy way of achieving it, c'est la vie.                           ##
     #######################################################################
     ## Clean the data using the threshold specified (default is x3 SD)   ##
-    clean <- closed_clean_revised(df = df,
-                                  indicator = indicator,
-                                  systematic = systematic.outlier)
+    clean <- closed_clean_high_low(df = df,
+                                  indicator = indicator)
     ## Rename value (don't want conflicts), subset out those where missing
     names(clean) <- gsub('value', 'missing', names(clean))
     clean <- dplyr::filter(clean, is.na(missing)) %>%
@@ -560,12 +579,14 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
         results$plot <- ggplot(data = df,
                                mapping = aes(x     = relative.month,
                                              y     = value,
+                                             shape = binary.diff,
                                              colour  = binary.diff))
     }
     else{
         results$plot <- ggplot(data = df,
                                mapping = aes(x     = relative.month,
                                              y     = value,
+                                             shape = binary.diff,
                                              linetype = binary.diff))
     }
     ## Add smoothed line
@@ -573,6 +594,11 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
         ## print('Are we smoothing?')
         results$plot <- results$plot +
                         geom_point(aes(shape = binary.diff), size = 4) +
+                        ## geom_point(data = dplyr::subsetaes(relative.month[binary.diff == 'Low'],
+                        ##                value[binary.diff == 'Low']), size = 4, shape = 0) +
+                        ## geom_point(aes(relative.month[binary.diff == 'High'],
+                        ##                value[binary.diff == 'High']), size = 4, shape = 15) +
+                        ## scale_shape_manual(values  = c(0, 0)) +
                         ## 2016-01-11 - Removing spurious data points from smoothing
                         geom_smooth(data = dplyr::filter(df, missing != 1),
                                     aes(x = relative.month,
@@ -633,14 +659,14 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
                                                       mapping = aes(xintercept = steps,
                                                                     colour     = binary.diff,
                                                                     linetype   = variable)) +
-                            labs(linetype = 'Modelled Changes', colour = 'Hospital Catchment Area')
+                            labs(linetype = 'Modelled Changes', colour = 'Difference in Time to ED')
         }
         else{
             results$plot <- results$plot + geom_vline(data = df.steps,
                                                       mapping = aes(xintercept = steps,
                                                                     label      = binary.diff,
                                                                     linetype   = variable)) +
-                            labs(linetype = 'Modelled Changes', colour = 'Hospital Catchment Area')
+                            labs(linetype = 'Modelled Changes', colour = 'Difference in Time to ED')
 
         }
     }
