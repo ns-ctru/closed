@@ -315,8 +315,12 @@ closed_meta <- function(df             = mode.of.arrival.any,
     else{
         title1 <- NULL
     }
-    if(ma.model == 'Model 2')        title1 <- paste0('Site : ', title1)
-    else if(ma.model == 'Model 6.1') title1 <- paste0('LSOA : ', title1)
+    if(ma.model == 'Model 0')        title1 <- paste0('Site (Model 0) : ', title1)
+    else if(ma.model == 'Model 1')   title1 <- paste0('Site (Model 1) : ', title1)
+    else if(ma.model == 'Model 2')   title1 <- paste0('Site (Model 2) : ', title1)
+    else if(ma.model == 'Model 6.1') title1 <- paste0('LSOA (Model 4) : ', title1)
+    else if(ma.model == 'Model 7.1') title1 <- paste0('LSOA (Model 5) : ', title1)
+    else if(ma.model == 'Model 8')   title1 <- paste0('LSOA (Model 6) : ', title1)
     ## Extract Point Estimate and SE from data frame for the specificed model and
     ## given outcome.
     df <- dplyr::filter(df, model == ma.model) %>%
@@ -365,8 +369,9 @@ closed_meta <- function(df             = mode.of.arrival.any,
     ## Reverse the order of y.axis labels ('Summary' the meta needs to be
     ## at the bottom, always will be since alphabetically its last)
     results$df <- mutate(results$df,
-                         y.axis = factor(y.axis),
-                         y.axis = factor(y.axis, levels = rev(levels(y.axis))))
+                         y.axis = factor(y.axis))
+                         ## No longer needed now 'Overall xx (xx - xx) has leading space
+                         ## y.axis = factor(y.axis, levels = rev(levels(y.axis))))
     ## Generate y.axis conditional on the town/overall indicator
     ## results$df <- results$df %>% mutate(y.axis = case_when(.$town == 'Bishop Auckland' ~ 6,
     ##                                                        .$town == 'Hartlepool' ~ 5,
@@ -397,7 +402,6 @@ closed_meta <- function(df             = mode.of.arrival.any,
     ## Optionally add null effect line
     if(plot.null.line == TRUE){
         ## Conditionally set the intercept based on the measure/sub.measure
-        if(indicator == 'mode')
         results$forest <- results$forest +
                           geom_vline(xintercept = null.line, linetype = 'dashed')
     }
