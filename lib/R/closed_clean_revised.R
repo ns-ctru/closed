@@ -85,24 +85,24 @@ closed_clean_revised <- function(df              = ed_attendances_by_mode_measur
                                     yes = NA,
                                     no = value))
     }
-    else if(indicator ==  'unnecessary attendances'){
+    else if(indicator ==  'unnecessary ed attendances'){
         df <- mutate(df,
-                     value = ifelse(sub.measure == 'unnecessary attendances' &
+                     value = ifelse(sub.measure == 'all' &
                                     town %in% c('Bishop Auckland', 'Whitehaven') &
                                     relative.month %in% c(1, 6),
                                     yes = NA,
                                     no = value),
-                     value = ifelse(sub.measure == 'unnecessary attendances' &
+                     value = ifelse(sub.measure == 'all' &
                                     town %in% c('Hartlepool', 'Grimsby') &
                                     relative.month >= 31,
                                     yes = NA,
                                     no = value),
-                     ## value = ifelse(sub.measure == 'unnecessary attendances' &
+                     ## value = ifelse(sub.measure == 'all' &
                      ##                town %in% c('Hemel Hempstead', 'Warwick') &
                      ##                relative.month %in% c(1, 6),
                      ##                yes = NA,
                      ##                no = value),
-                     value = ifelse(sub.measure == 'unnecessary attendances' &
+                     value = ifelse(sub.measure == 'all' &
                                     town %in% c('Newark', 'Southport') &
                                     relative.month %in% c(11, 23),
                                     yes = NA,
@@ -214,7 +214,7 @@ closed_clean_revised <- function(df              = ed_attendances_by_mode_measur
         df <- mutate(df,
                      value = ifelse(sub.measure == 'call to dest' &
                                     town %in% c('Hemel Hempstead', 'Warwick') &
-                                    relative.month %in% c(26, 27, 28, 38, 39, 40, 41, 42, 43, 44, 45),
+                                    relative.month %in% c(26, 27, 28, 38, 39, 40, 41, 42, 43, 44, 45, 46),
                                     yes = NA,
                                     no = value),
                      value = ifelse(sub.measure == 'call to dest' &
@@ -225,7 +225,7 @@ closed_clean_revised <- function(df              = ed_attendances_by_mode_measur
         df <- mutate(df,
                      value = ifelse(sub.measure == 'call to scene any' &
                                     town %in% c('Hemel Hempstead', 'Warwick') &
-                                    relative.month %in% c(26, 27, 28, 38, 39, 40, 41, 42, 43, 44, 45),
+                                    relative.month %in% c(26, 27, 28, 38, 39, 40, 41, 42, 43, 44, 45, 46),
                                     yes = NA,
                                     no = value),
                      value = ifelse(sub.measure == 'call to scene any' &
@@ -236,21 +236,21 @@ closed_clean_revised <- function(df              = ed_attendances_by_mode_measur
         df <- mutate(df,
                      value = ifelse(sub.measure == 'call to scene conveying' &
                                     town %in% c('Hemel Hempstead', 'Warwick') &
-                                    relative.month %in% c(26, 27, 28, 38, 39, 40, 41, 42, 43, 44, 45),
+                                    relative.month %in% c(26, 27, 28, 38, 39, 40, 41, 42, 43, 44, 45, 46),
                                     yes = NA,
                                     no = value))
         df <- mutate(df,
                      value = ifelse(sub.measure == 'scene to dest' &
-                                    town %in% c('Bishop Auckland', 'White Haven') &
+                                    town %in% c('Bishop Auckland', 'Whitehaven') &
                                     relative.month %in% c(5),
                                     yes = NA,
                                     no = value))
-        df <- mutate(df,
-                     value = ifelse(sub.measure == 'dest to clear' &
-                                    town %in% c('') &
-                                    relative.month %in% c(),
-                                    yes = NA,
-                                    no = value))
+        ## df <- mutate(df,
+        ##              value = ifelse(sub.measure == 'dest to clear' &
+        ##                             town %in% c('') &
+        ##                             relative.month %in% c(),
+        ##                             yes = NA,
+        ##                             no = value))
     }
     else if(indicator ==  'ambulance green calls'){
         df <- mutate(df,
@@ -260,33 +260,33 @@ closed_clean_revised <- function(df              = ed_attendances_by_mode_measur
                                     yes = NA,
                                     no = value),
                      value = ifelse(sub.measure == 'green calls' &
-                                    town %in% c('Grimsby') &
+                                    town %in% c('Hartlepool', 'Grimsby') &
                                     relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
                                     yes = NA,
                                     no = value),
                      value = ifelse(sub.measure == 'green calls' &
-                                    town %in% c('Warwick') &
+                                    town %in% c('Hemel Hempstead', 'Warwick') &
                                     relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25),
                                     yes = NA,
                                     no = value),
                      value = ifelse(sub.measure == 'green calls' &
-                                    town %in% c('Newark') &
+                                    town %in% c('Newark', 'Southport') &
                                     relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
                                     yes = NA,
                                     no = value))
         df <- mutate(df,
                      value = ifelse(sub.measure == 'not conveyed green calls' &
-                                    town %in% c('Grimsby') &
+                                    town %in% c('Hartlepool', 'Grimsby') &
                                     relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
                                     yes = NA,
                                     no = value),
                      value = ifelse(sub.measure == 'not conveyed green calls' &
-                                    town %in% c('Warwick') &
+                                    town %in% c('Hemel Hempstead', 'Warwick') &
                                     relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25),
                                     yes = NA,
                                     no = value),
                      value = ifelse(sub.measure == 'green calls' &
-                                    town %in% c('Newark') &
+                                    town %in% c('Newark', 'Southport') &
                                     relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
                                     yes = NA,
                                     no = value),
@@ -296,22 +296,32 @@ closed_clean_revised <- function(df              = ed_attendances_by_mode_measur
                                     yes = NA,
                                     no = value))
         df <- mutate(df,
+                                          value = ifelse(sub.measure == 'fraction not conveyed' &
+                                    town %in% c('Hartlepool', 'Grimsby') &
+                                    relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                                    yes = NA,
+                                    no = value),
                      value = ifelse(sub.measure == 'fraction not conveyed' &
-                                    town %in% c('') &
-                                    relative.month %in% c(),
+                                    town %in% c('Hemel Hempstead', 'Warwick') &
+                                    relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25),
+                                    yes = NA,
+                                    no = value),
+                     value = ifelse(sub.measure == 'green calls' &
+                                    town %in% c('Newark', 'Southport') &
+                                    relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
                                     yes = NA,
                                     no = value))
+                     ## value = ifelse(sub.measure == 'fraction not conveyed' &
+                     ##                town %in% c('Rochdale', 'Rotherham') &
+                     ##                relative.month %in% c(13, 14, 15, 48),
+                     ##                yes = NA,
+                     ##                no = value))
     }
     else if(indicator ==  'ambulance red calls'){
         df <- mutate(df,
                      value = ifelse(sub.measure == 'hospital transfers' &
-                                    town %in% c('Bishop Auckland', 'White Haven') &
+                                    town %in% c('Bishop Auckland', 'Whitehaven') &
                                     relative.month %in% c(1, 2, 3, 4, 5, 6),
-                                    yes = NA,
-                                    no = value),
-                     value = ifelse(sub.measure == 'hospital transfers' &
-                                    town %in% c('Hemel Hempstead', 'Warwick') &
-                                    relative.month %in% c(26, 27, 38, 39, 40, 41, 42, 43, 44, 45),
                                     yes = NA,
                                     no = value),
                      value = ifelse(sub.measure == 'hospital transfers' &
@@ -320,27 +330,37 @@ closed_clean_revised <- function(df              = ed_attendances_by_mode_measur
                                     yes = NA,
                                     no = value),
                      value = ifelse(sub.measure == 'hospital transfers' &
+                                    town %in% c('Hemel Hempstead', 'Warwick') &
+                                    relative.month %in% c(26, 27, 38, 39, 40, 41, 42, 43, 44, 45),
+                                    yes = NA,
+                                    no = value),
+                     value = ifelse(sub.measure == 'hospital transfers' &
                                     town %in% c('Newark', 'Southport') &
                                     relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
                                     yes = NA,
                                     no = value),
                      value = ifelse(sub.measure == 'hospital transfers' &
-                                    town %in% c('Rochdale'),
+                                    town %in% c('Rotherham'),
                                     yes = NA,
                                     no = value),
                      value = ifelse(sub.measure == 'total' &
                                     town %in% c('Hartlepool', 'Grimsby') &
-                                    relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
+                                    relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
                                     yes = NA,
                                     no = value),
                      value = ifelse(sub.measure == 'total' &
-                                    town %in% c('Warwick') &
+                                    town %in% c('Hemel Hempstead', 'Warwick') &
                                     relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25),
                                     yes = NA,
                                     no = value),
                      value = ifelse(sub.measure == 'total' &
                                     town %in% c('Newark', 'Southport') &
                                     relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
+                                    yes = NA,
+                                    no = value),
+                     value = ifelse(sub.measure == 'total' &
+                                    town %in% c('Rochdale', 'Rotherham') &
+                                    relative.month %in% c(13, 14, 15),
                                     yes = NA,
                                     no = value))
         ## df <- mutate(df,
