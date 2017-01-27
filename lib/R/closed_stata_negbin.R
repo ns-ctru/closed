@@ -109,7 +109,6 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                    mutate(season = as.factor(season),
                           relative.month = as.numeric(relative.month))
     names(lsoa.pooled) <- gsub('binary.diff', 'diff.time.to.ed', names(lsoa.pooled))
-    table(lsoa.pooled$sub.measure) %>% print()
     ## Clean 'spurious' data points
     lsoa.pooled <- closed_clean_revised(df = lsoa.pooled,
                                         indicator = indicator,
