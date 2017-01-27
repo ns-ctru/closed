@@ -237,6 +237,7 @@ sed -e 's/template/ambulance.mean.times.call.to.dest/g' \
     -e 's/data_frame/amb_mean_times/g' \
     -e 's/DESCRIPTION/mean time from call to destination/g' \
     -e 's/count/proportion/g' \
+    -e "s/ma.model       = 'Model 2'/ma.model       = 'Model 1'/g" \
     template.Rmd > ambulance_mean_times_call_to_dest.Rmd
 
 ## Measure     : Ambulance Mean Times
