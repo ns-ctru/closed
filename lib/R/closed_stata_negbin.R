@@ -251,8 +251,8 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## START
     lsoa.pooled <- mutate(lsoa.pooled,
                           before.after = ifelse(relative.month >= 25, "After", "Before"))
-    table(lsoa.pooled$diff.time.to.ed, lsoa.pooled$before.after) %>% print()
-    table(lsoa.pooled$measure, lsoa.pooled$sub.measure) %>% print()
+    ## table(lsoa.pooled$diff.time.to.ed, lsoa.pooled$before.after) %>% print()
+    ## table(lsoa.pooled$measure, lsoa.pooled$sub.measure) %>% print()
     results$summary.df.high.low <- mutate(lsoa.pooled,
                                           value = ifelse(value == 0, NA, value)) %>%
                                    group_by(town, diff.time.to.ed, before.after) %>%
@@ -346,6 +346,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Remove baseline terms
     results$all.model.all.coef <- dplyr::filter(results$all.model.all.coef, !is.nan(p))
     ## Get terms to have same name
+    ## table(results$all.model.all.coef$term, results$all.model.all.coef$model) %>% print()
     results$all.model.all.coef <- mutate(results$all.model.all.coef,
                               term = gsub('_cons', 'Intercept', term),
                               term = gsub('1.ambulance_divert', 'ambulance.divert', term),
@@ -360,46 +361,46 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                               term = gsub('4.season', 'season.4', term),
                               term = gsub('5.season', 'season.5', term),
                               term = gsub('6.season', 'season.6', term),
-                              term = gsub('1.town#closure', 'townBishop Auckland:closure ', term),
-                              term = gsub('1.town', 'townBishop Auckland', term),
-                              term = gsub('2.town#closure', 'townBasingstoke:closure ', term),
-                              term = gsub('2.town', 'townBasingstoke', term),
-                              term = gsub('3.town#closure', 'townBlackburn:closure ', term),
-                              term = gsub('3.town', 'townBlackburn', term),
-                              term = gsub('4.town#closure', 'townCarlisle:closure ', term),
-                              term = gsub('4.town', 'townCarlisle', term),
-                              term = gsub('5.town#closure', 'townGrimsby:closure ', term),
-                              term = gsub('5.town', 'townGrimsby', term),
-                              term = gsub('6.town#closure', 'townHartlepool:closure ', term),
-                              term = gsub('6.town', 'townHartlepool', term),
-                              term = gsub('7.town#closure', 'townHemel Hempstead:closure ', term),
-                              term = gsub('7.town', 'townHemel Hempstead', term),
-                              term = gsub('8.town#closure', 'townNewark:closure ', term),
-                              term = gsub('8.town', 'townNewark', term),
-                              term = gsub('9.town#closure', 'townRochdale:closure ', term),
-                              term = gsub('9.town', 'townRochdale', term),
-                              term = gsub('10.town#closure', 'townRotherham:closure ', term),
+                              term = gsub('10.town#1.closure', 'townRotherham:closure ', term),
                               term = gsub('10.town', 'townRotherham', term),
-                              term = gsub('1town#closure', 'townSalford:closure ', term),
-                              term = gsub('1town', 'townSalford', term),
-                              term = gsub('12.town#closure', 'townSalisbury:closure ', term),
+                              term = gsub('11.town#1.closure', 'townSalford:closure ', term),
+                              term = gsub('11.town', 'townSalford', term),
+                              term = gsub('12.town#1.closure', 'townSalisbury:closure ', term),
                               term = gsub('12.town', 'townSalisbury', term),
-                              term = gsub('13.town#closure', 'townScarborough:closure ', term),
+                              term = gsub('13.town#1.closure', 'townScarborough:closure ', term),
                               term = gsub('13.town', 'townScarborough', term),
-                              term = gsub('14.town#closure', 'townScunthorpe:closure ', term),
+                              term = gsub('14.town#1.closure', 'townScunthorpe:closure ', term),
                               term = gsub('14.town', 'townScunthorpe', term),
-                              term = gsub('15.town#closure', 'townSouthport:closure ', term),
+                              term = gsub('15.town#1.closure', 'townSouthport:closure ', term),
                               term = gsub('15.town', 'townSouthport', term),
-                              term = gsub('16.town#closure', 'townWansbeck:closure ', term),
+                              term = gsub('16.town#1.closure', 'townWansbeck:closure ', term),
                               term = gsub('16.town', 'townWansbeck', term),
-                              term = gsub('17.town#closure', 'townWarwick:closure ', term),
+                              term = gsub('17.town#1.closure', 'townWarwick:closure ', term),
                               term = gsub('17.town', 'townWarwick', term),
-                              term = gsub('18.town#closure', 'townWhitehaven:closure ', term),
+                              term = gsub('18.town#1.closure', 'townWhitehaven:closure ', term),
                               term = gsub('18.town', 'townWhitehaven', term),
-                              term = gsub('19.town#closure', 'townWigan:closure ', term),
+                              term = gsub('19.town#1.closure', 'townWigan:closure ', term),
                               term = gsub('19.town', 'townWigan', term),
-                              term = gsub('20.town#closure', 'townYeovil:closure ', term),
+                              term = gsub('20.town#1.closure', 'townYeovil:closure ', term),
                               term = gsub('20.town', 'townYeovil', term),
+                              term = gsub('1.town#1.closure', 'townBasingstoke:closure ', term),
+                              term = gsub('1.town', 'townBasingstoke', term),
+                              term = gsub('2.town#1.closure', 'townBishop Auckland:closure ', term),
+                              term = gsub('2.town', 'townBishop Auckland', term),
+                              term = gsub('3.town#1.closure', 'townBlackburn:closure ', term),
+                              term = gsub('3.town', 'townBlackburn', term),
+                              term = gsub('4.town#1.closure', 'townCarlisle:closure ', term),
+                              term = gsub('4.town', 'townCarlisle', term),
+                              term = gsub('5.town#1.closure', 'townGrimsby:closure ', term),
+                              term = gsub('5.town', 'townGrimsby', term),
+                              term = gsub('6.town#1.closure', 'townHartlepool:closure ', term),
+                              term = gsub('6.town', 'townHartlepool', term),
+                              term = gsub('7.town#1.closure', 'townHemel Hempstead:closure ', term),
+                              term = gsub('7.town', 'townHemel Hempstead', term),
+                              term = gsub('8.town#1.closure', 'townNewark:closure ', term),
+                              term = gsub('8.town', 'townNewark', term),
+                              term = gsub('9.town#1.closure', 'townRochdale:closure ', term),
+                              term = gsub('9.town', 'townRochdale', term),
                               term = gsub('1.diff.time.to.ed', 'diff.time.to.ed', term),
                               term = gsub('1.diff.time.to.ed#closure', 'diff.time.to.ed:closure', term),
                               model = gsub('model', 'Model ', model))
@@ -408,10 +409,35 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## dim(results$all.model.all.coef) %>% print()
     ## head(results$all.model.all.coef) %>% print()
     ## table(results$all.model.all.coef$term) %>% print()
-    res.model8 <- dplyr::filter(results$all.model.all.coef, model == 'Model 8' & term == 'closure') %>%
+    ## 2016-01-30 - Interaction terms required
+    ## res.model8 <- dplyr::filter(results$all.model.all.coef, model == 'Model 8' & term == 'closure') %>%
+    res.model8 <- dplyr::filter(results$all.model.all.coef, model == 'Model 8' & term == 'diff.time.to.ed:closure') %>%
                   dplyr::select(est, stderr, p, min95, max95, town, measure, sub.measure, model)
-    results$summary.table.tail <- dplyr::filter(results$all.model.all.coef, model != 'Model 8') %>%
-                                  dplyr::filter(term == 'closure' | term == 'diff.time.to.ed') %>%
+    ## 2016-01-30 - Interaction terms required
+    ## results$summary.table.tail <- dplyr::filter(results$all.model.all.coef, model != 'Model 8') %>%
+    ##                               dplyr::filter(term == 'closure' | term == 'diff.time.to.ed') %>%
+    ##                               dplyr::select(est, stderr, p, min95, max95, town, measure, sub.measure, model)
+    results$all.model.all.coef <- results$all.model.all.coef %>%
+                                  mutate(use = case_when(.$model == 'Model 0'   & .$term == 'closure' ~ TRUE,
+                                                         .$model == 'Model 0.5' & .$term == 'closure' ~ TRUE,
+                                                         .$model == 'Model 1'   & .$term == 'closure' ~ TRUE,
+                                                         .$model == 'Model 2'   & .$term == 'townBishop Auckland:closure' ~ TRUE,
+                                                         .$model == 'Model 2'   & .$term == 'townHartlepool:closure' ~ TRUE,
+                                                         .$model == 'Model 2'   & .$term == 'townHemel Hempstead:closure' ~ TRUE,
+                                                         .$model == 'Model 2'   & .$term == 'townNewark:closure' ~ TRUE,
+                                                         .$model == 'Model 2'   & .$term == 'townRochdale:closure' ~ TRUE,
+                                                         .$model == 'Model 3.1' & .$term == 'closure' ~ TRUE,
+                                                         .$model == 'Model 3.2' & .$term == 'closure' ~ TRUE,
+                                                         .$model == 'Model 4'   & .$term == 'closure' ~ TRUE,
+                                                         .$model == 'Model 5'   & .$term == 'closure' ~ TRUE,
+                                                         .$model == 'Model 6.1' & .$term == 'diff.time.to.ed' ~ TRUE,
+                                                         .$model == 'Model 6.2' & .$term == 'diff.time.to.ed' ~ TRUE,
+                                                         .$model == 'Model 7.1'   & .$term == 'diff.time.to.ed' ~ TRUE,
+                                                         .$model == 'Model 7.2'   & .$term == 'diff.time.to.ed' ~ TRUE,
+                                                         .$model == 'Model 8'   & .$term == 'diff.time.to.ed:closure' ~ TRUE),
+                                         use = ifelse(is.na(use), FALSE, use))
+    ## dplyr::filter(results$all.model.all.coef, use == TRUE) %>% print()
+    results$summary.table.tail <- dplyr::filter(results$all.model.all.coef, use == TRUE) %>%
                                   dplyr::select(est, stderr, p, min95, max95, town, measure, sub.measure, model)
     results$summary.table.tail <- rbind(results$summary.table.tail,
                                         res.model8)
