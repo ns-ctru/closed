@@ -323,8 +323,34 @@ closed_meta <- function(df             = mode.of.arrival.any,
     else if(ma.model == 'Model 8')   title1 <- paste0('LSOA (Model 6) : ', title1)
     ## Extract Point Estimate and SE from data frame for the specificed model and
     ## given outcome.
-    df <- dplyr::filter(df, model == ma.model) %>%
-          dplyr::filter(term %in% c('closure', 'diff.time.to.ed')) %>%
+    ## 2016-01-30 - Interaction terms required to be plotted.
+    df <- df %>%
+          mutate(use = case_when(.$model == 'Model 0'   & .$term == 'closure' ~ TRUE,
+                                 .$model == 'Model 0.5' & .$term == 'closure' ~ TRUE,
+                                 .$model == 'Model 1'   & .$term == 'closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townBishop Auckland:closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townBishop Auckland#closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townHartlepool:closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townHartlepool#closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townHemel Hempstead:closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townHemel Hempstead#closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townNewark:closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townNewark#closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townRochdale:closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townRochdale#closure' ~ TRUE,
+                                 .$model == 'Model 3.1' & .$term == 'closure' ~ TRUE,
+                                 .$model == 'Model 3.2' & .$term == 'closure' ~ TRUE,
+                                 .$model == 'Model 4'   & .$term == 'closure' ~ TRUE,
+                                 .$model == 'Model 5'   & .$term == 'closure' ~ TRUE,
+                                 .$model == 'Model 6.1' & .$term == 'diff.time.to.ed' ~ TRUE,
+                                 .$model == 'Model 6.2' & .$term == 'diff.time.to.ed' ~ TRUE,
+                                 .$model == 'Model 7.1'  & .$term == 'diff.time.to.ed' ~ TRUE,
+                                 .$model == 'Model 7.2'  & .$term == 'diff.time.to.ed' ~ TRUE,
+                                 .$model == 'Model 8'   & .$term == 'diff.time.to.ed#closure' ~ TRUE,
+                                 .$model == 'Model 8'   & .$term == 'diff.time.to.ed:closure' ~ TRUE),
+                 use = ifelse(is.na(use), FALSE, use))
+    df <- dplyr::filter(df, model == ma.model & use == TRUE) %>%
+    ##       dplyr::filter(term %in% c('closure', 'diff.time.to.ed')) %>%
           dplyr::select(measure, sub.measure, town, model, term, est, stderr)
     ## print('Debug 1')
     ## print(df)
@@ -340,7 +366,8 @@ closed_meta <- function(df             = mode.of.arrival.any,
     results$meta.sites <- df[['town']]
     ## Create a matrix for summary meta-statistics
     meta.row <- matrix(c(NA, NA, ' Overall', NA, NA, results$meta.est$b[1], results$meta.est$se[1]), nrow = 1) %>%
-                 as.data.frame()
+        as.data.frame()
+
     names(meta.row) <- names(df)
     ## print('Debug 2')
     ## print(meta.row)
