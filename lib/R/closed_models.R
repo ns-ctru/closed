@@ -416,6 +416,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                            town        == 'Bishop Auckland')
         ## dim(t) %>% print()
         ## return(t)
+        results$model0.df.bishop <- t
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0){
             model0.panelar.bishop <- panelAR(data      = t,
                                              formula   = formula.model0,
@@ -438,6 +439,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## print("Hartlepool")
         t <- dplyr::filter(df0,
                     town        == 'Hartlepool')
+        results$model0.df.hartlepool <- t
         if(town.group$n[town.group$town == 'Hartlepool'] > 0){
             model0.panelar.hartlepool <- panelAR(data     = t,
                                                  formula  = formula.model0,
@@ -460,6 +462,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## print("Hemel Hempstead")
         t <- dplyr::filter(df0,
                     town        == 'Hemel Hempstead')
+        results$model0.df.hemel <- t
         if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0){
             model0.panelar.hemel <- panelAR(data     = t,
                                             formula  = formula.model0,
@@ -482,6 +485,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## print("Newark")
         t <- dplyr::filter(df0,
                     town        == 'Newark')
+        results$model0.df.newark <- t
         if(town.group$n[town.group$town == 'Newark'] > 0){
             model0.panelar.newark <- panelAR(data     = t,
                                              formula  = formula.model0,
@@ -504,6 +508,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## print("Rochdale")
         t <- dplyr::filter(df0,
                     town        == 'Rochdale')
+        results$model0.df.rochdale <- t
         if(town.group$n[town.group$town == 'Rochdale'] > 0){
             model0.panelar.rochdale <- panelAR(data     = t,
                                                formula  = formula.model0,
@@ -982,6 +987,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         whitehaven <- dplyr::filter(df2, town == 'Whitehaven') %>% count()
         if(town.group$n[town.group$town == 'Bishop Auckland'] > 0 & town.group$n[town.group$town == 'Whitehaven'] > 0){
             t$town <- relevel(t$town, ref = 'Whitehaven')
+            results$model2.df.bishop <- t
             model2.panelar.bishop <- panelAR(data     = t,
                                              formula  = formula.model2,
                                              timeVar  = timevar,
@@ -1007,6 +1013,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         grimsby <- dplyr::filter(df2, town == 'Grimsby') %>% count()
         if(town.group$n[town.group$town == 'Hartlepool'] > 0 & town.group$n[town.group$town == 'Grimsby'] > 0){
             t$town <- relevel(t$town, ref = 'Grimsby')
+            results$model2.df.hartlepool <- t
             model2.panelar.hartlepool <- panelAR(data     = t,
                                                  formula  = formula.model2,
                                                  timeVar  = timevar,
@@ -1032,6 +1039,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         warwick <- dplyr::filter(df2, town == 'Warwick') %>% count()
         if(town.group$n[town.group$town == 'Hemel Hempstead'] > 0 & town.group$n[town.group$town == 'Warwick']  > 0){
             t$town <- relevel(t$town, ref = 'Warwick')
+            results$model2.df.hemel <- t
             model2.panelar.hemel <- panelAR(data     = t,
                                             formula  = formula.model2,
                                             timeVar  = timevar,
@@ -1057,6 +1065,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         southport <- dplyr::filter(df2, town == 'Southport') %>% count()
         if(town.group$n[town.group$town == 'Newark'] > 0 & town.group$n[town.group$town == 'Southport']  > 0){
             t$town <- relevel(t$town, ref = 'Southport')
+            results$model2.df.newark <- t
             model2.panelar.newark <- panelAR(data     = t,
                                              formula  = formula.model2,
                                              timeVar  = timevar,
@@ -1082,6 +1091,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         rotherham <- dplyr::filter(df2, town == 'Rotherham') %>% count()
         if(town.group$n[town.group$town == 'Rochdale'] > 0 & town.group$n[town.group$town == 'Rotherham'] > 0){
             t$town <- relevel(t$town, ref = 'Rotherham')
+            results$model2.df.rochdale <- t
             model2.panelar.rochdale <- panelAR(data     = t,
                                                formula  = formula.model2,
                                                timeVar  = timevar,
@@ -2618,13 +2628,13 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## print('High/Low DF')
         ## table(high.low$town, high.low$binary.diff) %>% print()
         ## Merge High/low into DF8, removing original diff.time.to.ed and then grouping by
-        ## town relative.month and low/high to sum the value
+       ## town relative.month and low/high to sum the value
         df8 <- merge(df8,
                      high.low,
                      by = c('town', 'lsoa')) %>%
                dplyr::select(town, relative.month, binary.diff, value) %>%
                group_by(town, relative.month, binary.diff) %>%
-               mutate(summed = sum(value, na.rm = TRUE)) %>%
+               mutate(summed = mean(value, na.rm = TRUE)) %>%
                dplyr::select(-value) %>%
                unique()
         ## print('After summing across town/relative.month/low/high')
@@ -3141,11 +3151,35 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                 measure, sub.measure, town, model, term, est, stderr, p, min95, max95, standard)
     ## Subset out the closure coefficients and derive output variable/df to append to
     ## table header which contains the means
+    ##
+    ## 2016-01-30 Need the interaction coefficients!!!
+    results$all.model.all.coef <- results$all.model.all.coef %>%
+                                  mutate(use = case_when(.$model == 'Model 0'   & .$term == 'closure' ~ TRUE,
+                                                         .$model == 'Model 0.5' & .$term == 'closure' ~ TRUE,
+                                                         .$model == 'Model 1'   & .$term == 'closure' ~ TRUE,
+                                                         .$model == 'Model 2'   & .$term == 'townBishop Auckland:closure' ~ TRUE,
+                                                         .$model == 'Model 2'   & .$term == 'townHartlepool:closure' ~ TRUE,
+                                                         .$model == 'Model 2'   & .$term == 'townHemel Hempstead:closure' ~ TRUE,
+                                                         .$model == 'Model 2'   & .$term == 'townNewark:closure' ~ TRUE,
+                                                         .$model == 'Model 2'   & .$term == 'townRochdale:closure' ~ TRUE,
+                                                         .$model == 'Model 3.1' & .$term == 'closure' ~ TRUE,
+                                                         .$model == 'Model 3.2' & .$term == 'closure' ~ TRUE,
+                                                         .$model == 'Model 4'   & .$term == 'closure' ~ TRUE,
+                                                         .$model == 'Model 5'   & .$term == 'closure' ~ TRUE,
+                                                         .$model == 'Model 6.1' & .$term == 'diff.time.to.ed' ~ TRUE,
+                                                         .$model == 'Model 6.2' & .$term == 'diff.time.to.ed' ~ TRUE,
+                                                         .$model == 'Model 7.1'   & .$term == 'diff.time.to.ed' ~ TRUE,
+                                                         .$model == 'Model 7.2'   & .$term == 'diff.time.to.ed' ~ TRUE,
+                                                         .$model == 'Model 8'   & .$term == 'diff.time.to.ed:closure' ~ TRUE),
+                                         use = ifelse(is.na(use), FALSE, use))
+    dplyr::filter(results$all.model.all.coef, use == TRUE) %>% print()
     results$all.model.closure.coef <- dplyr::filter(results$all.model.all.coef,
-                                                    term == 'closure' | term == 'diff.time.to.ed') %>%
-                                      ## Remove the Model 8 coefficient for diff.time.to.ed (which is acutally)
-                                      ## binary
-                                      dplyr::filter(model != ' Model 8' & term != 'diff.time.to.ed')
+                                                    use == TRUE)
+    ## results$all.model.closure.coef <- dplyr::filter(results$all.model.all.coef,
+    ##                                                 term == 'closure' | term == 'diff.time.to.ed') %>%
+    ##                                   ## Remove the Model 8 coefficient for diff.time.to.ed (which is acutally)
+    ##                                   ## binary
+    ##                                   dplyr::filter(model != ' Model 8' & term != 'diff.time.to.ed')
     results$all.model.closure.coef$estimate <- paste0(formatC(results$all.model.closure.coef$est, digits = digits, format = 'f'),
                                                       ' (',
                                                       formatC(results$all.model.closure.coef$min95, digits = digits, format = 'f'),
@@ -3286,7 +3320,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 1']     <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 1']      <- 'No Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 1']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 2']               <- 'Estimated closure coefficient'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 2']               <- 'Estimated closure x town coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 2']     <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 2']      <- 'Primary Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 2']   <- 'ED Panel'
@@ -3327,7 +3361,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'None'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.1'] <- 'LSOA Panel'
     results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.2']   <- 'Estimated difference coefficient for High change in time to ED'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 8']              <- 'Estimated closure coefficient'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 8']              <- 'Estimated dichotomised difference in time to ED x closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 8']    <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 8']    <- 'None'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 8'] <- 'LSOA Panel'
