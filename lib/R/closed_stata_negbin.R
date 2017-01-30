@@ -99,7 +99,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                          binary,
                          by = c('town', 'lsoa')) %>%
                    group_by(town, relative.month, measure, sub.measure, binary.diff) %>%
-                   summarise(value            = sum(value),
+                   summarise(value            = sum(value, na.rm = TRUE),
                              closure          = mean(closure),
                              nhs111           = mean(nhs111),
                              ambulance.divert = mean(ambulance.divert),
@@ -253,6 +253,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                           before.after = ifelse(relative.month >= 25, "After", "Before"))
     ## table(lsoa.pooled$diff.time.to.ed, lsoa.pooled$before.after) %>% print()
     ## table(lsoa.pooled$measure, lsoa.pooled$sub.measure) %>% print()
+    results$lsoa.pooled.binary <- lsoa.pooled
     results$summary.df.high.low <- mutate(lsoa.pooled,
                                           value = ifelse(value == 0, NA, value)) %>%
                                    group_by(town, diff.time.to.ed, before.after) %>%
@@ -421,11 +422,11 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                                   mutate(use = case_when(.$model == 'Model 0'   & .$term == 'closure' ~ TRUE,
                                                          .$model == 'Model 0.5' & .$term == 'closure' ~ TRUE,
                                                          .$model == 'Model 1'   & .$term == 'closure' ~ TRUE,
-                                                         .$model == 'Model 2'   & .$term == 'townBishop Auckland:closure' ~ TRUE,
-                                                         .$model == 'Model 2'   & .$term == 'townHartlepool:closure' ~ TRUE,
-                                                         .$model == 'Model 2'   & .$term == 'townHemel Hempstead:closure' ~ TRUE,
-                                                         .$model == 'Model 2'   & .$term == 'townNewark:closure' ~ TRUE,
-                                                         .$model == 'Model 2'   & .$term == 'townRochdale:closure' ~ TRUE,
+                                                         .$model == 'Model 2'   & .$term == 'townBishop Auckland#closure' ~ TRUE,
+                                                         .$model == 'Model 2'   & .$term == 'townHartlepool#closure' ~ TRUE,
+                                                         .$model == 'Model 2'   & .$term == 'townHemel Hempstead#closure' ~ TRUE,
+                                                         .$model == 'Model 2'   & .$term == 'townNewark#closure' ~ TRUE,
+                                                         .$model == 'Model 2'   & .$term == 'townRochdale#closure' ~ TRUE,
                                                          .$model == 'Model 3.1' & .$term == 'closure' ~ TRUE,
                                                          .$model == 'Model 3.2' & .$term == 'closure' ~ TRUE,
                                                          .$model == 'Model 4'   & .$term == 'closure' ~ TRUE,
@@ -434,7 +435,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                                                          .$model == 'Model 6.2' & .$term == 'diff.time.to.ed' ~ TRUE,
                                                          .$model == 'Model 7.1'   & .$term == 'diff.time.to.ed' ~ TRUE,
                                                          .$model == 'Model 7.2'   & .$term == 'diff.time.to.ed' ~ TRUE,
-                                                         .$model == 'Model 8'   & .$term == 'diff.time.to.ed:closure' ~ TRUE),
+                                                         .$model == 'Model 8'   & .$term == 'diff.time.to.ed#closure' ~ TRUE),
                                          use = ifelse(is.na(use), FALSE, use))
     ## dplyr::filter(results$all.model.all.coef, use == TRUE) %>% print()
     results$summary.table.tail <- dplyr::filter(results$all.model.all.coef, use == TRUE) %>%
