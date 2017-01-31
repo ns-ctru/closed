@@ -103,7 +103,7 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
                         binary,
                         by = c('town', 'lsoa')) %>%
                   group_by(town, relative.month, measure, sub.measure, binary.diff) %>%
-                  summarise(value            = sum(value),
+                  summarise(value            = sum(value, na.rm = TRUE),
                             closure          = mean(closure),
                             nhs111           = mean(nhs111),
                             ambulance.divert = mean(ambulance.divert),
@@ -303,6 +303,13 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
         title1 <- 'Ambulance Red Calls'
         if(sub.indicator == 'hospital transfers')            title2 <- ' (Hospital Transfers)'
         else if(sub.indicator == 'total')                    title2 <- ' (Total)'
+        nudge <- 10
+        ylabel <- 'N'
+        y.text.steps <- 20
+    }
+    else if(indicator == 'ambulance all calls'){
+        title1 <- 'Ambulance All Calls'
+        if(sub.indicator == 'total')            title2 <- ' (Total)'
         nudge <- 10
         ylabel <- 'N'
         y.text.steps <- 20
