@@ -28,6 +28,9 @@ load('~/work/closed/lib/data/ambulance red calls measure - site - 2016-11-21 20.
 ## load('~/work/closed/lib/data/ambulance red calls measure - site - 2016-08-01 17.15.Rda')
 ## load('~/work/closed/lib/data/ambulance red calls measure - lsoa - 2016-07-15 20.11.Rda')
 ## load('~/work/closed/lib/data/ambulance red calls measure - site - 2016-07-15 20.11.Rda')
+## 2017-01-31 - All Ambulance Calls
+load('~/work/closed/lib/data/ambulance all calls measure - lsoa - 2017-01-31 13.23.Rda')
+load('~/work/closed/lib/data/ambulance all calls measure - site - 2017-01-31 13.23.Rda')
 ## 2016-11-29 - These are now included in the sec_case_fatality_7days_measure*.Rda
 ## load('~/work/closed/lib/data/case fatality measure - lsoa - 2016-07-15 21.05.Rda')
 ## load('~/work/closed/lib/data/case fatality measure - site - 2016-07-15 21.06.Rda')
@@ -100,6 +103,8 @@ amb_green_calls_site_measure              <- closed_tidy(amb_green_calls_site_me
 ## amb_non_conveyance_site_measure           <- closed_tidy(amb_non_conveyance_site_measure)
 amb_red_calls_measure                     <- closed_tidy(amb_red_calls_measure)
 amb_red_calls_site_measure                <- closed_tidy(amb_red_calls_site_measure)
+amb_all_calls_measure                     <- closed_tidy(amb_all_calls_measure)
+amb_all_calls_site_measure                <- closed_tidy(amb_all_calls_site_measure)
 sec_case_fatality_7days_measure           <- closed_tidy(sec_case_fatality_7days_measure)
 sec_case_fatality_7days_site_measure      <- closed_tidy(sec_case_fatality_7days_site_measure)
 sec_deaths_all_7days_measure              <- closed_tidy(sec_deaths_all_7days_measure)
@@ -241,6 +246,8 @@ check.green.calls                  <- closed_missing_summary(df.lsoa = amb_green
                                                              df.site = amb_green_calls_site_measure)
 check.red.calls                    <- closed_missing_summary(df.lsoa = amb_red_calls_measure,
                                                              df.site = amb_red_calls_site_measure)
+check.all.calls                    <- closed_missing_summary(df.lsoa = amb_all_calls_measure,
+                                                             df.site = amb_all_calls_site_measure)
 check.mean.times                   <- closed_missing_summary(df.lsoa = amb_mean_times_measure,
                                                              df.site = amb_mean_times_site_measure)
 ## check.case.fatality                <- closed_missing_summary(df.lsoa = case_fatality_measure,
@@ -263,6 +270,7 @@ check.lsoa <- rbind(check.ed.attendances$check.lsoa,
                     check.length.stay$check.lsoa,
                     check.green.calls$check.lsoa,
                     check.red.calls$check.lsoa,
+                    check.all.calls$check.lsoa,
                     check.mean.times$check.lsoa,
                     ## check.case.fatality$check.lsoa,
                     check.sec.case.fatality.7days$check.lsoa,
@@ -281,6 +289,7 @@ check.site <- rbind(check.ed.attendances$check.site,
                     check.length.stay$check.site,
                     check.green.calls$check.site,
                     check.red.calls$check.site,
+                    check.all.calls$check.site,
                     check.mean.times$check.site,
                     ## check.case.fatality$check.site,
                     check.sec.case.fatality.7days$check.site,
@@ -359,6 +368,9 @@ amb_green_calls_site_measure_clean <- closed_clean_revised(df      = amb_green_c
 amb_red_calls_site_measure_clean <- closed_clean_revised(df      = amb_red_calls_site_measure,
                                                 indicator     = 'ambulance red calls',
                                                 systematic    = systematic.outlier)
+amb_all_calls_site_measure_clean <- closed_clean_revised(df      = amb_all_calls_site_measure,
+                                                indicator     = 'ambulance all calls',
+                                                systematic    = systematic.outlier)
 hospital_transfers_site_measure_clean <- closed_clean_revised(df = hospital_transfers_site_measure,
                                                 indicator     = 'hospital transfers',
                                                 systematic    = systematic.outlier)
@@ -427,6 +439,10 @@ amb_red_calls_measure_clean <- closed_clean_revised(df      = amb_red_calls_meas
                                                           indicator     = 'ambulance mean times',
                                                           systematic    = systematic.outlier,
                                                           lsoa          = TRUE)
+amb_all_calls_measure_clean <- closed_clean_revised(df      = amb_all_calls_measure,
+                                                          indicator     = 'ambulance mean times',
+                                                          systematic    = systematic.outlier,
+                                                          lsoa          = TRUE)
 hospital_transfers_measure_clean <- closed_clean_revised(df = hospital_transfers_measure,
                                                           indicator     = 'hospital transfers',
                                                           systematic    = systematic.outlier,
@@ -467,7 +483,6 @@ unnecessary_ed_attendances_site_measure_clean_sd2 <- closed_clean_revised(df    
                                                 balance       = FALSE)
 emergency_admissions_site_measure_clean_sd2 <- closed_clean_revised(df      = emergency_admissions_site_measure,
                                                       indicator     = 'avoidable emergency admissions',
-                                                      sub.indicator = 'any',
                                                       systematic    = systematic.outlier,
                                                       balance       = FALSE)
 ## Remove avoidable admissions and avoidable deaths that are not of interest
@@ -475,31 +490,24 @@ emergency_admissions_site_measure_clean_sd2 <- closed_clean_revised(df      = em
 ##                                                 !(sub.measure %in% exclude.avoidable))
 ed_attendances_admitted_site_measure_clean_sd2 <- closed_clean_revised(df      = ed_attendances_admitted_site_measure,
                                                          indicator     = 'ed attendances admitted',
-                                                         sub.indicator = 'any',
                                                          systematic    = systematic.outlier)
 critical_care_cips_site_measure_clean_sd2 <- closed_clean_revised(df      = critical_care_cips_site_measure,
                                                indicator     = 'critical care stays',
-                                               sub.indicator = 'all',
                                                systematic    = systematic.outlier)
 length_of_stay_site_measure_clean_sd2 <- closed_clean_revised(df      = length_of_stay_site_measure,
                                                 indicator     = 'length of stay',
-                                                sub.indicator = 'mean',
                                                 systematic    = systematic.outlier)
 sec_case_fatality_7days_site_measure_clean_sd2 <- closed_clean_revised(df      = sec_case_fatality_7days_site_measure,
                                                  indicator     = 'case fatality ratio',
-                                                 sub.indicator = 'any',
                                                  systematic    = systematic.outlier)
 sec_deaths_all_7days_site_measure_clean_sd2 <- closed_clean_revised(df      = sec_deaths_all_7days_site_measure,
                                                  indicator     = 'case fatality ratio',
-                                                 sub.indicator = 'any',
                                                  systematic    = systematic.outlier)
 sec_deaths_in_cips_7days_site_measure_clean_sd2 <- closed_clean_revised(df      = sec_deaths_in_cips_7days_site_measure,
                                                  indicator     = 'case fatality ratio',
-                                                 sub.indicator = 'any',
                                                  systematic    = systematic.outlier)
 sec_deaths_not_in_cips_7days_site_measure_clean_sd2 <- closed_clean_revised(df      = sec_deaths_not_in_cips_7days_site_measure,
                                                  indicator     = 'case fatality ratio',
-                                                 sub.indicator = 'any',
                                                  systematic    = systematic.outlier)
 ## case_fatality_site_measure_clean_sd2 <- closed_clean_revised(df      = case_fatality_site_measure,
 ##                                                  indicator     = 'case fatality ratio',
@@ -510,11 +518,9 @@ sec_deaths_not_in_cips_7days_site_measure_clean_sd2 <- closed_clean_revised(df  
 ##                                          !(sub.measure %in% exclude.fatality))
 amb_mean_times_site_measure_clean_sd2 <- closed_clean_revised(df      = amb_mean_times_site_measure,
                                                 indicator     = 'ambulance mean times',
-                                                sub.indicator = 'call_to_dest',
                                                 systematic    = systematic.outlier)
 amb_green_calls_site_measure_clean_sd2 <- closed_clean_revised(df      = amb_green_calls_site_measure,
                                                 indicator     = 'ambulance mean times',
-                                                sub.indicator = 'call_to_dest',
                                                 systematic    = systematic.outlier)
 ## amb_non_conveyance_site_measure_clean_sd2 <- closed_clean_revised(df      = amb_non_conveyance_site_measure,
 ##                                                 indicator     = 'ambulance mean times',
@@ -522,11 +528,12 @@ amb_green_calls_site_measure_clean_sd2 <- closed_clean_revised(df      = amb_gre
 ##                                                 systematic    = systematic.outlier)
 amb_red_calls_site_measure_clean_sd2 <- closed_clean_revised(df      = amb_red_calls_site_measure,
                                                 indicator     = 'ambulance mean times',
-                                                sub.indicator = 'call_to_dest',
+                                                systematic    = systematic.outlier)
+amb_all_calls_site_measure_clean_sd2 <- closed_clean_revised(df      = amb_all_calls_site_measure,
+                                                indicator     = 'ambulance mean times',
                                                 systematic    = systematic.outlier)
 hospital_transfers_site_measure_clean_sd2 <- closed_clean_revised(df      = hospital_transfers_site_measure,
                                                 indicator     = 'hospital transfers',
-                                                sub.indicator = 'stays with transfer',
                                                 systematic    = systematic.outlier)
 ## Combine all cleaned (and now missing) data points into one data frame
 spurious2 <- rbind(ed_attendances_by_mode_site_measure_clean_sd2,
@@ -540,6 +547,7 @@ spurious2 <- rbind(ed_attendances_by_mode_site_measure_clean_sd2,
                    amb_green_calls_site_measure_clean_sd2,
                    ## amb_non_conveyance_site_measure_clean_sd2,
                    amb_red_calls_site_measure_clean_sd2,
+                   amb_all_calls_site_measure_clean_sd2,
                    hospital_transfers_site_measure_clean_sd2,
                    sec_case_fatality_7days_site_measure_clean_sd2,
                    sec_deaths_all_7days_site_measure_clean_sd2,
@@ -561,6 +569,7 @@ rm(ed_attendances_by_mode_site_measure_clean_sd2,
    amb_green_calls_site_measure_clean_sd2,
    ## amb_non_conveyance_site_measure_clean_sd2,
    amb_red_calls_site_measure_clean_sd2,
+   amb_all_calls_site_measure_clean_sd2,
    hospital_transfers_site_measure_clean_sd2,
    sec_case_fatality_7days_site_measure_clean_sd2,
    sec_deaths_all_7days_site_measure_clean_sd2,
@@ -1290,16 +1299,16 @@ sec.deaths.all.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_all_7d
 
 <!--- Sec Deaths in CIPS (7 days) - Any sec --->
 ```{r sec_deaths_in_cips_7days_any_sec, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
-## sec.deaths.in.cips.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_in_cips_7days_measure,
-##                                            df.trust         = sec_deaths_in_cips_7days_site_measure_clean,
-##                                            indicator       = 'sec deaths in cips 7days',
-##                                            sub.indicator   = 'any sec',
-##                                            return.df       = FALSE,
-##                                            return.model    = TRUE,
-##                                            return.residuals = FALSE,
-##                                            rm.unused.control = model.opts$rm.unused.control,
-##                                            digits           = 3)
-load('~/work/closed/nihr_report/data/sec_deaths_in_cips_7days_any_sec')
+sec.deaths.in.cips.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_in_cips_7days_measure,
+                                           df.trust         = sec_deaths_in_cips_7days_site_measure_clean,
+                                           indicator       = 'sec deaths in cips 7days',
+                                           sub.indicator   = 'any sec',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+## load('~/work/closed/nihr_report/data/sec_deaths_in_cips_7days_any_sec')
 
 ```
 
@@ -1561,7 +1570,7 @@ ambulance.non.conveyances.green.calls.hospital.transfers <- closed_stata_negbin(
 ```
 
 <!--- Ambulance Non-Conveyances - Fraction not Conveyed --->
-```{r ambulance_non_conveyances_fraction_not_conveyed, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+```{r ambulance_non_conveyances_fraction_not_conveyed, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = FALSE}
 ambulance.non.conveyances.fraction.not.conveyed <- closed_models(df.lsoa         = amb_green_calls_measure,
                                      df.trust         = amb_green_calls_site_measure_clean,
                                      indicator        = 'ambulance green calls',
@@ -1619,6 +1628,20 @@ ambulance.red.calls.hospital.transfers <- closed_stata_negbin(df.lsoa =  amb_red
 ambulance.red.calls.total <- closed_stata_negbin(df.lsoa =  amb_red_calls_measure,
                                            df.trust         = amb_red_calls_site_measure_clean,
                                            indicator       = 'ambulance red calls',
+                                           sub.indicator   = 'total',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+
+```
+
+<!--- Ambulance All Calls - Total --->
+```{r ambulance_all_calls_total, echo = FALSE, cache = FALSE, results = 'hide', message = FALSE, eval = TRUE}
+ambulance.all.calls.total <- closed_stata_negbin(df.lsoa =  amb_all_calls_measure,
+                                           df.trust         = amb_all_calls_site_measure_clean,
+                                           indicator       = 'ambulance all calls',
                                            sub.indicator   = 'total',
                                            return.df       = FALSE,
                                            return.model    = TRUE,
@@ -1729,9 +1752,10 @@ summary.models <- rbind(mode.of.arrival.any$all.model.all.coef,
                         ambulance.mean.times.scene.to.dest$all.model.all.coef,
                         ambulance.non.conveyances.green.calls$all.model.all.coef,
                         ambulance.non.conveyances.green.calls.non.conveyed$all.model.all.coef,
-                        ambulance.non.conveyances.fraction.not.conveyed$all.model.all.coef,
+                        ## ambulance.non.conveyances.fraction.not.conveyed$all.model.all.coef,
                         ambulance.red.calls.hospital.transfers$all.model.all.coef,
                         ambulance.red.calls.total$all.model.all.coef,
+                        ambulance.all.calls.total$all.model.all.coef,
                         hospital.transfers.all.stays$all.model.all.coef,
                         hospital.transfers.stays.with.transfer$all.model.all.coef,
                         hospital.transfers.proportion.with.transfer$all.model.all.coef,
@@ -1799,9 +1823,10 @@ save(diff.time.to.ed,
      ambulance.non.conveyances.green.calls,
      ambulance.non.conveyances.green.calls.non.conveyed,
      ambulance.non.conveyances.green.calls.hospital.transfers,
-     ambulance.non.conveyances.fraction.not.conveyed,
+     ## ambulance.non.conveyances.fraction.not.conveyed,
      ambulance.red.calls.hospital.transfers,
      ambulance.red.calls.total,
+     ambulance.all.calls.total,
      hospital.transfers.all.stays,
      hospital.transfers.stays.with.transfer,
      hospital.transfers.proportion.with.transfer,
