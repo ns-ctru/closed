@@ -239,9 +239,9 @@ load(file = '~/work/closed/nihr_report/data/results.RData')
 ```{r child = 'subsections/ambulance_non_conveyances_green_calls_non_conveyed.Rmd', eval = TRUE}
 ```
 
-#### Fraction Not Conveyed
-```{r child = 'subsections/ambulance_non_conveyances_fraction_not_conveyed.Rmd', eval = TRUE}
-```
+<!-- #### Fraction Not Conveyed -->
+<!-- ```{r child = 'subsections/ambulance_non_conveyances_fraction_not_conveyed.Rmd', eval = FALSE} -->
+<!-- ``` -->
 
 ### Ambulance Red Calls {.tabset .tabset-fade .tabset-pills}
 
@@ -251,6 +251,12 @@ load(file = '~/work/closed/nihr_report/data/results.RData')
 
 #### Total
 ```{r child = 'subsections/ambulance_red_calls_total.Rmd', eval = TRUE}
+```
+
+### Ambulance All Calls  {.tabset .tabset-fade .tabset-pills}
+
+#### Total
+```{r child = 'subsections/ambulance_all_calls_total.Rmd', eval = TRUE}
 ```
 
 ### Hospital Transfers {.tabset .tabset-fade .tabset-pills}
