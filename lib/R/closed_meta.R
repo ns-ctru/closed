@@ -213,6 +213,13 @@ closed_meta <- function(df             = mode.of.arrival.any,
         else if(sub.indicator == 'total')                    title2 <- ' (Total)'
         null.line <- 1
     }
+    else if(indicator == 'ambulance all calls'){
+        title1 <- 'Ambulance All Calls'
+        if(sub.indicator == 'total')            title2 <- ' (Total)'
+        nudge <- 10
+        ylabel <- 'N'
+        y.text.steps <- 20
+    }
     else if(indicator == 'hospital transfers'){
         title1 <- 'Hospital Transfers'
         if(sub.indicator == 'all stays')                   title2 <- ' (All Stays)'
