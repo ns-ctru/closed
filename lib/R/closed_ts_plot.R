@@ -41,7 +41,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                            indicator       = 'ed attendances',
                            sub.indicator   = 'any',
                            steps           = TRUE,
-                           smooth.plot    = TRUE,
+                           smooth.plot     = TRUE,
                            common.y        = TRUE,
                            theme           = theme_bw(),
                            facet           = FALSE,
@@ -247,6 +247,13 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         title1 <- 'Ambulance Red Calls'
         if(sub.indicator == 'hospital transfers')            title2 <- ' (Hospital Transfers)'
         else if(sub.indicator == 'total')                    title2 <- ' (Total)'
+        nudge <- 10
+        ylabel <- 'N'
+        y.text.steps <- 20
+    }
+    else if(indicator == 'ambulance all calls'){
+        title1 <- 'Ambulance All Calls'
+        if(sub.indicator == 'total')            title2 <- ' (Total)'
         nudge <- 10
         ylabel <- 'N'
         y.text.steps <- 20
@@ -473,9 +480,9 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## easy way of achieving it, c'est la vie.                           ##
     #######################################################################
     ## Clean the data using the threshold specified (default is x3 SD)   ##
-    clean <- closed_clean_revised(df = df,
-                                  indicator = indicator,
-                                  systematic = systematic.outlier)
+    clean <- closed_clean_ts(df = df,
+                             indicator = indicator,
+                             systematic = systematic.outlier)
     ## Rename value (don't want conflicts), subset out those where missing
     names(clean) <- gsub('value', 'missing', names(clean))
     clean <- dplyr::filter(clean, is.na(missing)) %>%
@@ -487,8 +494,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
                 clean,
                 by    = c('town', 'measure', 'sub.measure', 'relative.month'),
                 all.x = TRUE) %>%
-        mutate(missing = ifelse(is.na(missing), 0, missing),
-               missing = ifelse(value == 0, 1, 0))
+        mutate(missing = ifelse(is.na(missing), 0, missing))
     #######################################################################
     ## Plot!                                                             ##
     #######################################################################
