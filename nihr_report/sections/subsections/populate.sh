@@ -410,3 +410,12 @@ sed -e 's/template/sec.deaths.not.in.cips.7days.any.sec/g' \
     -e 's/data_frame/sec_deaths_not_in_cips_7days/g' \
     -e 's/DESCRIPTION/not in CIPS Deaths at 7 days (any sec)/g' \
     template.Rmd > sec_deaths_not_in_cips_7days_any_sec.Rmd
+
+## Measure     : All Deaths not in CIPS 7 days
+## Sub-Measure : any sec
+sed -e 's/template/amb.all.calls/g' \
+    -e 's/Measure/ambulance all calls/g' \
+    -e 's/sub_measure/total/g' \
+    -e 's/data_frame/amb_all_calls/g' \
+    -e 's/DESCRIPTION/All Ambulance Calls/g' \
+    template.Rmd > amb_all_calls.Rmd
