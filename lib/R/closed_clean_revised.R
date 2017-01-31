@@ -31,21 +31,33 @@
 closed_clean_revised <- function(df              = ed_attendances_by_mode_measure,
                                  indicator       = 'ed attendances',
                                  systematic      = 3,
+                                 lsoa            = FALSE,
                                  ...){
     ## Systematic removal, default is x3 SD from the mean
     if(!is.na(systematic)){
-        df <- group_by(df, town, sub.measure) %>%
-              mutate(mean      = mean(value, na.rm = TRUE),
-                     sd        = sd(value, na.rm = TRUE))
-        ## dplyr::filter(df, town == 'Bishop Auckland' & indicator == 'any sec') %>%
-        ##     dplyr::select(relative.month, value) %>% print()
-        ## print(systematic)
-        df <- mutate(df,
-                     value = ifelse(value < (mean - systematic * sd) |
-                                    value > (mean + systematic * sd),
-                                    yes = NA,
-                                    no  = value))
-        df <- dplyr::select(df, -c(mean, sd))
+        if(lsoa == FALSE){
+            df <- group_by(df, town, sub.measure) %>%
+                  mutate(mean      = mean(value, na.rm = TRUE),
+                         sd        = sd(value, na.rm = TRUE))
+            df <- mutate(df,
+                         value = ifelse(value < (mean - systematic * sd) |
+                                        value > (mean + systematic * sd),
+                                        yes = NA,
+                                        no  = value))
+            df <- dplyr::select(df, -c(mean, sd))
+        }
+        else if(lsoa == TRUE){
+            df <- group_by(df, town, sub.measure) %>%
+                mutate(town_value = sum(value, na.rm = TRUE),
+                       mean       = mean(town_value, na.rm = TRUE),
+                       sd         = sd(town_value, na.rm = TRUE))
+            df <- mutate(df,
+                         value = ifelse(town_value < (mean - systematic * sd) |
+                                        town_value > (mean + systematic * sd),
+                                        yes = NA,
+                                        no = value))
+            df <- dplyr::select(df, -c(mean, sd))
+        }
     }
     ## Remove 'spurious' data points (see Results > Summary > Spurious Data)
     ## Clean the data set conditional on the Indicator and in turn Sub-indicator
