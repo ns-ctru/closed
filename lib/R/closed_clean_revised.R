@@ -382,6 +382,34 @@ closed_clean_revised <- function(df              = ed_attendances_by_mode_measur
         ##                             yes = NA,
         ##                             no = value))
     }
+    else if(indicator ==  'ambulance all calls'){
+        df <- mutate(df,
+                     ## value = ifelse(sub.measure == 'total' &
+                     ##                town %in% c('Bishop Auckland', 'Whitehaven') &
+                     ##                relative.month %in% c(1, 2, 3, 4, 5, 6),
+                     ##                yes = NA,
+                     ##                no = value),
+                     value = ifelse(sub.measure == 'total' &
+                                    town %in% c('Hartlepool', 'Grimsby') &
+                                    relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                                    yes = NA,
+                                    no = value),
+                     value = ifelse(sub.measure == 'total' &
+                                    town %in% c('Warwick') &
+                                    relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25),
+                                    yes = NA,
+                                    no = value),
+                     value = ifelse(sub.measure == 'total' &
+                                    town %in% c('Newark', 'Southport') &
+                                    relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
+                                    yes = NA,
+                                    no = value))
+                     ## value = ifelse(sub.measure == 'total' &
+                     ##                town %in% c('Rochdale', 'Rotherham') &
+                     ##                relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
+                     ##                yes = NA,
+                     ##                no = value))
+    }
     else if(indicator ==  'hospital transfers'){
     ##     df <- mutate(df,
     ##                  value = ifelse(sub.measure == 'all stays' &
