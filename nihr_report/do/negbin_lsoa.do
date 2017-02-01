@@ -70,6 +70,10 @@ local model7_1     i.town relative_month i.season diff_time_to_ed
 local model8       relative_month i.season i.nhs111 i.other_centre i.ambulance_divert  i.diff_time_to_ed##i.closure
 local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 
+if("`measure'" == "ed attendances" | "`measure'" == "unnecessary ed attendances"){
+    local model6_1    relative_month i.season i.nhs111 i.other_centre i.ambulance_divert diff_time_to_ed i.other_misc
+    local model8       relative_month i.season i.nhs111 i.other_centre i.ambulance_divert  i.diff_time_to_ed##i.closure i.other_misc
+}
 /************************************************************************/
 /* PROBLEM!!!! Some sites do not run, build local macro conditional     */
 /*             on outcome being tested for now until this is solved.    */
