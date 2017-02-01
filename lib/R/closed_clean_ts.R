@@ -389,6 +389,11 @@ closed_clean_ts <- function(df              = ed_attendances_by_mode_measure,
                                     yes = NA,
                                     no = value),
                      value = ifelse(sub.measure == 'total' &
+                                    town %in% c('Hemel Hempstead') &
+                                    relative.month %in% c(1),
+                                    yes = NA,
+                                    no = value),
+                     value = ifelse(sub.measure == 'total' &
                                     town %in% c('Newark') &
                                     relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
                                     yes = NA,
