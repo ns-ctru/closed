@@ -104,10 +104,22 @@ closed_tidy <- function(df        = ed_attendances_by_mode_site_measure,
                  other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
                                        (town == 'Newark' & relative.month >= 3) |
                                        (town == 'Rochdale' & relative.month >= 11) |
-                                       (town == 'Hartlepool' & relative.month >= 22) |
-                                       (town == 'Hemel Hempstead' & relative.month >= 38),
-                                       1, 0)
+                                       (town == 'Hartlepool' & relative.month >= 22),
+                                       1, 0),
+                 misc = ifelse((town == 'Hemel Hempstead' & relative.month >= 38),
+                               1, 0)
                  )
+    #######################################################################
+    ## 2017-02-01 - Add dummy for new step in Hartlepool at month 30     ##
+    ##              see email from Jon Nicholl 2017-02-01 @ 11:17 titled ##
+    ##              'hartlepool ED query'                                ##
+    #######################################################################
+    measure <- dplyr::select(df, measure) %>% unique() %>% as.character()
+    if(measure %in% c('ed attendance', 'unnecessary ed attendances')){
+        df <- mutate(df,
+                     other.misc = ifelse(town == 'Hartlepool' & relative.month >= 31),
+                     1, 0)
+    }
     #######################################################################
     ## Clean 'spurious' data points that are >3 x SD from mean           ##
     #######################################################################
