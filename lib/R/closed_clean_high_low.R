@@ -76,11 +76,11 @@ closed_clean_high_low <- function(df              = ed_attendances_by_mode_measu
                                     relative.month %in% c(1, 6),
                                     yes = NA,
                                     no = value),
-                     value = ifelse(sub.measure == 'all' &
-                                    town %in% c('Hartlepool') &
-                                    relative.month >= 31,
-                                    yes = NA,
-                                    no = value),
+                     ## value = ifelse(sub.measure == 'all' &
+                     ##                town %in% c('Hartlepool') &
+                     ##                relative.month >= 31,
+                     ##                yes = NA,
+                     ##                no = value),
                      ## value = ifelse(sub.measure == 'all' &
                      ##                town %in% c('Hemel Hempstead', 'Warwick') &
                      ##                relative.month %in% c(1, 6),
