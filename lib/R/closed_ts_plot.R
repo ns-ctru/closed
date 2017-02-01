@@ -400,7 +400,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         town <- c(town, 'Hartlepool', 'Hartlepool')
         variable <- c(variable, 2, 3)
         steps.labels <- gsub('ED Closure', 'ED Closure (2011-08)', steps.labels)
-        if(indicator %in% c('ed attendance', 'unnecessary ed attendances')){
+        if(indicator %in% c('ed attendances', 'unnecessary ed attendances')){
             steps <- c(steps, 31)
             steps.labels <- c(steps.labels, 'Other Misc')
             town <- c(town, 'Hartlepool')
