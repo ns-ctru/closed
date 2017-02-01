@@ -54,10 +54,28 @@ local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 /* PROBLEM!!!! Some sites do not run, build local macro conditional     */
 /*             on outcome being tested for now until this is solved.    */
 /************************************************************************/
-if("`measure'" == "ed attendances" & "`sub_measure'" == "any")            local sites "Bishop_Auckland Hartlepool Newark Rochdale"
-else if("`measure'" == "ed attendances" & "`sub_measure'" == "other")     local sites "Hartlepool Hemel_Hempstead Newark Rochdale"
-else if("`measure'" == "ed attendances" & "`sub_measure'" == "ambulance") local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
-else if("`measure'" == "unnecessary ed attendances" & "`sub_measure'" == "all") local sites "Bishop_Auckland Hemel_Hempstead Newark Rochdale"
+if("`measure'" == "ed attendances" & "`sub_measure'" == "any"){
+    local sites "Bishop_Auckland Hartlepool Newark Rochdale"
+    local model1     i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc
+    local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert  i.other_misc
+    local model4     i.town i.closure relative_month i.season
+}
+else if("`measure'" == "ed attendances" & "`sub_measure'" == "other"){
+    local sites "Hartlepool Hemel_Hempstead Newark Rochdale"
+    local model1     i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc
+    local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc
+    local model4     i.town i.closure relative_month i.season
+}
+else if("`measure'" == "ed attendances" & "`sub_measure'" == "ambulance"){
+    local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
+    local model1     i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc
+    local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc
+}
+else if("`measure'" == "unnecessary ed attendances" & "`sub_measure'" == "all"){
+    local sites "Bishop_Auckland Hemel_Hempstead Newark Rochdale"
+    local model1     i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc
+    local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc
+}
 else if("`measure'" == "all emergency admissions" & "`sub_measure'" == "all") local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 else if("`measure'" == "avoidable emergency admissions" & "`sub_measure'" == "any") local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 else if("`measure'" == "avoidable emergency admissions" & "`sub_measure'" == "non-specific chest pain") local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
