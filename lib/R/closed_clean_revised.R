@@ -104,11 +104,11 @@ closed_clean_revised <- function(df              = ed_attendances_by_mode_measur
                                     relative.month %in% c(1, 6),
                                     yes = NA,
                                     no = value),
-                     value = ifelse(sub.measure == 'all' &
-                                    town %in% c('Hartlepool', 'Grimsby') &
-                                    relative.month >= 31,
-                                    yes = NA,
-                                    no = value),
+                     ## value = ifelse(sub.measure == 'all' &
+                     ##                town %in% c('Hartlepool', 'Grimsby') &
+                     ##                relative.month >= 31,
+                     ##                yes = NA,
+                     ##                no = value),
                      ## value = ifelse(sub.measure == 'all' &
                      ##                town %in% c('Hemel Hempstead', 'Warwick') &
                      ##                relative.month %in% c(1, 6),
