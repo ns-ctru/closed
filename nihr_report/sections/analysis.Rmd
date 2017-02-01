@@ -392,7 +392,7 @@ unnecessary_ed_attendances_measure_clean <- closed_clean_revised(df      = unnec
 emergency_admissions_measure_clean <- closed_clean_revised(df      = emergency_admissions_measure,
                                                           indicator     = 'avoidable emergency admissions',
                                                           systematic    = systematic.outlier,
-                                                          lsoa          = FALSE)
+                                                          lsoa          = TRUE)
 ## Remove avoidable admissions and avoidable deaths that are not of interest
 ## emergency_admissions_measure_clean <- dplyr::filter(emergency_admissions_measure_clean,
 ##                                                 !(sub.measure %in% exclude.avoidable))
