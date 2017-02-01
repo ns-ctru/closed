@@ -85,7 +85,10 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Collapse LSOA data for 'model 8' testing                          ##
     #######################################################################
     ## Derive binary indicator of High/Low _within_ each case site
+    ## names(df.lsoa) %>% print()
+    ## table(df.lsoa$sub.measure) %>% print()
     binary <- ungroup(df.lsoa) %>%
+              dplyr::filter(measure == indicator, sub.measure == sub.indicator) %>%
               dplyr::select(town, lsoa, diff.time.to.ed) %>%
               dplyr::filter(diff.time.to.ed != 0) %>%
               unique() %>%
@@ -156,7 +159,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## print("Debug 1")
     df.trust <- dplyr::filter(df.trust,
                               measure == indicator, sub.measure == sub.indicator) %>%
-                mutate(before.after = ifelse(relative.month >= 25, "After", "Before"))
+        mutate(before.after = ifelse(relative.month >= 25, "After", "Before"))
     results$summary.df <- mutate(df.trust,
                                  value = ifelse(value == 0, NA, value)) %>%
                           group_by(town, before.after) %>%
@@ -256,6 +259,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     results$lsoa.pooled.binary <- lsoa.pooled
     results$summary.df.high.low <- mutate(lsoa.pooled,
                                           value = ifelse(value == 0, NA, value)) %>%
+    ## results$summary.df.high.low <- lsoa.pooled %>%
                                    group_by(town, diff.time.to.ed, before.after) %>%
                                    summarise(n        = n(),
                                              mean     = mean(value, na.rm = TRUE),
@@ -355,6 +359,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                               term = gsub('1.nhs111', 'nhs111', term),
                               term = gsub('1.closure', 'closure', term),
                               term = gsub('1.other_centre', 'other.centre', term),
+                              term = gsub('1.other_misc', 'other.misc', term),
                               term = gsub('relative_month', 'relative.month', term),
                               term = gsub('diff_time_to_ed', 'diff.time.to.ed', term),
                               term = gsub('2.season', 'season.2', term),
