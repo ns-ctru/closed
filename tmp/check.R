@@ -1,3 +1,656 @@
+source('~/work/closed/tmp/setup.R')
+sites <- c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')
+
+## 2017-02-02 Checking exclusion of other.centre from Hartlepool and Model 1 forest plot
+mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure_clean,
+                                           df.trust        = ed_attendances_by_mode_site_measure_clean,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'any',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+png('~/work/closed/tmp/mode_of_arriva_any_forest1.png', width = 1024, height = 768)
+forest.model1 <- closed_meta(df             = mode.of.arrival.any$all.model.all.coef,
+                             ma.model       = 'Model 1',
+                             ma.method      = 'FE',
+                             indicator      = 'ed attendances',
+                             sub.indicator  = 'any',
+                             plot.ci        = TRUE,
+                             plot.null.line = TRUE,
+                             theme          = theme_bw())
+dev.off()
+
+## 2017-02-01 Adding a miscellaneous step for ED Attendances/Unncessary Attendances in
+##            Hartlepool Month 31
+my_check <- function(df = .){
+    print('Bishop Auckland')
+    dplyr::select(df, town, relative.month, other.misc) %>%
+        dplyr::filter(town == 'Bishop Auckland') %>%
+            unique() %>%
+            print()
+    print('Whitehaven')
+    dplyr::select(df, town, relative.month, other.misc) %>%
+        dplyr::filter(town == 'Whitehaven') %>%
+            unique() %>%
+            print()
+    print('Hartlepool')
+    dplyr::select(df, town, relative.month, other.misc) %>%
+        dplyr::filter(town == 'Hartlepool') %>%
+            unique() %>%
+            print()
+    print('Grimsby')
+    dplyr::select(df, town, relative.month, other.misc) %>%
+        dplyr::filter(town == 'Grimsby') %>%
+            unique() %>%
+            print()
+    print('Hemel Hempstead')
+    dplyr::select(df, town, relative.month, other.misc) %>%
+        dplyr::filter(town == 'Hemel Hempstead') %>%
+            unique() %>%
+            print()
+    print('Warwick')
+    dplyr::select(df, town, relative.month, other.misc) %>%
+        dplyr::filter(town == 'Warwick') %>%
+            unique() %>%
+            print()
+    print('Newark')
+    dplyr::select(df, town, relative.month, other.misc) %>%
+        dplyr::filter(town == 'Newark') %>%
+            unique() %>%
+            print()
+    print('Southport')
+    dplyr::select(df, town, relative.month, other.misc) %>%
+        dplyr::filter(town == 'Southport') %>%
+            unique() %>%
+            print()
+    print('Rochdale')
+    dplyr::select(df, town, relative.month, other.misc) %>%
+        dplyr::filter(town == 'Rochdale') %>%
+            unique() %>%
+            print()
+    print('Rotherham')
+    dplyr::select(df, town, relative.month, other.misc) %>%
+        dplyr::filter(town == 'Rotherham') %>%
+            unique() %>%
+            print()
+}
+load('~/work/closed/lib/data/ed attendances by mode measure - lsoa - 2016-11-21 19.54.Rda')
+load('~/work/closed/lib/data/ed attendances by mode measure - site - 2016-11-21 19.54.Rda')
+ed_attendances_by_mode_measure            <- closed_tidy(ed_attendances_by_mode_measure)
+my_check(df = ed_attendances_by_mode_measure)
+ed_attendances_by_mode_site_measure       <- closed_tidy(ed_attendances_by_mode_site_measure)
+my_check(df = ed_attendances_by_mode_site_measure)
+load('~/work/closed/lib/data/unnecessary ed attendances measure - lsoa - 2016-11-21 19.55.Rda')
+load('~/work/closed/lib/data/unnecessary ed attendances measure - site - 2016-11-21 19.55.Rda')
+unnecessary_ed_attendances_measure        <- closed_tidy(unnecessary_ed_attendances_measure)
+my_check(df = unnecessary_ed_attendances_measure)
+unnecessary_ed_attendances_site_measure   <- closed_tidy(unnecessary_ed_attendances_site_measure)
+my_check(df = unnecessary_ed_attendances_site_measure)
+load('~/work/closed/lib/data/critical care stays measure - lsoa - 2016-11-21 20.02.Rda')
+load('~/work/closed/lib/data/critical care stays measure - site - 2016-11-21 20.03.Rda')
+critical_care_cips_measure                <- closed_tidy(critical_care_cips_measure)
+my_check(df = critical_care_cips_measure)
+critical_care_cips_site_measure           <- closed_tidy(critical_care_cips_site_measure)
+my_check(df = critical_care_cips_site_measure)
+
+## Looks like tahts working ok, now need to clean
+ed_attendances_by_mode_site_measure_clean <- closed_clean_revised(df      = ed_attendances_by_mode_site_measure,
+                                                          indicator     = 'ed attendances',
+                                                          systematic    = systematic.outlier,
+                                                          lsoa          = FALSE)
+unnecessary_ed_attendances_site_measure_clean <- closed_clean_revised(df      = unnecessary_ed_attendances_site_measure,
+                                                          indicator     = 'unnecessary ed attendances',
+                                                          systematic    = systematic.outlier,
+                                                          lsoa          = FALSE)
+ed_attendances_by_mode_measure_clean <- closed_clean_revised(df      = ed_attendances_by_mode_measure,
+                                                          indicator     = 'ed attendances',
+                                                          systematic    = systematic.outlier,
+                                                          lsoa          = TRUE)
+unnecessary_ed_attendances_measure_clean <- closed_clean_revised(df      = unnecessary_ed_attendances_measure,
+                                                          indicator     = 'unnecessary ed attendances',
+                                                          systematic    = systematic.outlier,
+                                                          lsoa          = TRUE)
+
+## Now check plots and whether they include
+png('~/work/closed/tmp/hartlepool_ed_attendance_any_control.png')
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hartlepool', 'Grimsby'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+png('~/work/closed/tmp/hartlepool_ed_attendance_any_case.png')
+closed_ts_plot_lsoa_binary(df            = ed_attendances_by_mode_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'any',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hartlepool'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               pooled        = 'count')
+dev.off()
+
+png('~/work/closed/tmp/hartlepool_ed_attendance_other_control.png')
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'other',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hartlepool', 'Grimsby'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+png('~/work/closed/tmp/hartlepool_ed_attendance_other_case.png')
+closed_ts_plot_lsoa_binary(df            = ed_attendances_by_mode_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'other',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hartlepool'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               pooled        = 'count')
+dev.off()
+
+png('~/work/closed/tmp/hartlepool_ed_attendance_ambulance_control.png')
+closed_ts_plot(df            = ed_attendances_by_mode_site_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'ambulance',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hartlepool', 'Grimsby'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+png('~/work/closed/tmp/hartlepool_ed_attendance_ambulance_case.png')
+closed_ts_plot_lsoa_binary(df            = ed_attendances_by_mode_measure,
+               indicator     = 'ed attendances',
+               sub.indicator = 'ambulance',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hartlepool'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               pooled        = 'count')
+dev.off()
+
+png('~/work/closed/tmp/hartlepool_unnecessary_attendance_control.png')
+closed_ts_plot(df            = unnecessary_ed_attendances_site_measure,
+               indicator     = 'unnecessary ed attendances',
+               sub.indicator = 'all',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hartlepool', 'Grimsby'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+png('~/work/closed/tmp/hartlepool_unnecessary_attendance_case.png')
+closed_ts_plot_lsoa_binary(df            = unnecessary_ed_attendances_measure,
+               indicator     = 'unnecessary ed attendances',
+               sub.indicator = 'all',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hartlepool'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               pooled        = 'count')
+dev.off()
+
+
+## 2017-01-31 Another check of proportionas this time
+amb_mean_times_site_measure_clean <- closed_clean_revised(df      = amb_mean_times_site_measure,
+                                   indicator     = 'ed attendances',
+                                   systematic    = 3,
+                                   lsoa          = FALSE)
+amb_mean_times_measure_clean  <- closed_clean_revised(df      = amb_mean_times_measure,
+                                   indicator     = 'ed attendances',
+                                   systematic    = 3,
+                                   lsoa          = TRUE)
+amb_mean_check <- check_lsoa(df.lsoa = amb_mean_times_measure_clean,
+                                   df.site = amb_mean_times_site_measure_clean)
+## Should all be TRUE...
+table(amb_mean_check$match)
+check.ambulance.mean.times.call.to.dest <- closed_models(df.lsoa         = amb_mean_times_measure_clean,
+                                     df.trust         = amb_mean_times_site_measure_clean,
+                                     indicator        = 'ambulance mean times',
+                                     sub.indicator    = 'call to dest',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7.1         = model.opts$mod7.1,
+                                     model7.2         = model.opts$mod7.2,
+                                     model8           = model.opts$mod8,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     remove.spurious = model.opts$remove.spurious,
+                                     join.line        = model.opts$join.line,
+                                     rm.unused.control = model.opts$rm.unused.control,
+                                     legend           = model.opts$legend)
+check.ambulance.mean.times.call.to.dest$summary.table
+
+## 2017-01-31 Another check
+sec_deaths_not_in_cips_7days_site_measure_clean <- closed_clean_revised(df      = sec_deaths_not_in_cips_7days_site_measure,
+                                   indicator     = 'ed attendances',
+                                   systematic    = 3,
+                                   lsoa          = FALSE)
+sec_deaths_not_in_cips_7days_measure_clean  <- closed_clean_revised(df      = sec_deaths_not_in_cips_7days_measure,
+                                   indicator     = 'ed attendances',
+                                   systematic    = 3,
+                                   lsoa          = TRUE)
+sec_deaths_check <- check_lsoa(df.lsoa = sec_deaths_not_in_cips_7days_measure_clean,
+                                   df.site = sec_deaths_not_in_cips_7days_site_measure_clean)
+## Should all be TRUE...
+table(sec_deaths_check$match)
+## Ok, lets now analyse and see if we get the same numbers out
+check.sec.deaths.not.in.cips.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_not_in_cips_7days_measure_clean,
+                                           df.trust         = sec_deaths_not_in_cips_7days_site_measure_clean,
+                                           indicator       = 'sec deaths not in cips 7days',
+                                           sub.indicator   = 'any sec',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+check.sec.deaths.not.in.cips.7days.any.sec$summary.table
+
+## 2017-01-31 Checking we get the same means out of running analyses...
+ed_attendances_by_mode_site_measure_clean <- closed_clean_revised(df      = ed_attendances_by_mode_site_measure,
+                                   indicator     = 'ed attendances',
+                                   systematic    = 3,
+                                   lsoa          = FALSE)
+ed_attendances_by_mode_measure_clean  <- closed_clean_revised(df      = ed_attendances_by_mode_measure,
+                                   indicator     = 'ed attendances',
+                                   systematic    = 3,
+                                   lsoa          = TRUE)
+ed_attendances_check <- check_lsoa(df.lsoa = ed_attendances_by_mode_measure_clean,
+                                   df.site = ed_attendances_by_mode_site_measure_clean)
+## Should all be TRUE...
+table(ed_attendances_check$match)
+## Ok, lets now analyse and see if we get the same numbers out
+check.mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure_clean,
+                                           df.trust        = ed_attendances_by_mode_site_measure_clean,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'any',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+check.mode.of.arrival.any$summary.table
+
+
+## 2017-01-31 Checking cleaning of data and whether its the exclusion of systematic outliers
+##            that causes the problem
+site.level <- closed_clean_revised(df      = ed_attendances_by_mode_site_measure,
+                                   indicator     = 'ed attendances',
+                                   systematic    = 3,
+                                   lsoa          = FALSE)
+lsoa.level <- closed_clean_revised(df      = ed_attendances_by_mode_measure,
+                                   indicator     = 'ed attendances',
+                                   systematic    = 3,
+                                   lsoa          = TRUE)
+ed_attendances_check <- check_lsoa(df.lsoa = lsoa.level,
+                                   df.site = site.level)
+dplyr::filter(ed_attendances_check, match == FALSE &
+              town %in% sites) %>%
+    as.data.frame() %>% head(n = 50)
+site.level <- dplyr::filter(site.level, is.na(value) & town %in% sites) %>%
+              dplyr::select(town, sub.measure, relative.month, value)
+table(site.level$relative.month, site.level$sub.measure, site.level$town)
+
+lsoa.level <- dplyr::filter(lsoa.level, is.na(value) & town %in% sites) %>%
+              dplyr::select(town, sub.measure, relative.month, value)
+table(lsoa.level$relative.month, lsoa.level$sub.measure, lsoa.level$town)
+
+## 2017-01-31 Collapsing LSOA data to Site level, merging and checking values match
+check_lsoa <- function(df.lsoa = ed_attendances_by_mode_measure_clean,
+                       df.site = ed_attendances_by_mode_site_measure_clean){
+    ## Sum counts at LSOA levle in to town/month/sub.measure
+    lsoa_check <- ungroup(df.lsoa) %>%
+                  dplyr::select(lsoa, town, relative.month, sub.measure, value) %>%
+                  group_by(town, relative.month, sub.measure) %>%
+                  summarise(value_lsoa = sum(value, na.rm = TRUE))
+    ## Merge with site level data and derive indicator of difference
+    check <- dplyr::select(df.site,
+                           town, relative.month, sub.measure, value) %>%
+             left_join(lsoa_check) %>%
+             mutate(match = ifelse(value == value_lsoa, TRUE, FALSE),
+                    diff  = value - value_lsoa)
+    return(check)
+}
+
+sink('~/work/closed/tmp/check_lsoa_sum.txt')
+ed_attendances_check <- check_lsoa(df.lsoa = ed_attendances_by_mode_measure_clean,
+                                   df.site = ed_attendances_by_mode_site_measure_clean)
+dplyr::filter(ed_attendances_check, match == FALSE &
+              town %in% c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')) %>%
+    as.data.frame() %>% head(n = 50)
+deaths_not_in_cips_check <- check_lsoa(df.lsoa = sec_deaths_not_in_cips_7days_measure_clean,
+                                   df.site = sec_deaths_not_in_cips_7days_site_measure_clean)
+dplyr::filter(deaths_not_in_cips_check, match == FALSE &
+              town %in% c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale')) %>%
+    as.data.frame() %>% head(n = 50)
+
+
+sink()
+
+
+lsoa_check <- ungroup(ed_attendances_by_mode_measure_clean) %>%
+              dplyr::select(lsoa, town, relative.month, sub.measure, value) %>%
+              group_by(town, relative.month, sub.measure) %>%
+              summarise(value_lsoa = sum(value, na.rm = TRUE))
+
+check <- dplyr::select(ed_attendances_by_mode_site_measure_clean,
+              town, relative.month, sub.measure, value) %>%
+         left_join(lsoa_check) %>%
+         mutate(match = ifelse(value == value_lsoa, TRUE, FALSE),
+                diff  = value - value_lsoa)
+
+## 2017-01-30 Checking means Low/High match overall means in both Before and After
+mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure_clean,
+                                           df.trust        = ed_attendances_by_mode_site_measure_clean,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'any',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+mode.of.arrival.any$lsoa.pooled.binary %>% dplyr::filter(is.na(value) & town == 'Bishop Auckland') %>% as.data.frame()
+mode.of.arrival.any$lsoa.pooled.binary %>% group_by(sub.measure, )
+ed_attendances_by_mode_measure_clean %>% dplyr::filter(town == 'Bishop Auckland' & relative.month == 2 & is.na(value))
+
+
+## Demonstration that means of two subsets should be the same
+## as the mean of the combined set....
+##
+## Generate 20 random numbers...
+set.seed(74981723)
+print('20 random numbers')
+before <- runif(n = 20000, min = 0 , max = 100) %>% floor()
+## before
+## ...and display their mean...
+print('Mean of 20 random numbers')
+mean(before)
+## Generate another 20 random numbers...
+print('Another 20 random numbers')
+after <- runif(n = 20000, min = 0 , max = 100) %>% floor()
+## after
+## ...and display their mean...
+print('Mean of another 20 random numbers')
+mean(after)
+## Combine the two...
+print('Combine the two sets of numbers')
+## append(before, after)
+## ...and calculate the mean, which is the mean of the two means...
+print('...and calculate their mean...')
+append(before, after) %>% mean()
+## The sume of the means is...
+print('The sum of the two means is...')
+mean(before) + mean(after)
+## But this isn't quite whats happening with our data since the total in say Hemel Hempstead
+## is the sum of the twenty paired points, so the data that is summarised is...
+print('Combine the paired observations to give the total each month...')
+combined <- cbind(before, after) %>% as.data.frame() %>% mutate(c = before + after)
+## combined
+print('And calculate the mean...')
+mean(combined$c)
+
+## 2017-01-30 Switching to interaction coefficients in output.
+ambulance.mean.times.call.to.dest <- closed_models(df.lsoa         = amb_mean_times_measure_clean,
+                                     df.trust         = amb_mean_times_site_measure_clean,
+                                     indicator        = 'ambulance mean times',
+                                     sub.indicator    = 'call to dest',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = model.opts$mod3.1,
+                                     model3.2         = model.opts$mod3.2,
+                                     model4           = model.opts$mod4,
+                                     model5           = model.opts$mod5,
+                                     model6.1         = model.opts$mod6.1,
+                                     model6.2         = model.opts$mod6.2,
+                                     model7.1         = model.opts$mod7.1,
+                                     model7.2         = model.opts$mod7.2,
+                                     model8           = model.opts$mod8,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     remove.spurious = model.opts$remove.spurious,
+                                     join.line        = model.opts$join.line,
+                                     rm.unused.control = model.opts$rm.unused.control,
+                                     legend           = model.opts$legend)
+png(file = '~/work/closed/tmp/ambulance_meta.png', width = 1024, height = 768)
+closed_meta(df             = ambulance.mean.times.call.to.dest$all.model.all.coef,
+            ma.model       = 'Model 2',
+            ma.method      = 'FE',
+            indicator      = 'ambulance mean times',
+            sub.indicator  = 'call to dest',
+            plot.ci        = TRUE,
+            plot.null.line = TRUE,
+            theme          = theme_bw())
+dev.off()
+mode.of.arrival.any <- closed_stata_negbin(df.lsoa         = ed_attendances_by_mode_measure_clean,
+                                           df.trust        = ed_attendances_by_mode_site_measure_clean,
+                                           indicator       = 'ed attendances',
+                                           sub.indicator   = 'any',
+                                           return.df       = FALSE,
+                                           return.model    = TRUE,
+                                           return.residuals = FALSE,
+                                           rm.unused.control = model.opts$rm.unused.control,
+                                           digits           = 3)
+png(file = '~/work/closed/tmp/arrival_meta.png', width = 1024, height = 768)
+closed_meta(df             = mode.of.arrival.any$all.model.all.coef,
+            ma.model       = 'Model 2',
+            ma.method      = 'FE',
+            indicator      = 'ed attendances',
+            sub.indicator  = 'any',
+            plot.ci        = TRUE,
+            plot.null.line = TRUE,
+            theme          = theme_bw())
+dev.off()
+
+
+## 2017-01-27 Sorting Hemel Hempstead Ambulance Mean Times
+png(file = '~/work/closed/tmp/hemel_call_to_dest.png', width = 1024, height = 768)
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call to dest',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hemel Hempstead', 'Warwick'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+
+source('~/work/closed/tmp/setup.R')
+
+## 2017-01-27 Working out whats strange about call to destination
+ambulance.mean.times.call.to.dest <- closed_models(df.lsoa         = amb_mean_times_measure_clean,
+                                     df.trust         = amb_mean_times_site_measure_clean,
+                                     indicator        = 'ambulance mean times',
+                                     sub.indicator    = 'call to dest',
+                                     panel.lsoa       = model.opts$panel.lsoa,
+                                     panel.trust      = model.opts$panel.trust,
+                                     timevar          = model.opts$timevar,
+                                     outcome          = model.opts$outcome,
+                                     model0           = model.opts$mod0,
+                                     model0.5         = model.opts$mod0.5,
+                                     model1           = model.opts$mod1,
+                                     model2           = model.opts$mod2,
+                                     model3.1         = NULL,
+                                     model3.2         = NULL,
+                                     model4           = NULL,
+                                     model5           = NULL,
+                                     model6.1         = NULL,
+                                     model6.2         = NULL,
+                                     model7.1         = NULL,
+                                     model7.2         = NULL,
+                                     model8           = NULL,
+                                     autocorr         = model.opts$autocorr,
+                                     panelcorrmethod  = model.opts$panelcorrmethod,
+                                     coefficients     = model.opts$coefficients,
+                                     seq.times        = model.opts$seq.times,
+                                     complete.case    = model.opts$complete.case,
+                                     rho.na.rm        = model.opts$rho.na.rm,
+                                     theme            = model.opts$theme,
+                                     return.df        = model.opts$return.df,
+                                     return.model     = model.opts$return.model,
+                                     return.residuals = model.opts$return.residuals,
+                                     remove.spurious = model.opts$remove.spurious,
+                                     join.line        = model.opts$join.line,
+                                     rm.unused.control = model.opts$rm.unused.control,
+                                     legend           = model.opts$legend)
+ambulance.mean.times.call.to.dest$model2.df %>%
+    group_by(town, closure) %>%
+    summarise(mean = mean(value, na.rm = TRUE))
+
+## 2017-01-26 - Sorting problematic graphs...
+## Case Fatality
+png(file = '~/work/closed/tmp/case_control_case_fatality.png')
+closed_ts_plot(df            = sec_case_fatality_7days_site_measure,
+               indicator     = 'sec case fatality 7 days',
+               sub.indicator = 'any sec',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Newark', 'Southport'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+png(file = '~/work/closed/tmp/high_low_case_fatality.png', width = 1024, height = 768)
+closed_ts_plot_lsoa_binary(df            = sec_case_fatality_7days_measure,
+               indicator     = 'sec case fatality 7 days',
+               sub.indicator = 'any sec',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Newark'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = FALSE,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps,
+               pooled        = 'proportion')
+dev.off()
+
+
+## 2017-01-26 - Checking Ambulance Mean Times Call to Dest in Hemel/Warwick
+png(file = '~/work/closed/tmp/amb_mean_call_dest_hemel.png', width = 1024, height = 768)
+closed_ts_plot(df            = amb_mean_times_site_measure,
+               indicator     = 'ambulance mean times',
+               sub.indicator = 'call to dest',
+               steps         = ts.plot.opts$steps,
+               theme         = theme_bw(),
+               facet         = ts.plot.opts$facet,
+               sites         = c('Hemel Hempstead', 'Warwick'),
+               smooth.plot   = ts.plot.opts$smooth.plot,
+               legend        = ts.plot.opts$legend,
+               tidy          = ts.plot.opts$tidy,
+               colour        = ts.plot.opts$colour,
+               lines         = ts.plot.opts$lines,
+               hide.control  = ts.plot.opts$hide.control,
+               xaxis.steps   = ts.plot.opts$xaxis.steps)
+dev.off()
+
 ## 2017-01-26 - Sorting problematic graphs...
 ## Case Fatality
 png(file = '~/work/closed/tmp/high_low_case_fatality.png', width = 1024, height = 768)
@@ -45,7 +698,7 @@ closed_ts_plot_lsoa_binary(df            = amb_green_calls_measure,
                steps         = ts.plot.opts$steps,
                theme         = theme_bw(),
                facet         = ts.plot.opts$facet,
-               sites         = c('Hemel Hempstead'),
+               sites         = c('Newark'),
                smooth.plot   = ts.plot.opts$smooth.plot,
                legend        = ts.plot.opts$legend,
                tidy          = ts.plot.opts$tidy,
