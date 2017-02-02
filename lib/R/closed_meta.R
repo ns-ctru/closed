@@ -132,7 +132,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
         }
         else if(indicator == 'sec case fatality 7 days'){
             title1 <- 'Case Fatalities @ 7 Days'
-            null.line <- 1
+            null.line <- 0
         }
         if(sub.indicator == 'acute heart failure')              title2 <- ' (Acute Heart Failure)'
         else if(sub.indicator == 'anaphylaxis')                 title2 <- ' (Anaphylaxis)'
@@ -216,9 +216,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
     else if(indicator == 'ambulance all calls'){
         title1 <- 'Ambulance All Calls'
         if(sub.indicator == 'total')            title2 <- ' (Total)'
-        nudge <- 10
-        ylabel <- 'N'
-        y.text.steps <- 20
+        null.line <- 1
     }
     else if(indicator == 'hospital transfers'){
         title1 <- 'Hospital Transfers'
