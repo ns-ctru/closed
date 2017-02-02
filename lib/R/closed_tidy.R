@@ -103,8 +103,8 @@ closed_tidy <- function(df        = ed_attendances_by_mode_site_measure,
                  ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
                  other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
                                        (town == 'Newark' & relative.month >= 3) |
-                                       (town == 'Rochdale' & relative.month >= 11) |
-                                       (town == 'Hartlepool' & relative.month >= 22),
+                                       (town == 'Rochdale' & relative.month >= 11), ##  |
+                                       ## (town == 'Hartlepool' & relative.month >= 22),
                                        1, 0),
                  misc = ifelse((town == 'Hemel Hempstead' & relative.month >= 38),
                                1, 0)
@@ -115,10 +115,10 @@ closed_tidy <- function(df        = ed_attendances_by_mode_site_measure,
     ##              'hartlepool ED query'                                ##
     #######################################################################
     measure <- dplyr::select(df, measure) %>% unique() %>% as.character()
-    if(measure %in% c('ed attendance', 'unnecessary ed attendances')){
+    if(measure %in% c('ed attendances', 'unnecessary ed attendances')){
         df <- mutate(df,
-                     other.misc = ifelse(town == 'Hartlepool' & relative.month >= 31),
-                     1, 0)
+                     other.misc = ifelse(town == 'Hartlepool' & relative.month >= 31,
+                                         1, 0))
     }
     #######################################################################
     ## Clean 'spurious' data points that are >3 x SD from mean           ##
