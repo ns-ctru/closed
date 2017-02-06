@@ -102,7 +102,7 @@ closed_tidy <- function(df        = ed_attendances_by_mode_site_measure,
                                  1, 0),
                  ambulance.divert = ifelse(town == 'Rochdale' & relative.month >= 17, 1, 0),
                  other.centre = ifelse((town == 'Hemel Hempstead' & relative.month >= 20) |
-                                       (town == 'Newark' & relative.month >= 3) |
+                                       (town == 'Southport' & relative.month >= 3) |
                                        (town == 'Rochdale' & relative.month >= 11), ##  |
                                        ## (town == 'Hartlepool' & relative.month >= 22),
                                        1, 0),
