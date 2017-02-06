@@ -427,10 +427,10 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
         variable <- c(variable)
     }
     if('Newark' %in% sites){
-        steps <- c(steps, 3)
-        steps.labels <- c(steps.labels, 'Other Centre')
-        town <- c(town, 'Newark')
-        variable <- c(variable, 3)
+        steps <- c(steps, 3, 48)
+        steps.labels <- c(steps.labels, 'Other Centre', 'NHS111')
+        town <- c(town, 'Southport', 'Southport')
+        variable <- c(variable, 3, 4)
         steps.labels <- gsub('ED Closure', 'ED Closure (2011-04)', steps.labels)
     }
     if(c('Rochdale', 'Rotherham') %in% sites){
