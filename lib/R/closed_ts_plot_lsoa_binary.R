@@ -74,6 +74,8 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
         ## maintainability easier, but c'est la vie.
         ## Derive binary indicator of High/Low _within_ each case site
         df <- dplyr::filter(df, town %in% sites)
+        ## print('Before Anything...')
+        ## dplyr::filter(df, relative.month == 1) %>% print()
         ## table(df$relative.month, df$value) %>% print()
         binary <- dplyr::select(df, town, lsoa, diff.time.to.ed) %>%
                   dplyr::filter(diff.time.to.ed != 0) %>%
@@ -112,6 +114,11 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
                   ungroup() %>%
                   mutate(season = as.factor(season),
                          relative.month = as.integer(relative.month))
+        }
+        if(sites == 'Hemel Hempstead' &
+           indicator %in% c('ed attendances', 'unnecessary ed attendances', 'all emergency admissions', 'avoidable emergency admissions', 'ed attendances admitted', 'critical care stays', 'sec case fatality 7 days', 'length of stay', 'ambulance green calls', 'ambulance red calls', 'ambulance all calls', 'hospital transfers')){
+            df <- mutate(df,
+                         value = ifelse(relative.month == 1, yes = NA, no = value))
         }
     }
     ## Conditionally select range for y-axis, MUST do this BEFORE subsetting
@@ -483,10 +490,10 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
         variable <- c(variable)
     }
     if('Newark' %in% sites){
-        steps <- c(steps, 3)
-        steps.labels <- c(steps.labels, 'Other Centre')
-        town <- c(town, 'Newark')
-        variable <- c(variable, 3)
+        steps <- c(steps, 3, 48)
+        steps.labels <- c(steps.labels, 'Other Centre', 'NHS111')
+        town <- c(town, 'Southport', 'Southport')
+        variable <- c(variable, 3, 4)
         steps.labels <- gsub('ED Closure', 'ED Closure (2011-04)', steps.labels)
     }
     if(c('Rochdale', 'Rotherham') %in% sites){
@@ -542,8 +549,12 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
     ## easy way of achieving it, c'est la vie.                           ##
     #######################################################################
     ## Clean the data using the threshold specified (default is x3 SD)   ##
+    ## print('Prior to cleaning...')
+    ## dplyr::filter(df, relative.month == 1) %>% print()
     clean <- closed_clean_high_low(df = df,
-                                  indicator = indicator)
+                                   indicator = indicator)
+    ## print('After cleaning...')
+    ## dplyr::filter(clean, relative.month == 1) %>% print()
     ## Rename value (don't want conflicts), subset out those where missing
     names(clean) <- gsub('value', 'missing', names(clean))
     clean <- dplyr::filter(clean, is.na(missing)) %>%
