@@ -100,18 +100,34 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     lsoa.pooled <- merge(dplyr::filter(df.lsoa,
                                        measure == indicator, sub.measure == sub.indicator),
                          binary,
-                         by = c('town', 'lsoa')) %>%
-                   group_by(town, relative.month, measure, sub.measure, binary.diff) %>%
-                   summarise(value            = sum(value, na.rm = TRUE),
-                             closure          = mean(closure),
-                             nhs111           = mean(nhs111),
-                             ambulance.divert = mean(ambulance.divert),
-                             other.centre     = mean(other.centre),
-                             season           = mean(as.numeric(season)),
-                             other.misc       = mean(other.misc))  %>%
-                   ungroup() %>%
-                   mutate(season = as.factor(season),
-                          relative.month = as.numeric(relative.month))
+                         by = c('town', 'lsoa'))
+    if(indicator %in% c('ed attendances', 'unnecessary ed attendances')){
+        lsoa.pooled <- group_by(lsoa.pooled,
+                                town, relative.month, measure, sub.measure, binary.diff) %>%
+                       summarise(value            = sum(value, na.rm = TRUE),
+                                 closure          = mean(closure),
+                                 nhs111           = mean(nhs111),
+                                 ambulance.divert = mean(ambulance.divert),
+                                 other.centre     = mean(other.centre),
+                                 season           = mean(as.numeric(season)),
+                                 other.misc       = mean(other.misc))  %>%
+                       ungroup() %>%
+                       mutate(season = as.factor(season),
+                              relative.month = as.numeric(relative.month))
+    }
+    else{
+        lsoa.pooled <- group_by(lsoa.pooled,
+                                town, relative.month, measure, sub.measure, binary.diff) %>%
+                       summarise(value            = sum(value, na.rm = TRUE),
+                                 closure          = mean(closure),
+                                 nhs111           = mean(nhs111),
+                                 ambulance.divert = mean(ambulance.divert),
+                                 other.centre     = mean(other.centre),
+                                 season           = mean(as.numeric(season)))  %>%
+                       ungroup() %>%
+                       mutate(season = as.factor(season),
+                              relative.month = as.numeric(relative.month))
+    }
     names(lsoa.pooled) <- gsub('binary.diff', 'diff.time.to.ed', names(lsoa.pooled))
     ## Clean 'spurious' data points
     lsoa.pooled <- closed_clean_revised(df = lsoa.pooled,
@@ -161,6 +177,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     df.trust <- dplyr::filter(df.trust,
                               measure == indicator, sub.measure == sub.indicator) %>%
         mutate(before.after = ifelse(relative.month >= 25, "After", "Before"))
+    ## dplyr::filter(df.trust, town == 'Hemel Hempstead' & before.after == 'Before') %>% print()
     results$summary.df <- mutate(df.trust,
                                  value = ifelse(value == 0, NA, value)) %>%
                           group_by(town, before.after) %>%
