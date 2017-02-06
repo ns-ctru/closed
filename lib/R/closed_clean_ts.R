@@ -331,7 +331,7 @@ closed_clean_ts <- function(df              = ed_attendances_by_mode_measure,
                                     no = value),
                      value = ifelse(sub.measure == 'hospital transfers' &
                                     town %in% c('Hemel Hempstead') &
-                                    relative.month %in% c(26, 27, 38, 39, 40, 41, 42, 43, 44, 45),
+                                    relative.month %in% c(1, 26, 27, 38, 39, 40, 41, 42, 43, 44, 45),
                                     yes = NA,
                                     no = value),
                      value = ifelse(sub.measure == 'hospital transfers' &
@@ -347,6 +347,11 @@ closed_clean_ts <- function(df              = ed_attendances_by_mode_measure,
                      value = ifelse(sub.measure == 'total' &
                                     town %in% c('Grimsby') &
                                     relative.month %in% c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                                    yes = NA,
+                                    no = value),
+                     value = ifelse(sub.measure == 'hospital transfers' &
+                                    town %in% c('Hemel Hempstead') &
+                                    relative.month %in% c(26, 27, 38, 39, 40, 41, 42, 43, 44, 45),
                                     yes = NA,
                                     no = value),
                      value = ifelse(sub.measure == 'total' &
