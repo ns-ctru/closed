@@ -115,11 +115,11 @@ closed_tidy <- function(df        = ed_attendances_by_mode_site_measure,
     ##              'hartlepool ED query'                                ##
     #######################################################################
     measure <- dplyr::select(df, measure) %>% unique() %>% as.character()
-    if(measure %in% c('ed attendances', 'unnecessary ed attendances')){
-        df <- mutate(df,
-                     other.misc = ifelse(town == 'Hartlepool' & relative.month >= 31,
-                                         1, 0))
-    }
+    ## if(measure %in% c('ed attendances', 'unnecessary ed attendances')){
+    ##     df <- mutate(df,
+    ##                  other.misc = ifelse(town == 'Hartlepool' & relative.month >= 31,
+    ##                                      1, 0))
+    ## }
     #######################################################################
     ## Clean 'spurious' data points that are >3 x SD from mean           ##
     #######################################################################
