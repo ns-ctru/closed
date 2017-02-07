@@ -56,25 +56,23 @@ local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 /************************************************************************/
 if("`measure'" == "ed attendances" & "`sub_measure'" == "any"){
     local sites "Bishop_Auckland Hartlepool Newark Rochdale"
-    local model1     i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc
-    local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert  i.other_misc
-    local model4     i.town i.closure relative_month i.season
+    /* local model1     i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc */
+    /* local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert  i.other_misc */
 }
 else if("`measure'" == "ed attendances" & "`sub_measure'" == "other"){
     local sites "Hartlepool Hemel_Hempstead Newark Rochdale"
-    local model1     i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc
-    local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc
-    local model4     i.town i.closure relative_month i.season
+    /* local model1     i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc */
+    /* local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc */
 }
 else if("`measure'" == "ed attendances" & "`sub_measure'" == "ambulance"){
     local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
-    local model1     i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc
-    local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc
+    /* local model1     i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc */
+    /* local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc */
 }
 else if("`measure'" == "unnecessary ed attendances" & "`sub_measure'" == "all"){
     local sites "Bishop_Auckland Hemel_Hempstead Newark Rochdale"
-    local model1     i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc
-    local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc
+    /* local model1     i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc */
+    /* local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_mi */sc
 }
 else if("`measure'" == "all emergency admissions" & "`sub_measure'" == "all") local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 else if("`measure'" == "avoidable emergency admissions" & "`sub_measure'" == "any") local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
@@ -390,6 +388,13 @@ else if("`measure'" == "ambulance red calls" & "`sub_measure'" == "hospital tran
     append using "`base_dir'/data/results/Rochdale.dta"
 }
 else if("`measure'" == "ambulance red calls" & "`sub_measure'" == "total"){
+    use "`base_dir'/data/results/Bishop_Auckland.dta", clear
+    append using "`base_dir'/data/results/Hartlepool.dta"
+    append using "`base_dir'/data/results/Hemel_Hempstead.dta"
+    append using "`base_dir'/data/results/Newark.dta"
+    append using "`base_dir'/data/results/Rochdale.dta"
+}
+else if("`measure'" == "ambulance all calls" & "`sub_measure'" == "total"){
     use "`base_dir'/data/results/Bishop_Auckland.dta", clear
     append using "`base_dir'/data/results/Hartlepool.dta"
     append using "`base_dir'/data/results/Hemel_Hempstead.dta"
