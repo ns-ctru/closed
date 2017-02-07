@@ -252,6 +252,12 @@ closed_clean_revised <- function(df              = ed_attendances_by_mode_measur
                                     yes = NA,
                                     no = value))
         df <- mutate(df,
+                     value = ifelse(sub.measure == 'call to scene conveying' &
+                                    town %in% c('Rochdale', 'Rotherham') &
+                                    relative.month %in% c(3, 15),
+                                    yes = NA,
+                                    no = value))
+        df <- mutate(df,
                      value = ifelse(sub.measure == 'scene to dest' &
                                     town %in% c('Bishop Auckland', 'Whitehaven') &
                                     relative.month %in% c(5),
