@@ -11,6 +11,7 @@ sed -e 's/template/mode.of.arrival.any/g' \
     -e 's/sub_measure/any/g' \
     -e 's/data_frame/ed_attendances_by_mode/g' \
     -e 's/DESCRIPTION/mode of attendance by any means/g' \
+    -e 's/<!-- ###### Case Sites -->/**NB** - For Hartlepool Models with steps (i.e. 1, 2 and 3) include a step at week 31 for some undocumented event/g' \
     template.Rmd > mode_of_arrival_any.Rmd
 
 ## Measure     : Mode of Arrival
@@ -20,6 +21,7 @@ sed -e 's/template/mode.of.arrival.ambulance/g' \
     -e 's/sub_measure/ambulance/g' \
     -e 's/data_frame/ed_attendances_by_mode/g' \
     -e 's/DESCRIPTION/mode of attendance by ambulance means/g' \
+    -e 's/<!-- ###### Case Sites -->/**NB** - For Hartlepool Models with steps (i.e. 1, 2 and 3) include a step at week 31 for some undocumented event/g' \
     template.Rmd > mode_of_arrival_ambulance.Rmd
 
 ## Measure     : Mode of Arrival
@@ -29,6 +31,7 @@ sed -e 's/template/mode.of.arrival.other/g' \
     -e 's/sub_measure/other/g' \
     -e 's/data_frame/ed_attendances_by_mode/g' \
     -e 's/DESCRIPTION/mode of attendance by other means/g' \
+    -e 's/<!-- ###### Case Sites -->/**NB** - For Hartlepool Models with steps (i.e. 1, 2 and 3) include a step at week 31 for some undocumented event/g' \
     template.Rmd > mode_of_arrival_other.Rmd
 
 ## Measure     : Unnecssary ED Attendances
@@ -38,6 +41,7 @@ sed -e 's/template/unnecessary.attendance/g' \
     -e 's/sub_measure/all/g' \
     -e 's/data_frame/unnecessary_ed_attendances/g' \
     -e 's/DESCRIPTION/unnecessary ED attendances/g' \
+    -e 's/<!-- ###### Case Sites -->/**NB** - For Hartlepool Models with steps (i.e. 1, 2 and 3) include a step at week 31 for some undocumented event/g' \
     template.Rmd > unnecessary_attendance.Rmd
 
 ## Measure     : Emergency Admissions
@@ -238,6 +242,7 @@ sed -e 's/template/ambulance.mean.times.call.to.dest/g' \
     -e 's/DESCRIPTION/mean time from call to destination/g' \
     -e 's/count/proportion/g' \
     -e "s/ma.model       = 'Model 2'/ma.model       = 'Model 1'/g" \
+    -e "s/ambulance.mean.times.call.to.dest.forest.model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE/ambulance.mean.times.call.to.dest.forest.model2, echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE/g" \
     template.Rmd > ambulance_mean_times_call_to_dest.Rmd
 
 ## Measure     : Ambulance Mean Times
@@ -411,11 +416,11 @@ sed -e 's/template/sec.deaths.not.in.cips.7days.any.sec/g' \
     -e 's/DESCRIPTION/not in CIPS Deaths at 7 days (any sec)/g' \
     template.Rmd > sec_deaths_not_in_cips_7days_any_sec.Rmd
 
-## Measure     : All Deaths not in CIPS 7 days
-## Sub-Measure : any sec
-sed -e 's/template/amb.all.calls/g' \
+## Measure     : All Ambulance Calls
+## Sub-Measure : Total
+sed -e 's/template/ambulance.all.calls.total/g' \
     -e 's/Measure/ambulance all calls/g' \
     -e 's/sub_measure/total/g' \
     -e 's/data_frame/amb_all_calls/g' \
     -e 's/DESCRIPTION/All Ambulance Calls/g' \
-    template.Rmd > amb_all_calls.Rmd
+    template.Rmd > ambulance_all_calls_total.Rmd
