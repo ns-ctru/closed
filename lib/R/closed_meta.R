@@ -38,6 +38,39 @@ closed_meta <- function(df             = mode.of.arrival.any,
                         ...){
     ## Inititiate list for returning results
     results <- list()
+    ########################################################################
+    ## Filter the data                                                    ##
+    ########################################################################
+    ## Extract Point Estimate and SE from data frame for the specificed model and
+    ## given outcome.
+    ## 2016-01-30 - Interaction terms required to be plotted.
+    df <- df %>%
+          mutate(use = case_when(.$model == 'Model 0'   & .$term == 'closure' ~ TRUE,
+                                 .$model == 'Model 0.5' & .$term == 'closure' ~ TRUE,
+                                 .$model == 'Model 1'   & .$term == 'closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townBishop Auckland:closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townBishop Auckland#closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townHartlepool:closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townHartlepool#closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townHemel Hempstead:closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townHemel Hempstead#closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townNewark:closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townNewark#closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townRochdale:closure' ~ TRUE,
+                                 .$model == 'Model 2'   & .$term == 'townRochdale#closure' ~ TRUE,
+                                 .$model == 'Model 3.1' & .$term == 'closure' ~ TRUE,
+                                 .$model == 'Model 3.2' & .$term == 'closure' ~ TRUE,
+                                 .$model == 'Model 4'   & .$term == 'closure' ~ TRUE,
+                                 .$model == 'Model 5'   & .$term == 'closure' ~ TRUE,
+                                 .$model == 'Model 6.1' & .$term == 'diff.time.to.ed' ~ TRUE,
+                                 .$model == 'Model 6.2' & .$term == 'diff.time.to.ed' ~ TRUE,
+                                 .$model == 'Model 7.1'  & .$term == 'diff.time.to.ed' ~ TRUE,
+                                 .$model == 'Model 7.2'  & .$term == 'diff.time.to.ed' ~ TRUE,
+                                 .$model == 'Model 8'   & .$term == 'diff.time.to.ed#closure' ~ TRUE,
+                                 .$model == 'Model 8'   & .$term == 'diff.time.to.ed:closure' ~ TRUE),
+                 use = ifelse(is.na(use), FALSE, use))
+    df <- dplyr::filter(df, model == ma.model & use == TRUE) %>%
+          dplyr::select(measure, sub.measure, town, model, term, est, stderr)
     #######################################################################
     ## Labels and captions conditional on outcome                        ##
     #######################################################################
@@ -47,15 +80,31 @@ closed_meta <- function(df             = mode.of.arrival.any,
     ## print("Debug 1")
     if(indicator == 'ed attendances'){
         title1 <- 'Total ED Attendance'
-        if(sub.indicator == 'any')            title2 <- ' (Any)'
-        else if(sub.indicator == 'other')     title2 <- ' (Other)'
-        else if(sub.indicator == 'ambulance') title2 <- ' (Ambulance)'
+        if(sub.indicator == 'any'){
+            title2 <- ' (Any)'
+            ## 2017-02-08 Remove Hartlepool at Jons request (email 2017-02-08; Subject : all sites Forest plots)
+            df <- dplyr::filter(town != 'Hartlepool')
+        }
+        else if(sub.indicator == 'other'){
+            title2 <- ' (Other)'
+            ## 2017-02-08 Remove Hartlepool at Jons request (email 2017-02-08; Subject : all sites Forest plots)
+            df <- dplyr::filter(town != 'Hartlepool')
+        }
+        else if(sub.indicator == 'ambulance'){
+            title2 <- ' (Ambulance)'
+        }
         null.line <- 1
+        ## 2017-02-08 Remove Hemel Hempstead at Jons request (email 2017-02-08; Subject : all sites Forest plots)
+        df <- dplyr::filter(town != 'Hemel Hempstead')
     }
     else if(indicator == 'unnecessary ed attendances'){
         title1 <- 'Unnecessary ED Attendances'
         title2 <- ''
         null.line <- 1
+        ## 2017-02-08 Remove Hartlepool & Hemel Hempstead at Jons request
+        ## (email 2017-02-08; Subject : all sites Forest plots)
+        df <- dplyr::filter(town != 'Hartlepool') %>%
+              dplyr::filter(town != 'Hemel Hempstead')
     }
     else if(indicator == 'ed attendances admitted'){
         title1 <- 'ED Attendances Admitted'
@@ -326,37 +375,6 @@ closed_meta <- function(df             = mode.of.arrival.any,
     else if(ma.model == 'Model 6.1') title1 <- paste0('LSOA (Model 4) : ', title1)
     else if(ma.model == 'Model 7.1') title1 <- paste0('LSOA (Model 5) : ', title1)
     else if(ma.model == 'Model 8')   title1 <- paste0('LSOA (Model 6) : ', title1)
-    ## Extract Point Estimate and SE from data frame for the specificed model and
-    ## given outcome.
-    ## 2016-01-30 - Interaction terms required to be plotted.
-    df <- df %>%
-          mutate(use = case_when(.$model == 'Model 0'   & .$term == 'closure' ~ TRUE,
-                                 .$model == 'Model 0.5' & .$term == 'closure' ~ TRUE,
-                                 .$model == 'Model 1'   & .$term == 'closure' ~ TRUE,
-                                 .$model == 'Model 2'   & .$term == 'townBishop Auckland:closure' ~ TRUE,
-                                 .$model == 'Model 2'   & .$term == 'townBishop Auckland#closure' ~ TRUE,
-                                 .$model == 'Model 2'   & .$term == 'townHartlepool:closure' ~ TRUE,
-                                 .$model == 'Model 2'   & .$term == 'townHartlepool#closure' ~ TRUE,
-                                 .$model == 'Model 2'   & .$term == 'townHemel Hempstead:closure' ~ TRUE,
-                                 .$model == 'Model 2'   & .$term == 'townHemel Hempstead#closure' ~ TRUE,
-                                 .$model == 'Model 2'   & .$term == 'townNewark:closure' ~ TRUE,
-                                 .$model == 'Model 2'   & .$term == 'townNewark#closure' ~ TRUE,
-                                 .$model == 'Model 2'   & .$term == 'townRochdale:closure' ~ TRUE,
-                                 .$model == 'Model 2'   & .$term == 'townRochdale#closure' ~ TRUE,
-                                 .$model == 'Model 3.1' & .$term == 'closure' ~ TRUE,
-                                 .$model == 'Model 3.2' & .$term == 'closure' ~ TRUE,
-                                 .$model == 'Model 4'   & .$term == 'closure' ~ TRUE,
-                                 .$model == 'Model 5'   & .$term == 'closure' ~ TRUE,
-                                 .$model == 'Model 6.1' & .$term == 'diff.time.to.ed' ~ TRUE,
-                                 .$model == 'Model 6.2' & .$term == 'diff.time.to.ed' ~ TRUE,
-                                 .$model == 'Model 7.1'  & .$term == 'diff.time.to.ed' ~ TRUE,
-                                 .$model == 'Model 7.2'  & .$term == 'diff.time.to.ed' ~ TRUE,
-                                 .$model == 'Model 8'   & .$term == 'diff.time.to.ed#closure' ~ TRUE,
-                                 .$model == 'Model 8'   & .$term == 'diff.time.to.ed:closure' ~ TRUE),
-                 use = ifelse(is.na(use), FALSE, use))
-    df <- dplyr::filter(df, model == ma.model & use == TRUE) %>%
-    ##       dplyr::filter(term %in% c('closure', 'diff.time.to.ed')) %>%
-          dplyr::select(measure, sub.measure, town, model, term, est, stderr)
     ## print('Debug 1')
     ## print(df)
     ## Calculate the meta-analysis statistics
@@ -364,6 +382,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
                             yi     = est,
                             sei    = stderr,
                             method = ma.method)
+    results$meta.pval <- results$meta.est$pval
     ## Use the metafor function for producing forest plots for comparison
     ## ToDo - Doesn't seem to work
     ## results$meta.forest <- forest.rma(results$meta.est)
@@ -387,6 +406,8 @@ closed_meta <- function(df             = mode.of.arrival.any,
     ## Derive 95% CI's
     results$df$lci <- results$df$est - (1.96 * results$df$stderr)
     results$df$uci <- results$df$est + (1.96 * results$df$stderr)
+    results$df$lci.other <- results$df$est - (1.96 * exp(results$df$stderr))
+    results$df$uci.other <- results$df$est + (1.96 * exp(results$df$stderr))
     ## Combine Site, point estimate and CI for plotting on y-axis
     results$df <- mutate(results$df,
                          town = factor(town))
@@ -438,9 +459,13 @@ closed_meta <- function(df             = mode.of.arrival.any,
                           geom_vline(xintercept = null.line, linetype = 'dashed')
     }
     ## Conditionally label the x-axis
-    if(ma.model == 'Model 2'){
+    if(ma.model == 'Model 1'){
         results$forest <- results$forest +
                           xlab('Estimated Coefficient for Closure of ED')
+    }
+    if(ma.model == 'Model 2'){
+        results$forest <- results$forest +
+                          xlab('Estimated Coefficient for interaction between Closure ED and Town')
     }
     else if(ma.model == 'Model 6.1'){
         results$forest <- results$forest +
