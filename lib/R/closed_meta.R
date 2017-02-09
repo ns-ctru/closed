@@ -83,27 +83,27 @@ closed_meta <- function(df             = mode.of.arrival.any,
         if(sub.indicator == 'any'){
             title2 <- ' (Any)'
             ## 2017-02-08 Remove Hartlepool at Jons request (email 2017-02-08; Subject : all sites Forest plots)
-            df <- dplyr::filter(town != 'Hartlepool')
+            df <- dplyr::filter(df, town != 'Hartlepool')
         }
         else if(sub.indicator == 'other'){
             title2 <- ' (Other)'
             ## 2017-02-08 Remove Hartlepool at Jons request (email 2017-02-08; Subject : all sites Forest plots)
-            df <- dplyr::filter(town != 'Hartlepool')
+            df <- dplyr::filter(df, town != 'Hartlepool')
         }
         else if(sub.indicator == 'ambulance'){
             title2 <- ' (Ambulance)'
         }
         null.line <- 1
         ## 2017-02-08 Remove Hemel Hempstead at Jons request (email 2017-02-08; Subject : all sites Forest plots)
-        df <- dplyr::filter(town != 'Hemel Hempstead')
+        df <- dplyr::filter(df, town != 'Hemel Hempstead')
     }
     else if(indicator == 'unnecessary ed attendances'){
-        title1 <- 'Unnecessary ED Attendances'
+        title1 <- 'Minor Attendances'
         title2 <- ''
         null.line <- 1
         ## 2017-02-08 Remove Hartlepool & Hemel Hempstead at Jons request
         ## (email 2017-02-08; Subject : all sites Forest plots)
-        df <- dplyr::filter(town != 'Hartlepool') %>%
+        df <- dplyr::filter(df, town != 'Hartlepool') %>%
               dplyr::filter(town != 'Hemel Hempstead')
     }
     else if(indicator == 'ed attendances admitted'){
