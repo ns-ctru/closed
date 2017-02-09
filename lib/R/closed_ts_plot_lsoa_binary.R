@@ -145,7 +145,7 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
         y.text.steps <- 1000
     }
     else if(indicator == 'unnecessary ed attendances'){
-        title1 <- 'Unnecessary ED Attendances'
+        title1 <- 'Minor Attendances'
         title2 <- ''
         ylabel <- 'N'
         y.text.steps <- 1000
