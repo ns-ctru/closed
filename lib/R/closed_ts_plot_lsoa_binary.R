@@ -733,6 +733,12 @@ closed_ts_plot_lsoa_binary <- function(df        = ed_attendances_by_mode_site_m
         results$plot <- results$plot +
                         theme(legend.position = 'none')
     }
+    else{
+        results$plot <- results$plot +
+                        guides(colour = guide_legend('Hospital Catchment Area'),
+                               shape = guide_legend('Hospital Catchment Area'),
+                               linetype = guide_legend('Hospital Catchment Area'))
+    }
     ## Return results
     ## results$plot <- results$plot + theme(axis.text.x.top = element_text(angle = 45, hjust = 0))
     return(results$plot)
