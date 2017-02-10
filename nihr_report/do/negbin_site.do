@@ -72,7 +72,7 @@ else if("`measure'" == "ed attendances" & "`sub_measure'" == "ambulance"){
 else if("`measure'" == "unnecessary ed attendances" & "`sub_measure'" == "all"){
     local sites "Bishop_Auckland Hemel_Hempstead Newark Rochdale"
     /* local model1     i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_misc */
-    /* local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_mi */sc
+    /* local model2     i.town##i.closure relative_month i.season i.nhs111 i.other_centre i.ambulance_divert i.other_mi */
 }
 else if("`measure'" == "all emergency admissions" & "`sub_measure'" == "all") local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
 else if("`measure'" == "avoidable emergency admissions" & "`sub_measure'" == "any") local sites "Bishop_Auckland Hartlepool Hemel_Hempstead Newark Rochdale"
