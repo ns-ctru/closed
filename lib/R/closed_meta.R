@@ -94,6 +94,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
             title2 <- ' (Ambulance)'
         }
         null.line <- 1
+        ma.measure = 'PLO'
         ## 2017-02-08 Remove Hemel Hempstead at Jons request (email 2017-02-08; Subject : all sites Forest plots)
         df <- dplyr::filter(df, town != 'Hemel Hempstead')
     }
@@ -101,6 +102,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
         title1 <- 'Minor Attendances'
         title2 <- ''
         null.line <- 1
+        ma.measure = 'PLO'
         ## 2017-02-08 Remove Hartlepool & Hemel Hempstead at Jons request
         ## (email 2017-02-08; Subject : all sites Forest plots)
         df <- dplyr::filter(df, town != 'Hartlepool') %>%
@@ -111,20 +113,24 @@ closed_meta <- function(df             = mode.of.arrival.any,
         if(sub.indicator == 'all'){
             title2 <- ' (All)'
             null.line <- 1
+        ma.measure = 'PLO'
         }
         else if(sub.indicator == 'fraction admitted'){
             title2 <- ' (Fraction)'
             null.line <- 0
+        ma.measure = 'GEN'
         }
         else if(sub.indicator == 'admitted'){
             title2 <- ' (Absolute)'
             null.line <- 1
+        ma.measure = 'PLO'
         }
     }
     else if(indicator == 'all emergency admissions'){
         title1 <- 'All Emergency Admissions'
         title2 <- ''
         null.line <- 1
+        ma.measure = 'PLO'
     }
     else if(indicator == 'avoidable emergency admissions'){
         title1 <- 'Avoidable Emergency Admissions'
@@ -143,11 +149,13 @@ closed_meta <- function(df             = mode.of.arrival.any,
         else if(sub.indicator == 'pyrexial child (<6 years)')  title2 <- ' (Pyrexial Child <6yrs)'
         else if(sub.indicator == 'urinary tract infection')    title2 <- ' (Urinary Tract Infection)'
         null.line <- 1
+        ma.measure = 'PLO'
     }
     else if(indicator == 'all emergency admissions'){
         title1 <- 'All Emergency Admissions'
         title2 <- ' (All)'
         null.line <- 1
+        ma.measure = 'PLO'
     }
     else if(indicator == 'length of stay'){
         title1 <- 'Length of Stay'
@@ -158,30 +166,36 @@ closed_meta <- function(df             = mode.of.arrival.any,
             title2 <- ' (Median)'
         }
         null.line <- 0
+        ma.measure = 'GEN'
     }
     else if(indicator == 'critical care stays'){
         title1 <- 'Critical Care Stays'
         if(sub.indicator == 'all'){
             title2 <- ' (All)'
             null.line <- 1
+            ma.measure = 'PLO'
         }
         else if(sub.indicator == 'critical care'){
             title2 <- ' (Critical Care)'
             null.line <- 1
+            ma.measure = 'PLO'
         }
         else if(sub.indicator == 'fraction critical care'){
             title2 <- ' (Fractional Critical Care)'
             null.line <- 0
+        ma.measure = 'GEN'
         }
     }
     else if(indicator == 'case fatality ratio' | indicator == 'sec case fatality 7 days'){
         if(indicator == 'case fatality ratio'){
             title1 <- 'Case Fatality Ratio'
             null.line <- 0
+        ma.measure = 'GEN'
         }
         else if(indicator == 'sec case fatality 7 days'){
             title1 <- 'Case Fatalities @ 7 Days'
             null.line <- 0
+        ma.measure = 'GEN'
         }
         if(sub.indicator == 'acute heart failure')              title2 <- ' (Acute Heart Failure)'
         else if(sub.indicator == 'anaphylaxis')                 title2 <- ' (Anaphylaxis)'
@@ -221,20 +235,24 @@ closed_meta <- function(df             = mode.of.arrival.any,
             title2 <- ' (Scene to Destination)'
         }
         null.line <- 0
+        ma.measure = 'GEN'
     }
     else if(indicator == 'ambulance non-conveyance'){
         title1 <- 'Ambulance Non-Conveyance'
         if(sub.indicator == 'fraction not conveyed'){
             title2 <- ' (Fraction)'
             null.line <- 0
+            ma.measure = 'GEN'
         }
         else if(sub.indicator == 'green calls'){
             title2 <- ' (Green Calls)'
             null.line <- 1
+            ma.measure = 'PLO'
         }
         else if(sub.indicator == 'not conveyed green calls'){
             title2 <- ' (Green Calls Not Conveyed)'
             null.line <- 1
+            ma.measure = 'PLO'
         }
     }
     else if(indicator == 'ambulance green calls'){
@@ -242,18 +260,22 @@ closed_meta <- function(df             = mode.of.arrival.any,
         if(sub.indicator == 'fraction not conveyed'){
             title2 <- ' (Fraction)'
             null.line <- 0
+            ma.measure = 'GEN'
         }
         else if(sub.indicator == 'green calls'){
             title2 <- ' (Green Calls)'
             null.line <- 1
+        ma.measure = 'PLO'
         }
         else if(sub.indicator == 'hospital transfers'){
             title2 <- ' (Hospital Transfers)'
             null.line <- 1
+        ma.measure = 'PLO'
         }
         else if(sub.indicator == 'not conveyed green calls'){
             title2 <- ' (Green Calls Not Conveyed)'
             null.line <- 1
+        ma.measure = 'PLO'
         }
     }
     else if(indicator == 'ambulance red calls'){
@@ -261,11 +283,13 @@ closed_meta <- function(df             = mode.of.arrival.any,
         if(sub.indicator == 'hospital transfers')            title2 <- ' (Hospital Transfers)'
         else if(sub.indicator == 'total')                    title2 <- ' (Total)'
         null.line <- 1
+        ma.measure = 'PLO'
     }
     else if(indicator == 'ambulance all calls'){
         title1 <- 'Ambulance All Calls'
         if(sub.indicator == 'total')            title2 <- ' (Total)'
         null.line <- 1
+        ma.measure = 'PLO'
     }
     else if(indicator == 'hospital transfers'){
         title1 <- 'Hospital Transfers'
@@ -273,6 +297,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
         else if(sub.indicator == 'fraction with transfer') title2 <- ' (Fraction of Stays with Transfers)'
         else if(sub.indicator == 'stays with transfer')    title2 <- ' (Stays with Transfers)'
         null.line <- 1
+        ma.measure = 'PLO'
     }
     else if(indicator == 'sec case fatality 7 days'){
         title1 <- 'Case Fatality @ 7 Days'
@@ -296,6 +321,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
         else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
         else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
         null.line <- 1
+        ma.measure = 'PLO'
     }
     else if(indicator == 'sec deaths all 7days' | indicator == 'sec_deaths_all_7_days'){
         title1 <- 'Deaths @ 7 Days'
@@ -319,6 +345,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
         else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
         else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
         null.line <- 1
+        ma.measure = 'PLO'
     }
     else if(indicator == 'sec deaths in cips 7days' | indicator == 'sec_deaths_in_cips_7_days'){
         title1 <- 'Deaths in CIPS @ 7 Days'
@@ -342,6 +369,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
         else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
         else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
         null.line <- 1
+        ma.measure = 'PLO'
     }
     else if(indicator == 'sec deaths not in cips 7days' | indicator == 'sec_deaths_not_in_cips_7_days'){
         title1 <- 'Deaths not in CIPS @ 7 Days'
@@ -365,6 +393,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
         else if(sub.indicator == 'serious head injury')         title2 <- ' (Serious Head Injury)'
         else if(sub.indicator == 'stroke cva')                  title2 <- ' (Stroke CVA)'
         null.line <- 1
+        ma.measure = 'PLO'
     }
     else{
         title1 <- NULL
@@ -378,11 +407,42 @@ closed_meta <- function(df             = mode.of.arrival.any,
     ## print('Debug 1')
     ## print(df)
     ## Calculate the meta-analysis statistics
+    ## 2017-02-14 - More changes *where is the brick wall*???
+    ##              See email from Jon Nichol 2017-02-14 @ 12:10 Re : all sites Forest plot
+    ##              The consequence is that we now explicitly specify the 'measure' option
+    ##              having conditionally set it above
     results$meta.est <- rma(data   = df,
                             yi     = est,
                             sei    = stderr,
                             method = ma.method)
-    results$meta.pval <- results$meta.est$pval
+    ## print(results$meta.est)
+    ## print('Explicit GEN')
+    ## rma(data = df,
+    ##     yi   = est,
+    ##     sei  = stderr,
+    ##     method = ma.method,
+    ##     measure = 'GEN') %>% print()
+    ## print('Explicit OR2DL')
+    ## rma(data = df,
+    ##     yi   = est,
+    ##     sei  = stderr,
+    ##     method = ma.method,
+    ##     measure = 'OR2DL') %>% print()
+    ## results$meta.pval <- results$meta.est$pval
+    if(null.line == 0){
+        results$meta.b  <- results$meta.est$b
+        results$meta.se <- results$meta.est$se
+        results$meta.z  <- results$meta.est$zval
+        results$meta.p  <- results$meta.est$pval
+    }
+    else if(null.line == 1){
+        results$meta.b  <- results$meta.est$b
+        results$meta.se <- results$meta.est$se
+        results$meta.z  <- abs(1 - results$meta.est$b) / results$meta.est$se
+        results$meta.p  <- pnorm(results$meta.z)
+    }
+    results$extra <- cbind(results$meta.b, results$meta.se, results$meta.z, results$meta.p) %>% as.data.frame()
+    names(results$extra) <- c('estimate', 'se', 'z (correct)', 'p (correct)')
     ## Use the metafor function for producing forest plots for comparison
     ## ToDo - Doesn't seem to work
     ## results$meta.forest <- forest.rma(results$meta.est)
