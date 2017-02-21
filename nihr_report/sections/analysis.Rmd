@@ -9,21 +9,34 @@ load('~/work/closed/lib/data/ambulance green calls measure - site - 2016-11-21 2
 load('~/work/closed/lib/data/ambulance mean times measure - lsoa - 2017-02-21 14.13.Rda')
 load('~/work/closed/lib/data/ambulance mean times measure - site - 2017-02-21 14.13.Rda')
 ## 2017-02-21 - Only need Rochdale from these files as they're the only ones that change
-rochdale_amb_mean_times_measure <- dplyr::filter(rochdale_amb_mean_times_measure, town == 'Rochdale')
-rochdale_amb_mean_times_site_measure <- dplyr::filter(rochdale_amb_mean_times_site_measure, town == 'Rochdale')
-group_by(amb_mean_times_site_measure, town, sub_measure) %>%
-    dplyr::summary(mean = mean(value, na.rm = TRUE))
+rochdale_amb_mean_times_measure <- dplyr::filter(amb_mean_times_measure, town == 'Rochdale')
+rochdale_amb_mean_times_site_measure <- dplyr::filter(amb_mean_times_site_measure, town == 'Rochdale')
+sink('~/work/closed/tmp/rochdale_check.txt')
+print('NEW DATA - THREE SITES')
+dplyr::filter(amb_mean_times_site_measure, town %in% c('Bishop Auckland', 'Rochdale', 'Southport') %>%
+group_by(town, sub_measure) %>%
+    dplyr::summarise(mean = mean(value, na.rm = TRUE)) %>% as.data.frame()
+table(rochdale_amb_mean_times_site_measure$town
+sink()
 load('~/work/closed/lib/data/ambulance mean times measure - lsoa - 2016-11-21 20.30.Rda')
 load('~/work/closed/lib/data/ambulance mean times measure - site - 2016-11-21 20.31.Rda')
 ## 2017-02-21 - Only need non-Rochdale from these files
-group_by(amb_mean_times_site_measure, town, sub_measure) %>%
-    dplyr::summary(mean = mean(value, na.rm = TRUE))
-amb_mean_times_measure <- rbind(dplyr::filter(amb_mean_times_measure, town != 'Rochdale'),
-                                rochdale_amb_mean_times_measure, town == 'Rochdale')
-amb_mean_times_site_measure <- rbind(dplyr::filter(amb_mean_times_site_measure, town != 'Rochdale'),
-                                     rochdale_amb_mean_times_site_measure, town == 'Rochdale')
-group_by(amb_mean_times_site_measure, town, sub_measure) %>%
-    dplyr::summary(mean = mean(value, na.rm = TRUE))
+sink('~/work/closed/tmp/rochdale_check.txt', append = TRUE)
+print('OLD DATA - THREE SITES')
+dplyr::filter(amb_mean_times_site_measure) %>%
+group_by(town, sub_measure) %>%
+dplyr::summarise(mean = mean(value, na.rm = TRUE)) %>% as.data.frame() %>% ungroup()
+amb_mean_times_measure <- dplyr::filter(amb_mean_times_measure, town != 'Rochdale')
+amb_mean_times_measure <- rbind(amb_mean_times_measure,
+                                rochdale_amb_mean_times_measure)
+amb_mean_times_site_measure <- dplyr::filter(amb_mean_times_site_measure, town != 'Rochdale')
+amb_mean_times_site_measure <- rbind(amb_mean_times_site_measure,
+                                     rochdale_amb_mean_times_site_measure)
+print('COMBINED DATA - CORRECT????')
+dplyr::filter(amb_mean_times_site_measure) %>%
+group_by(town, sub_measure) %>%
+    dplyr::summarise(mean = mean(value, na.rm = TRUE)) %>% as.data.frame()
+sink()
 ## load('~/work/closed/lib/data/ambulance mean times measure - lsoa - 2016-10-13 16.45.Rda')
 ## load('~/work/closed/lib/data/ambulance mean times measure - site - 2016-10-13 16.46.Rda')
 ## load('~/work/closed/lib/data/ambulance mean times measure - lsoa - 2016-09-02 15.21.Rda')
