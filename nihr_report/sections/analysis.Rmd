@@ -6,10 +6,24 @@ load('~/work/closed/lib/data/ambulance green calls measure - lsoa - 2016-11-21 2
 load('~/work/closed/lib/data/ambulance green calls measure - site - 2016-11-21 20.33.Rda')
 ## load('~/work/closed/lib/data/ambulance green calls measure - lsoa - 2016-10-13 17.10.Rda')
 ## load('~/work/closed/lib/data/ambulance green calls measure - site - 2016-10-13 17.11.Rda')
- load('~/work/closed/lib/data/ambulance mean times measure - lsoa - 2017-02-21 14.13.Rda')
- load('~/work/closed/lib/data/ambulance mean times measure - site - 2017-02-21 14.13.Rda')
-## load('~/work/closed/lib/data/ambulance mean times measure - lsoa - 2016-11-21 20.30.Rda')
-## load('~/work/closed/lib/data/ambulance mean times measure - site - 2016-11-21 20.31.Rda')
+load('~/work/closed/lib/data/ambulance mean times measure - lsoa - 2017-02-21 14.13.Rda')
+load('~/work/closed/lib/data/ambulance mean times measure - site - 2017-02-21 14.13.Rda')
+## 2017-02-21 - Only need Rochdale from these files as they're the only ones that change
+rochdale_amb_mean_times_measure <- dplyr::filter(rochdale_amb_mean_times_measure, town == 'Rochdale')
+rochdale_amb_mean_times_site_measure <- dplyr::filter(rochdale_amb_mean_times_site_measure, town == 'Rochdale')
+group_by(amb_mean_times_site_measure, town, sub_measure) %>%
+    dplyr::summary(mean = mean(value, na.rm = TRUE))
+load('~/work/closed/lib/data/ambulance mean times measure - lsoa - 2016-11-21 20.30.Rda')
+load('~/work/closed/lib/data/ambulance mean times measure - site - 2016-11-21 20.31.Rda')
+## 2017-02-21 - Only need non-Rochdale from these files
+group_by(amb_mean_times_site_measure, town, sub_measure) %>%
+    dplyr::summary(mean = mean(value, na.rm = TRUE))
+amb_mean_times_measure <- rbind(dplyr::filter(amb_mean_times_measure, town != 'Rochdale'),
+                                rochdale_amb_mean_times_measure, town == 'Rochdale')
+amb_mean_times_site_measure <- rbind(dplyr::filter(amb_mean_times_site_measure, town != 'Rochdale'),
+                                     rochdale_amb_mean_times_site_measure, town == 'Rochdale')
+group_by(amb_mean_times_site_measure, town, sub_measure) %>%
+    dplyr::summary(mean = mean(value, na.rm = TRUE))
 ## load('~/work/closed/lib/data/ambulance mean times measure - lsoa - 2016-10-13 16.45.Rda')
 ## load('~/work/closed/lib/data/ambulance mean times measure - site - 2016-10-13 16.46.Rda')
 ## load('~/work/closed/lib/data/ambulance mean times measure - lsoa - 2016-09-02 15.21.Rda')
