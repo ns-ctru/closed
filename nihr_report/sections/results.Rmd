@@ -7,7 +7,7 @@ load(file = '~/work/closed/nihr_report/data/results.RData')
 ```{r child = 'subsections/summary.Rmd', eval = TRUE}
 ```
 
-```{r child = 'subsections/missing.Rmd', eval = FALSE}
+```{r child = 'subsections/missing.Rmd', eval = TRUE}
 ```
 
 ```{r child = 'subsections/spurious_data.Rmd', eval = TRUE}
