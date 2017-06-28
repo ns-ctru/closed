@@ -3,10 +3,10 @@ A step at week 48 in the Rochdale/Rotherham site may have undesirable effects on
 #### Emergency Admissions - No NHS111 step @ 48 weeks (Model 2)
 
 ```{r problematic_step_all_emergency_admissions_all, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
-system('cp ~/work/closed/nihr_report/do/negbin_site.do ~/work/closed/nihr_report/do/negbin_site_orig.do')
-system('cp ~/work/closed/nihr_report/do/negbin_site_no_nhs111.do ~/work/closed/nihr_report/do/negbin_site.do')
-system('cp ~/work/closed/nihr_report/do/negbin_lsoa.do ~/work/closed/nihr_report/do/negbin_lsoa_orig.do')
-system('cp ~/work/closed/nihr_report/do/negbin_lsoa_no_nhs111.do ~/work/closed/nihr_report/do/negbin_lsoa.do')
+system('cp ~/work/scharr/closed/nihr_report/do/negbin_site.do ~/work/scharr/closed/nihr_report/do/negbin_site_orig.do')
+system('cp ~/work/scharr/closed/nihr_report/do/negbin_site_no_nhs111.do ~/work/scharr/closed/nihr_report/do/negbin_site.do')
+system('cp ~/work/scharr/closed/nihr_report/do/negbin_lsoa.do ~/work/scharr/closed/nihr_report/do/negbin_lsoa_orig.do')
+system('cp ~/work/scharr/closed/nihr_report/do/negbin_lsoa_no_nhs111.do ~/work/scharr/closed/nihr_report/do/negbin_lsoa.do')
 no.nhs.all.emergency.admissions.all <- closed_stata_negbin(df.lsoa =  emergency_admissions_measure_clean,
                                            df.trust         = emergency_admissions_site_measure_clean,
                                            indicator       = 'all emergency admissions',
@@ -16,13 +16,13 @@ no.nhs.all.emergency.admissions.all <- closed_stata_negbin(df.lsoa =  emergency_
                                            return.residuals = FALSE,
                                            rm.unused.control = model.opts$rm.unused.control,
                                            digits           = 3)
-system('cp ~/work/closed/nihr_report/do/negbin_site_orig.do  ~/work/closed/nihr_report/do/negbin_site.do')
-system('cp ~/work/closed/nihr_report/do/negbin_lsoa_orig.do  ~/work/closed/nihr_report/do/negbin_lsoa.do')
+system('cp ~/work/scharr/closed/nihr_report/do/negbin_site_orig.do  ~/work/scharr/closed/nihr_report/do/negbin_site.do')
+system('cp ~/work/scharr/closed/nihr_report/do/negbin_lsoa_orig.do  ~/work/scharr/closed/nihr_report/do/negbin_lsoa.do')
 
 
 no.nhs.all.emergency.admissions.all$all.model.all.coef %>%
     dplyr::filter(model == 'Model 2' & town == 'Rochdale' & term != 'Intercept') %>%
-    dplyr::select(model, term, est, stderr, p, min95, max95)
+    dplyr::select(model, term, est, stderr, p, min95, max95) %>% as.data.frame()
 ## to.table <- no.nhs.all.emergency.admissions.all$summary.table.rochdale
 ## names(to.table) <- gsub('Pre Median \\(IQR\\)', 'to.change', names(to.table))
 ## to.table <-  mutate(to.table,
@@ -62,7 +62,7 @@ no.nhs.all.emergency.admissions.all$all.model.all.coef %>%
 
 all.emergency.admissions.all$all.model.all.coef %>%
     dplyr::filter(model == 'Model 2' & town == 'Rochdale' & term != 'Intercept') %>%
-    dplyr::select(model, term, est, stderr, p, min95, max95)
+    dplyr::select(model, term, est, stderr, p, min95, max95) %>% as.data.frame()
 ## to.table <- all.emergency.admissions.all$summary.table.rochdale
 ## names(to.table) <- gsub('Pre Median \\(IQR\\)', 'to.change', names(to.table))
 ## to.table <-  mutate(to.table,
@@ -86,10 +86,10 @@ all.emergency.admissions.all$all.model.all.coef %>%
 #### All 7 day Deaths - No NHS111 step @ 48 Weeks (Model 2)
 
 ```{r problematic_step_sec_deaths_all_7days_any_sec, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, eval = TRUE}
-system('cp ~/work/closed/nihr_report/do/negbin_site.do ~/work/closed/nihr_report/do/negbin_site_orig.do')
-system('cp ~/work/closed/nihr_report/do/negbin_site_no_nhs111.do ~/work/closed/nihr_report/do/negbin_site.do')
-system('cp ~/work/closed/nihr_report/do/negbin_lsoa.do ~/work/closed/nihr_report/do/negbin_lsoa_orig.do')
-system('cp ~/work/closed/nihr_report/do/negbin_lsoa_no_nhs111.do ~/work/closed/nihr_report/do/negbin_lsoa.do')
+system('cp ~/work/scharr/closed/nihr_report/do/negbin_site.do ~/work/scharr/closed/nihr_report/do/negbin_site_orig.do')
+system('cp ~/work/scharr/closed/nihr_report/do/negbin_site_no_nhs111.do ~/work/scharr/closed/nihr_report/do/negbin_site.do')
+system('cp ~/work/scharr/closed/nihr_report/do/negbin_lsoa.do ~/work/scharr/closed/nihr_report/do/negbin_lsoa_orig.do')
+system('cp ~/work/scharr/closed/nihr_report/do/negbin_lsoa_no_nhs111.do ~/work/scharr/closed/nihr_report/do/negbin_lsoa.do')
 no.nhs.sec.deaths.all.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths_all_7days_measure_clean,
                                            df.trust         = sec_deaths_all_7days_site_measure_clean,
                                            indicator       = 'sec deaths all 7days',
@@ -99,12 +99,12 @@ no.nhs.sec.deaths.all.7days.any.sec <- closed_stata_negbin(df.lsoa =  sec_deaths
                                            return.residuals = FALSE,
                                            rm.unused.control = model.opts$rm.unused.control,
                                            digits           = 3)
-system('cp ~/work/closed/nihr_report/do/negbin_site_orig.do  ~/work/closed/nihr_report/do/negbin_site.do')
-system('cp ~/work/closed/nihr_report/do/negbin_lsoa_orig.do  ~/work/closed/nihr_report/do/negbin_lsoa.do')
+system('cp ~/work/scharr/closed/nihr_report/do/negbin_site_orig.do  ~/work/scharr/closed/nihr_report/do/negbin_site.do')
+system('cp ~/work/scharr/closed/nihr_report/do/negbin_lsoa_orig.do  ~/work/scharr/closed/nihr_report/do/negbin_lsoa.do')
 
 no.nhs.sec.deaths.all.7days.any.sec$all.model.all.coef %>%
     dplyr::filter(model == 'Model 2' & town == 'Rochdale' & term != 'Intercept') %>%
-    dplyr::select(model, term, est, stderr, p, min95, max95)
+    dplyr::select(model, term, est, stderr, p, min95, max95) %>% as.data.frame()
 ## to.table <- no.nhs.sec.deaths.all.7days.any.sec$summary.table.rochdale
 ## names(to.table) <- gsub('Pre Median \\(IQR\\)', 'to.change', names(to.table))
 ## to.table <-  mutate(to.table,
@@ -138,9 +138,9 @@ no.nhs.sec.deaths.all.7days.any.sec$all.model.all.coef %>%
 ##                                            rm.unused.control = model.opts$rm.unused.control,
 ##                                            digits           = 3)
 
-no.nhs.sec.deaths.all.7days.any.sec$all.model.all.coef %>%
+sec.deaths.all.7days.any.sec$all.model.all.coef %>%
     dplyr::filter(model == 'Model 2' & town == 'Rochdale' & term != 'Intercept') %>%
-    dplyr::select(model, term, est, stderr, p, min95, max95)
+    dplyr::select(model, term, est, stderr, p, min95, max95) %>% as.data.frame()
 ## to.table <- sec.deaths.all.7days.any.sec$summary.table.rochdale
 ## names(to.table) <- gsub('Pre Median \\(IQR\\)', 'to.change', names(to.table))
 ## to.table <-  mutate(to.table,
