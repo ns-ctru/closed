@@ -325,7 +325,13 @@ check.site <- rbind(check.ed.attendances$check.site,
                     check.sec.deaths.in.cips.7days$check.site,
                     check.sec.deaths.not.in.cips.7days$check.site) %>%
               arrange(measure, sub.measure, relative.month, group, town) %>%
-	      dplyr::select(measure, sub.measure, town, relative.month)
+    dplyr::select(measure, sub.measure, town, relative.month)
+## Summarise the number of missing months rather than just tabulating the actual months
+## required for reviewers comments
+check.site.reviewers <- check.site %>%
+                        group_by(town, measure, sub.measure) %>%
+                        summarise(n = n()) %>%
+                        dcast(measure + sub.measure ~ town)
 names(check.site) <- c('Measure', 'Sub-Measure', 'Town', 'Relative Month')
 save(check.site,
      file = '~/work/scharr/closed/nihr_report/data/check_site.RData')
