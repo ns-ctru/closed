@@ -46,8 +46,8 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## Write site level data to Stata's .dta and make a copy
     dplyr::filter(df.trust,
                   measure == indicator, sub.measure == sub.indicator) %>%
-        write.dta(file = '~/work/closed/nihr_report/data/site.dta')
-    call <- paste0('cp ~/work/closed/nihr_report/data/site.dta ~/work/closed/nihr_report/data/input_site_',
+        write.dta(file = '~/work/scharr/closed/nihr_report/data/site.dta')
+    call <- paste0('cp ~/work/scharr/closed/nihr_report/data/site.dta ~/work/scharr/closed/nihr_report/data/input_site_',
                    gsub(' ', '_', indicator),
                    '_',
                    gsub(' ', '_', sub.indicator),
@@ -55,7 +55,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     system(call)
     ## Build a call to Stata to run the do-file with the given
     ## arguments of measure(/indicator) and sub-measure(/sub-indicator)
-    call <- paste0('/usr/local/stata14/stata-mp -b ~/work/closed/nihr_report/do/negbin_site.do ',
+    call <- paste0('/usr/local/stata14/stata-mp -b ~/work/scharr/closed/nihr_report/do/negbin_site.do ',
                    gsub(' ', '_', indicator),
                    ' ',
                    gsub(' ', '_', sub.indicator))
@@ -65,12 +65,12 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## directly, why I can not fathom but I've made a copy of results and therefore
     ## conditionally copy them here so that they are read in.
     if(indicator == 'sec deaths in cips 7days' & sub.indicator == 'any sec'){
-        call <- paste0('cp ~/work/closed/nihr_report/data/results/stata_negbin_site_sec deaths in cips 7days_any sec_completed.dta ~/work/closed/nihr_report/data/results/stata_negbin_site.dta')
+        call <- paste0('cp ~/work/scharr/closed/nihr_report/data/results/stata_negbin_site_sec deaths in cips 7days_any sec_completed.dta ~/work/scharr/closed/nihr_report/data/results/stata_negbin_site.dta')
         system(call)
     }
     ## Read the results back in, copy results to their own file
-    results$site <- read_dta(file = '~/work/closed/nihr_report/data/results/stata_negbin_site.dta')
-    call <- paste0('cp ~/work/closed/nihr_report/data/results/stata_negbin_site.dta ~/work/closed/nihr_report/data/results/results_site_',
+    results$site <- read_dta(file = '~/work/scharr/closed/nihr_report/data/results/stata_negbin_site.dta')
+    call <- paste0('cp ~/work/scharr/closed/nihr_report/data/results/stata_negbin_site.dta ~/work/scharr/closed/nihr_report/data/results/results_site_',
                    gsub(' ', '_', indicator),
                    '_',
                    gsub(' ', '_', sub.indicator),
@@ -80,7 +80,7 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ## NB - NOT filtering out control sites here, that is done in the call to -xtnbreg- in Stata
     dplyr::filter(df.lsoa,
                   measure == indicator, sub.measure == sub.indicator) %>%
-        write.dta(file = '~/work/closed/nihr_report/data/lsoa.dta')
+        write.dta(file = '~/work/scharr/closed/nihr_report/data/lsoa.dta')
     #######################################################################
     ## Collapse LSOA data for 'model 8' testing                          ##
     #######################################################################
@@ -102,20 +102,6 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                          binary,
                          by = c('town', 'lsoa'))
     ## if(indicator %in% c('ed attendances', 'unnecessary ed attendances')){
-        lsoa.pooled <- group_by(lsoa.pooled,
-                                town, relative.month, measure, sub.measure, binary.diff) %>%
-                       summarise(value            = sum(value, na.rm = TRUE),
-                                 closure          = mean(closure),
-                                 nhs111           = mean(nhs111),
-                                 ambulance.divert = mean(ambulance.divert),
-                                 other.centre     = mean(other.centre),
-                                 season           = mean(as.numeric(season)),
-                                 other.misc       = mean(other.misc))  %>%
-                       ungroup() %>%
-                       mutate(season = as.factor(season),
-                              relative.month = as.numeric(relative.month))
-    ## }
-    ## else{
     ##     lsoa.pooled <- group_by(lsoa.pooled,
     ##                             town, relative.month, measure, sub.measure, binary.diff) %>%
     ##                    summarise(value            = sum(value, na.rm = TRUE),
@@ -123,10 +109,24 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     ##                              nhs111           = mean(nhs111),
     ##                              ambulance.divert = mean(ambulance.divert),
     ##                              other.centre     = mean(other.centre),
-    ##                              season           = mean(as.numeric(season)))  %>%
+    ##                              season           = mean(as.numeric(season)),
+    ##                              other.misc       = mean(other.misc))  %>%
     ##                    ungroup() %>%
     ##                    mutate(season = as.factor(season),
     ##                           relative.month = as.numeric(relative.month))
+    ## }
+    ## else{
+        lsoa.pooled <- group_by(lsoa.pooled,
+                                town, relative.month, measure, sub.measure, binary.diff) %>%
+                       summarise(value            = sum(value, na.rm = TRUE),
+                                 closure          = mean(closure),
+                                 nhs111           = mean(nhs111),
+                                 ambulance.divert = mean(ambulance.divert),
+                                 other.centre     = mean(other.centre),
+                                 season           = mean(as.numeric(season)))  %>%
+                       ungroup() %>%
+                       mutate(season = as.factor(season),
+                              relative.month = as.numeric(relative.month))
     ## }
     names(lsoa.pooled) <- gsub('binary.diff', 'diff.time.to.ed', names(lsoa.pooled))
     ## Clean 'spurious' data points
@@ -135,8 +135,8 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
                                         systematic.outlier = NA)
     results$lsoa.pooled <-  lsoa.pooled
     write.dta(lsoa.pooled,
-              file = '~/work/closed/nihr_report/data/lsoa_pooled.dta')
-    call <- paste0('cp ~/work/closed/nihr_report/data/lsoa.dta ~/work/closed/nihr_report/data/input_lsoa_',
+              file = '~/work/scharr/closed/nihr_report/data/lsoa_pooled.dta')
+    call <- paste0('cp ~/work/scharr/closed/nihr_report/data/lsoa.dta ~/work/scharr/closed/nihr_report/data/input_lsoa_',
                    gsub(' ', '_', indicator),
                    '_',
                    gsub(' ', '_', sub.indicator),
@@ -144,23 +144,23 @@ closed_stata_negbin <- function(df.lsoa         = ed_attendances_by_mode_measure
     system(call)
     ## Build a call to Stata to run the do-file with the given
     ## arguments of measure(/indicator) and sub-measure(/sub-indicator)
-    call <- paste0('/usr/local/stata14/stata-mp -b ~/work/closed/nihr_report/do/negbin_lsoa.do ',
+    call <- paste0('/usr/local/stata14/stata-mp -b ~/work/scharr/closed/nihr_report/do/negbin_lsoa.do ',
                    gsub(' ', '_', indicator),
                    ' ',
                    gsub(' ', '_', sub.indicator))
     ## Run
     system(call)
     ## Read the results back in
-    results$lsoa <- read_dta(file = '~/work/closed/nihr_report/data/results/stata_negbin_lsoa.dta')
+    results$lsoa <- read_dta(file = '~/work/scharr/closed/nihr_report/data/results/stata_negbin_lsoa.dta')
     ## table(results$lsoa$model) %>% print()
-    call <- paste0('cp ~/work/closed/nihr_report/data/results/stata_negbin_lsoa.dta ~/work/closed/nihr_report/data/results/results_lsoa_',
+    call <- paste0('cp ~/work/scharr/closed/nihr_report/data/results/stata_negbin_lsoa.dta ~/work/scharr/closed/nihr_report/data/results/results_lsoa_',
                    gsub(' ', '_', indicator),
                    '_',
                    gsub(' ', '_', sub.indicator),
                    '.dta')
     system(call)
     ## Remove the input files
-    ## system('rm ~/work/closed/nihr_report/data/site.dta ~/work/closed/nihr_report/data/lsoa.dta')
+    ## system('rm ~/work/scharr/closed/nihr_report/data/site.dta ~/work/scharr/closed/nihr_report/data/lsoa.dta')
     ## Bind and return results
     ## print("Site...")
     ## head(results$site) %>% print()
