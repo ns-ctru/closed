@@ -4,7 +4,7 @@ Visual inspection of time-series plots (see 'Time-Series Plots' tab under each i
 
 
 ```{r spurious-data-table, echo = FALSE, cache = FALSE, results = 'markup', message = FALSE, fig.height = 16, eval = TRUE}
-spurious.data <- read.csv('~/work/closed/nihr_report/data/spurious_data.txt', sep = '|', header = TRUE)
+spurious.data <- read.csv('~/work/scharr/closed/nihr_report/data/spurious_data.txt', sep = '|', header = TRUE)
 dplyr::filter(spurious.data,
        Problem != ' -' & Action != ' -') %>%
 kable(caption = paste0('Spurious Data Points identified based on visual inspection.\n', 'Generated : ', Sys.time()))
