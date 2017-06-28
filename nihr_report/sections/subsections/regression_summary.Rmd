@@ -1,5 +1,5 @@
 ```{r load_data_again, echo = FALSE, cache = FALSE, results = 'hide', eval = TRUE}
-load(file = '~/work/closed/nihr_report/data/results.RData')
+load(file = '~/work/scharr/closed/nihr_report/data/results.RData')
 ## mutate(indicator = paste0(measure, ' ', sub.measure))
 heatmap.coefficients <- closed_heatmap(df           = summary.models,
                                        site         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
