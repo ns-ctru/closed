@@ -1,7 +1,7 @@
 ### Summary {.tabset .tabset-fade .tabset-pills}
 
 ```{r eval = TRUE, echo = FALSE}
-load(file = '~/work/closed/nihr_report/data/results.RData')
+load(file = '~/work/scharr/closed/nihr_report/data/results.RData')
 ```
 
 ```{r child = 'subsections/summary.Rmd', eval = TRUE}
