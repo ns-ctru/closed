@@ -11,9 +11,7 @@ bibliography: bibliography.bib
 ```{r setup, include=FALSE}
 ##opts_chunk$set(dev = 'pdf')
 opts_chunk$set(cache.path = 'cache/',
-               width    = 200,
-               fig.height = 8,
-               fig.width  = 8)
+               width    = 200)
 ## Set a seed
 set.seed(69027181)
 ```
@@ -21,19 +19,20 @@ set.seed(69027181)
 #
 
 ## Results
-```{r child = 'word/results_hemel.Rmd', eval = FALSE}
+
+```{r child = 'word/results_hemel.Rmd', eval = TRUE}
 ```
 
-```{r child = 'word/results_hartlepool.Rmd', eval = FALSE}
+```{r child = 'word/results_hartlepool.Rmd', eval = TRUE}
 ```
 
 ```{r child = 'word/results_bishop.Rmd', eval = TRUE}
 ```
 
-```{r child = 'word/results_newark.Rmd', eval = FALSE}
+```{r child = 'word/results_newark.Rmd', eval = TRUE}
 ```
 
-```{r child = 'word/results_rochdale.Rmd', eval = FALSE}
+```{r child = 'word/results_rochdale.Rmd', eval = TRUE}
 ```
 
 ```{r child = 'word/results_pooled_site.Rmd', eval = FALSE}
@@ -42,6 +41,5 @@ set.seed(69027181)
 ```{r child = 'word/results_pooled_dose.Rmd', eval = FALSE}
 ```
 
-## References
-
-# References
+```{r child = 'sections/subsections/missing.Rmd', eval = TRUE}
+```
