@@ -330,6 +330,7 @@ sed -e 's/template/ambulance.red.calls.hospital.transfers/g' \
     -e 's/sub_measure/hospital transfers/g' \
     -e 's/data_frame/amb_red_calls/g' \
     -e 's/DESCRIPTION/ambulance red calls (hospital transfers)/g' \
+    -e "s/ambulance\.red\.calls\.hospital\.transfers\.forest\.model6 echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE/ambulance\.red\.calls\.hospital\.transfers\.forest\.model6 echo = FALSE, cache = FALSE, results = 'markup', eval = FALSE/g" \
     template.Rmd > ambulance_red_calls_hospital_transfers.Rmd
 
 ## Measure     : Red Calls (Hospital Transfers)
