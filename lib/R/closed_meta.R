@@ -533,7 +533,8 @@ closed_meta <- function(df             = mode.of.arrival.any,
     }
     else if(ma.model == 'Model 8'){
         results$forest <- results$forest +
-                          xlab('Estimated Coefficient for interaction between Difference in Time to ED (Binary) x Closure')
+                          ## xlab('Estimated Coefficient for interaction of Difference in Time to ED (Binary) x Closure')
+                          xlab('Estimated Coefficient for Dichotomised Difference in Time to ED x Closure')
     }
     ## Apply users theme
     if(!is.null(theme)){
