@@ -439,7 +439,7 @@ closed_meta <- function(df             = mode.of.arrival.any,
         results$meta.b  <- results$meta.est$b
         results$meta.se <- results$meta.est$se
         results$meta.z  <- abs(1 - results$meta.est$b) / results$meta.est$se
-        results$meta.p  <- pnorm(results$meta.z)
+        results$meta.p  <- 2 * (1 - pnorm(results$meta.z))
     }
     results$extra <- cbind(results$meta.b, results$meta.se, results$meta.z, results$meta.p) %>% as.data.frame()
     names(results$extra) <- c('estimate', 'se', 'z (correct)', 'p (correct)')
@@ -530,6 +530,10 @@ closed_meta <- function(df             = mode.of.arrival.any,
     else if(ma.model == 'Model 6.1'){
         results$forest <- results$forest +
                           xlab('Estimated Coefficient for Difference in Time to ED')
+    }
+    else if(ma.model == 'Model 8'){
+        results$forest <- results$forest +
+                          xlab('Estimated Coefficient for interaction between Difference in Time to ED (Binary) x Closure')
     }
     ## Apply users theme
     if(!is.null(theme)){
