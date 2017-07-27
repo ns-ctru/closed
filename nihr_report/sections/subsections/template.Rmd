@@ -209,7 +209,7 @@ kable(to.table, caption = paste0('Summary statistics Pre/Post closure and estima
 ```{r template.forest.model1, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 forest.model1 <- closed_meta(df             = template$all.model.all.coef,
                              ma.model       = 'Model 1',
-                             ma.method      = 'FE',
+                             ma.method      = 'ML',
                              indicator      = 'Measure',
                              sub.indicator  = 'sub_measure',
                              digits         = 2,
@@ -218,6 +218,7 @@ forest.model1 <- closed_meta(df             = template$all.model.all.coef,
                              theme          = theme_bw())
 forest.model1$forest
 forest.model1$meta.est
+forest.model1$extra
 ## forest.rma(forest.model2$meta.est, slab = forest.model2$meta.sites[1:length(forest.model2$meta.sites)])
 
 ```
@@ -225,7 +226,7 @@ forest.model1$meta.est
 ```{r template.forest.model2, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 forest.model2 <- closed_meta(df             = template$all.model.all.coef,
                              ma.model       = 'Model 2',
-                             ma.method      = 'FE',
+                             ma.method      = 'ML',
                              indicator      = 'Measure',
                              sub.indicator  = 'sub_measure',
                              digits         = 2,
@@ -234,6 +235,7 @@ forest.model2 <- closed_meta(df             = template$all.model.all.coef,
                              theme          = theme_bw())
 forest.model2$forest
 forest.model2$meta.est
+forest.model2$extra
 ## forest.rma(forest.model2$meta.est, slab = forest.model2$meta.sites[1:length(forest.model2$meta.sites)])
 
 ```
@@ -241,7 +243,7 @@ forest.model2$meta.est
 ```{r template.forest.model4, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 forest.model4 <- closed_meta(df             = template$all.model.all.coef,
                              ma.model       = 'Model 6.1',
-                             ma.method      = 'FE',
+                             ma.method      = 'ML',
                              indicator      = 'Measure',
                              sub.indicator  = 'sub_measure',
                              digits         = 2,
@@ -250,6 +252,7 @@ forest.model4 <- closed_meta(df             = template$all.model.all.coef,
                              theme          = theme_bw())
 forest.model4$forest
 forest.model4$meta.est
+forest.model4$extra
 ## forest.rma(forest.model4$meta.est, slab = forest.model4$meta.sites[1:length(forest.model4$meta.sites)])
 
 ```
@@ -257,7 +260,7 @@ forest.model4$meta.est
 ```{r template.forest.model6, echo = FALSE, cache = FALSE, results = 'markup', eval = TRUE}
 forest.model8 <- closed_meta(df             = template$all.model.all.coef,
                              ma.model       = 'Model 8',
-                             ma.method      = 'FE',
+                             ma.method      = 'ML',
                              indicator      = 'Measure',
                              sub.indicator  = 'sub_measure',
                              digits         = 2,
@@ -266,6 +269,7 @@ forest.model8 <- closed_meta(df             = template$all.model.all.coef,
                              theme          = theme_bw())
 forest.model8$forest
 forest.model8$meta.est
+forest.model8$extra
 ## forest.rma(forest.model4$meta.est, slab = forest.model4$meta.sites[1:length(forest.model4$meta.sites)])
 
 ```
