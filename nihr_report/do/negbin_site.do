@@ -8,7 +8,7 @@ capture log c
 version 14.1
 /* Conditionally set the base directory                             */
 if("`c(os)'" == "Unix"){
-    local base_dir "~/work/closed/nihr_report/"
+    local base_dir "~/work/scharr/closed/nihr_report/"
 }
 else{
     di "This scripts will only run on the mcru-closed-hp Virtual Machine due to restrictions on data security."
@@ -108,6 +108,10 @@ foreach x of local sites{
     di "`x' : Model 1"
     xtnbreg `outcome' `model1' if(town_string == "`y'"), iterate(`iter') ltolerance(`ltolerance') nrtolerance(`nrtolerance')
     parmest, saving("`base_dir'/data/results/model1.dta", replace) eform label
+    xtnbreg `outcome' `model1' if(town_string == "`y'"), iterate(`iter') ltolerance(`ltolerance') nrtolerance(`nrtolerance') corr(ar0)
+    parmest, saving("`base_dir'/data/results/model1_ar0.dta", replace) eform label
+    xtnbreg `outcome' `model1' if(town_string == "`y'"), iterate(`iter') ltolerance(`ltolerance') nrtolerance(`nrtolerance') corr(ar2)
+    parmest, saving("`base_dir'/data/results/model1_ar2.dta", replace) eform label
     /* 2016-12-21 Quite a few sites need excluding from models >= 2 do so here   */
     if("`y'" == "Hartlepool" & "`measure'" == "ed attendances" & "`sub_measure'" == "any"){
         local remove_results = "true"
@@ -245,6 +249,10 @@ foreach x of local sites{
     }
     capture xtnbreg `outcome' `model2' if(town_string == "`y'" | town_string == "`x2'"), iterate(`iter') ltolerance(`ltolerance') nrtolerance(`nrtolerance')
     capture parmest, saving("`base_dir'/data/results/model2.dta", replace) eform label
+    capture xtnbreg `outcome' `model2' if(town_string == "`y'" | town_string == "`x2'"), iterate(`iter') ltolerance(`ltolerance') nrtolerance(`nrtolerance') corr(ar0)
+    capture parmest, saving("`base_dir'/data/results/model2_ar0.dta", replace) eform label
+    capture xtnbreg `outcome' `model2' if(town_string == "`y'" | town_string == "`x2'"), iterate(`iter') ltolerance(`ltolerance') nrtolerance(`nrtolerance') corr(ar2)
+    capture parmest, saving("`base_dir'/data/results/model2_ar2.dta", replace) eform label
     use "`base_dir'/data/results/model0.dta", clear
     gen model = "model0"
     tempfile t
@@ -253,8 +261,24 @@ foreach x of local sites{
     gen model = "model1"
     append using `t'
     save `t', replace
+    use "`base_dir'/data/results/model1_ar0.dta", clear
+    gen model = "model1_ar0"
+    append using `t'
+    save `t', replace
+    use "`base_dir'/data/results/model1_ar2.dta", clear
+    gen model = "model1_ar2"
+    append using `t'
+    save `t', replace
     use "`base_dir'/data/results/model2.dta", clear
     gen model = "model2"
+    append using `t'
+    save `t', replace
+    use "`base_dir'/data/results/model2_ar0.dta", clear
+    gen model = "model2_ar0"
+    append using `t'
+    save `t', replace
+    use "`base_dir'/data/results/model2_ar2.dta", clear
+    gen model = "model2_ar2"
     append using `t'
     gen town = "`y'"
     /* if("`remove_results'" == "true"){ */
