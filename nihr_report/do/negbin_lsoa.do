@@ -8,7 +8,7 @@ capture log c
 version 14.1
 /* Conditionally set the base directory                             */
 if("`c(os)'" == "Unix"){
-    local base_dir "~/work/closed/nihr_report/"
+    local base_dir "~/work/scharr/closed/nihr_report/"
 }
 else{
     di "This scripts will only run on the mcru-closed-hp Virtual Machine due to restrictions on data security."
@@ -198,8 +198,21 @@ foreach x of local sites{
     }
     xtnbreg `outcome' `model6_1' if(town_string == "`y'"), iterate(`iter') ltolerance(`ltolerance') nrtolerance(`nrtolerance')
     parmest, saving("`base_dir'/data/results/model6_1.dta", replace) eform label
+    xtnbreg `outcome' `model6_1' if(town_string == "`y'"), iterate(`iter') ltolerance(`ltolerance') nrtolerance(`nrtolerance') corr(ar0)
+    parmest, saving("`base_dir'/data/results/model6_1_ar0.dta", replace) eform label
+    xtnbreg `outcome' `model6_1' if(town_string == "`y'"), iterate(`iter') ltolerance(`ltolerance') nrtolerance(`nrtolerance') corr(ar2)
+    parmest, saving("`base_dir'/data/results/model6_1_ar2.dta", replace) eform label
     use "`base_dir'/data/results/model6_1.dta", clear
     gen model = "model6.1"
+    tempfile t
+    save `t', replace
+    use "`base_dir'/data/results/model6_1_ar0.dta", clear
+    gen model = "model6.1_ar0"
+    append using `t'
+    save `t', replace
+    use "`base_dir'/data/results/model6_1_ar2.dta", clear
+    gen model = "model6.1_ar2"
+    append using `t'
     gen town = "`y'"
     if("`y'" == "Bishop Auckland"){
         tempfile results
