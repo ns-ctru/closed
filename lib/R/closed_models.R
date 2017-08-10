@@ -539,7 +539,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                     results$model0.panelar.rochdale.coef),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
-                                               title         = paste0('Model 1 : ',
+                                               title         = paste0('Model 0 : ',
                                                                       indicator,
                                                                       ' (',
                                                                       sub.indicator,
@@ -725,7 +725,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                     results$model0.5.panelar.rochdale.coef),
                                                plot.term     = c('closure'),
                                                facet.outcome = FALSE,
-                                               title         = paste0('Model 1 : ',
+                                               title         = paste0('Model 0.5 : ',
                                                                       indicator,
                                                                       ' (',
                                                                       sub.indicator,
@@ -808,6 +808,29 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                        .indicator     = indicator,
                                                                        .sub.indicator = sub.indicator)
             results$model1.panelar.bishop.r2 <- model1.panelar.bishop$r2
+            ## Ignore auto-correlation
+            model1.ar0.bishop <- glm(data     = t,
+                                     formula  = formula.model1,
+                                     family   = 'gaussian')
+            results$model1.ar0.bishop.coef <- extract_coefficients(x              = model1.ar0.bishop,
+                                                                   .site          = 'Bishop',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+            ## results$model1.ar0.bishop.r2 <- model1.ar0.bishop$r2
+            ## model1.ar0.bishop <- panelAR(data      = t,
+            ##                                  formula   = formula.model1,
+            ##                                  timeVar   = timevar,
+            ##                                  panelVar  = panel.trust,
+            ##                                  autoCorr  = 'none',
+            ##                                  panelCorrMethod = 'pcse',
+            ##                                  complete.case = complete.case,
+            ##                                  seq.times = seq.times,
+            ##                                  rho.na.rm = rho.na.rm)
+            ## results$model1.ar0.bishop.coef <- extract_coefficients(x              = model1.ar0.bishop,
+            ##                                                        .site          = 'Bishop Auckland',
+            ##                                                        .indicator     = indicator,
+            ##                                                        .sub.indicator = sub.indicator)
+            ## results$model1.ar0.bishop.r2 <- model1.ar0.bishop$r2
         }
         ##################################################
         ## Model 1 - Hartlepool                         ##
@@ -830,6 +853,29 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                            .indicator     = indicator,
                                                                            .sub.indicator = sub.indicator)
             results$model1.panelar.hartlepool.r2 <- model1.panelar.hartlepool$r2
+            ## Ignore auto-correlation
+            model1.ar0.hartlepool <- glm(data     = t,
+                                         formula  = formula.model1,
+                                         family   = 'gaussian')
+            results$model1.ar0.hartlepool.coef <- extract_coefficients(x              = model1.ar0.hartlepool,
+                                                                       .site          = 'Hartlepool',
+                                                                       .indicator     = indicator,
+                                                                       .sub.indicator = sub.indicator)
+            ## results$model1.ar0.hartlepool.r2 <- model1.ar0.hartlepool$r2
+            ## model1.ar0.hartlepool <- panelAR(data     = t,
+            ##                                  formula  = formula.model1,
+            ##                                  timeVar  = timevar,
+            ##                                  panelVar = panel.trust,
+            ##                                  autoCorr = 'none',
+            ##                                  panelCorrMethod = 'pcse',
+            ##                                  complete.case = complete.case,
+            ##                                  seq.times = seq.times,
+            ##                                  rho.na.rm = rho.na.rm)
+            ## results$model1.ar0.hartlepool.coef <- extract_coefficients(x              = model1.ar0.hartlepool,
+            ##                                                            .site          = 'Hartlepool',
+            ##                                                            .indicator     = indicator,
+            ##                                                            .sub.indicator = sub.indicator)
+            ## results$model1.ar0.hartlepool.r2 <- model1.ar0.hartlepool$r2
         }
         ##################################################
         ## Model 1 - Hemel Hempstead                    ##
@@ -852,6 +898,29 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                       .indicator     = indicator,
                                                                       .sub.indicator = sub.indicator)
             results$model1.panelar.hemel.r2 <- model1.panelar.hemel$r2
+            ## Ignore auto-correlation
+            model1.ar0.hemel <- glm(data     = t,
+                                    formula  = formula.model1,
+                                    family   = 'gaussian')
+            results$model1.ar0.hemel.coef <- extract_coefficients(x              = model1.ar0.hemel,
+                                                                  .site          = 'Hemel Hempstead',
+                                                                  .indicator     = indicator,
+                                                                  .sub.indicator = sub.indicator)
+            ## results$model1.ar0.hemel.r2 <- model1.ar0.hemel$r2
+            ## model1.ar0.hemel <- panelAR(data     = t,
+            ##                             formula  = formula.model1,
+            ##                             timeVar  = timevar,
+            ##                             panelVar = panel.trust,
+            ##                             autoCorr = 'none',
+            ##                             panelCorrMethod = 'pcse',
+            ##                             complete.case = complete.case,
+            ##                             seq.times = seq.times,
+            ##                             rho.na.rm = rho.na.rm)
+            ## results$model1.ar0.hemel.coef <- extract_coefficients(x              = model1.ar0.hemel,
+            ##                                                       .site          = 'Hemel Hempstead',
+            ##                                                       .indicator     = indicator,
+            ##                                                       .sub.indicator = sub.indicator)
+            ## results$model1.ar0.hemel.r2 <- model1.ar0.hemel$r2
         }
         ##################################################
         ## Model 1 - Newark                             ##
@@ -874,6 +943,29 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                        .indicator     = indicator,
                                                                        .sub.indicator = sub.indicator)
             results$model1.panelar.newark.r2 <- model1.panelar.newark$r2
+            ## Ignore auto-correlation
+            model1.ar0.newark <- glm(data     = t,
+                                     formula  = formula.model1,
+                                     family   = 'gaussian')
+            results$model1.ar0.newark.coef <- extract_coefficients(x              = model1.ar0.newark,
+                                                                   .site          = 'Newark',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+            ## results$model1.ar0.newark.r2 <- model1.ar0.newark$r2
+            ## model1.ar0.newark <- panelAR(data     = t,
+            ##                              formula  = formula.model1,
+            ##                              timeVar  = timevar,
+            ##                              panelVar = panel.trust,
+            ##                              autoCorr = 'none',
+            ##                              panelCorrMethod = 'pcse',
+            ##                              complete.case = complete.case,
+            ##                              seq.times = seq.times,
+            ##                              rho.na.rm = rho.na.rm)
+            ## results$model1.ar0.newark.coef <- extract_coefficients(x              = model1.ar0.newark,
+            ##                                                        .site          = 'Newark',
+            ##                                                        .indicator     = indicator,
+            ##                                                        .sub.indicator = sub.indicator)
+            ## results$model1.ar0.newark.r2 <- model1.ar0.newark$r2
         }
         ##################################################
         ## Model 1 - Rochdale                           ##
@@ -896,6 +988,29 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                          .indicator     = indicator,
                                                                          .sub.indicator = sub.indicator)
             results$model1.panelar.rochdale.r2 <- model1.panelar.rochdale$r2
+            ## Ignore auto-correlation
+            model1.ar0.rochdale <- glm(data     = t,
+                                       formula  = formula.model1,
+                                       family   = 'gaussian')
+            results$model1.ar0.rochdale.coef <- extract_coefficients(x              = model1.ar0.rochdale,
+                                                                     .site          = 'Rochdale',
+                                                                     .indicator     = indicator,
+                                                                     .sub.indicator = sub.indicator)
+            ## results$model1.ar0.rochdale.r2 <- model1.ar0.rochdale$r2
+            ## model1.ar0.rochdale <- panelAR(data     = t,
+            ##                                formula  = formula.model1,
+            ##                                timeVar  = timevar,
+            ##                                panelVar = panel.trust,
+            ##                                autoCorr = 'none',
+            ##                                panelCorrMethod = 'pcse',
+            ##                                complete.case = complete.case,
+            ##                                seq.times = seq.times,
+            ##                                rho.na.rm = rho.na.rm)
+            ## results$model1.ar0.rochdale.coef <- extract_coefficients(x            = model1.ar0.rochdale,
+            ##                                                          .site          = 'Rochdale',
+            ##                                                          .indicator     = indicator,
+            ##                                                          .sub.indicator = sub.indicator)
+            ## results$model1.ar0.rochdale.r2 <- model1.ar0.rochdale$r2
         }
         ## Summary table
         results$model1.panelar.all <- combine_coefficients(bishop.coef     = results$model1.panelar.bishop.coef,
@@ -903,6 +1018,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                            hemel.coef      = results$model1.panelar.hemel.coef,
                                                            newark.coef     = results$model1.panelar.newark.coef,
                                                            rochdale.coef   = results$model1.panelar.rochdale.coef)
+        ## results$model1.ar0.all <- combine_coefficients(bishop.coef     = results$model1.ar0.bishop.coef,
+        ##                                                hartlepool.coef = results$model1.ar0.hartlepool.coef,
+        ##                                                hemel.coef      = results$model1.ar0.hemel.coef,
+        ##                                                newark.coef     = results$model1.ar0.newark.coef,
+        ##                                                rochdale.coef   = results$model1.ar0.rochdale.coef)
         ## Forest plot
         results$model1.forest <- closed_forest(df.list       = list(results$model1.panelar.bishop.coef,
                                                                     results$model1.panelar.hartlepool.coef,
@@ -917,22 +1037,40 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                       sub.indicator,
                                                                       ')'),
                                                theme         = theme_bw())
+        results$model1.ar0.forest <- closed_forest(df.list       = list(results$model1.ar0.bishop.coef,
+                                                                        results$model1.ar0.hartlepool.coef,
+                                                                        results$model1.ar0.hemel.coef,
+                                                                        results$model1.ar0.newark.coef,
+                                                                        results$model1.ar0.rochdale.coef),
+                                                   plot.term     = c('closure'),
+                                               facet.outcome = FALSE,
+                                               title         = paste0('Model 1 AR(0) : ',
+                                                                      indicator,
+                                                                      ' (',
+                                                                      sub.indicator,
+                                                                      ')'),
+                                               theme         = theme_bw())
         ## Return model objects if requested
         if(return.model == TRUE){
             if(exists('model1.panelar.bishop')){
                 results$model1.panelar.bishop     <- model1.panelar.bishop
+                results$model1.ar0.bishop         <- model1.ar0.bishop
             }
             if(exists('model1.panelar.hartlepool')){
                 results$model1.panelar.hartlepool <- model1.panelar.hartlepool
+                results$model1.ar0.hartlepool     <- model1.ar0.hartlepool
             }
             if(exists('model1.panelar.hemel')){
                 results$model1.panelar.hemel      <- model1.panelar.hemel
+                results$model1.ar0.hemel          <- model1.ar0.hemel
             }
             if(exists('model1.panelar.newark')){
                 results$model1.panelar.newark     <- model1.panelar.newark
+                results$model1.ar0.newark         <- model1.ar0.newark
             }
             if(exists('model1.panelar.rochdale')){
                 results$model1.panelar.rochdale   <- model1.panelar.rochdale
+                results$model1.ar0.rochdale       <- model1.ar0.rochdale
             }
         }
         if(return.df == TRUE){
@@ -941,18 +1079,23 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         if(return.residuals == TRUE){
             if(exists('model1.panelar.bishop')){
                 results$model1.panelar.residuals.bishop     <- summary(model1.panelar.bishop)$residuals
+                results$model1.ar0.residuals.bishop         <- summary(model1.ar0.bishop)$residuals
             }
             if(exists('model1.panelar.hartlepool')){
                 results$model1.panelar.residuals.hartlepool <- summary(model1.panelar.hartlepool)$residuals
+                results$model1.ar0.residuals.hartlepool     <- summary(model1.ar0.hartlepool)$residuals
             }
             if(exists('model1.panelar.hemel')){
                 results$model1.panelar.residuals.hemel      <- summary(model1.panelar.hemel)$residuals
+                results$model1.ar0.residuals.hemel          <- summary(model1.ar0.hemel)$residuals
             }
             if(exists('model1.panelar.newark')){
                 results$model1.panelar.residuals.newark     <- summary(model1.panelar.newark)$residuals
+                results$model1.ar0.residuals.newark         <- summary(model1.ar0.newark)$residuals
             }
             if(exists('model1.panelar.rochdale')){
                 results$model1.panelar.residuals.rochdale   <- summary(model1.panelar.rochdale)$residuals
+                results$model1.ar0.residuals.rochdale       <- summary(model1.ar0.rochdale)$residuals
             }
         }
         ## Remove clutter
@@ -1002,6 +1145,29 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                        .indicator     = indicator,
                                                                        .sub.indicator = sub.indicator)
             results$model2.panelar.bishop.r2 <- model2.panelar.bishop$r2
+            ## Ignore auto-correlation
+            model2.ar0.bishop <- glm(data     = t,
+                                     formula  = formula.model2,
+                                     family   = 'gaussian')
+            results$model2.ar0.bishop.coef <- extract_coefficients(x              = model2.ar0.bishop,
+                                                                   .site          = 'Bishop',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+            ## results$model2.ar0.bishop.r2 <- model2.ar0.bishop$r2
+            ## model2.ar0.bishop <- panelAR(data     = t,
+            ##                                  formula  = formula.model2,
+            ##                                  timeVar  = timevar,
+            ##                                  panelVar = panel.trust,
+            ##                                  autoCorr = 'none',
+            ##                                  panelCorrMethod = 'pcse',
+            ##                                  complete.case = complete.case,
+            ##                                  seq.times = seq.times,
+            ##                                  rho.na.rm = rho.na.rm)
+            ## results$model2.ar0.bishop.coef <- extract_coefficients(x              = model2.ar0.bishop,
+            ##                                                        .site          = 'Bishop Auckland',
+            ##                                                        .indicator     = indicator,
+            ##                                                        .sub.indicator = sub.indicator)
+            ## results$model2.ar0.bishop.r2 <- model2.ar0.bishop$r2
         }
         ##################################################
         ## Model 2 - Hartlepool                         ##
@@ -1028,6 +1194,29 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                            .indicator     = indicator,
                                                                            .sub.indicator = sub.indicator)
             results$model2.panelar.hartlepool.r2 <- model2.panelar.hartlepool$r2
+            ## Ignore auto-correlation
+            model2.ar0.hartlepool <- glm(data     = t,
+                                         formula  = formula.model2,
+                                         family   = 'gaussian')
+            results$model2.ar0.hartlepool.coef <- extract_coefficients(x              = model2.ar0.hartlepool,
+                                                                       .site          = 'Hartlepool',
+                                                                       .indicator     = indicator,
+                                                                       .sub.indicator = sub.indicator)
+            ## results$model2.ar0.hartlepool.r2 <- model2.ar0.hartlepool$r2
+            ## model2.ar0.hartlepool <- panelAR(data     = t,
+            ##                                  formula  = formula.model2,
+            ##                                  timeVar  = timevar,
+            ##                                  panelVar = panel.trust,
+            ##                                  autoCorr = 'none',
+            ##                                  panelCorrMethod = 'pcse',
+            ##                                  complete.case = complete.case,
+            ##                                  seq.times = seq.times,
+            ##                                  rho.na.rm = rho.na.rm)
+            ## results$model2.ar0.hartlepool.coef <- extract_coefficients(x             = model2.ar0.hartlepool,
+            ##                                                            .site          = 'Hartlepool',
+            ##                                                            .indicator     = indicator,
+            ##                                                            .sub.indicator = sub.indicator)
+            ## results$model2.ar0.hartlepool.r2 <- model2.ar0.hartlepool$r2
         }
         ##################################################
         ## Model 2 - Hemel Hempstead                    ##
@@ -1054,6 +1243,29 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                       .indicator     = indicator,
                                                                       .sub.indicator = sub.indicator)
             results$model2.panelar.hemel.r2 <- model2.panelar.hemel$r2
+            ## Ignore auto-correlation
+            model2.ar0.hemel <- glm(data     = t,
+                                     formula  = formula.model2,
+                                     family   = 'gaussian')
+            results$model2.ar0.hemel.coef <- extract_coefficients(x              = model2.ar0.hemel,
+                                                                   .site          = 'Hemel Hempstead',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+            ## results$model2.ar0.hemel.r2 <- model2.ar0.hemel$r2
+            ## model2.ar0.hemel <- panelAR(data     = t,
+            ##                                 formula  = formula.model2,
+            ##                                 timeVar  = timevar,
+            ##                                 panelVar = panel.trust,
+            ##                                 autoCorr = autocorr,
+            ##                                 panelCorrMethod = 'pcse',
+            ##                                 complete.case = complete.case,
+            ##                                 seq.times = seq.times,
+            ##                                 rho.na.rm = rho.na.rm)
+            ## results$model2.ar0.hemel.coef <- extract_coefficients(x              = model2.ar0.hemel,
+            ##                                                           .site          = 'Hemel Hempstead',
+            ##                                                           .indicator     = indicator,
+            ##                                                           .sub.indicator = sub.indicator)
+            ## results$model2.ar0.hemel.r2 <- model2.ar0.hemel$r2
         }
         ##################################################
         ## Model 2 - Newark                             ##
@@ -1080,6 +1292,29 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                    .indicator     = indicator,
                                                                    .sub.indicator = sub.indicator)
             results$model2.panelar.newark.r2 <- model2.panelar.newark$r2
+            ## Ignore auto-correlation
+            model2.ar0.newark <- glm(data     = t,
+                                     formula  = formula.model2,
+                                     family   = 'gaussian')
+            results$model2.ar0.newark.coef <- extract_coefficients(x              = model2.ar0.newark,
+                                                                   .site          = 'Newark',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+            ## results$model2.ar0.newark.r2 <- model2.ar0.newark$r2
+            ## model2.ar0.newark <- panelAR(data     = t,
+            ##                                  formula  = formula.model2,
+            ##                                  timeVar  = timevar,
+            ##                                  panelVar = panel.trust,
+            ##                                  autoCorr = 'none',
+            ##                                  panelCorrMethod = 'pcse',
+            ##                                  complete.case = complete.case,
+            ##                                  seq.times = seq.times,
+            ##                                  rho.na.rm = rho.na.rm)
+            ## results$model2.ar0.newark.coef <- extract_coefficients(x              = model2.ar0.newark,
+            ##                                                            .site          = 'Newark',
+            ##                                                        .indicator     = indicator,
+            ##                                                        .sub.indicator = sub.indicator)
+            ## results$model2.ar0.newark.r2 <- model2.ar0.newark$r2
         }
         ##################################################
         ## Model 2 - Rochdale                           ##
@@ -1104,8 +1339,31 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
             results$model2.panelar.rochdale.coef <- extract_coefficients(x            = model2.panelar.rochdale,
                                                                          .site          = 'Rochdale',
                                                                          .indicator     = indicator,
-                                                                   .sub.indicator = sub.indicator)
+                                                                         .sub.indicator = sub.indicator)
             results$model2.panelar.rochdale.r2 <- model2.panelar.rochdale$r2
+            ## Ignore auto-correlation
+            model2.ar0.rochdale <- glm(data     = t,
+                                     formula  = formula.model2,
+                                     family   = 'gaussian')
+            results$model2.ar0.rochdale.coef <- extract_coefficients(x              = model2.ar0.rochdale,
+                                                                   .site          = 'Rochdale',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+            ## results$model2.ar0.bishop.r2 <- model2.ar0.bishop$r2
+            ## model2.ar0.rochdale <- panelAR(data     = t,
+            ##                                formula  = formula.model2,
+            ##                                timeVar  = timevar,
+            ##                                panelVar = panel.trust,
+            ##                                autoCorr = 'none',
+            ##                                panelCorrMethod = 'pcse',
+            ##                                complete.case = complete.case,
+            ##                                seq.times = seq.times,
+            ##                                rho.na.rm = rho.na.rm)
+            ## results$model2.ar0.rochdale.coef <- extract_coefficients(x            = model2.ar0.rochdale,
+            ##                                                          .site          = 'Rochdale',
+            ##                                                          .indicator     = indicator,
+            ##                                                          .sub.indicator = sub.indicator)
+            ## results$model2.ar0.rochdale.r2 <- model2.ar0.rochdale$r2
         }
         ## Summary table
         results$model2.panelar.all <- combine_coefficients(bishop.coef     = results$model2.panelar.bishop.coef,
@@ -1113,6 +1371,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                            hemel.coef      = results$model2.panelar.hemel.coef,
                                                            newark.coef     = results$model2.panelar.newark.coef,
                                                            rochdale.coef   = results$model2.panelar.rochdale.coef)
+        ## results$model2.ar0.all <- combine_coefficients(bishop.coef     = results$model2.ar0.bishop.coef,
+        ##                                                hartlepool.coef = results$model2.ar0.hartlepool.coef,
+        ##                                                hemel.coef      = results$model2.ar0.hemel.coef,
+        ##                                                newark.coef     = results$model2.ar0.newark.coef,
+        ##                                                rochdale.coef   = results$model2.ar0.rochdale.coef)
         ## Forest plot
         results$model2.forest <- closed_forest(df.list       = list(results$model2.panelar.bishop.coef,
                                                                     results$model2.panelar.hartlepool.coef,
@@ -1127,22 +1390,40 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                       sub.indicator,
                                                                       ')'),
                                                theme         = theme_bw())
+        results$model2.ar0.forest <- closed_forest(df.list       = list(results$model2.ar0.bishop.coef,
+                                                                    results$model2.ar0.hartlepool.coef,
+                                                                    results$model2.ar0.hemel.coef,
+                                                                    results$model2.ar0.newark.coef,
+                                                                    results$model2.ar0.rochdale.coef),
+                                               plot.term     = c('closure'),
+                                               facet.outcome = FALSE,
+                                               title         = paste0('Model 2 : ',
+                                                                      indicator,
+                                                                      ' (',
+                                                                      sub.indicator,
+                                                                      ')'),
+                                               theme         = theme_bw())
         ## Return model objects if requested
         if(return.model == TRUE){
             if(exists('model2.panelar.bishop')){
                 results$model2.panelar.bishop     <- model2.panelar.bishop
+                results$model2.ar0.bishop     <- model2.ar0.bishop
             }
             if(exists('model2.panelar.hartlepool')){
                 results$model2.panelar.hartlepool <- model2.panelar.hartlepool
+                results$model2.ar0.hartlepool     <- model2.ar0.hartlepool
             }
             if(exists('model2.panelar.hemel')){
                 results$model2.panelar.hemel      <- model2.panelar.hemel
+                results$model2.ar0.hemel          <- model2.ar0.hemel
             }
             if(exists('model2.panelar.newark')){
                 results$model2.panelar.newark     <- model2.panelar.newark
+                results$model2.ar0.newark         <- model2.ar0.newark
             }
             if(exists('model2.panelar.rochdale')){
                 results$model2.panelar.rochdale   <- model2.panelar.rochdale
+                results$model2.ar0.rochdale       <- model2.ar0.rochdale
             }
         }
         if(return.df == TRUE){
@@ -1151,18 +1432,23 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         if(return.residuals == TRUE){
             if(exists('model2.panelar.bishop')){
                 results$model2.panelar.residuals.bishop     <- summary(model2.panelar.bishop)$residuals
+                results$model2.ar0.residuals.bishop         <- summary(model2.ar0.bishop)$residuals
             }
             if(exists('model2.panelar.hartlepool')){
                 results$model2.panelar.residuals.hartlepool <- summary(model2.panelar.hartlepool)$residuals
+                results$model2.ar0.residuals.hartlepool     <- summary(model2.ar0.hartlepool)$residuals
             }
             if(exists('model2.panelar.hemel')){
                 results$model2.panelar.residuals.hemel      <- summary(model2.panelar.hemel)$residuals
+                results$model2.ar0.residuals.hemel          <- summary(model2.ar0.hemel)$residuals
             }
             if(exists('model2.panelar.newark')){
                 results$model2.panelar.residuals.newark     <- summary(model2.panelar.newark)$residuals
+                results$model2.ar0.residuals.newark         <- summary(model2.ar0.newark)$residuals
             }
             if(exists('model2.panelar.rochdale')){
                 results$model2.panelar.residuals.rochdale   <- summary(model2.panelar.rochdale)$residuals
+                results$model2.ar0.residuals.rochdale       <- summary(model2.ar0.rochdale)$residuals
             }
         }
         ## Remove clutter
@@ -1934,6 +2220,15 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                        .indicator     = indicator,
                                                                        .sub.indicator = sub.indicator)
             results$model6.1.panelar.bishop.r2 <- model6.1.panelar.bishop
+            ## Ignore auto-correlation
+            model6.1.ar0.bishop <- glm(data     = t,
+                                     formula  = formula.model6.1,
+                                     family   = 'gaussian')
+            results$model6.1.ar0.bishop.coef <- extract_coefficients(x              = model6.1.ar0.bishop,
+                                                                   .site          = 'Bishop',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+            ## results$model6.1.ar0.bishop.r6.1 <- model6.1.ar0.bishop$r6.1
         }
         ##################################################
         ## Model 6.1 - Hartlepool                       ##
@@ -1958,6 +2253,15 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                            .indicator     = indicator,
                                                                            .sub.indicator = sub.indicator)
             results$model6.1.panelar.hartlepool.r2 <- model6.1.panelar.hartlepool$r2
+            ## Ignore auto-correlation
+            model6.1.ar0.hartlepool <- glm(data     = t,
+                                     formula  = formula.model6.1,
+                                     family   = 'gaussian')
+            results$model6.1.ar0.hartlepool.coef <- extract_coefficients(x              = model6.1.ar0.hartlepool,
+                                                                   .site          = 'Hartlepool',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+            ## results$model6.1.ar0.hartlepool.r6.1 <- model6.1.ar0.hartlepool$r6.1
         }
         ##################################################
         ## Model 6.1 - Hemel Hempstead                  ##
@@ -1982,6 +2286,15 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                       .indicator     = indicator,
                                                                       .sub.indicator = sub.indicator)
             results$model6.1.panelar.hemel.r2 <- model6.1.panelar.hemel$r2
+            ## Ignore auto-correlation
+            model6.1.ar0.hemel <- glm(data     = t,
+                                     formula  = formula.model6.1,
+                                     family   = 'gaussian')
+            results$model6.1.ar0.hemel.coef <- extract_coefficients(x              = model6.1.ar0.hemel,
+                                                                   .site          = 'Hemel Hempstead',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+            ## results$model6.1.ar0.hemel.r6.1 <- model6.1.ar0.hemel$r6.1
         }
         ##################################################
         ## Model 6.1 - Newark                           ##
@@ -2006,6 +2319,15 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                        .indicator     = indicator,
                                                                        .sub.indicator = sub.indicator)
             results$model6.1.panelar.newark.r2 <- model6.1.panelar.newark$r2
+            ## Ignore auto-correlation
+            model6.1.ar0.newark <- glm(data     = t,
+                                     formula  = formula.model6.1,
+                                     family   = 'gaussian')
+            results$model6.1.ar0.newark.coef <- extract_coefficients(x              = model6.1.ar0.newark,
+                                                                   .site          = 'Newark',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+            ## results$model6.1.ar0.newark.r6.1 <- model6.1.ar0.newark$r6.1
         }
         ##################################################
         ## Model 6.1 - Rochdale                         ##
@@ -2030,6 +2352,15 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                          .indicator     = indicator,
                                                                          .sub.indicator = sub.indicator)
             results$model6.1.panelar.rochdale.r2 <- model6.1.panelar.rochdale$r2
+            ## Ignore auto-correlation
+            model6.1.ar0.rochdale <- glm(data     = t,
+                                     formula  = formula.model6.1,
+                                     family   = 'gaussian')
+            results$model6.1.ar0.rochdale.coef <- extract_coefficients(x              = model6.1.ar0.rochdale,
+                                                                   .site          = 'Rochdale',
+                                                                   .indicator     = indicator,
+                                                                   .sub.indicator = sub.indicator)
+            ## results$model6.1.ar0.rochdale.r6.1 <- model6.1.ar0.rochdale$r6.1
         }
         ## Summary table
         if(!is.null(results$model6.1.panelar.bishop.coef) |
@@ -2042,6 +2373,11 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                hemel.coef      = results$model6.1.panelar.hemel.coef,
                                                                newark.coef     = results$model6.1.panelar.newark.coef,
                                                                rochdale.coef   = results$model6.1.panelar.rochdale.coef)
+            ## results$model6.1.ar0.all <- combine_coefficients(bishop.coef     = results$model6.1.ar0.bishop.coef,
+            ##                                                    hartlepool.coef = results$model6.1.ar0.hartlepool.coef,
+            ##                                                    hemel.coef      = results$model6.1.ar0.hemel.coef,
+            ##                                                    newark.coef     = results$model6.1.ar0.newark.coef,
+            ##                                                    rochdale.coef   = results$model6.1.ar0.rochdale.coef)
             ## Forest plot
             results$model6.1.forest.model6.1 <- closed_forest(df.list       = list(results$model6.1.panelar.bishop.coef,
                                                                                results$model6.1.panelar.hartlepool.coef,
@@ -2056,23 +2392,54 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                                                  sub.indicator,
                                                                                  ')'),
                                                           theme         = theme_bw())
+            results$model6.1.forest.model6.1 <- closed_forest(df.list       = list(results$model6.1.panelar.bishop.coef,
+                                                                               results$model6.1.panelar.hartlepool.coef,
+                                                                               results$model6.1.panelar.hemel.coef,
+                                                                               results$model6.1.panelar.newark.coef,
+                                                                               results$model6.1.panelar.rochdale.coef),
+                                                          plot.term     = c('closure'),
+                                                          facet.outcome = FALSE,
+                                                          title         = paste0('Model 6.1 : ',
+                                                                                 indicator,
+                                                                                 ' (',
+                                                                                 sub.indicator,
+                                                                                 ')'),
+                                                          theme         = theme_bw())
+            results$model6.1.ar0.forest.model6.1 <- closed_forest(df.list       = list(results$model6.1.ar0.bishop.coef,
+                                                                               results$model6.1.ar0.hartlepool.coef,
+                                                                               results$model6.1.ar0.hemel.coef,
+                                                                               results$model6.1.ar0.newark.coef,
+                                                                               results$model6.1.ar0.rochdale.coef),
+                                                          plot.term     = c('closure'),
+                                                          facet.outcome = FALSE,
+                                                          title         = paste0('Model 6.1 : ',
+                                                                                 indicator,
+                                                                                 ' (',
+                                                                                 sub.indicator,
+                                                                                 ')'),
+                                                          theme         = theme_bw())
         }
         ## Return model objects if requested
         if(return.model == TRUE){
             if(exists('model6.1.panelar.bishop')){
                 results$model6.1.panelar.bishop     <- model6.1.panelar.bishop
+                results$model6.1.ar0.bishop     <- model6.1.ar0.bishop
             }
             if(exists('model6.1.panelar.hartlepool')){
                 results$model6.1.panelar.hartlepool <- model6.1.panelar.hartlepool
+                results$model6.1.ar0.hartlepool <- model6.1.ar0.hartlepool
             }
             if(exists('model6.1.panelar.hemel')){
                 results$model6.1.panelar.hemel      <- model6.1.panelar.hemel
+                results$model6.1.ar0.hemel      <- model6.1.ar0.hemel
             }
             if(exists('model6.1.panelar.newark')){
                 results$model6.1.panelar.newark     <- model6.1.panelar.newark
+                results$model6.1.ar0.newark     <- model6.1.ar0.newark
             }
             if(exists('model6.1.panelar.rochdale')){
                 results$model6.1.panelar.rochdale   <- model6.1.panelar.rochdale
+                results$model6.1.ar0.rochdale   <- model6.1.ar0.rochdale
             }
         }
         if(return.df == TRUE){
@@ -2081,18 +2448,23 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         if(return.residuals == TRUE){
             if(exists('model6.1.panelar.bishop')){
                 results$model6.1.panelar.residuals.bishop     <- summary(model6.1.panelar.bishop)$residuals
+                results$model6.1.ar0.residuals.bishop     <- summary(model6.1.ar0.bishop)$residuals
             }
             if(exists('model6.1.panelar.hartlepool')){
                 results$model6.1.panelar.residuals.hartlepool <- summary(model6.1.panelar.hartlepool)$residuals
+                results$model6.1.ar0.residuals.hartlepool <- summary(model6.1.ar0.hartlepool)$residuals
             }
             if(exists('model6.1.panelar.hemel')){
                 results$model6.1.panelar.residuals.hemel      <- summary(model6.1.panelar.hemel)$residuals
+                results$model6.1.ar0.residuals.hemel      <- summary(model6.1.ar0.hemel)$residuals
             }
             if(exists('model6.1.panelar.newark')){
                 results$model6.1.panelar.residuals.newark     <- summary(model6.1.panelar.newark)$residuals
+                results$model6.1.ar0.residuals.newark     <- summary(model6.1.ar0.newark)$residuals
             }
             if(exists('model6.1.panelar.rochdale')){
                 results$model6.1.panelar.residuals.rochdale   <- summary(model6.1.panelar.rochdale)$residuals
+                results$model6.1.ar0.residuals.rochdale   <- summary(model6.1.ar0.rochdale)$residuals
             }
         }
         ## Remove clutter
@@ -2619,6 +2991,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         high.low <- dplyr::select(df8, town, lsoa, diff.time.to.ed) %>%
                     dplyr::filter(diff.time.to.ed != 0) %>%
                     unique() %>%
+                    ## 2017-01-31 - Is this what I've missed out?
+                    group_by(town) %>%
                     mutate(binary.diff = ifelse(diff.time.to.ed < quantile(diff.time.to.ed, probs = c(0.5)),
                                                 yes = 'Low',
                                                 no  = 'High'),
@@ -2652,7 +3026,8 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
         ## START
 
         df8 <- mutate(df8,
-                           before.after = ifelse(relative.month >= 25, "After", "Before"))
+                      before.after = ifelse(relative.month >= 25, "After", "Before"))
+        results$df8 <- df8
         results$summary.df.high.low <- mutate(df8,
                                               value = ifelse(value == 0, NA, value)) %>%
                                        group_by(town, diff.time.to.ed, before.after) %>%
@@ -3172,7 +3547,7 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                                          .$model == 'Model 7.2'   & .$term == 'diff.time.to.ed' ~ TRUE,
                                                          .$model == 'Model 8'   & .$term == 'diff.time.to.ed:closure' ~ TRUE),
                                          use = ifelse(is.na(use), FALSE, use))
-    dplyr::filter(results$all.model.all.coef, use == TRUE) %>% print()
+    ## dplyr::filter(results$all.model.all.coef, use == TRUE) %>% print()
     results$all.model.closure.coef <- dplyr::filter(results$all.model.all.coef,
                                                     use == TRUE)
     ## results$all.model.closure.coef <- dplyr::filter(results$all.model.all.coef,
@@ -3308,63 +3683,63 @@ closed_models <- function(df.lsoa         = ed_attendances_by_mode_measure,
                                    results$summary.table.tail)
     ## Sort out indicators
     results$summary.table$town[grep('Model', results$summary.table$Before_median.iqr)]             <- NA
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 0']               <- 'Estimated closure coefficient'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 0']     <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 0']     <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 0']      <- 'No Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 0']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 0.5']               <- 'Estimated closure coefficient'
-    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 0.5']     <- 'Individual Case Site'
-    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 0.5']      <- 'No Control'
-    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 0.5']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 1']               <- 'Estimated closure coefficient'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 0.5']   <- 'Estimated closure coefficient'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 0.5']   <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 0.5']    <- 'No Control'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 0.5'] <- 'ED Panel'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 1']     <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 1']     <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 1']      <- 'No Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 1']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 2']               <- 'Estimated closure x town coefficient'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 2']     <- 'Estimated closure x town coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 2']     <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 2']      <- 'Primary Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 2']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.1']               <- 'Estimated closure coefficient'
-    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 3.1']    <- 'Individual Case Site'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.1']   <- 'Estimated closure coefficient'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 3.1']   <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.1']    <- 'All Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 3.1'] <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.2']               <- 'Estimated closure coefficient'
-    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 3.2']    <- 'Individual Case Site'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.2']   <- 'Estimated closure coefficient'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 3.2']   <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 3.2']    <- 'All Controls Pooled'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 3.2'] <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 4']               <- 'Estimated closure coefficient'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 4']     <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 4']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 4']      <- 'Primary Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 4']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 5']               <- 'Estimated closure coefficient'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 5']     <- 'Estimated closure coefficient'
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 5']     <- 'All Case Sites'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 5']      <- 'All Controls'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 5']   <- 'ED Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.1']               <- 'Estimated difference in time to ED coefficient'
-    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'Individual Case Site'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.1']   <- 'Estimated difference in time to ED coefficient'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.1']   <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'None'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.1'] <- 'LSOA Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.2']               <- 'Estimated difference in time to ED coefficient'
-    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.2']    <- 'Individual Case Site'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.2']   <- 'Estimated difference in time to ED coefficient'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.2']   <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.2']    <- 'Primary Control'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.2'] <- 'LSOA Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.1']               <- 'Estimated difference in time to ED coefficient'
-    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7.1']     <- 'All Case Sites'
-    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.1']      <- 'None'
-    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7.1']   <- 'LSOA Panel'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.2']               <- 'Estimated difference in time to ED coefficient'
-    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7.2']     <- 'All Case Sites'
-    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.2']      <- 'All Controls'
-    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7.2']   <- 'LSOA Panel'
-    results$summary.table$town[is.na(results$summary.table$diff_abs)] <- results$summary.table$group[is.na(results$summary.table$diff_abs)]
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.1']   <- 'Estimated difference in time to ED coefficient'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7.1']   <- 'All Case Sites'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.1']    <- 'None'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7.1'] <- 'LSOA Panel'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.2']   <- 'Estimated difference in time to ED coefficient'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 7.2']   <- 'All Case Sites'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 7.2']    <- 'All Controls'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 7.2'] <- 'LSOA Panel'
+    results$summary.table$town[is.na(results$summary.table$diff_abs)]                              <- results$summary.table$group[is.na(results$summary.table$diff_abs)]
     results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 6.1']   <- 'Individual Case Site'
     results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.1']    <- 'None'
     results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 6.1'] <- 'LSOA Panel'
     results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 6.2']   <- 'Estimated difference coefficient for High change in time to ED'
-    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 8']              <- 'Estimated dichotomised difference in time to ED x closure coefficient'
-    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 8']    <- 'Individual Case Site'
-    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 8']    <- 'None'
-    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 8'] <- 'LSOA Panel'
+    results$summary.table$Before_mean.sd[results$summary.table$Before_median.iqr == 'Model 8']     <- 'Estimated dichotomised difference in time to ED x closure coefficient'
+    results$summary.table$Before_min.max[results$summary.table$Before_median.iqr == 'Model 8']     <- 'Individual Case Site'
+    results$summary.table$After_mean.sd[results$summary.table$Before_median.iqr == 'Model 8']      <- 'None'
+    results$summary.table$After_median.iqr[results$summary.table$Before_median.iqr == 'Model 8']   <- 'LSOA Panel'
     ## Site specific tables
     ## Bishop Auckland
     results$summary.table.bishop <- dplyr::filter(results$summary.table,
