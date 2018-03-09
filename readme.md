@@ -27,10 +27,12 @@ There are a number of abbreviations used in the following text.
 | LSOA         | [**L**ower **S**uper **O**utput **A**rea](http://www.datadictionary.nhs.uk/data_dictionary/nhs_business_definitions/l/lower_layer_super_output_area_de.asp?shownav=1) - A small geographical region rouighly standardised on population size. |
 | ONS          | [**O**ffice for **N**ational **S**tatistics](https://www.ons.gov.uk/) - Mortality data providers |
 
-**TODO** Check data sources are correct
-### Files
-The derived datasets (*not* available in this repository) all take the same format, there are two files for each dataset, one for ED site level data (for fitting models 1-5) and one for LSOA level data (for fitting models 6 & 7).  The nomenclature of the files is consistent and contains a date/time stamp indicating when the dataset was derived (see table below).
 
+### Files
+
+The datasets derived  by Tony Stone are *not* available in this repository, nor on the network drive because of the [information governance directives](https://digital.nhs.uk/article/402/Information-Governance) from the [HSCIC](http://content.digital.nhs.uk/).  Instead all data was prepared by Tony Stone on a M$-Windows [Virtual Machine](https://en.wikipedia.org/wiki/Virtual_machine) and transferred over [sFTP](https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol) ([FTP](https://en.wikipedia.org/wiki/File_Transfer_Protocol) over [SSH](https://en.wikipedia.org/wiki/Secure_Shell))to a secondary GNU/Linux Virtual Machine for subsequent analysis. A common data structure and nomenclature has been used by Tony in deriving these files and there are two files for each dataset, one for ED site level data (for fitting models 1-5) and one for LSOA level data (for fitting models 6 & 7).  The nomenclature of the files is consistent and contains a date/time stamp indicating when the dataset was derived.  The table below contains the filenames of the most recent versions (the GNU/Linux virtual machine contains older data files too as a back-up).
+
+**ToDo 2018-03-09** Update the files with the latest versions.
 
 | File                                                               | Data Source   | Level | Description |
 |--------------------------------------------------------------------|---------------|-------|-------------|
@@ -55,10 +57,7 @@ The derived datasets (*not* available in this repository) all take the same form
 | `ambulance red calls measure - lsoa - 2016-07-15 20.11.Rda`        | AS            | LSOA  | 'Red' Ambulance Calls |
 | `ambulance red calls measure - site - 2016-07-15 20.11.Rda`        | AS            | Site  | 'Red' Ambulance Calls |
 
-**TODO** Clarify/reocncile the above against the descriptions in the protocol, question the following...
 
-* Are the indicated sources correct?
-* Are Length of Stay for Critical Care Stays or all admissions?
 
 ### Variables
 
@@ -137,3 +136,11 @@ The following reconciles the description of outcomes given in the study Protocol
 | `ambulance non-conveyance` | `not conveyed green calls` | Green Calls not Conveyed
 | `ambulance red calls` | `hospital transfers`            | Inter-Hospital Transfers
 | `ambulance red calls` | `total`                         | Total Red Calls
+
+## Replication and Extension of Work
+
+**ToDo 2018-03-09** - Write this section on how to...
+
+* Install and use the R package.
+* Getting things work with Stata (might have to remove from VM?)
+* Working with the Virtual Machine (need to contact CiCS to grant access to Emma/Jon's IP address?)
