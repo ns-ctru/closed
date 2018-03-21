@@ -139,8 +139,53 @@ The following reconciles the description of outcomes given in the study Protocol
 
 ## Replication and Extension of Work
 
-**ToDo 2018-03-09** - Write this section on how to...
+Should you wish to extend this work you will at the very least have to use the GNU/Linux Virtual Machine.  This is likely to be unfamiliar to those who have only ever used M$-Windows since it requires the use of a [Command Line Interface (CLI)](Command Line Interface (CLI)).
 
-* Install and use the R package.
-* Getting things work with Stata (might have to remove from VM?)
-* Working with the Virtual Machine (need to contact CiCS to grant access to Emma/Jon's IP address?)
+### Pre-requisites
+
+You will have to install a [SSH](https://en.wikipedia.org/wiki/Secure_Shell) client in order to connect to the Virtual Machine (VM).  If you are using M$-Windows there are two options, [PuTTy](https://putty.org/) or [Cygwin](https://cygwin.com/).  Both include tools for moving files back and forth from computers, although this might be easier to achieve using [WinSCP](https://winscp.net/eng/index.php).
+
+You will need to install these software on your work computer and provide the [IP address](https://en.wikipedia.org/wiki/IP_address) of your computer to CiCS as access to the VM is restricted by IP address.  Once you IP address has been registered and allowed access you will have to configure the software (PuTTY/Cygwin and WinSCP) to connect.  The IP address of the VM is *not* detailed here and is instead provided to potential users via email.  Once you have the VM's IP address and your username (which is your staff login username across CiCS, usually of the format `cm####`) you should be able to connect, the port through which the connection is made is the default for SSH (i.e. `22`).
+
+
+### Running Analyses
+
+Analyses are performed in the statistical progrmaming language [R](https://www.r-project.org/), although some models are run by calling [Stata](https://www.stata.com/) from R and then importing the results back into R for summarisation and presentation.
+
+The work is done under the principles of [Reproducible Resarch](http://reproducibleresearch.net/), which in essence means that all work is written in a series of scripts and the script is re-run each time to re-create the report.  As the work is being done in [R](https://www.r-project.org/) the reports are written in [Rmarkdown](https://rmarkdown.rstudio.com/) which allows text describing the methods and results to be inter-weaved with R code that produces tables and figures.  The whole Rmarkdown script is run and currently [HTML](https://rmarkdown.rstudio.com/html_document_format.html) outputs are produced (although it is simple to produce [PDF](https://rmarkdown.rstudio.com/pdf_document_format.html) or [M$-Word](https://rmarkdown.rstudio.com/word_document_format.html) by modifying the header of the main file).
+
+The Rmarkdown files can be found in the sub-directory `knitr`.  This top-level directory contains a number of files with the extension `.Rmd` and these are the master files for each report of the same filename but with the extension `.html`.  The main file of interest is `knitr/closed.Rmd` but sevewral other documents are also produced within this directory structure.  Of these top-level master files is quite short but calls "child" documents for inclusion as managing very long documents is cumbersome so the work is split across a number of files.  The first tier of child documents that are included is in the `knitr/sections` directory, and files here in-turn call/include files in the `knitr/sections/subsections` directory.  The nomenclature used should be self-explanatory as to what each is doing.
+
+Ideally anyone working on this data will be conversant in [R](https://www.r-project.org/) as that is the language it is run in, ideally they will have experience with using the GNU/Linux [Bash shell](https://en.wikipedia.org/wiki/Bash_%28Unix_shell%29) as that is how they navigate and start programmes after having connected to the VM.  However, a very simple overview of how to, at a bare minimum, re-run the analyses follows...
+
+1. SSH to the GNU/Linux Virtual Machine using PuTTY or Cygwin.
+2. Change directory (`cd`) to the directory `work/scharr/closed/knitr` by typing `cd work/scharr/closed/knitr`
+3. Start R by typing `R`.
+4. Recreated the HTML report by typing `render("closed.Rmd")`.
+
+This will take a while to run (perhaps an hour or so from memory) after which the file `~/work/scharr/closed/knitr/knitr.html` will have been updated.  You can then use WinSCP to copy that file from the VM back to your local computer (whether thats your computers hard-drive of the projects network drive).
+
+
+### Modifying Analyses
+
+This is a *lot* more invovled than simply re-running the analyses and will almost definitely require someone who is familiar with R to undertake.
+
+As well as the [`rclosed`](https://github.com/tony-stone/rclosed) package written by Tony Stone for creating the time-series datasets used in these analyses and R package is created within this project under the [`lib/`](https://github.com/ns-ctru/closed/tree/master/lib) directory.  This consists of a number of [R functions](https://www.statmethods.net/management/userfunctions.html) for repeating the same task over and over on the different subsets.  This approach has been taken as it means that when for example a new model is required the code only needs changing in one place, the function, rather than 54 places if the code were written explicitly for each of the outcome measures/sub-measures.
+
+To extend this work you should, ideally, fork this GitHub repository.  To do this you will need a GitHub account, signing up is free and since you are likely to be an academic then you can get a [free private repository](https://education.github.com/discount_requests/new) (normally private repositories are not available on free accounts, its a feature you have to pay for).  Once you have created your GitHub account and are signed in go to the top of this page and click the `Fork` button.  This makes a copy of the repository to your GitHub account.  You should then install [Git](https://www.git-scm.com/) on your computer and clone the forked copy of the `closed` project using the `Clone or download` link at the top of this page (the green button).  See [here](https://help.github.com/articles/cloning-a-repository/) for more instructions (Step 4 referes to the Git Shell you will have installed under M$-Windows).
+
+You are now ready to start adding to or modifying the code.  It is recommended that you use [RStudio](https://www.rstudio.com/) to perform all work as it has built-in support for Git/GitHub (although you can use [Emacs](https://www.gnu.org/software/emacs/) with [ESS](https://ess.r-project.org/) as it too supports Git version control).  You can modify and change the code as desired.
+
+You will have to upload any changes made to the R package and/or Rmarkdown files to the Virtual Machine and rebuild and install the R package on the Virtual Machine so that modifications are actually present.  This is done using the [devtools](https://www.rstudio.com/products/rpackages/devtools/), but is realitvely simple...
+
+1. Copy your files to the VM using WinSCP in the directory `~/work/scharr/closed/`.
+2. SSH to the VM.
+3. Change directory (`cd`) to the directory `work/scharr/closed/lib` by typing `cd work/scharr/closed/knitr`
+4. Start R by typing `R`.
+5. Rebuild and install the R Closed package by typing...
+
+    document()
+	build()
+	install()
+
+6. You can now use the new/modified functions you have written.
