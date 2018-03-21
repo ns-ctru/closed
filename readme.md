@@ -30,32 +30,32 @@ There are a number of abbreviations used in the following text.
 
 ### Files
 
-The datasets derived  by Tony Stone are *not* available in this repository, nor on the network drive because of the [information governance directives](https://digital.nhs.uk/article/402/Information-Governance) from the [HSCIC](http://content.digital.nhs.uk/).  Instead all data was prepared by Tony Stone on a M$-Windows [Virtual Machine](https://en.wikipedia.org/wiki/Virtual_machine) and transferred over [sFTP](https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol) ([FTP](https://en.wikipedia.org/wiki/File_Transfer_Protocol) over [SSH](https://en.wikipedia.org/wiki/Secure_Shell))to a secondary GNU/Linux Virtual Machine for subsequent analysis. A common data structure and nomenclature has been used by Tony in deriving these files and there are two files for each dataset, one for ED site level data (for fitting models 1-5) and one for LSOA level data (for fitting models 6 & 7).  The nomenclature of the files is consistent and contains a date/time stamp indicating when the dataset was derived.  The table below contains the filenames of the most recent versions (the GNU/Linux virtual machine contains older data files too as a back-up).
+The datasets derived  by Tony Stone are *not* available in this repository, nor on the network drive because of the [information governance directives](https://digital.nhs.uk/article/402/Information-Governance) from the [HSCIC](http://content.digital.nhs.uk/).  Instead all data was prepared by Tony Stone who has written an R package ([`rclosed`](https://github.com/tony-stone/rclosed)) and prepared the data on a M$-Windows [Virtual Machine](https://en.wikipedia.org/wiki/Virtual_machine).  This data was transferred via [sFTP](https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol) ([FTP](https://en.wikipedia.org/wiki/File_Transfer_Protocol) over [SSH](https://en.wikipedia.org/wiki/Secure_Shell))to a secondary Virtual Machine running [CentOS a GNU/Linux distribution](https://www.centos.org/) for subsequent analysis. A common data structure and nomenclature has been used by Tony in deriving these files and there are two files for each dataset, one for ED site level data (for fitting models 1-5) and one for LSOA level data (for fitting models 6 & 7).  The nomenclature of the files is consistent and contains a date/time stamp indicating when the dataset was derived.  The table below contains the filenames of the most recent versions (the GNU/Linux virtual machine contains older data files too as a back-up).
 
 **ToDo 2018-03-09** Update the files with the latest versions.
 
 | File                                                               | Data Source   | Level | Description |
 |--------------------------------------------------------------------|---------------|-------|-------------|
-| `ed attendances by mode measure - lsoa - 2016-05-24 14.25.Rda`     | HSCIC         | LSOA  | Mode of ED Attendance |
-| `ed attendances by mode measure - site - 2016-05-24 14.26.Rda`     | HSCIC         | Site  | Mode of ED Attendance |
-| `unnecessary ed attendances measure - lsoa - 2016-05-24 14.26.Rda` | HSCIC         | LSOA  | Unnecessary ED Attendances |
-| `unnecessary ed attendances measure - site - 2016-05-24 14.26.Rda` | HSCIC         | Site  | Unnecessary ED Attendances |
-| `ed attendances admitted measure - lsoa - 2016-05-24 14.28.Rda`    | HSCIC         | LSOA  | ED Attendances that led to Admission |
-| `ed attendances admitted measure - site - 2016-05-24 14.28.Rda`    | HSCIC         | Site  | ED Attendances that led to Admission |
-| `emergency admissions measure - lsoa - 2016-05-24 14.30.Rda`       | HSCIC         | LSOA  | Emergency Admissions (incl. non ED Attendances) |
-| `emergency admissions measure - site - 2016-05-24 14.31.Rda`       | HSCIC         | Site  | Emergency Admissions (incl. non ED Attendances) |
-| `critical care stays measure - lsoa - 2016-06-10 18.17.Rda`        | HSCIC         | LSOA  | Critical Care Stays |
-| `critical care stays measure - site - 2016-06-10 18.18.Rda`        | HSCIC         | Site  | Critical Care Stays |
-| `length of stay measure - lsoa - 2016-05-24 14.34.Rda`             | HSCIC         | LSOA  | Length of stay for admissions |
-| `length of stay measure - site - 2016-05-24 14.35.Rda`             | HSCIC         | Site  | Length of stay for admissions |
-| `ambulance mean times measure - lsoa - 2016-06-17 01.21.Rda`       | AS            | LSOA  | Ambulance conveyance times |
-| `ambulance mean times measure - site - 2016-06-17 01.23.Rda`       | AS            | Site  | Ambulance conveyance times |
-| `case fatality measure - lsoa - 2016-07-15 21.05.Rda`              | ONS Mortality | LSOA  | Mortality rates |
-| `case fatality measure - site - 2016-07-15 21.06.Rda`              | ONS Mortality | Site  | Mortality rates |
-| `ambulance non-conveyance measure - lsoa - 2016-07-15 20.09.Rda`   | AS            | LSOA  | Non-conveyances |
-| `ambulance non-conveyance measure - site - 2016-07-15 20.09.Rda`   | AS            | Site  | Non-conveyances |
-| `ambulance red calls measure - lsoa - 2016-07-15 20.11.Rda`        | AS            | LSOA  | 'Red' Ambulance Calls |
-| `ambulance red calls measure - site - 2016-07-15 20.11.Rda`        | AS            | Site  | 'Red' Ambulance Calls |
+| `ed attendances by mode measure - lsoa - 2016-11-21 19.54.Rda`     | HSCIC         | LSOA  | Mode of ED Attendance |
+| `ed attendances by mode measure - site - 2016-11-21 19.54.Rda`     | HSCIC         | Site  | Mode of ED Attendance |
+| `unnecessary ed attendances measure - lsoa - 2016-11-21 19.55.Rda` | HSCIC         | LSOA  | Unnecessary ED Attendances |
+| `unnecessary ed attendances measure - site - 2016-11-21 19.55.Rda` | HSCIC         | Site  | Unnecessary ED Attendances |
+| `ed attendances admitted measure - lsoa - 2016-11-21 19.58.Rda`    | HSCIC         | LSOA  | ED Attendances that led to Admission |
+| `ed attendances admitted measure - site - 2016-11-21 19.58.Rda`    | HSCIC         | Site  | ED Attendances that led to Admission |
+| `emergency admissions measure - lsoa - 2016-11-21 20.01.Rda`       | HSCIC         | LSOA  | Emergency Admissions (incl. non ED Attendances) |
+| `emergency admissions measure - site - 2016-11-21 20.02.Rda`       | HSCIC         | Site  | Emergency Admissions (incl. non ED Attendances) |
+| `critical care stays measure - lsoa - 2016-11-21 20.02.Rda`        | HSCIC         | LSOA  | Critical Care Stays |
+| `critical care stays measure - site - 2016-11-21 20.03.Rda`        | HSCIC         | Site  | Critical Care Stays |
+| `length of stay measure - lsoa - 2016-11-21 20.06.Rda`             | HSCIC         | LSOA  | Length of stay for admissions |
+| `length of stay measure - site - 2016-11-21 20.07.Rda`             | HSCIC         | Site  | Length of stay for admissions |
+| `ambulance mean times measure - lsoa - 2016-11-21-20.30.Rda`       | AS            | LSOA  | Ambulance conveyance times |
+| `ambulance mean times measure - site - 2016-11-21-20.31.Rda`       | AS            | Site  | Ambulance conveyance times |
+| `case fatality measure - lsoa - 2016-11-24 18.46.Rda`              | ONS Mortality | LSOA  | Mortality rates |
+| `case fatality measure - site - 2016-11-24 18.46.Rda`              | ONS Mortality | Site  | Mortality rates |
+| `ambulance non-conveyance measure - lsoa - 2016-09-02 15.25.Rda`   | AS            | LSOA  | Non-conveyances |
+| `ambulance non-conveyance measure - site - 2016-09-02 15.25.Rda`   | AS            | Site  | Non-conveyances |
+| `ambulance red calls measure - lsoa - 2016-11-21 20.31.Rda`        | AS            | LSOA  | 'Red' Ambulance Calls |
+| `ambulance red calls measure - site - 2016-11-21 20.31.Rda`        | AS            | Site  | 'Red' Ambulance Calls |
 
 
 
