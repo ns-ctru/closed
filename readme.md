@@ -189,3 +189,8 @@ You will have to upload any changes made to the R package and/or Rmarkdown files
 	install()
 
 6. You can now use the new/modified functions you have written.
+
+
+#### populate.sh
+
+A lot of the output is repetitive, its the same graphs/tables/summaries for different outcomes.  To simplify the process of writing and maintaining the required code for the 54 different outcomes a scripted approach has been taken whereby a master template document has been written that contains the structure of the code.  This master document is then parsed using the [sed](https://en.wikipedia.org/wiki/Sed) command which replaces place holders for variable names with the acutal variable names in the datasets.  Thus if some new output is required you only have to modify the templates and re-run the `populate.sh` file and all child documents (under `sections/subsections/`) are updated to include the output and re-running `render("closed.Rmd")` on the VM produces an updated report (under `work/scharr/closed/knitr/closed.html` which you will need to copy back to your local computer).  The template file can be found under `knitr/sections/subsections/template.Rmd` whilst the script to generate the measure/sub-measure specific files resides at `knitr/sections/subsections/populate.sh`.  Code is included in the master `closed.Rmd` which runs `knitr/sections/subsections/populate.sh` so "all" you need to do is modify `knitr/sections/subsections/template.Rmd` to include new output or if there is a new outcome add a new section to `knitr/sections/subsections/populate.sh`.
