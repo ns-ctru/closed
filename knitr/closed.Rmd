@@ -17,7 +17,13 @@ opts_chunk$set(cache.path = 'cache/',
                fig.width  = 8)
 ## Set a seed
 set.seed(69027181)
+
+## Populate child sections
+cmd <- c('cd sections/subsections && ./populate.sh && cd ../../')
+system(cmd)
+
 ```
+
 # {.tabset}
 
 ## Methods
