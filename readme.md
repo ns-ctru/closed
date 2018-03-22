@@ -56,6 +56,8 @@ The datasets derived  by Tony Stone are *not* available in this repository, nor 
 | `ambulance non-conveyance measure - site - 2016-09-02 15.25.Rda`   | AS            | Site  | Non-conveyances |
 | `ambulance red calls measure - lsoa - 2016-11-21 20.31.Rda`        | AS            | LSOA  | 'Red' Ambulance Calls |
 | `ambulance red calls measure - site - 2016-11-21 20.31.Rda`        | AS            | Site  | 'Red' Ambulance Calls |
+| `hospital transfers measure - lsoa - 2016-11-21 20.04.Rda`         | AS            | LSOA  | Hospital Transfers |
+| `hospital transfers measure - site - 2016-11-21 20.04.Rda`         | AS            | Site  | Hospital Transfers |
 
 
 
@@ -143,7 +145,7 @@ The following reconciles the description of outcomes given in the study Protocol
 Post meeting with [Jon Nicholl](mailto:j.nicholl@sheffield.ac.uk) and [Emma Knowles](mailto:e.l.knowles@sheffield.ac.uk) the following actions...
 
 - [x] Pass on my email address for future contact.
-- [ ] Check LSOA files have all sites included.
+- [x] Check LSOA files have all sites included.
 - [ ] Convert Site level files and LSOA High/Low level files into Stata and move from VM to Network Drives.
 - [ ] Highlight the location of existing Stata do-files.
 - [ ] Extract and simplify the code for generating the time-series plots (as these are done in R it will require the Site level files in R format to be placed on the network drives too).
