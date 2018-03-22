@@ -21,8 +21,8 @@ closed_stata <- function(file         = 'ed attendances by mode measure - site -
                          pooled       = "count",
                          version      = 14){
     ## Combine the path of the source file with the filename and load it
-    to_read <- paste0(path_source, file)
-    load(to_read)
+    ## to_read <- paste0(path_source, file)
+    ## load(to_read)
     ## "Tidy" the data frame, this adds the dummy variables (copy and pasted
     ## from closed_tidy() function as I could not get calling it to work.
     ## df <- closed_tidy(df = df)
