@@ -10,139 +10,166 @@ output:
 
 The Site and LSOA files have all been written to Stata formatted files.  For details of the available data sets and the variables (i.e. a data dictionary) within each file please refer to the tables listed at [GitHub Project](https://github.com/ns-ctru/closed/)
 ```{r setup, include=FALSE}
+## Load all the files, can't work out why but loading and then using the df
+## within the function wasn't working so load everything first.word
+load('~/work/scharr/closed/lib/data/ed attendances by mode measure - lsoa - 2016-11-21 19.54.Rda')
+load('~/work/scharr/closed/lib/data/ed attendances by mode measure - site - 2016-11-21 19.54.Rda')
+load('~/work/scharr/closed/lib/data/unnecessary ed attendances measure - lsoa - 2016-11-21 19.55.Rda')
+load('~/work/scharr/closed/lib/data/unnecessary ed attendances measure - site - 2016-11-21 19.55.Rda')
+load('~/work/scharr/closed/lib/data/ed attendances admitted measure - lsoa - 2016-11-21 19.58.Rda')
+load('~/work/scharr/closed/lib/data/ed attendances admitted measure - site - 2016-11-21 19.58.Rda')
+load('~/work/scharr/closed/lib/data/emergency admissions measure - lsoa - 2016-11-21 20.01.Rda')
+load('~/work/scharr/closed/lib/data/emergency admissions measure - site - 2016-11-21 20.02.Rda')
+load('~/work/scharr/closed/lib/data/critical care stays measure - lsoa - 2016-11-21 20.02.Rda')
+load('~/work/scharr/closed/lib/data/critical care stays measure - site - 2016-11-21 20.03.Rda')
+load('~/work/scharr/closed/lib/data/length of stay measure - lsoa - 2016-11-21 20.06.Rda')
+load('~/work/scharr/closed/lib/data/length of stay measure - site - 2016-11-21 20.07.Rda')
+load('~/work/scharr/closed/lib/data/ambulance mean times measure - lsoa - 2016-11-21 20.30.Rda')
+load('~/work/scharr/closed/lib/data/ambulance mean times measure - site - 2016-11-21 20.31.Rda')
+load('~/work/scharr/closed/lib/data/ambulance non-conveyance measure - lsoa - 2016-09-02 15.25.Rda')
+load('~/work/scharr/closed/lib/data/ambulance non-conveyance measure - site - 2016-09-02 15.25.Rda')
+load('~/work/scharr/closed/lib/data/ambulance red calls measure - lsoa - 2016-09-02 15.23.Rda')
+load('~/work/scharr/closed/lib/data/ambulance red calls measure - site - 2016-09-02 15.24.Rda')
+load('~/work/scharr/closed/lib/data/case fatality measure - lsoa - 2016-07-15 21.05.Rda')
+load('~/work/scharr/closed/lib/data/case fatality measure - site - 2016-07-15 21.06.Rda')
+load('~/work/scharr/closed/lib/data/hospital transfers measure - lsoa - 2016-11-21 20.04.Rda')
+load('~/work/scharr/closed/lib/data/hospital transfers measure - site - 2016-11-21 20.04.Rda')
+
 ## Use the closed_stata() function to write files
-closed_stata(file =        "ed attendances by mode measure - lsoa - 2016-11-21 19.54.Rda",
-             df          = "ed_attendances_by_mode_measure",
+closed_stata(file        = "ed attendances by mode measure - lsoa - 2016-11-21 19.54.Rda",
+             df          = ed_attendances_by_mode_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "count",
              version     = 14)
-closed_stata(file =        "ed attendances by mode measure - site - 2016-11-21 19.54.Rda",
-             df          = "ed_attendances_by_mode_site_measure",
+closed_stata(file        = "ed attendances by mode measure - site - 2016-11-21 19.54.Rda",
+             df          = ed_attendances_by_mode_site_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "count",
              version     = 14)
-closed_stata(file =        "unnecessary ed attendances measure - lsoa - 2016-11-21 19.55.Rda",
-             df          = "unnecessary_ed_attendances_measure",
+closed_stata(file        = "unnecessary ed attendances measure - lsoa - 2016-11-21 19.55.Rda",
+             df          = unnecessary_ed_attendances_measure,
+             df          = unnecessary_ed_attendances_measure
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "count",
              version     = 14)
-closed_stata(file =        "unnecessary ed attendances measure - site - 2016-11-21 19.55.Rda",
-             df          = "unnecessary_ed_attendances_site_measure",
+closed_stata(file        = "unnecessary ed attendances measure - site - 2016-11-21 19.55.Rda",
+             df          = unnecessary_ed_attendances_site_measure,
+             df          = unnecessary_ed_attendances_site_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "count",
              version     = 14)
-closed_stata(file =        "ed attendances admitted measure - lsoa - 2016-11-21 19.58.Rda",
-             df          = "ed_attendances_admitted_measure",
+closed_stata(file        = "ed attendances admitted measure - lsoa - 2016-11-21 19.58.Rda",
+             df          = ed_attendances_admitted_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "count",
              version     = 14)
-closed_stata(file =        "ed attendances admitted measure - site - 2016-11-21 19.58.Rda",
-             df          = "ed_attendances_admitted_site_measure",
+closed_stata(file        = "ed attendances admitted measure - site - 2016-11-21 19.58.Rda",
+             df          = ed_attendances_admitted_site_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "count",
              version     = 14)
-closed_stata(file =        "emergency admissions measure - lsoa - 2016-11-21 20.01.Rda",
-             df          = "emergency_admissions_measure",
+closed_stata(file        = "emergency admissions measure - lsoa - 2016-11-21 20.01.Rda",
+             df          = emergency_admissions_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "count",
              version     = 14)
-closed_stata(file =        "emergency admissions measure - site - 2016-11-21 20.02.Rda",
-             df          = "emergency_admissions_site_measure",
+closed_stata(file        = "emergency admissions measure - site - 2016-11-21 20.02.Rda",
+             df          = emergency_admissions_site_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "count",
              version     = 14)
 ## NB - Note the difference in df name from filename for critical stays (stays v cips)
-closed_stata(file =        "critical care stays measure - lsoa - 2016-11-21 20.02.Rda",
-             df          = "critical_care_cips_measure",
+closed_stata(file        = "critical care stays measure - lsoa - 2016-11-21 20.02.Rda",
+             df          = critical_care_cips_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "count",
              version     = 14)
-closed_stata(file =        "critical care stays measure - site - 2016-11-21 20.03.Rda",
-             df          = "critical_care_cips_site_measure",
+closed_stata(file        = "critical care stays measure - site - 2016-11-21 20.03.Rda",
+             df          = critical_care_cips_site_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "count",
              version     = 14)
-closed_stata(file =        "length of stay measure - lsoa - 2016-11-21 20.06.Rda",
-             df          = "length_of_stay_measure",
+closed_stata(file        = "length of stay measure - lsoa - 2016-11-21 20.06.Rda",
+             df          = length_of_stay_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "proportion",
              version     = 14)
-closed_stata(file =        "length of stay measure - site - 2016-11-21 20.07.Rda",
-             df          = "length_of_stay_site_measure",
+closed_stata(file        = "length of stay measure - site - 2016-11-21 20.07.Rda",
+             df          = length_of_stay_site_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "proportion",
              version     = 14)
 ## NB - Note the difference in df name from filename for ambulance mean times (ambulance v amb)
-closed_stata(file =        "ambulance mean times measure - lsoa - 2016-11-21-20.30.Rda",
-             df          = "amb_mean_times_measure",
+closed_stata(file        = "ambulance mean times measure - lsoa - 2016-11-21-20.30.Rda",
+             df          = amb_mean_times_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "proportion",
              version     = 14)
-closed_stata(file =        "ambulance mean times measure - site - 2016-11-21-20.31.Rda",
-             df          = "amb_mean_times_site_measure",
+closed_stata(file        = "ambulance mean times measure - site - 2016-11-21-20.31.Rda",
+             df          = amb_mean_times_site_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "proportion",
              version     = 14)
-closed_stata(file =        "case fatality measure - lsoa - 2016-11-24 18.46.Rda",
-             df          = "case_fatality_measure",
+closed_stata(file        = "case fatality measure - lsoa - 2016-11-24 18.46.Rda",
+             df          = case_fatality_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "proportion",
              version     = 14)
-closed_stata(file =        "case fatality measure - site - 2016-11-24 18.46.Rda",
-             df          = "case_fatality_site_measure",
+closed_stata(file        = "case fatality measure - site - 2016-11-24 18.46.Rda",
+             df          = case_fatality_site_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "proportion",
              version     = 14)
 ## NB - Note the difference in df name from filename for ambulance mean times (ambulance non- v amb_non_)
-closed_stata(file =        "ambulance non-conveyance measure - lsoa - 2016-09-02 15.25.Rda`  ",
-             df          = "amb_non_conveyance_measure",
+closed_stata(file        = "ambulance non-conveyance measure - lsoa - 2016-09-02 15.25.Rda`  ",
+             df          = amb_non_conveyance_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "count",
              version     = 14)
-closed_stata(file =        "ambulance non-conveyance measure - site - 2016-09-02 15.25.Rda",
-             df          = "amb_non_conveyance_site_measure",
+closed_stata(file        = "ambulance non-conveyance measure - site - 2016-09-02 15.25.Rda",
+             df          = amb_non_conveyance_site_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "count",
              version     = 14)
 ## NB - Note the difference in df name from filename for ambulance mean times (ambulance non- v amb_non_)
-closed_stata(file =        "ambulance red calls measure - lsoa - 2016-11-21 20.31.Rda",
-             df          = "amb_red_calls_measure",
+closed_stata(file        = "ambulance red calls measure - lsoa - 2016-11-21 20.31.Rda",
+             df          = amb_red_calls_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "count",
              version     = 14)
-closed_stata(file =        "ambulance red calls measure - site - 2016-11-21 20.31.Rda",
-             df          = "amb_red_calls_site_measure",
+closed_stata(file        = "ambulance red calls measure - site - 2016-11-21 20.31.Rda",
+             df          = amb_red_calls_site_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "count",
              version     = 14)
-closed_stata(file =        "hospital transfers measure - lsoa - 2016-11-21 20.04.Rda`        ",
-             df          = "hospital_transfers_measure",
+closed_stata(file        = "hospital transfers measure - lsoa - 2016-11-21 20.04.Rda`        ",
+             df          = hospital_transfers_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "proportion",
              version     = 14)
-closed_stata(file =        "hospital transfers measure - site - 2016-11-21 20.04.Rda",
-             df          = "hospital_transfers_site_measure",
+closed_stata(file        = "hospital transfers measure - site - 2016-11-21 20.04.Rda",
+             df          = hospital_transfers_site_measure,
              path_source = "~/work/scharr/closed/lib/data/",
              path_stata  = "~/work/scharr/closed/stata/data/",
              pooled      = "proportion",
