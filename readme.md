@@ -199,7 +199,7 @@ A lot of the output is repetitive, its the same graphs/tables/summaries for diff
 
 Post meeting with [Jon Nicholl](mailto:j.nicholl@sheffield.ac.uk) and [Emma Knowles](mailto:e.knowles@sheffield.ac.uk) the following actions...
 
-- [ ] Pass on my email address for future contact.
+- [x] Pass on my email address for future contact.
 - [ ] Check LSOA files have all sites included.
 - [ ] Convert Site level files and LSOA High/Low level files into Stata and move from VM to Network Drives.
 - [ ] Highlight the location of existing Stata do-files.
