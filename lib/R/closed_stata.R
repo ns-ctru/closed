@@ -23,48 +23,50 @@ closed_stata <- function(file         = 'ed attendances by mode measure - site -
     ## Combine the path of the source file with the filename and load it
     to_read <- paste0(path_source, file)
     load(to_read)
+    ## "Tidy" the data frame, this adds the dummy variables
+    df <- closed_tidy(df = df)
     ## If thi is LSOA data then aggregate into high/low (code grabbed from
     ## closed_stata_negbin.R / closed_ts_plot_lsoa_binary.R)
     if(grepl("lsoa", file)){
         ## Derive High/Low difference in time to ED by town...
-        binary <- dplyr::select(df, town, lsoa, diff_time_to_ed) %>%
-                  dplyr::filter(diff_time_to_ed != 0) %>%
+        binary <- dplyr::select(df, town, lsoa, diff.time.to.ed) %>%
+                  dplyr::filter(diff.time.to.ed != 0) %>%
                   unique() %>%
                   group_by(town) %>%
-                  mutate(median      = quantile(diff_time_to_ed, probs = c(0.5)),
-                         binary_diff = ifelse(diff_time_to_ed < median, 'Low', 'High')) %>%
-                  dplyr::select(lsoa, town, binary_diff)
+                  mutate(median      = quantile(diff.time.to.ed, probs = c(0.5)),
+                         binary.diff = ifelse(diff.time.to.ed < median, 'Low', 'High')) %>%
+                  dplyr::select(lsoa, town, binary.diff)
         ## Merge and summarise based on type of data
         if(pooled == "proportion"){
-            df <- merge(dplyr::select(df, -diff_time_to_ed),
+            df <- merge(dplyr::select(df, -diff.time.to.ed),
                         binary,
                         by = c('town', 'lsoa')) %>%
-                  group_by(town, relative_month, measure, sub_measure, binary_diff) %>%
+                  group_by(town, relative.month, measure, sub.measure, binary.diff) %>%
                   summarise(value            = mean(value, na.rm = TRUE),
                             closure          = mean(closure),
                             nhs111           = mean(nhs111),
-                            ambulance.divert = mean(ambulance_divert),
-                            other.centre     = mean(other_centre),
+                            ambulance.divert = mean(ambulance.divert),
+                            other.centre     = mean(other.centre),
                             season           = mean(as.numeric(season))) %>%
                   ungroup() %>%
                   mutate(season = as.factor(season),
-                         relative_month = as.integer(relative_month))
+                         relative.month = as.integer(relative.month))
 
         }
         else if(pooled == "countr"){
-            df <- merge(dplyr::select(df, -diff_time_to_ed),
+            df <- merge(dplyr::select(df, -diff.time.to.ed),
                         binary,
                         by = c('town', 'lsoa')) %>%
-                  group_by(town, relative_month, measure, sub_measure, binary_diff) %>%
+                  group_by(town, relative.month, measure, sub.measure, binary.diff) %>%
                   summarise(value            = sum(value, na.rm = TRUE),
                             closure          = mean(closure),
                             nhs111           = mean(nhs111),
-                            ambulance_divert = mean(ambulance_divert),
-                            other_centre     = mean(other_centre),
+                            ambulance.divert = mean(ambulance.divert),
+                            other.centre     = mean(other.centre),
                             season           = mean(as.numeric(season))) %>%
                   ungroup() %>%
                   mutate(season = as.factor(season),
-                         relative_month = as.integer(relative_month))
+                         relative.month = as.integer(relative.month))
         }
     }
     ## Substitute the file extension from Rda to dta and combine with the output path
