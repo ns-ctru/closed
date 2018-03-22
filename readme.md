@@ -137,15 +137,28 @@ The following reconciles the description of outcomes given in the study Protocol
 | `ambulance red calls` | `hospital transfers`            | Inter-Hospital Transfers
 | `ambulance red calls` | `total`                         | Total Red Calls
 
+
+## Handover ToDo 2018-03-22
+
+Post meeting with [Jon Nicholl](mailto:j.nicholl@sheffield.ac.uk) and [Emma Knowles](mailto:e.l.knowles@sheffield.ac.uk) the following actions...
+
+- [x] Pass on my email address for future contact.
+- [ ] Check LSOA files have all sites included.
+- [ ] Convert Site level files and LSOA High/Low level files into Stata and move from VM to Network Drives.
+- [ ] Highlight the location of existing Stata do-files.
+- [ ] Extract and simplify the code for generating the time-series plots (as these are done in R it will require the Site level files in R format to be placed on the network drives too).
+
+
+
 ## Replication and Extension of Work
 
-Should you wish to extend this work you will at the very least have to use the GNU/Linux Virtual Machine.  This is likely to be unfamiliar to those who have only ever used M$-Windows since it requires the use of a [Command Line Interface (CLI)](Command Line Interface (CLI)).
+Should you wish to extend this work you may have to use the GNU/Linux Virtual Machine.  This is likely to be unfamiliar to those who have only ever used M$-Windows since it requires the use of a [Command Line Interface (CLI)](Command Line Interface (CLI)).
 
 ### Pre-requisites
 
-You will have to install a [SSH](https://en.wikipedia.org/wiki/Secure_Shell) client in order to connect to the Virtual Machine (VM).  If you are using M$-Windows there are two options, [PuTTy](https://putty.org/) or [Cygwin](https://cygwin.com/).  Both include tools for moving files back and forth from computers, although this might be easier to achieve using [WinSCP](https://winscp.net/eng/index.php).
+To access the Virtual Machine (VM) you will have to install a [SSH](https://en.wikipedia.org/wiki/Secure_Shell) client.  If you are using M$-Windows there are two options, [PuTTy](https://putty.org/) or [Cygwin](https://cygwin.com/).  Both include tools for moving files back and forth from computers, although this might be easier to achieve using [WinSCP](https://winscp.net/eng/index.php).
 
-After installing these software you will need to request a [static IP address from CiCS](http://csrs.shef.ac.uk/iprequestform.php) and provide it to the system adminstrator to allow access (as access to the VM is restricted to permitted [IP address](https://en.wikipedia.org/wiki/IP_address)) .  Once you IP address has been registered and allowed access you will have to configure the software (PuTTY/Cygwin and WinSCP) to connect.  The IP address of the VM is *not* detailed here and is instead provided to potential users via email.  Once you have the VM's IP address and your username (which is a variant on your staff login username across CiCS, usually of the format `sa_cm####`) you should be able to connect, the port through which the connection is made is the default for SSH (i.e. `22`).
+After installing these software you will need to request a [static IP address from CiCS](http://csrs.shef.ac.uk/iprequestform.php) and provide it to the system adminstrator to allow access (as access to the VM is restricted to permitted [IP address](https://en.wikipedia.org/wiki/IP_address)).  Once you IP address has been registered and allowed access you will have to configure the software (PuTTY/Cygwin and WinSCP) to connect.  The IP address of the VM is *not* detailed here and is instead provided to potential users via email.  Once you have the VM's IP address and your username (which is a variant on your staff login username across CiCS, usually of the format `sa_cm####`) you should be able to connect, the port through which the connection is made is the default for SSH (i.e. `22`).
 
 
 ### Running Analyses
@@ -194,13 +207,3 @@ You will have to upload any changes made to the R package and/or Rmarkdown files
 #### populate.sh
 
 A lot of the output is repetitive, its the same graphs/tables/summaries for different outcomes.  To simplify the process of writing and maintaining the required code for the 54 different outcomes a scripted approach has been taken whereby a master template document (`knitr/sections/subsections/template.Rmd`) has been written that contains the structure of the code.  This master document is then parsed using a Bash shell script (`knitr/sections/subsections/populate.sh`) that contains  [sed](https://en.wikipedia.org/wiki/Sed) command which replaces place holders for variable names with the acutal variable names in the datasets.  Thus if some new output is required you only have to modify the templates and re-run the `populate.sh` file and all child documents (under `sections/subsections/`) are updated to include the output and re-running `render("closed.Rmd")` on the VM produces an updated report (under `work/scharr/closed/knitr/closed.html` which you will need to copy back to your local computer).  Code is included in the master `closed.Rmd` which runs `knitr/sections/subsections/populate.sh` so "all" you need to do is modify `knitr/sections/subsections/template.Rmd` to include new output or if there is a new outcome add a new section to `knitr/sections/subsections/populate.sh` using the structure that is there and the appropriate measure/sub-measure names.
-
-## Handover ToDo 2018-03-22
-
-Post meeting with [Jon Nicholl](mailto:j.nicholl@sheffield.ac.uk) and [Emma Knowles](mailto:e.l.knowles@sheffield.ac.uk) the following actions...
-
-- [x] Pass on my email address for future contact.
-- [ ] Check LSOA files have all sites included.
-- [ ] Convert Site level files and LSOA High/Low level files into Stata and move from VM to Network Drives.
-- [ ] Highlight the location of existing Stata do-files.
-- [ ] Extract and simplify the code for generating the time-series plots (as these are done in R it will require the Site level files in R format to be placed on the network drives too).
