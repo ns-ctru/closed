@@ -194,3 +194,13 @@ You will have to upload any changes made to the R package and/or Rmarkdown files
 #### populate.sh
 
 A lot of the output is repetitive, its the same graphs/tables/summaries for different outcomes.  To simplify the process of writing and maintaining the required code for the 54 different outcomes a scripted approach has been taken whereby a master template document (`knitr/sections/subsections/template.Rmd`) has been written that contains the structure of the code.  This master document is then parsed using a Bash shell script (`knitr/sections/subsections/populate.sh`) that contains  [sed](https://en.wikipedia.org/wiki/Sed) command which replaces place holders for variable names with the acutal variable names in the datasets.  Thus if some new output is required you only have to modify the templates and re-run the `populate.sh` file and all child documents (under `sections/subsections/`) are updated to include the output and re-running `render("closed.Rmd")` on the VM produces an updated report (under `work/scharr/closed/knitr/closed.html` which you will need to copy back to your local computer).  Code is included in the master `closed.Rmd` which runs `knitr/sections/subsections/populate.sh` so "all" you need to do is modify `knitr/sections/subsections/template.Rmd` to include new output or if there is a new outcome add a new section to `knitr/sections/subsections/populate.sh` using the structure that is there and the appropriate measure/sub-measure names.
+
+## Handover ToDo 2018-03-22
+
+Post meeting with [Jon Nicholl](mailto:j.nicholl@sheffield.ac.uk) and [Emma Knowles](mailto:e.knowles@sheffield.ac.uk) the following actions...
+
+- [ ] Pass on my email address for future contact.
+- [ ] Check LSOA files have all sites included.
+- [ ] Convert Site level files and LSOA High/Low level files into Stata and move from VM to Network Drives.
+- [ ] Highlight the location of existing Stata do-files.
+- [ ] Extract and simplify the code for generating the time-series plots (as these are done in R it will require the Site level files in R format to be placed on the network drives too).
