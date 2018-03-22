@@ -197,7 +197,7 @@ A lot of the output is repetitive, its the same graphs/tables/summaries for diff
 
 ## Handover ToDo 2018-03-22
 
-Post meeting with [Jon Nicholl](mailto:j.nicholl@sheffield.ac.uk) and [Emma Knowles](mailto:e.knowles@sheffield.ac.uk) the following actions...
+Post meeting with [Jon Nicholl](mailto:j.nicholl@sheffield.ac.uk) and [Emma Knowles](mailto:e.l.knowles@sheffield.ac.uk) the following actions...
 
 - [x] Pass on my email address for future contact.
 - [ ] Check LSOA files have all sites included.
