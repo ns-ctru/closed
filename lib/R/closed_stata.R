@@ -70,6 +70,8 @@ closed_stata <- function(file         = 'ed attendances by mode measure - site -
         }
     }
     ## Substitute the file extension from Rda to dta and combine with the output path
+    ## and convert '.' in variable names back to '_' for Stata
+    names(df) <- gsub(".", "_", names(df))
     to_write <- paste0(path_stata, gsub("Rda", "dta", file))
     ## Write to Stata
     write_dta(data    = df,
