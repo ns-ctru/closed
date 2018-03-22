@@ -73,4 +73,6 @@ closed_stata <- function(file         = 'ed attendances by mode measure - site -
     write_dta(data    = df,
               path    = to_write,
               version = version)
+    ## Remove the data frame to leave a clean workspace
+    rm(df)
 }
