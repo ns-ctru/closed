@@ -32,7 +32,7 @@ There are a number of abbreviations used in the following text.
 
 The datasets derived  by Tony Stone are *not* available in this repository, nor on the network drive because of the [information governance directives](https://digital.nhs.uk/article/402/Information-Governance) from the [HSCIC](http://content.digital.nhs.uk/).  Instead all data was prepared by Tony Stone who has written an R package ([`rclosed`](https://github.com/tony-stone/rclosed)) and prepared the data on a M$-Windows [Virtual Machine](https://en.wikipedia.org/wiki/Virtual_machine).  This data was transferred via [sFTP](https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol) ([FTP](https://en.wikipedia.org/wiki/File_Transfer_Protocol) over [SSH](https://en.wikipedia.org/wiki/Secure_Shell))to a secondary Virtual Machine running [CentOS a GNU/Linux distribution](https://www.centos.org/) for subsequent analysis. A common data structure and nomenclature has been used by Tony in deriving these files and there are two files for each dataset, one for ED site level data (for fitting models 1-5) and one for LSOA level data (for fitting models 6 & 7).  The nomenclature of the files is consistent and contains a date/time stamp indicating when the dataset was derived.  The table below contains the filenames of the most recent versions (the GNU/Linux virtual machine contains older data files too as a back-up).
 
-**ToDo 2018-03-09** Update the files with the latest versions.
+[Stata](https://www.stata.com/) versions of these files have been created and made available on the network drive under `../PR_CLOSED/General/stats/stata/data/*.dta` (where `*` deontes the filename decribed below, albeit with `.Rda` replaced with the Stata file extension `.dta`).  These files were exported to Stata v14 and that is therefore the minimum version of Stata required to open them.
 
 | File                                                               | Data Source   | Level | Description |
 |--------------------------------------------------------------------|---------------|-------|-------------|
@@ -50,8 +50,8 @@ The datasets derived  by Tony Stone are *not* available in this repository, nor 
 | `length of stay measure - site - 2016-11-21 20.07.Rda`             | HSCIC         | Site  | Length of stay for admissions |
 | `ambulance mean times measure - lsoa - 2016-11-21-20.30.Rda`       | AS            | LSOA  | Ambulance conveyance times |
 | `ambulance mean times measure - site - 2016-11-21-20.31.Rda`       | AS            | Site  | Ambulance conveyance times |
-| `case fatality measure - lsoa - 2016-11-24 18.46.Rda`              | ONS Mortality | LSOA  | Mortality rates |
-| `case fatality measure - site - 2016-11-24 18.46.Rda`              | ONS Mortality | Site  | Mortality rates |
+| `case fatality measure - lsoa - 2016-07-15 21.05.Rda`              | ONS Mortality | LSOA  | Mortality rates |
+| `case fatality measure - site - 2016-07-15 21.06.Rda`              | ONS Mortality | Site  | Mortality rates |
 | `ambulance non-conveyance measure - lsoa - 2016-09-02 15.25.Rda`   | AS            | LSOA  | Non-conveyances |
 | `ambulance non-conveyance measure - site - 2016-09-02 15.25.Rda`   | AS            | Site  | Non-conveyances |
 | `ambulance red calls measure - lsoa - 2016-11-21 20.31.Rda`        | AS            | LSOA  | 'Red' Ambulance Calls |
@@ -63,7 +63,7 @@ The datasets derived  by Tony Stone are *not* available in this repository, nor 
 
 ### Variables
 
-Each of the above files contains the following fields.
+Each of the above files contains the following fields.  The dummy steps are based on those identified by [Emma Knowles](mailto:e.l.knowles@sheffield.ac.uk) and are documented in [this spreadsheet](https://docs.google.com/spreadsheets/d/1PdltnlwgEHNCHH_2xA4hGiiWkNkLZdxE7Ds4pmISe-Y/edit#gid=0).  The fields `lsoa` and `binary_diff` only occur in the LSOA datasets, and the later is only explicitly recorded in the Stata version of these files.
 
 | Field           | Description       | Values              |
 |-----------------|-------------------|---------------------|
@@ -75,7 +75,13 @@ Each of the above files contains the following fields.
 | `measure`       | The broad indicator measure being considered | See next table for details.
 | `sub_measure`   | The specific sub-indicator being considered  | See next table for details.
 | `value`         | The observed value for the indicator. | Generally an integer, but in some instances a fraction (i.e. in the range `0 - 1`) |
-| `lsoa`          | Lower Super Output Area (only present in LSOA data sets) | **N/A** Too many to list.
+| `closure`       | Dummy variable indicating ED status | `0` == Open; `1` == Closed |
+| `nhs111`        | Dummy variable indicating introduction of NHS111 service | `0` = No NHS111; `1` = NHS111 |
+| `ambulance_divert` | Dummy variable indicating Ambulance Diversions | `0` = No; `1` = Yes |
+| `other_centre`  | Dummy variable indicating opening of additional centre | `0` = No; `1` = Yes |
+| `season`        | Dummy variable for seasons (groups months into pairs)  | `1-6` |
+| `lsoa`          | Lower Super Output Area (only present in LSOA data sets) | **N/A** Too many to list. |
+| `binary_diff`   | Binary indicator of change in time to ED based on median within `town` | `Low` or `High` |
 
 
 #### Measures and Sub-Measures
@@ -146,15 +152,33 @@ Post meeting with [Jon Nicholl](mailto:j.nicholl@sheffield.ac.uk) and [Emma Know
 
 - [x] Pass on my email address for future contact.
 - [x] Check LSOA files have all sites included.
-- [ ] Convert Site level files and LSOA High/Low level files into Stata and move from VM to Network Drives.
-- [ ] Highlight the location of existing Stata do-files.
+- [x] Convert Site level files and LSOA High/Low level files into Stata and move from VM to Network Drives.
+- [x] Highlight the location of existing Stata do-files.
 - [ ] Extract and simplify the code for generating the time-series plots (as these are done in R it will require the Site level files in R format to be placed on the network drives too).
 
+
+### Existing Stata Do-files
+
+Some analyses were performed using [Stata](https://www.stata.com/) as the desired model couldn't be run under R (the exact details can not be rememembered at present, but I think its because I could not find functions to run Negative Binomial Time-series in R, or if I could they wouldn't converge).  These scripts were mostly written to be called from R with a different data set and different arguments indicating the measure and sub-measure to be analysed (see lines 21-26).  Some sites did not run converge at all so there are local macros that set which sites are to be included/analysed based on the specified measure/sub-measure.
+
+| File                   | Description                                                    |
+|:-----------------------|:---------------------------------------------------------------|
+| `stata/do/check_negbin.do` | Checks Negative-binomial regression using attendances by ambulance data. |
+| `stata/do/cross-validate.do` | Cross-validation of Prais-Winsten regression results from R against those determined by the same methods in Stata. |
+| `stata/do/check_negbin_convergence.do` | Investigating issues with convergence of negative binomial regression. |
+| `nihr_report/do/check.do` | Used for doing some simple checks when investigating convergence. |
+| `nihr_report/do/negbin.do` | Original file developed for running Negative Binomial time-series in site level data.  |
+| `nihr_report/do/negbin_lsoa.do` | File used for running Negative Binimial in LSOA level data.  This script has the `measure` and `sub_measure` passed to it as arguments when making a call to run Stata from R.  |
+| `nihr_report/do/negbin_lsoa_no_nhs111.do` | As above, but excludes dummy variable for NHS111 from model.  |
+| `nihr_report/do/negbin_lsoa_orig.do` |  Original file developed for running Negative Binomial time-series in lsoa level data. |
+| `nihr_report/do/negbin_site.do` | File used for running Negative Binimial in site level data.  This script has the `measure` and `sub_measure` passed to it as arguments when making a call to run Stata from R.  |
+| `nihr_report/do/negbin_site_no_nhs111.do` | As above, but excludes dummy variable for NHS111 from model.  |
+| `nihr_report/do/negbin_site_orig.do` |  Original file developed for running Negative Binomial time-series in site level data. |
 
 
 ## Replication and Extension of Work
 
-Should you wish to extend this work you may have to use the GNU/Linux Virtual Machine.  This is likely to be unfamiliar to those who have only ever used M$-Windows since it requires the use of a [Command Line Interface (CLI)](Command Line Interface (CLI)).
+Should you wish to extend this work you may have to use the GNU/Linux Virtual Machine.  This is likely to be unfamiliar to those who have only ever used M$-Windows since it requires the use of a [Command Line Interface (CLI)](Command Line Interface (CLI)), connecting to computers remotely using [SSH](https://en.wikipedia.org/wiki/Secure_Shell) and running [RMarkdown](https://rmarkdown.rstudio.com/).
 
 ### Pre-requisites
 
