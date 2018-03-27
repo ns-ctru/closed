@@ -67,7 +67,7 @@ closed_stata <- function(file         = "ed_attendances_by_mode_site_measure",
         }
     }
     ## Save as R file now that additional variables added
-    to_write <- paste0(path_source, "/tidied ", "file")
+    to_write <- paste0(path_source, "/tidied ", file)
     save(df,
          file = to_write)
     ## Substitute the file extension from Rda to dta and combine with the output path
