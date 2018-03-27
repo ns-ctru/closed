@@ -15,7 +15,7 @@
 #' @param version Version of Stata to write file as.
 #'
 #' @export
-closed_stata <- function(file         = "ed_attendances_by_mode_measure",
+closed_stata <- function(file         = "ed_attendances_by_mode_site_measure",
                          df           = ed_attendances_by_mode_site_measure,
                          level        = "site",
                          path_source  = '~/work/scharr/closed/lib/data/',
@@ -66,6 +66,10 @@ closed_stata <- function(file         = "ed_attendances_by_mode_measure",
                          relative.month = as.integer(relative.month))
         }
     }
+    ## Save as R file now that additional variables added
+    to_write <- paste0(path_source, "/tidied ", "file")
+    save(df,
+         file = to_write)
     ## Substitute the file extension from Rda to dta and combine with the output path
     ## and convert '.' in variable names back to '_' for Stata
     names(df) <- gsub("\\.", "_", names(df))
