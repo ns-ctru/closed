@@ -78,7 +78,7 @@ load("~/work/scharr/closed/lib/data/tidied ed attendances by mode measure - site
 ## done to create plots for different outcomes is to modify the file that is loaded.
 
 ```
-
+### Single Site and all matched control sites
 ```{r example1, echo = TRUE, cache = FALSE, fig.width = 10, fig.height = 10,  eval = TRUE}
 ## closed.html > Results > Attendance > Any > Time Series
 closed_ts_plot(df            = df,
@@ -95,6 +95,8 @@ closed_ts_plot(df            = df,
 ```
 
 
+### All Sites with ED closures
+
 ```{r example2, echo = TRUE, cache = FALSE, fig.width = 10, fig.height = 10, eval = TRUE}
 ## closed.html > Results > Attendance > Any > Model 1
 closed_ts_plot(df            = df,
@@ -109,7 +111,7 @@ closed_ts_plot(df            = df,
                smooth        = FALSE)
 
 ```
-
+### All Sites with ED closures and their controls, faceted
 ```{r example3, echo = TRUE, cache = FALSE, fig.width = 10, fig.height = 10, eval = TRUE}
 ## closed.html > Results > Attendance > Any > Model 2
 closed_ts_plot(df            = df,
@@ -131,8 +133,8 @@ closed_ts_plot(df            = df,
 The black and white plots generated for publications are now demonstrated....
 
 ```{r example4, echo = TRUE, cache = FALSE, fig.width = 10, fig.height = 10, eval = TRUE}
-## Here the options are placed in a "list" called ts-plot.opts, each has a name that reflects
-## the argument to closed_ts_plot() that it is used for.
+## Here the options are placed in a "list" called ts-plot.opts, each "slot" on the list
+## has a name that reflects the argument to closed_ts_plot() that it is used for.
 ts.plot.opts <- list()
 ts.plot.opts$steps        <- TRUE
 ts.plot.opts$facet        <- FALSE
@@ -194,6 +196,8 @@ The function `closed_ts_plot()` is simply a wrapper that takes various arguments
 ```{r scratch1, echo = TRUE, cache = FALSE, fig.width = 10, fig.height = 10, eval = TRUE}
 ## Load required libraries
 library(ggplot2)
+## Load the ED attendances data again
+load("~/work/scharr/closed/lib/data/tidied ed attendances by mode measure - site - 2016-11-21 19.54.Rda")
 ## Filter the current data frame for the sites of interest
 df %>%
     dplyr::filter(town %in% c("Bishop Auckland", "Hartlepool", "Hemel Hempstead", "Newark", "Rochdale")) %>%
@@ -215,8 +219,6 @@ df %>%
 ```{r scratch2, echo = TRUE, cache = FALSE, fig.width = 10, fig.height = 10, eval = TRUE}
 ## Load required libraries
 library(ggplot2)
-## Load the ED attendances data again
-load("~/work/scharr/closed/lib/data/tidied ed attendances by mode measure - site - 2016-11-21 19.54.Rda")
 ## Filter the current data frame for the sites of interest
 df %>%
     dplyr::filter(town %in% c("Bishop Auckland", "Hartlepool", "Hemel Hempstead", "Newark", "Rochdale")) %>%
