@@ -154,7 +154,7 @@ Post meeting with [Jon Nicholl](mailto:j.nicholl@sheffield.ac.uk) and [Emma Know
 - [x] Check LSOA files have all sites included.
 - [x] Convert Site level files and LSOA High/Low level files into Stata and move from VM to Network Drives.
 - [x] Highlight the location of existing Stata do-files.
-- [ ] Extract and simplify the code for generating the time-series plots (as these are done in R it will require the Site level files in R format to be placed on the network drives too).
+- [x] Extract and simplify the code for generating the time-series plots (as these are done in R it will require the Site level files in R format to be placed on the network drives too).
 
 
 ### Existing Stata Do-files
