@@ -118,12 +118,15 @@ closed_ts_plot(df            = df,
                steps         = TRUE,
                theme         = theme_bw(),
                tidy          = FALSE,
-               facet         = TRUE,
-               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark', 'Rochdale'),
+               facet         = TRUE, ## Here faceting is turned on so multiple plots are made for each group
+               sites         = c('Bishop Auckland', 'Hartlepool', 'Hemel Hempstead', 'Newark',    'Rochdale',
+                                 'Whitehaven',      'Grimsby',    'Warwick',         'Southport', 'Rotherham'),
                legend        = TRUE,
                smooth        = FALSE)
 
 ```
+
+### Publication Plots
 
 The black and white plots generated for publications are now demonstrated....
 
