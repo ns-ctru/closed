@@ -2,11 +2,10 @@
 title: "Recreating and Modifying Time Series Plots"
 author: "n.shephard@sheffield.ac.uk"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{CTRU R Functions}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
 ---
 # Overview
 
