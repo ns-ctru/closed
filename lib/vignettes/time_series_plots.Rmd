@@ -71,6 +71,14 @@ library(ggplot2)
 ## Load the data file, you will have to modify this line to either show the
 ## absolute path of the file you wish to load or the path relative to the
 ## location you are starting R/RStudio at.
+##
+## Copies of the data in R can be found in...
+##
+## ../xdrive/PR_CLOSED/General/lib/data/*.Rda
+##
+## ...the numenclature is consistent with the data dictionary but all files are
+## prefixed with 'tidied ' to make the distinguishable from the ones that Tony
+## created for me to use.
 load("~/work/scharr/closed/lib/data/tidied ed attendances by mode measure - site - 2016-11-21 19.54.Rda")
 ## To simplify the extension of this work the data frame contained in each file is _always_
 ## called 'df' all subsequent examples use this nomenclature meaning that all that has to be
