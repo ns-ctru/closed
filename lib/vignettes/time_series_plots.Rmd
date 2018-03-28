@@ -43,8 +43,7 @@ The `closed_ts_plot()` function is documented in its help page which can be acce
 | Option           | Default            | Description             |
 |:-----------------|:-------------------|:------------------------|
 | `df`             | `ed_attendances_by_mode_site_measure` | The data frame which holds the data, must have been loaded into the R session with `load()`. |
-| `sites`          | `c("Bishop Auckland", "Hartlepool", "Hemel Hempstead", "Newark",
-       "Rochdale")`                 | The sites to plot. |
+| `sites`          | `c("Bishop Auckland", "Hartlepool", "Hemel Hempstead", "Newark", "Rochdale")` | The sites to plot. |
 | `indicator`      | `ed attendances`   | The "measure" that is to be plotted. |
 | `sub.indicator`  | `any`              | The "sub-measure" that is to be plotted.  |
 | `steps`          | `TRUE`             | Logical indicator of whether to plot vertical lines for each step. |
@@ -83,6 +82,13 @@ load("~/work/scharr/closed/lib/data/tidied ed attendances by mode measure - site
 ## To simplify the extension of this work the data frame contained in each file is _always_
 ## called 'df' all subsequent examples use this nomenclature meaning that all that has to be
 ## done to create plots for different outcomes is to modify the file that is loaded.
+##
+## You need to know the value of the 'measure' and 'sub.measure' variables in each file.
+## These are documented in the README at https://github.com/ns-ctru/closed but if you are
+## unsure or want to check directly what they are having loaded a file then simply...
+table(df$measure, df$sub.measure)
+
+## ...the measures are the row names, whilst the sub.measure are the columns.
 
 ```
 ### Single Site and all matched control sites
