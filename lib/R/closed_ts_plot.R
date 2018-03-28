@@ -72,6 +72,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ##        internal consistency
     ## indicator <- substitute(df) %>% evaulate()
     ## print("Debug 1")
+    ## head(df) %>% print()
     if(indicator == 'ed attendances'){
         title1 <- 'Total ED Attendance'
         if(sub.indicator == 'any')            title2 <- ' (Any)'
@@ -377,6 +378,7 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Define vertical lines for steps                                   ##
     #######################################################################
     ## print("Debug 2")
+    ## head(df) %>% print()
     steps        <- c(24.5)
     steps.labels <- c('ED Closure')
     town         <- c('')
@@ -505,11 +507,12 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     ## Plot!                                                             ##
     #######################################################################
     ## Subset data
-    ## print("Debug 4")
     df <- dplyr::filter(df,
                   town %in% sites &
                   measure     == indicator &
                   sub.measure == sub.indicator)
+    ## print("Debug 4")
+    ## head(df) %>% print()
     ## Add indicator of primary matched control
     df$town <- as.character(df$town)
     ## Replace control names with control
@@ -659,6 +662,12 @@ closed_ts_plot <- function(df        = ed_attendances_by_mode_site_measure,
     if(legend == FALSE){
         results$plot <- results$plot +
                         theme(legend.position = 'none')
+    }
+    else{
+        results$plot <- results$plot +
+                        guides(colour = guide_legend('Hospital Catchment Area'),
+                               shape = guide_legend('Hospital Catchment Area'),
+                               linetype = guide_legend('Hospital Catchment Area'))
     }
     ## Return results
     ## results$plot <- results$plot + theme(axis.text.x.top = element_text(angle = 45, hjust = 0))
